@@ -1,3 +1,10 @@
+.idea/
+dataset_ch-lae_flux_product/notebooks/0_data/
+dataset_ch-lae_flux_product/notebooks/10_METEO/*.parquet
+dataset_ch-lae_flux_product/notebooks/10_METEO/*.csv
+*.parquet
+*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
