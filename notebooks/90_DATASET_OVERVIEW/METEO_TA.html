@@ -1,0 +1,1922 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Meteo: Air temperature (TA) (2005-2024) &#8212; CH-LAE Flux Product</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/90_DATASET_OVERVIEW/METEO_TA';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CH-LAE Flux Product</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new?title=Issue%20on%20page%20%2Fnotebooks/90_DATASET_OVERVIEW/METEO_TA.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/90_DATASET_OVERVIEW/METEO_TA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Meteo: Air temperature (TA) (2005-2024)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Meteo: Air temperature (TA) (2005-2024)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variable">Variable</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-mean">Overall mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly-means">Yearly means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-averages">Monthly averages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-days-below-0c">Number of days below 0°C</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-days-above-30c">Number of days above 30°C</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-plots">Heatmap plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#half-hourly">Half-hourly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly">Monthly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-ranks">Monthly ranks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-ranks-per-year">Mean ranks per year</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ridgeline-plots">Ridgeline plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly">Yearly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Monthly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly">Weekly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-years-per-month">Single years per month</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-years-per-week">Single years per week</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-plot">Cumulative plot</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#long-term-anomalies">Long-term anomalies</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="meteo-air-temperature-ta-2005-2024">
+<h1>Meteo: Air temperature (TA) (2005-2024)<a class="headerlink" href="#meteo-air-temperature-ta-2005-2024" title="Link to this heading">#</a></h1>
+<p><strong>Author</strong>: Lukas Hörtnagl (<a class="reference external" href="mailto:holukas&#37;&#52;&#48;ethz&#46;ch">holukas<span>&#64;</span>ethz<span>&#46;</span>ch</a>)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="variable">
+<h1>Variable<a class="headerlink" href="#variable" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span>
+<span class="n">var</span> <span class="o">=</span> <span class="s2">&quot;TA&quot;</span>  <span class="c1"># Name shown in plots</span>
+<span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="imports">
+<h1>Imports<a class="headerlink" href="#imports" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">diive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.io.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_parquet</span><span class="p">,</span> <span class="n">load_parquet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.plotting.cumulative</span><span class="w"> </span><span class="kn">import</span> <span class="n">CumulativeYear</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.plotting.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">LongtermAnomaliesYear</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="n">version_diive</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;diive&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diive version: v</span><span class="si">{</span><span class="n">version_diive</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diive version: v0.87.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-data">
+<h1>Load data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOURCEDIR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;../10_METEO&quot;</span>
+<span class="n">FILENAME</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;12.3_METEO_GAPFILLED_2004-2024.parquet&quot;</span>
+<span class="n">FILEPATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">SOURCEDIR</span><span class="p">)</span> <span class="o">/</span> <span class="n">FILENAME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_parquet</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">FILEPATH</span><span class="p">)</span>
+<span class="n">keeplocs</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="mi">2005</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">2024</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">keeplocs</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded .parquet file ..\10_METEO\12.3_METEO_GAPFILLED_2004-2024.parquet (0.024 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min 
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LW_IN_T1_47_1</th>
+      <th>PA_T1_47_1</th>
+      <th>PPFD_IN_T1_47_1</th>
+      <th>RH_T1_47_1</th>
+      <th>SW_IN_T1_47_1</th>
+      <th>TA_T1_47_1</th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2005-01-01 00:15:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>96.203705</td>
+      <td>0.0</td>
+      <td>-2.160000</td>
+      <td>0.0</td>
+      <td>-2.160000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2005-01-01 00:45:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>98.003701</td>
+      <td>0.0</td>
+      <td>-2.010000</td>
+      <td>0.0</td>
+      <td>-2.010000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2005-01-01 01:15:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>98.203705</td>
+      <td>0.0</td>
+      <td>-1.791000</td>
+      <td>0.0</td>
+      <td>-1.791000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2005-01-01 01:45:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>98.203705</td>
+      <td>0.0</td>
+      <td>-1.539000</td>
+      <td>0.0</td>
+      <td>-1.539000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2005-01-01 02:15:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>98.203705</td>
+      <td>0.0</td>
+      <td>-1.338000</td>
+      <td>0.0</td>
+      <td>-1.338000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>232.595527</td>
+      <td>94.211806</td>
+      <td>0.0</td>
+      <td>87.254008</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>232.609777</td>
+      <td>94.189013</td>
+      <td>0.0</td>
+      <td>87.430236</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>232.345020</td>
+      <td>94.169525</td>
+      <td>0.0</td>
+      <td>89.787920</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>234.211100</td>
+      <td>94.168413</td>
+      <td>0.0</td>
+      <td>81.809355</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>231.760533</td>
+      <td>94.170793</td>
+      <td>0.0</td>
+      <td>88.311314</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>350640 rows × 9 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">series</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2005-01-01 00:15:00   -2.160000
+2005-01-01 00:45:00   -2.010000
+2005-01-01 01:15:00   -1.791000
+2005-01-01 01:45:00   -1.539000
+2005-01-01 02:15:00   -1.338000
+                         ...   
+2024-12-31 21:45:00   -0.504794
+2024-12-31 22:15:00   -0.296828
+2024-12-31 22:45:00   -0.392922
+2024-12-31 23:15:00    0.792661
+2024-12-31 23:45:00   -0.422600
+Freq: 30min, Name: TA_T1_47_1_gfXG, Length: 350640, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xlabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">series</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="stats">
+<h1>Stats<a class="headerlink" href="#stats" title="Link to this heading">#</a></h1>
+<section id="overall-mean">
+<h2>Overall mean<a class="headerlink" href="#overall-mean" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_yearly_avg</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;YE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">_overall_mean</span> <span class="o">=</span> <span class="n">_yearly_avg</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">_overall_sd</span> <span class="o">=</span> <span class="n">_yearly_avg</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall mean: </span><span class="si">{</span><span class="n">_overall_mean</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">_overall_sd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall mean: 8.9549543810582 +/- 1.3482554138577252
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="yearly-means">
+<h2>Yearly means<a class="headerlink" href="#yearly-means" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ym</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;YE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ym</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2005-12-31     7.429217
+2006-12-31     7.960293
+2007-12-31     8.109144
+2008-12-31     7.588395
+2009-12-31     7.948623
+2010-12-31     6.803609
+2011-12-31     8.786543
+2012-12-31     7.823660
+2013-12-31     7.106809
+2014-12-31     8.703434
+2015-12-31     8.736166
+2016-12-31     9.558060
+2017-12-31     9.759068
+2018-12-31    10.702271
+2019-12-31    10.291331
+2020-12-31    10.504883
+2021-12-31     9.056597
+2022-12-31    11.120893
+2023-12-31    10.765006
+2024-12-31    10.345086
+Freq: YE-DEC, Name: TA_T1_47_1_gfXG, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ym</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2022-12-31    11.120893
+2023-12-31    10.765006
+2018-12-31    10.702271
+2020-12-31    10.504883
+2024-12-31    10.345086
+2019-12-31    10.291331
+2017-12-31     9.759068
+2016-12-31     9.558060
+2021-12-31     9.056597
+2011-12-31     8.786543
+2015-12-31     8.736166
+2014-12-31     8.703434
+2007-12-31     8.109144
+2006-12-31     7.960293
+2009-12-31     7.948623
+2012-12-31     7.823660
+2008-12-31     7.588395
+2005-12-31     7.429217
+2013-12-31     7.106809
+2010-12-31     6.803609
+Name: TA_T1_47_1_gfXG, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="monthly-averages">
+<h2>Monthly averages<a class="headerlink" href="#monthly-averages" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seriesdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+<span class="n">seriesdf</span><span class="p">[</span><span class="s1">&#39;MONTH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seriesdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span>
+<span class="n">seriesdf</span><span class="p">[</span><span class="s1">&#39;YEAR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seriesdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span>
+<span class="n">monthly_avg</span> <span class="o">=</span> <span class="n">seriesdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;MONTH&#39;</span><span class="p">])[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+<span class="n">monthly_avg</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>MONTH</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>YEAR</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2005</th>
+      <td>-1.798928</td>
+      <td>-3.298467</td>
+      <td>3.613463</td>
+      <td>7.327779</td>
+      <td>11.914164</td>
+      <td>16.726858</td>
+      <td>16.591920</td>
+      <td>14.460255</td>
+      <td>13.816814</td>
+      <td>9.833265</td>
+      <td>2.185859</td>
+      <td>-2.926974</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>-4.194532</td>
+      <td>-2.299361</td>
+      <td>0.443276</td>
+      <td>6.594224</td>
+      <td>11.012580</td>
+      <td>16.028185</td>
+      <td>21.033602</td>
+      <td>12.454961</td>
+      <td>15.517356</td>
+      <td>11.289903</td>
+      <td>6.052256</td>
+      <td>0.996613</td>
+    </tr>
+    <tr>
+      <th>2007</th>
+      <td>1.831280</td>
+      <td>2.950667</td>
+      <td>3.866424</td>
+      <td>12.747250</td>
+      <td>12.409842</td>
+      <td>14.977545</td>
+      <td>15.420882</td>
+      <td>15.238803</td>
+      <td>11.221396</td>
+      <td>7.458473</td>
+      <td>0.789296</td>
+      <td>-1.865884</td>
+    </tr>
+    <tr>
+      <th>2008</th>
+      <td>1.498027</td>
+      <td>2.287706</td>
+      <td>1.880655</td>
+      <td>5.617952</td>
+      <td>13.469550</td>
+      <td>15.097302</td>
+      <td>16.143572</td>
+      <td>15.790118</td>
+      <td>10.281068</td>
+      <td>7.840179</td>
+      <td>2.565744</td>
+      <td>-1.649615</td>
+    </tr>
+    <tr>
+      <th>2009</th>
+      <td>-3.974498</td>
+      <td>-1.601780</td>
+      <td>1.854548</td>
+      <td>10.023973</td>
+      <td>13.505490</td>
+      <td>14.196945</td>
+      <td>16.561570</td>
+      <td>18.342514</td>
+      <td>13.991227</td>
+      <td>7.741110</td>
+      <td>5.356225</td>
+      <td>-1.158283</td>
+    </tr>
+    <tr>
+      <th>2010</th>
+      <td>-4.242044</td>
+      <td>-1.379788</td>
+      <td>2.465842</td>
+      <td>8.187206</td>
+      <td>9.017224</td>
+      <td>15.094503</td>
+      <td>18.229335</td>
+      <td>15.085477</td>
+      <td>11.608217</td>
+      <td>7.024903</td>
+      <td>2.883811</td>
+      <td>-2.782696</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>-0.923986</td>
+      <td>1.041491</td>
+      <td>4.759064</td>
+      <td>11.375054</td>
+      <td>13.705819</td>
+      <td>14.686286</td>
+      <td>14.439601</td>
+      <td>17.685672</td>
+      <td>14.965174</td>
+      <td>7.767536</td>
+      <td>4.262686</td>
+      <td>1.251798</td>
+    </tr>
+    <tr>
+      <th>2012</th>
+      <td>-0.385405</td>
+      <td>-5.501142</td>
+      <td>7.017484</td>
+      <td>6.471191</td>
+      <td>12.224344</td>
+      <td>15.266384</td>
+      <td>15.645665</td>
+      <td>17.539556</td>
+      <td>12.566301</td>
+      <td>8.192080</td>
+      <td>4.585683</td>
+      <td>-0.352892</td>
+    </tr>
+    <tr>
+      <th>2013</th>
+      <td>-1.854887</td>
+      <td>-3.664084</td>
+      <td>0.365234</td>
+      <td>6.492476</td>
+      <td>8.224684</td>
+      <td>13.956154</td>
+      <td>19.142624</td>
+      <td>16.977072</td>
+      <td>12.762685</td>
+      <td>9.517883</td>
+      <td>1.539382</td>
+      <td>0.984121</td>
+    </tr>
+    <tr>
+      <th>2014</th>
+      <td>1.166215</td>
+      <td>1.926494</td>
+      <td>5.892282</td>
+      <td>8.911640</td>
+      <td>10.221405</td>
+      <td>16.247756</td>
+      <td>15.719818</td>
+      <td>14.138015</td>
+      <td>13.661444</td>
+      <td>10.812444</td>
+      <td>4.943577</td>
+      <td>0.433012</td>
+    </tr>
+    <tr>
+      <th>2015</th>
+      <td>-0.440557</td>
+      <td>-2.097140</td>
+      <td>4.544967</td>
+      <td>8.231290</td>
+      <td>11.547104</td>
+      <td>15.871719</td>
+      <td>20.327214</td>
+      <td>18.712603</td>
+      <td>11.211259</td>
+      <td>6.926023</td>
+      <td>5.430528</td>
+      <td>3.707700</td>
+    </tr>
+    <tr>
+      <th>2016</th>
+      <td>0.890098</td>
+      <td>2.837591</td>
+      <td>4.041670</td>
+      <td>8.268441</td>
+      <td>12.593452</td>
+      <td>15.919292</td>
+      <td>19.398752</td>
+      <td>19.365958</td>
+      <td>17.255841</td>
+      <td>8.328448</td>
+      <td>4.340064</td>
+      <td>1.267124</td>
+    </tr>
+    <tr>
+      <th>2017</th>
+      <td>-3.730232</td>
+      <td>3.588457</td>
+      <td>8.196496</td>
+      <td>8.314217</td>
+      <td>14.401430</td>
+      <td>19.210224</td>
+      <td>18.936156</td>
+      <td>19.645432</td>
+      <td>12.807543</td>
+      <td>11.445372</td>
+      <td>3.735386</td>
+      <td>0.123475</td>
+    </tr>
+    <tr>
+      <th>2018</th>
+      <td>3.651935</td>
+      <td>-2.672235</td>
+      <td>3.066301</td>
+      <td>13.204716</td>
+      <td>14.698813</td>
+      <td>17.746751</td>
+      <td>20.973403</td>
+      <td>20.693080</td>
+      <td>16.709867</td>
+      <td>11.710273</td>
+      <td>5.212166</td>
+      <td>2.462536</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>-0.989104</td>
+      <td>4.319631</td>
+      <td>6.510257</td>
+      <td>8.886606</td>
+      <td>10.056998</td>
+      <td>19.499712</td>
+      <td>20.484599</td>
+      <td>19.035565</td>
+      <td>14.931494</td>
+      <td>11.209238</td>
+      <td>6.008235</td>
+      <td>3.228077</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>2.249733</td>
+      <td>5.005212</td>
+      <td>5.196607</td>
+      <td>12.761152</td>
+      <td>13.198056</td>
+      <td>15.644990</td>
+      <td>19.662248</td>
+      <td>19.723812</td>
+      <td>16.071764</td>
+      <td>8.949485</td>
+      <td>5.625622</td>
+      <td>1.875873</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>-0.506040</td>
+      <td>4.147604</td>
+      <td>5.117351</td>
+      <td>7.316763</td>
+      <td>9.631604</td>
+      <td>18.450182</td>
+      <td>17.368270</td>
+      <td>16.548159</td>
+      <td>16.255653</td>
+      <td>9.689530</td>
+      <td>2.887954</td>
+      <td>1.577205</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>0.922858</td>
+      <td>3.473913</td>
+      <td>7.477323</td>
+      <td>8.347545</td>
+      <td>15.615285</td>
+      <td>19.285291</td>
+      <td>21.095167</td>
+      <td>20.425183</td>
+      <td>13.606485</td>
+      <td>14.086912</td>
+      <td>6.538461</td>
+      <td>1.942527</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>1.527202</td>
+      <td>3.165265</td>
+      <td>6.046677</td>
+      <td>6.899131</td>
+      <td>13.109495</td>
+      <td>19.705106</td>
+      <td>19.507541</td>
+      <td>19.522261</td>
+      <td>18.653598</td>
+      <td>13.107932</td>
+      <td>4.396678</td>
+      <td>3.016453</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>1.331627</td>
+      <td>5.929059</td>
+      <td>7.444291</td>
+      <td>9.292731</td>
+      <td>12.905508</td>
+      <td>16.810613</td>
+      <td>19.461952</td>
+      <td>20.934985</td>
+      <td>13.727278</td>
+      <td>11.096496</td>
+      <td>4.329863</td>
+      <td>0.681400</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="number-of-days-below-0c">
+<h2>Number of days below 0°C<a class="headerlink" href="#number-of-days-below-0c" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">plotdf</span> <span class="o">=</span> <span class="n">plotdf</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">belowzero</span> <span class="o">=</span> <span class="n">plotdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">plotdf</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">belowzero</span> <span class="o">=</span> <span class="n">belowzero</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">belowzero</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">belowzero</span><span class="p">[</span><span class="s2">&quot;YEAR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">belowzero</span><span class="o">.</span><span class="n">index</span>
+<span class="n">belowzero</span>
+<span class="n">belowzero</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;YEAR&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Number of days with </span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2"> &lt; 0°&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">(</span><span class="n">belowzero</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average per year: </span><span class="si">{</span><span class="n">belowzero</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">belowzero</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> SD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>YEAR</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2005</th>
+      <td>112</td>
+      <td>2005</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>109</td>
+      <td>2006</td>
+    </tr>
+    <tr>
+      <th>2007</th>
+      <td>81</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>2008</th>
+      <td>100</td>
+      <td>2008</td>
+    </tr>
+    <tr>
+      <th>2009</th>
+      <td>107</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>2010</th>
+      <td>116</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>83</td>
+      <td>2011</td>
+    </tr>
+    <tr>
+      <th>2012</th>
+      <td>91</td>
+      <td>2012</td>
+    </tr>
+    <tr>
+      <th>2013</th>
+      <td>128</td>
+      <td>2013</td>
+    </tr>
+    <tr>
+      <th>2014</th>
+      <td>76</td>
+      <td>2014</td>
+    </tr>
+    <tr>
+      <th>2015</th>
+      <td>87</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <th>2016</th>
+      <td>83</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <th>2017</th>
+      <td>82</td>
+      <td>2017</td>
+    </tr>
+    <tr>
+      <th>2018</th>
+      <td>67</td>
+      <td>2018</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>61</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>59</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>83</td>
+      <td>2021</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>63</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>60</td>
+      <td>2023</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>50</td>
+      <td>2024</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average per year: 84.9 +/- 21.63 SD
+</pre></div>
+</div>
+<img alt="../../_images/0f98438cd6716f89cb13ec66f90b04e4c418b1009bec1028b73b2baf84ef9be1.png" src="../../_images/0f98438cd6716f89cb13ec66f90b04e4c418b1009bec1028b73b2baf84ef9be1.png" />
+</div>
+</div>
+</section>
+<section id="number-of-days-above-30c">
+<h2>Number of days above 30°C<a class="headerlink" href="#number-of-days-above-30c" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">plotdf</span> <span class="o">=</span> <span class="n">plotdf</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">above</span> <span class="o">=</span> <span class="n">plotdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">plotdf</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">above</span> <span class="o">=</span> <span class="n">above</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">above</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">above</span><span class="p">[</span><span class="s2">&quot;YEAR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">above</span><span class="o">.</span><span class="n">index</span>
+<span class="n">above</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;YEAR&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Number of days with </span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2"> &gt; 30°&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">(</span><span class="n">above</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average per year: </span><span class="si">{</span><span class="n">above</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">above</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> SD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>YEAR</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2005</th>
+      <td>1</td>
+      <td>2005</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>2</td>
+      <td>2006</td>
+    </tr>
+    <tr>
+      <th>2010</th>
+      <td>2</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>1</td>
+      <td>2011</td>
+    </tr>
+    <tr>
+      <th>2012</th>
+      <td>1</td>
+      <td>2012</td>
+    </tr>
+    <tr>
+      <th>2013</th>
+      <td>3</td>
+      <td>2013</td>
+    </tr>
+    <tr>
+      <th>2014</th>
+      <td>1</td>
+      <td>2014</td>
+    </tr>
+    <tr>
+      <th>2015</th>
+      <td>8</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <th>2016</th>
+      <td>5</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <th>2017</th>
+      <td>4</td>
+      <td>2017</td>
+    </tr>
+    <tr>
+      <th>2018</th>
+      <td>8</td>
+      <td>2018</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>9</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>4</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>10</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>10</td>
+      <td>2023</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>5</td>
+      <td>2024</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average per year: 4.625 +/- 3.36 SD
+</pre></div>
+</div>
+<img alt="../../_images/2a1cca7d7656969e1c599acb5e1233440ea7242e0909a5b1d07fb342e03d238f.png" src="../../_images/2a1cca7d7656969e1c599acb5e1233440ea7242e0909a5b1d07fb342e03d238f.png" />
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="heatmap-plots">
+<h1>Heatmap plots<a class="headerlink" href="#heatmap-plots" title="Link to this heading">#</a></h1>
+<section id="half-hourly">
+<h2>Half-hourly<a class="headerlink" href="#half-hourly" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">)</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapdatetime</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span> <span class="n">cb_digits_after_comma</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5f5b17361dfa904f7130bb266a0a3249a60d105169b41d4f43af9f0f39003405.png" src="../../_images/5f5b17361dfa904f7130bb266a0a3249a60d105169b41d4f43af9f0f39003405.png" />
+</div>
+</div>
+</section>
+<section id="monthly">
+<h2>Monthly<a class="headerlink" href="#monthly" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Per month&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth</span><span class="p">(</span><span class="n">series_monthly</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;monthly mean&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cb_digits_after_comma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;monthly mean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth</span><span class="p">(</span><span class="n">series_monthly</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;monthly minimum&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cb_digits_after_comma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;monthly minimum&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth</span><span class="p">(</span><span class="n">series_monthly</span><span class="o">=</span><span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;monthly maximum&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cb_digits_after_comma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;monthly maximum&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">_range</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth</span><span class="p">(</span><span class="n">series_monthly</span><span class="o">=</span><span class="n">_range</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;monthly range&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">cb_digits_after_comma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;monthly range&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/77b60eca5574a0837e65e47515c3ed29e2734857b8a606c1e0aec7c91c4ae13b.png" src="../../_images/77b60eca5574a0837e65e47515c3ed29e2734857b8a606c1e0aec7c91c4ae13b.png" />
+</div>
+</div>
+</section>
+<section id="monthly-ranks">
+<h2>Monthly ranks<a class="headerlink" href="#monthly-ranks" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Figure</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Gridspec for layout</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># rows, cols</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+<span class="n">ax_mean</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax_mean_ranks</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax_max</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">ax_max_ranks</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;axlabels_fontsize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;ticks_labelsize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;cb_labelsize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth_ranks</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_mean</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">ranks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;°C&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">hm_mean_ranks</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth_ranks</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_mean_ranks</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">agg</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="n">hm_mean_ranks</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth_ranks</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_max</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">agg</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">ranks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;°C&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">heatmapyearmonth_ranks</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_max_ranks</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">agg</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">ax_mean</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Air temperature mean&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax_mean_ranks</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Air temperature mean: ranks&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax_max</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Air temperature max&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax_max_ranks</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Air temperature max: ranks&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">ax_mean</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">labelleft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax_mean_ranks</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax_max</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax_max_ranks</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax_mean_ranks</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">ax_max</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">ax_max_ranks</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2a09cc6aa3d8b94fc0f381f12faf4395c3300f73d2ddd98544ce0d02aa7dd70b.png" src="../../_images/2a09cc6aa3d8b94fc0f381f12faf4395c3300f73d2ddd98544ce0d02aa7dd70b.png" />
+</div>
+</div>
+<section id="mean-ranks-per-year">
+<h3>Mean ranks per year<a class="headerlink" href="#mean-ranks-per-year" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hm_mean_ranks</span><span class="o">.</span><span class="n">hm</span><span class="o">.</span><span class="n">get_plot_data</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mean ranks per year&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/40c43a56dabc9d1d76be726f6bb2d85f624375ad2ecb0210e719c400136f8550.png" src="../../_images/40c43a56dabc9d1d76be726f6bb2d85f624375ad2ecb0210e719c400136f8550.png" />
+</div>
+</div>
+</br></section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ridgeline-plots">
+<h1>Ridgeline plots<a class="headerlink" href="#ridgeline-plots" title="Link to this heading">#</a></h1>
+<section id="yearly">
+<h2>Yearly<a class="headerlink" href="#yearly" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rp</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">ridgeline</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">)</span>
+<span class="n">rp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;yearly&#39;</span><span class="p">,</span>
+    <span class="n">kd_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># params from scikit KernelDensity as dict</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>  <span class="c1"># min/max as list</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">],</span>  <span class="c1"># min/max as list</span>
+    <span class="n">hspace</span><span class="o">=-</span><span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># overlap between months</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+    <span class="n">fig_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">fig_height</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+    <span class="n">shade_percentile</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">show_mean_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">fig_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> per year&quot;</span><span class="p">,</span>
+    <span class="n">fig_dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+    <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dbc7dd4519ff23df5fba5d6298fec003628341927e174392c70cd2cde812dc48.png" src="../../_images/dbc7dd4519ff23df5fba5d6298fec003628341927e174392c70cd2cde812dc48.png" />
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>Monthly<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;monthly&#39;</span><span class="p">,</span>
+    <span class="n">kd_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># params from scikit KernelDensity as dict</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>  <span class="c1"># min/max as list</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">],</span>  <span class="c1"># min/max as list</span>
+    <span class="n">hspace</span><span class="o">=-</span><span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># overlap between months</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+    <span class="n">fig_width</span><span class="o">=</span><span class="mf">4.5</span><span class="p">,</span>
+    <span class="n">fig_height</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">shade_percentile</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">show_mean_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">fig_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> per month (2005-2024)&quot;</span><span class="p">,</span>
+    <span class="n">fig_dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+    <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/accfb7fc1af1815c3b66c7306344071369cec6e23b9886a3354a18485f68c5ca.png" src="../../_images/accfb7fc1af1815c3b66c7306344071369cec6e23b9886a3354a18485f68c5ca.png" />
+</div>
+</div>
+</section>
+<section id="weekly">
+<h2>Weekly<a class="headerlink" href="#weekly" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;weekly&#39;</span><span class="p">,</span>
+    <span class="n">kd_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># params from scikit KernelDensity as dict</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>  <span class="c1"># min/max as list</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>  <span class="c1"># min/max as list</span>
+    <span class="n">hspace</span><span class="o">=-</span><span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># overlap</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+    <span class="n">fig_width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">fig_height</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">shade_percentile</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">show_mean_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">fig_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> per week (2005-2024)&quot;</span><span class="p">,</span>
+    <span class="n">fig_dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+    <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/96d62c289cdaa2566c67abbe59bb79a903f7d8ae82811c72457cbb4be3234a2d.png" src="../../_images/96d62c289cdaa2566c67abbe59bb79a903f7d8ae82811c72457cbb4be3234a2d.png" />
+</div>
+</div>
+</section>
+<section id="single-years-per-month">
+<h2>Single years per month<a class="headerlink" href="#single-years-per-month" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uniq_years</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">uy</span> <span class="ow">in</span> <span class="n">uniq_years</span><span class="p">:</span>
+    <span class="n">series_yr</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">uy</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rp</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">ridgeline</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">series_yr</span><span class="p">)</span>
+    <span class="n">rp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">how</span><span class="o">=</span><span class="s1">&#39;monthly&#39;</span><span class="p">,</span>
+        <span class="n">kd_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># params from scikit KernelDensity as dict</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>  <span class="c1"># min/max as list</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">],</span>  <span class="c1"># min/max as list</span>
+        <span class="n">hspace</span><span class="o">=-</span><span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># overlap</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">fig_width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">fig_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">shade_percentile</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">show_mean_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fig_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> per month (</span><span class="si">{</span><span class="n">uy</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">fig_dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+        <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/baddf68fa6cd16010dbc158d583554a79e81f2e26bc4f505fc1e12b4b9a6d957.png" src="../../_images/baddf68fa6cd16010dbc158d583554a79e81f2e26bc4f505fc1e12b4b9a6d957.png" />
+<img alt="../../_images/cec07e99a5c3e139ae581c73cc67ba9cbe721831bf334241a6122dfc5f61516f.png" src="../../_images/cec07e99a5c3e139ae581c73cc67ba9cbe721831bf334241a6122dfc5f61516f.png" />
+<img alt="../../_images/d0c3b9ac075102d286a3603d1309ea8350f593a2b7e75f30f709ee73407c4aa3.png" src="../../_images/d0c3b9ac075102d286a3603d1309ea8350f593a2b7e75f30f709ee73407c4aa3.png" />
+<img alt="../../_images/8a3da14a358a65862c5394aad4c859466e5b990b9be344d9ce8fb512803edddf.png" src="../../_images/8a3da14a358a65862c5394aad4c859466e5b990b9be344d9ce8fb512803edddf.png" />
+<img alt="../../_images/67e1d66dd9a972c2e6714b3deb5b2755231d526c052f2a8a1ed68c7454cede34.png" src="../../_images/67e1d66dd9a972c2e6714b3deb5b2755231d526c052f2a8a1ed68c7454cede34.png" />
+<img alt="../../_images/d1b9acc35c5f5078a5af90c9216e92ece9fc59c08292e509cf8798bf725bc8ec.png" src="../../_images/d1b9acc35c5f5078a5af90c9216e92ece9fc59c08292e509cf8798bf725bc8ec.png" />
+<img alt="../../_images/00c4e7420554f7bbcd92f1029e28313358b48714afff6cbefbdbd4f4566665be.png" src="../../_images/00c4e7420554f7bbcd92f1029e28313358b48714afff6cbefbdbd4f4566665be.png" />
+<img alt="../../_images/b1607975eec1ad6789e7f6fe510530bc3c58292bbf70610e63c667fb2736ca2f.png" src="../../_images/b1607975eec1ad6789e7f6fe510530bc3c58292bbf70610e63c667fb2736ca2f.png" />
+<img alt="../../_images/216565bd98cc6e0cc737a575f1713ceeb51035cc5afffedd3f09d1a7fc02ce18.png" src="../../_images/216565bd98cc6e0cc737a575f1713ceeb51035cc5afffedd3f09d1a7fc02ce18.png" />
+<img alt="../../_images/504ae3623f81bed37550ed33fa6f5692c5feb777bbeb12d6e03b486493220230.png" src="../../_images/504ae3623f81bed37550ed33fa6f5692c5feb777bbeb12d6e03b486493220230.png" />
+<img alt="../../_images/6090d334274df6ea3243cdfd68a8bf5287b085e8ce5d48fd6396d4307fcda205.png" src="../../_images/6090d334274df6ea3243cdfd68a8bf5287b085e8ce5d48fd6396d4307fcda205.png" />
+<img alt="../../_images/85f5f0ea21a0a35cdc34e70e990cbde5250b5e61b4a5c1daa36ce4850d783814.png" src="../../_images/85f5f0ea21a0a35cdc34e70e990cbde5250b5e61b4a5c1daa36ce4850d783814.png" />
+<img alt="../../_images/e09654c6dca468b0ea906f16a1b604f1e120ce2894b9d5fe7845c520cffc9cd1.png" src="../../_images/e09654c6dca468b0ea906f16a1b604f1e120ce2894b9d5fe7845c520cffc9cd1.png" />
+<img alt="../../_images/2bba4db627e5bab6c1f0e955ce647a57969655b73c0254398da1e7a611b999c8.png" src="../../_images/2bba4db627e5bab6c1f0e955ce647a57969655b73c0254398da1e7a611b999c8.png" />
+<img alt="../../_images/19decbced4b628e0a8418fa7208df8843f140581a0ba1e86db61d0c2cd56bee3.png" src="../../_images/19decbced4b628e0a8418fa7208df8843f140581a0ba1e86db61d0c2cd56bee3.png" />
+<img alt="../../_images/6b309b9787f4197d4317c4eb8d7a71057bbf034366acbe6c319982f1060d8092.png" src="../../_images/6b309b9787f4197d4317c4eb8d7a71057bbf034366acbe6c319982f1060d8092.png" />
+<img alt="../../_images/63766753addf0073936920574a21d16c6ec5238649fc0cd4cd1c8042608d2f9e.png" src="../../_images/63766753addf0073936920574a21d16c6ec5238649fc0cd4cd1c8042608d2f9e.png" />
+<img alt="../../_images/5fed97e21abd45b1eb98336166ebdb99c4b5e2a45f8011280e1ab64102e00125.png" src="../../_images/5fed97e21abd45b1eb98336166ebdb99c4b5e2a45f8011280e1ab64102e00125.png" />
+<img alt="../../_images/bb97a86f2470e8f1c8810113c312a59046e63239358799a66e525734aa38ab46.png" src="../../_images/bb97a86f2470e8f1c8810113c312a59046e63239358799a66e525734aa38ab46.png" />
+<img alt="../../_images/d7e1a7d23b4db293caccc84d0367259fbaf21dd8d287303486447577457b88ea.png" src="../../_images/d7e1a7d23b4db293caccc84d0367259fbaf21dd8d287303486447577457b88ea.png" />
+</div>
+</div>
+</section>
+<section id="single-years-per-week">
+<h2>Single years per week<a class="headerlink" href="#single-years-per-week" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uniq_years</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">uy</span> <span class="ow">in</span> <span class="n">uniq_years</span><span class="p">:</span>
+    <span class="n">series_yr</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">uy</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rp</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">ridgeline</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">series_yr</span><span class="p">)</span>
+    <span class="n">rp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">how</span><span class="o">=</span><span class="s1">&#39;weekly&#39;</span><span class="p">,</span>
+        <span class="n">kd_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># params from scikit KernelDensity as dict</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>  <span class="c1"># min/max as list</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>  <span class="c1"># min/max as list</span>
+        <span class="n">hspace</span><span class="o">=-</span><span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># overlap</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">fig_width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">fig_height</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+        <span class="n">shade_percentile</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">show_mean_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fig_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> per week (</span><span class="si">{</span><span class="n">uy</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">fig_dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+        <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/21142bb803e569acee92d2607d628dca0f68e98fddd7f963db834e2eda0ab11c.png" src="../../_images/21142bb803e569acee92d2607d628dca0f68e98fddd7f963db834e2eda0ab11c.png" />
+<img alt="../../_images/93b6ae9985241b570b5edd110de55c9f0f0267d77cfb13e01a36272f2a3a700c.png" src="../../_images/93b6ae9985241b570b5edd110de55c9f0f0267d77cfb13e01a36272f2a3a700c.png" />
+<img alt="../../_images/6d33b67bface54f70c25fbd9f81bb2d6c0fd41ebed6c2b11813315d3da511cfc.png" src="../../_images/6d33b67bface54f70c25fbd9f81bb2d6c0fd41ebed6c2b11813315d3da511cfc.png" />
+<img alt="../../_images/ea1ca368e435717114e5cc53a3f08dde8ef31353971f01361a4fe37f0c4da382.png" src="../../_images/ea1ca368e435717114e5cc53a3f08dde8ef31353971f01361a4fe37f0c4da382.png" />
+<img alt="../../_images/cf6491b56ca9558f48178db8e6ee0a92bc91199751596653b01e95c21ccd4459.png" src="../../_images/cf6491b56ca9558f48178db8e6ee0a92bc91199751596653b01e95c21ccd4459.png" />
+<img alt="../../_images/c7b522d883ad0da440b88a731f0be94dc6d1a38114461a66c2ff1dfd4c4bd5da.png" src="../../_images/c7b522d883ad0da440b88a731f0be94dc6d1a38114461a66c2ff1dfd4c4bd5da.png" />
+<img alt="../../_images/8b233134856955ee84f2d6a32233f82cabe09023df09b7cb87a05e752b288c1a.png" src="../../_images/8b233134856955ee84f2d6a32233f82cabe09023df09b7cb87a05e752b288c1a.png" />
+<img alt="../../_images/f3b1ad194ee8a65cd4d41d28cfd0da2e8c739c0b9b074c21fce832eec6a37882.png" src="../../_images/f3b1ad194ee8a65cd4d41d28cfd0da2e8c739c0b9b074c21fce832eec6a37882.png" />
+<img alt="../../_images/4a9b5aff6439bbda9873b2484a6db15aebe6571f0f65d4f5263fd336d7df6ea3.png" src="../../_images/4a9b5aff6439bbda9873b2484a6db15aebe6571f0f65d4f5263fd336d7df6ea3.png" />
+<img alt="../../_images/fbfc77d35faafb90c8a623ec3699362608df068e227e7c26aa2bc42e713c9ef5.png" src="../../_images/fbfc77d35faafb90c8a623ec3699362608df068e227e7c26aa2bc42e713c9ef5.png" />
+<img alt="../../_images/e5f8c6b5d544e505579e10e31af40b08125da6e1ed65f649609164d3884ba5d0.png" src="../../_images/e5f8c6b5d544e505579e10e31af40b08125da6e1ed65f649609164d3884ba5d0.png" />
+<img alt="../../_images/293e6641776071380ea6cf22172243469ad38574b74b0cb3992ba21c68cf82fc.png" src="../../_images/293e6641776071380ea6cf22172243469ad38574b74b0cb3992ba21c68cf82fc.png" />
+<img alt="../../_images/e456a4765263fb4cf8338773b963d4f3909bf2b6fdb13fa282916f3f91d6d246.png" src="../../_images/e456a4765263fb4cf8338773b963d4f3909bf2b6fdb13fa282916f3f91d6d246.png" />
+<img alt="../../_images/0af6c5821d381ffb32f89c833040855fb7a449c4b1ebb694623a9476e27b0cbc.png" src="../../_images/0af6c5821d381ffb32f89c833040855fb7a449c4b1ebb694623a9476e27b0cbc.png" />
+<img alt="../../_images/13e03ae51ecf713d3a6a507be7fce103b37ab7362ea2788775d42933cb100193.png" src="../../_images/13e03ae51ecf713d3a6a507be7fce103b37ab7362ea2788775d42933cb100193.png" />
+<img alt="../../_images/c02a34c0100a9b9ba896e21fe16c8e390268d0bfeb6023fead4a8cec5e33bf27.png" src="../../_images/c02a34c0100a9b9ba896e21fe16c8e390268d0bfeb6023fead4a8cec5e33bf27.png" />
+<img alt="../../_images/d6be9968c9cc804aa5303bc2fd750f9a745e5cfcc7f37aaaa686e4e2d59514b6.png" src="../../_images/d6be9968c9cc804aa5303bc2fd750f9a745e5cfcc7f37aaaa686e4e2d59514b6.png" />
+<img alt="../../_images/1a67b38cf03b90ee648b1842ddb34a035e1ad13aa2b49f582dc1862b3904db50.png" src="../../_images/1a67b38cf03b90ee648b1842ddb34a035e1ad13aa2b49f582dc1862b3904db50.png" />
+<img alt="../../_images/72b7bcf15e2ed90173c8f2d8ebe37667b3c660f660237f7435816a3b165bf7eb.png" src="../../_images/72b7bcf15e2ed90173c8f2d8ebe37667b3c660f660237f7435816a3b165bf7eb.png" />
+<img alt="../../_images/54eedb1403fb93a87e2ba1a697eb8d8e8622b3d805b4de6dc86312acebc344d8.png" src="../../_images/54eedb1403fb93a87e2ba1a697eb8d8e8622b3d805b4de6dc86312acebc344d8.png" />
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cumulative-plot">
+<h1>Cumulative plot<a class="headerlink" href="#cumulative-plot" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CumulativeYear</span><span class="p">(</span>
+    <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
+    <span class="n">series_units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
+    <span class="n">start_year</span><span class="o">=</span><span class="mi">2005</span><span class="p">,</span>
+    <span class="n">end_year</span><span class="o">=</span><span class="mi">2024</span><span class="p">,</span>
+    <span class="n">show_reference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">excl_years_from_reference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">highlight_year</span><span class="o">=</span><span class="mi">2024</span><span class="p">,</span>
+    <span class="n">highlight_year_color</span><span class="o">=</span><span class="s1">&#39;#F44336&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ab01b6d544870fc4941806d237a71e37fa16207f8c8e1a2e5403b98ca26533d1.png" src="../../_images/ab01b6d544870fc4941806d237a71e37fa16207f8c8e1a2e5403b98ca26533d1.png" />
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="long-term-anomalies">
+<h1>Long-term anomalies<a class="headerlink" href="#long-term-anomalies" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_yearly_mean</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;YE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">series_yearly_mean</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">series_yearly_mean</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span>
+<span class="n">series_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CH-CHA: </span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">LongtermAnomaliesYear</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">series_yearly_mean</span><span class="p">,</span>
+                      <span class="n">series_label</span><span class="o">=</span><span class="n">series_label</span><span class="p">,</span>
+                      <span class="n">series_units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
+                      <span class="n">reference_start_year</span><span class="o">=</span><span class="mi">2005</span><span class="p">,</span>
+                      <span class="n">reference_end_year</span><span class="o">=</span><span class="mi">2024</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/14cd400d68fa4c76dc1a85c9a8ccae3e122d5a8000680c8eadafb833d83659bc.png" src="../../_images/14cd400d68fa4c76dc1a85c9a8ccae3e122d5a8000680c8eadafb833d83659bc.png" />
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="end-of-notebook">
+<h1>End of notebook<a class="headerlink" href="#end-of-notebook" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished. </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. 2025-06-11 16:45:15
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks\90_DATASET_OVERVIEW"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Meteo: Air temperature (TA) (2005-2024)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variable">Variable</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-mean">Overall mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly-means">Yearly means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-averages">Monthly averages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-days-below-0c">Number of days below 0°C</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-days-above-30c">Number of days above 30°C</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmap-plots">Heatmap plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#half-hourly">Half-hourly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly">Monthly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-ranks">Monthly ranks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-ranks-per-year">Mean ranks per year</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ridgeline-plots">Ridgeline plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly">Yearly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Monthly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly">Weekly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-years-per-month">Single years per month</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-years-per-week">Single years per week</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-plot">Cumulative plot</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#long-term-anomalies">Long-term anomalies</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lukas Hörtnagl
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

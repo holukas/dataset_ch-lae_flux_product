@@ -1,0 +1,1747 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Merge L0 fluxes and meteo data (2016-2024) &#8212; CH-LAE Flux Product</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00_L0_checks/03.1_L0_mergeFluxesMeteo_IRGA72_2016-2024';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CH-LAE Flux Product</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00_L0_checks/03.1_L0_mergeFluxesMeteo_IRGA72_2016-2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00_L0_checks/03.1_L0_mergeFluxesMeteo_IRGA72_2016-2024.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Merge L0 fluxes and meteo data (2016-2024)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Merge L0 fluxes and meteo data (2016-2024)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-l0-fluxes">Load L0 fluxes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-meteo">Load meteo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-data">Merge data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-to-file">Save to file</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook.</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="merge-l0-fluxes-and-meteo-data-2016-2024">
+<h1>Merge L0 fluxes and meteo data (2016-2024)<a class="headerlink" href="#merge-l0-fluxes-and-meteo-data-2016-2024" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">diive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.io.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_parquet</span><span class="p">,</span> <span class="n">save_parquet</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-l0-fluxes">
+<h1>Load L0 fluxes<a class="headerlink" href="#load-l0-fluxes" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOURCEFILE</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;01.2_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2024.parquet&quot;</span>
+<span class="n">fluxes</span> <span class="o">=</span> <span class="n">load_parquet</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">SOURCEFILE</span><span class="p">)</span>
+<span class="n">keeplocs</span> <span class="o">=</span> <span class="p">(</span><span class="n">fluxes</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="mi">2017</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">fluxes</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">2024</span><span class="p">)</span>
+<span class="n">fluxes</span> <span class="o">=</span> <span class="n">fluxes</span><span class="p">[</span><span class="n">keeplocs</span><span class="p">]</span>
+<span class="c1"># keepcols = [&#39;FC&#39;]</span>
+<span class="c1"># fluxes = fluxes[keepcols]</span>
+<span class="n">fluxes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded .parquet file 01.2_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2024.parquet (0.209 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min 
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AIR_CP</th>
+      <th>AIR_DENSITY</th>
+      <th>AIR_MV</th>
+      <th>AIR_RHO_CP</th>
+      <th>AOA_METHOD</th>
+      <th>AXES_ROTATION_METHOD</th>
+      <th>BADM_HEIGHTC</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_CH4</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_CO2</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_H2O</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_NONE</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_CH4</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_CO2</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_H2O</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_NONE</th>
+      <th>...</th>
+      <th>W_T_SONIC_COV_IBROM_N0004</th>
+      <th>W_T_SONIC_COV_IBROM_N0008</th>
+      <th>W_T_SONIC_COV_IBROM_N0016</th>
+      <th>W_T_SONIC_COV_IBROM_N0032</th>
+      <th>W_T_SONIC_COV_IBROM_N0065</th>
+      <th>W_T_SONIC_COV_IBROM_N0133</th>
+      <th>W_T_SONIC_COV_IBROM_N0277</th>
+      <th>W_T_SONIC_COV_IBROM_N0614</th>
+      <th>W_T_SONIC_COV_IBROM_N1626</th>
+      <th>W_UNROT</th>
+      <th>W_U_COV</th>
+      <th>W_VM97_TEST</th>
+      <th>W_ZCD</th>
+      <th>ZL</th>
+      <th>ZL_UNCORR</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01 00:15:00</th>
+      <td>1007.20</td>
+      <td>1.16100</td>
+      <td>0.024942</td>
+      <td>1169.36</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.155294</td>
+      <td>-0.011867</td>
+      <td>800000011.0</td>
+      <td>1588.0</td>
+      <td>-0.471974</td>
+      <td>-0.569454</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 00:45:00</th>
+      <td>1007.18</td>
+      <td>1.16086</td>
+      <td>0.024945</td>
+      <td>1169.19</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.041044</td>
+      <td>0.001725</td>
+      <td>800000011.0</td>
+      <td>2854.0</td>
+      <td>1.753250</td>
+      <td>1.572670</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:15:00</th>
+      <td>1007.12</td>
+      <td>1.16529</td>
+      <td>0.024851</td>
+      <td>1173.58</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.123359</td>
+      <td>-0.007966</td>
+      <td>800001111.0</td>
+      <td>2879.0</td>
+      <td>1.048580</td>
+      <td>1.103570</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:45:00</th>
+      <td>1007.07</td>
+      <td>1.16261</td>
+      <td>0.024908</td>
+      <td>1170.83</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.034310</td>
+      <td>-0.017446</td>
+      <td>800000011.0</td>
+      <td>3382.0</td>
+      <td>-0.012294</td>
+      <td>-0.019560</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 02:15:00</th>
+      <td>1007.14</td>
+      <td>1.16261</td>
+      <td>0.024908</td>
+      <td>1170.92</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.048496</td>
+      <td>0.024911</td>
+      <td>800000011.0</td>
+      <td>536.0</td>
+      <td>-2.769260</td>
+      <td>-2.943420</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>1007.71</td>
+      <td>1.14956</td>
+      <td>0.025189</td>
+      <td>1158.42</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.138079</td>
+      <td>0.016036</td>
+      <td>800000000.0</td>
+      <td>21.0</td>
+      <td>-0.173108</td>
+      <td>-0.172632</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>1007.74</td>
+      <td>1.14940</td>
+      <td>0.025193</td>
+      <td>1158.31</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.005790</td>
+      <td>-0.118170</td>
+      <td>800000000.0</td>
+      <td>8.0</td>
+      <td>-0.305699</td>
+      <td>-0.309374</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>1007.82</td>
+      <td>1.14946</td>
+      <td>0.025191</td>
+      <td>1158.44</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.065927</td>
+      <td>-0.196501</td>
+      <td>800000000.0</td>
+      <td>9.0</td>
+      <td>-0.097906</td>
+      <td>-0.098464</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>1007.71</td>
+      <td>1.14668</td>
+      <td>0.025253</td>
+      <td>1155.52</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.115006</td>
+      <td>-0.316383</td>
+      <td>800000000.0</td>
+      <td>3.0</td>
+      <td>-0.049540</td>
+      <td>-0.051087</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>1007.78</td>
+      <td>1.15011</td>
+      <td>0.025177</td>
+      <td>1159.05</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.087622</td>
+      <td>0.098774</td>
+      <td>800000000.0</td>
+      <td>10.0</td>
+      <td>0.047854</td>
+      <td>0.048012</td>
+    </tr>
+  </tbody>
+</table>
+<p>140256 rows × 495 columns</p>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-meteo">
+<h1>Load meteo<a class="headerlink" href="#load-meteo" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOURCEFILE</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;../10_METEO/12.5_METEO7_GAPFILLED_2004-2024.parquet&quot;</span>
+<span class="n">meteo</span> <span class="o">=</span> <span class="n">load_parquet</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">SOURCEFILE</span><span class="p">)</span>
+<span class="n">keeplocs</span> <span class="o">=</span> <span class="p">(</span><span class="n">meteo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="mi">2017</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">meteo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">2024</span><span class="p">)</span>
+<span class="n">meteo</span> <span class="o">=</span> <span class="n">meteo</span><span class="p">[</span><span class="n">keeplocs</span><span class="p">]</span>
+<span class="c1"># keepcols = [&#39;TA_T1_47_1_gfXG&#39;, &#39;VPD_T1_47_1_gfXG&#39;, &#39;SW_IN_T1_47_1_gfXG&#39;]</span>
+<span class="c1"># meteo = meteo[keepcols]</span>
+<span class="n">meteo</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded .parquet file ../10_METEO/12.5_METEO7_GAPFILLED_2004-2024.parquet (0.018 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min 
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LW_IN_T1_47_1</th>
+      <th>PA_T1_47_1</th>
+      <th>PPFD_IN_T1_47_1</th>
+      <th>RH_T1_47_1</th>
+      <th>SW_IN_T1_47_1</th>
+      <th>TA_T1_47_1</th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+      <th>VPD_T1_47_1</th>
+      <th>VPD_T1_47_1_gfXG</th>
+      <th>FLAG_VPD_T1_47_1_gfXG_ISFILLED</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01 00:15:00</th>
+      <td>275.271197</td>
+      <td>94.089417</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.089633</td>
+      <td>0.0</td>
+      <td>-5.089633</td>
+      <td>0.0</td>
+      <td>0.000566</td>
+      <td>0.000566</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 00:45:00</th>
+      <td>255.289314</td>
+      <td>94.054164</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.140866</td>
+      <td>0.0</td>
+      <td>-5.140866</td>
+      <td>0.0</td>
+      <td>0.000563</td>
+      <td>0.000563</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:15:00</th>
+      <td>253.686364</td>
+      <td>94.027146</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.393694</td>
+      <td>0.0</td>
+      <td>-5.393694</td>
+      <td>0.0</td>
+      <td>0.000553</td>
+      <td>0.000553</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:45:00</th>
+      <td>239.635427</td>
+      <td>93.989415</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.596483</td>
+      <td>0.0</td>
+      <td>-5.596483</td>
+      <td>0.0</td>
+      <td>0.000544</td>
+      <td>0.000544</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 02:15:00</th>
+      <td>271.714986</td>
+      <td>93.969621</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.373166</td>
+      <td>0.0</td>
+      <td>-5.373166</td>
+      <td>0.0</td>
+      <td>0.000553</td>
+      <td>0.000553</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>232.595527</td>
+      <td>94.211806</td>
+      <td>0.0</td>
+      <td>87.254008</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+      <td>0.075030</td>
+      <td>0.075030</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>232.609777</td>
+      <td>94.189013</td>
+      <td>0.0</td>
+      <td>87.430236</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+      <td>0.075127</td>
+      <td>0.075127</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>232.345020</td>
+      <td>94.169525</td>
+      <td>0.0</td>
+      <td>89.787920</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+      <td>0.060608</td>
+      <td>0.060608</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>234.211100</td>
+      <td>94.168413</td>
+      <td>0.0</td>
+      <td>81.809355</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+      <td>0.117695</td>
+      <td>0.117695</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>231.760533</td>
+      <td>94.170793</td>
+      <td>0.0</td>
+      <td>88.311314</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+      <td>0.069221</td>
+      <td>0.069221</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>140256 rows × 12 columns</p>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="merge-data">
+<h1>Merge data<a class="headerlink" href="#merge-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">fluxes</span><span class="p">,</span> <span class="n">meteo</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">merged</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AIR_CP</th>
+      <th>AIR_DENSITY</th>
+      <th>AIR_MV</th>
+      <th>AIR_RHO_CP</th>
+      <th>AOA_METHOD</th>
+      <th>AXES_ROTATION_METHOD</th>
+      <th>BADM_HEIGHTC</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_CH4</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_CO2</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_H2O</th>
+      <th>BADM_INSTPAIR_EASTWARD_SEP_GA_NONE</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_CH4</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_CO2</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_H2O</th>
+      <th>BADM_INSTPAIR_HEIGHT_SEP_GA_NONE</th>
+      <th>...</th>
+      <th>W_ZCD</th>
+      <th>ZL</th>
+      <th>ZL_UNCORR</th>
+      <th>LW_IN_T1_47_1</th>
+      <th>PA_T1_47_1</th>
+      <th>PPFD_IN_T1_47_1</th>
+      <th>RH_T1_47_1</th>
+      <th>SW_IN_T1_47_1</th>
+      <th>TA_T1_47_1</th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+      <th>VPD_T1_47_1</th>
+      <th>VPD_T1_47_1_gfXG</th>
+      <th>FLAG_VPD_T1_47_1_gfXG_ISFILLED</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01 00:15:00</th>
+      <td>1007.20</td>
+      <td>1.16100</td>
+      <td>0.024942</td>
+      <td>1169.36</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>1588.0</td>
+      <td>-0.471974</td>
+      <td>-0.569454</td>
+      <td>275.271197</td>
+      <td>94.089417</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.089633</td>
+      <td>0.0</td>
+      <td>-5.089633</td>
+      <td>0.0</td>
+      <td>0.000566</td>
+      <td>0.000566</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 00:45:00</th>
+      <td>1007.18</td>
+      <td>1.16086</td>
+      <td>0.024945</td>
+      <td>1169.19</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>2854.0</td>
+      <td>1.753250</td>
+      <td>1.572670</td>
+      <td>255.289314</td>
+      <td>94.054164</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.140866</td>
+      <td>0.0</td>
+      <td>-5.140866</td>
+      <td>0.0</td>
+      <td>0.000563</td>
+      <td>0.000563</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:15:00</th>
+      <td>1007.12</td>
+      <td>1.16529</td>
+      <td>0.024851</td>
+      <td>1173.58</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>2879.0</td>
+      <td>1.048580</td>
+      <td>1.103570</td>
+      <td>253.686364</td>
+      <td>94.027146</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.393694</td>
+      <td>0.0</td>
+      <td>-5.393694</td>
+      <td>0.0</td>
+      <td>0.000553</td>
+      <td>0.000553</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 01:45:00</th>
+      <td>1007.07</td>
+      <td>1.16261</td>
+      <td>0.024908</td>
+      <td>1170.83</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>3382.0</td>
+      <td>-0.012294</td>
+      <td>-0.019560</td>
+      <td>239.635427</td>
+      <td>93.989415</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.596483</td>
+      <td>0.0</td>
+      <td>-5.596483</td>
+      <td>0.0</td>
+      <td>0.000544</td>
+      <td>0.000544</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-01 02:15:00</th>
+      <td>1007.14</td>
+      <td>1.16261</td>
+      <td>0.024908</td>
+      <td>1170.92</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-15.0</td>
+      <td>-15.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>536.0</td>
+      <td>-2.769260</td>
+      <td>-2.943420</td>
+      <td>271.714986</td>
+      <td>93.969621</td>
+      <td>0.0</td>
+      <td>99.864659</td>
+      <td>0.0</td>
+      <td>-5.373166</td>
+      <td>0.0</td>
+      <td>-5.373166</td>
+      <td>0.0</td>
+      <td>0.000553</td>
+      <td>0.000553</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>1007.71</td>
+      <td>1.14956</td>
+      <td>0.025189</td>
+      <td>1158.42</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>21.0</td>
+      <td>-0.173108</td>
+      <td>-0.172632</td>
+      <td>232.595527</td>
+      <td>94.211806</td>
+      <td>0.0</td>
+      <td>87.254008</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.0</td>
+      <td>0.075030</td>
+      <td>0.075030</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>1007.74</td>
+      <td>1.14940</td>
+      <td>0.025193</td>
+      <td>1158.31</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>8.0</td>
+      <td>-0.305699</td>
+      <td>-0.309374</td>
+      <td>232.609777</td>
+      <td>94.189013</td>
+      <td>0.0</td>
+      <td>87.430236</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.0</td>
+      <td>0.075127</td>
+      <td>0.075127</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>1007.82</td>
+      <td>1.14946</td>
+      <td>0.025191</td>
+      <td>1158.44</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>9.0</td>
+      <td>-0.097906</td>
+      <td>-0.098464</td>
+      <td>232.345020</td>
+      <td>94.169525</td>
+      <td>0.0</td>
+      <td>89.787920</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.0</td>
+      <td>0.060608</td>
+      <td>0.060608</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>1007.71</td>
+      <td>1.14668</td>
+      <td>0.025253</td>
+      <td>1155.52</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>3.0</td>
+      <td>-0.049540</td>
+      <td>-0.051087</td>
+      <td>234.211100</td>
+      <td>94.168413</td>
+      <td>0.0</td>
+      <td>81.809355</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.0</td>
+      <td>0.117695</td>
+      <td>0.117695</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>1007.78</td>
+      <td>1.15011</td>
+      <td>0.025177</td>
+      <td>1159.05</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>37.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-1.0</td>
+      <td>-1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>10.0</td>
+      <td>0.047854</td>
+      <td>0.048012</td>
+      <td>231.760533</td>
+      <td>94.170793</td>
+      <td>0.0</td>
+      <td>88.311314</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.0</td>
+      <td>0.069221</td>
+      <td>0.069221</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>140256 rows × 507 columns</p>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="save-to-file">
+<h1>Save to file<a class="headerlink" href="#save-to-file" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OUTNAME</span> <span class="o">=</span> <span class="s2">&quot;03.2_FC_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2024&quot;</span>
+<span class="n">OUTPATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">save_parquet</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">OUTNAME</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">merged</span><span class="p">,</span> <span class="n">outpath</span><span class="o">=</span><span class="n">OUTPATH</span><span class="p">)</span>
+<span class="c1"># merged.to_csv(Path(OUTPATH) / f&quot;{OUTNAME}.csv&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved file 03.2_FC_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2024.parquet (1.334 seconds).
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="end-of-notebook">
+<h1>End of notebook.<a class="headerlink" href="#end-of-notebook" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished. </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. 2025-06-12 10:22:25
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks\00_L0_checks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Merge L0 fluxes and meteo data (2016-2024)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-l0-fluxes">Load L0 fluxes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-meteo">Load meteo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-data">Merge data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-to-file">Save to file</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook.</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lukas Hörtnagl
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

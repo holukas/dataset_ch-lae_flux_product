@@ -1,0 +1,3725 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Calculate VPD &#8212; CH-LAE Flux Product</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10_METEO/12.4_CalcVPD_2004-2024';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CH-LAE Flux Product</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new?title=Issue%20on%20page%20%2Fnotebooks/10_METEO/12.4_CalcVPD_2004-2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/10_METEO/12.4_CalcVPD_2004-2024.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Calculate VPD</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Calculate VPD</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-vpd-kpa">Calculate VPD (kPa)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gap-filling">Gap-filling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fill">Fill</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-to-data">Add to data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-plot">Time series plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmaps">Heatmaps</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#keep-7-meteo-variables">Keep 7 meteo variables</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-measured-and-gap-filled-data-to-parquet">Save measured and gap-filled data to parquet</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook.</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="calculate-vpd">
+<h1>Calculate VPD<a class="headerlink" href="#calculate-vpd" title="Link to this heading">#</a></h1>
+<p><strong>Author</strong>: Lukas Hörtnagl (<a class="reference external" href="mailto:holukas&#37;&#52;&#48;ethz&#46;ch">holukas<span>&#64;</span>ethz<span>&#46;</span>ch</a>)</p>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="imports">
+<h1>Imports<a class="headerlink" href="#imports" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">diive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.io.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_parquet</span><span class="p">,</span> <span class="n">load_parquet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.pkgs.createvar.vpd</span><span class="w"> </span><span class="kn">import</span> <span class="n">calc_vpd_from_ta_rh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.pkgs.gapfilling.xgboost_ts</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBoostTS</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="n">version_diive</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;diive&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diive version: v</span><span class="si">{</span><span class="n">version_diive</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diive version: v0.87.1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-data">
+<h1>Load data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOURCEDIR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span>
+<span class="n">FILENAME</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;12.3_METEO6_GAPFILLED_2004-2024.parquet&quot;</span>
+<span class="n">FILEPATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">SOURCEDIR</span><span class="p">)</span> <span class="o">/</span> <span class="n">FILENAME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_parquet</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">FILEPATH</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded .parquet file 12.3_METEO6_GAPFILLED_2004-2024.parquet (0.057 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min 
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LW_IN_T1_47_1</th>
+      <th>PA_T1_47_1</th>
+      <th>PPFD_IN_T1_47_1</th>
+      <th>RH_T1_47_1</th>
+      <th>SW_IN_T1_47_1</th>
+      <th>TA_T1_47_1</th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-09-20 10:45:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1070.543364</td>
+      <td>80.503701</td>
+      <td>NaN</td>
+      <td>13.300000</td>
+      <td>602.874084</td>
+      <td>13.300000</td>
+      <td>1070.543364</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:15:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>881.543364</td>
+      <td>77.503701</td>
+      <td>NaN</td>
+      <td>13.390000</td>
+      <td>703.762207</td>
+      <td>13.390000</td>
+      <td>881.543364</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:45:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1022.543364</td>
+      <td>75.803704</td>
+      <td>NaN</td>
+      <td>13.810000</td>
+      <td>537.947327</td>
+      <td>13.810000</td>
+      <td>1022.543364</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:15:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1284.543364</td>
+      <td>71.503701</td>
+      <td>NaN</td>
+      <td>14.470000</td>
+      <td>634.747437</td>
+      <td>14.470000</td>
+      <td>1284.543364</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:45:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>742.543364</td>
+      <td>72.703705</td>
+      <td>NaN</td>
+      <td>13.980000</td>
+      <td>634.747437</td>
+      <td>13.980000</td>
+      <td>742.543364</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>232.595527</td>
+      <td>94.211806</td>
+      <td>0.000000</td>
+      <td>87.254008</td>
+      <td>0.0</td>
+      <td>-0.504794</td>
+      <td>0.000000</td>
+      <td>-0.504794</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>232.609777</td>
+      <td>94.189013</td>
+      <td>0.000000</td>
+      <td>87.430236</td>
+      <td>0.0</td>
+      <td>-0.296828</td>
+      <td>0.000000</td>
+      <td>-0.296828</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>232.345020</td>
+      <td>94.169525</td>
+      <td>0.000000</td>
+      <td>89.787920</td>
+      <td>0.0</td>
+      <td>-0.392922</td>
+      <td>0.000000</td>
+      <td>-0.392922</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>234.211100</td>
+      <td>94.168413</td>
+      <td>0.000000</td>
+      <td>81.809355</td>
+      <td>0.0</td>
+      <td>0.792661</td>
+      <td>0.000000</td>
+      <td>0.792661</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>231.760533</td>
+      <td>94.170793</td>
+      <td>0.000000</td>
+      <td>88.311314</td>
+      <td>0.0</td>
+      <td>-0.422600</td>
+      <td>0.000000</td>
+      <td>-0.422600</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>355563 rows × 9 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DatetimeIndex([&#39;2004-09-20 10:45:00&#39;, &#39;2004-09-20 11:15:00&#39;, &#39;2004-09-20 11:45:00&#39;, &#39;2004-09-20 12:15:00&#39;, &#39;2004-09-20 12:45:00&#39;, &#39;2004-09-20 13:15:00&#39;, &#39;2004-09-20 13:45:00&#39;, &#39;2004-09-20 14:15:00&#39;, &#39;2004-09-20 14:45:00&#39;, &#39;2004-09-20 15:15:00&#39;,
+               ...
+               &#39;2024-12-31 19:15:00&#39;, &#39;2024-12-31 19:45:00&#39;, &#39;2024-12-31 20:15:00&#39;, &#39;2024-12-31 20:45:00&#39;, &#39;2024-12-31 21:15:00&#39;, &#39;2024-12-31 21:45:00&#39;, &#39;2024-12-31 22:15:00&#39;, &#39;2024-12-31 22:45:00&#39;, &#39;2024-12-31 23:15:00&#39;, &#39;2024-12-31 23:45:00&#39;], dtype=&#39;datetime64[ns]&#39;, name=&#39;TIMESTAMP_MIDDLE&#39;, length=355563, freq=&#39;30min&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="calculate-vpd-kpa">
+<h1>Calculate VPD (kPa)<a class="headerlink" href="#calculate-vpd-kpa" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vpd</span> <span class="o">=</span> <span class="n">calc_vpd_from_ta_rh</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">rh_col</span><span class="o">=</span><span class="s1">&#39;RH_T1_47_1&#39;</span><span class="p">,</span> <span class="n">ta_col</span><span class="o">=</span><span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span><span class="p">)</span>
+<span class="n">vpd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2004-09-20 10:45:00    0.298200
+2004-09-20 11:15:00    0.346113
+2004-09-20 11:45:00    0.382596
+2004-09-20 12:15:00    0.470299
+2004-09-20 12:45:00    0.436409
+                         ...   
+2024-12-31 21:45:00    0.075030
+2024-12-31 22:15:00    0.075127
+2024-12-31 22:45:00    0.060608
+2024-12-31 23:15:00    0.117695
+2024-12-31 23:45:00    0.069221
+Freq: 30min, Name: VPD, Length: 355563, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vpd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="gap-filling">
+<h1>Gap-filling<a class="headerlink" href="#gap-filling" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">_df</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;VPD_T1_47_1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">_df</span><span class="p">[</span><span class="s1">&#39;SW_IN_T1_47_1_gfXG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;SW_IN_T1_47_1_gfXG&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">_df</span><span class="p">[</span><span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>VPD_T1_47_1</th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>TA_T1_47_1_gfXG</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-09-20 10:45:00</th>
+      <td>0.298200</td>
+      <td>602.874084</td>
+      <td>13.300000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:15:00</th>
+      <td>0.346113</td>
+      <td>703.762207</td>
+      <td>13.390000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:45:00</th>
+      <td>0.382596</td>
+      <td>537.947327</td>
+      <td>13.810000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:15:00</th>
+      <td>0.470299</td>
+      <td>634.747437</td>
+      <td>14.470000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:45:00</th>
+      <td>0.436409</td>
+      <td>634.747437</td>
+      <td>13.980000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>0.075030</td>
+      <td>0.000000</td>
+      <td>-0.504794</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>0.075127</td>
+      <td>0.000000</td>
+      <td>-0.296828</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>0.060608</td>
+      <td>0.000000</td>
+      <td>-0.392922</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>0.117695</td>
+      <td>0.000000</td>
+      <td>0.792661</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>0.069221</td>
+      <td>0.000000</td>
+      <td>-0.422600</td>
+    </tr>
+  </tbody>
+</table>
+<p>355563 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_df</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(2789)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="fill">
+<h2>Fill<a class="headerlink" href="#fill" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span> <span class="o">=</span> <span class="n">XGBoostTS</span><span class="p">(</span>
+    <span class="n">input_df</span><span class="o">=</span><span class="n">_df</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;VPD_T1_47_1&#39;</span><span class="p">,</span>
+    <span class="n">perm_n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">include_timestamp_as_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_continuous_record_number</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adding new data columns ...
+++ Added new columns with timestamp info: [&#39;.YEAR&#39;, &#39;.SEASON&#39;, &#39;.MONTH&#39;, &#39;.WEEK&#39;, &#39;.DOY&#39;, &#39;.HOUR&#39;, &#39;.YEARMONTH&#39;, &#39;.YEARDOY&#39;, &#39;.YEARWEEK&#39;] 
+++ Added new column .RECORDNUMBER with record numbers from 1 to 355563.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span><span class="o">.</span><span class="n">reduce_features</span><span class="p">()</span>
+<span class="n">xgb</span><span class="o">.</span><span class="n">report_feature_reduction</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ FEATURE REDUCTION ] Feature reduction based on permutation importance ...
+[0]	validation_0-rmse:0.34637	validation_1-rmse:0.34637
+[1]	validation_0-rmse:0.27214	validation_1-rmse:0.27214
+[2]	validation_0-rmse:0.22540	validation_1-rmse:0.22540
+[3]	validation_0-rmse:0.19683	validation_1-rmse:0.19683
+[4]	validation_0-rmse:0.17973	validation_1-rmse:0.17973
+[5]	validation_0-rmse:0.16975	validation_1-rmse:0.16975
+[6]	validation_0-rmse:0.16336	validation_1-rmse:0.16336
+[7]	validation_0-rmse:0.15913	validation_1-rmse:0.15913
+[8]	validation_0-rmse:0.15654	validation_1-rmse:0.15654
+[9]	validation_0-rmse:0.15435	validation_1-rmse:0.15435
+[10]	validation_0-rmse:0.15245	validation_1-rmse:0.15245
+[11]	validation_0-rmse:0.15119	validation_1-rmse:0.15119
+[12]	validation_0-rmse:0.14975	validation_1-rmse:0.14975
+[13]	validation_0-rmse:0.14830	validation_1-rmse:0.14830
+[14]	validation_0-rmse:0.14713	validation_1-rmse:0.14713
+[15]	validation_0-rmse:0.14625	validation_1-rmse:0.14625
+[16]	validation_0-rmse:0.14550	validation_1-rmse:0.14550
+[17]	validation_0-rmse:0.14454	validation_1-rmse:0.14454
+[18]	validation_0-rmse:0.14415	validation_1-rmse:0.14415
+[19]	validation_0-rmse:0.14317	validation_1-rmse:0.14317
+[20]	validation_0-rmse:0.14235	validation_1-rmse:0.14235
+[21]	validation_0-rmse:0.14193	validation_1-rmse:0.14193
+[22]	validation_0-rmse:0.14046	validation_1-rmse:0.14046
+[23]	validation_0-rmse:0.14015	validation_1-rmse:0.14015
+[24]	validation_0-rmse:0.13956	validation_1-rmse:0.13956
+[25]	validation_0-rmse:0.13925	validation_1-rmse:0.13925
+[26]	validation_0-rmse:0.13877	validation_1-rmse:0.13877
+[27]	validation_0-rmse:0.13828	validation_1-rmse:0.13828
+[28]	validation_0-rmse:0.13792	validation_1-rmse:0.13792
+[29]	validation_0-rmse:0.13753	validation_1-rmse:0.13753
+[30]	validation_0-rmse:0.13690	validation_1-rmse:0.13690
+[31]	validation_0-rmse:0.13632	validation_1-rmse:0.13632
+[32]	validation_0-rmse:0.13614	validation_1-rmse:0.13614
+[33]	validation_0-rmse:0.13502	validation_1-rmse:0.13502
+[34]	validation_0-rmse:0.13472	validation_1-rmse:0.13472
+[35]	validation_0-rmse:0.13417	validation_1-rmse:0.13417
+[36]	validation_0-rmse:0.13351	validation_1-rmse:0.13351
+[37]	validation_0-rmse:0.13334	validation_1-rmse:0.13334
+[38]	validation_0-rmse:0.13310	validation_1-rmse:0.13310
+[39]	validation_0-rmse:0.13285	validation_1-rmse:0.13285
+[40]	validation_0-rmse:0.13224	validation_1-rmse:0.13224
+[41]	validation_0-rmse:0.13205	validation_1-rmse:0.13205
+[42]	validation_0-rmse:0.13136	validation_1-rmse:0.13136
+[43]	validation_0-rmse:0.13113	validation_1-rmse:0.13113
+[44]	validation_0-rmse:0.13086	validation_1-rmse:0.13086
+[45]	validation_0-rmse:0.13051	validation_1-rmse:0.13051
+[46]	validation_0-rmse:0.13003	validation_1-rmse:0.13003
+[47]	validation_0-rmse:0.12955	validation_1-rmse:0.12955
+[48]	validation_0-rmse:0.12890	validation_1-rmse:0.12890
+[49]	validation_0-rmse:0.12859	validation_1-rmse:0.12859
+[50]	validation_0-rmse:0.12788	validation_1-rmse:0.12788
+[51]	validation_0-rmse:0.12752	validation_1-rmse:0.12752
+[52]	validation_0-rmse:0.12715	validation_1-rmse:0.12715
+[53]	validation_0-rmse:0.12682	validation_1-rmse:0.12682
+[54]	validation_0-rmse:0.12664	validation_1-rmse:0.12664
+[55]	validation_0-rmse:0.12650	validation_1-rmse:0.12650
+[56]	validation_0-rmse:0.12623	validation_1-rmse:0.12623
+[57]	validation_0-rmse:0.12601	validation_1-rmse:0.12601
+[58]	validation_0-rmse:0.12593	validation_1-rmse:0.12593
+[59]	validation_0-rmse:0.12570	validation_1-rmse:0.12570
+[60]	validation_0-rmse:0.12521	validation_1-rmse:0.12521
+[61]	validation_0-rmse:0.12506	validation_1-rmse:0.12506
+[62]	validation_0-rmse:0.12464	validation_1-rmse:0.12464
+[63]	validation_0-rmse:0.12441	validation_1-rmse:0.12441
+[64]	validation_0-rmse:0.12405	validation_1-rmse:0.12405
+[65]	validation_0-rmse:0.12384	validation_1-rmse:0.12384
+[66]	validation_0-rmse:0.12358	validation_1-rmse:0.12358
+[67]	validation_0-rmse:0.12342	validation_1-rmse:0.12342
+[68]	validation_0-rmse:0.12318	validation_1-rmse:0.12318
+[69]	validation_0-rmse:0.12300	validation_1-rmse:0.12300
+[70]	validation_0-rmse:0.12267	validation_1-rmse:0.12267
+[71]	validation_0-rmse:0.12229	validation_1-rmse:0.12229
+[72]	validation_0-rmse:0.12210	validation_1-rmse:0.12210
+[73]	validation_0-rmse:0.12146	validation_1-rmse:0.12146
+[74]	validation_0-rmse:0.12127	validation_1-rmse:0.12127
+[75]	validation_0-rmse:0.12116	validation_1-rmse:0.12116
+[76]	validation_0-rmse:0.12095	validation_1-rmse:0.12095
+[77]	validation_0-rmse:0.12082	validation_1-rmse:0.12082
+[78]	validation_0-rmse:0.12057	validation_1-rmse:0.12057
+[79]	validation_0-rmse:0.12036	validation_1-rmse:0.12036
+[80]	validation_0-rmse:0.12010	validation_1-rmse:0.12010
+[81]	validation_0-rmse:0.11995	validation_1-rmse:0.11995
+[82]	validation_0-rmse:0.11961	validation_1-rmse:0.11961
+[83]	validation_0-rmse:0.11944	validation_1-rmse:0.11944
+[84]	validation_0-rmse:0.11932	validation_1-rmse:0.11932
+[85]	validation_0-rmse:0.11920	validation_1-rmse:0.11920
+[86]	validation_0-rmse:0.11912	validation_1-rmse:0.11912
+[87]	validation_0-rmse:0.11887	validation_1-rmse:0.11887
+[88]	validation_0-rmse:0.11871	validation_1-rmse:0.11871
+[89]	validation_0-rmse:0.11818	validation_1-rmse:0.11818
+[90]	validation_0-rmse:0.11800	validation_1-rmse:0.11800
+[91]	validation_0-rmse:0.11791	validation_1-rmse:0.11791
+[92]	validation_0-rmse:0.11772	validation_1-rmse:0.11772
+[93]	validation_0-rmse:0.11757	validation_1-rmse:0.11757
+[94]	validation_0-rmse:0.11743	validation_1-rmse:0.11743
+[95]	validation_0-rmse:0.11726	validation_1-rmse:0.11726
+[96]	validation_0-rmse:0.11694	validation_1-rmse:0.11694
+[97]	validation_0-rmse:0.11682	validation_1-rmse:0.11682
+[98]	validation_0-rmse:0.11658	validation_1-rmse:0.11658
+[99]	validation_0-rmse:0.11648	validation_1-rmse:0.11648
+[100]	validation_0-rmse:0.11636	validation_1-rmse:0.11636
+[101]	validation_0-rmse:0.11620	validation_1-rmse:0.11620
+[102]	validation_0-rmse:0.11603	validation_1-rmse:0.11603
+[103]	validation_0-rmse:0.11581	validation_1-rmse:0.11581
+[104]	validation_0-rmse:0.11549	validation_1-rmse:0.11549
+[105]	validation_0-rmse:0.11528	validation_1-rmse:0.11528
+[106]	validation_0-rmse:0.11514	validation_1-rmse:0.11514
+[107]	validation_0-rmse:0.11487	validation_1-rmse:0.11487
+[108]	validation_0-rmse:0.11474	validation_1-rmse:0.11474
+[109]	validation_0-rmse:0.11456	validation_1-rmse:0.11456
+[110]	validation_0-rmse:0.11439	validation_1-rmse:0.11439
+[111]	validation_0-rmse:0.11413	validation_1-rmse:0.11413
+[112]	validation_0-rmse:0.11404	validation_1-rmse:0.11404
+[113]	validation_0-rmse:0.11387	validation_1-rmse:0.11387
+[114]	validation_0-rmse:0.11374	validation_1-rmse:0.11374
+[115]	validation_0-rmse:0.11354	validation_1-rmse:0.11354
+[116]	validation_0-rmse:0.11340	validation_1-rmse:0.11340
+[117]	validation_0-rmse:0.11316	validation_1-rmse:0.11316
+[118]	validation_0-rmse:0.11300	validation_1-rmse:0.11300
+[119]	validation_0-rmse:0.11286	validation_1-rmse:0.11286
+[120]	validation_0-rmse:0.11273	validation_1-rmse:0.11273
+[121]	validation_0-rmse:0.11259	validation_1-rmse:0.11259
+[122]	validation_0-rmse:0.11234	validation_1-rmse:0.11234
+[123]	validation_0-rmse:0.11218	validation_1-rmse:0.11218
+[124]	validation_0-rmse:0.11206	validation_1-rmse:0.11206
+[125]	validation_0-rmse:0.11166	validation_1-rmse:0.11166
+[126]	validation_0-rmse:0.11155	validation_1-rmse:0.11155
+[127]	validation_0-rmse:0.11144	validation_1-rmse:0.11144
+[128]	validation_0-rmse:0.11113	validation_1-rmse:0.11113
+[129]	validation_0-rmse:0.11083	validation_1-rmse:0.11083
+[130]	validation_0-rmse:0.11066	validation_1-rmse:0.11066
+[131]	validation_0-rmse:0.11046	validation_1-rmse:0.11046
+[132]	validation_0-rmse:0.11032	validation_1-rmse:0.11032
+[133]	validation_0-rmse:0.11019	validation_1-rmse:0.11019
+[134]	validation_0-rmse:0.11010	validation_1-rmse:0.11010
+[135]	validation_0-rmse:0.11004	validation_1-rmse:0.11004
+[136]	validation_0-rmse:0.10991	validation_1-rmse:0.10991
+[137]	validation_0-rmse:0.10985	validation_1-rmse:0.10985
+[138]	validation_0-rmse:0.10978	validation_1-rmse:0.10978
+[139]	validation_0-rmse:0.10966	validation_1-rmse:0.10966
+[140]	validation_0-rmse:0.10929	validation_1-rmse:0.10929
+[141]	validation_0-rmse:0.10923	validation_1-rmse:0.10923
+[142]	validation_0-rmse:0.10918	validation_1-rmse:0.10918
+[143]	validation_0-rmse:0.10908	validation_1-rmse:0.10908
+[144]	validation_0-rmse:0.10897	validation_1-rmse:0.10897
+[145]	validation_0-rmse:0.10885	validation_1-rmse:0.10885
+[146]	validation_0-rmse:0.10867	validation_1-rmse:0.10867
+[147]	validation_0-rmse:0.10862	validation_1-rmse:0.10862
+[148]	validation_0-rmse:0.10845	validation_1-rmse:0.10845
+[149]	validation_0-rmse:0.10836	validation_1-rmse:0.10836
+[150]	validation_0-rmse:0.10830	validation_1-rmse:0.10830
+[151]	validation_0-rmse:0.10826	validation_1-rmse:0.10826
+[152]	validation_0-rmse:0.10814	validation_1-rmse:0.10814
+[153]	validation_0-rmse:0.10800	validation_1-rmse:0.10800
+[154]	validation_0-rmse:0.10791	validation_1-rmse:0.10791
+[155]	validation_0-rmse:0.10778	validation_1-rmse:0.10778
+[156]	validation_0-rmse:0.10769	validation_1-rmse:0.10769
+[157]	validation_0-rmse:0.10757	validation_1-rmse:0.10757
+[158]	validation_0-rmse:0.10749	validation_1-rmse:0.10749
+[159]	validation_0-rmse:0.10746	validation_1-rmse:0.10746
+[160]	validation_0-rmse:0.10743	validation_1-rmse:0.10743
+[161]	validation_0-rmse:0.10736	validation_1-rmse:0.10736
+[162]	validation_0-rmse:0.10712	validation_1-rmse:0.10712
+[163]	validation_0-rmse:0.10702	validation_1-rmse:0.10702
+[164]	validation_0-rmse:0.10681	validation_1-rmse:0.10681
+[165]	validation_0-rmse:0.10675	validation_1-rmse:0.10675
+[166]	validation_0-rmse:0.10650	validation_1-rmse:0.10650
+[167]	validation_0-rmse:0.10642	validation_1-rmse:0.10642
+[168]	validation_0-rmse:0.10634	validation_1-rmse:0.10634
+[169]	validation_0-rmse:0.10626	validation_1-rmse:0.10626
+[170]	validation_0-rmse:0.10613	validation_1-rmse:0.10613
+[171]	validation_0-rmse:0.10596	validation_1-rmse:0.10596
+[172]	validation_0-rmse:0.10587	validation_1-rmse:0.10587
+[173]	validation_0-rmse:0.10571	validation_1-rmse:0.10571
+[174]	validation_0-rmse:0.10558	validation_1-rmse:0.10558
+[175]	validation_0-rmse:0.10546	validation_1-rmse:0.10546
+[176]	validation_0-rmse:0.10528	validation_1-rmse:0.10528
+[177]	validation_0-rmse:0.10515	validation_1-rmse:0.10515
+[178]	validation_0-rmse:0.10511	validation_1-rmse:0.10511
+[179]	validation_0-rmse:0.10491	validation_1-rmse:0.10491
+[180]	validation_0-rmse:0.10469	validation_1-rmse:0.10469
+[181]	validation_0-rmse:0.10461	validation_1-rmse:0.10461
+[182]	validation_0-rmse:0.10450	validation_1-rmse:0.10450
+[183]	validation_0-rmse:0.10440	validation_1-rmse:0.10440
+[184]	validation_0-rmse:0.10426	validation_1-rmse:0.10426
+[185]	validation_0-rmse:0.10410	validation_1-rmse:0.10410
+[186]	validation_0-rmse:0.10405	validation_1-rmse:0.10405
+[187]	validation_0-rmse:0.10399	validation_1-rmse:0.10399
+[188]	validation_0-rmse:0.10392	validation_1-rmse:0.10392
+[189]	validation_0-rmse:0.10389	validation_1-rmse:0.10389
+[190]	validation_0-rmse:0.10371	validation_1-rmse:0.10371
+[191]	validation_0-rmse:0.10364	validation_1-rmse:0.10364
+[192]	validation_0-rmse:0.10358	validation_1-rmse:0.10358
+[193]	validation_0-rmse:0.10353	validation_1-rmse:0.10353
+[194]	validation_0-rmse:0.10342	validation_1-rmse:0.10342
+[195]	validation_0-rmse:0.10336	validation_1-rmse:0.10336
+[196]	validation_0-rmse:0.10327	validation_1-rmse:0.10327
+[197]	validation_0-rmse:0.10313	validation_1-rmse:0.10313
+[198]	validation_0-rmse:0.10294	validation_1-rmse:0.10294
+[199]	validation_0-rmse:0.10279	validation_1-rmse:0.10279
+[200]	validation_0-rmse:0.10274	validation_1-rmse:0.10274
+[201]	validation_0-rmse:0.10263	validation_1-rmse:0.10263
+[202]	validation_0-rmse:0.10253	validation_1-rmse:0.10253
+[203]	validation_0-rmse:0.10247	validation_1-rmse:0.10247
+[204]	validation_0-rmse:0.10242	validation_1-rmse:0.10242
+[205]	validation_0-rmse:0.10233	validation_1-rmse:0.10233
+[206]	validation_0-rmse:0.10215	validation_1-rmse:0.10215
+[207]	validation_0-rmse:0.10196	validation_1-rmse:0.10196
+[208]	validation_0-rmse:0.10186	validation_1-rmse:0.10186
+[209]	validation_0-rmse:0.10161	validation_1-rmse:0.10161
+[210]	validation_0-rmse:0.10154	validation_1-rmse:0.10154
+[211]	validation_0-rmse:0.10149	validation_1-rmse:0.10149
+[212]	validation_0-rmse:0.10118	validation_1-rmse:0.10118
+[213]	validation_0-rmse:0.10111	validation_1-rmse:0.10111
+[214]	validation_0-rmse:0.10098	validation_1-rmse:0.10098
+[215]	validation_0-rmse:0.10094	validation_1-rmse:0.10094
+[216]	validation_0-rmse:0.10090	validation_1-rmse:0.10090
+[217]	validation_0-rmse:0.10081	validation_1-rmse:0.10081
+[218]	validation_0-rmse:0.10072	validation_1-rmse:0.10072
+[219]	validation_0-rmse:0.10065	validation_1-rmse:0.10065
+[220]	validation_0-rmse:0.10029	validation_1-rmse:0.10029
+[221]	validation_0-rmse:0.10022	validation_1-rmse:0.10022
+[222]	validation_0-rmse:0.10006	validation_1-rmse:0.10006
+[223]	validation_0-rmse:0.10001	validation_1-rmse:0.10001
+[224]	validation_0-rmse:0.09997	validation_1-rmse:0.09997
+[225]	validation_0-rmse:0.09991	validation_1-rmse:0.09991
+[226]	validation_0-rmse:0.09970	validation_1-rmse:0.09970
+[227]	validation_0-rmse:0.09961	validation_1-rmse:0.09961
+[228]	validation_0-rmse:0.09954	validation_1-rmse:0.09954
+[229]	validation_0-rmse:0.09946	validation_1-rmse:0.09946
+[230]	validation_0-rmse:0.09942	validation_1-rmse:0.09942
+[231]	validation_0-rmse:0.09936	validation_1-rmse:0.09936
+[232]	validation_0-rmse:0.09925	validation_1-rmse:0.09925
+[233]	validation_0-rmse:0.09917	validation_1-rmse:0.09917
+[234]	validation_0-rmse:0.09911	validation_1-rmse:0.09911
+[235]	validation_0-rmse:0.09909	validation_1-rmse:0.09909
+[236]	validation_0-rmse:0.09894	validation_1-rmse:0.09894
+[237]	validation_0-rmse:0.09880	validation_1-rmse:0.09880
+[238]	validation_0-rmse:0.09872	validation_1-rmse:0.09872
+[239]	validation_0-rmse:0.09862	validation_1-rmse:0.09862
+[240]	validation_0-rmse:0.09854	validation_1-rmse:0.09854
+[241]	validation_0-rmse:0.09850	validation_1-rmse:0.09850
+[242]	validation_0-rmse:0.09843	validation_1-rmse:0.09843
+[243]	validation_0-rmse:0.09832	validation_1-rmse:0.09832
+[244]	validation_0-rmse:0.09829	validation_1-rmse:0.09829
+[245]	validation_0-rmse:0.09822	validation_1-rmse:0.09822
+[246]	validation_0-rmse:0.09817	validation_1-rmse:0.09817
+[247]	validation_0-rmse:0.09813	validation_1-rmse:0.09813
+[248]	validation_0-rmse:0.09805	validation_1-rmse:0.09805
+[249]	validation_0-rmse:0.09803	validation_1-rmse:0.09803
+[250]	validation_0-rmse:0.09797	validation_1-rmse:0.09797
+[251]	validation_0-rmse:0.09791	validation_1-rmse:0.09791
+[252]	validation_0-rmse:0.09777	validation_1-rmse:0.09777
+[253]	validation_0-rmse:0.09769	validation_1-rmse:0.09769
+[254]	validation_0-rmse:0.09744	validation_1-rmse:0.09744
+[255]	validation_0-rmse:0.09739	validation_1-rmse:0.09739
+[256]	validation_0-rmse:0.09736	validation_1-rmse:0.09736
+[257]	validation_0-rmse:0.09731	validation_1-rmse:0.09731
+[258]	validation_0-rmse:0.09715	validation_1-rmse:0.09715
+[259]	validation_0-rmse:0.09706	validation_1-rmse:0.09706
+[260]	validation_0-rmse:0.09701	validation_1-rmse:0.09701
+[261]	validation_0-rmse:0.09689	validation_1-rmse:0.09689
+[262]	validation_0-rmse:0.09685	validation_1-rmse:0.09685
+[263]	validation_0-rmse:0.09679	validation_1-rmse:0.09679
+[264]	validation_0-rmse:0.09674	validation_1-rmse:0.09674
+[265]	validation_0-rmse:0.09669	validation_1-rmse:0.09669
+[266]	validation_0-rmse:0.09647	validation_1-rmse:0.09647
+[267]	validation_0-rmse:0.09639	validation_1-rmse:0.09639
+[268]	validation_0-rmse:0.09635	validation_1-rmse:0.09635
+[269]	validation_0-rmse:0.09628	validation_1-rmse:0.09628
+[270]	validation_0-rmse:0.09615	validation_1-rmse:0.09615
+[271]	validation_0-rmse:0.09604	validation_1-rmse:0.09604
+[272]	validation_0-rmse:0.09598	validation_1-rmse:0.09598
+[273]	validation_0-rmse:0.09588	validation_1-rmse:0.09588
+[274]	validation_0-rmse:0.09579	validation_1-rmse:0.09579
+[275]	validation_0-rmse:0.09571	validation_1-rmse:0.09571
+[276]	validation_0-rmse:0.09560	validation_1-rmse:0.09560
+[277]	validation_0-rmse:0.09551	validation_1-rmse:0.09551
+[278]	validation_0-rmse:0.09547	validation_1-rmse:0.09547
+[279]	validation_0-rmse:0.09542	validation_1-rmse:0.09542
+[280]	validation_0-rmse:0.09535	validation_1-rmse:0.09535
+[281]	validation_0-rmse:0.09518	validation_1-rmse:0.09518
+[282]	validation_0-rmse:0.09512	validation_1-rmse:0.09512
+[283]	validation_0-rmse:0.09506	validation_1-rmse:0.09506
+[284]	validation_0-rmse:0.09487	validation_1-rmse:0.09487
+[285]	validation_0-rmse:0.09482	validation_1-rmse:0.09482
+[286]	validation_0-rmse:0.09470	validation_1-rmse:0.09470
+[287]	validation_0-rmse:0.09465	validation_1-rmse:0.09465
+[288]	validation_0-rmse:0.09454	validation_1-rmse:0.09454
+[289]	validation_0-rmse:0.09450	validation_1-rmse:0.09450
+[290]	validation_0-rmse:0.09447	validation_1-rmse:0.09447
+[291]	validation_0-rmse:0.09439	validation_1-rmse:0.09439
+[292]	validation_0-rmse:0.09436	validation_1-rmse:0.09436
+[293]	validation_0-rmse:0.09425	validation_1-rmse:0.09425
+[294]	validation_0-rmse:0.09419	validation_1-rmse:0.09419
+[295]	validation_0-rmse:0.09414	validation_1-rmse:0.09414
+[296]	validation_0-rmse:0.09394	validation_1-rmse:0.09394
+[297]	validation_0-rmse:0.09383	validation_1-rmse:0.09383
+[298]	validation_0-rmse:0.09377	validation_1-rmse:0.09377
+[299]	validation_0-rmse:0.09363	validation_1-rmse:0.09363
+[300]	validation_0-rmse:0.09353	validation_1-rmse:0.09353
+[301]	validation_0-rmse:0.09347	validation_1-rmse:0.09347
+[302]	validation_0-rmse:0.09341	validation_1-rmse:0.09341
+[303]	validation_0-rmse:0.09328	validation_1-rmse:0.09328
+[304]	validation_0-rmse:0.09318	validation_1-rmse:0.09318
+[305]	validation_0-rmse:0.09314	validation_1-rmse:0.09314
+[306]	validation_0-rmse:0.09308	validation_1-rmse:0.09308
+[307]	validation_0-rmse:0.09291	validation_1-rmse:0.09291
+[308]	validation_0-rmse:0.09287	validation_1-rmse:0.09287
+[309]	validation_0-rmse:0.09282	validation_1-rmse:0.09282
+[310]	validation_0-rmse:0.09270	validation_1-rmse:0.09270
+[311]	validation_0-rmse:0.09250	validation_1-rmse:0.09250
+[312]	validation_0-rmse:0.09245	validation_1-rmse:0.09245
+[313]	validation_0-rmse:0.09240	validation_1-rmse:0.09240
+[314]	validation_0-rmse:0.09221	validation_1-rmse:0.09221
+[315]	validation_0-rmse:0.09207	validation_1-rmse:0.09207
+[316]	validation_0-rmse:0.09204	validation_1-rmse:0.09204
+[317]	validation_0-rmse:0.09201	validation_1-rmse:0.09201
+[318]	validation_0-rmse:0.09196	validation_1-rmse:0.09196
+[319]	validation_0-rmse:0.09192	validation_1-rmse:0.09192
+[320]	validation_0-rmse:0.09188	validation_1-rmse:0.09188
+[321]	validation_0-rmse:0.09184	validation_1-rmse:0.09184
+[322]	validation_0-rmse:0.09181	validation_1-rmse:0.09181
+[323]	validation_0-rmse:0.09171	validation_1-rmse:0.09171
+[324]	validation_0-rmse:0.09162	validation_1-rmse:0.09162
+[325]	validation_0-rmse:0.09151	validation_1-rmse:0.09151
+[326]	validation_0-rmse:0.09147	validation_1-rmse:0.09147
+[327]	validation_0-rmse:0.09146	validation_1-rmse:0.09146
+[328]	validation_0-rmse:0.09135	validation_1-rmse:0.09135
+[329]	validation_0-rmse:0.09133	validation_1-rmse:0.09133
+[330]	validation_0-rmse:0.09127	validation_1-rmse:0.09127
+[331]	validation_0-rmse:0.09118	validation_1-rmse:0.09118
+[332]	validation_0-rmse:0.09113	validation_1-rmse:0.09113
+[333]	validation_0-rmse:0.09100	validation_1-rmse:0.09100
+[334]	validation_0-rmse:0.09089	validation_1-rmse:0.09089
+[335]	validation_0-rmse:0.09079	validation_1-rmse:0.09079
+[336]	validation_0-rmse:0.09070	validation_1-rmse:0.09070
+[337]	validation_0-rmse:0.09066	validation_1-rmse:0.09066
+[338]	validation_0-rmse:0.09057	validation_1-rmse:0.09057
+[339]	validation_0-rmse:0.09051	validation_1-rmse:0.09051
+[340]	validation_0-rmse:0.09046	validation_1-rmse:0.09046
+[341]	validation_0-rmse:0.09042	validation_1-rmse:0.09042
+[342]	validation_0-rmse:0.09037	validation_1-rmse:0.09037
+[343]	validation_0-rmse:0.09019	validation_1-rmse:0.09019
+[344]	validation_0-rmse:0.09014	validation_1-rmse:0.09014
+[345]	validation_0-rmse:0.09007	validation_1-rmse:0.09007
+[346]	validation_0-rmse:0.09002	validation_1-rmse:0.09002
+[347]	validation_0-rmse:0.08996	validation_1-rmse:0.08996
+[348]	validation_0-rmse:0.08989	validation_1-rmse:0.08989
+[349]	validation_0-rmse:0.08979	validation_1-rmse:0.08979
+[350]	validation_0-rmse:0.08974	validation_1-rmse:0.08974
+[351]	validation_0-rmse:0.08970	validation_1-rmse:0.08970
+[352]	validation_0-rmse:0.08954	validation_1-rmse:0.08954
+[353]	validation_0-rmse:0.08950	validation_1-rmse:0.08950
+[354]	validation_0-rmse:0.08938	validation_1-rmse:0.08938
+[355]	validation_0-rmse:0.08929	validation_1-rmse:0.08929
+[356]	validation_0-rmse:0.08924	validation_1-rmse:0.08924
+[357]	validation_0-rmse:0.08921	validation_1-rmse:0.08921
+[358]	validation_0-rmse:0.08917	validation_1-rmse:0.08917
+[359]	validation_0-rmse:0.08906	validation_1-rmse:0.08906
+[360]	validation_0-rmse:0.08901	validation_1-rmse:0.08901
+[361]	validation_0-rmse:0.08897	validation_1-rmse:0.08897
+[362]	validation_0-rmse:0.08894	validation_1-rmse:0.08894
+[363]	validation_0-rmse:0.08883	validation_1-rmse:0.08883
+[364]	validation_0-rmse:0.08880	validation_1-rmse:0.08880
+[365]	validation_0-rmse:0.08872	validation_1-rmse:0.08872
+[366]	validation_0-rmse:0.08870	validation_1-rmse:0.08870
+[367]	validation_0-rmse:0.08863	validation_1-rmse:0.08863
+[368]	validation_0-rmse:0.08857	validation_1-rmse:0.08857
+[369]	validation_0-rmse:0.08851	validation_1-rmse:0.08851
+[370]	validation_0-rmse:0.08841	validation_1-rmse:0.08841
+[371]	validation_0-rmse:0.08837	validation_1-rmse:0.08837
+[372]	validation_0-rmse:0.08825	validation_1-rmse:0.08825
+[373]	validation_0-rmse:0.08820	validation_1-rmse:0.08820
+[374]	validation_0-rmse:0.08815	validation_1-rmse:0.08815
+[375]	validation_0-rmse:0.08808	validation_1-rmse:0.08808
+[376]	validation_0-rmse:0.08803	validation_1-rmse:0.08803
+[377]	validation_0-rmse:0.08800	validation_1-rmse:0.08800
+[378]	validation_0-rmse:0.08793	validation_1-rmse:0.08793
+[379]	validation_0-rmse:0.08787	validation_1-rmse:0.08787
+[380]	validation_0-rmse:0.08781	validation_1-rmse:0.08781
+[381]	validation_0-rmse:0.08773	validation_1-rmse:0.08773
+[382]	validation_0-rmse:0.08769	validation_1-rmse:0.08769
+[383]	validation_0-rmse:0.08764	validation_1-rmse:0.08764
+[384]	validation_0-rmse:0.08759	validation_1-rmse:0.08759
+[385]	validation_0-rmse:0.08756	validation_1-rmse:0.08756
+[386]	validation_0-rmse:0.08748	validation_1-rmse:0.08748
+[387]	validation_0-rmse:0.08741	validation_1-rmse:0.08741
+[388]	validation_0-rmse:0.08735	validation_1-rmse:0.08735
+[389]	validation_0-rmse:0.08733	validation_1-rmse:0.08733
+[390]	validation_0-rmse:0.08721	validation_1-rmse:0.08721
+[391]	validation_0-rmse:0.08715	validation_1-rmse:0.08715
+[392]	validation_0-rmse:0.08707	validation_1-rmse:0.08707
+[393]	validation_0-rmse:0.08704	validation_1-rmse:0.08704
+[394]	validation_0-rmse:0.08701	validation_1-rmse:0.08701
+[395]	validation_0-rmse:0.08691	validation_1-rmse:0.08691
+[396]	validation_0-rmse:0.08688	validation_1-rmse:0.08688
+[397]	validation_0-rmse:0.08686	validation_1-rmse:0.08686
+[398]	validation_0-rmse:0.08682	validation_1-rmse:0.08682
+[399]	validation_0-rmse:0.08678	validation_1-rmse:0.08678
+[400]	validation_0-rmse:0.08666	validation_1-rmse:0.08666
+[401]	validation_0-rmse:0.08663	validation_1-rmse:0.08663
+[402]	validation_0-rmse:0.08656	validation_1-rmse:0.08656
+[403]	validation_0-rmse:0.08650	validation_1-rmse:0.08650
+[404]	validation_0-rmse:0.08647	validation_1-rmse:0.08647
+[405]	validation_0-rmse:0.08643	validation_1-rmse:0.08643
+[406]	validation_0-rmse:0.08639	validation_1-rmse:0.08639
+[407]	validation_0-rmse:0.08630	validation_1-rmse:0.08630
+[408]	validation_0-rmse:0.08626	validation_1-rmse:0.08626
+[409]	validation_0-rmse:0.08615	validation_1-rmse:0.08615
+[410]	validation_0-rmse:0.08611	validation_1-rmse:0.08611
+[411]	validation_0-rmse:0.08609	validation_1-rmse:0.08609
+[412]	validation_0-rmse:0.08601	validation_1-rmse:0.08601
+[413]	validation_0-rmse:0.08595	validation_1-rmse:0.08595
+[414]	validation_0-rmse:0.08592	validation_1-rmse:0.08592
+[415]	validation_0-rmse:0.08588	validation_1-rmse:0.08588
+[416]	validation_0-rmse:0.08581	validation_1-rmse:0.08581
+[417]	validation_0-rmse:0.08578	validation_1-rmse:0.08578
+[418]	validation_0-rmse:0.08572	validation_1-rmse:0.08572
+[419]	validation_0-rmse:0.08564	validation_1-rmse:0.08564
+[420]	validation_0-rmse:0.08557	validation_1-rmse:0.08557
+[421]	validation_0-rmse:0.08553	validation_1-rmse:0.08553
+[422]	validation_0-rmse:0.08549	validation_1-rmse:0.08549
+[423]	validation_0-rmse:0.08547	validation_1-rmse:0.08547
+[424]	validation_0-rmse:0.08543	validation_1-rmse:0.08543
+[425]	validation_0-rmse:0.08533	validation_1-rmse:0.08533
+[426]	validation_0-rmse:0.08529	validation_1-rmse:0.08529
+[427]	validation_0-rmse:0.08522	validation_1-rmse:0.08522
+[428]	validation_0-rmse:0.08517	validation_1-rmse:0.08517
+[429]	validation_0-rmse:0.08508	validation_1-rmse:0.08508
+[430]	validation_0-rmse:0.08505	validation_1-rmse:0.08505
+[431]	validation_0-rmse:0.08498	validation_1-rmse:0.08498
+[432]	validation_0-rmse:0.08494	validation_1-rmse:0.08494
+[433]	validation_0-rmse:0.08488	validation_1-rmse:0.08488
+[434]	validation_0-rmse:0.08479	validation_1-rmse:0.08479
+[435]	validation_0-rmse:0.08476	validation_1-rmse:0.08476
+[436]	validation_0-rmse:0.08473	validation_1-rmse:0.08473
+[437]	validation_0-rmse:0.08463	validation_1-rmse:0.08463
+[438]	validation_0-rmse:0.08457	validation_1-rmse:0.08457
+[439]	validation_0-rmse:0.08453	validation_1-rmse:0.08453
+[440]	validation_0-rmse:0.08443	validation_1-rmse:0.08443
+[441]	validation_0-rmse:0.08432	validation_1-rmse:0.08432
+[442]	validation_0-rmse:0.08428	validation_1-rmse:0.08428
+[443]	validation_0-rmse:0.08425	validation_1-rmse:0.08425
+[444]	validation_0-rmse:0.08420	validation_1-rmse:0.08420
+[445]	validation_0-rmse:0.08417	validation_1-rmse:0.08417
+[446]	validation_0-rmse:0.08414	validation_1-rmse:0.08414
+[447]	validation_0-rmse:0.08410	validation_1-rmse:0.08410
+[448]	validation_0-rmse:0.08406	validation_1-rmse:0.08406
+[449]	validation_0-rmse:0.08404	validation_1-rmse:0.08404
+[450]	validation_0-rmse:0.08400	validation_1-rmse:0.08400
+[451]	validation_0-rmse:0.08394	validation_1-rmse:0.08394
+[452]	validation_0-rmse:0.08392	validation_1-rmse:0.08392
+[453]	validation_0-rmse:0.08383	validation_1-rmse:0.08383
+[454]	validation_0-rmse:0.08381	validation_1-rmse:0.08381
+[455]	validation_0-rmse:0.08379	validation_1-rmse:0.08379
+[456]	validation_0-rmse:0.08378	validation_1-rmse:0.08378
+[457]	validation_0-rmse:0.08374	validation_1-rmse:0.08374
+[458]	validation_0-rmse:0.08371	validation_1-rmse:0.08371
+[459]	validation_0-rmse:0.08368	validation_1-rmse:0.08368
+[460]	validation_0-rmse:0.08363	validation_1-rmse:0.08363
+[461]	validation_0-rmse:0.08359	validation_1-rmse:0.08359
+[462]	validation_0-rmse:0.08356	validation_1-rmse:0.08356
+[463]	validation_0-rmse:0.08350	validation_1-rmse:0.08350
+[464]	validation_0-rmse:0.08346	validation_1-rmse:0.08346
+[465]	validation_0-rmse:0.08344	validation_1-rmse:0.08344
+[466]	validation_0-rmse:0.08338	validation_1-rmse:0.08338
+[467]	validation_0-rmse:0.08335	validation_1-rmse:0.08335
+[468]	validation_0-rmse:0.08332	validation_1-rmse:0.08332
+[469]	validation_0-rmse:0.08329	validation_1-rmse:0.08329
+[470]	validation_0-rmse:0.08325	validation_1-rmse:0.08325
+[471]	validation_0-rmse:0.08321	validation_1-rmse:0.08321
+[472]	validation_0-rmse:0.08316	validation_1-rmse:0.08316
+[473]	validation_0-rmse:0.08305	validation_1-rmse:0.08305
+[474]	validation_0-rmse:0.08301	validation_1-rmse:0.08301
+[475]	validation_0-rmse:0.08298	validation_1-rmse:0.08298
+[476]	validation_0-rmse:0.08293	validation_1-rmse:0.08293
+[477]	validation_0-rmse:0.08287	validation_1-rmse:0.08287
+[478]	validation_0-rmse:0.08284	validation_1-rmse:0.08284
+[479]	validation_0-rmse:0.08279	validation_1-rmse:0.08279
+[480]	validation_0-rmse:0.08275	validation_1-rmse:0.08275
+[481]	validation_0-rmse:0.08274	validation_1-rmse:0.08274
+[482]	validation_0-rmse:0.08268	validation_1-rmse:0.08268
+[483]	validation_0-rmse:0.08264	validation_1-rmse:0.08264
+[484]	validation_0-rmse:0.08261	validation_1-rmse:0.08261
+[485]	validation_0-rmse:0.08252	validation_1-rmse:0.08252
+[486]	validation_0-rmse:0.08248	validation_1-rmse:0.08248
+[487]	validation_0-rmse:0.08247	validation_1-rmse:0.08247
+[488]	validation_0-rmse:0.08244	validation_1-rmse:0.08244
+[489]	validation_0-rmse:0.08241	validation_1-rmse:0.08241
+[490]	validation_0-rmse:0.08237	validation_1-rmse:0.08237
+[491]	validation_0-rmse:0.08233	validation_1-rmse:0.08233
+[492]	validation_0-rmse:0.08228	validation_1-rmse:0.08228
+[493]	validation_0-rmse:0.08225	validation_1-rmse:0.08225
+[494]	validation_0-rmse:0.08219	validation_1-rmse:0.08219
+[495]	validation_0-rmse:0.08209	validation_1-rmse:0.08209
+[496]	validation_0-rmse:0.08208	validation_1-rmse:0.08208
+[497]	validation_0-rmse:0.08201	validation_1-rmse:0.08201
+[498]	validation_0-rmse:0.08199	validation_1-rmse:0.08199
+[499]	validation_0-rmse:0.08195	validation_1-rmse:0.08195
+[500]	validation_0-rmse:0.08191	validation_1-rmse:0.08191
+[501]	validation_0-rmse:0.08187	validation_1-rmse:0.08187
+[502]	validation_0-rmse:0.08184	validation_1-rmse:0.08184
+[503]	validation_0-rmse:0.08179	validation_1-rmse:0.08179
+[504]	validation_0-rmse:0.08170	validation_1-rmse:0.08170
+[505]	validation_0-rmse:0.08168	validation_1-rmse:0.08168
+[506]	validation_0-rmse:0.08157	validation_1-rmse:0.08157
+[507]	validation_0-rmse:0.08150	validation_1-rmse:0.08150
+[508]	validation_0-rmse:0.08146	validation_1-rmse:0.08146
+[509]	validation_0-rmse:0.08143	validation_1-rmse:0.08143
+[510]	validation_0-rmse:0.08141	validation_1-rmse:0.08141
+[511]	validation_0-rmse:0.08137	validation_1-rmse:0.08137
+[512]	validation_0-rmse:0.08132	validation_1-rmse:0.08132
+[513]	validation_0-rmse:0.08129	validation_1-rmse:0.08129
+[514]	validation_0-rmse:0.08123	validation_1-rmse:0.08123
+[515]	validation_0-rmse:0.08121	validation_1-rmse:0.08121
+[516]	validation_0-rmse:0.08117	validation_1-rmse:0.08117
+[517]	validation_0-rmse:0.08114	validation_1-rmse:0.08114
+[518]	validation_0-rmse:0.08110	validation_1-rmse:0.08110
+[519]	validation_0-rmse:0.08107	validation_1-rmse:0.08107
+[520]	validation_0-rmse:0.08102	validation_1-rmse:0.08102
+[521]	validation_0-rmse:0.08100	validation_1-rmse:0.08100
+[522]	validation_0-rmse:0.08095	validation_1-rmse:0.08095
+[523]	validation_0-rmse:0.08090	validation_1-rmse:0.08090
+[524]	validation_0-rmse:0.08087	validation_1-rmse:0.08087
+[525]	validation_0-rmse:0.08083	validation_1-rmse:0.08083
+[526]	validation_0-rmse:0.08080	validation_1-rmse:0.08080
+[527]	validation_0-rmse:0.08077	validation_1-rmse:0.08077
+[528]	validation_0-rmse:0.08075	validation_1-rmse:0.08075
+[529]	validation_0-rmse:0.08071	validation_1-rmse:0.08071
+[530]	validation_0-rmse:0.08067	validation_1-rmse:0.08067
+[531]	validation_0-rmse:0.08062	validation_1-rmse:0.08062
+[532]	validation_0-rmse:0.08059	validation_1-rmse:0.08059
+[533]	validation_0-rmse:0.08058	validation_1-rmse:0.08058
+[534]	validation_0-rmse:0.08055	validation_1-rmse:0.08055
+[535]	validation_0-rmse:0.08049	validation_1-rmse:0.08049
+[536]	validation_0-rmse:0.08048	validation_1-rmse:0.08048
+[537]	validation_0-rmse:0.08038	validation_1-rmse:0.08038
+[538]	validation_0-rmse:0.08032	validation_1-rmse:0.08032
+[539]	validation_0-rmse:0.08028	validation_1-rmse:0.08028
+[540]	validation_0-rmse:0.08018	validation_1-rmse:0.08018
+[541]	validation_0-rmse:0.08008	validation_1-rmse:0.08008
+[542]	validation_0-rmse:0.08002	validation_1-rmse:0.08002
+[543]	validation_0-rmse:0.07999	validation_1-rmse:0.07999
+[544]	validation_0-rmse:0.07994	validation_1-rmse:0.07994
+[545]	validation_0-rmse:0.07991	validation_1-rmse:0.07991
+[546]	validation_0-rmse:0.07989	validation_1-rmse:0.07989
+[547]	validation_0-rmse:0.07985	validation_1-rmse:0.07985
+[548]	validation_0-rmse:0.07978	validation_1-rmse:0.07978
+[549]	validation_0-rmse:0.07976	validation_1-rmse:0.07976
+[550]	validation_0-rmse:0.07966	validation_1-rmse:0.07966
+[551]	validation_0-rmse:0.07964	validation_1-rmse:0.07964
+[552]	validation_0-rmse:0.07958	validation_1-rmse:0.07958
+[553]	validation_0-rmse:0.07954	validation_1-rmse:0.07954
+[554]	validation_0-rmse:0.07950	validation_1-rmse:0.07950
+[555]	validation_0-rmse:0.07945	validation_1-rmse:0.07945
+[556]	validation_0-rmse:0.07943	validation_1-rmse:0.07943
+[557]	validation_0-rmse:0.07940	validation_1-rmse:0.07940
+[558]	validation_0-rmse:0.07927	validation_1-rmse:0.07927
+[559]	validation_0-rmse:0.07925	validation_1-rmse:0.07925
+[560]	validation_0-rmse:0.07922	validation_1-rmse:0.07922
+[561]	validation_0-rmse:0.07921	validation_1-rmse:0.07921
+[562]	validation_0-rmse:0.07918	validation_1-rmse:0.07918
+[563]	validation_0-rmse:0.07915	validation_1-rmse:0.07915
+[564]	validation_0-rmse:0.07913	validation_1-rmse:0.07913
+[565]	validation_0-rmse:0.07907	validation_1-rmse:0.07907
+[566]	validation_0-rmse:0.07904	validation_1-rmse:0.07904
+[567]	validation_0-rmse:0.07902	validation_1-rmse:0.07902
+[568]	validation_0-rmse:0.07890	validation_1-rmse:0.07890
+[569]	validation_0-rmse:0.07885	validation_1-rmse:0.07885
+[570]	validation_0-rmse:0.07881	validation_1-rmse:0.07881
+[571]	validation_0-rmse:0.07877	validation_1-rmse:0.07877
+[572]	validation_0-rmse:0.07873	validation_1-rmse:0.07873
+[573]	validation_0-rmse:0.07871	validation_1-rmse:0.07871
+[574]	validation_0-rmse:0.07869	validation_1-rmse:0.07869
+[575]	validation_0-rmse:0.07866	validation_1-rmse:0.07866
+[576]	validation_0-rmse:0.07859	validation_1-rmse:0.07859
+[577]	validation_0-rmse:0.07850	validation_1-rmse:0.07850
+[578]	validation_0-rmse:0.07846	validation_1-rmse:0.07846
+[579]	validation_0-rmse:0.07845	validation_1-rmse:0.07845
+[580]	validation_0-rmse:0.07841	validation_1-rmse:0.07841
+[581]	validation_0-rmse:0.07837	validation_1-rmse:0.07837
+[582]	validation_0-rmse:0.07829	validation_1-rmse:0.07829
+[583]	validation_0-rmse:0.07825	validation_1-rmse:0.07825
+[584]	validation_0-rmse:0.07821	validation_1-rmse:0.07821
+[585]	validation_0-rmse:0.07816	validation_1-rmse:0.07816
+[586]	validation_0-rmse:0.07813	validation_1-rmse:0.07813
+[587]	validation_0-rmse:0.07810	validation_1-rmse:0.07810
+[588]	validation_0-rmse:0.07804	validation_1-rmse:0.07804
+[589]	validation_0-rmse:0.07799	validation_1-rmse:0.07799
+[590]	validation_0-rmse:0.07793	validation_1-rmse:0.07793
+[591]	validation_0-rmse:0.07791	validation_1-rmse:0.07791
+[592]	validation_0-rmse:0.07785	validation_1-rmse:0.07785
+[593]	validation_0-rmse:0.07783	validation_1-rmse:0.07783
+[594]	validation_0-rmse:0.07778	validation_1-rmse:0.07778
+[595]	validation_0-rmse:0.07773	validation_1-rmse:0.07773
+[596]	validation_0-rmse:0.07769	validation_1-rmse:0.07769
+[597]	validation_0-rmse:0.07767	validation_1-rmse:0.07767
+[598]	validation_0-rmse:0.07763	validation_1-rmse:0.07763
+[599]	validation_0-rmse:0.07761	validation_1-rmse:0.07761
+[600]	validation_0-rmse:0.07758	validation_1-rmse:0.07758
+[601]	validation_0-rmse:0.07757	validation_1-rmse:0.07757
+[602]	validation_0-rmse:0.07754	validation_1-rmse:0.07754
+[603]	validation_0-rmse:0.07749	validation_1-rmse:0.07749
+[604]	validation_0-rmse:0.07746	validation_1-rmse:0.07746
+[605]	validation_0-rmse:0.07744	validation_1-rmse:0.07744
+[606]	validation_0-rmse:0.07739	validation_1-rmse:0.07739
+[607]	validation_0-rmse:0.07736	validation_1-rmse:0.07736
+[608]	validation_0-rmse:0.07730	validation_1-rmse:0.07730
+[609]	validation_0-rmse:0.07728	validation_1-rmse:0.07728
+[610]	validation_0-rmse:0.07726	validation_1-rmse:0.07726
+[611]	validation_0-rmse:0.07723	validation_1-rmse:0.07723
+[612]	validation_0-rmse:0.07713	validation_1-rmse:0.07713
+[613]	validation_0-rmse:0.07710	validation_1-rmse:0.07710
+[614]	validation_0-rmse:0.07708	validation_1-rmse:0.07708
+[615]	validation_0-rmse:0.07706	validation_1-rmse:0.07706
+[616]	validation_0-rmse:0.07703	validation_1-rmse:0.07703
+[617]	validation_0-rmse:0.07700	validation_1-rmse:0.07700
+[618]	validation_0-rmse:0.07694	validation_1-rmse:0.07694
+[619]	validation_0-rmse:0.07690	validation_1-rmse:0.07690
+[620]	validation_0-rmse:0.07688	validation_1-rmse:0.07688
+[621]	validation_0-rmse:0.07682	validation_1-rmse:0.07682
+[622]	validation_0-rmse:0.07679	validation_1-rmse:0.07679
+[623]	validation_0-rmse:0.07677	validation_1-rmse:0.07677
+[624]	validation_0-rmse:0.07675	validation_1-rmse:0.07675
+[625]	validation_0-rmse:0.07672	validation_1-rmse:0.07672
+[626]	validation_0-rmse:0.07667	validation_1-rmse:0.07667
+[627]	validation_0-rmse:0.07664	validation_1-rmse:0.07664
+[628]	validation_0-rmse:0.07661	validation_1-rmse:0.07661
+[629]	validation_0-rmse:0.07660	validation_1-rmse:0.07660
+[630]	validation_0-rmse:0.07656	validation_1-rmse:0.07656
+[631]	validation_0-rmse:0.07649	validation_1-rmse:0.07649
+[632]	validation_0-rmse:0.07645	validation_1-rmse:0.07645
+[633]	validation_0-rmse:0.07643	validation_1-rmse:0.07643
+[634]	validation_0-rmse:0.07637	validation_1-rmse:0.07637
+[635]	validation_0-rmse:0.07634	validation_1-rmse:0.07634
+[636]	validation_0-rmse:0.07632	validation_1-rmse:0.07632
+[637]	validation_0-rmse:0.07624	validation_1-rmse:0.07624
+[638]	validation_0-rmse:0.07621	validation_1-rmse:0.07621
+[639]	validation_0-rmse:0.07618	validation_1-rmse:0.07618
+[640]	validation_0-rmse:0.07616	validation_1-rmse:0.07616
+[641]	validation_0-rmse:0.07611	validation_1-rmse:0.07611
+[642]	validation_0-rmse:0.07610	validation_1-rmse:0.07610
+[643]	validation_0-rmse:0.07608	validation_1-rmse:0.07608
+[644]	validation_0-rmse:0.07602	validation_1-rmse:0.07602
+[645]	validation_0-rmse:0.07599	validation_1-rmse:0.07599
+[646]	validation_0-rmse:0.07593	validation_1-rmse:0.07593
+[647]	validation_0-rmse:0.07589	validation_1-rmse:0.07589
+[648]	validation_0-rmse:0.07585	validation_1-rmse:0.07585
+[649]	validation_0-rmse:0.07583	validation_1-rmse:0.07583
+[650]	validation_0-rmse:0.07582	validation_1-rmse:0.07582
+[651]	validation_0-rmse:0.07581	validation_1-rmse:0.07581
+[652]	validation_0-rmse:0.07578	validation_1-rmse:0.07578
+[653]	validation_0-rmse:0.07575	validation_1-rmse:0.07575
+[654]	validation_0-rmse:0.07573	validation_1-rmse:0.07573
+[655]	validation_0-rmse:0.07566	validation_1-rmse:0.07566
+[656]	validation_0-rmse:0.07564	validation_1-rmse:0.07564
+[657]	validation_0-rmse:0.07562	validation_1-rmse:0.07562
+[658]	validation_0-rmse:0.07558	validation_1-rmse:0.07558
+[659]	validation_0-rmse:0.07556	validation_1-rmse:0.07556
+[660]	validation_0-rmse:0.07550	validation_1-rmse:0.07550
+[661]	validation_0-rmse:0.07548	validation_1-rmse:0.07548
+[662]	validation_0-rmse:0.07546	validation_1-rmse:0.07546
+[663]	validation_0-rmse:0.07545	validation_1-rmse:0.07545
+[664]	validation_0-rmse:0.07543	validation_1-rmse:0.07543
+[665]	validation_0-rmse:0.07535	validation_1-rmse:0.07535
+[666]	validation_0-rmse:0.07532	validation_1-rmse:0.07532
+[667]	validation_0-rmse:0.07530	validation_1-rmse:0.07530
+[668]	validation_0-rmse:0.07525	validation_1-rmse:0.07525
+[669]	validation_0-rmse:0.07523	validation_1-rmse:0.07523
+[670]	validation_0-rmse:0.07521	validation_1-rmse:0.07521
+[671]	validation_0-rmse:0.07514	validation_1-rmse:0.07514
+[672]	validation_0-rmse:0.07512	validation_1-rmse:0.07512
+[673]	validation_0-rmse:0.07509	validation_1-rmse:0.07509
+[674]	validation_0-rmse:0.07506	validation_1-rmse:0.07506
+[675]	validation_0-rmse:0.07503	validation_1-rmse:0.07503
+[676]	validation_0-rmse:0.07501	validation_1-rmse:0.07501
+[677]	validation_0-rmse:0.07499	validation_1-rmse:0.07499
+[678]	validation_0-rmse:0.07498	validation_1-rmse:0.07498
+[679]	validation_0-rmse:0.07490	validation_1-rmse:0.07490
+[680]	validation_0-rmse:0.07489	validation_1-rmse:0.07489
+[681]	validation_0-rmse:0.07485	validation_1-rmse:0.07485
+[682]	validation_0-rmse:0.07483	validation_1-rmse:0.07483
+[683]	validation_0-rmse:0.07481	validation_1-rmse:0.07481
+[684]	validation_0-rmse:0.07478	validation_1-rmse:0.07478
+[685]	validation_0-rmse:0.07476	validation_1-rmse:0.07476
+[686]	validation_0-rmse:0.07471	validation_1-rmse:0.07471
+[687]	validation_0-rmse:0.07469	validation_1-rmse:0.07469
+[688]	validation_0-rmse:0.07467	validation_1-rmse:0.07467
+[689]	validation_0-rmse:0.07465	validation_1-rmse:0.07465
+[690]	validation_0-rmse:0.07461	validation_1-rmse:0.07461
+[691]	validation_0-rmse:0.07455	validation_1-rmse:0.07455
+[692]	validation_0-rmse:0.07452	validation_1-rmse:0.07452
+[693]	validation_0-rmse:0.07450	validation_1-rmse:0.07450
+[694]	validation_0-rmse:0.07446	validation_1-rmse:0.07446
+[695]	validation_0-rmse:0.07443	validation_1-rmse:0.07443
+[696]	validation_0-rmse:0.07440	validation_1-rmse:0.07440
+[697]	validation_0-rmse:0.07438	validation_1-rmse:0.07438
+[698]	validation_0-rmse:0.07435	validation_1-rmse:0.07435
+[699]	validation_0-rmse:0.07433	validation_1-rmse:0.07433
+[700]	validation_0-rmse:0.07430	validation_1-rmse:0.07430
+[701]	validation_0-rmse:0.07428	validation_1-rmse:0.07428
+[702]	validation_0-rmse:0.07426	validation_1-rmse:0.07426
+[703]	validation_0-rmse:0.07422	validation_1-rmse:0.07422
+[704]	validation_0-rmse:0.07419	validation_1-rmse:0.07419
+[705]	validation_0-rmse:0.07411	validation_1-rmse:0.07411
+[706]	validation_0-rmse:0.07405	validation_1-rmse:0.07405
+[707]	validation_0-rmse:0.07403	validation_1-rmse:0.07403
+[708]	validation_0-rmse:0.07398	validation_1-rmse:0.07398
+[709]	validation_0-rmse:0.07397	validation_1-rmse:0.07397
+[710]	validation_0-rmse:0.07391	validation_1-rmse:0.07391
+[711]	validation_0-rmse:0.07387	validation_1-rmse:0.07387
+[712]	validation_0-rmse:0.07385	validation_1-rmse:0.07385
+[713]	validation_0-rmse:0.07384	validation_1-rmse:0.07384
+[714]	validation_0-rmse:0.07382	validation_1-rmse:0.07382
+[715]	validation_0-rmse:0.07381	validation_1-rmse:0.07381
+[716]	validation_0-rmse:0.07375	validation_1-rmse:0.07375
+[717]	validation_0-rmse:0.07371	validation_1-rmse:0.07371
+[718]	validation_0-rmse:0.07368	validation_1-rmse:0.07368
+[719]	validation_0-rmse:0.07365	validation_1-rmse:0.07365
+[720]	validation_0-rmse:0.07363	validation_1-rmse:0.07363
+[721]	validation_0-rmse:0.07360	validation_1-rmse:0.07360
+[722]	validation_0-rmse:0.07358	validation_1-rmse:0.07358
+[723]	validation_0-rmse:0.07354	validation_1-rmse:0.07354
+[724]	validation_0-rmse:0.07351	validation_1-rmse:0.07351
+[725]	validation_0-rmse:0.07346	validation_1-rmse:0.07346
+[726]	validation_0-rmse:0.07342	validation_1-rmse:0.07342
+[727]	validation_0-rmse:0.07338	validation_1-rmse:0.07338
+[728]	validation_0-rmse:0.07334	validation_1-rmse:0.07334
+[729]	validation_0-rmse:0.07333	validation_1-rmse:0.07333
+[730]	validation_0-rmse:0.07326	validation_1-rmse:0.07326
+[731]	validation_0-rmse:0.07325	validation_1-rmse:0.07325
+[732]	validation_0-rmse:0.07321	validation_1-rmse:0.07321
+[733]	validation_0-rmse:0.07316	validation_1-rmse:0.07316
+[734]	validation_0-rmse:0.07312	validation_1-rmse:0.07312
+[735]	validation_0-rmse:0.07308	validation_1-rmse:0.07308
+[736]	validation_0-rmse:0.07302	validation_1-rmse:0.07302
+[737]	validation_0-rmse:0.07298	validation_1-rmse:0.07298
+[738]	validation_0-rmse:0.07294	validation_1-rmse:0.07294
+[739]	validation_0-rmse:0.07292	validation_1-rmse:0.07292
+[740]	validation_0-rmse:0.07291	validation_1-rmse:0.07291
+[741]	validation_0-rmse:0.07288	validation_1-rmse:0.07288
+[742]	validation_0-rmse:0.07286	validation_1-rmse:0.07286
+[743]	validation_0-rmse:0.07282	validation_1-rmse:0.07282
+[744]	validation_0-rmse:0.07280	validation_1-rmse:0.07280
+[745]	validation_0-rmse:0.07278	validation_1-rmse:0.07278
+[746]	validation_0-rmse:0.07270	validation_1-rmse:0.07270
+[747]	validation_0-rmse:0.07269	validation_1-rmse:0.07269
+[748]	validation_0-rmse:0.07266	validation_1-rmse:0.07266
+[749]	validation_0-rmse:0.07262	validation_1-rmse:0.07262
+[750]	validation_0-rmse:0.07256	validation_1-rmse:0.07256
+[751]	validation_0-rmse:0.07252	validation_1-rmse:0.07252
+[752]	validation_0-rmse:0.07250	validation_1-rmse:0.07250
+[753]	validation_0-rmse:0.07247	validation_1-rmse:0.07247
+[754]	validation_0-rmse:0.07245	validation_1-rmse:0.07245
+[755]	validation_0-rmse:0.07241	validation_1-rmse:0.07241
+[756]	validation_0-rmse:0.07240	validation_1-rmse:0.07240
+[757]	validation_0-rmse:0.07238	validation_1-rmse:0.07238
+[758]	validation_0-rmse:0.07235	validation_1-rmse:0.07235
+[759]	validation_0-rmse:0.07234	validation_1-rmse:0.07234
+[760]	validation_0-rmse:0.07231	validation_1-rmse:0.07231
+[761]	validation_0-rmse:0.07228	validation_1-rmse:0.07228
+[762]	validation_0-rmse:0.07226	validation_1-rmse:0.07226
+[763]	validation_0-rmse:0.07224	validation_1-rmse:0.07224
+[764]	validation_0-rmse:0.07221	validation_1-rmse:0.07221
+[765]	validation_0-rmse:0.07218	validation_1-rmse:0.07218
+[766]	validation_0-rmse:0.07216	validation_1-rmse:0.07216
+[767]	validation_0-rmse:0.07213	validation_1-rmse:0.07213
+[768]	validation_0-rmse:0.07211	validation_1-rmse:0.07211
+[769]	validation_0-rmse:0.07208	validation_1-rmse:0.07208
+[770]	validation_0-rmse:0.07206	validation_1-rmse:0.07206
+[771]	validation_0-rmse:0.07203	validation_1-rmse:0.07203
+[772]	validation_0-rmse:0.07200	validation_1-rmse:0.07200
+[773]	validation_0-rmse:0.07195	validation_1-rmse:0.07195
+[774]	validation_0-rmse:0.07193	validation_1-rmse:0.07193
+[775]	validation_0-rmse:0.07190	validation_1-rmse:0.07190
+[776]	validation_0-rmse:0.07188	validation_1-rmse:0.07188
+[777]	validation_0-rmse:0.07186	validation_1-rmse:0.07186
+[778]	validation_0-rmse:0.07183	validation_1-rmse:0.07183
+[779]	validation_0-rmse:0.07182	validation_1-rmse:0.07182
+[780]	validation_0-rmse:0.07180	validation_1-rmse:0.07180
+[781]	validation_0-rmse:0.07177	validation_1-rmse:0.07177
+[782]	validation_0-rmse:0.07172	validation_1-rmse:0.07172
+[783]	validation_0-rmse:0.07170	validation_1-rmse:0.07170
+[784]	validation_0-rmse:0.07166	validation_1-rmse:0.07166
+[785]	validation_0-rmse:0.07163	validation_1-rmse:0.07163
+[786]	validation_0-rmse:0.07161	validation_1-rmse:0.07161
+[787]	validation_0-rmse:0.07159	validation_1-rmse:0.07159
+[788]	validation_0-rmse:0.07155	validation_1-rmse:0.07155
+[789]	validation_0-rmse:0.07149	validation_1-rmse:0.07149
+[790]	validation_0-rmse:0.07147	validation_1-rmse:0.07147
+[791]	validation_0-rmse:0.07145	validation_1-rmse:0.07145
+[792]	validation_0-rmse:0.07142	validation_1-rmse:0.07142
+[793]	validation_0-rmse:0.07139	validation_1-rmse:0.07139
+[794]	validation_0-rmse:0.07138	validation_1-rmse:0.07138
+[795]	validation_0-rmse:0.07133	validation_1-rmse:0.07133
+[796]	validation_0-rmse:0.07132	validation_1-rmse:0.07132
+[797]	validation_0-rmse:0.07129	validation_1-rmse:0.07129
+[798]	validation_0-rmse:0.07127	validation_1-rmse:0.07127
+[799]	validation_0-rmse:0.07123	validation_1-rmse:0.07123
+[800]	validation_0-rmse:0.07117	validation_1-rmse:0.07117
+[801]	validation_0-rmse:0.07114	validation_1-rmse:0.07114
+[802]	validation_0-rmse:0.07113	validation_1-rmse:0.07113
+[803]	validation_0-rmse:0.07109	validation_1-rmse:0.07109
+[804]	validation_0-rmse:0.07103	validation_1-rmse:0.07103
+[805]	validation_0-rmse:0.07101	validation_1-rmse:0.07101
+[806]	validation_0-rmse:0.07099	validation_1-rmse:0.07099
+[807]	validation_0-rmse:0.07096	validation_1-rmse:0.07096
+[808]	validation_0-rmse:0.07094	validation_1-rmse:0.07094
+[809]	validation_0-rmse:0.07090	validation_1-rmse:0.07090
+[810]	validation_0-rmse:0.07086	validation_1-rmse:0.07086
+[811]	validation_0-rmse:0.07084	validation_1-rmse:0.07084
+[812]	validation_0-rmse:0.07082	validation_1-rmse:0.07082
+[813]	validation_0-rmse:0.07079	validation_1-rmse:0.07079
+[814]	validation_0-rmse:0.07073	validation_1-rmse:0.07073
+[815]	validation_0-rmse:0.07070	validation_1-rmse:0.07070
+[816]	validation_0-rmse:0.07064	validation_1-rmse:0.07064
+[817]	validation_0-rmse:0.07063	validation_1-rmse:0.07063
+[818]	validation_0-rmse:0.07061	validation_1-rmse:0.07061
+[819]	validation_0-rmse:0.07060	validation_1-rmse:0.07060
+[820]	validation_0-rmse:0.07058	validation_1-rmse:0.07058
+[821]	validation_0-rmse:0.07056	validation_1-rmse:0.07056
+[822]	validation_0-rmse:0.07051	validation_1-rmse:0.07051
+[823]	validation_0-rmse:0.07046	validation_1-rmse:0.07046
+[824]	validation_0-rmse:0.07045	validation_1-rmse:0.07045
+[825]	validation_0-rmse:0.07043	validation_1-rmse:0.07043
+[826]	validation_0-rmse:0.07040	validation_1-rmse:0.07040
+[827]	validation_0-rmse:0.07036	validation_1-rmse:0.07036
+[828]	validation_0-rmse:0.07034	validation_1-rmse:0.07034
+[829]	validation_0-rmse:0.07030	validation_1-rmse:0.07030
+[830]	validation_0-rmse:0.07028	validation_1-rmse:0.07028
+[831]	validation_0-rmse:0.07026	validation_1-rmse:0.07026
+[832]	validation_0-rmse:0.07019	validation_1-rmse:0.07019
+[833]	validation_0-rmse:0.07016	validation_1-rmse:0.07016
+[834]	validation_0-rmse:0.07011	validation_1-rmse:0.07011
+[835]	validation_0-rmse:0.07005	validation_1-rmse:0.07005
+[836]	validation_0-rmse:0.07000	validation_1-rmse:0.07000
+[837]	validation_0-rmse:0.06998	validation_1-rmse:0.06998
+[838]	validation_0-rmse:0.06994	validation_1-rmse:0.06994
+[839]	validation_0-rmse:0.06992	validation_1-rmse:0.06992
+[840]	validation_0-rmse:0.06990	validation_1-rmse:0.06990
+[841]	validation_0-rmse:0.06979	validation_1-rmse:0.06979
+[842]	validation_0-rmse:0.06975	validation_1-rmse:0.06975
+[843]	validation_0-rmse:0.06971	validation_1-rmse:0.06971
+[844]	validation_0-rmse:0.06970	validation_1-rmse:0.06970
+[845]	validation_0-rmse:0.06969	validation_1-rmse:0.06969
+[846]	validation_0-rmse:0.06967	validation_1-rmse:0.06967
+[847]	validation_0-rmse:0.06963	validation_1-rmse:0.06963
+[848]	validation_0-rmse:0.06962	validation_1-rmse:0.06962
+[849]	validation_0-rmse:0.06957	validation_1-rmse:0.06957
+[850]	validation_0-rmse:0.06954	validation_1-rmse:0.06954
+[851]	validation_0-rmse:0.06947	validation_1-rmse:0.06947
+[852]	validation_0-rmse:0.06943	validation_1-rmse:0.06943
+[853]	validation_0-rmse:0.06938	validation_1-rmse:0.06938
+[854]	validation_0-rmse:0.06933	validation_1-rmse:0.06933
+[855]	validation_0-rmse:0.06929	validation_1-rmse:0.06929
+[856]	validation_0-rmse:0.06925	validation_1-rmse:0.06925
+[857]	validation_0-rmse:0.06920	validation_1-rmse:0.06920
+[858]	validation_0-rmse:0.06919	validation_1-rmse:0.06919
+[859]	validation_0-rmse:0.06916	validation_1-rmse:0.06916
+[860]	validation_0-rmse:0.06912	validation_1-rmse:0.06912
+[861]	validation_0-rmse:0.06909	validation_1-rmse:0.06909
+[862]	validation_0-rmse:0.06906	validation_1-rmse:0.06906
+[863]	validation_0-rmse:0.06904	validation_1-rmse:0.06904
+[864]	validation_0-rmse:0.06902	validation_1-rmse:0.06902
+[865]	validation_0-rmse:0.06898	validation_1-rmse:0.06898
+[866]	validation_0-rmse:0.06896	validation_1-rmse:0.06896
+[867]	validation_0-rmse:0.06895	validation_1-rmse:0.06895
+[868]	validation_0-rmse:0.06894	validation_1-rmse:0.06894
+[869]	validation_0-rmse:0.06892	validation_1-rmse:0.06892
+[870]	validation_0-rmse:0.06890	validation_1-rmse:0.06890
+[871]	validation_0-rmse:0.06887	validation_1-rmse:0.06887
+[872]	validation_0-rmse:0.06884	validation_1-rmse:0.06884
+[873]	validation_0-rmse:0.06880	validation_1-rmse:0.06880
+[874]	validation_0-rmse:0.06879	validation_1-rmse:0.06879
+[875]	validation_0-rmse:0.06877	validation_1-rmse:0.06877
+[876]	validation_0-rmse:0.06876	validation_1-rmse:0.06876
+[877]	validation_0-rmse:0.06873	validation_1-rmse:0.06873
+[878]	validation_0-rmse:0.06869	validation_1-rmse:0.06869
+[879]	validation_0-rmse:0.06868	validation_1-rmse:0.06868
+[880]	validation_0-rmse:0.06866	validation_1-rmse:0.06866
+[881]	validation_0-rmse:0.06865	validation_1-rmse:0.06865
+[882]	validation_0-rmse:0.06863	validation_1-rmse:0.06863
+[883]	validation_0-rmse:0.06860	validation_1-rmse:0.06860
+[884]	validation_0-rmse:0.06856	validation_1-rmse:0.06856
+[885]	validation_0-rmse:0.06851	validation_1-rmse:0.06851
+[886]	validation_0-rmse:0.06848	validation_1-rmse:0.06848
+[887]	validation_0-rmse:0.06845	validation_1-rmse:0.06845
+[888]	validation_0-rmse:0.06844	validation_1-rmse:0.06844
+[889]	validation_0-rmse:0.06840	validation_1-rmse:0.06840
+[890]	validation_0-rmse:0.06839	validation_1-rmse:0.06839
+[891]	validation_0-rmse:0.06837	validation_1-rmse:0.06837
+[892]	validation_0-rmse:0.06834	validation_1-rmse:0.06834
+[893]	validation_0-rmse:0.06832	validation_1-rmse:0.06832
+[894]	validation_0-rmse:0.06830	validation_1-rmse:0.06830
+[895]	validation_0-rmse:0.06828	validation_1-rmse:0.06828
+[896]	validation_0-rmse:0.06827	validation_1-rmse:0.06827
+[897]	validation_0-rmse:0.06823	validation_1-rmse:0.06823
+[898]	validation_0-rmse:0.06822	validation_1-rmse:0.06822
+[899]	validation_0-rmse:0.06820	validation_1-rmse:0.06820
+[900]	validation_0-rmse:0.06818	validation_1-rmse:0.06818
+[901]	validation_0-rmse:0.06817	validation_1-rmse:0.06817
+[902]	validation_0-rmse:0.06815	validation_1-rmse:0.06815
+[903]	validation_0-rmse:0.06814	validation_1-rmse:0.06814
+[904]	validation_0-rmse:0.06810	validation_1-rmse:0.06810
+[905]	validation_0-rmse:0.06806	validation_1-rmse:0.06806
+[906]	validation_0-rmse:0.06805	validation_1-rmse:0.06805
+[907]	validation_0-rmse:0.06802	validation_1-rmse:0.06802
+[908]	validation_0-rmse:0.06801	validation_1-rmse:0.06801
+[909]	validation_0-rmse:0.06797	validation_1-rmse:0.06797
+[910]	validation_0-rmse:0.06795	validation_1-rmse:0.06795
+[911]	validation_0-rmse:0.06794	validation_1-rmse:0.06794
+[912]	validation_0-rmse:0.06791	validation_1-rmse:0.06791
+[913]	validation_0-rmse:0.06788	validation_1-rmse:0.06788
+[914]	validation_0-rmse:0.06787	validation_1-rmse:0.06787
+[915]	validation_0-rmse:0.06785	validation_1-rmse:0.06785
+[916]	validation_0-rmse:0.06784	validation_1-rmse:0.06784
+[917]	validation_0-rmse:0.06776	validation_1-rmse:0.06776
+[918]	validation_0-rmse:0.06773	validation_1-rmse:0.06773
+[919]	validation_0-rmse:0.06771	validation_1-rmse:0.06771
+[920]	validation_0-rmse:0.06769	validation_1-rmse:0.06769
+[921]	validation_0-rmse:0.06768	validation_1-rmse:0.06768
+[922]	validation_0-rmse:0.06763	validation_1-rmse:0.06763
+[923]	validation_0-rmse:0.06760	validation_1-rmse:0.06760
+[924]	validation_0-rmse:0.06758	validation_1-rmse:0.06758
+[925]	validation_0-rmse:0.06752	validation_1-rmse:0.06752
+[926]	validation_0-rmse:0.06750	validation_1-rmse:0.06750
+[927]	validation_0-rmse:0.06749	validation_1-rmse:0.06749
+[928]	validation_0-rmse:0.06744	validation_1-rmse:0.06744
+[929]	validation_0-rmse:0.06742	validation_1-rmse:0.06742
+[930]	validation_0-rmse:0.06739	validation_1-rmse:0.06739
+[931]	validation_0-rmse:0.06739	validation_1-rmse:0.06739
+[932]	validation_0-rmse:0.06736	validation_1-rmse:0.06736
+[933]	validation_0-rmse:0.06734	validation_1-rmse:0.06734
+[934]	validation_0-rmse:0.06732	validation_1-rmse:0.06732
+[935]	validation_0-rmse:0.06730	validation_1-rmse:0.06730
+[936]	validation_0-rmse:0.06726	validation_1-rmse:0.06726
+[937]	validation_0-rmse:0.06725	validation_1-rmse:0.06725
+[938]	validation_0-rmse:0.06722	validation_1-rmse:0.06722
+[939]	validation_0-rmse:0.06719	validation_1-rmse:0.06719
+[940]	validation_0-rmse:0.06717	validation_1-rmse:0.06717
+[941]	validation_0-rmse:0.06714	validation_1-rmse:0.06714
+[942]	validation_0-rmse:0.06709	validation_1-rmse:0.06709
+[943]	validation_0-rmse:0.06707	validation_1-rmse:0.06707
+[944]	validation_0-rmse:0.06705	validation_1-rmse:0.06705
+[945]	validation_0-rmse:0.06700	validation_1-rmse:0.06700
+[946]	validation_0-rmse:0.06699	validation_1-rmse:0.06699
+[947]	validation_0-rmse:0.06698	validation_1-rmse:0.06698
+[948]	validation_0-rmse:0.06696	validation_1-rmse:0.06696
+[949]	validation_0-rmse:0.06692	validation_1-rmse:0.06692
+[950]	validation_0-rmse:0.06690	validation_1-rmse:0.06690
+[951]	validation_0-rmse:0.06688	validation_1-rmse:0.06688
+[952]	validation_0-rmse:0.06685	validation_1-rmse:0.06685
+[953]	validation_0-rmse:0.06683	validation_1-rmse:0.06683
+[954]	validation_0-rmse:0.06681	validation_1-rmse:0.06681
+[955]	validation_0-rmse:0.06679	validation_1-rmse:0.06679
+[956]	validation_0-rmse:0.06675	validation_1-rmse:0.06675
+[957]	validation_0-rmse:0.06671	validation_1-rmse:0.06671
+[958]	validation_0-rmse:0.06670	validation_1-rmse:0.06670
+[959]	validation_0-rmse:0.06669	validation_1-rmse:0.06669
+[960]	validation_0-rmse:0.06668	validation_1-rmse:0.06668
+[961]	validation_0-rmse:0.06666	validation_1-rmse:0.06666
+[962]	validation_0-rmse:0.06662	validation_1-rmse:0.06662
+[963]	validation_0-rmse:0.06658	validation_1-rmse:0.06658
+[964]	validation_0-rmse:0.06653	validation_1-rmse:0.06653
+[965]	validation_0-rmse:0.06651	validation_1-rmse:0.06651
+[966]	validation_0-rmse:0.06645	validation_1-rmse:0.06645
+[967]	validation_0-rmse:0.06642	validation_1-rmse:0.06642
+[968]	validation_0-rmse:0.06639	validation_1-rmse:0.06639
+[969]	validation_0-rmse:0.06637	validation_1-rmse:0.06637
+[970]	validation_0-rmse:0.06634	validation_1-rmse:0.06634
+[971]	validation_0-rmse:0.06631	validation_1-rmse:0.06631
+[972]	validation_0-rmse:0.06629	validation_1-rmse:0.06629
+[973]	validation_0-rmse:0.06627	validation_1-rmse:0.06627
+[974]	validation_0-rmse:0.06625	validation_1-rmse:0.06625
+[975]	validation_0-rmse:0.06623	validation_1-rmse:0.06623
+[976]	validation_0-rmse:0.06619	validation_1-rmse:0.06619
+[977]	validation_0-rmse:0.06617	validation_1-rmse:0.06617
+[978]	validation_0-rmse:0.06616	validation_1-rmse:0.06616
+[979]	validation_0-rmse:0.06613	validation_1-rmse:0.06613
+[980]	validation_0-rmse:0.06610	validation_1-rmse:0.06610
+[981]	validation_0-rmse:0.06607	validation_1-rmse:0.06607
+[982]	validation_0-rmse:0.06605	validation_1-rmse:0.06605
+[983]	validation_0-rmse:0.06601	validation_1-rmse:0.06601
+[984]	validation_0-rmse:0.06596	validation_1-rmse:0.06596
+[985]	validation_0-rmse:0.06594	validation_1-rmse:0.06594
+[986]	validation_0-rmse:0.06592	validation_1-rmse:0.06592
+[987]	validation_0-rmse:0.06589	validation_1-rmse:0.06589
+[988]	validation_0-rmse:0.06585	validation_1-rmse:0.06585
+[989]	validation_0-rmse:0.06583	validation_1-rmse:0.06583
+[990]	validation_0-rmse:0.06583	validation_1-rmse:0.06583
+[991]	validation_0-rmse:0.06578	validation_1-rmse:0.06578
+[992]	validation_0-rmse:0.06576	validation_1-rmse:0.06576
+[993]	validation_0-rmse:0.06575	validation_1-rmse:0.06575
+[994]	validation_0-rmse:0.06570	validation_1-rmse:0.06570
+[995]	validation_0-rmse:0.06568	validation_1-rmse:0.06568
+[996]	validation_0-rmse:0.06567	validation_1-rmse:0.06567
+[997]	validation_0-rmse:0.06566	validation_1-rmse:0.06566
+[998]	validation_0-rmse:0.06565	validation_1-rmse:0.06565
+[999]	validation_0-rmse:0.06562	validation_1-rmse:0.06562
+[ FEATURE REDUCTION ] &gt;&gt;&gt; Calculating feature importances (permutation importance, 10 repeats) ...
+[ FEATURE REDUCTION ] &gt;&gt;&gt; Setting threshold for feature rejection to 0.0032965080410189973.
+
+[ FEATURE REDUCTION ] &gt;&gt;&gt; Accepted features and their importance:
+                    PERM_IMPORTANCE
+TA_T1_47_1_gfXG            3.206527
+.DOY                       0.434790
+.YEARDOY                   0.307718
+.YEARMONTH                 0.186269
+.RECORDNUMBER              0.172322
+.YEARWEEK                  0.151805
+.WEEK                      0.087641
+SW_IN_T1_47_1_gfXG         0.059746
+.HOUR                      0.058099
+.YEAR                      0.018305
+.MONTH                     0.011217
+.SEASON                    0.005815
+
+[ FEATURE REDUCTION ] &gt;&gt;&gt; Rejected features and their importance:
+Empty DataFrame
+Columns: [PERM_IMPORTANCE]
+Index: []
+[ FEATURE REDUCTION ] &gt;&gt;&gt; Removing rejected features from model data ...
+
+=================
+FEATURE REDUCTION
+=================
+
+- Target variable: VPD_T1_47_1
+
+- The random variable .RANDOM was added to the original features, used as benchmark for detecting relevant feature importances.
+
+PERMUTATION IMPORTANCE (mean) across all splits of TimeSeriesSplit:
+
+                    PERM_IMPORTANCE   PERM_SD
+TA_T1_47_1_gfXG            3.206527  0.008334
+.DOY                       0.434790  0.001067
+.YEARDOY                   0.307718  0.001482
+.YEARMONTH                 0.186269  0.000328
+.RECORDNUMBER              0.172322  0.000394
+.YEARWEEK                  0.151805  0.000650
+.WEEK                      0.087641  0.000413
+SW_IN_T1_47_1_gfXG         0.059746  0.000257
+.HOUR                      0.058099  0.000246
+.YEAR                      0.018305  0.000083
+.MONTH                     0.011217  0.000046
+.SEASON                    0.005815  0.000018
+.RANDOM                    0.003297  0.000022
+
+- These results are from feature reduction. Note that feature importances for the final model are calculated during gap-filling.
+
+--&gt; 12 original input features (before feature reduction): [&#39;SW_IN_T1_47_1_gfXG&#39;, &#39;TA_T1_47_1_gfXG&#39;, &#39;.YEAR&#39;, &#39;.SEASON&#39;, &#39;.MONTH&#39;, &#39;.WEEK&#39;, &#39;.DOY&#39;, &#39;.HOUR&#39;, &#39;.YEARMONTH&#39;, &#39;.YEARDOY&#39;, &#39;.YEARWEEK&#39;, &#39;.RECORDNUMBER&#39;]
+--&gt; 5 rejected features (during feature reduction): None.
+--&gt; 12 accepted features (after feature reduction): [&#39;TA_T1_47_1_gfXG&#39;, &#39;.DOY&#39;, &#39;.YEARDOY&#39;, &#39;.YEARMONTH&#39;, &#39;.RECORDNUMBER&#39;, &#39;.YEARWEEK&#39;, &#39;.WEEK&#39;, &#39;SW_IN_T1_47_1_gfXG&#39;, &#39;.HOUR&#39;, &#39;.YEAR&#39;, &#39;.MONTH&#39;, &#39;.SEASON&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span><span class="o">.</span><span class="n">trainmodel</span><span class="p">(</span><span class="n">showplot_scores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showplot_importance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">xgb</span><span class="o">.</span><span class="n">report_traintest</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training final model ...
+&gt;&gt;&gt; Training model &lt;class &#39;xgboost.sklearn.XGBRegressor&#39;&gt; based on data between 2004-09-20 11:15:00 and 2024-12-31 23:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+[0]	validation_0-rmse:0.34637	validation_1-rmse:0.34454
+[1]	validation_0-rmse:0.27214	validation_1-rmse:0.27076
+[2]	validation_0-rmse:0.22540	validation_1-rmse:0.22450
+[3]	validation_0-rmse:0.19683	validation_1-rmse:0.19637
+[4]	validation_0-rmse:0.17973	validation_1-rmse:0.17963
+[5]	validation_0-rmse:0.16975	validation_1-rmse:0.17005
+[6]	validation_0-rmse:0.16336	validation_1-rmse:0.16389
+[7]	validation_0-rmse:0.15913	validation_1-rmse:0.15992
+[8]	validation_0-rmse:0.15654	validation_1-rmse:0.15756
+[9]	validation_0-rmse:0.15435	validation_1-rmse:0.15553
+[10]	validation_0-rmse:0.15245	validation_1-rmse:0.15375
+[11]	validation_0-rmse:0.15119	validation_1-rmse:0.15246
+[12]	validation_0-rmse:0.14975	validation_1-rmse:0.15107
+[13]	validation_0-rmse:0.14831	validation_1-rmse:0.14962
+[14]	validation_0-rmse:0.14713	validation_1-rmse:0.14851
+[15]	validation_0-rmse:0.14626	validation_1-rmse:0.14770
+[16]	validation_0-rmse:0.14551	validation_1-rmse:0.14693
+[17]	validation_0-rmse:0.14455	validation_1-rmse:0.14599
+[18]	validation_0-rmse:0.14416	validation_1-rmse:0.14565
+[19]	validation_0-rmse:0.14318	validation_1-rmse:0.14468
+[20]	validation_0-rmse:0.14235	validation_1-rmse:0.14384
+[21]	validation_0-rmse:0.14194	validation_1-rmse:0.14346
+[22]	validation_0-rmse:0.14122	validation_1-rmse:0.14272
+[23]	validation_0-rmse:0.14063	validation_1-rmse:0.14216
+[24]	validation_0-rmse:0.14033	validation_1-rmse:0.14190
+[25]	validation_0-rmse:0.13960	validation_1-rmse:0.14118
+[26]	validation_0-rmse:0.13891	validation_1-rmse:0.14055
+[27]	validation_0-rmse:0.13834	validation_1-rmse:0.14001
+[28]	validation_0-rmse:0.13744	validation_1-rmse:0.13917
+[29]	validation_0-rmse:0.13681	validation_1-rmse:0.13860
+[30]	validation_0-rmse:0.13655	validation_1-rmse:0.13834
+[31]	validation_0-rmse:0.13606	validation_1-rmse:0.13787
+[32]	validation_0-rmse:0.13556	validation_1-rmse:0.13744
+[33]	validation_0-rmse:0.13533	validation_1-rmse:0.13721
+[34]	validation_0-rmse:0.13489	validation_1-rmse:0.13681
+[35]	validation_0-rmse:0.13461	validation_1-rmse:0.13660
+[36]	validation_0-rmse:0.13408	validation_1-rmse:0.13614
+[37]	validation_0-rmse:0.13334	validation_1-rmse:0.13546
+[38]	validation_0-rmse:0.13293	validation_1-rmse:0.13506
+[39]	validation_0-rmse:0.13239	validation_1-rmse:0.13456
+[40]	validation_0-rmse:0.13192	validation_1-rmse:0.13410
+[41]	validation_0-rmse:0.13178	validation_1-rmse:0.13396
+[42]	validation_0-rmse:0.13142	validation_1-rmse:0.13364
+[43]	validation_0-rmse:0.13109	validation_1-rmse:0.13335
+[44]	validation_0-rmse:0.13052	validation_1-rmse:0.13280
+[45]	validation_0-rmse:0.13029	validation_1-rmse:0.13260
+[46]	validation_0-rmse:0.13007	validation_1-rmse:0.13242
+[47]	validation_0-rmse:0.12997	validation_1-rmse:0.13232
+[48]	validation_0-rmse:0.12969	validation_1-rmse:0.13209
+[49]	validation_0-rmse:0.12941	validation_1-rmse:0.13186
+[50]	validation_0-rmse:0.12906	validation_1-rmse:0.13154
+[51]	validation_0-rmse:0.12878	validation_1-rmse:0.13125
+[52]	validation_0-rmse:0.12838	validation_1-rmse:0.13090
+[53]	validation_0-rmse:0.12801	validation_1-rmse:0.13056
+[54]	validation_0-rmse:0.12750	validation_1-rmse:0.13008
+[55]	validation_0-rmse:0.12716	validation_1-rmse:0.12976
+[56]	validation_0-rmse:0.12697	validation_1-rmse:0.12957
+[57]	validation_0-rmse:0.12676	validation_1-rmse:0.12940
+[58]	validation_0-rmse:0.12650	validation_1-rmse:0.12913
+[59]	validation_0-rmse:0.12630	validation_1-rmse:0.12897
+[60]	validation_0-rmse:0.12610	validation_1-rmse:0.12880
+[61]	validation_0-rmse:0.12575	validation_1-rmse:0.12849
+[62]	validation_0-rmse:0.12564	validation_1-rmse:0.12840
+[63]	validation_0-rmse:0.12500	validation_1-rmse:0.12778
+[64]	validation_0-rmse:0.12456	validation_1-rmse:0.12736
+[65]	validation_0-rmse:0.12414	validation_1-rmse:0.12694
+[66]	validation_0-rmse:0.12398	validation_1-rmse:0.12680
+[67]	validation_0-rmse:0.12372	validation_1-rmse:0.12658
+[68]	validation_0-rmse:0.12360	validation_1-rmse:0.12647
+[69]	validation_0-rmse:0.12324	validation_1-rmse:0.12615
+[70]	validation_0-rmse:0.12295	validation_1-rmse:0.12589
+[71]	validation_0-rmse:0.12268	validation_1-rmse:0.12567
+[72]	validation_0-rmse:0.12236	validation_1-rmse:0.12540
+[73]	validation_0-rmse:0.12230	validation_1-rmse:0.12534
+[74]	validation_0-rmse:0.12207	validation_1-rmse:0.12512
+[75]	validation_0-rmse:0.12181	validation_1-rmse:0.12490
+[76]	validation_0-rmse:0.12158	validation_1-rmse:0.12467
+[77]	validation_0-rmse:0.12143	validation_1-rmse:0.12453
+[78]	validation_0-rmse:0.12094	validation_1-rmse:0.12406
+[79]	validation_0-rmse:0.12079	validation_1-rmse:0.12394
+[80]	validation_0-rmse:0.12064	validation_1-rmse:0.12380
+[81]	validation_0-rmse:0.12033	validation_1-rmse:0.12349
+[82]	validation_0-rmse:0.12019	validation_1-rmse:0.12334
+[83]	validation_0-rmse:0.11968	validation_1-rmse:0.12287
+[84]	validation_0-rmse:0.11951	validation_1-rmse:0.12270
+[85]	validation_0-rmse:0.11934	validation_1-rmse:0.12253
+[86]	validation_0-rmse:0.11907	validation_1-rmse:0.12227
+[87]	validation_0-rmse:0.11888	validation_1-rmse:0.12209
+[88]	validation_0-rmse:0.11869	validation_1-rmse:0.12193
+[89]	validation_0-rmse:0.11851	validation_1-rmse:0.12176
+[90]	validation_0-rmse:0.11836	validation_1-rmse:0.12163
+[91]	validation_0-rmse:0.11815	validation_1-rmse:0.12144
+[92]	validation_0-rmse:0.11788	validation_1-rmse:0.12119
+[93]	validation_0-rmse:0.11752	validation_1-rmse:0.12084
+[94]	validation_0-rmse:0.11742	validation_1-rmse:0.12075
+[95]	validation_0-rmse:0.11688	validation_1-rmse:0.12026
+[96]	validation_0-rmse:0.11678	validation_1-rmse:0.12019
+[97]	validation_0-rmse:0.11648	validation_1-rmse:0.11991
+[98]	validation_0-rmse:0.11631	validation_1-rmse:0.11978
+[99]	validation_0-rmse:0.11618	validation_1-rmse:0.11966
+[100]	validation_0-rmse:0.11606	validation_1-rmse:0.11956
+[101]	validation_0-rmse:0.11591	validation_1-rmse:0.11943
+[102]	validation_0-rmse:0.11573	validation_1-rmse:0.11930
+[103]	validation_0-rmse:0.11562	validation_1-rmse:0.11920
+[104]	validation_0-rmse:0.11551	validation_1-rmse:0.11911
+[105]	validation_0-rmse:0.11522	validation_1-rmse:0.11884
+[106]	validation_0-rmse:0.11508	validation_1-rmse:0.11871
+[107]	validation_0-rmse:0.11500	validation_1-rmse:0.11864
+[108]	validation_0-rmse:0.11481	validation_1-rmse:0.11846
+[109]	validation_0-rmse:0.11452	validation_1-rmse:0.11819
+[110]	validation_0-rmse:0.11434	validation_1-rmse:0.11805
+[111]	validation_0-rmse:0.11418	validation_1-rmse:0.11791
+[112]	validation_0-rmse:0.11413	validation_1-rmse:0.11788
+[113]	validation_0-rmse:0.11406	validation_1-rmse:0.11782
+[114]	validation_0-rmse:0.11396	validation_1-rmse:0.11773
+[115]	validation_0-rmse:0.11392	validation_1-rmse:0.11770
+[116]	validation_0-rmse:0.11383	validation_1-rmse:0.11762
+[117]	validation_0-rmse:0.11374	validation_1-rmse:0.11757
+[118]	validation_0-rmse:0.11334	validation_1-rmse:0.11717
+[119]	validation_0-rmse:0.11319	validation_1-rmse:0.11704
+[120]	validation_0-rmse:0.11304	validation_1-rmse:0.11692
+[121]	validation_0-rmse:0.11295	validation_1-rmse:0.11688
+[122]	validation_0-rmse:0.11282	validation_1-rmse:0.11680
+[123]	validation_0-rmse:0.11266	validation_1-rmse:0.11668
+[124]	validation_0-rmse:0.11258	validation_1-rmse:0.11661
+[125]	validation_0-rmse:0.11245	validation_1-rmse:0.11654
+[126]	validation_0-rmse:0.11223	validation_1-rmse:0.11632
+[127]	validation_0-rmse:0.11196	validation_1-rmse:0.11609
+[128]	validation_0-rmse:0.11181	validation_1-rmse:0.11595
+[129]	validation_0-rmse:0.11171	validation_1-rmse:0.11588
+[130]	validation_0-rmse:0.11141	validation_1-rmse:0.11560
+[131]	validation_0-rmse:0.11123	validation_1-rmse:0.11545
+[132]	validation_0-rmse:0.11099	validation_1-rmse:0.11526
+[133]	validation_0-rmse:0.11072	validation_1-rmse:0.11501
+[134]	validation_0-rmse:0.11059	validation_1-rmse:0.11491
+[135]	validation_0-rmse:0.11050	validation_1-rmse:0.11484
+[136]	validation_0-rmse:0.11036	validation_1-rmse:0.11471
+[137]	validation_0-rmse:0.11014	validation_1-rmse:0.11450
+[138]	validation_0-rmse:0.10987	validation_1-rmse:0.11427
+[139]	validation_0-rmse:0.10973	validation_1-rmse:0.11417
+[140]	validation_0-rmse:0.10965	validation_1-rmse:0.11410
+[141]	validation_0-rmse:0.10936	validation_1-rmse:0.11385
+[142]	validation_0-rmse:0.10917	validation_1-rmse:0.11367
+[143]	validation_0-rmse:0.10896	validation_1-rmse:0.11349
+[144]	validation_0-rmse:0.10886	validation_1-rmse:0.11343
+[145]	validation_0-rmse:0.10876	validation_1-rmse:0.11333
+[146]	validation_0-rmse:0.10867	validation_1-rmse:0.11324
+[147]	validation_0-rmse:0.10854	validation_1-rmse:0.11313
+[148]	validation_0-rmse:0.10833	validation_1-rmse:0.11295
+[149]	validation_0-rmse:0.10824	validation_1-rmse:0.11286
+[150]	validation_0-rmse:0.10805	validation_1-rmse:0.11266
+[151]	validation_0-rmse:0.10781	validation_1-rmse:0.11245
+[152]	validation_0-rmse:0.10773	validation_1-rmse:0.11238
+[153]	validation_0-rmse:0.10760	validation_1-rmse:0.11225
+[154]	validation_0-rmse:0.10749	validation_1-rmse:0.11216
+[155]	validation_0-rmse:0.10740	validation_1-rmse:0.11211
+[156]	validation_0-rmse:0.10735	validation_1-rmse:0.11207
+[157]	validation_0-rmse:0.10730	validation_1-rmse:0.11203
+[158]	validation_0-rmse:0.10704	validation_1-rmse:0.11178
+[159]	validation_0-rmse:0.10671	validation_1-rmse:0.11148
+[160]	validation_0-rmse:0.10669	validation_1-rmse:0.11146
+[161]	validation_0-rmse:0.10656	validation_1-rmse:0.11135
+[162]	validation_0-rmse:0.10647	validation_1-rmse:0.11129
+[163]	validation_0-rmse:0.10625	validation_1-rmse:0.11109
+[164]	validation_0-rmse:0.10614	validation_1-rmse:0.11101
+[165]	validation_0-rmse:0.10595	validation_1-rmse:0.11083
+[166]	validation_0-rmse:0.10564	validation_1-rmse:0.11054
+[167]	validation_0-rmse:0.10554	validation_1-rmse:0.11046
+[168]	validation_0-rmse:0.10543	validation_1-rmse:0.11038
+[169]	validation_0-rmse:0.10523	validation_1-rmse:0.11018
+[170]	validation_0-rmse:0.10502	validation_1-rmse:0.11000
+[171]	validation_0-rmse:0.10496	validation_1-rmse:0.10997
+[172]	validation_0-rmse:0.10469	validation_1-rmse:0.10972
+[173]	validation_0-rmse:0.10451	validation_1-rmse:0.10955
+[174]	validation_0-rmse:0.10426	validation_1-rmse:0.10930
+[175]	validation_0-rmse:0.10418	validation_1-rmse:0.10925
+[176]	validation_0-rmse:0.10412	validation_1-rmse:0.10921
+[177]	validation_0-rmse:0.10403	validation_1-rmse:0.10913
+[178]	validation_0-rmse:0.10393	validation_1-rmse:0.10905
+[179]	validation_0-rmse:0.10384	validation_1-rmse:0.10897
+[180]	validation_0-rmse:0.10376	validation_1-rmse:0.10889
+[181]	validation_0-rmse:0.10370	validation_1-rmse:0.10885
+[182]	validation_0-rmse:0.10356	validation_1-rmse:0.10871
+[183]	validation_0-rmse:0.10345	validation_1-rmse:0.10862
+[184]	validation_0-rmse:0.10340	validation_1-rmse:0.10857
+[185]	validation_0-rmse:0.10329	validation_1-rmse:0.10850
+[186]	validation_0-rmse:0.10312	validation_1-rmse:0.10835
+[187]	validation_0-rmse:0.10300	validation_1-rmse:0.10823
+[188]	validation_0-rmse:0.10287	validation_1-rmse:0.10811
+[189]	validation_0-rmse:0.10268	validation_1-rmse:0.10796
+[190]	validation_0-rmse:0.10256	validation_1-rmse:0.10785
+[191]	validation_0-rmse:0.10248	validation_1-rmse:0.10778
+[192]	validation_0-rmse:0.10233	validation_1-rmse:0.10765
+[193]	validation_0-rmse:0.10220	validation_1-rmse:0.10755
+[194]	validation_0-rmse:0.10214	validation_1-rmse:0.10751
+[195]	validation_0-rmse:0.10207	validation_1-rmse:0.10748
+[196]	validation_0-rmse:0.10189	validation_1-rmse:0.10732
+[197]	validation_0-rmse:0.10184	validation_1-rmse:0.10729
+[198]	validation_0-rmse:0.10177	validation_1-rmse:0.10724
+[199]	validation_0-rmse:0.10164	validation_1-rmse:0.10714
+[200]	validation_0-rmse:0.10158	validation_1-rmse:0.10711
+[201]	validation_0-rmse:0.10154	validation_1-rmse:0.10707
+[202]	validation_0-rmse:0.10150	validation_1-rmse:0.10702
+[203]	validation_0-rmse:0.10139	validation_1-rmse:0.10692
+[204]	validation_0-rmse:0.10129	validation_1-rmse:0.10684
+[205]	validation_0-rmse:0.10121	validation_1-rmse:0.10676
+[206]	validation_0-rmse:0.10114	validation_1-rmse:0.10671
+[207]	validation_0-rmse:0.10106	validation_1-rmse:0.10667
+[208]	validation_0-rmse:0.10102	validation_1-rmse:0.10663
+[209]	validation_0-rmse:0.10084	validation_1-rmse:0.10645
+[210]	validation_0-rmse:0.10061	validation_1-rmse:0.10624
+[211]	validation_0-rmse:0.10053	validation_1-rmse:0.10618
+[212]	validation_0-rmse:0.10047	validation_1-rmse:0.10613
+[213]	validation_0-rmse:0.10034	validation_1-rmse:0.10599
+[214]	validation_0-rmse:0.10025	validation_1-rmse:0.10595
+[215]	validation_0-rmse:0.10018	validation_1-rmse:0.10589
+[216]	validation_0-rmse:0.10015	validation_1-rmse:0.10586
+[217]	validation_0-rmse:0.10006	validation_1-rmse:0.10577
+[218]	validation_0-rmse:0.09984	validation_1-rmse:0.10556
+[219]	validation_0-rmse:0.09974	validation_1-rmse:0.10546
+[220]	validation_0-rmse:0.09969	validation_1-rmse:0.10543
+[221]	validation_0-rmse:0.09965	validation_1-rmse:0.10540
+[222]	validation_0-rmse:0.09959	validation_1-rmse:0.10534
+[223]	validation_0-rmse:0.09955	validation_1-rmse:0.10534
+[224]	validation_0-rmse:0.09945	validation_1-rmse:0.10526
+[225]	validation_0-rmse:0.09939	validation_1-rmse:0.10520
+[226]	validation_0-rmse:0.09933	validation_1-rmse:0.10516
+[227]	validation_0-rmse:0.09918	validation_1-rmse:0.10503
+[228]	validation_0-rmse:0.09908	validation_1-rmse:0.10497
+[229]	validation_0-rmse:0.09898	validation_1-rmse:0.10489
+[230]	validation_0-rmse:0.09886	validation_1-rmse:0.10479
+[231]	validation_0-rmse:0.09880	validation_1-rmse:0.10475
+[232]	validation_0-rmse:0.09876	validation_1-rmse:0.10473
+[233]	validation_0-rmse:0.09863	validation_1-rmse:0.10464
+[234]	validation_0-rmse:0.09853	validation_1-rmse:0.10457
+[235]	validation_0-rmse:0.09850	validation_1-rmse:0.10455
+[236]	validation_0-rmse:0.09847	validation_1-rmse:0.10454
+[237]	validation_0-rmse:0.09838	validation_1-rmse:0.10446
+[238]	validation_0-rmse:0.09835	validation_1-rmse:0.10443
+[239]	validation_0-rmse:0.09822	validation_1-rmse:0.10434
+[240]	validation_0-rmse:0.09815	validation_1-rmse:0.10428
+[241]	validation_0-rmse:0.09809	validation_1-rmse:0.10423
+[242]	validation_0-rmse:0.09802	validation_1-rmse:0.10418
+[243]	validation_0-rmse:0.09799	validation_1-rmse:0.10415
+[244]	validation_0-rmse:0.09791	validation_1-rmse:0.10409
+[245]	validation_0-rmse:0.09786	validation_1-rmse:0.10404
+[246]	validation_0-rmse:0.09776	validation_1-rmse:0.10396
+[247]	validation_0-rmse:0.09773	validation_1-rmse:0.10394
+[248]	validation_0-rmse:0.09762	validation_1-rmse:0.10385
+[249]	validation_0-rmse:0.09754	validation_1-rmse:0.10380
+[250]	validation_0-rmse:0.09727	validation_1-rmse:0.10357
+[251]	validation_0-rmse:0.09723	validation_1-rmse:0.10355
+[252]	validation_0-rmse:0.09717	validation_1-rmse:0.10351
+[253]	validation_0-rmse:0.09708	validation_1-rmse:0.10344
+[254]	validation_0-rmse:0.09703	validation_1-rmse:0.10341
+[255]	validation_0-rmse:0.09695	validation_1-rmse:0.10333
+[256]	validation_0-rmse:0.09689	validation_1-rmse:0.10332
+[257]	validation_0-rmse:0.09679	validation_1-rmse:0.10326
+[258]	validation_0-rmse:0.09669	validation_1-rmse:0.10319
+[259]	validation_0-rmse:0.09657	validation_1-rmse:0.10310
+[260]	validation_0-rmse:0.09652	validation_1-rmse:0.10306
+[261]	validation_0-rmse:0.09648	validation_1-rmse:0.10302
+[262]	validation_0-rmse:0.09633	validation_1-rmse:0.10288
+[263]	validation_0-rmse:0.09626	validation_1-rmse:0.10282
+[264]	validation_0-rmse:0.09618	validation_1-rmse:0.10275
+[265]	validation_0-rmse:0.09614	validation_1-rmse:0.10273
+[266]	validation_0-rmse:0.09612	validation_1-rmse:0.10271
+[267]	validation_0-rmse:0.09606	validation_1-rmse:0.10268
+[268]	validation_0-rmse:0.09584	validation_1-rmse:0.10244
+[269]	validation_0-rmse:0.09572	validation_1-rmse:0.10234
+[270]	validation_0-rmse:0.09553	validation_1-rmse:0.10216
+[271]	validation_0-rmse:0.09549	validation_1-rmse:0.10215
+[272]	validation_0-rmse:0.09545	validation_1-rmse:0.10212
+[273]	validation_0-rmse:0.09541	validation_1-rmse:0.10208
+[274]	validation_0-rmse:0.09537	validation_1-rmse:0.10206
+[275]	validation_0-rmse:0.09524	validation_1-rmse:0.10197
+[276]	validation_0-rmse:0.09514	validation_1-rmse:0.10188
+[277]	validation_0-rmse:0.09511	validation_1-rmse:0.10188
+[278]	validation_0-rmse:0.09506	validation_1-rmse:0.10184
+[279]	validation_0-rmse:0.09495	validation_1-rmse:0.10176
+[280]	validation_0-rmse:0.09484	validation_1-rmse:0.10168
+[281]	validation_0-rmse:0.09481	validation_1-rmse:0.10167
+[282]	validation_0-rmse:0.09478	validation_1-rmse:0.10165
+[283]	validation_0-rmse:0.09475	validation_1-rmse:0.10163
+[284]	validation_0-rmse:0.09469	validation_1-rmse:0.10159
+[285]	validation_0-rmse:0.09464	validation_1-rmse:0.10157
+[286]	validation_0-rmse:0.09452	validation_1-rmse:0.10145
+[287]	validation_0-rmse:0.09446	validation_1-rmse:0.10141
+[288]	validation_0-rmse:0.09435	validation_1-rmse:0.10131
+[289]	validation_0-rmse:0.09422	validation_1-rmse:0.10121
+[290]	validation_0-rmse:0.09415	validation_1-rmse:0.10117
+[291]	validation_0-rmse:0.09408	validation_1-rmse:0.10110
+[292]	validation_0-rmse:0.09396	validation_1-rmse:0.10101
+[293]	validation_0-rmse:0.09384	validation_1-rmse:0.10092
+[294]	validation_0-rmse:0.09382	validation_1-rmse:0.10090
+[295]	validation_0-rmse:0.09375	validation_1-rmse:0.10085
+[296]	validation_0-rmse:0.09365	validation_1-rmse:0.10077
+[297]	validation_0-rmse:0.09358	validation_1-rmse:0.10072
+[298]	validation_0-rmse:0.09349	validation_1-rmse:0.10065
+[299]	validation_0-rmse:0.09345	validation_1-rmse:0.10063
+[300]	validation_0-rmse:0.09333	validation_1-rmse:0.10051
+[301]	validation_0-rmse:0.09328	validation_1-rmse:0.10047
+[302]	validation_0-rmse:0.09318	validation_1-rmse:0.10040
+[303]	validation_0-rmse:0.09315	validation_1-rmse:0.10040
+[304]	validation_0-rmse:0.09308	validation_1-rmse:0.10034
+[305]	validation_0-rmse:0.09302	validation_1-rmse:0.10030
+[306]	validation_0-rmse:0.09296	validation_1-rmse:0.10024
+[307]	validation_0-rmse:0.09289	validation_1-rmse:0.10021
+[308]	validation_0-rmse:0.09286	validation_1-rmse:0.10020
+[309]	validation_0-rmse:0.09284	validation_1-rmse:0.10018
+[310]	validation_0-rmse:0.09272	validation_1-rmse:0.10007
+[311]	validation_0-rmse:0.09267	validation_1-rmse:0.10005
+[312]	validation_0-rmse:0.09261	validation_1-rmse:0.10000
+[313]	validation_0-rmse:0.09257	validation_1-rmse:0.09998
+[314]	validation_0-rmse:0.09250	validation_1-rmse:0.09994
+[315]	validation_0-rmse:0.09238	validation_1-rmse:0.09984
+[316]	validation_0-rmse:0.09231	validation_1-rmse:0.09980
+[317]	validation_0-rmse:0.09222	validation_1-rmse:0.09973
+[318]	validation_0-rmse:0.09202	validation_1-rmse:0.09952
+[319]	validation_0-rmse:0.09196	validation_1-rmse:0.09948
+[320]	validation_0-rmse:0.09182	validation_1-rmse:0.09937
+[321]	validation_0-rmse:0.09169	validation_1-rmse:0.09925
+[322]	validation_0-rmse:0.09161	validation_1-rmse:0.09920
+[323]	validation_0-rmse:0.09157	validation_1-rmse:0.09917
+[324]	validation_0-rmse:0.09151	validation_1-rmse:0.09912
+[325]	validation_0-rmse:0.09146	validation_1-rmse:0.09908
+[326]	validation_0-rmse:0.09137	validation_1-rmse:0.09899
+[327]	validation_0-rmse:0.09133	validation_1-rmse:0.09899
+[328]	validation_0-rmse:0.09126	validation_1-rmse:0.09894
+[329]	validation_0-rmse:0.09120	validation_1-rmse:0.09890
+[330]	validation_0-rmse:0.09101	validation_1-rmse:0.09872
+[331]	validation_0-rmse:0.09089	validation_1-rmse:0.09861
+[332]	validation_0-rmse:0.09082	validation_1-rmse:0.09857
+[333]	validation_0-rmse:0.09077	validation_1-rmse:0.09851
+[334]	validation_0-rmse:0.09068	validation_1-rmse:0.09843
+[335]	validation_0-rmse:0.09059	validation_1-rmse:0.09835
+[336]	validation_0-rmse:0.09055	validation_1-rmse:0.09832
+[337]	validation_0-rmse:0.09048	validation_1-rmse:0.09826
+[338]	validation_0-rmse:0.09033	validation_1-rmse:0.09812
+[339]	validation_0-rmse:0.09027	validation_1-rmse:0.09809
+[340]	validation_0-rmse:0.09025	validation_1-rmse:0.09808
+[341]	validation_0-rmse:0.09017	validation_1-rmse:0.09804
+[342]	validation_0-rmse:0.09013	validation_1-rmse:0.09801
+[343]	validation_0-rmse:0.09006	validation_1-rmse:0.09795
+[344]	validation_0-rmse:0.09000	validation_1-rmse:0.09790
+[345]	validation_0-rmse:0.08992	validation_1-rmse:0.09785
+[346]	validation_0-rmse:0.08976	validation_1-rmse:0.09770
+[347]	validation_0-rmse:0.08966	validation_1-rmse:0.09761
+[348]	validation_0-rmse:0.08963	validation_1-rmse:0.09759
+[349]	validation_0-rmse:0.08959	validation_1-rmse:0.09757
+[350]	validation_0-rmse:0.08949	validation_1-rmse:0.09750
+[351]	validation_0-rmse:0.08941	validation_1-rmse:0.09745
+[352]	validation_0-rmse:0.08936	validation_1-rmse:0.09743
+[353]	validation_0-rmse:0.08923	validation_1-rmse:0.09731
+[354]	validation_0-rmse:0.08915	validation_1-rmse:0.09726
+[355]	validation_0-rmse:0.08910	validation_1-rmse:0.09722
+[356]	validation_0-rmse:0.08908	validation_1-rmse:0.09720
+[357]	validation_0-rmse:0.08903	validation_1-rmse:0.09715
+[358]	validation_0-rmse:0.08894	validation_1-rmse:0.09708
+[359]	validation_0-rmse:0.08886	validation_1-rmse:0.09701
+[360]	validation_0-rmse:0.08883	validation_1-rmse:0.09699
+[361]	validation_0-rmse:0.08880	validation_1-rmse:0.09698
+[362]	validation_0-rmse:0.08876	validation_1-rmse:0.09695
+[363]	validation_0-rmse:0.08866	validation_1-rmse:0.09687
+[364]	validation_0-rmse:0.08863	validation_1-rmse:0.09685
+[365]	validation_0-rmse:0.08859	validation_1-rmse:0.09682
+[366]	validation_0-rmse:0.08856	validation_1-rmse:0.09680
+[367]	validation_0-rmse:0.08848	validation_1-rmse:0.09675
+[368]	validation_0-rmse:0.08842	validation_1-rmse:0.09672
+[369]	validation_0-rmse:0.08839	validation_1-rmse:0.09669
+[370]	validation_0-rmse:0.08832	validation_1-rmse:0.09663
+[371]	validation_0-rmse:0.08828	validation_1-rmse:0.09660
+[372]	validation_0-rmse:0.08818	validation_1-rmse:0.09648
+[373]	validation_0-rmse:0.08812	validation_1-rmse:0.09646
+[374]	validation_0-rmse:0.08801	validation_1-rmse:0.09636
+[375]	validation_0-rmse:0.08795	validation_1-rmse:0.09631
+[376]	validation_0-rmse:0.08786	validation_1-rmse:0.09622
+[377]	validation_0-rmse:0.08780	validation_1-rmse:0.09617
+[378]	validation_0-rmse:0.08778	validation_1-rmse:0.09616
+[379]	validation_0-rmse:0.08775	validation_1-rmse:0.09615
+[380]	validation_0-rmse:0.08766	validation_1-rmse:0.09607
+[381]	validation_0-rmse:0.08763	validation_1-rmse:0.09604
+[382]	validation_0-rmse:0.08759	validation_1-rmse:0.09601
+[383]	validation_0-rmse:0.08750	validation_1-rmse:0.09594
+[384]	validation_0-rmse:0.08743	validation_1-rmse:0.09590
+[385]	validation_0-rmse:0.08738	validation_1-rmse:0.09587
+[386]	validation_0-rmse:0.08732	validation_1-rmse:0.09584
+[387]	validation_0-rmse:0.08727	validation_1-rmse:0.09580
+[388]	validation_0-rmse:0.08724	validation_1-rmse:0.09579
+[389]	validation_0-rmse:0.08722	validation_1-rmse:0.09578
+[390]	validation_0-rmse:0.08717	validation_1-rmse:0.09573
+[391]	validation_0-rmse:0.08699	validation_1-rmse:0.09558
+[392]	validation_0-rmse:0.08697	validation_1-rmse:0.09558
+[393]	validation_0-rmse:0.08693	validation_1-rmse:0.09557
+[394]	validation_0-rmse:0.08691	validation_1-rmse:0.09556
+[395]	validation_0-rmse:0.08683	validation_1-rmse:0.09549
+[396]	validation_0-rmse:0.08676	validation_1-rmse:0.09544
+[397]	validation_0-rmse:0.08674	validation_1-rmse:0.09543
+[398]	validation_0-rmse:0.08662	validation_1-rmse:0.09533
+[399]	validation_0-rmse:0.08656	validation_1-rmse:0.09531
+[400]	validation_0-rmse:0.08654	validation_1-rmse:0.09530
+[401]	validation_0-rmse:0.08651	validation_1-rmse:0.09528
+[402]	validation_0-rmse:0.08639	validation_1-rmse:0.09517
+[403]	validation_0-rmse:0.08634	validation_1-rmse:0.09515
+[404]	validation_0-rmse:0.08632	validation_1-rmse:0.09515
+[405]	validation_0-rmse:0.08628	validation_1-rmse:0.09513
+[406]	validation_0-rmse:0.08624	validation_1-rmse:0.09510
+[407]	validation_0-rmse:0.08618	validation_1-rmse:0.09504
+[408]	validation_0-rmse:0.08608	validation_1-rmse:0.09496
+[409]	validation_0-rmse:0.08604	validation_1-rmse:0.09492
+[410]	validation_0-rmse:0.08600	validation_1-rmse:0.09490
+[411]	validation_0-rmse:0.08595	validation_1-rmse:0.09487
+[412]	validation_0-rmse:0.08593	validation_1-rmse:0.09486
+[413]	validation_0-rmse:0.08589	validation_1-rmse:0.09484
+[414]	validation_0-rmse:0.08580	validation_1-rmse:0.09476
+[415]	validation_0-rmse:0.08575	validation_1-rmse:0.09472
+[416]	validation_0-rmse:0.08569	validation_1-rmse:0.09467
+[417]	validation_0-rmse:0.08564	validation_1-rmse:0.09463
+[418]	validation_0-rmse:0.08558	validation_1-rmse:0.09458
+[419]	validation_0-rmse:0.08550	validation_1-rmse:0.09454
+[420]	validation_0-rmse:0.08548	validation_1-rmse:0.09451
+[421]	validation_0-rmse:0.08536	validation_1-rmse:0.09444
+[422]	validation_0-rmse:0.08531	validation_1-rmse:0.09440
+[423]	validation_0-rmse:0.08518	validation_1-rmse:0.09431
+[424]	validation_0-rmse:0.08509	validation_1-rmse:0.09423
+[425]	validation_0-rmse:0.08500	validation_1-rmse:0.09416
+[426]	validation_0-rmse:0.08495	validation_1-rmse:0.09412
+[427]	validation_0-rmse:0.08493	validation_1-rmse:0.09411
+[428]	validation_0-rmse:0.08490	validation_1-rmse:0.09408
+[429]	validation_0-rmse:0.08484	validation_1-rmse:0.09404
+[430]	validation_0-rmse:0.08479	validation_1-rmse:0.09399
+[431]	validation_0-rmse:0.08475	validation_1-rmse:0.09395
+[432]	validation_0-rmse:0.08471	validation_1-rmse:0.09395
+[433]	validation_0-rmse:0.08465	validation_1-rmse:0.09392
+[434]	validation_0-rmse:0.08461	validation_1-rmse:0.09389
+[435]	validation_0-rmse:0.08456	validation_1-rmse:0.09385
+[436]	validation_0-rmse:0.08452	validation_1-rmse:0.09381
+[437]	validation_0-rmse:0.08448	validation_1-rmse:0.09378
+[438]	validation_0-rmse:0.08437	validation_1-rmse:0.09368
+[439]	validation_0-rmse:0.08428	validation_1-rmse:0.09360
+[440]	validation_0-rmse:0.08423	validation_1-rmse:0.09358
+[441]	validation_0-rmse:0.08418	validation_1-rmse:0.09352
+[442]	validation_0-rmse:0.08415	validation_1-rmse:0.09350
+[443]	validation_0-rmse:0.08412	validation_1-rmse:0.09348
+[444]	validation_0-rmse:0.08408	validation_1-rmse:0.09347
+[445]	validation_0-rmse:0.08405	validation_1-rmse:0.09345
+[446]	validation_0-rmse:0.08403	validation_1-rmse:0.09344
+[447]	validation_0-rmse:0.08401	validation_1-rmse:0.09345
+[448]	validation_0-rmse:0.08393	validation_1-rmse:0.09336
+[449]	validation_0-rmse:0.08384	validation_1-rmse:0.09328
+[450]	validation_0-rmse:0.08381	validation_1-rmse:0.09325
+[451]	validation_0-rmse:0.08377	validation_1-rmse:0.09323
+[452]	validation_0-rmse:0.08373	validation_1-rmse:0.09320
+[453]	validation_0-rmse:0.08370	validation_1-rmse:0.09319
+[454]	validation_0-rmse:0.08363	validation_1-rmse:0.09312
+[455]	validation_0-rmse:0.08361	validation_1-rmse:0.09313
+[456]	validation_0-rmse:0.08357	validation_1-rmse:0.09309
+[457]	validation_0-rmse:0.08349	validation_1-rmse:0.09304
+[458]	validation_0-rmse:0.08338	validation_1-rmse:0.09294
+[459]	validation_0-rmse:0.08335	validation_1-rmse:0.09293
+[460]	validation_0-rmse:0.08327	validation_1-rmse:0.09286
+[461]	validation_0-rmse:0.08319	validation_1-rmse:0.09279
+[462]	validation_0-rmse:0.08311	validation_1-rmse:0.09273
+[463]	validation_0-rmse:0.08307	validation_1-rmse:0.09272
+[464]	validation_0-rmse:0.08301	validation_1-rmse:0.09267
+[465]	validation_0-rmse:0.08294	validation_1-rmse:0.09261
+[466]	validation_0-rmse:0.08291	validation_1-rmse:0.09259
+[467]	validation_0-rmse:0.08283	validation_1-rmse:0.09253
+[468]	validation_0-rmse:0.08280	validation_1-rmse:0.09249
+[469]	validation_0-rmse:0.08276	validation_1-rmse:0.09246
+[470]	validation_0-rmse:0.08265	validation_1-rmse:0.09236
+[471]	validation_0-rmse:0.08261	validation_1-rmse:0.09233
+[472]	validation_0-rmse:0.08257	validation_1-rmse:0.09231
+[473]	validation_0-rmse:0.08253	validation_1-rmse:0.09227
+[474]	validation_0-rmse:0.08249	validation_1-rmse:0.09224
+[475]	validation_0-rmse:0.08244	validation_1-rmse:0.09221
+[476]	validation_0-rmse:0.08242	validation_1-rmse:0.09219
+[477]	validation_0-rmse:0.08236	validation_1-rmse:0.09215
+[478]	validation_0-rmse:0.08229	validation_1-rmse:0.09207
+[479]	validation_0-rmse:0.08226	validation_1-rmse:0.09205
+[480]	validation_0-rmse:0.08223	validation_1-rmse:0.09203
+[481]	validation_0-rmse:0.08221	validation_1-rmse:0.09203
+[482]	validation_0-rmse:0.08219	validation_1-rmse:0.09201
+[483]	validation_0-rmse:0.08214	validation_1-rmse:0.09200
+[484]	validation_0-rmse:0.08211	validation_1-rmse:0.09197
+[485]	validation_0-rmse:0.08196	validation_1-rmse:0.09184
+[486]	validation_0-rmse:0.08193	validation_1-rmse:0.09181
+[487]	validation_0-rmse:0.08187	validation_1-rmse:0.09176
+[488]	validation_0-rmse:0.08181	validation_1-rmse:0.09170
+[489]	validation_0-rmse:0.08179	validation_1-rmse:0.09169
+[490]	validation_0-rmse:0.08172	validation_1-rmse:0.09164
+[491]	validation_0-rmse:0.08171	validation_1-rmse:0.09164
+[492]	validation_0-rmse:0.08163	validation_1-rmse:0.09158
+[493]	validation_0-rmse:0.08156	validation_1-rmse:0.09152
+[494]	validation_0-rmse:0.08152	validation_1-rmse:0.09149
+[495]	validation_0-rmse:0.08145	validation_1-rmse:0.09143
+[496]	validation_0-rmse:0.08142	validation_1-rmse:0.09142
+[497]	validation_0-rmse:0.08139	validation_1-rmse:0.09142
+[498]	validation_0-rmse:0.08137	validation_1-rmse:0.09140
+[499]	validation_0-rmse:0.08134	validation_1-rmse:0.09138
+[500]	validation_0-rmse:0.08131	validation_1-rmse:0.09135
+[501]	validation_0-rmse:0.08128	validation_1-rmse:0.09133
+[502]	validation_0-rmse:0.08120	validation_1-rmse:0.09126
+[503]	validation_0-rmse:0.08116	validation_1-rmse:0.09124
+[504]	validation_0-rmse:0.08114	validation_1-rmse:0.09124
+[505]	validation_0-rmse:0.08110	validation_1-rmse:0.09120
+[506]	validation_0-rmse:0.08107	validation_1-rmse:0.09118
+[507]	validation_0-rmse:0.08103	validation_1-rmse:0.09117
+[508]	validation_0-rmse:0.08099	validation_1-rmse:0.09113
+[509]	validation_0-rmse:0.08096	validation_1-rmse:0.09112
+[510]	validation_0-rmse:0.08094	validation_1-rmse:0.09110
+[511]	validation_0-rmse:0.08092	validation_1-rmse:0.09109
+[512]	validation_0-rmse:0.08086	validation_1-rmse:0.09103
+[513]	validation_0-rmse:0.08079	validation_1-rmse:0.09098
+[514]	validation_0-rmse:0.08077	validation_1-rmse:0.09098
+[515]	validation_0-rmse:0.08074	validation_1-rmse:0.09096
+[516]	validation_0-rmse:0.08071	validation_1-rmse:0.09095
+[517]	validation_0-rmse:0.08066	validation_1-rmse:0.09091
+[518]	validation_0-rmse:0.08061	validation_1-rmse:0.09087
+[519]	validation_0-rmse:0.08056	validation_1-rmse:0.09085
+[520]	validation_0-rmse:0.08053	validation_1-rmse:0.09082
+[521]	validation_0-rmse:0.08048	validation_1-rmse:0.09077
+[522]	validation_0-rmse:0.08043	validation_1-rmse:0.09074
+[523]	validation_0-rmse:0.08041	validation_1-rmse:0.09072
+[524]	validation_0-rmse:0.08035	validation_1-rmse:0.09067
+[525]	validation_0-rmse:0.08030	validation_1-rmse:0.09063
+[526]	validation_0-rmse:0.08024	validation_1-rmse:0.09056
+[527]	validation_0-rmse:0.08020	validation_1-rmse:0.09052
+[528]	validation_0-rmse:0.08017	validation_1-rmse:0.09050
+[529]	validation_0-rmse:0.08014	validation_1-rmse:0.09048
+[530]	validation_0-rmse:0.08012	validation_1-rmse:0.09046
+[531]	validation_0-rmse:0.08010	validation_1-rmse:0.09044
+[532]	validation_0-rmse:0.08007	validation_1-rmse:0.09041
+[533]	validation_0-rmse:0.08004	validation_1-rmse:0.09038
+[534]	validation_0-rmse:0.08002	validation_1-rmse:0.09039
+[535]	validation_0-rmse:0.07999	validation_1-rmse:0.09038
+[536]	validation_0-rmse:0.07997	validation_1-rmse:0.09038
+[537]	validation_0-rmse:0.07990	validation_1-rmse:0.09032
+[538]	validation_0-rmse:0.07987	validation_1-rmse:0.09030
+[539]	validation_0-rmse:0.07983	validation_1-rmse:0.09028
+[540]	validation_0-rmse:0.07978	validation_1-rmse:0.09025
+[541]	validation_0-rmse:0.07973	validation_1-rmse:0.09022
+[542]	validation_0-rmse:0.07970	validation_1-rmse:0.09020
+[543]	validation_0-rmse:0.07965	validation_1-rmse:0.09017
+[544]	validation_0-rmse:0.07963	validation_1-rmse:0.09015
+[545]	validation_0-rmse:0.07959	validation_1-rmse:0.09012
+[546]	validation_0-rmse:0.07953	validation_1-rmse:0.09007
+[547]	validation_0-rmse:0.07951	validation_1-rmse:0.09007
+[548]	validation_0-rmse:0.07949	validation_1-rmse:0.09006
+[549]	validation_0-rmse:0.07949	validation_1-rmse:0.09005
+[550]	validation_0-rmse:0.07946	validation_1-rmse:0.09003
+[551]	validation_0-rmse:0.07944	validation_1-rmse:0.09002
+[552]	validation_0-rmse:0.07940	validation_1-rmse:0.08999
+[553]	validation_0-rmse:0.07935	validation_1-rmse:0.08994
+[554]	validation_0-rmse:0.07932	validation_1-rmse:0.08991
+[555]	validation_0-rmse:0.07931	validation_1-rmse:0.08990
+[556]	validation_0-rmse:0.07927	validation_1-rmse:0.08987
+[557]	validation_0-rmse:0.07924	validation_1-rmse:0.08986
+[558]	validation_0-rmse:0.07919	validation_1-rmse:0.08982
+[559]	validation_0-rmse:0.07917	validation_1-rmse:0.08981
+[560]	validation_0-rmse:0.07913	validation_1-rmse:0.08978
+[561]	validation_0-rmse:0.07912	validation_1-rmse:0.08978
+[562]	validation_0-rmse:0.07907	validation_1-rmse:0.08974
+[563]	validation_0-rmse:0.07905	validation_1-rmse:0.08972
+[564]	validation_0-rmse:0.07903	validation_1-rmse:0.08971
+[565]	validation_0-rmse:0.07900	validation_1-rmse:0.08970
+[566]	validation_0-rmse:0.07896	validation_1-rmse:0.08966
+[567]	validation_0-rmse:0.07891	validation_1-rmse:0.08961
+[568]	validation_0-rmse:0.07889	validation_1-rmse:0.08962
+[569]	validation_0-rmse:0.07884	validation_1-rmse:0.08958
+[570]	validation_0-rmse:0.07882	validation_1-rmse:0.08956
+[571]	validation_0-rmse:0.07877	validation_1-rmse:0.08954
+[572]	validation_0-rmse:0.07874	validation_1-rmse:0.08952
+[573]	validation_0-rmse:0.07873	validation_1-rmse:0.08951
+[574]	validation_0-rmse:0.07872	validation_1-rmse:0.08950
+[575]	validation_0-rmse:0.07867	validation_1-rmse:0.08947
+[576]	validation_0-rmse:0.07862	validation_1-rmse:0.08943
+[577]	validation_0-rmse:0.07860	validation_1-rmse:0.08941
+[578]	validation_0-rmse:0.07857	validation_1-rmse:0.08940
+[579]	validation_0-rmse:0.07855	validation_1-rmse:0.08939
+[580]	validation_0-rmse:0.07845	validation_1-rmse:0.08931
+[581]	validation_0-rmse:0.07839	validation_1-rmse:0.08925
+[582]	validation_0-rmse:0.07835	validation_1-rmse:0.08923
+[583]	validation_0-rmse:0.07833	validation_1-rmse:0.08922
+[584]	validation_0-rmse:0.07832	validation_1-rmse:0.08922
+[585]	validation_0-rmse:0.07822	validation_1-rmse:0.08911
+[586]	validation_0-rmse:0.07819	validation_1-rmse:0.08907
+[587]	validation_0-rmse:0.07816	validation_1-rmse:0.08906
+[588]	validation_0-rmse:0.07814	validation_1-rmse:0.08906
+[589]	validation_0-rmse:0.07812	validation_1-rmse:0.08904
+[590]	validation_0-rmse:0.07807	validation_1-rmse:0.08901
+[591]	validation_0-rmse:0.07802	validation_1-rmse:0.08896
+[592]	validation_0-rmse:0.07796	validation_1-rmse:0.08892
+[593]	validation_0-rmse:0.07792	validation_1-rmse:0.08889
+[594]	validation_0-rmse:0.07788	validation_1-rmse:0.08887
+[595]	validation_0-rmse:0.07778	validation_1-rmse:0.08880
+[596]	validation_0-rmse:0.07776	validation_1-rmse:0.08879
+[597]	validation_0-rmse:0.07772	validation_1-rmse:0.08876
+[598]	validation_0-rmse:0.07770	validation_1-rmse:0.08875
+[599]	validation_0-rmse:0.07766	validation_1-rmse:0.08873
+[600]	validation_0-rmse:0.07763	validation_1-rmse:0.08872
+[601]	validation_0-rmse:0.07761	validation_1-rmse:0.08870
+[602]	validation_0-rmse:0.07752	validation_1-rmse:0.08864
+[603]	validation_0-rmse:0.07745	validation_1-rmse:0.08858
+[604]	validation_0-rmse:0.07740	validation_1-rmse:0.08854
+[605]	validation_0-rmse:0.07733	validation_1-rmse:0.08846
+[606]	validation_0-rmse:0.07729	validation_1-rmse:0.08846
+[607]	validation_0-rmse:0.07725	validation_1-rmse:0.08842
+[608]	validation_0-rmse:0.07723	validation_1-rmse:0.08841
+[609]	validation_0-rmse:0.07719	validation_1-rmse:0.08838
+[610]	validation_0-rmse:0.07712	validation_1-rmse:0.08831
+[611]	validation_0-rmse:0.07704	validation_1-rmse:0.08823
+[612]	validation_0-rmse:0.07698	validation_1-rmse:0.08818
+[613]	validation_0-rmse:0.07697	validation_1-rmse:0.08817
+[614]	validation_0-rmse:0.07693	validation_1-rmse:0.08814
+[615]	validation_0-rmse:0.07689	validation_1-rmse:0.08812
+[616]	validation_0-rmse:0.07681	validation_1-rmse:0.08804
+[617]	validation_0-rmse:0.07679	validation_1-rmse:0.08802
+[618]	validation_0-rmse:0.07675	validation_1-rmse:0.08799
+[619]	validation_0-rmse:0.07674	validation_1-rmse:0.08799
+[620]	validation_0-rmse:0.07672	validation_1-rmse:0.08798
+[621]	validation_0-rmse:0.07669	validation_1-rmse:0.08798
+[622]	validation_0-rmse:0.07667	validation_1-rmse:0.08796
+[623]	validation_0-rmse:0.07663	validation_1-rmse:0.08794
+[624]	validation_0-rmse:0.07661	validation_1-rmse:0.08792
+[625]	validation_0-rmse:0.07659	validation_1-rmse:0.08792
+[626]	validation_0-rmse:0.07657	validation_1-rmse:0.08791
+[627]	validation_0-rmse:0.07655	validation_1-rmse:0.08790
+[628]	validation_0-rmse:0.07649	validation_1-rmse:0.08786
+[629]	validation_0-rmse:0.07646	validation_1-rmse:0.08784
+[630]	validation_0-rmse:0.07635	validation_1-rmse:0.08774
+[631]	validation_0-rmse:0.07630	validation_1-rmse:0.08771
+[632]	validation_0-rmse:0.07627	validation_1-rmse:0.08770
+[633]	validation_0-rmse:0.07625	validation_1-rmse:0.08769
+[634]	validation_0-rmse:0.07621	validation_1-rmse:0.08768
+[635]	validation_0-rmse:0.07618	validation_1-rmse:0.08766
+[636]	validation_0-rmse:0.07616	validation_1-rmse:0.08765
+[637]	validation_0-rmse:0.07614	validation_1-rmse:0.08764
+[638]	validation_0-rmse:0.07608	validation_1-rmse:0.08759
+[639]	validation_0-rmse:0.07608	validation_1-rmse:0.08759
+[640]	validation_0-rmse:0.07604	validation_1-rmse:0.08755
+[641]	validation_0-rmse:0.07600	validation_1-rmse:0.08753
+[642]	validation_0-rmse:0.07597	validation_1-rmse:0.08751
+[643]	validation_0-rmse:0.07593	validation_1-rmse:0.08748
+[644]	validation_0-rmse:0.07588	validation_1-rmse:0.08744
+[645]	validation_0-rmse:0.07584	validation_1-rmse:0.08744
+[646]	validation_0-rmse:0.07583	validation_1-rmse:0.08743
+[647]	validation_0-rmse:0.07576	validation_1-rmse:0.08738
+[648]	validation_0-rmse:0.07572	validation_1-rmse:0.08735
+[649]	validation_0-rmse:0.07566	validation_1-rmse:0.08729
+[650]	validation_0-rmse:0.07565	validation_1-rmse:0.08728
+[651]	validation_0-rmse:0.07564	validation_1-rmse:0.08728
+[652]	validation_0-rmse:0.07561	validation_1-rmse:0.08726
+[653]	validation_0-rmse:0.07559	validation_1-rmse:0.08725
+[654]	validation_0-rmse:0.07556	validation_1-rmse:0.08723
+[655]	validation_0-rmse:0.07551	validation_1-rmse:0.08719
+[656]	validation_0-rmse:0.07550	validation_1-rmse:0.08718
+[657]	validation_0-rmse:0.07547	validation_1-rmse:0.08716
+[658]	validation_0-rmse:0.07545	validation_1-rmse:0.08717
+[659]	validation_0-rmse:0.07542	validation_1-rmse:0.08714
+[660]	validation_0-rmse:0.07536	validation_1-rmse:0.08711
+[661]	validation_0-rmse:0.07534	validation_1-rmse:0.08709
+[662]	validation_0-rmse:0.07532	validation_1-rmse:0.08709
+[663]	validation_0-rmse:0.07528	validation_1-rmse:0.08706
+[664]	validation_0-rmse:0.07525	validation_1-rmse:0.08703
+[665]	validation_0-rmse:0.07521	validation_1-rmse:0.08700
+[666]	validation_0-rmse:0.07518	validation_1-rmse:0.08698
+[667]	validation_0-rmse:0.07514	validation_1-rmse:0.08697
+[668]	validation_0-rmse:0.07508	validation_1-rmse:0.08692
+[669]	validation_0-rmse:0.07505	validation_1-rmse:0.08690
+[670]	validation_0-rmse:0.07495	validation_1-rmse:0.08681
+[671]	validation_0-rmse:0.07492	validation_1-rmse:0.08681
+[672]	validation_0-rmse:0.07489	validation_1-rmse:0.08677
+[673]	validation_0-rmse:0.07485	validation_1-rmse:0.08675
+[674]	validation_0-rmse:0.07484	validation_1-rmse:0.08674
+[675]	validation_0-rmse:0.07479	validation_1-rmse:0.08670
+[676]	validation_0-rmse:0.07476	validation_1-rmse:0.08670
+[677]	validation_0-rmse:0.07473	validation_1-rmse:0.08668
+[678]	validation_0-rmse:0.07469	validation_1-rmse:0.08665
+[679]	validation_0-rmse:0.07467	validation_1-rmse:0.08664
+[680]	validation_0-rmse:0.07465	validation_1-rmse:0.08664
+[681]	validation_0-rmse:0.07458	validation_1-rmse:0.08659
+[682]	validation_0-rmse:0.07455	validation_1-rmse:0.08657
+[683]	validation_0-rmse:0.07452	validation_1-rmse:0.08655
+[684]	validation_0-rmse:0.07450	validation_1-rmse:0.08654
+[685]	validation_0-rmse:0.07449	validation_1-rmse:0.08653
+[686]	validation_0-rmse:0.07443	validation_1-rmse:0.08649
+[687]	validation_0-rmse:0.07438	validation_1-rmse:0.08645
+[688]	validation_0-rmse:0.07436	validation_1-rmse:0.08644
+[689]	validation_0-rmse:0.07432	validation_1-rmse:0.08640
+[690]	validation_0-rmse:0.07430	validation_1-rmse:0.08640
+[691]	validation_0-rmse:0.07428	validation_1-rmse:0.08638
+[692]	validation_0-rmse:0.07422	validation_1-rmse:0.08633
+[693]	validation_0-rmse:0.07420	validation_1-rmse:0.08632
+[694]	validation_0-rmse:0.07416	validation_1-rmse:0.08628
+[695]	validation_0-rmse:0.07412	validation_1-rmse:0.08627
+[696]	validation_0-rmse:0.07410	validation_1-rmse:0.08626
+[697]	validation_0-rmse:0.07407	validation_1-rmse:0.08625
+[698]	validation_0-rmse:0.07403	validation_1-rmse:0.08621
+[699]	validation_0-rmse:0.07401	validation_1-rmse:0.08619
+[700]	validation_0-rmse:0.07396	validation_1-rmse:0.08615
+[701]	validation_0-rmse:0.07393	validation_1-rmse:0.08614
+[702]	validation_0-rmse:0.07390	validation_1-rmse:0.08613
+[703]	validation_0-rmse:0.07385	validation_1-rmse:0.08607
+[704]	validation_0-rmse:0.07382	validation_1-rmse:0.08605
+[705]	validation_0-rmse:0.07379	validation_1-rmse:0.08602
+[706]	validation_0-rmse:0.07376	validation_1-rmse:0.08600
+[707]	validation_0-rmse:0.07374	validation_1-rmse:0.08598
+[708]	validation_0-rmse:0.07370	validation_1-rmse:0.08595
+[709]	validation_0-rmse:0.07366	validation_1-rmse:0.08592
+[710]	validation_0-rmse:0.07364	validation_1-rmse:0.08590
+[711]	validation_0-rmse:0.07359	validation_1-rmse:0.08586
+[712]	validation_0-rmse:0.07355	validation_1-rmse:0.08584
+[713]	validation_0-rmse:0.07354	validation_1-rmse:0.08583
+[714]	validation_0-rmse:0.07352	validation_1-rmse:0.08582
+[715]	validation_0-rmse:0.07348	validation_1-rmse:0.08579
+[716]	validation_0-rmse:0.07347	validation_1-rmse:0.08579
+[717]	validation_0-rmse:0.07345	validation_1-rmse:0.08577
+[718]	validation_0-rmse:0.07342	validation_1-rmse:0.08575
+[719]	validation_0-rmse:0.07336	validation_1-rmse:0.08570
+[720]	validation_0-rmse:0.07335	validation_1-rmse:0.08570
+[721]	validation_0-rmse:0.07332	validation_1-rmse:0.08568
+[722]	validation_0-rmse:0.07326	validation_1-rmse:0.08564
+[723]	validation_0-rmse:0.07324	validation_1-rmse:0.08565
+[724]	validation_0-rmse:0.07320	validation_1-rmse:0.08563
+[725]	validation_0-rmse:0.07319	validation_1-rmse:0.08563
+[726]	validation_0-rmse:0.07316	validation_1-rmse:0.08562
+[727]	validation_0-rmse:0.07311	validation_1-rmse:0.08558
+[728]	validation_0-rmse:0.07308	validation_1-rmse:0.08557
+[729]	validation_0-rmse:0.07303	validation_1-rmse:0.08553
+[730]	validation_0-rmse:0.07302	validation_1-rmse:0.08553
+[731]	validation_0-rmse:0.07298	validation_1-rmse:0.08551
+[732]	validation_0-rmse:0.07296	validation_1-rmse:0.08550
+[733]	validation_0-rmse:0.07292	validation_1-rmse:0.08548
+[734]	validation_0-rmse:0.07290	validation_1-rmse:0.08547
+[735]	validation_0-rmse:0.07287	validation_1-rmse:0.08545
+[736]	validation_0-rmse:0.07286	validation_1-rmse:0.08545
+[737]	validation_0-rmse:0.07284	validation_1-rmse:0.08544
+[738]	validation_0-rmse:0.07283	validation_1-rmse:0.08543
+[739]	validation_0-rmse:0.07279	validation_1-rmse:0.08539
+[740]	validation_0-rmse:0.07277	validation_1-rmse:0.08539
+[741]	validation_0-rmse:0.07267	validation_1-rmse:0.08530
+[742]	validation_0-rmse:0.07265	validation_1-rmse:0.08530
+[743]	validation_0-rmse:0.07263	validation_1-rmse:0.08527
+[744]	validation_0-rmse:0.07259	validation_1-rmse:0.08524
+[745]	validation_0-rmse:0.07256	validation_1-rmse:0.08522
+[746]	validation_0-rmse:0.07252	validation_1-rmse:0.08519
+[747]	validation_0-rmse:0.07251	validation_1-rmse:0.08518
+[748]	validation_0-rmse:0.07247	validation_1-rmse:0.08515
+[749]	validation_0-rmse:0.07244	validation_1-rmse:0.08513
+[750]	validation_0-rmse:0.07242	validation_1-rmse:0.08513
+[751]	validation_0-rmse:0.07240	validation_1-rmse:0.08511
+[752]	validation_0-rmse:0.07234	validation_1-rmse:0.08508
+[753]	validation_0-rmse:0.07230	validation_1-rmse:0.08505
+[754]	validation_0-rmse:0.07227	validation_1-rmse:0.08504
+[755]	validation_0-rmse:0.07224	validation_1-rmse:0.08503
+[756]	validation_0-rmse:0.07223	validation_1-rmse:0.08502
+[757]	validation_0-rmse:0.07223	validation_1-rmse:0.08502
+[758]	validation_0-rmse:0.07221	validation_1-rmse:0.08501
+[759]	validation_0-rmse:0.07219	validation_1-rmse:0.08500
+[760]	validation_0-rmse:0.07212	validation_1-rmse:0.08495
+[761]	validation_0-rmse:0.07210	validation_1-rmse:0.08495
+[762]	validation_0-rmse:0.07205	validation_1-rmse:0.08491
+[763]	validation_0-rmse:0.07202	validation_1-rmse:0.08490
+[764]	validation_0-rmse:0.07200	validation_1-rmse:0.08488
+[765]	validation_0-rmse:0.07199	validation_1-rmse:0.08487
+[766]	validation_0-rmse:0.07194	validation_1-rmse:0.08484
+[767]	validation_0-rmse:0.07192	validation_1-rmse:0.08482
+[768]	validation_0-rmse:0.07190	validation_1-rmse:0.08480
+[769]	validation_0-rmse:0.07189	validation_1-rmse:0.08479
+[770]	validation_0-rmse:0.07186	validation_1-rmse:0.08478
+[771]	validation_0-rmse:0.07183	validation_1-rmse:0.08475
+[772]	validation_0-rmse:0.07179	validation_1-rmse:0.08472
+[773]	validation_0-rmse:0.07177	validation_1-rmse:0.08471
+[774]	validation_0-rmse:0.07173	validation_1-rmse:0.08468
+[775]	validation_0-rmse:0.07171	validation_1-rmse:0.08467
+[776]	validation_0-rmse:0.07168	validation_1-rmse:0.08466
+[777]	validation_0-rmse:0.07164	validation_1-rmse:0.08463
+[778]	validation_0-rmse:0.07160	validation_1-rmse:0.08459
+[779]	validation_0-rmse:0.07158	validation_1-rmse:0.08459
+[780]	validation_0-rmse:0.07155	validation_1-rmse:0.08458
+[781]	validation_0-rmse:0.07151	validation_1-rmse:0.08453
+[782]	validation_0-rmse:0.07148	validation_1-rmse:0.08451
+[783]	validation_0-rmse:0.07146	validation_1-rmse:0.08451
+[784]	validation_0-rmse:0.07141	validation_1-rmse:0.08448
+[785]	validation_0-rmse:0.07140	validation_1-rmse:0.08447
+[786]	validation_0-rmse:0.07137	validation_1-rmse:0.08445
+[787]	validation_0-rmse:0.07133	validation_1-rmse:0.08443
+[788]	validation_0-rmse:0.07131	validation_1-rmse:0.08441
+[789]	validation_0-rmse:0.07129	validation_1-rmse:0.08441
+[790]	validation_0-rmse:0.07126	validation_1-rmse:0.08440
+[791]	validation_0-rmse:0.07125	validation_1-rmse:0.08439
+[792]	validation_0-rmse:0.07123	validation_1-rmse:0.08437
+[793]	validation_0-rmse:0.07119	validation_1-rmse:0.08435
+[794]	validation_0-rmse:0.07117	validation_1-rmse:0.08434
+[795]	validation_0-rmse:0.07116	validation_1-rmse:0.08433
+[796]	validation_0-rmse:0.07114	validation_1-rmse:0.08432
+[797]	validation_0-rmse:0.07107	validation_1-rmse:0.08428
+[798]	validation_0-rmse:0.07105	validation_1-rmse:0.08426
+[799]	validation_0-rmse:0.07103	validation_1-rmse:0.08425
+[800]	validation_0-rmse:0.07100	validation_1-rmse:0.08423
+[801]	validation_0-rmse:0.07097	validation_1-rmse:0.08423
+[802]	validation_0-rmse:0.07095	validation_1-rmse:0.08421
+[803]	validation_0-rmse:0.07092	validation_1-rmse:0.08419
+[804]	validation_0-rmse:0.07089	validation_1-rmse:0.08417
+[805]	validation_0-rmse:0.07087	validation_1-rmse:0.08416
+[806]	validation_0-rmse:0.07085	validation_1-rmse:0.08413
+[807]	validation_0-rmse:0.07083	validation_1-rmse:0.08412
+[808]	validation_0-rmse:0.07081	validation_1-rmse:0.08410
+[809]	validation_0-rmse:0.07077	validation_1-rmse:0.08407
+[810]	validation_0-rmse:0.07075	validation_1-rmse:0.08405
+[811]	validation_0-rmse:0.07073	validation_1-rmse:0.08404
+[812]	validation_0-rmse:0.07068	validation_1-rmse:0.08400
+[813]	validation_0-rmse:0.07062	validation_1-rmse:0.08396
+[814]	validation_0-rmse:0.07060	validation_1-rmse:0.08394
+[815]	validation_0-rmse:0.07054	validation_1-rmse:0.08390
+[816]	validation_0-rmse:0.07051	validation_1-rmse:0.08387
+[817]	validation_0-rmse:0.07047	validation_1-rmse:0.08385
+[818]	validation_0-rmse:0.07044	validation_1-rmse:0.08383
+[819]	validation_0-rmse:0.07043	validation_1-rmse:0.08382
+[820]	validation_0-rmse:0.07038	validation_1-rmse:0.08378
+[821]	validation_0-rmse:0.07034	validation_1-rmse:0.08375
+[822]	validation_0-rmse:0.07030	validation_1-rmse:0.08373
+[823]	validation_0-rmse:0.07028	validation_1-rmse:0.08372
+[824]	validation_0-rmse:0.07027	validation_1-rmse:0.08371
+[825]	validation_0-rmse:0.07025	validation_1-rmse:0.08370
+[826]	validation_0-rmse:0.07023	validation_1-rmse:0.08369
+[827]	validation_0-rmse:0.07022	validation_1-rmse:0.08367
+[828]	validation_0-rmse:0.07021	validation_1-rmse:0.08367
+[829]	validation_0-rmse:0.07018	validation_1-rmse:0.08366
+[830]	validation_0-rmse:0.07016	validation_1-rmse:0.08365
+[831]	validation_0-rmse:0.07013	validation_1-rmse:0.08362
+[832]	validation_0-rmse:0.07012	validation_1-rmse:0.08361
+[833]	validation_0-rmse:0.07011	validation_1-rmse:0.08361
+[834]	validation_0-rmse:0.07007	validation_1-rmse:0.08357
+[835]	validation_0-rmse:0.07005	validation_1-rmse:0.08355
+[836]	validation_0-rmse:0.07003	validation_1-rmse:0.08354
+[837]	validation_0-rmse:0.07001	validation_1-rmse:0.08352
+[838]	validation_0-rmse:0.06999	validation_1-rmse:0.08351
+[839]	validation_0-rmse:0.06996	validation_1-rmse:0.08349
+[840]	validation_0-rmse:0.06994	validation_1-rmse:0.08347
+[841]	validation_0-rmse:0.06991	validation_1-rmse:0.08345
+[842]	validation_0-rmse:0.06989	validation_1-rmse:0.08344
+[843]	validation_0-rmse:0.06987	validation_1-rmse:0.08342
+[844]	validation_0-rmse:0.06983	validation_1-rmse:0.08339
+[845]	validation_0-rmse:0.06979	validation_1-rmse:0.08335
+[846]	validation_0-rmse:0.06978	validation_1-rmse:0.08335
+[847]	validation_0-rmse:0.06975	validation_1-rmse:0.08334
+[848]	validation_0-rmse:0.06974	validation_1-rmse:0.08333
+[849]	validation_0-rmse:0.06969	validation_1-rmse:0.08329
+[850]	validation_0-rmse:0.06967	validation_1-rmse:0.08327
+[851]	validation_0-rmse:0.06962	validation_1-rmse:0.08324
+[852]	validation_0-rmse:0.06959	validation_1-rmse:0.08323
+[853]	validation_0-rmse:0.06957	validation_1-rmse:0.08321
+[854]	validation_0-rmse:0.06956	validation_1-rmse:0.08320
+[855]	validation_0-rmse:0.06955	validation_1-rmse:0.08320
+[856]	validation_0-rmse:0.06952	validation_1-rmse:0.08317
+[857]	validation_0-rmse:0.06950	validation_1-rmse:0.08315
+[858]	validation_0-rmse:0.06947	validation_1-rmse:0.08314
+[859]	validation_0-rmse:0.06946	validation_1-rmse:0.08313
+[860]	validation_0-rmse:0.06944	validation_1-rmse:0.08313
+[861]	validation_0-rmse:0.06939	validation_1-rmse:0.08308
+[862]	validation_0-rmse:0.06937	validation_1-rmse:0.08306
+[863]	validation_0-rmse:0.06932	validation_1-rmse:0.08303
+[864]	validation_0-rmse:0.06930	validation_1-rmse:0.08302
+[865]	validation_0-rmse:0.06929	validation_1-rmse:0.08302
+[866]	validation_0-rmse:0.06928	validation_1-rmse:0.08301
+[867]	validation_0-rmse:0.06925	validation_1-rmse:0.08299
+[868]	validation_0-rmse:0.06923	validation_1-rmse:0.08297
+[869]	validation_0-rmse:0.06917	validation_1-rmse:0.08291
+[870]	validation_0-rmse:0.06914	validation_1-rmse:0.08289
+[871]	validation_0-rmse:0.06912	validation_1-rmse:0.08289
+[872]	validation_0-rmse:0.06906	validation_1-rmse:0.08284
+[873]	validation_0-rmse:0.06903	validation_1-rmse:0.08282
+[874]	validation_0-rmse:0.06900	validation_1-rmse:0.08279
+[875]	validation_0-rmse:0.06898	validation_1-rmse:0.08279
+[876]	validation_0-rmse:0.06896	validation_1-rmse:0.08277
+[877]	validation_0-rmse:0.06895	validation_1-rmse:0.08278
+[878]	validation_0-rmse:0.06894	validation_1-rmse:0.08277
+[879]	validation_0-rmse:0.06893	validation_1-rmse:0.08277
+[880]	validation_0-rmse:0.06889	validation_1-rmse:0.08273
+[881]	validation_0-rmse:0.06886	validation_1-rmse:0.08271
+[882]	validation_0-rmse:0.06884	validation_1-rmse:0.08270
+[883]	validation_0-rmse:0.06882	validation_1-rmse:0.08268
+[884]	validation_0-rmse:0.06880	validation_1-rmse:0.08267
+[885]	validation_0-rmse:0.06878	validation_1-rmse:0.08266
+[886]	validation_0-rmse:0.06875	validation_1-rmse:0.08264
+[887]	validation_0-rmse:0.06873	validation_1-rmse:0.08262
+[888]	validation_0-rmse:0.06870	validation_1-rmse:0.08260
+[889]	validation_0-rmse:0.06867	validation_1-rmse:0.08259
+[890]	validation_0-rmse:0.06865	validation_1-rmse:0.08257
+[891]	validation_0-rmse:0.06863	validation_1-rmse:0.08256
+[892]	validation_0-rmse:0.06862	validation_1-rmse:0.08256
+[893]	validation_0-rmse:0.06859	validation_1-rmse:0.08254
+[894]	validation_0-rmse:0.06858	validation_1-rmse:0.08254
+[895]	validation_0-rmse:0.06851	validation_1-rmse:0.08249
+[896]	validation_0-rmse:0.06849	validation_1-rmse:0.08248
+[897]	validation_0-rmse:0.06847	validation_1-rmse:0.08247
+[898]	validation_0-rmse:0.06846	validation_1-rmse:0.08246
+[899]	validation_0-rmse:0.06845	validation_1-rmse:0.08246
+[900]	validation_0-rmse:0.06843	validation_1-rmse:0.08245
+[901]	validation_0-rmse:0.06840	validation_1-rmse:0.08242
+[902]	validation_0-rmse:0.06838	validation_1-rmse:0.08241
+[903]	validation_0-rmse:0.06837	validation_1-rmse:0.08241
+[904]	validation_0-rmse:0.06834	validation_1-rmse:0.08240
+[905]	validation_0-rmse:0.06830	validation_1-rmse:0.08236
+[906]	validation_0-rmse:0.06829	validation_1-rmse:0.08236
+[907]	validation_0-rmse:0.06827	validation_1-rmse:0.08234
+[908]	validation_0-rmse:0.06824	validation_1-rmse:0.08233
+[909]	validation_0-rmse:0.06823	validation_1-rmse:0.08232
+[910]	validation_0-rmse:0.06821	validation_1-rmse:0.08231
+[911]	validation_0-rmse:0.06818	validation_1-rmse:0.08230
+[912]	validation_0-rmse:0.06816	validation_1-rmse:0.08228
+[913]	validation_0-rmse:0.06814	validation_1-rmse:0.08227
+[914]	validation_0-rmse:0.06811	validation_1-rmse:0.08225
+[915]	validation_0-rmse:0.06809	validation_1-rmse:0.08224
+[916]	validation_0-rmse:0.06807	validation_1-rmse:0.08222
+[917]	validation_0-rmse:0.06805	validation_1-rmse:0.08222
+[918]	validation_0-rmse:0.06801	validation_1-rmse:0.08220
+[919]	validation_0-rmse:0.06800	validation_1-rmse:0.08219
+[920]	validation_0-rmse:0.06798	validation_1-rmse:0.08218
+[921]	validation_0-rmse:0.06794	validation_1-rmse:0.08216
+[922]	validation_0-rmse:0.06792	validation_1-rmse:0.08216
+[923]	validation_0-rmse:0.06787	validation_1-rmse:0.08212
+[924]	validation_0-rmse:0.06786	validation_1-rmse:0.08211
+[925]	validation_0-rmse:0.06785	validation_1-rmse:0.08210
+[926]	validation_0-rmse:0.06783	validation_1-rmse:0.08210
+[927]	validation_0-rmse:0.06782	validation_1-rmse:0.08210
+[928]	validation_0-rmse:0.06781	validation_1-rmse:0.08210
+[929]	validation_0-rmse:0.06780	validation_1-rmse:0.08209
+[930]	validation_0-rmse:0.06778	validation_1-rmse:0.08208
+[931]	validation_0-rmse:0.06777	validation_1-rmse:0.08207
+[932]	validation_0-rmse:0.06775	validation_1-rmse:0.08205
+[933]	validation_0-rmse:0.06772	validation_1-rmse:0.08204
+[934]	validation_0-rmse:0.06768	validation_1-rmse:0.08202
+[935]	validation_0-rmse:0.06766	validation_1-rmse:0.08201
+[936]	validation_0-rmse:0.06762	validation_1-rmse:0.08198
+[937]	validation_0-rmse:0.06760	validation_1-rmse:0.08197
+[938]	validation_0-rmse:0.06757	validation_1-rmse:0.08196
+[939]	validation_0-rmse:0.06752	validation_1-rmse:0.08190
+[940]	validation_0-rmse:0.06751	validation_1-rmse:0.08190
+[941]	validation_0-rmse:0.06749	validation_1-rmse:0.08190
+[942]	validation_0-rmse:0.06747	validation_1-rmse:0.08188
+[943]	validation_0-rmse:0.06744	validation_1-rmse:0.08186
+[944]	validation_0-rmse:0.06742	validation_1-rmse:0.08185
+[945]	validation_0-rmse:0.06738	validation_1-rmse:0.08181
+[946]	validation_0-rmse:0.06734	validation_1-rmse:0.08179
+[947]	validation_0-rmse:0.06733	validation_1-rmse:0.08179
+[948]	validation_0-rmse:0.06730	validation_1-rmse:0.08178
+[949]	validation_0-rmse:0.06722	validation_1-rmse:0.08171
+[950]	validation_0-rmse:0.06716	validation_1-rmse:0.08167
+[951]	validation_0-rmse:0.06714	validation_1-rmse:0.08166
+[952]	validation_0-rmse:0.06713	validation_1-rmse:0.08165
+[953]	validation_0-rmse:0.06711	validation_1-rmse:0.08165
+[954]	validation_0-rmse:0.06709	validation_1-rmse:0.08165
+[955]	validation_0-rmse:0.06707	validation_1-rmse:0.08164
+[956]	validation_0-rmse:0.06704	validation_1-rmse:0.08162
+[957]	validation_0-rmse:0.06701	validation_1-rmse:0.08161
+[958]	validation_0-rmse:0.06699	validation_1-rmse:0.08160
+[959]	validation_0-rmse:0.06698	validation_1-rmse:0.08160
+[960]	validation_0-rmse:0.06696	validation_1-rmse:0.08158
+[961]	validation_0-rmse:0.06693	validation_1-rmse:0.08157
+[962]	validation_0-rmse:0.06691	validation_1-rmse:0.08156
+[963]	validation_0-rmse:0.06688	validation_1-rmse:0.08154
+[964]	validation_0-rmse:0.06687	validation_1-rmse:0.08153
+[965]	validation_0-rmse:0.06686	validation_1-rmse:0.08153
+[966]	validation_0-rmse:0.06685	validation_1-rmse:0.08152
+[967]	validation_0-rmse:0.06683	validation_1-rmse:0.08151
+[968]	validation_0-rmse:0.06681	validation_1-rmse:0.08150
+[969]	validation_0-rmse:0.06677	validation_1-rmse:0.08148
+[970]	validation_0-rmse:0.06674	validation_1-rmse:0.08146
+[971]	validation_0-rmse:0.06673	validation_1-rmse:0.08145
+[972]	validation_0-rmse:0.06669	validation_1-rmse:0.08143
+[973]	validation_0-rmse:0.06667	validation_1-rmse:0.08141
+[974]	validation_0-rmse:0.06663	validation_1-rmse:0.08138
+[975]	validation_0-rmse:0.06661	validation_1-rmse:0.08137
+[976]	validation_0-rmse:0.06660	validation_1-rmse:0.08136
+[977]	validation_0-rmse:0.06658	validation_1-rmse:0.08134
+[978]	validation_0-rmse:0.06657	validation_1-rmse:0.08134
+[979]	validation_0-rmse:0.06653	validation_1-rmse:0.08130
+[980]	validation_0-rmse:0.06648	validation_1-rmse:0.08127
+[981]	validation_0-rmse:0.06646	validation_1-rmse:0.08127
+[982]	validation_0-rmse:0.06643	validation_1-rmse:0.08126
+[983]	validation_0-rmse:0.06641	validation_1-rmse:0.08125
+[984]	validation_0-rmse:0.06640	validation_1-rmse:0.08125
+[985]	validation_0-rmse:0.06636	validation_1-rmse:0.08122
+[986]	validation_0-rmse:0.06632	validation_1-rmse:0.08119
+[987]	validation_0-rmse:0.06631	validation_1-rmse:0.08119
+[988]	validation_0-rmse:0.06628	validation_1-rmse:0.08116
+[989]	validation_0-rmse:0.06625	validation_1-rmse:0.08115
+[990]	validation_0-rmse:0.06623	validation_1-rmse:0.08114
+[991]	validation_0-rmse:0.06621	validation_1-rmse:0.08112
+[992]	validation_0-rmse:0.06616	validation_1-rmse:0.08108
+[993]	validation_0-rmse:0.06615	validation_1-rmse:0.08108
+[994]	validation_0-rmse:0.06613	validation_1-rmse:0.08106
+[995]	validation_0-rmse:0.06611	validation_1-rmse:0.08106
+[996]	validation_0-rmse:0.06609	validation_1-rmse:0.08105
+[997]	validation_0-rmse:0.06608	validation_1-rmse:0.08105
+[998]	validation_0-rmse:0.06606	validation_1-rmse:0.08105
+[999]	validation_0-rmse:0.06605	validation_1-rmse:0.08105
+&gt;&gt;&gt; Using model to predict target VPD_T1_47_1 in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of VPD_T1_47_1 ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+================================
+MODEL TRAINING &amp; TESTING RESULTS
+================================
+
+## DATA
+  &gt; target: VPD_T1_47_1
+  &gt; features: 12 [&#39;TA_T1_47_1_gfXG&#39;, &#39;.DOY&#39;, &#39;.YEARDOY&#39;, &#39;.YEARMONTH&#39;, &#39;.RECORDNUMBER&#39;, &#39;.YEARWEEK&#39;, &#39;.WEEK&#39;, &#39;SW_IN_T1_47_1_gfXG&#39;, &#39;.HOUR&#39;, &#39;.YEAR&#39;, &#39;.MONTH&#39;, &#39;.SEASON&#39;]
+  &gt; 355563 records (with missing)
+  &gt; 352774 available records for target and all features (no missing values)
+  &gt; training on 264580 records (75.0%) of 264580 features between 2004-09-20 11:15:00 and 2024-12-31 23:15:00
+  &gt; testing on 88194 unseen records (25.0%) of VPD_T1_47_1 between 2004-09-20 10:45:00 and 2024-12-31 23:45:00
+
+## MODEL
+  &gt; the model was trained on training data (264580 records)
+  &gt; the model was tested on test data (88194 values)
+  &gt; estimator:  XGBRegressor(base_score=None, booster=None, callbacks=None,
+             colsample_bylevel=None, colsample_bynode=None,
+             colsample_bytree=None, device=None, early_stopping_rounds=50,
+             enable_categorical=False, eval_metric=None, feature_types=None,
+             feature_weights=None, gamma=None, grow_policy=None,
+             importance_type=None, interaction_constraints=None,
+             learning_rate=None, max_bin=None, max_cat_threshold=None,
+             max_cat_to_onehot=None, max_delta_step=None, max_depth=None,
+             max_leaves=None, min_child_weight=None, missing=nan,
+             monotone_constraints=None, multi_strategy=None, n_estimators=1000,
+             n_jobs=-1, num_parallel_tree=None, ...)
+  &gt; parameters:  {&#39;objective&#39;: &#39;reg:squarederror&#39;, &#39;base_score&#39;: None, &#39;booster&#39;: None, &#39;callbacks&#39;: None, &#39;colsample_bylevel&#39;: None, &#39;colsample_bynode&#39;: None, &#39;colsample_bytree&#39;: None, &#39;device&#39;: None, &#39;early_stopping_rounds&#39;: 50, &#39;enable_categorical&#39;: False, &#39;eval_metric&#39;: None, &#39;feature_types&#39;: None, &#39;feature_weights&#39;: None, &#39;gamma&#39;: None, &#39;grow_policy&#39;: None, &#39;importance_type&#39;: None, &#39;interaction_constraints&#39;: None, &#39;learning_rate&#39;: None, &#39;max_bin&#39;: None, &#39;max_cat_threshold&#39;: None, &#39;max_cat_to_onehot&#39;: None, &#39;max_delta_step&#39;: None, &#39;max_depth&#39;: None, &#39;max_leaves&#39;: None, &#39;min_child_weight&#39;: None, &#39;missing&#39;: nan, &#39;monotone_constraints&#39;: None, &#39;multi_strategy&#39;: None, &#39;n_estimators&#39;: 1000, &#39;n_jobs&#39;: -1, &#39;num_parallel_tree&#39;: None, &#39;random_state&#39;: 42, &#39;reg_alpha&#39;: None, &#39;reg_lambda&#39;: None, &#39;sampling_method&#39;: None, &#39;scale_pos_weight&#39;: None, &#39;subsample&#39;: None, &#39;tree_method&#39;: None, &#39;validate_parameters&#39;: None, &#39;verbosity&#39;: None}
+  &gt; number of features used in model:  12
+  &gt; names of features used in model:  [&#39;TA_T1_47_1_gfXG&#39;, &#39;.DOY&#39;, &#39;.YEARDOY&#39;, &#39;.YEARMONTH&#39;, &#39;.RECORDNUMBER&#39;, &#39;.YEARWEEK&#39;, &#39;.WEEK&#39;, &#39;SW_IN_T1_47_1_gfXG&#39;, &#39;.HOUR&#39;, &#39;.YEAR&#39;, &#39;.MONTH&#39;, &#39;.SEASON&#39;]
+
+## FEATURE IMPORTANCES
+  &gt; feature importances were calculated based on unseen test data of VPD_T1_47_1 (88194 records).
+  &gt; feature importances are showing permutation importances from 10 repeats
+
+                    PERM_IMPORTANCE   PERM_SD
+TA_T1_47_1_gfXG            3.261028  0.016806
+.DOY                       0.434678  0.003029
+.RECORDNUMBER              0.322456  0.001770
+.YEARMONTH                 0.269392  0.001758
+.YEARDOY                   0.220585  0.001774
+.YEARWEEK                  0.124488  0.001027
+.WEEK                      0.084372  0.000462
+SW_IN_T1_47_1_gfXG         0.066325  0.000656
+.HOUR                      0.057451  0.000394
+.MONTH                     0.006994  0.000132
+.SEASON                    0.003797  0.000068
+.YEAR                      0.001361  0.000026
+
+
+## MODEL SCORES
+  All scores were calculated based on unseen test data (88194 records).
+  &gt; MAE:  0.05566625447876716 (mean absolute error)
+  &gt; MedAE:  0.03682704703843394 (median absolute error)
+  &gt; MSE:  0.006568388800636606 (mean squared error)
+  &gt; RMSE:  0.08104559704657993 (root mean squared error)
+  &gt; MAXE:  1.1500810786291717 (max error)
+  &gt; MAPE:  720483612072.533 (mean absolute percentage error)
+  &gt; R2:  0.9684904499209275
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span><span class="o">.</span><span class="n">fillgaps</span><span class="p">(</span><span class="n">showplot_scores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showplot_importance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">xgb</span><span class="o">.</span><span class="n">report_gapfilling</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target VPD_T1_47_1 ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting VPD_T1_47_1 ...
+&gt;&gt;&gt; Predicting target VPD_T1_47_1 where all features are available ... predicted 355563 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 2789 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable VPD_T1_47_1_gfXG ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in VPD_T1_47_1_gfXG using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+===================
+GAP-FILLING RESULTS
+===================
+
+Model scores and feature importances were calculated from high-quality predicted targets (2789 values, VPD_T1_47_1_gfXG where flag=1) in comparison to observed targets (352774 values, VPD_T1_47_1).
+
+## TARGET
+- first timestamp:  2004-09-20 10:45:00
+- last timestamp:  2024-12-31 23:45:00
+- potential number of values: 355563 values)
+- target column (observed):  VPD_T1_47_1
+- missing records (observed):  2789 (cross-check from flag: 2789)
+- target column (gap-filled):  VPD_T1_47_1_gfXG  (355563 values)
+- missing records (gap-filled):  0
+- gap-filling flag: FLAG_VPD_T1_47_1_gfXG_ISFILLED
+  &gt; flag 0 ... observed targets (352774 values)
+  &gt; flag 1 ... targets gap-filled with high-quality, all features available (2789 values)
+  &gt; flag 2 ... targets gap-filled with fallback (0 values)
+
+## FEATURE IMPORTANCES
+- names of features used in model:  [&#39;TA_T1_47_1_gfXG&#39;, &#39;.DOY&#39;, &#39;.RECORDNUMBER&#39;, &#39;.YEARMONTH&#39;, &#39;.YEARDOY&#39;, &#39;.YEARWEEK&#39;, &#39;.WEEK&#39;, &#39;SW_IN_T1_47_1_gfXG&#39;, &#39;.HOUR&#39;, &#39;.MONTH&#39;, &#39;.SEASON&#39;, &#39;.YEAR&#39;]
+- number of features used in model:  12
+- permutation importances were calculated from 10 repeats.
+
+                    PERM_IMPORTANCE   PERM_SD
+TA_T1_47_1_gfXG            3.264429  0.007092
+.DOY                       0.433267  0.000910
+.RECORDNUMBER              0.318897  0.001120
+.YEARMONTH                 0.267372  0.000852
+.YEARDOY                   0.219419  0.000550
+.YEARWEEK                  0.122614  0.000469
+.WEEK                      0.084402  0.000274
+SW_IN_T1_47_1_gfXG         0.069589  0.000448
+.HOUR                      0.059480  0.000330
+.MONTH                     0.007029  0.000045
+.SEASON                    0.003911  0.000029
+.YEAR                      0.001391  0.000012
+
+## MODEL
+The model was trained on a training set with test size 25.00%.
+- estimator:  XGBRegressor(base_score=None, booster=None, callbacks=None,
+             colsample_bylevel=None, colsample_bynode=None,
+             colsample_bytree=None, device=None, early_stopping_rounds=50,
+             enable_categorical=False, eval_metric=None, feature_types=None,
+             feature_weights=None, gamma=None, grow_policy=None,
+             importance_type=None, interaction_constraints=None,
+             learning_rate=None, max_bin=None, max_cat_threshold=None,
+             max_cat_to_onehot=None, max_delta_step=None, max_depth=None,
+             max_leaves=None, min_child_weight=None, missing=nan,
+             monotone_constraints=None, multi_strategy=None, n_estimators=1000,
+             n_jobs=-1, num_parallel_tree=None, ...)
+- parameters:  {&#39;objective&#39;: &#39;reg:squarederror&#39;, &#39;base_score&#39;: None, &#39;booster&#39;: None, &#39;callbacks&#39;: None, &#39;colsample_bylevel&#39;: None, &#39;colsample_bynode&#39;: None, &#39;colsample_bytree&#39;: None, &#39;device&#39;: None, &#39;early_stopping_rounds&#39;: 50, &#39;enable_categorical&#39;: False, &#39;eval_metric&#39;: None, &#39;feature_types&#39;: None, &#39;feature_weights&#39;: None, &#39;gamma&#39;: None, &#39;grow_policy&#39;: None, &#39;importance_type&#39;: None, &#39;interaction_constraints&#39;: None, &#39;learning_rate&#39;: None, &#39;max_bin&#39;: None, &#39;max_cat_threshold&#39;: None, &#39;max_cat_to_onehot&#39;: None, &#39;max_delta_step&#39;: None, &#39;max_depth&#39;: None, &#39;max_leaves&#39;: None, &#39;min_child_weight&#39;: None, &#39;missing&#39;: nan, &#39;monotone_constraints&#39;: None, &#39;multi_strategy&#39;: None, &#39;n_estimators&#39;: 1000, &#39;n_jobs&#39;: -1, &#39;num_parallel_tree&#39;: None, &#39;random_state&#39;: 42, &#39;reg_alpha&#39;: None, &#39;reg_lambda&#39;: None, &#39;sampling_method&#39;: None, &#39;scale_pos_weight&#39;: None, &#39;subsample&#39;: None, &#39;tree_method&#39;: None, &#39;validate_parameters&#39;: None, &#39;verbosity&#39;: None}
+
+## MODEL SCORES
+- MAE:  0.048506169434843094 (mean absolute error)
+- MedAE:  0.032569884255757096 (median absolute error)
+- MSE:  0.004913621158321431 (mean squared error)
+- RMSE:  0.07009722646668291 (root mean squared error)
+- MAXE:  1.1500810786291717 (max error)
+- MAPE:  708038386853.597 (mean absolute percentage error)
+- R2:  0.9766036669417554
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">gapfilling_df_</span>
+<span class="n">results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>.PREDICTIONS_FULLMODEL</th>
+      <th>VPD_T1_47_1</th>
+      <th>.GAP_PREDICTIONS</th>
+      <th>FLAG_VPD_T1_47_1_gfXG_ISFILLED</th>
+      <th>VPD_T1_47_1_gfXG</th>
+      <th>.PREDICTIONS_FALLBACK</th>
+      <th>.GAPFILLED_CUMULATIVE</th>
+      <th>.PREDICTIONS</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-09-20 10:45:00</th>
+      <td>0.319099</td>
+      <td>0.298200</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.298200</td>
+      <td>None</td>
+      <td>0.298200</td>
+      <td>0.319099</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:15:00</th>
+      <td>0.372155</td>
+      <td>0.346113</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.346113</td>
+      <td>None</td>
+      <td>0.644313</td>
+      <td>0.372155</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:45:00</th>
+      <td>0.322263</td>
+      <td>0.382596</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.382596</td>
+      <td>None</td>
+      <td>1.026909</td>
+      <td>0.322263</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:15:00</th>
+      <td>0.448923</td>
+      <td>0.470299</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.470299</td>
+      <td>None</td>
+      <td>1.497208</td>
+      <td>0.448923</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:45:00</th>
+      <td>0.412274</td>
+      <td>0.436409</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.436409</td>
+      <td>None</td>
+      <td>1.933617</td>
+      <td>0.412274</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>0.078611</td>
+      <td>0.075030</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.075030</td>
+      <td>None</td>
+      <td>124856.050006</td>
+      <td>0.078611</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>0.068581</td>
+      <td>0.075127</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.075127</td>
+      <td>None</td>
+      <td>124856.125134</td>
+      <td>0.068581</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>0.068581</td>
+      <td>0.060608</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.060608</td>
+      <td>None</td>
+      <td>124856.185742</td>
+      <td>0.068581</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>0.112929</td>
+      <td>0.117695</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.117695</td>
+      <td>None</td>
+      <td>124856.303437</td>
+      <td>0.112929</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>0.069760</td>
+      <td>0.069221</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0.069221</td>
+      <td>None</td>
+      <td>124856.372658</td>
+      <td>0.069760</td>
+    </tr>
+  </tbody>
+</table>
+<p>355563 rows × 8 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="add-to-data">
+<h2>Add to data<a class="headerlink" href="#add-to-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine data</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1_gfXG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1_gfXG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;VPD_T1_47_1_gfXG&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2004-09-20 10:45:00    0.298200
+2004-09-20 11:15:00    0.346113
+2004-09-20 11:45:00    0.382596
+2004-09-20 12:15:00    0.470299
+2004-09-20 12:45:00    0.436409
+                         ...   
+2024-12-31 21:45:00    0.075030
+2024-12-31 22:15:00    0.075127
+2024-12-31 22:45:00    0.060608
+2024-12-31 23:15:00    0.117695
+2024-12-31 23:45:00    0.069221
+Freq: 30min, Name: VPD_T1_47_1_gfXG, Length: 355563, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flag</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;FLAG_VPD_T1_47_1_gfXG_ISFILLED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;FLAG_VPD_T1_47_1_gfXG_ISFILLED&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;FLAG_VPD_T1_47_1_gfXG_ISFILLED&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TIMESTAMP_MIDDLE
+2004-09-20 10:45:00    0
+2004-09-20 11:15:00    0
+2004-09-20 11:45:00    0
+2004-09-20 12:15:00    0
+2004-09-20 12:45:00    0
+                      ..
+2024-12-31 21:45:00    0
+2024-12-31 22:15:00    0
+2024-12-31 22:45:00    0
+2024-12-31 23:15:00    0
+2024-12-31 23:45:00    0
+Freq: 30min, Name: FLAG_VPD_T1_47_1_gfXG_ISFILLED, Length: 355563, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;VPD&quot;</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;VPD_T1_47_1_gfXG&#39;</span><span class="p">,</span> <span class="s1">&#39;FLAG_VPD_T1_47_1_gfXG_ISFILLED&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_compat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2a92b5ba635e4e4c356f8d196b60b62b56a7ae4b723d51514e9db109ebb7df33.png" src="../../_images/2a92b5ba635e4e4c356f8d196b60b62b56a7ae4b723d51514e9db109ebb7df33.png" />
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="plots">
+<h1>Plots<a class="headerlink" href="#plots" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_plot_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">_plot_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="time-series-plot">
+<h2>Time series plot<a class="headerlink" href="#time-series-plot" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_plot_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Downloaded data&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.9</span><span class="p">,</span> <span class="n">x_compat</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ca59bbbbefb58579da8def54d35771f4ae007daa2433aa0f8818a9714e876e27.png" src="../../_images/ca59bbbbefb58579da8def54d35771f4ae007daa2433aa0f8818a9714e876e27.png" />
+</div>
+</div>
+</section>
+<section id="heatmaps">
+<h2>Heatmaps<a class="headerlink" href="#heatmaps" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">_plot_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">_plot_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+    <span class="n">series</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">col</span>
+    <span class="n">dv</span><span class="o">.</span><span class="n">heatmapdatetime</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c0d0f7ceae5f0420988bc53c40106ba52f1b56142ec763969a7e53c4615c6e68.png" src="../../_images/c0d0f7ceae5f0420988bc53c40106ba52f1b56142ec763969a7e53c4615c6e68.png" />
+<img alt="../../_images/de641cdba0e5e77d48121864b4b479a0403e91e1eb0b1cd365794be0b3b21d71.png" src="../../_images/de641cdba0e5e77d48121864b4b479a0403e91e1eb0b1cd365794be0b3b21d71.png" />
+<img alt="../../_images/020a26a57c51964588a8e253bdde9ef279744e95b0812888084362397a79e890.png" src="../../_images/020a26a57c51964588a8e253bdde9ef279744e95b0812888084362397a79e890.png" />
+<img alt="../../_images/8845016f5e67746c297e2cd2ca1e237daabf4902f5129566dd31a3233d3de6ff.png" src="../../_images/8845016f5e67746c297e2cd2ca1e237daabf4902f5129566dd31a3233d3de6ff.png" />
+<img alt="../../_images/ba2b2c2596696002d46ad1cbadbc45e7903d0233f6cce68452e8ef558cf5428c.png" src="../../_images/ba2b2c2596696002d46ad1cbadbc45e7903d0233f6cce68452e8ef558cf5428c.png" />
+<img alt="../../_images/9fb1c1e3083d1cb8d0b62a68ca6b1b2c58031ef69f73aaa9fc814a258d071d41.png" src="../../_images/9fb1c1e3083d1cb8d0b62a68ca6b1b2c58031ef69f73aaa9fc814a258d071d41.png" />
+<img alt="../../_images/b2e432e7f525ffadbeabc65cc9d82b21092a6ce7f7fa9827ac6fa82bab701877.png" src="../../_images/b2e432e7f525ffadbeabc65cc9d82b21092a6ce7f7fa9827ac6fa82bab701877.png" />
+<img alt="../../_images/e31094034530a1e90a9b2d0a18762022db393736b3815d95f280328447ecef50.png" src="../../_images/e31094034530a1e90a9b2d0a18762022db393736b3815d95f280328447ecef50.png" />
+<img alt="../../_images/e2c635422cb6eb4f861e891002c290f48e9f5073134963e5f2853e30c29576a3.png" src="../../_images/e2c635422cb6eb4f861e891002c290f48e9f5073134963e5f2853e30c29576a3.png" />
+<img alt="../../_images/fc824614d864f10f4b95ff56a7585da1288207f9acfa15de7f8573876934990c.png" src="../../_images/fc824614d864f10f4b95ff56a7585da1288207f9acfa15de7f8573876934990c.png" />
+<img alt="../../_images/809fe2205984ee6aaa277989f84e1552a55b68f87907f8e3083a56ce50836294.png" src="../../_images/809fe2205984ee6aaa277989f84e1552a55b68f87907f8e3083a56ce50836294.png" />
+<img alt="../../_images/271dde701ff3a07f554be37f829f19b929021dbaa70bb38654be7489b632c939.png" src="../../_images/271dde701ff3a07f554be37f829f19b929021dbaa70bb38654be7489b632c939.png" />
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="stats">
+<h1>Stats<a class="headerlink" href="#stats" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>LW_IN_T1_47_1</th>
+      <td>334651.0</td>
+      <td>310.191939</td>
+      <td>45.718410</td>
+      <td>135.445129</td>
+      <td>282.017899</td>
+      <td>315.560983</td>
+      <td>343.077050</td>
+      <td>441.779694</td>
+    </tr>
+    <tr>
+      <th>PA_T1_47_1</th>
+      <td>335887.0</td>
+      <td>93.234546</td>
+      <td>0.743782</td>
+      <td>89.446007</td>
+      <td>92.851006</td>
+      <td>93.309998</td>
+      <td>93.703298</td>
+      <td>95.543335</td>
+    </tr>
+    <tr>
+      <th>PPFD_IN_T1_47_1</th>
+      <td>354281.0</td>
+      <td>288.553030</td>
+      <td>486.866078</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>369.686569</td>
+      <td>2270.612673</td>
+    </tr>
+    <tr>
+      <th>RH_T1_47_1</th>
+      <td>352774.0</td>
+      <td>79.283494</td>
+      <td>18.817820</td>
+      <td>16.934985</td>
+      <td>65.473702</td>
+      <td>82.847867</td>
+      <td>98.043015</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>SW_IN_T1_47_1</th>
+      <td>345624.0</td>
+      <td>140.243968</td>
+      <td>237.022077</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>182.744032</td>
+      <td>1118.665920</td>
+    </tr>
+    <tr>
+      <th>TA_T1_47_1</th>
+      <td>352760.0</td>
+      <td>8.898763</td>
+      <td>8.170412</td>
+      <td>-17.200001</td>
+      <td>2.581000</td>
+      <td>8.822186</td>
+      <td>14.940000</td>
+      <td>33.558765</td>
+    </tr>
+    <tr>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <td>355563.0</td>
+      <td>143.758864</td>
+      <td>237.382005</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>196.250065</td>
+      <td>1118.665920</td>
+    </tr>
+    <tr>
+      <th>TA_T1_47_1_gfXG</th>
+      <td>355563.0</td>
+      <td>8.890540</td>
+      <td>8.173191</td>
+      <td>-17.200001</td>
+      <td>2.560453</td>
+      <td>8.790000</td>
+      <td>14.947231</td>
+      <td>33.558765</td>
+    </tr>
+    <tr>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+      <td>355563.0</td>
+      <td>289.405280</td>
+      <td>487.050354</td>
+      <td>-2.392997</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>372.034233</td>
+      <td>2270.612673</td>
+    </tr>
+    <tr>
+      <th>VPD_T1_47_1</th>
+      <td>352774.0</td>
+      <td>0.351999</td>
+      <td>0.458276</td>
+      <td>0.000000</td>
+      <td>0.015304</td>
+      <td>0.170611</td>
+      <td>0.516567</td>
+      <td>4.035805</td>
+    </tr>
+    <tr>
+      <th>VPD_T1_47_1_gfXG</th>
+      <td>355563.0</td>
+      <td>0.351151</td>
+      <td>0.457825</td>
+      <td>-0.178991</td>
+      <td>0.015341</td>
+      <td>0.169289</td>
+      <td>0.515679</td>
+      <td>4.035805</td>
+    </tr>
+    <tr>
+      <th>FLAG_VPD_T1_47_1_gfXG_ISFILLED</th>
+      <td>355563.0</td>
+      <td>0.007844</td>
+      <td>0.088218</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="keep-7-meteo-variables">
+<h1>Keep 7 meteo variables<a class="headerlink" href="#keep-7-meteo-variables" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># keepcols = [</span>
+<span class="c1">#     &#39;LW_IN_T1_2_1&#39;,</span>
+<span class="c1">#     &#39;PA_GF1_0.9_1&#39;,</span>
+<span class="c1">#     &#39;FLAG_PA_GF1_0.9_1_ISFILLED&#39;,</span>
+<span class="c1">#     &#39;PPFD_IN_T1_2_2&#39;,</span>
+<span class="c1">#     &#39;FLAG_PPFD_IN_T1_2_2_ISFILLED&#39;,</span>
+<span class="c1">#     &#39;VPD_T1_2_1&#39;,</span>
+<span class="c1">#     &#39;FLAG_VPD_T1_2_1_ISFILLED&#39;,</span>
+<span class="c1">#     &#39;SW_IN_T1_2_1&#39;,</span>
+<span class="c1">#     &#39;FLAG_SW_IN_T1_2_1_ISFILLED&#39;,</span>
+<span class="c1">#     &#39;TA_T1_2_1&#39;,</span>
+<span class="c1">#     &#39;FLAG_TA_T1_2_1_ISFILLED&#39;,</span>
+<span class="c1">#     &#39;RH_T1_2_1&#39;,</span>
+<span class="c1">#     &#39;FLAG_RH_T1_2_1_ISFILLED&#39;    </span>
+<span class="c1"># ]</span>
+<span class="c1"># outdf = data_simple_2005_2024[keepcols].copy()</span>
+<span class="c1"># outdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="save-measured-and-gap-filled-data-to-parquet">
+<h1>Save measured and gap-filled data to parquet<a class="headerlink" href="#save-measured-and-gap-filled-data-to-parquet" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OUTNAME</span> <span class="o">=</span> <span class="s2">&quot;12.5_METEO7_GAPFILLED_2004-2024&quot;</span>
+<span class="n">OUTPATH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">save_parquet</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">OUTNAME</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">outpath</span><span class="o">=</span><span class="n">OUTPATH</span><span class="p">)</span>
+<span class="c1"># outdf.to_csv(Path(OUTPATH) / f&quot;{OUTNAME}.csv&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved file 12.5_METEO7_GAPFILLED_2004-2024.parquet (0.189 seconds).
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="end-of-notebook">
+<h1>End of notebook.<a class="headerlink" href="#end-of-notebook" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished. </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. 2025-06-12 00:48:09
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks\10_METEO"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Calculate VPD</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-vpd-kpa">Calculate VPD (kPa)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gap-filling">Gap-filling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fill">Fill</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-to-data">Add to data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-plot">Time series plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heatmaps">Heatmaps</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stats">Stats</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#keep-7-meteo-variables">Keep 7 meteo variables</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-measured-and-gap-filled-data-to-parquet">Save measured and gap-filled data to parquet</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook">End of notebook.</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lukas Hörtnagl
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

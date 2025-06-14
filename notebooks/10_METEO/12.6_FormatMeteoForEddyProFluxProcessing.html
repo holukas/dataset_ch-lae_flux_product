@@ -1,0 +1,1048 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Background &#8212; CH-LAE Flux Product</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10_METEO/12.6_FormatMeteoForEddyProFluxProcessing';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CH-LAE Flux Product</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new?title=Issue%20on%20page%20%2Fnotebooks/10_METEO/12.6_FormatMeteoForEddyProFluxProcessing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/10_METEO/12.6_FormatMeteoForEddyProFluxProcessing.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Background</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Background</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#settings"><strong>Settings</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables">Variables</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports"><strong>Imports</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#docstring"><strong>Docstring</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data"><strong>Load data</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-formatting"><strong>Apply formatting</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-variables"><strong>Plot all variables</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-to-csv"><strong>Save to CSV</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook"><strong>End of notebook</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="lop" src="images/logo_diive1_128px.png" /></p>
+<span style='font-size:32px; display:block;'>
+<b>
+    Format meteo data for EddyPro flux processing
+</b>
+</span><hr class="docutils" />
+<p><strong>Notebook version</strong>: <code class="docutils literal notranslate"><span class="pre">1</span></code> (24 Feb 2025)<br />
+<strong>Author</strong>: Lukas Hörtnagl (<a class="reference external" href="mailto:holukas&#37;&#52;&#48;ethz&#46;ch">holukas<span>&#64;</span>ethz<span>&#46;</span>ch</a>)</p>
+</br><section class="tex2jax_ignore mathjax_ignore" id="background">
+<h1><strong>Background</strong><a class="headerlink" href="#background" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Formats meteo data to be used in EddyPro flux processing</p></li>
+</ul>
+<p>More info:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.licor.com/support/EddyPro/topics/biomet-data-format.html">EddyPro help: Supported biomet file formats</a></p></li>
+</ul>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="settings">
+<h1><strong>Settings</strong><a class="headerlink" href="#settings" title="Link to this heading">#</a></h1>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Name of the variables in the original data file</span>
+<span class="n">SW_IN</span> <span class="o">=</span> <span class="s1">&#39;SW_IN_T1_47_1_gfXG&#39;</span>
+<span class="n">RH</span> <span class="o">=</span> <span class="s1">&#39;RH_T1_47_1&#39;</span>
+<span class="n">PPFD_IN</span> <span class="o">=</span> <span class="s1">&#39;PPFD_IN_T1_47_1_gfXG&#39;</span>
+<span class="n">LW_IN</span> <span class="o">=</span> <span class="s1">&#39;LW_IN_T1_47_1&#39;</span>
+<span class="n">TA</span> <span class="o">=</span> <span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span>
+<span class="n">PA</span> <span class="o">=</span> <span class="s1">&#39;PA_T1_47_1&#39;</span>
+
+<span class="c1"># Rename original variables for EddyPro, and add units</span>
+<span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TA</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Ta_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span>
+    <span class="n">SW_IN</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Rg_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;W+1m-2&#39;</span><span class="p">),</span>
+    <span class="n">RH</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;RH_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">),</span>
+    <span class="n">LW_IN</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Lwin_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;W+1m-2&#39;</span><span class="p">),</span>
+    <span class="n">PA</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Pa_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;kPa&#39;</span><span class="p">),</span>
+    <span class="n">PPFD_IN</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;PPFD_1_1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;umol+1m-2s-1&#39;</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="imports">
+<h1><strong>Imports</strong><a class="headerlink" href="#imports" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dbc_influxdb</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbcInflux</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.plotting.heatmap_datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeatmapDateTime</span>  <span class="c1"># For plotting heatmaps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.plotting.timeseries</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeries</span>  <span class="c1"># For simple (interactive) time series plotting</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.pkgs.formats.meteo</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatMeteoForEddyProFluxProcessing</span>  <span class="c1"># Class to format output files for upload</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.io.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_parquet</span><span class="p">,</span> <span class="n">save_parquet</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+
+<span class="n">version_diive</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;diive&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diive version: v</span><span class="si">{</span><span class="n">version_diive</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diive version: v0.87.0
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="docstring">
+<h1><strong>Docstring</strong><a class="headerlink" href="#docstring" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># help(FormatMeteoForEddyProProcessing)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-data">
+<h1><strong>Load data</strong><a class="headerlink" href="#load-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SOURCEFILE</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;../10_METEO/12.5_METEO7_GAPFILLED_2004-2024.parquet&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_parquet</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">SOURCEFILE</span><span class="p">)</span>
+<span class="n">keepcols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SW_IN_T1_47_1_gfXG&#39;</span><span class="p">,</span> <span class="s1">&#39;RH_T1_47_1&#39;</span><span class="p">,</span> <span class="s1">&#39;PPFD_IN_T1_47_1_gfXG&#39;</span><span class="p">,</span> <span class="s1">&#39;LW_IN_T1_47_1&#39;</span><span class="p">,</span> <span class="s1">&#39;TA_T1_47_1_gfXG&#39;</span><span class="p">,</span> <span class="s1">&#39;PA_T1_47_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">keepcols</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded .parquet file ../10_METEO/12.5_METEO7_GAPFILLED_2004-2024.parquet (0.027 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min 
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dataframe with original data looks like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SW_IN_T1_47_1_gfXG</th>
+      <th>RH_T1_47_1</th>
+      <th>PPFD_IN_T1_47_1_gfXG</th>
+      <th>LW_IN_T1_47_1</th>
+      <th>TA_T1_47_1_gfXG</th>
+      <th>PA_T1_47_1</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-09-20 10:45:00</th>
+      <td>602.874084</td>
+      <td>80.503701</td>
+      <td>1070.543364</td>
+      <td>NaN</td>
+      <td>13.300000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:15:00</th>
+      <td>703.762207</td>
+      <td>77.503701</td>
+      <td>881.543364</td>
+      <td>NaN</td>
+      <td>13.390000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:45:00</th>
+      <td>537.947327</td>
+      <td>75.803704</td>
+      <td>1022.543364</td>
+      <td>NaN</td>
+      <td>13.810000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:15:00</th>
+      <td>634.747437</td>
+      <td>71.503701</td>
+      <td>1284.543364</td>
+      <td>NaN</td>
+      <td>14.470000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:45:00</th>
+      <td>634.747437</td>
+      <td>72.703705</td>
+      <td>742.543364</td>
+      <td>NaN</td>
+      <td>13.980000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>0.000000</td>
+      <td>87.254008</td>
+      <td>0.000000</td>
+      <td>232.595527</td>
+      <td>-0.504794</td>
+      <td>94.211806</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>0.000000</td>
+      <td>87.430236</td>
+      <td>0.000000</td>
+      <td>232.609777</td>
+      <td>-0.296828</td>
+      <td>94.189013</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>0.000000</td>
+      <td>89.787920</td>
+      <td>0.000000</td>
+      <td>232.345020</td>
+      <td>-0.392922</td>
+      <td>94.169525</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>0.000000</td>
+      <td>81.809355</td>
+      <td>0.000000</td>
+      <td>234.211100</td>
+      <td>0.792661</td>
+      <td>94.168413</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>0.000000</td>
+      <td>88.311314</td>
+      <td>0.000000</td>
+      <td>231.760533</td>
+      <td>-0.422600</td>
+      <td>94.170793</td>
+    </tr>
+  </tbody>
+</table>
+<p>355563 rows × 6 columns</p>
+</div></div></div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="apply-formatting">
+<h1><strong>Apply formatting</strong><a class="headerlink" href="#apply-formatting" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">FormatMeteoForEddyProFluxProcessing</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">cols</span><span class="o">=</span><span class="n">rename_dict</span>
+<span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sanitizing timestamp ...
+&gt;&gt;&gt; Validating timestamp naming of timestamp column TIMESTAMP_MIDDLE ... Timestamp name OK.
+&gt;&gt;&gt; Converting timestamp TIMESTAMP_MIDDLE to datetime ... OK
+&gt;&gt;&gt; All rows have timestamp TIMESTAMP_MIDDLE, no rows removed.
+&gt;&gt;&gt; Sorting timestamp TIMESTAMP_MIDDLE ascending ...
+&gt;&gt;&gt; Removing data records with duplicate indexes ... OK (no duplicates found in timestamp index)
+&gt;&gt;&gt; Creating continuous &lt;30 * Minutes&gt; timestamp index for timestamp TIMESTAMP_MIDDLE between 2004-09-20 10:45:00 and 2024-12-31 23:45:00 ...
+Splitting timestamp into two separate columns (&#39;TIMESTAMP_1&#39;, &#39;yyyy-mm-dd&#39;) and (&#39;TIMESTAMP_2&#39;, &#39;HH:MM&#39;)
+Filling missing values with -9999 ...
+Renaming columns ...
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>TIMESTAMP_1</th>
+      <th>TIMESTAMP_2</th>
+      <th>Rg_1_1_1</th>
+      <th>RH_1_1_1</th>
+      <th>PPFD_1_1_1</th>
+      <th>Lwin_1_1_1</th>
+      <th>Ta_1_1_1</th>
+      <th>Pa_1_1_1</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>yyyy-mm-dd</th>
+      <th>HH:MM</th>
+      <th>W+1m-2</th>
+      <th>%</th>
+      <th>umol+1m-2s-1</th>
+      <th>W+1m-2</th>
+      <th>C</th>
+      <th>kPa</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_MIDDLE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-09-20 10:45:00</th>
+      <td>2004-09-20</td>
+      <td>10:45</td>
+      <td>602.874084</td>
+      <td>80.503701</td>
+      <td>1070.543364</td>
+      <td>-9999.000000</td>
+      <td>13.300000</td>
+      <td>-9999.000000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:15:00</th>
+      <td>2004-09-20</td>
+      <td>11:15</td>
+      <td>703.762207</td>
+      <td>77.503701</td>
+      <td>881.543364</td>
+      <td>-9999.000000</td>
+      <td>13.390000</td>
+      <td>-9999.000000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 11:45:00</th>
+      <td>2004-09-20</td>
+      <td>11:45</td>
+      <td>537.947327</td>
+      <td>75.803704</td>
+      <td>1022.543364</td>
+      <td>-9999.000000</td>
+      <td>13.810000</td>
+      <td>-9999.000000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:15:00</th>
+      <td>2004-09-20</td>
+      <td>12:15</td>
+      <td>634.747437</td>
+      <td>71.503701</td>
+      <td>1284.543364</td>
+      <td>-9999.000000</td>
+      <td>14.470000</td>
+      <td>-9999.000000</td>
+    </tr>
+    <tr>
+      <th>2004-09-20 12:45:00</th>
+      <td>2004-09-20</td>
+      <td>12:45</td>
+      <td>634.747437</td>
+      <td>72.703705</td>
+      <td>742.543364</td>
+      <td>-9999.000000</td>
+      <td>13.980000</td>
+      <td>-9999.000000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 21:45:00</th>
+      <td>2024-12-31</td>
+      <td>21:45</td>
+      <td>0.000000</td>
+      <td>87.254008</td>
+      <td>0.000000</td>
+      <td>232.595527</td>
+      <td>-0.504794</td>
+      <td>94.211806</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:15:00</th>
+      <td>2024-12-31</td>
+      <td>22:15</td>
+      <td>0.000000</td>
+      <td>87.430236</td>
+      <td>0.000000</td>
+      <td>232.609777</td>
+      <td>-0.296828</td>
+      <td>94.189013</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 22:45:00</th>
+      <td>2024-12-31</td>
+      <td>22:45</td>
+      <td>0.000000</td>
+      <td>89.787920</td>
+      <td>0.000000</td>
+      <td>232.345020</td>
+      <td>-0.392922</td>
+      <td>94.169525</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:15:00</th>
+      <td>2024-12-31</td>
+      <td>23:15</td>
+      <td>0.000000</td>
+      <td>81.809355</td>
+      <td>0.000000</td>
+      <td>234.211100</td>
+      <td>0.792661</td>
+      <td>94.168413</td>
+    </tr>
+    <tr>
+      <th>2024-12-31 23:45:00</th>
+      <td>2024-12-31</td>
+      <td>23:45</td>
+      <td>0.000000</td>
+      <td>88.311314</td>
+      <td>0.000000</td>
+      <td>231.760533</td>
+      <td>-0.422600</td>
+      <td>94.170793</td>
+    </tr>
+  </tbody>
+</table>
+<p>355563 rows × 8 columns</p>
+</div></div></div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="plot-all-variables">
+<h1><strong>Plot all variables</strong><a class="headerlink" href="#plot-all-variables" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotcols</span> <span class="o">=</span> <span class="p">[</span><span class="n">plotcol</span> <span class="k">for</span> <span class="n">plotcol</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;TIMESTAMP&quot;</span> <span class="ow">in</span> <span class="n">plotcol</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">plotdf</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">plotcols</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">plotdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">plotdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">series</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># rows, cols</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.01</span><span class="p">)</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.99</span><span class="p">)</span>
+        <span class="n">HeatmapDateTime</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6778a53b6926becb678734e8ff5cb25030e5b1b17eca9e6cceb848fb14c32302.png" src="../../_images/6778a53b6926becb678734e8ff5cb25030e5b1b17eca9e6cceb848fb14c32302.png" />
+<img alt="../../_images/fa700d9efe4e36c7dfdf65194a59f7ab717749e344544226d4d209fe4d63b797.png" src="../../_images/fa700d9efe4e36c7dfdf65194a59f7ab717749e344544226d4d209fe4d63b797.png" />
+<img alt="../../_images/59439244a0fa20be89af88bbbb17db918d5a4555720827fccc6c7123b6d2605f.png" src="../../_images/59439244a0fa20be89af88bbbb17db918d5a4555720827fccc6c7123b6d2605f.png" />
+<img alt="../../_images/749e6e22fe45cbf05e4322da04dd27028625bd9680ad87bce2546a57689dea81.png" src="../../_images/749e6e22fe45cbf05e4322da04dd27028625bd9680ad87bce2546a57689dea81.png" />
+<img alt="../../_images/1aa2f247a6751bff3e8233b05fd1c9e49db996cd4c12ebde463efe22ffc6ee8c.png" src="../../_images/1aa2f247a6751bff3e8233b05fd1c9e49db996cd4c12ebde463efe22ffc6ee8c.png" />
+<img alt="../../_images/b0881046fb47c98806bb519599bbca2e0e41bfe0d886d800300aacfa0f03030e.png" src="../../_images/b0881046fb47c98806bb519599bbca2e0e41bfe0d886d800300aacfa0f03030e.png" />
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="save-to-csv">
+<h1><strong>Save to CSV</strong><a class="headerlink" href="#save-to-csv" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;CH-LAE_2004-2024_meteo_aux.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="end-of-notebook">
+<h1><strong>End of notebook</strong><a class="headerlink" href="#end-of-notebook" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished 2025-06-13 17:29:48
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks\10_METEO"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Background</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#settings"><strong>Settings</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables">Variables</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#imports"><strong>Imports</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#docstring"><strong>Docstring</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data"><strong>Load data</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-formatting"><strong>Apply formatting</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-variables"><strong>Plot all variables</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-to-csv"><strong>Save to CSV</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook"><strong>End of notebook</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lukas Hörtnagl
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

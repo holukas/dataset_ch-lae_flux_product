@@ -1,0 +1,2300 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ABOUT THIS NOTEBOOK &#8212; CH-LAE Flux Product</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10_METEO/11_meteoscreening_diive/PREC_NABEL_TOT_T1_47_1_2004-2018';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CH-LAE Flux Product</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new?title=Issue%20on%20page%20%2Fnotebooks/10_METEO/11_meteoscreening_diive/PREC_NABEL_TOT_T1_47_1_2004-2018.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/notebooks/10_METEO/11_meteoscreening_diive/PREC_NABEL_TOT_T1_47_1_2004-2018.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ABOUT THIS NOTEBOOK</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>ABOUT THIS NOTEBOOK</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#user-settings-please-adjust"><strong>USER SETTINGS</strong> (please adjust)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#site">Site</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-to-screen">Variables to screen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-range-to-screen">Time range to screen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-aggregation">Resampling aggregation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-settings"><strong>AUTO-SETTINGS</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-settings">Data settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-settings-do-not-adjust">Automatic settings (do not adjust):</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-available-variables">Check available variables</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-from-database-with-dbc-influxdb"><strong>DOWNLOAD DATA FROM DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-downloaded-data">Check downloaded data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dbc-downloads-three-variables"><code class="docutils literal notranslate"><span class="pre">dbc</span></code> downloads three variables:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-simple"><code class="docutils literal notranslate"><span class="pre">data_simple</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-detailed"><code class="docutils literal notranslate"><span class="pre">data_detailed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#assigned-measurements"><code class="docutils literal notranslate"><span class="pre">assigned_measurements</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-downloaded-high-res-raw-data-to-file-optional">Save downloaded high-res raw data to file (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-downloaded-high-res-data">Plot downloaded high-res data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#start-meteoscreening-with-diive"><strong>Start MeteoScreening with <code class="docutils literal notranslate"><span class="pre">diive</span></code></strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-generate-quality-flags-on-high-resolution-data-if-needed"><strong>OUTLIER DETECTION</strong>: generate quality flags on high-resolution data (if needed)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-outlier-detection">Start outlier detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-current-outlier-cleaned-data">Plot current outlier-cleaned data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-manual-removal">Flag, outlier detection: <strong>Manual removal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-hampel-filter-across-all-data">Flag, outlier detection: <strong>Hampel filter</strong> across all data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-hampel-filter-separate-for-daytime-and-nighttime">Flag, outlier detection: <strong>Hampel filter</strong> separate for daytime and nighttime</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-z-score-over-all-data-separate-for-daytime-and-nighttime">Flag, outlier detection: <strong>z-score over all data</strong> separate for daytime and nighttime</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-rolling-z-score-over-all-data">Flag, outlier detection: <strong>rolling z-score over all data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-oulier-detection-local-standard-deviation">Flag, oulier detection: <strong>Local standard deviation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-flag-local-standard-deviation-with-rolling-median-and-constant-standard-deviation">Outlier flag: <strong>Local standard deviation</strong>, with rolling median and <em>constant</em> standard deviation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-increments-z-score">Flag, outlier detection: <strong>Increments z-score</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-z-score-over-all-data">Flag, outlier detection: <strong>z-score over all data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-local-outlier-factor-daytime-nighttime">Flag, outlier detection: <strong>Local outlier factor, daytime/nighttime</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-local-outlier-factor">Flag, outlier detection: <strong>Local outlier factor</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-absolute-limits">Flag, outlier detection: <strong>Absolute limits</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-absolute-limits-separate-for-daytime-and-nighttime-data">Flag, outlier detection: <strong>Absolute limits, separate for daytime and nighttime data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-trim-low">Flag, outlier detection: <strong>Trim low</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-missing-values-test">Flag, outlier detection: <strong>Missing values test</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qcf-calculate-overall-quality-control-flag-for-high-resolution-data"><strong>QCF</strong>: calculate overall quality-control flag for high-resolution data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reports">Reports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#corrections-done-on-high-resolution-data-if-needed"><strong>CORRECTIONS</strong>: done on high-resolution data (if needed)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-cleaned-data-after-qcf">Show cleaned data after QCF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-remove-radiation-zero-offset">Correction: <strong>Remove radiation zero offset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-remove-relative-humidity-offset">Correction: <strong>Remove relative humidity offset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-max-threshold">Correction: <strong>Set to max threshold</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-min-threshold">Correction: <strong>Set to min threshold</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-value">Correction: <strong>Set to value</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#analyses"><strong>ANALYSES</strong> <a class="anchor" id="resampling"></a></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-for-potential-timestamp-shifts">Check for potential timestamp shifts</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling"><strong>RESAMPLING</strong> <a class="anchor" id="resampling"></a></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resample">Resample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-original-and-resampled-data">Plot original and resampled data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-time-resolution-of-resampled-data">Check time resolution of resampled data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-data-to-the-database-with-dbc-influxdb"><strong>UPLOAD DATA TO THE DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#datacheck-download-from-database"><strong>DATACHECK: DOWNLOAD FROM DATABASE</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-time-resolution-of-downloaded-data">Check time resolution of downloaded data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook"><strong>End of notebook.</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="lop" src="notebooks/images/logo_diive1_128px.png" /></p>
+<span style='font-size:40px; display:block;'>
+<b>
+    MeteoScreening from database (influxdb)
+</b>
+</span><hr class="docutils" />
+<p><strong>Notebook version</strong>: <code class="docutils literal notranslate"><span class="pre">7.2</span></code> (8 Sep 2024)<br />
+<strong>Author</strong>: Lukas Hörtnagl (<a class="reference external" href="mailto:holukas&#37;&#52;&#48;ethz&#46;ch">holukas<span>&#64;</span>ethz<span>&#46;</span>ch</a>)</p>
+</br><section class="tex2jax_ignore mathjax_ignore" id="about-this-notebook">
+<h1><strong>ABOUT THIS NOTEBOOK</strong><a class="headerlink" href="#about-this-notebook" title="Link to this heading">#</a></h1>
+<p>In this notebook, the raw data are downloaded from the database, quality-screened, resampled and then uploaded to the database using the <a class="reference external" href="https://gitlab.ethz.ch/diive/diive/-/blob/main/diive/pkgs/qaqc/meteoscreening.py">StepwiseMeteoScreeningDb</a> class in <a class="reference external" href="https://gitlab.ethz.ch/diive/diive">diive</a>.</p>
+<p><strong>Here is an overview of what is done in this notebook</strong>:</p>
+<ul class="simple">
+<li><p>(1) <strong>USER SETTINGS</strong>: First, we specify some general settings for the site and variable</p></li>
+<li><p>(2) <strong>AUTO-SETTINGS</strong>: With this info, some settings are set automatically</p></li>
+<li><p>(3) <strong>DOWNLOAD DATA FROM DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong>: Then original raw data are downloaded from the database. This step uses the Python module<br />
+<code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code> to download the data.</p></li>
+<li><p>(4) <strong>METEOSCREENING WITH <code class="docutils literal notranslate"><span class="pre">diive</span></code></strong>: The downloaded data is then quality-screened using the Python library <code class="docutils literal notranslate"><span class="pre">diive</span></code>. The screening is done on the <em>high-resolution</em> data,<br />
+i.e., in the original time resolution of the raw data. After the screening, data are resampled to 30MIN time resolution, the same resolution that we typically use for the fluxes.</p></li>
+<li><p>(5) <strong>UPLOAD DATA TO THE DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong>: The screened and resampled data are then uploaded to the database.</p></li>
+</ul>
+</br></br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="user-settings-please-adjust">
+<h1><strong>USER SETTINGS</strong> (please adjust)<a class="headerlink" href="#user-settings-please-adjust" title="Link to this heading">#</a></h1>
+<section id="site">
+<h2>Site<a class="headerlink" href="#site" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SITE</span> <span class="o">=</span> <span class="s1">&#39;ch-lae&#39;</span>
+<span class="n">SITE_LAT</span> <span class="o">=</span> <span class="mf">47.478333</span>   <span class="c1"># CH-LAE</span>
+<span class="n">SITE_LON</span> <span class="o">=</span> <span class="mf">8.364389</span>  <span class="c1"># CH-LAE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variables-to-screen">
+<h2>Variables to screen<a class="headerlink" href="#variables-to-screen" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Specify variables as shown in the database</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FIELDS</span></code>: Variables are called FIELDS in the database. InfluxDB stores variable names as ‘_field’. You can specify multiple fields, given as a list e.g. <code class="docutils literal notranslate"><span class="pre">['TA_NABEL_T1_35_1',</span> <span class="pre">'TA_T1_20_1]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MEASUREMENTS</span></code>: Only <strong>one</strong> measurement allowed. Measurement name that is used to group similar variables together, e.g., <code class="docutils literal notranslate"><span class="pre">TA</span></code> contains all air temperature variables, <code class="docutils literal notranslate"><span class="pre">SW</span></code> are all short-wave radiation measurements and <code class="docutils literal notranslate"><span class="pre">SWC</span></code> all soil water measurements.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FIELDS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;PREC_NABEL_TOT_T1_47_1&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">MEASUREMENT</span> <span class="o">=</span> <span class="s1">&#39;PREC&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="time-range-to-screen">
+<h2>Time range to screen<a class="headerlink" href="#time-range-to-screen" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">START</span></code>: Screen data starting with this date (the start date itself <strong>IS</strong> included)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STOP</span></code>: Screen data before this date (the stop date itself <strong>IS NOT</strong> included)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">START</span> <span class="o">=</span> <span class="s1">&#39;2004-01-01 00:00:01&#39;</span>
+<span class="n">STOP</span> <span class="o">=</span> <span class="s1">&#39;2019-01-01 00:00:01&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="resampling-aggregation">
+<h2>Resampling aggregation<a class="headerlink" href="#resampling-aggregation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The resampling of the high-res data to 30MIN time resolution will be done using this aggregation method; two options: <code class="docutils literal notranslate"><span class="pre">mean</span></code> or <code class="docutils literal notranslate"><span class="pre">sum</span></code></p></li>
+</ul>
+<div class="alert alert-block alert-info">
+    For <b>precipitation</b> make sure to use `sum` because we need the 30MIN sums.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># RESAMPLING_AGG = &#39;mean&#39;</span>
+<span class="n">RESAMPLING_AGG</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="auto-settings">
+<h1><strong>AUTO-SETTINGS</strong><a class="headerlink" href="#auto-settings" title="Link to this heading">#</a></h1>
+<section id="data-settings">
+<h2>Data settings<a class="headerlink" href="#data-settings" title="Link to this heading">#</a></h2>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b> <i>timezone_offset_to_utc_hours</i> is now given as integer, <i>delete_from_db_before_upload</i> deleted time range for variable from database before the new data are uploaded. 
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_VERSION</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
+<span class="n">TIMEZONE_OFFSET_TO_UTC_HOURS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Timezone, e.g. &quot;1&quot; is translated to timezone &quot;UTC+01:00&quot; (CET, winter time)</span>
+<span class="n">RESAMPLING_FREQ</span> <span class="o">=</span> <span class="s1">&#39;30min&#39;</span>  <span class="c1"># During MeteoScreening the screened high-res data will be resampled to this frequency; &#39;30min&#39; = 30-minute time resolution</span>
+<span class="c1"># DIRCONF = r&#39;P:\Flux\RDS_calculations\_scripts\_configs\configs&#39;  # Location of configuration files, needed e.g. for connection to database</span>
+<span class="n">DIRCONF</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;F:\Sync\luhk_work\20 - CODING\22 - POET\configs&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># %matplotlib inline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="c1"># from bokeh.plotting import output_notebook, show</span>
+<span class="c1"># output_notebook()</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dbc_influxdb</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbcInflux</span>  <span class="c1"># Needed for communicating with the database</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.plotting.timeseries</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.core.times.times</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectFrequency</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diive.pkgs.qaqc.meteoscreening</span><span class="w"> </span><span class="kn">import</span> <span class="n">StepwiseMeteoScreeningDb</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.width&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This page was last modified on: </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">version_dbc</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;dbc_influxdb&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dbc-influxdb version: v</span><span class="si">{</span><span class="n">version_dbc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">version_diive</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;diive&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diive version: v</span><span class="si">{</span><span class="n">version_diive</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>This page was last modified on: 2025-05-19 15:48:49
+dbc-influxdb version: v0.13.1
+diive version: v0.87.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="automatic-settings-do-not-adjust">
+<h2>Automatic settings (do not adjust):<a class="headerlink" href="#automatic-settings-do-not-adjust" title="Link to this heading">#</a></h2>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b> <i>BUCKET_PROCESSED</i> has a new name, buckets for processed data now use the suffix `_processed`.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BUCKET_RAW</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">SITE</span><span class="si">}</span><span class="s1">_raw&#39;</span>  <span class="c1"># The &#39;bucket&#39; where data are stored in the database, e.g., &#39;ch-lae_raw&#39; contains all raw data for CH-LAE</span>
+<span class="n">BUCKET_PROCESSED</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">SITE</span><span class="si">}</span><span class="s1">_processed&#39;</span>  <span class="c1"># The &#39;bucket&#39; where data are stored in the database, e.g., &#39;ch-lae_processed&#39; contains all processed data for CH-LAE</span>
+<span class="c1"># BUCKET_PROCESSED= f&#39;a&#39;  # Bucket for testing</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bucket containing raw data (source bucket): </span><span class="si">{</span><span class="n">BUCKET_RAW</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bucket containing processed data (destination bucket): </span><span class="si">{</span><span class="n">BUCKET_PROCESSED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bucket containing raw data (source bucket): ch-lae_raw
+Bucket containing processed data (destination bucket): ch-lae_processed
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="connect-to-database">
+<h2>Connect to database<a class="headerlink" href="#connect-to-database" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dbc</span> <span class="o">=</span> <span class="n">dbcInflux</span><span class="p">(</span><span class="n">dirconf</span><span class="o">=</span><span class="n">DIRCONF</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading configuration files was successful.
+Connection to database works.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-available-variables">
+<h2>Check available variables<a class="headerlink" href="#check-available-variables" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Since we are now connected to the database, we can make a quick check if the variable(s) we want to screen are really in the database.<br />
+Below you can show show all available fields in the selected measurement.</p></li>
+<li><p>However, if the desired variable(s) are indeed listed here, it does not necessarily mean that they are also available during the<br />
+selected <strong>time period</strong>. This can be the case if the variable(s) for that time period were not uploaded to the database.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># display(dbc.show_fields_in_measurement(bucket=BUCKET_RAW, measurement=MEASUREMENT))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="download-data-from-database-with-dbc-influxdb">
+<h1><strong>DOWNLOAD DATA FROM DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong><a class="headerlink" href="#download-data-from-database-with-dbc-influxdb" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Here the Python library <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code> is used to download data from the database.</p></li>
+<li><p>The name of the library means <strong>d</strong>ata<strong>b</strong>ase <strong>c</strong>ommunication using <strong>influxdb</strong>.</p></li>
+<li><p>You can find the source code of <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code> <a class="reference external" href="https://gitlab.ethz.ch/poet/dbc-influxdb">here</a>.</p></li>
+<li><p>There is no need to adjust the settings here, the variables given earlier (above) are directly used.</p></li>
+<li><p>At this point we have already established the connection to the database and stored the connection details in the variable <code class="docutils literal notranslate"><span class="pre">dbc</span></code>.</p></li>
+<li><p>Now we can use the method <code class="docutils literal notranslate"><span class="pre">dbc.download()</span></code> to start the data download.</p></li>
+</ul>
+<section id="download-data">
+<h2>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">data_simple</span><span class="p">,</span> <span class="n">data_detailed</span><span class="p">,</span> <span class="n">assigned_measurements</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+    <span class="n">bucket</span><span class="o">=</span><span class="n">BUCKET_RAW</span><span class="p">,</span>
+    <span class="n">measurements</span><span class="o">=</span><span class="p">[</span><span class="n">MEASUREMENT</span><span class="p">],</span>
+    <span class="n">fields</span><span class="o">=</span><span class="n">FIELDS</span><span class="p">,</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">START</span><span class="p">,</span>
+    <span class="n">stop</span><span class="o">=</span><span class="n">STOP</span><span class="p">,</span>
+    <span class="n">timezone_offset_to_utc_hours</span><span class="o">=</span><span class="n">TIMEZONE_OFFSET_TO_UTC_HOURS</span><span class="p">,</span>
+    <span class="n">data_version</span><span class="o">=</span><span class="n">DATA_VERSION</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DOWNLOADING
+    from bucket ch-lae_raw
+    variables [&#39;PREC_NABEL_TOT_T1_47_1&#39;]
+    from measurements [&#39;PREC&#39;]
+    from data version [&#39;raw&#39;]
+    between 2004-01-01 00:00:01 and 2019-01-01 00:00:01
+    with timezone offset to UTC of 1
+Using querystring:
+from(bucket: &quot;ch-lae_raw&quot;) |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00) |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;raw&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;) |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+Used querystring: from(bucket: &quot;ch-lae_raw&quot;) |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00) |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;raw&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;) |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+querystring was constructed from:
+    bucketstring: from(bucket: &quot;ch-lae_raw&quot;)
+    rangestring: |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00)
+    measurementstring: |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;)
+    dataversionstring: |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;raw&quot;)
+    fieldstring: |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;)
+    pivotstring: |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+Download finished.
+Downloaded data for 1 variables:
+&lt;-- PREC_NABEL_TOT_T1_47_1  (782220 records)  first date: 2004-01-01 00:10:00  last date: 2019-01-01 00:00:00
+========================================
+Fields in measurement PREC of bucket ch-lae_raw:
+#1  ch-lae_raw  PREC  PREC_NABEL_TOT_T1_27_1
+#2  ch-lae_raw  PREC  PREC_NABEL_TOT_T1_47_1
+#3  ch-lae_raw  PREC  PREC_TOT_T1_47_1
+Found 3 fields in measurement PREC of bucket ch-lae_raw.
+========================================
+CPU times: total: 16.7 s
+Wall time: 21.7 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-downloaded-data">
+<h2>Check downloaded data<a class="headerlink" href="#check-downloaded-data" title="Link to this heading">#</a></h2>
+<section id="dbc-downloads-three-variables">
+<h3><code class="docutils literal notranslate"><span class="pre">dbc</span></code> downloads three variables:<a class="headerlink" href="#dbc-downloads-three-variables" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_simple</span></code>: This is the simplest data download. It contains only the high-resolution variable(s) from the specified measurement. Each variable is in a separate column. Since different variables, can have different time resolutions, the highest time resolution across the variables is used as the index. This means that lower resolution variables will show gaps in the higher resolution timestamp.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_detailed</span></code>: This is the most important variable for the MeteoScreening from the database, because it contains not only the high-resolution time series of the variable(s), but also their tags. The tags are important when uploading data to the database. This is a very special format, because data for each variable are stored in a dictionary. A dictionary is a data structure that stores key-value pairs. The key is the variable name (e.g., <code class="docutils literal notranslate"><span class="pre">TA_NABEL_T1_35_1</span></code>) and the value is a complete dataframe that contains the time series of the respective variable and all tags.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assigned_measurements</span></code>: An auxiliary variable that is useful to check whether the measurement of the variable(s) is correct. In case we are screening air temperatures, the measurement must be <code class="docutils literal notranslate"><span class="pre">TA</span></code>.</p></li>
+</ul>
+<section id="data-simple">
+<h4><code class="docutils literal notranslate"><span class="pre">data_simple</span></code><a class="headerlink" href="#data-simple" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Simply contains the time series of the measured variable(s) in a nice-to-look-at dataframe.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_simple</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PREC_NABEL_TOT_T1_47_1</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_END</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-01-01 00:10:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:20:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:40:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:50:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:20:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:40:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:50:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2019-01-01 00:00:00</th>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>782220 rows × 1 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="data-detailed">
+<h4><code class="docutils literal notranslate"><span class="pre">data_detailed</span></code><a class="headerlink" href="#data-detailed" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Dictionary of key-value pairs: the variable name is the key, the respective data (measured time series and tags) are the values</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_detailed</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;PREC_NABEL_TOT_T1_47_1&#39;:                                                 config_filetype data_raw_freq data_version       filegroup   freq gain hpos offset    raw_units raw_varname repl    site units                 varname vpos  PREC_NABEL_TOT_T1_47_1
+ TIMESTAMP_END                                                                                                                                                                                                                      
+ 2004-01-01 00:10:00  LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2004-01-01 00:20:00  LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2004-01-01 00:30:00  LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2004-01-01 00:40:00  LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2004-01-01 00:50:00  LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ ...                                                         ...           ...          ...             ...    ...  ...  ...    ...          ...         ...  ...     ...   ...                     ...  ...                     ...
+ 2018-12-31 23:20:00  LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2018-12-31 23:30:00  LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2018-12-31 23:40:00  LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2018-12-31 23:50:00  LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 2019-01-01 00:00:00  LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN         10min          raw  13_meteo_nabel  10min  1.0   T1    0.0  -not-given-       REGEN    1  CH-LAE    mm  PREC_NABEL_TOT_T1_47_1   47                     0.0
+ 
+ [782220 rows x 16 columns]}
+</pre></div>
+</div>
+</div>
+</div>
+<br>
+Since the output above is not so nice to look at, we loop through the dictionary and display the first and last records for each variable:<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">data_detailed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">40</span><span class="si">}</span><span class="se">\n</span><span class="s2">Data for </span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>----------------------------------------
+Data for PREC_NABEL_TOT_T1_47_1:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>config_filetype</th>
+      <th>data_raw_freq</th>
+      <th>data_version</th>
+      <th>filegroup</th>
+      <th>freq</th>
+      <th>gain</th>
+      <th>hpos</th>
+      <th>offset</th>
+      <th>raw_units</th>
+      <th>raw_varname</th>
+      <th>repl</th>
+      <th>site</th>
+      <th>units</th>
+      <th>varname</th>
+      <th>vpos</th>
+      <th>PREC_NABEL_TOT_T1_47_1</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_END</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-01-01 00:10:00</th>
+      <td>LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:20:00</th>
+      <td>LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:30:00</th>
+      <td>LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:40:00</th>
+      <td>LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 00:50:00</th>
+      <td>LAE13-RAW-NABEL-200401010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:20:00</th>
+      <td>LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:30:00</th>
+      <td>LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:40:00</th>
+      <td>LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:50:00</th>
+      <td>LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2019-01-01 00:00:00</th>
+      <td>LAE13-RAW-NABEL-201801010000-SSV-TXT-10MIN</td>
+      <td>10min</td>
+      <td>raw</td>
+      <td>13_meteo_nabel</td>
+      <td>10min</td>
+      <td>1.0</td>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>-not-given-</td>
+      <td>REGEN</td>
+      <td>1</td>
+      <td>CH-LAE</td>
+      <td>mm</td>
+      <td>PREC_NABEL_TOT_T1_47_1</td>
+      <td>47</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>782220 rows × 16 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="assigned-measurements">
+<h4><code class="docutils literal notranslate"><span class="pre">assigned_measurements</span></code><a class="headerlink" href="#assigned-measurements" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Contains the <em>automatically</em> detected measurement for the selected variables, useful as check to make sure the variable was properly identified.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">assigned_measurements</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;PREC_NABEL_TOT_T1_47_1&#39;: &#39;PREC&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<br>
+It is possible that a variable that we want to screen is not available in the database (oh no). To find out which variable that might be we have this piece of code:<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data available for: </span><span class="si">{</span><span class="n">data_detailed</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">vars_not_available</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">FIELDS</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data_detailed</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data available for the following variables: </span><span class="si">{</span><span class="n">vars_not_available</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data available for: dict_keys([&#39;PREC_NABEL_TOT_T1_47_1&#39;])
+
+No data available for the following variables: []
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove variables that are not available during this time period from FIELDS. </span>
+<span class="k">for</span> <span class="n">rem</span> <span class="ow">in</span> <span class="n">vars_not_available</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">rem</span><span class="p">)</span>
+    <span class="n">FIELDS</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">rem</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed variables </span><span class="si">{</span><span class="n">rem</span><span class="si">}</span><span class="s2"> from FIELDS because it is not available during this time period.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="save-downloaded-high-res-raw-data-to-file-optional">
+<h2>Save downloaded high-res raw data to file (optional)<a class="headerlink" href="#save-downloaded-high-res-raw-data-to-file-optional" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If you really want, you can download the full resolution data to a file. This can be useful if you want to do the screening elsewhere.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data_detailed[&#39;TA_NABEL_T1_35_1&#39;].to_csv(&quot;mylovelyhorse.csv&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-downloaded-high-res-data">
+<h2>Plot downloaded high-res data<a class="headerlink" href="#plot-downloaded-high-res-data" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Yes, this is indeed a plot of the downloaded full-resolution data.</p></li>
+<li><p>Because we have plenty of time and space, each variable gets it’s own plot.</p></li>
+<li><p>If there is only one variable, then there is only one plot.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">data_detailed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># TimeSeries(series=frame[varname]).plot_interactive()</span>
+    <span class="n">TimeSeries</span><span class="p">(</span><span class="n">series</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="n">varname</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/b1cd9b7cb45ccd0e7b4daf3df6f7e7ed7033589a4eda7cadc7edbf16bb609640.png" src="../../../_images/b1cd9b7cb45ccd0e7b4daf3df6f7e7ed7033589a4eda7cadc7edbf16bb609640.png" />
+</div>
+</div>
+</br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="start-meteoscreening-with-diive">
+<h1><strong>Start MeteoScreening with <code class="docutils literal notranslate"><span class="pre">diive</span></code></strong><a class="headerlink" href="#start-meteoscreening-with-diive" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span> <span class="o">=</span> <span class="n">StepwiseMeteoScreeningDb</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="n">SITE</span><span class="p">,</span>
+                                <span class="n">data_detailed</span><span class="o">=</span><span class="n">data_detailed</span><span class="p">,</span>
+                                <span class="c1"># measurement=MEASUREMENT,</span>
+                                <span class="n">fields</span><span class="o">=</span><span class="n">FIELDS</span><span class="p">,</span>
+                                <span class="n">site_lat</span><span class="o">=</span><span class="n">SITE_LAT</span><span class="p">,</span>
+                                <span class="n">site_lon</span><span class="o">=</span><span class="n">SITE_LON</span><span class="p">,</span>
+                                <span class="n">utc_offset</span><span class="o">=</span><span class="n">TIMEZONE_OFFSET_TO_UTC_HOURS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validating data for variable PREC_NABEL_TOT_T1_47_1 ... 
+Found 2 unique frequencies across 782029 records.
+Found frequencies:
+    Found time resolution 600.0 (seconds) with 782026 records (100.00% of total records). 
+    Found time resolution 1200.0 (seconds) with 3 records (0.00% of total records).   --&gt;  Frequency will be ignored, too few records.
+The following frequencies will be used: [600.0] (seconds)
+</pre></div>
+</div>
+</div>
+</div>
+<br>
+Now let's take a look at the data that will be screened:<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.showplot_orig(interactive=True)</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">showplot_orig</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/5499869e348183ce9692b11e9262571734481beffa5b2ee320569424f8a75639.png" src="../../../_images/5499869e348183ce9692b11e9262571734481beffa5b2ee320569424f8a75639.png" />
+</div>
+</div>
+</br></br></section>
+<section class="tex2jax_ignore mathjax_ignore" id="outlier-detection-generate-quality-flags-on-high-resolution-data-if-needed">
+<h1><strong>OUTLIER DETECTION</strong>: generate quality flags on high-resolution data (if needed)<a class="headerlink" href="#outlier-detection-generate-quality-flags-on-high-resolution-data-if-needed" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>After running a specific test, one or more preview plots are generated</p></li>
+<li><p>The respective quality flag is not added immediately to the data, but only after <code class="docutils literal notranslate"><span class="pre">mscr.addflag()</span></code> is executed</p></li>
+<li><p>This allows to generate multiple previews to see how the filter works</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">mscr.addflag()</span></code> is executed, the quality flag of the most recent quality test is added to the data</p></li>
+<li><p>At the end of the outlier detection, an overall flag <code class="docutils literal notranslate"><span class="pre">QCF</span></code> is generated</p></li>
+</ul>
+<div class="alert alert-block alert-info">
+    <b>Tip:</b> If the plots look good and you think the data do not require any screening, you can skip this section and jump directly to Corrections or Resampling. 
+</div></br><section id="start-outlier-detection">
+<h2>Start outlier detection<a class="headerlink" href="#start-outlier-detection" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">start_outlier_detection</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section id="plot-current-outlier-cleaned-data">
+<h2>Plot current outlier-cleaned data<a class="headerlink" href="#plot-current-outlier-cleaned-data" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>During <i>outlier detection</i>, you can jump back here to plot the current version of <b>cleaned</b> data.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">mscr</span><span class="o">.</span><span class="n">outlier_detection</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># val.showplot_cleaned(interactive=True)</span>
+    <span class="n">val</span><span class="o">.</span><span class="n">showplot_cleaned</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># mscr.outlier_detection[&#39;TA_T1_2_1&#39;].showplot_cleaned()</span>
+<span class="c1"># mscr.showplot_cleaned(interactive=True)</span>
+<span class="c1"># mscr.showplot_cleaned(interactive=False)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-manual-removal">
+<h2>Flag, outlier detection: <strong>Manual removal</strong><a class="headerlink" href="#flag-outlier-detection-manual-removal" title="Link to this heading">#</a></h2>
+<p><em>Generate flag for data points that should be removed</em></p>
+<p>To find erroneous time periods, use this interactive plot to identify the exact timestamps or time ranges:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example removal of dates</span>
+<span class="n">REMOVE_DATES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;2024-07-14 07:15:00&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-07-19 00:00:15&#39;</span><span class="p">],</span>  <span class="c1"># Remove time range</span>
+    <span class="c1"># &#39;2022-08-23 11:45:00&#39;,  # Remove data point</span>
+    <span class="c1"># &#39;2022-01-12 13:15:00&#39;,  # Remove data point</span>
+    <span class="c1"># [&#39;2022-08-15&#39;, &#39;2022-08-16&#39;]  # Remove time range</span>
+<span class="p">]</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_manualremoval_test</span><span class="p">(</span><span class="n">remove_dates</span><span class="o">=</span><span class="n">REMOVE_DATES</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-hampel-filter-across-all-data">
+<h2>Flag, outlier detection: <strong>Hampel filter</strong> across all data<a class="headerlink" href="#flag-outlier-detection-hampel-filter-across-all-data" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers in a sliding window based on the Hampel filter</em></p>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">WINDOW_LENGTH</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">N_SIGMA</span> <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_hampel_test</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="n">WINDOW_LENGTH</span><span class="p">,</span> <span class="n">n_sigma</span><span class="o">=</span><span class="n">N_SIGMA</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-hampel-filter-separate-for-daytime-and-nighttime">
+<h2>Flag, outlier detection: <strong>Hampel filter</strong> separate for daytime and nighttime<a class="headerlink" href="#flag-outlier-detection-hampel-filter-separate-for-daytime-and-nighttime" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers in a sliding window based on the Hampel filter, separately for daytime and nighttime data.</em></p>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">WINDOW_LENGTH</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">N_SIGMA_DT</span> <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">N_SIGMA_NT</span> <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_hampel_dtnt_test</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="n">WINDOW_LENGTH</span><span class="p">,</span> <span class="n">n_sigma_dt</span><span class="o">=</span><span class="n">N_SIGMA_DT</span><span class="p">,</span> <span class="n">n_sigma_nt</span><span class="o">=</span><span class="n">N_SIGMA_NT</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-z-score-over-all-data-separate-for-daytime-and-nighttime">
+<h2>Flag, outlier detection: <strong>z-score over all data</strong> separate for daytime and nighttime<a class="headerlink" href="#flag-outlier-detection-z-score-over-all-data-separate-for-daytime-and-nighttime" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the z-score, separately for daytime and nighttime</em></p>
+<div class="alert alert-block alert-warning">
+    <b>Warning for radiation:</b> This test easily removes nighttime values that are below zero. However, below-zero radiation data are corrected in a later step (Corrections). Make sure that no radiation data below zero are removed when using this test.
+</div><div class="alert alert-block alert-warning">
+    <b>Warning for relative humidity:</b> This test easily removes values that are above 100% relative humidity. However, values > 100% are corrected in a later step (Corrections). Make sure that no RH data above 100% are removed when using this test.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_zscore_dtnt_test</span><span class="p">(</span><span class="n">thres_zscore</span><span class="o">=</span><span class="n">THRESHOLD</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section id="flag-outlier-detection-rolling-z-score-over-all-data">
+<h2>Flag, outlier detection: <strong>rolling z-score over all data</strong><a class="headerlink" href="#flag-outlier-detection-rolling-z-score-over-all-data" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the rolling z-score</em></p>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">WINSIZE</span> <span class="o">=</span> <span class="mi">1440</span> <span class="o">*</span> <span class="mi">7</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_zscore_rolling_test</span><span class="p">(</span><span class="n">thres_zscore</span><span class="o">=</span><span class="n">THRESHOLD</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="n">WINSIZE</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section id="flag-oulier-detection-local-standard-deviation">
+<h2>Flag, oulier detection: <strong>Local standard deviation</strong><a class="headerlink" href="#flag-oulier-detection-local-standard-deviation" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the local standard deviation, based on the rolling mean and standard deviation</em><br />
+<br>
+Parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">N_SD</span></code> … Number of standard deviations for outliers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WINSIZE</span></code> … Number of records used for the rolling time window. If <code class="docutils literal notranslate"><span class="pre">None</span></code> the window size is calculated as 1/20 of data length.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_SD</span> <span class="o">=</span> <span class="mf">5.5</span>
+<span class="n">WINSIZE</span> <span class="o">=</span> <span class="mi">1440</span> <span class="o">*</span> <span class="mi">7</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_localsd_test</span><span class="p">(</span><span class="n">n_sd</span><span class="o">=</span><span class="n">N_SD</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="n">WINSIZE</span><span class="p">,</span> <span class="n">constant_sd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section id="outlier-flag-local-standard-deviation-with-rolling-median-and-constant-standard-deviation">
+<h2>Outlier flag: <strong>Local standard deviation</strong>, with rolling median and <em>constant</em> standard deviation<a class="headerlink" href="#outlier-flag-local-standard-deviation-with-rolling-median-and-constant-standard-deviation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>keep standard deviation constant by setting parameter <code class="docutils literal notranslate"><span class="pre">constant_sd=True</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_SD</span> <span class="o">=</span> <span class="mf">5.5</span>
+<span class="n">WINSIZE</span> <span class="o">=</span> <span class="mi">1440</span> <span class="o">*</span> <span class="mi">7</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_localsd_test</span><span class="p">(</span><span class="n">n_sd</span><span class="o">=</span><span class="n">N_SD</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="n">WINSIZE</span><span class="p">,</span> <span class="n">constant_sd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+<section id="flag-outlier-detection-increments-z-score">
+<h2>Flag, outlier detection: <strong>Increments z-score</strong><a class="headerlink" href="#flag-outlier-detection-increments-z-score" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the z-score of record increments</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_increments_zcore_test</span><span class="p">(</span><span class="n">thres_zscore</span><span class="o">=</span><span class="n">THRESHOLD</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></br></section>
+<section id="flag-outlier-detection-z-score-over-all-data">
+<h2>Flag, outlier detection: <strong>z-score over all data</strong><a class="headerlink" href="#flag-outlier-detection-z-score-over-all-data" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the z-score of records</em><br />
+This is a general purpose test that can already solve many outlier issues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">5.5</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_zscore_test</span><span class="p">(</span><span class="n">thres_zscore</span><span class="o">=</span><span class="n">THRESHOLD</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></br></section>
+<section id="flag-outlier-detection-local-outlier-factor-daytime-nighttime">
+<h2>Flag, outlier detection: <strong>Local outlier factor, daytime/nighttime</strong><a class="headerlink" href="#flag-outlier-detection-local-outlier-factor-daytime-nighttime" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the local outlier factor, done separately for daytime and nighttime data</em><br />
+You can find <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html">more info about the general approach here</a>.</p>
+<div class="alert alert-block alert-danger">
+    <b>Do not use this test on high-resolution data (1S, 10S, 1MIN):</b> Computation takes a veeeeery loooong time and is slooooow. But otherwise it works nicely with half-hourly data.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.flag_outliers_lof_dtnt_test(n_neighbors=3, contamination=0.00001, showplot=True, verbose=True, repeat=False, n_jobs=-1)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.addflag()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-local-outlier-factor">
+<h2>Flag, outlier detection: <strong>Local outlier factor</strong><a class="headerlink" href="#flag-outlier-detection-local-outlier-factor" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on the local outlier factor</em><br />
+You can find <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html">more info about the general approach here</a>.</p>
+<div class="alert alert-block alert-danger">
+    <b>Do not use this test on high-resolution data (1S, 10S, 1MIN):</b> Computation takes a veeeeery loooong time and is slooooow. But otherwise it works nicely with half-hourly data.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.flag_outliers_lof_test(n_neighbors=30, contamination=0.01, showplot=True, verbose=True, repeat=False, n_jobs=-1)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.addflag()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-absolute-limits">
+<h2>Flag, outlier detection: <strong>Absolute limits</strong><a class="headerlink" href="#flag-outlier-detection-absolute-limits" title="Link to this heading">#</a></h2>
+<p><em>Generate flag that indicates if values in data are outside the specified range</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MIN</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20</span>
+<span class="n">MAX</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_abslim_test</span><span class="p">(</span><span class="n">minval</span><span class="o">=</span><span class="n">MIN</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="n">MAX</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-absolute-limits-separate-for-daytime-and-nighttime-data">
+<h2>Flag, outlier detection: <strong>Absolute limits, separate for daytime and nighttime data</strong><a class="headerlink" href="#flag-outlier-detection-absolute-limits-separate-for-daytime-and-nighttime-data" title="Link to this heading">#</a></h2>
+<p><em>Identify outliers based on absolute limits separately for daytime and nighttime</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DT_MINMAX</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">NT_MINMAX</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_abslim_dtnt_test</span><span class="p">(</span><span class="n">daytime_minmax</span><span class="o">=</span><span class="n">DT_MINMAX</span><span class="p">,</span> <span class="n">nighttime_minmax</span><span class="o">=</span><span class="n">NT_MINMAX</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-trim-low">
+<h2>Flag, outlier detection: <strong>Trim low</strong><a class="headerlink" href="#flag-outlier-detection-trim-low" title="Link to this heading">#</a></h2>
+<p><em>Flag values below a given absolute limit as outliers, then flag an equal number of datapoints at the high end as outliers.</em></p>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TRIM_DAYTIME</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">TRIM_NIGHTTIME</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">LOWER_LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">mscr</span><span class="o">.</span><span class="n">flag_outliers_trim_low_test</span><span class="p">(</span><span class="n">trim_daytime</span><span class="o">=</span><span class="n">TRIM_DAYTIME</span><span class="p">,</span> <span class="n">trim_nighttime</span><span class="o">=</span><span class="n">TRIM_NIGHTTIME</span><span class="p">,</span> <span class="n">lower_limit</span><span class="o">=</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">addflag</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="flag-outlier-detection-missing-values-test">
+<h2>Flag, outlier detection: <strong>Missing values test</strong><a class="headerlink" href="#flag-outlier-detection-missing-values-test" title="Link to this heading">#</a></h2>
+<p><em>Generate flag that indicates missing records in data</em></p>
+<ul class="simple">
+<li><p>This test is not really part of the outlier detection tests, but a separate test.</p></li>
+<li><p>In this notebook, we can simply add a missing values flag to the existing data.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">flag_missingvals_test</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="qcf-calculate-overall-quality-control-flag-for-high-resolution-data">
+<h2><strong>QCF</strong>: calculate overall quality-control flag for high-resolution data<a class="headerlink" href="#qcf-calculate-overall-quality-control-flag-for-high-resolution-data" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The next step (Corrections) needs quality-controlled data, therefore an overall flag <code class="docutils literal notranslate"><span class="pre">QCF</span></code> is created here.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">finalize_outlier_detection</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="reports">
+<h3>Reports<a class="headerlink" href="#reports" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">report_outlier_detection_qcf_evolution</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">report_outlier_detection_qcf_flags</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">report_outlier_detection_qcf_series</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plots">
+<h3>Plots<a class="headerlink" href="#plots" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">showplot_outlier_detection_qcf_heatmaps</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.showplot_outlier_detection_qcf_timeseries()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="corrections-done-on-high-resolution-data-if-needed">
+<h1><strong>CORRECTIONS</strong>: done on high-resolution data (if needed)<a class="headerlink" href="#corrections-done-on-high-resolution-data-if-needed" title="Link to this heading">#</a></h1>
+<p>Currently only needed for SW, PPFD, RH.</p>
+</br></br><section id="show-cleaned-data-after-qcf">
+<h2>Show cleaned data after QCF<a class="headerlink" href="#show-cleaned-data-after-qcf" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">showplot_cleaned</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="correction-remove-radiation-zero-offset">
+<h2>Correction: <strong>Remove radiation zero offset</strong><a class="headerlink" href="#correction-remove-radiation-zero-offset" title="Link to this heading">#</a></h2>
+<p><em>Remove nighttime offset from all radiation data and set nighttime to zero</em></p>
+<div class="alert alert-block alert-info">
+    Can be used for <b>SW_IN, SW_OUT, PPFD_IN, PPFD_OUT.</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">correction_remove_radiation_zero_offset</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="correction-remove-relative-humidity-offset">
+<h2>Correction: <strong>Remove relative humidity offset</strong><a class="headerlink" href="#correction-remove-relative-humidity-offset" title="Link to this heading">#</a></h2>
+<p><em>Remove relative humidity offset, works for relative humidity data where maximum values should not exceed 100%</em></p>
+<div class="alert alert-block alert-info">
+    Can be used for <b>RH.</b>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.correction_remove_relativehumidity_offset()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="correction-set-to-max-threshold">
+<h2>Correction: <strong>Set to max threshold</strong><a class="headerlink" href="#correction-set-to-max-threshold" title="Link to this heading">#</a></h2>
+<p><em>Set values above threshold to threshold</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">correction_setto_max_threshold</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="correction-set-to-min-threshold">
+<h2>Correction: <strong>Set to min threshold</strong><a class="headerlink" href="#correction-set-to-min-threshold" title="Link to this heading">#</a></h2>
+<p><em>Set values below threshold to threshold</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">correction_setto_min_threshold</span><span class="p">(</span><span class="n">threshold</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<section id="correction-set-to-value">
+<h2>Correction: <strong>Set to value</strong><a class="headerlink" href="#correction-set-to-value" title="Link to this heading">#</a></h2>
+<p><em>Set records in time range(s) to value</em></p>
+<ul class="simple">
+<li><p>This can be useful e.g. to set precipitation to zero during a time period where the sensor was tested during a field visit</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mscr.showplot_cleaned(interactive=True)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;2022-04-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-04-05&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;2022-09-05&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-09-07&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">correction_setto_value</span><span class="p">(</span><span class="n">dates</span><span class="o">=</span><span class="n">DATES</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">3.7</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">showplot_cleaned</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="analyses">
+<h1><strong>ANALYSES</strong> <a class="anchor" id="resampling"></a><a class="headerlink" href="#analyses" title="Link to this heading">#</a></h1>
+<section id="check-for-potential-timestamp-shifts">
+<h2>Check for potential timestamp shifts<a class="headerlink" href="#check-for-potential-timestamp-shifts" title="Link to this heading">#</a></h2>
+<p><em>Compare radiation time series to potential radiation</em></p>
+<div class="alert alert-block alert-info">
+    Can be used for <b>SW_IN, SW_OUT, PPFD_IN, PPFD_OUT.</b>
+</div><p>This analysis generates a plot that shows the radiation time series in comparison to potential radiation.</p>
+<ul class="simple">
+<li><p>The first (top) panel shows daily correlations</p></li>
+<li><p>The second panel shows potential radiation and measured radiation on low correlation days all in one plot</p></li>
+<li><p>The third panel (with 3 plots) shows potential radiation and measured radiation on the three days when their correlation was the <strong>lowest</strong></p></li>
+<li><p>The fourth (bottom) panel (with 3 plots) shows potential radiation and measured radiation on the three days when their correlation was the <strong>highest</strong></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">mscr</span><span class="o">.</span><span class="n">analysis_potential_radiation_correlation</span><span class="p">(</span><span class="n">utc_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mincorr</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">showplot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="resampling">
+<h1><strong>RESAMPLING</strong> <a class="anchor" id="resampling"></a><a class="headerlink" href="#resampling" title="Link to this heading">#</a></h1>
+<section id="resample">
+<h2>Resample<a class="headerlink" href="#resample" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RESAMPLING_AGG</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;sum&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">to_freqstr</span><span class="o">=</span><span class="n">RESAMPLING_FREQ</span><span class="p">,</span> <span class="n">agg</span><span class="o">=</span><span class="n">RESAMPLING_AGG</span><span class="p">,</span> <span class="n">mincounts_perc</span><span class="o">=</span><span class="mf">.25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[resample_series_to_30MIN]  running resample_series_to_30MIN ...
+Resampling data from 10min to 30min frequency ...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-original-and-resampled-data">
+<h2>Plot original and resampled data<a class="headerlink" href="#plot-original-and-resampled-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mscr</span><span class="o">.</span><span class="n">showplot_resampled</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/aa4257ca98a047bd49b4e7c7d3d2bb515af660f5bd291070fea350ee900e5485.png" src="../../../_images/aa4257ca98a047bd49b4e7c7d3d2bb515af660f5bd291070fea350ee900e5485.png" />
+</div>
+</div>
+</section>
+<section id="check-time-resolution-of-resampled-data">
+<h2>Check time resolution of resampled data<a class="headerlink" href="#check-time-resolution-of-resampled-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mscr</span><span class="o">.</span><span class="n">resampled_detailed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">_checkfreq</span> <span class="o">=</span> <span class="n">DetectFrequency</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">mscr</span><span class="o">.</span><span class="n">resampled_detailed</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">_checkfreq</span> <span class="o">==</span> <span class="n">RESAMPLING_FREQ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TEST PASSED - The resampled variable </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> has a time resolution of </span><span class="si">{</span><span class="n">_checkfreq</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;#&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="s2">(!)TEST FAILED - The resampled variable </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> does not have the expected time resolution of </span><span class="si">{</span><span class="n">_checkfreq</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="s1">&#39;#&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------------
+PREC_NABEL_TOT_T1_47_1
+Detecting time resolution from timestamp TIMESTAMP_END ... OK
+   Detected 30min time resolution with MAXIMUM confidence.
+   All approaches yielded the same result:
+       from full data = 30min / full data (OK)
+       from timedelta = 30min / 100% occurrence (OK)
+       from progressive = 30min / data 1000+1000 (OK)
+
+TEST PASSED - The resampled variable PREC_NABEL_TOT_T1_47_1 has a time resolution of 30min.
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="upload-data-to-the-database-with-dbc-influxdb">
+<h1><strong>UPLOAD DATA TO THE DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong><a class="headerlink" href="#upload-data-to-the-database-with-dbc-influxdb" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data will be uploaded to bucket </span><span class="si">{</span><span class="n">BUCKET_PROCESSED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data will be uploaded to bucket ch-lae_processed
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-block alert-success">
+    <b>New in v7</b> <i>timezone_offset_to_utc_hours</i> is now given as integer, <i>delete_from_db_before_upload</i> deleted time range for variable from database before the new data are uploaded. 
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mscr</span><span class="o">.</span><span class="n">resampled_detailed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">assigned_measurements</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">dbc</span><span class="o">.</span><span class="n">upload_singlevar</span><span class="p">(</span><span class="n">to_bucket</span><span class="o">=</span><span class="n">BUCKET_PROCESSED</span><span class="p">,</span>
+                         <span class="n">to_measurement</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+                         <span class="n">var_df</span><span class="o">=</span><span class="n">mscr</span><span class="o">.</span><span class="n">resampled_detailed</span><span class="p">[</span><span class="n">v</span><span class="p">],</span>
+                         <span class="n">timezone_offset_to_utc_hours</span><span class="o">=</span><span class="n">TIMEZONE_OFFSET_TO_UTC_HOURS</span><span class="p">,</span>
+                         <span class="n">delete_from_db_before_upload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># dbc.upload_singlevar(to_bucket=&#39;test&#39;, to_measurement=m, var_df=vars_qc_resampled[v], timezone_of_timestamp=&#39;UTC+01:00&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deleted variables [&#39;PREC_NABEL_TOT_T1_47_1&#39;] between 2004-01-01T00:30:00+01:00 and 2019-01-01T00:00:00+01:00 from measurements [&#39;PREC&#39;] in bucket ch-lae_processed.
+Connecting to database ...
+--&gt; UPLOAD TO DATABASE BUCKET ch-lae_processed:  [&#39;PREC_NABEL_TOT_T1_47_1&#39;]  Upload finished.
+</pre></div>
+</div>
+</div>
+</div>
+</br></br></section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="datacheck-download-from-database">
+<h1><strong>DATACHECK: DOWNLOAD FROM DATABASE</strong><a class="headerlink" href="#datacheck-download-from-database" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dbc</span> <span class="o">=</span> <span class="n">dbcInflux</span><span class="p">(</span><span class="n">dirconf</span><span class="o">=</span><span class="n">DIRCONF</span><span class="p">)</span>
+<span class="c1"># dbc.show_fields_in_measurement(bucket=BUCKET_PROCESSED, measurement=&#39;SW&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading configuration files was successful.
+Connection to database works.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MEASUREMENT</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PREC&#39;</span><span class="p">]</span>
+<span class="n">data_simple</span><span class="p">,</span> <span class="n">data_detailed</span><span class="p">,</span> <span class="n">assigned_measurements</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">BUCKET_PROCESSED</span><span class="p">,</span>
+                                                                 <span class="n">measurements</span><span class="o">=</span><span class="n">MEASUREMENT</span><span class="p">,</span>
+                                                                 <span class="n">fields</span><span class="o">=</span><span class="n">FIELDS</span><span class="p">,</span>
+                                                                 <span class="n">start</span><span class="o">=</span><span class="n">START</span><span class="p">,</span>
+                                                                 <span class="n">stop</span><span class="o">=</span><span class="n">STOP</span><span class="p">,</span>
+                                                                 <span class="n">timezone_offset_to_utc_hours</span><span class="o">=</span><span class="n">TIMEZONE_OFFSET_TO_UTC_HOURS</span><span class="p">,</span>
+                                                                 <span class="n">data_version</span><span class="o">=</span><span class="s1">&#39;meteoscreening_diive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DOWNLOADING
+    from bucket ch-lae_processed
+    variables [&#39;PREC_NABEL_TOT_T1_47_1&#39;]
+    from measurements [&#39;PREC&#39;]
+    from data version [&#39;meteoscreening_diive&#39;]
+    between 2004-01-01 00:00:01 and 2019-01-01 00:00:01
+    with timezone offset to UTC of 1
+Using querystring:
+from(bucket: &quot;ch-lae_processed&quot;) |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00) |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;meteoscreening_diive&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;) |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+Used querystring: from(bucket: &quot;ch-lae_processed&quot;) |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00) |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;meteoscreening_diive&quot;) |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;) |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+querystring was constructed from:
+    bucketstring: from(bucket: &quot;ch-lae_processed&quot;)
+    rangestring: |&gt; range(start: 2004-01-01T00:00:01+01:00, stop: 2019-01-01T00:00:01+01:00)
+    measurementstring: |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;PREC&quot;)
+    dataversionstring: |&gt; filter(fn: (r) =&gt; r[&quot;data_version&quot;] == &quot;meteoscreening_diive&quot;)
+    fieldstring: |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;PREC_NABEL_TOT_T1_47_1&quot;)
+    pivotstring: |&gt; pivot(rowKey:[&quot;_time&quot;], columnKey: [&quot;_field&quot;], valueColumn: &quot;_value&quot;)
+Download finished.
+Downloaded data for 1 variables:
+&lt;-- PREC_NABEL_TOT_T1_47_1  (260743 records)  first date: 2004-01-01 00:30:00  last date: 2019-01-01 00:00:00
+========================================
+Fields in measurement PREC of bucket ch-lae_processed:
+#1  ch-lae_processed  PREC  PREC
+#2  ch-lae_processed  PREC  PREC_ERA
+#3  ch-lae_processed  PREC  PREC_F
+#4  ch-lae_processed  PREC  PREC_F_QC
+#5  ch-lae_processed  PREC  PREC_NABEL_TOT_T1_27_1
+#6  ch-lae_processed  PREC  PREC_NABEL_TOT_T1_47_1
+#7  ch-lae_processed  PREC  PREC_TOT_T1_47_1
+Found 7 fields in measurement PREC of bucket ch-lae_processed.
+========================================
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_simple</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PREC_NABEL_TOT_T1_47_1</th>
+    </tr>
+    <tr>
+      <th>TIMESTAMP_END</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2004-01-01 00:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 01:00:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 01:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 02:00:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2004-01-01 02:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 22:00:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 22:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:00:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:30:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2019-01-01 00:00:00</th>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>260743 rows × 1 columns</p>
+</div></div></div>
+</div>
+<section id="check-time-resolution-of-downloaded-data">
+<h2>Check time resolution of downloaded data<a class="headerlink" href="#check-time-resolution-of-downloaded-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data_detailed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">_checkfreq</span> <span class="o">=</span> <span class="n">DetectFrequency</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">data_detailed</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">_checkfreq</span> <span class="o">==</span> <span class="n">RESAMPLING_FREQ</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TEST PASSED - The downloaded variable </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> has a time resolution of </span><span class="si">{</span><span class="n">_checkfreq</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;#&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="s2">(!)TEST FAILED - The downloaded variable </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> does not have the expected time resolution of </span><span class="si">{</span><span class="n">_checkfreq</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="s1">&#39;#&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------------
+PREC_NABEL_TOT_T1_47_1
+Detecting time resolution from timestamp TIMESTAMP_END ... OK
+   Detected 30min time resolution with HIGH confidence.
+   Resolution detected from most frequent timestep (timedelta):
+       from full data = None / -failed- (not used)
+       from timedelta = 30min / 100% occurrence (OK)
+       from progressive = 30min / data 1000+1000 (not used)
+
+TEST PASSED - The downloaded variable PREC_NABEL_TOT_T1_47_1 has a time resolution of 30min.
+</pre></div>
+</div>
+</div>
+</div>
+</br></section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="end-of-notebook">
+<h1><strong>End of notebook.</strong><a class="headerlink" href="#end-of-notebook" title="Link to this heading">#</a></h1>
+<p>Congratulations, you reached the end of this notebook! Before you go let’s store your finish time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt_string</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished. </span><span class="si">{</span><span class="n">dt_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. 2025-05-19 15:50:40
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks\10_METEO\11_meteoscreening_diive"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>ABOUT THIS NOTEBOOK</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#user-settings-please-adjust"><strong>USER SETTINGS</strong> (please adjust)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#site">Site</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-to-screen">Variables to screen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-range-to-screen">Time range to screen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-aggregation">Resampling aggregation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-settings"><strong>AUTO-SETTINGS</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-settings">Data settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-settings-do-not-adjust">Automatic settings (do not adjust):</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-available-variables">Check available variables</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-from-database-with-dbc-influxdb"><strong>DOWNLOAD DATA FROM DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-downloaded-data">Check downloaded data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dbc-downloads-three-variables"><code class="docutils literal notranslate"><span class="pre">dbc</span></code> downloads three variables:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-simple"><code class="docutils literal notranslate"><span class="pre">data_simple</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-detailed"><code class="docutils literal notranslate"><span class="pre">data_detailed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#assigned-measurements"><code class="docutils literal notranslate"><span class="pre">assigned_measurements</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-downloaded-high-res-raw-data-to-file-optional">Save downloaded high-res raw data to file (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-downloaded-high-res-data">Plot downloaded high-res data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#start-meteoscreening-with-diive"><strong>Start MeteoScreening with <code class="docutils literal notranslate"><span class="pre">diive</span></code></strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-detection-generate-quality-flags-on-high-resolution-data-if-needed"><strong>OUTLIER DETECTION</strong>: generate quality flags on high-resolution data (if needed)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-outlier-detection">Start outlier detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-current-outlier-cleaned-data">Plot current outlier-cleaned data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-manual-removal">Flag, outlier detection: <strong>Manual removal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-hampel-filter-across-all-data">Flag, outlier detection: <strong>Hampel filter</strong> across all data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-hampel-filter-separate-for-daytime-and-nighttime">Flag, outlier detection: <strong>Hampel filter</strong> separate for daytime and nighttime</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-z-score-over-all-data-separate-for-daytime-and-nighttime">Flag, outlier detection: <strong>z-score over all data</strong> separate for daytime and nighttime</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-rolling-z-score-over-all-data">Flag, outlier detection: <strong>rolling z-score over all data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-oulier-detection-local-standard-deviation">Flag, oulier detection: <strong>Local standard deviation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-flag-local-standard-deviation-with-rolling-median-and-constant-standard-deviation">Outlier flag: <strong>Local standard deviation</strong>, with rolling median and <em>constant</em> standard deviation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-increments-z-score">Flag, outlier detection: <strong>Increments z-score</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-z-score-over-all-data">Flag, outlier detection: <strong>z-score over all data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-local-outlier-factor-daytime-nighttime">Flag, outlier detection: <strong>Local outlier factor, daytime/nighttime</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-local-outlier-factor">Flag, outlier detection: <strong>Local outlier factor</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-absolute-limits">Flag, outlier detection: <strong>Absolute limits</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-absolute-limits-separate-for-daytime-and-nighttime-data">Flag, outlier detection: <strong>Absolute limits, separate for daytime and nighttime data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-trim-low">Flag, outlier detection: <strong>Trim low</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flag-outlier-detection-missing-values-test">Flag, outlier detection: <strong>Missing values test</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qcf-calculate-overall-quality-control-flag-for-high-resolution-data"><strong>QCF</strong>: calculate overall quality-control flag for high-resolution data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reports">Reports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#corrections-done-on-high-resolution-data-if-needed"><strong>CORRECTIONS</strong>: done on high-resolution data (if needed)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-cleaned-data-after-qcf">Show cleaned data after QCF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-remove-radiation-zero-offset">Correction: <strong>Remove radiation zero offset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-remove-relative-humidity-offset">Correction: <strong>Remove relative humidity offset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-max-threshold">Correction: <strong>Set to max threshold</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-min-threshold">Correction: <strong>Set to min threshold</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-set-to-value">Correction: <strong>Set to value</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#analyses"><strong>ANALYSES</strong> <a class="anchor" id="resampling"></a></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-for-potential-timestamp-shifts">Check for potential timestamp shifts</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling"><strong>RESAMPLING</strong> <a class="anchor" id="resampling"></a></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resample">Resample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-original-and-resampled-data">Plot original and resampled data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-time-resolution-of-resampled-data">Check time resolution of resampled data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-data-to-the-database-with-dbc-influxdb"><strong>UPLOAD DATA TO THE DATABASE WITH <code class="docutils literal notranslate"><span class="pre">dbc-influxdb</span></code></strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#datacheck-download-from-database"><strong>DATACHECK: DOWNLOAD FROM DATABASE</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-time-resolution-of-downloaded-data">Check time resolution of downloaded data</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-notebook"><strong>End of notebook.</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lukas Hörtnagl
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
