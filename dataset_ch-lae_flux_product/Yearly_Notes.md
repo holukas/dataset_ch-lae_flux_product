@@ -66,6 +66,11 @@
 ---
 ## 2019
 
+:::{figure-md} photo-ec2
+![](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg)
+The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich
+:::
+
 ### FF-202101
 
 - **Final Flux Version**: HS50-IRGA72-IRGA75_FF-202101
@@ -204,6 +209,11 @@
 
 ---
 ## 2014
+
+:::{figure-md} photo-ec3
+![](images/CH-LAE_2014_2014-04-17_panorama_IMAG0013-14.jpg)
+The research site CH-LAE on 17 Apr 2014. Photo: Grassland Sciences Group, ETH Zurich
+:::
 
 ### FF-201606
 

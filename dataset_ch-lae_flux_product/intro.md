@@ -12,10 +12,9 @@ For an overview of recent documentation updates see [here](https://github.com/ho
 
 For a list of planned updates and additions, see [Issues on the GitHub repository](https://github.com/holukas/dataset_ch-lae_flux_product/issues).
 
-:::{figure-md} photo-ec1
-![](images/CH-CHA_2014_ECtower_Apr2014_IMG_9304-HDR.jpg)
-
-Photo of the CH-LAE research site in XXX 20XX. Photo: XXX, Grassland Sciences Group, ETH Zurich
+:::{figure-md} photo-ec2
+![](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg)
+The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich
 :::
 
 ## Current dataset version
