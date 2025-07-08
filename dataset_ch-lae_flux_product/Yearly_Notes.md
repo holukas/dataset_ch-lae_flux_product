@@ -149,7 +149,6 @@
 - **FF-201902**: Final Flux Version: FF-201902 | Level-1 ID: Level-1_ID2018-03-02T095006 | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2017 (only IRGA72 used, complete year) | Instruments: HS50, IRGA72 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 23 May 2019 (Level-1) | Notes: Known issues: Fluxes have not been corrected for the [Wrong Calibration Gas 2017](https://www.swissfluxnet.ethz.ch/index.php/documentation/wrong-calibration-gas-2017/) issue (unknown at the time). See here for affected time periods: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/). However, this issue only affects the last approx. 2 weeks of December, a correction might therefore not be worthwhile since this has virtually zero impact on CO2 budgets etc; Unfortunately I did not have all details available, but from the file in the database upload I concluded the the IRGA72 fluxes were uploaded. -LH; Some files are missing in the output folder (the converted raw data csv files and raw data csv plots); The Level-2 fluxes are missing, but data were uploaded; There was no log file available, therefore the used versions of FCT and EddyPro are unknown (probably FCT 0.74, EP 6.1.0).**
 
 ---
-
 ## 2016
 
 ### FF-202101
@@ -180,10 +179,9 @@
 - **FF-201902**: Final Flux Version: FF-201902 | Level-1 ID: Level-1_ID2017-02-10T101729 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2016 (only IRGA75 used, complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 23 May 2019 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes; Unfortunately I did not have all details available, but from the file in the database upload I concluded the the IRGA75 fluxes were uploaded. -LH
 
 ---
-
 # 2015
 
-- **Final Flux Version**: FF-201606
+- **Final Flux Version**: HS50-IRGA75_FF-201606
 - **Level-1 ID**: Level-1_ID2016-06-10T163549
 - **Level-1.1 ID**: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 - **Level-4 ID(s)**:
@@ -203,10 +201,9 @@
 - **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163549 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2015 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1, for FLUXNET2015 dataset, but were not included since that dataset only considered fluxes until incl. 2014) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes; Like for other sites, the 2015 fluxes were uploaded for the FLUXNET2015 dataset in 2016. However, the FLUXNET2015 dataset generally only comprises fluxes until incl. 2014, i.e. 2015 fluxes were not included. Fluxes for 2015 were then later included in the update of the dataset during the data collection for the drought study in 2019.
 
 ---
-
 # 2014
 
-- **Final Flux Version**: FF-201606
+- **Final Flux Version**: HS50-IRGA75_FF-201606
 - **Level-1 ID**: Level-1_ID2016-06-10T163622
 - **Level-1.1 ID**: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 - **Level-4 ID(s)**:
@@ -223,27 +220,22 @@
     - Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 
 ### Deprecated versions
-- ~~**Final Flux Version**: FF-201606~~
-- ~~**Level-1 ID**: Level-1_ID2016-06-10T163622  
-    ~~
-- ~~**Level-1.1 ID**: - (no self-heating correction applied)~~
-- ~~**Level-4 ID(s)**:~~
-    - ~~Level-3-4_FLUXNET2015-FN-20161021_2004-2014~~
-    - ~~Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018~~
-    - ~~Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06~~
-- ~~**Setup**: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/)~~
-- ~~**Time Period(s)**: 2014 (complete year)~~
-- ~~**Instruments**: HS50, IRGA75~~
-- ~~**Scripts**: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2)~~
-- ~~**FLUXNET upload**: 30 Jun 2016 (Level-1)~~
-- ~~**Notes**:~~
-    - ~~In this version, no self-heating correction was applied to Level-1 fluxes.~~
+- **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163622 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20161021_2004-2014; Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2014 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes.
 
 ---
+## 2013
 
-# 2013
+### General notes
+- **ISSUE: SHIFTED TIMESTAMP**: The timestamp in the EC raw data files was shifted between 6 Jul 2013 and 12 Jul 2013. There was (is?) an error in the raw binary filename timestamp between 2013-07-06 and 2013-07-12. Relevant fieldbook entry: “2013-07-12: time on moxa was wrong. changed on 16:44 from 22:43:50 to 15:44”, i.e. 6 hours + I renamed all files **from 2013070615.b02 until (incl.) 2013071214.b00** manually by subtracting 6 hours. For example: 2013070802.b00 was renamed to 2013070720.b00. **In case of flux calculations it needs to be checked if the time error still persists**. During the generation of the PI dataset [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) this error still needed correction after fluxes were calculated: “_In the IRGA75 Level-1 fluxes, the timestamp of flux variables between 6 Jul and 12 Jul 2013 (6 days) was shifted by approx. 14.5 hours. Affected time range: between 2013-07-06 15:45 and 2013-07-12 23:45. For example, data at timestamp 2013-07-06 15:45 is really 2013-07-06 08:15. Level-1 data were shifted accordingly. Then, the transition day 2013-07-12 was set to missing._“
 
-- **Final Flux Version**: FF-201606
+:::{figure-md} photo-ec1
+![](images/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min.jpg)
+CH-LAE 2013: Shifted timestamp in July 2013, flux version Level-3-4_FLUXNET2015-FN-20190607-beta-3
+:::
+
+### FF-201606
+
+- **Final Flux Version**: HS50-IRGA75_FF-201606
 - **Level-1 ID**: Level-1_ID2016-06-10T163630c (**corrected for timestamp shift, see notes**)
 - **Level-1.1 ID**: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 - **Level-4 ID(s)**:
@@ -260,34 +252,14 @@
     - Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 
 ### Deprecated versions
-- ~~**Final Flux Version**: FF-201606~~
-- ~~**Level-1 ID**: Level-1_ID2016-06-10T163630  
-    ~~
-- ~~**Level-1.1 ID**: - (no self-heating correction applied)~~
-- ~~**Level-4 ID(s)**:~~
-    - ~~Level-3-4_FLUXNET2015-FN-20161021_2004-2014~~
-    - ~~Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018~~
-    - ~~Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06~~
-- ~~**Setup**: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/)~~
-- ~~**Time Period(s)**: 2013 (complete year)~~
-- ~~**Instruments**: HS50, IRGA75~~
-- ~~**Scripts**: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2)~~
-- ~~**FLUXNET upload**: 30 Jun 2016 (Level-1)~~
-- ~~**Notes**:~~
-    - ~~In this version, no self-heating correction was applied to Level-1 fluxes.~~
-    - ~~**Known issues**: The timestamp was shifted for some days at the start of July 2013.~~
-
-## Notes
-
-- The timestamp in the EC raw data files was shifted between 6 Jul 2013 and 12 Jul 2013. For details, see Note (8) on [EC Raw Binary Format (CH-LAE)](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/).
-
-[caption id="attachment_8169" align="aligncenter" width="157"][![](https://www.swissfluxnet.ethz.ch/wp-content/uploads/2016/06/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min-157x300.jpg)](https://www.swissfluxnet.ethz.ch/wp-content/uploads/2016/06/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min.jpg) CH-LAE 2013: Shifted timestamp in July 2013, flux version Level-3-4_FLUXNET2015-FN-20190607-beta-3[/caption]
+- **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163630 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s):Level-3-4_FLUXNET2015-FN-20161021_2004-2014; Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2013 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes; Known issues: The timestamp was shifted for some days at the start of July 2013.
 
 ---
-
 # 2012
 
-- **Final Flux Version**: FF-201606
+### FF-201606
+
+- **Final Flux Version**: HS50-IRGA75_FF-201606
 - **Level-1 ID**: Level-1_ID2016-06-11T172208
 - **Level-1.1 ID**: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 - **Level-4 ID(s)**:
@@ -304,24 +276,9 @@
     - Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 
 ### Deprecated versions
-- ~~**Final Flux Version**: FF-201606~~
-- ~~**Level-1 ID**: Level-1_ID2016-06-11T172208  
-    ~~
-- ~~**Level-1.1 ID**: - (no self-heating correction applied)~~
-- ~~**Level-4 ID(s)**:~~
-    - ~~Level-3-4_FLUXNET2015-FN-20161021_2004-2014~~
-    - ~~Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018~~
-    - ~~Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06~~
-- ~~**Setup**: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/)~~
-- ~~**Time Period(s)**: 2012 (complete year)~~
-- ~~**Instruments**: HS50, IRGA75~~
-- ~~**Scripts**: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2)~~
-- ~~**FLUXNET upload**: 30 Jun 2016 (Level-1)~~
-- ~~**Notes**:~~
-    - ~~In this version, no self-heating correction was applied to Level-1 fluxes.~~
+- **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-11T172208 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20161021_2004-2014; Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2012 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes.
 
 ---
-
 # 2011
 
 - **Final Flux Version**: FF-201606
