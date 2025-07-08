@@ -31,9 +31,15 @@
 ## 2023
 *...in progress..*
 
+### Deprecated versions
+- **FF-202407**: Final Flux Version: HS50_IRGA72_FF-202407
+
 ---
 ## 2022
 *...in progress..*
+
+### Deprecated versions
+- **FF-202306**: Final Flux Version: HS50_IRGA72_FF-202306
 
 ---
 ## 2021
