@@ -5,12 +5,12 @@
 
 - This page gives information about current and past flux calculations, including used software versions, and important info for each year.
 - [Overview table of the setup across years](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/ec-raw-binary-format-ch-lae/)
-- **TODO** [Sheet](#) with processing info for recent versions
+- [Sheet](https://docs.google.com/spreadsheets/d/1kltV0Vuh9L1IR_z9HWqLBzEKpT6-G7C3TUN7H6uvA4A/edit?gid=0#gid=0) with processing info for recent versions
 - Info about the different flux levels: [Flux Processing Chain](https://www.swissfluxnet.ethz.ch/index.php/data/ecosystem-fluxes/flux-processing-chain/)
 - 
 - 
 - Info about some time periods is given in the form of the names of the original eddy covariance raw data files, e.g. `2019021819.C00`. 
-- **Sonic orientation/height**: Should be `7°` / `2.41m` more or less and consistent across all years. In a comparison of histograms of wind directions between 2005 and 2023 showed that a sonic orientation of `7°` offset to north yields very similar results across years all years. Info from one of the oldest setup files (`locations.table`) that were used for documenting setup info in earlier years listed the sonic orientation at `0°`. In 2016, `7°` north offset was measured for the north spar, the sonic setup should be approx. the same across all years.
+- **TODO** **Sonic orientation/height**: Should be `7°` / `2.41m` more or less and consistent across all years. In a comparison of histograms of wind directions between 2005 and 2023 showed that a sonic orientation of `7°` offset to north yields very similar results across years all years. Info from one of the oldest setup files (`locations.table`) that were used for documenting setup info in earlier years listed the sonic orientation at `0°`. In 2016, `7°` north offset was measured for the north spar, the sonic setup should be approx. the same across all years.
 
 ### General abbreviations
 - `IRGA` fluxes: CO2, H2O, H
@@ -279,7 +279,7 @@ CH-LAE 2013: Shifted timestamp in July 2013, flux version Level-3-4_FLUXNET2015-
 - **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163630 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s):Level-3-4_FLUXNET2015-FN-20161021_2004-2014; Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2013 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes; Known issues: The timestamp was shifted for some days at the start of July 2013.
 
 ---
-# 2012
+## 2012
 
 ### FF-201606
 
