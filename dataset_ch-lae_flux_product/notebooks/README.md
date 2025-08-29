@@ -39,6 +39,13 @@
 - [X-14.0_DownloadMeteo6_2021-2024_DB-PROCESSED_meteoscreening_diive](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/X-14.0_DownloadMeteo6_2021-2024_DB-PROCESSED_meteoscreening_diive.html)
 
 
+## 20_MERGE_DATA
+- [21.1_FLUXES_IRGA75_L1_noSHC_2005-2017_2019](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/21.1_FLUXES_IRGA75_L1_noSHC_2005-2017_2019.html)
+- [21.3_FLUXES_L1_noSHC_IRGA75+METEO7](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/21.3_FLUXES_L1_noSHC_IRGA75+METEO7.html)
+- [22.1_FLUXES_IRGA72_L1_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/22.1_FLUXES_IRGA72_L1_2016-2024.html)
+- [22.3_FLUXES_L1_IRGA72+METEO7_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/22.3_FLUXES_L1_IRGA72+METEO7_2016-2024.html)
+
+
 ## 90_DATASET_OVERVIEW
 - [METEO_SW_IN](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/METEO_SW_IN.html)
 - [METEO_TA](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/METEO_TA.html)
