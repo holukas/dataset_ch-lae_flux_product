@@ -16,5 +16,12 @@
 
 :::{figure-md} plot-ustar-fluxnet1
 ![](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png)
+
 Results from the FLUXNET USTAR threshold detection, based on data 2004-2023.
 :::
+
+`````{admonition} Notebook
+:class: tip
+[Sonic Anemometer](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/Sonic Anemometer.html)
+`````
+
