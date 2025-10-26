@@ -17,7 +17,7 @@
 :::{figure-md} plot-ustar-fluxnet1
 ![](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png)
 
-Results from the FLUXNET USTAR threshold detection, based on data 2004-2023.
+Results from the FLUXNET USTAR threshold detection, based on data 2004-2023. Data from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.
 :::
 
 `````{admonition} Notebook
