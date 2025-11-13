@@ -1,7 +1,8 @@
 # CH-LAE
 # Post-processing script for detecting USTAR thresholds
+# Use highest-quality nighttime data for USTAR detection
 
-
+# .libPaths("C:/Users/holukas/Documents/R/Local_Packages") # Adjust this local path as needed
 library(ggplot2)
 library(REddyProc)
 library(caTools)
@@ -11,7 +12,7 @@ library(readr)
 library(segmented)
 
 run_id <- format(Sys.time(), "%Y%m%d%H%M%S",tz="GMT")  # Run ID
-file_fluxes_meteo <- "31.3_SUBSET_NEE_QCF10_IRGA75_2005-2019.csv"
+file_fluxes_meteo <- "04_SUBSET_NEE_QCF10_IRGA75_2005-2019.csv"
 output_path <- getwd()
 Sys.setenv(TZ = "GMT")
 
@@ -35,7 +36,7 @@ EddyData.F$Rg <- as.numeric(as.character(filedata$SW_IN_T1_47_1_gfXG))
 EddyData.F$Tair <- as.numeric(as.character(filedata$TA_T1_47_1_gfXG))
 
 # cut the analysis period to the end of 2021
-EddyData.F <- subset (EddyData.F, TIMESTAMP >= as.POSIXct('2004-01-01 00:30:00'))  # Date with first fluxes
+EddyData.F <- subset (EddyData.F, TIMESTAMP >= as.POSIXct('2005-01-01 00:30:00'))  # Date with first fluxes
 EddyData.F <- subset (EddyData.F, TIMESTAMP <= as.POSIXct('2020-01-01 00:00:00'))
 
 summary(EddyData.F)
@@ -54,13 +55,12 @@ head(EddyProc.C$sTEMP)
 
 # USTAR FILTERING
 # ===============
-# Use QC0 for USTAR detection
 EddyProc.C$sEstimateUstarScenarios(
 
   # seasonFactor=seasonFactor,
-  nSample = 100L,
-  probs = c(0.5),
-  # probs = c(0.16, 0.5, 0.84),
+  nSample = 100,
+  # probs = c(0.50),
+  probs = c(0.16, 0.5, 0.84),
   NEEColName = "NEE",
   UstarColName = "Ustar",
   TempColName = "Tair",
@@ -68,33 +68,34 @@ EddyProc.C$sEstimateUstarScenarios(
 
   ctrlUstarEst = usControlUstarEst(
 
-    ustPlateauFwd = 10,
-    ustPlateauBack = 6,
-    plateauCrit = 0.95,
-    corrCheck = 0.5,
-    firstUStarMeanCheck = 0.2,
-    isOmitNoThresholdBins = TRUE,
-    isUsingCPTSeveralT = FALSE,
-    isUsingCPT = FALSE,
-    minValidUStarTempClassesProp = 0.2,
-    minValidBootProp = 0.1,
-    minNuStarPlateau = 3L),
+    ustPlateauFwd = 8,  # (default: 10) number of subsequent uStar bin values to compare to in fwd mode
+    ustPlateauBack = 4,  # (default: 6) number of subsequent uStar bin values to compare to in back mode
+    plateauCrit = 0.95,  # 0.95
+    corrCheck = 0.5,  # 0.5
+    firstUStarMeanCheck = 0.2,  # 0.2
+    isOmitNoThresholdBins = TRUE,  # TRUE
+    isUsingCPTSeveralT = FALSE,  # FALSE
+    isUsingCPT = FALSE,  # FALSE
+    minValidUStarTempClassesProp = 0.2,  # 0.2
+    minValidBootProp = 0.4,  # 0.4
+    minNuStarPlateau = 3L),  # 3
 
   ctrlUstarSub = usControlUstarSubsetting(
-        taClasses = 6,
-        UstarClasses = 30,
-        swThr = 20,
-        minRecordsWithinTemp = 100,
-        minRecordsWithinSeason = 160,
+        taClasses = 7,  # 7
+        UstarClasses = 30,  # 20
+        swThr = 10,  # 10
+        minRecordsWithinTemp = 100,  # 100
+        minRecordsWithinSeason = 160,  # Default: 160
         minRecordsWithinYear = 3000,
         isUsingOneBigSeasonOnFewRecords = TRUE)
   )
 
 
 (uStarTh <- EddyProc.C$sGetEstimatedUstarThresholdDistribution())
-# EddyProc.C$useSeaonsalUStarThresholds()
+warnings()
+
 # EddyProc.C$useAnnualUStarThresholds()
 # EddyProc.C$sGetUstarScenarios()
-# thr = EddyProc.C$sGetUstarScenarios()
-write.csv(uStarTh, file = paste("out_USTAR_thresholds_RP-", run_id,".csv",sep=""))
+
+write.csv(uStarTh, file = paste("06_IRGA75_USTAR-THRESHOLDS_NEE_QCF10_2005-2019_RP-", run_id,".csv",sep=""))
 

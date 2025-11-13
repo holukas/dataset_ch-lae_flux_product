@@ -7,6 +7,11 @@ dataset_ch-lae_flux_product/_build/
 *.parquet
 *.csv
 
+# R-specific files
+*.Rhistory
+*.Rdata
+.Rproj.user/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
