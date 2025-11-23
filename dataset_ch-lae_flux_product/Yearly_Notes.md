@@ -8,6 +8,11 @@
 - Info about the different flux levels: [Flux Processing Chain](https://www.swissfluxnet.ethz.ch/index.php/data/ecosystem-fluxes/flux-processing-chain/)
 - Info about some time periods is given in the form of the names of the original eddy covariance raw data files, e.g. `2013070615.b02`. The file name gives the start time of the measurement period, the files are typically contain 6 hours of 20Hz eddy covariance data. 
 - **Sonic orientation/height** is `209°` / `47.0m` more or less and consistent across all years. In a comparison of histograms of wind directions between 2004 and 2019 showed that a sonic orientation of `209°` offset to north yields very similar results across years all years. Info from one of the oldest setup files (`locations.table`) that were used for documenting setup info in earlier years listed the sonic orientation between `183°` and `209°`. 
+`````{admonition} Notebooks: wind direction checks
+:class: tip
+[14_IRGA75-L0_check_winddir](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/00_L0_checks/14_IRGA75-L0_check_winddir.html)
+[04_IRGA72-L0_check_winddir_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/00_L0_checks/04_IRGA72-L0_check_winddir_2016-2024.html)
+`````
 
 ### General abbreviations
 - `IRGA` fluxes: CO2, H2O, H
