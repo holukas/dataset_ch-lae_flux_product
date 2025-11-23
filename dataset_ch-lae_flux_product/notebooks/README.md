@@ -29,6 +29,10 @@
 - [SW_IN_T1_47_1_2022-2023](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/SW_IN_T1_47_1_2022-2023.html)
 - [TA_NABEL_T1_49_1_2004-2018](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TA_NABEL_T1_49_1_2004-2018.html)
 - [TA_T1_47_1_2022-2023](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TA_T1_47_1_2022-2023.html)
+- [TODO_SWC_FF1_0.05_1_2020-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TODO_SWC_FF1_0.05_1_2020-2024.html)
+- [TODO_SWC_FF1_0.1_1_2020-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TODO_SWC_FF1_0.1_1_2020-2024.html)
+- [TODO_SWC_FF1_0.2_1_2020-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TODO_SWC_FF1_0.2_1_2020-2024.html)
+- [TODO_SWC_FF1_0.3_1_2020-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/10_METEO/11_meteoscreening_diive/TODO_SWC_FF1_0.3_1_2020-2024.html)
 
 
 ## 10_METEO
@@ -40,13 +44,27 @@
 
 
 ## 20_MERGE_DATA
-- [21.1_FLUXES_IRGA75_L1_noSHC_2005-2017_2019](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/21.1_FLUXES_IRGA75_L1_noSHC_2005-2017_2019.html)
+- [21.1_FLUXES_IRGA75_L1_noSHC_2004-2017_2019](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/21.1_FLUXES_IRGA75_L1_noSHC_2004-2017_2019.html)
 - [21.3_FLUXES_L1_noSHC_IRGA75+METEO7](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/21.3_FLUXES_L1_noSHC_IRGA75+METEO7.html)
 - [22.1_FLUXES_IRGA72_L1_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/22.1_FLUXES_IRGA72_L1_2016-2024.html)
 - [22.3_FLUXES_L1_IRGA72+METEO7_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/20_MERGE_DATA/22.3_FLUXES_L1_IRGA72+METEO7_2016-2024.html)
+
+
+## 30_FLUX_PROCESSING_CHAIN\31_USTAR_DETECTION
+- [01_IRGA75_FluxProcessingChain_L3.2_NEE_QCF10_2005-2019](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/31_USTAR_DETECTION/01_IRGA75_FluxProcessingChain_L3.2_NEE_QCF10_2005-2019.html)
+- [03_IRGA75_PrepareForREddyProc](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/31_USTAR_DETECTION/03_IRGA75_PrepareForREddyProc.html)
+- [11_IRGA72_FluxProcessingChain_L3.2_NEE_QCF11_2016-2024](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/31_USTAR_DETECTION/11_IRGA72_FluxProcessingChain_L3.2_NEE_QCF11_2016-2024.html)
+- [13_IRGA72_PrepareForREddyProc](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/31_USTAR_DETECTION/13_IRGA72_PrepareForREddyProc.html)
+
+
+## 30_FLUX_PROCESSING_CHAIN\32_SELF-HEATING_CORRECTION
+- [01_IRGA75_FluxProcessingChain_L3.2_NEE_QCF10_2016-2017](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/32_SELF-HEATING_CORRECTION/01_IRGA75_FluxProcessingChain_L3.2_NEE_QCF10_2016-2017.html)
+- [11_IRGA72_FluxProcessingChain_L3.2_NEE_QCF10_2016-2017](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/32_SELF-HEATING_CORRECTION/11_IRGA72_FluxProcessingChain_L3.2_NEE_QCF10_2016-2017.html)
+- [20_MERGE_IRGA75-noSHC+IRGA72_NEE_QCF10_2016-2017](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/32_SELF-HEATING_CORRECTION/20_MERGE_IRGA75-noSHC+IRGA72_NEE_QCF10_2016-2017.html)
 
 
 ## 90_DATASET_OVERVIEW
 - [METEO_SW_IN](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/METEO_SW_IN.html)
 - [METEO_TA](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/METEO_TA.html)
 - [METEO_VPD](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/METEO_VPD.html)
+- [Sonic Anemometer](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/Sonic Anemometer.html)
