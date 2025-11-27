@@ -1,6 +1,6 @@
 # Yearly Notes
 
-
+TODO IN PROGRESS
 ## Info
 - This page gives information about current and past flux calculations, including used software versions, and important info for each year.
 - [Overview table of the setup across years](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/ec-raw-binary-format-ch-lae/)
