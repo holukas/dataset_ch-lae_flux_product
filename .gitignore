@@ -6,6 +6,7 @@ dataset_ch-lae_flux_product/notebooks/10_METEO/*.csv
 dataset_ch-lae_flux_product/_build/
 *.parquet
 *.csv
+*.pkl
 
 # R-specific files
 *.Rhistory
