@@ -3,6 +3,9 @@
 dataset_ch-lae_flux_product/notebooks/0_data/
 dataset_ch-lae_flux_product/notebooks/10_METEO/*.parquet
 dataset_ch-lae_flux_product/notebooks/10_METEO/*.csv
+dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/31_SELF-HEATING_CORRECTION/tests
+dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/33_IRGA75_SHC_2004-2017_2019/tests
+dataset_ch-lae_flux_product/notebooks/30_FLUX_PROCESSING_CHAIN/34_IRGA72_2016-2024/tests
 dataset_ch-lae_flux_product/_build/
 *.parquet
 *.csv
