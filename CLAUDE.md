@@ -11,13 +11,37 @@ publish them as a website.
 ## Layout
 
 - `docs/` — the published Jupyter Book. Curated MyST Markdown narrative pages
-  (`*.md`), `images/`, `references.bib`, `_config.yml`, `_toc.yml`. This is the
-  reader-facing artifact and is kept clean. Only files listed in `_toc.yml` are
-  built.
-- `workflow/` — the real working notebooks and scripts (organized by stage:
-  `00_L0_checks/`, `10_METEO/`, `20_MERGE_DATA/`,
-  `30_FLUX_PROCESSING_CHAIN/`, `90_DATASET_OVERVIEW/`). This is research scratch
-  space and is **not** built into the book.
+  (`*.md`), `images/`, `references.bib`, and `myst.yml` (single config). This is
+  the reader-facing artifact and is kept clean. Only files listed in `myst.yml`'s
+  `toc` are built.
+- `workflow/` — the real working notebooks and scripts, organized by stage:
+  `00_L0_checks/`, `10_METEO/`, `20_MERGE_DATA/`, `30_FLUX_PROCESSING_CHAIN/`,
+  `90_DATASET_OVERVIEW/`. This is research scratch space and is **not** built
+  into the book. Two reserved folders: `_archive/` (dead/experimental, mirrors the
+  stage layout) and `_templates/` (reusable notebook templates).
+
+## Code/data layout and conventions
+
+Code lives in this repo under `workflow/`. The **data files it produces live in a
+separate, untracked folder** (not in git — too heavy):
+`F:\Sync\luhk_work\dev-data\datasets-data\dataset_ch-lae_flux_product-data\workflow\`.
+
+The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
+`IRGA72/`/`IRGA75/` instrument subfolders.
+
+- **Numbering:** a data file carries the **same numeric prefix and relative path
+  as the notebook/script that produces it**. Code vs data is told apart by which
+  tree it is in, not by the number. (There is no odd/even offset.)
+- **Instruments:** where a stage processes both sensors, split into `IRGA72/` and
+  `IRGA75/` subfolders on both sides.
+- **Filenames:** no spaces, no `+` (use `_and_`).
+- **Figures stay in the repo** (`docs/images/` for published figures, a
+  `figures/` subfolder under the relevant `workflow/` stage for working plots);
+  only heavy data (`*.parquet`/`*.csv`/`*.pkl`) goes to the external data folder.
+- Raw inputs (`0_data/`) and `tests/` outputs live only in the external data
+  folder and are gitignored.
+- **Stage 30 (`30_FLUX_PROCESSING_CHAIN/`) is intentionally left on its older
+  internal numbering** on both sides; don't reorganize it without being asked.
 
 ## Environment
 
