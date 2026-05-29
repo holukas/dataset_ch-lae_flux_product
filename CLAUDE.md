@@ -28,10 +28,18 @@ publish them as a website.
 
 ## Docs
 
-- Jupyter Book 2 (MyST Markdown, Sphinx under the hood). Notebook execution is
-  **off** (`_config.yml`): the book renders committed outputs, nothing runs at
-  build time.
-- Published to GitHub Pages via `ghp-import`.
+- Jupyter Book 2.x (MyST engine, not the old Sphinx-based v1). Single config
+  file `docs/myst.yml` (replaces v1's `_config.yml` + `_toc.yml`): project title,
+  authors, `toc`, `bibliography`, and `site` template/logo all live there.
+- Build with `jupyter book build --html docs` (or `jupyter book start docs` for
+  the live dev server). Output goes to `docs/_build/`.
+- Notebook execution is off by default for committed `.ipynb` outputs; the heavy
+  pipeline runs offline, the book only narrates.
+- Mermaid diagrams are native in MyST (` ```{mermaid} ` directive) — no
+  sphinxcontrib-mermaid extension needed.
+- Published to GitHub Pages via `ghp-import` (point it at `docs/_build/html`).
+  For correct asset paths under the project subpath, set `BASE_URL` at build
+  time, e.g. `BASE_URL=/dataset_ch-lae_flux_product jupyter book build --html docs`.
 - Pages are plain `.md` and editable in Obsidian. Use standard Markdown links and
   MyST cross-references — **not** Obsidian `[[wikilinks]]`/`![[embeds]]`, which
   the book won't resolve.
@@ -39,4 +47,4 @@ publish them as a website.
 ## Hard rules
 
 - **Never run `git commit` or `git push`.** The user does all committing.
-- **Never build the book** (`jupyter-book build`) unless explicitly asked.
+- **Never build the book** (`jupyter book build`) unless explicitly asked.

@@ -1,0 +1,26 @@
+version: 1
+project:
+  title: CH-LAE Flux Product
+  authors:
+    - name: Lukas Hörtnagl
+      email: lukas.hoertnagl@usys.ethz.ch
+  copyright: "2025"
+  github: https://github.com/holukas/dataset_ch-lae_flux_product
+  bibliography:
+    - references.bib
+  toc:
+    - file: intro.md
+    - file: Overview.md
+    - file: Meteo_Data.md
+    - file: FPC.md
+      children:
+        - file: L0.md
+        - file: L1.1.md
+        - file: L3.3.md
+    - file: Issues.md
+    - file: Yearly_Notes.md
+    - file: References.md
+site:
+  template: book-theme
+  options:
+    logo: images/logo1.jpg
