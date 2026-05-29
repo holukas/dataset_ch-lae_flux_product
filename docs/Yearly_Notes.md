@@ -184,8 +184,7 @@ None
 ---
 ## 2019
 
-:::{figure-md} photo-ec2
-![](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg)
+:::{figure} images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg
 The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich
 :::
 
@@ -237,8 +236,7 @@ The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Scienc
 ---
 ## 2014
 
-:::{figure-md} photo-ec3
-![](images/CH-LAE_2014_2014-04-17_panorama_IMAG0013-14.jpg)
+:::{figure} images/CH-LAE_2014_2014-04-17_panorama_IMAG0013-14.jpg
 The research site CH-LAE on 17 Apr 2014. Photo: Grassland Sciences Group, ETH Zurich
 :::
 
@@ -258,8 +256,7 @@ The research site CH-LAE on 17 Apr 2014. Photo: Grassland Sciences Group, ETH Zu
 	- ==TODO== **Update Jul 2025**: Error still persists, the original raw data files have the wrong start time in their filenames. I renamed the files like described above after the conversion to ASCII using bico. Fluxes were then calculated using the renamed files for that period.
 	- During the generation of the PI dataset [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) this error still needed correction after fluxes were calculated: “_In the IRGA75 Level-1 fluxes, the timestamp of flux variables between 6 Jul and 12 Jul 2013 (6 days) was shifted by approx. 14.5 hours. Affected time range: between 2013-07-06 15:45 and 2013-07-12 23:45. For example, data at timestamp 2013-07-06 15:45 is really 2013-07-06 08:15. Level-1 data were shifted accordingly. Then, the transition day 2013-07-12 was set to missing._“
 
-:::{figure-md} photo-ec1
-![](images/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min.jpg)
+:::{figure} images/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min.jpg
 CH-LAE 2013: Shifted timestamp in July 2013, flux version Level-3-4_FLUXNET2015-FN-20190607-beta-3
 :::
 ### Data notes
