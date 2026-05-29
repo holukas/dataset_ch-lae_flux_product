@@ -3,24 +3,25 @@ name = "dataset-ch-lae-flux-product"
 version = "0.1.0"
 description = "Dataset for mixed forest CH-LAE"
 authors = [
-    {name = "Lukas Hörtnagl",email = "lukas.hoertnagl@usys.ethz.ch"}
+    {name = "Lukas Hörtnagl", email = "lukas.hoertnagl@usys.ethz.ch"}
 ]
 readme = "README.md"
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
-    "jupyter-book (>=1.0.4.post1,<2.0.0)",
-    "ghp-import (>=2.1.0,<3.0.0)",
-    "sphinxcontrib-mermaid (>=1.0.0,<2.0.0)"
+    "jupyter-book>=1.0.4.post1,<2.0.0",
+    "ghp-import>=2.1.0,<3.0.0",
+    "sphinxcontrib-mermaid>=1.0.0,<2.0.0",
 ]
 
+[dependency-groups]
+dev = [
+    "diive",
+    "dbc-influxdb",
+]
 
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+package = false
 
-[tool.poetry.group.dev.dependencies]
-diive = { path = "../../21 - DIIVE/diive", develop = true }
-dbc-influxdb = { path = "../../22 - POET/dbc-influxdb", develop = true }
-ghp-import = "^2.1.0"
-jupyter-book = "^1.0.4.post1"
-sphinxcontrib-mermaid = "^1.0.0"
+[tool.uv.sources]
+diive = { path = "../../diive", editable = true }
+dbc-influxdb = { path = "../../poet/dbc-influxdb", editable = true }
