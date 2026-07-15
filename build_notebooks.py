@@ -49,6 +49,48 @@ from traitlets.config import Config
 REPO_ROOT = Path(__file__).resolve().parent
 WORKFLOW_DIR = REPO_ROOT / "workflow"
 
+# Self-contained (no external assets) lightbox injected into every notebook HTML.
+# Clicking any rendered output/markdown image opens it enlarged in an overlay;
+# click anywhere or press Esc to close.
+LIGHTBOX_SNIPPET = """
+<style>
+  .jp-OutputArea-output img, .jp-RenderedImage img, .jp-RenderedMarkdown img { cursor: zoom-in; }
+  .nb-lightbox { position: fixed; inset: 0; z-index: 9999; display: none;
+                 align-items: center; justify-content: center; padding: 2rem;
+                 background: rgba(0, 0, 0, 0.85); cursor: zoom-out; }
+  .nb-lightbox.open { display: flex; }
+  .nb-lightbox img { max-width: 100%; max-height: 100%;
+                     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
+</style>
+<div class="nb-lightbox" id="nb-lightbox"><img alt=""></div>
+<script>
+  (function () {
+    var overlay = document.getElementById("nb-lightbox");
+    var big = overlay.querySelector("img");
+    function close() { overlay.classList.remove("open"); big.removeAttribute("src"); }
+    document.addEventListener("click", function (e) {
+      var img = e.target;
+      if (img.tagName === "IMG" && !img.closest(".nb-lightbox") &&
+          img.closest(".jp-OutputArea-output, .jp-RenderedImage, .jp-RenderedMarkdown")) {
+        big.src = img.currentSrc || img.src;
+        overlay.classList.add("open");
+      }
+    });
+    overlay.addEventListener("click", close);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+  })();
+</script>
+"""
+
+
+def inject_lightbox(body: str) -> str:
+    """Insert the self-contained lightbox just before the closing </body>."""
+    marker = "</body>"
+    idx = body.rfind(marker)
+    if idx == -1:  # unexpected, but don't lose the document
+        return body + LIGHTBOX_SNIPPET
+    return body[:idx] + LIGHTBOX_SNIPPET + body[idx:]
+
 # Default output: the notebooks/ subdir of the Quarto build output. Override
 # with a single positional CLI arg to verify against a scratch dir without
 # clobbering the shared build directory.
@@ -100,7 +142,7 @@ def convert_notebook(exporter: HTMLExporter, src: Path, dst: Path) -> list[str]:
         warnings.simplefilter("always")
         body, _resources = exporter.from_filename(str(src))
         messages = [str(w.message) for w in caught]
-    dst.write_text(body, encoding="utf-8")
+    dst.write_text(inject_lightbox(body), encoding="utf-8")
     return messages
 
 
