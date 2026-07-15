@@ -1,0 +1,35 @@
+project:
+  type: book
+  # Mirrors the old Jupyter Book output path so the ghp-import publish flow and
+  # .gitignore (docs/_build/) stay unchanged.
+  output-dir: _build/html
+
+book:
+  title: "CH-LAE Flux Product"
+  author:
+    - name: "Lukas Hörtnagl"
+      email: lukas.hoertnagl@usys.ethz.ch
+  favicon: logo.png
+  search: true
+  repo-url: https://github.com/holukas/dataset_ch-lae_flux_product
+  repo-actions: [source, issue]
+  page-footer: "© 2025 Lukas Hörtnagl"
+  chapters:
+    - index.md
+    - Overview.md
+    - Meteo_Data.md
+    - part: FPC.qmd
+      chapters:
+        - L0.md
+        - L1.1.md
+        - L3.3.md
+    - Issues.md
+    - Yearly_Notes.md
+    - References.md
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
