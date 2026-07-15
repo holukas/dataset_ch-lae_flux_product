@@ -52,15 +52,29 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 
 ## Docs
 
-- Quarto **book** project (Pandoc-based, not Jupyter Book/MyST). Single config
-  file `docs/_quarto.yml`: project title, authors, `chapters` (the TOC, with a
-  `part:` for the nested Flux-Processing-Chain pages), `bibliography`, theme, and
-  favicon all live there. `output-dir: _build/html` keeps the old publish path.
+- Quarto **website** project (Pandoc-based, not Jupyter Book/MyST). Single config
+  file `docs/_quarto.yml`: title, `website.sidebar.contents` (the nav, with a
+  `section:` for the nested Flux-Processing-Chain pages), `bibliography`, theme,
+  and favicon all live there. `output-dir: _build/html` keeps the old publish
+  path. It's a **website**, not a book, specifically so the left sidebar is
+  collapsible/hideable.
+- Author is footer-only: **do not** set `author` metadata anywhere (that renders
+  it in each page's top title block) — the name lives in `website.page-footer`.
+  `date-modified: last-modified` (project level) shows a "Modified" last-updated
+  date on every page (filesystem mtime, not the git commit date).
 - Quarto is **not** a pip/uv library — it's a standalone binary. It's vendored
   into the env via the `quarto-cli` dev dependency, so run it as
   `uv run quarto ...`.
 - Build with `uv run quarto render docs` (or `uv run quarto preview docs` for the
   live dev server). Output goes to `docs/_build/html/`.
+- **Notebooks** (`workflow/**/*.ipynb`) are published as standalone HTML under
+  `docs/_build/html/notebooks/`, mirroring the `workflow/` tree, by
+  `build_notebooks.py` (repo root; `uv run python build_notebooks.py`). It uses
+  **nbconvert**, never executes the notebooks (committed cell outputs only), and
+  skips anything with a `_`-prefixed path component (`_archive/`, `_templates/`,
+  `_create_readme.ipynb`, `_TEMPLATE*`). It writes into the site's output tree, so
+  run it **after** `quarto render docs` (which cleans `docs/_build/html/`). The
+  narrative pages link to these at `.../notebooks/<stage>/<name>.html`.
 - Pages are plain `.md` **except** `FPC.qmd`: Quarto only allows executable cells
   (the ` ```{mermaid} ` flowchart) in `.qmd` files. Any page that gains an
   executable cell must be renamed to `.qmd`; the output `.html` name is unchanged.
@@ -76,9 +90,11 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   env vars.
 - Pages are editable in Obsidian. Use standard Markdown links and Quarto
   cross-references — **not** Obsidian `[[wikilinks]]`/`![[embeds]]`, which the
-  book won't resolve.
+  site won't resolve.
 
 ## Hard rules
 
 - **Never run `git commit` or `git push`.** The user does all committing.
-- **Never build the book** (`quarto render`/`quarto preview`) unless explicitly asked.
+- **Never build the docs** (`quarto render`/`quarto preview`, or
+  `build_notebooks.py`) unless explicitly asked. A full site build is
+  `quarto render docs` **then** `build_notebooks.py`, in that order.
