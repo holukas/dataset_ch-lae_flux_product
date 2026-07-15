@@ -6,16 +6,13 @@ Documentation and notebooks for the creation of the PI dataset of the **mixed fo
 
 The dataset comprises ecosystem fluxes measured by the eddy covariance method (CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and detailed management info between 2004 and 2024. More data will be added to this dataset in the future.
 
-For an overview of the dataset, see [Overview](Overview).
+For an overview of the dataset, see [Overview](Overview.md).
 
 For an overview of recent documentation updates see [here](https://github.com/holukas/dataset_ch-lae_flux_product/commits/main/).
 
 For a list of planned updates and additions, see [Issues on the GitHub repository](https://github.com/holukas/dataset_ch-lae_flux_product/issues).
 
-:::{figure-md} photo-ec2
-![](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg)
-The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich
-:::
+![The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg){#fig-photo-ec2}
 
 ## Current dataset version
 

@@ -1,0 +1,61 @@
+project:
+  type: website
+  # Mirrors the old Jupyter Book output path so the ghp-import publish flow and
+  # .gitignore (docs/_build/) stay unchanged.
+  output-dir: _build/html
+
+# Show a "last updated" date on every page. `date-modified` renders under a
+# "Modified" label (vs "Published" for `date`), which reads correctly as
+# last-updated. Applied project-wide so it inherits into every page. Uses the
+# file's filesystem modification time (Quarto built-in), not the git commit date.
+date-modified: last-modified
+
+website:
+  title: "CH-LAE Flux Product"
+  favicon: logo.png
+  search: true
+  # Prev/next links at the bottom of each page, and a "back to top" control.
+  page-navigation: true
+  back-to-top-navigation: true
+  repo-url: https://github.com/holukas/dataset_ch-lae_flux_product
+  repo-actions: [source, issue]
+  # Author lives ONLY here in the footer, never as page `author` metadata (which
+  # would render it in each page's title block at the top).
+  page-footer: "Lukas Hörtnagl · © 2025"
+  # A website sidebar (unlike a book) is collapsible — it renders a collapse
+  # toggle so the left sidebar can be hidden.
+  sidebar:
+    style: floating
+    collapse-level: 1
+    contents:
+      - index.md
+      - Overview.md
+      - Meteo_Data.md
+      - section: FPC.qmd
+        contents:
+          - L0.md
+          - L1.1.md
+          - L3.3.md
+      - Issues.md
+      - Yearly_Notes.md
+      - References.md
+      # Links to the notebook index built by build_notebooks.py (nbconvert), which
+      # lands at notebooks/index.html AFTER `quarto render docs`.
+      - text: Notebooks
+        href: notebooks/index.html
+
+bibliography: references.bib
+
+format:
+  html:
+    # Light/dark theme pair — readers get a toggle in the navbar.
+    theme:
+      light: cosmo
+      dark: darkly
+    # Wide-table handling + minor tweaks (see styles.css).
+    css: styles.css
+    toc: true
+    # Click any image to open it enlarged in a lightbox overlay.
+    lightbox: auto
+    # Relocates the "Modified" date from the title block into the sidebar.
+    include-after-body: _last-modified-sidebar.html
