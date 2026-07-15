@@ -9,6 +9,10 @@ project:
 # last-updated. Applied project-wide so it inherits into every page. Uses the
 # file's filesystem modification time (Quarto built-in), not the git commit date.
 date-modified: last-modified
+# Render dates as e.g. "15 July 2026" (day, full month name, year). Tokens are
+# Quarto's date-format tokens, not strftime. Applies to the "Modified" date the
+# _last-modified-sidebar.html partial reads and shows in the right sidebar.
+date-format: "D MMMM YYYY"
 
 website:
   title: "CH-LAE Flux Product"
@@ -57,5 +61,8 @@ format:
     toc: true
     # Click any image to open it enlarged in a lightbox overlay.
     lightbox: auto
-    # Relocates the "Modified" date from the title block into the sidebar.
-    include-after-body: _last-modified-sidebar.html
+    # Relocate the "Modified" date and the light/dark toggle into the right
+    # ("On this page") sidebar (both are client-side JS tweaks).
+    include-after-body:
+      - _last-modified-sidebar.html
+      - _theme-toggle.html
