@@ -8,8 +8,9 @@
 # branch or working tree.
 #
 # Usage (from anywhere):
+#   ./deploy.ps1 -Preview        # build the FULL site + serve locally (pre-deploy check)
 #   ./deploy.ps1                 # build + publish to gh-pages
-#   ./deploy.ps1 -NoPublish      # build only, skip the push (local preview)
+#   ./deploy.ps1 -NoPublish      # build only, no serve, no push
 #   ./deploy.ps1 -Remote origin -Branch gh-pages
 #
 # Requires: uv (the env provides quarto-cli and ghp-import) and a configured
@@ -17,7 +18,9 @@
 
 [CmdletBinding()]
 param(
+    [switch]$Preview,
     [switch]$NoPublish,
+    [int]$Port = 8000,
     [string]$Remote = 'origin',
     [string]$Branch = 'gh-pages'
 )
@@ -41,9 +44,19 @@ Invoke-Step 'Rendering Quarto website (docs/)' { uv run quarto render docs }
 #    Must come AFTER the render (step 1 wipes the output dir).
 Invoke-Step 'Building notebook HTML (workflow/ -> notebooks/)' { uv run python build_notebooks.py }
 
+if ($Preview) {
+    # Serve the full built site (book + notebooks) exactly as it will deploy.
+    # A real HTTP server (not file://) is needed so search and /notebooks/ work.
+    $url = "http://localhost:$Port/"
+    Write-Host "Serving docs/_build/html at $url  (Ctrl+C to stop)" -ForegroundColor Green
+    Start-Process $url  # open in the default browser
+    uv run python -m http.server $Port --directory docs/_build/html
+    return
+}
+
 if ($NoPublish) {
     Write-Host "Build complete. Output: docs/_build/html (publish skipped)." -ForegroundColor Green
-    Write-Host "Preview: uv run python -m http.server 8000 --directory docs/_build/html" -ForegroundColor Green
+    Write-Host "Preview it with: ./deploy.ps1 -Preview" -ForegroundColor Green
     return
 }
 
