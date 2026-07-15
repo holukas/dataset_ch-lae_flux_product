@@ -6,9 +6,8 @@ authors = [
     {name = "Lukas Hörtnagl", email = "lukas.hoertnagl@usys.ethz.ch"}
 ]
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.12,<3.14"
 dependencies = [
-    "jupyter-book>=2.1.5,<3.0.0",
     "ghp-import>=2.1.0,<3.0.0",
 ]
 
@@ -17,6 +16,7 @@ dev = [
     "diive",
     "dbc-influxdb",
     "jupyterlab>=4.5.7",
+    "quarto-cli>=1.5",
 ]
 
 [tool.uv]
