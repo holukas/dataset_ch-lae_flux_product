@@ -31,22 +31,44 @@ website:
   sidebar:
     style: floating
     collapse-level: 1
+    # Structure mirrors the sibling CH-CHA flux-product site. CH-LAE keeps the
+    # extra Level-1.1 self-heating-correction page (open-path LI-7500); most of
+    # the non-flux pages are stubs to be filled in.
     contents:
       - index.md
       - Overview.md
       - Meteo_Data.md
+      - Management_Data.md
       - section: FPC.qmd
         contents:
+          - Raw_Data.md
           - L0.md
+          - L1.md
           - L1.1.md
+          - L2.md
+          - L3.1.md
+          - L3.2.md
           - L3.3.md
+          - L4.1.md
+          - L4.2.md
+          - QCF.md
+      - Instrumentation.md
+      - Variables.md
+      - Supplementary.md
       - Issues.md
-      - Yearly_Notes.md
+      - Software.md
+      - Links.md
       - References.md
-      # Links to the notebook index built by build_notebooks.py (nbconvert), which
-      # lands at notebooks/index.html AFTER `quarto render docs`.
+      # Links to the notebook index built by build_notebooks.py, which lands at
+      # notebooks/index.html when `quarto render docs` renders the staged copies.
       - text: Notebooks
         href: notebooks/index.html
+      - Versions.md
+      - Yearly_Notes.md
+      - text: Repository
+        href: https://github.com/holukas/dataset_ch-lae_flux_product
+      - text: Open issue
+        href: https://github.com/holukas/dataset_ch-lae_flux_product/issues/new
 
 bibliography: references.bib
 
