@@ -1,0 +1,13 @@
+/* Custom styles for the CH-LAE flux-product docs site. */
+
+/* Wide reference tables (e.g. the Yearly_Notes "Setup EC" table, the L0 lag
+   tables) can be far wider than the text column. Let each table scroll
+   horizontally within its own box instead of overflowing / breaking the page
+   layout. `fit-content` keeps narrow tables their natural size. Layout only —
+   no colors — so it works under both the light (cosmo) and dark (darkly) theme. */
+main table.table {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
