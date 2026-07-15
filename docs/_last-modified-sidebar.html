@@ -1,0 +1,51 @@
+<!--
+  Moves the page's "Modified" date out of the top title block and into the left
+  sidebar. Quarto has no built-in option to relocate title-block metadata, so we
+  do it client-side: read the `date-modified` value Quarto emits, drop the title
+  meta block, and append a "Last updated" line at the bottom of the sidebar.
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  #quarto-sidebar .sidebar-last-modified {
+    margin: 0.75rem 0.6rem 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  #quarto-sidebar .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    var sidebar = document.getElementById("quarto-sidebar");
+    if (!sidebar) return;
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    var container = sidebar.querySelector(".sidebar-menu-container") || sidebar;
+    container.appendChild(box);
+  });
+</script>
