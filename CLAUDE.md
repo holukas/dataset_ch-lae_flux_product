@@ -52,23 +52,33 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 
 ## Docs
 
-- Jupyter Book 2.x (MyST engine, not the old Sphinx-based v1). Single config
-  file `docs/myst.yml` (replaces v1's `_config.yml` + `_toc.yml`): project title,
-  authors, `toc`, `bibliography`, and `site` template/logo all live there.
-- Build with `jupyter book build --html docs` (or `jupyter book start docs` for
-  the live dev server). Output goes to `docs/_build/`.
-- Notebook execution is off by default for committed `.ipynb` outputs; the heavy
-  pipeline runs offline, the book only narrates.
-- Mermaid diagrams are native in MyST (` ```{mermaid} ` directive) — no
-  sphinxcontrib-mermaid extension needed.
+- Quarto **book** project (Pandoc-based, not Jupyter Book/MyST). Single config
+  file `docs/_quarto.yml`: project title, authors, `chapters` (the TOC, with a
+  `part:` for the nested Flux-Processing-Chain pages), `bibliography`, theme, and
+  favicon all live there. `output-dir: _build/html` keeps the old publish path.
+- Quarto is **not** a pip/uv library — it's a standalone binary. It's vendored
+  into the env via the `quarto-cli` dev dependency, so run it as
+  `uv run quarto ...`.
+- Build with `uv run quarto render docs` (or `uv run quarto preview docs` for the
+  live dev server). Output goes to `docs/_build/html/`.
+- Pages are plain `.md` **except** `FPC.qmd`: Quarto only allows executable cells
+  (the ` ```{mermaid} ` flowchart) in `.qmd` files. Any page that gains an
+  executable cell must be renamed to `.qmd`; the output `.html` name is unchanged.
+- Quarto markup conventions (not MyST): callouts `::: {.callout-note title="…"}`
+  … `:::` (need a blank line before the opening fence); figures
+  `![caption](path){#fig-x}` referenced with `@fig-x`; table caption line
+  `: caption {#tbl-x}` referenced with `@tbl-x`; math is native `$…$`/`$$…$$`.
+- Two Pandoc gotchas in narrative text: use `***` for horizontal rules (a bare
+  `---` line is parsed as a YAML block and breaks the build), and escape a stray
+  `@word` as `\@word` so it isn't treated as a citation key.
 - Published to GitHub Pages via `ghp-import` (point it at `docs/_build/html`).
-  For correct asset paths under the project subpath, set `BASE_URL` at build
-  time, e.g. `BASE_URL=/dataset_ch-lae_flux_product jupyter book build --html docs`.
-- Pages are plain `.md` and editable in Obsidian. Use standard Markdown links and
-  MyST cross-references — **not** Obsidian `[[wikilinks]]`/`![[embeds]]`, which
-  the book won't resolve.
+  Quarto uses relative asset paths, so the project subpath works with no extra
+  env vars.
+- Pages are editable in Obsidian. Use standard Markdown links and Quarto
+  cross-references — **not** Obsidian `[[wikilinks]]`/`![[embeds]]`, which the
+  book won't resolve.
 
 ## Hard rules
 
 - **Never run `git commit` or `git push`.** The user does all committing.
-- **Never build the book** (`jupyter book build`) unless explicitly asked.
+- **Never build the book** (`quarto render`/`quarto preview`) unless explicitly asked.
