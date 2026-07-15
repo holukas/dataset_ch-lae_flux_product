@@ -1,2 +1,5 @@
 /.quarto/
 **/*.quarto_ipynb
+# Staged copies of workflow notebooks, written by build_notebooks.py as inputs
+# for `quarto render docs`. Build artifacts, not source; regenerated each build.
+/notebooks/

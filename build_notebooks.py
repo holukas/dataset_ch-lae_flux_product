@@ -1,108 +1,93 @@
-"""Publish the real workflow notebooks as standalone HTML into the built site.
+"""Stage the real workflow notebooks into the Quarto site for full rendering.
 
-This layers every "real" research notebook under ``workflow/`` into the Quarto
-build output as self-contained HTML, so the ``.../notebooks/<stage>/<name>.html``
-links that the curated docs point at actually resolve.
+Full Quarto rendering (replaces the old standalone-nbconvert approach)
+---------------------------------------------------------------------
+Every "real" research notebook under ``workflow/`` is COPIED into the Quarto
+project at ``docs/notebooks/`` (mirroring the workflow tree) so that
+``quarto render docs`` renders it as a first-class site page: the site theme,
+the light/dark toggle, a right-hand table of contents, and anchored/linkable
+headers -- exactly like the curated narrative pages. This replaces the earlier
+nbconvert build, whose HTML carried JupyterLab's own styling and had no header
+anchors and no shared navigation.
 
-BUILD ORDER (important)
------------------------
-Run this **AFTER** ``quarto render docs`` (the book/site build). That render
-writes and cleans ``docs/_build/html/``; this script then layers the notebooks
-into its ``notebooks/`` subdirectory. Running it before the render would just
-have the notebooks wiped out again.
+Notebooks are NEVER executed. ``docs/notebooks/_metadata.yml`` sets
+``execute.enabled: false``, so Quarto includes the committed cell outputs as-is
+(the notebooks read an offline data folder that isn't present at build time).
+Figure outputs are written next to each page in a ``<name>_files/`` sidecar and
+referenced with relative paths, so they deploy correctly under the project
+subpath.
+
+BUILD ORDER (important -- changed from the old flow)
+----------------------------------------------------
+Run this **BEFORE** ``quarto render docs`` now (the old nbconvert step ran
+*after* it):
+
+    uv run python build_notebooks.py     # stage copies + _metadata.yml + index
+    uv run quarto render docs            # renders the whole site incl. notebooks
+
+The staged copies under ``docs/notebooks/`` are build INPUTS, not source: the
+whole folder is gitignored. ``deploy.ps1`` / ``preview_full.ps1`` drive the two
+steps in order and clear the staging afterwards; you rarely call this directly.
 
 What it does
 ------------
-- Walks ``workflow/`` for ``*.ipynb`` and keeps only "real" notebooks: any
-  notebook whose relative path (under ``workflow/``) has a path component
-  starting with ``_`` is excluded (drops ``_archive/``, ``_templates/``,
-  ``_create_readme.ipynb`` and the in-stage ``_TEMPLATE_FULL_RPC_.ipynb``).
-  ``.ipynb_checkpoints`` is skipped too.
-- Converts each to standalone HTML with embedded images/outputs via nbconvert's
-  ``HTMLExporter`` (``embed_images=True``, ``lab`` template). Notebooks are
-  **never executed** -- they read an offline data folder and already carry
-  committed cell outputs.
-- Mirrors the ``workflow/`` folder structure under the output ``notebooks/`` dir.
-- Generates an ``index.html`` landing page listing every converted notebook,
-  grouped by top-level stage folder.
+- Walks ``workflow/`` for ``*.ipynb`` and keeps only "real" notebooks: any whose
+  relative path (under ``workflow/``) has a path component starting with ``_`` is
+  excluded (drops ``_archive/``, ``_templates/``, ``_create_readme.ipynb`` and the
+  in-stage ``_TEMPLATE_*``). ``.ipynb_checkpoints`` is skipped too.
+- Copies each into ``docs/notebooks/<same relative path>``.
+- Writes ``docs/notebooks/_metadata.yml`` (execution disabled for the folder).
+- Writes ``docs/notebooks/index.qmd``: a themed landing page with one Quarto
+  *listing* per top-level stage folder, so titles and links are derived from the
+  notebooks themselves (no manual filename/anchor bookkeeping).
 
 Usage
 -----
-    uv run python build_notebooks.py                # writes to the real build dir
-    uv run python build_notebooks.py <output_dir>   # writes to a scratch dir
-
-We use nbconvert (not Quarto) on purpose: Quarto tries to parse a notebook's
-leading markdown cell as YAML front-matter and chokes on arbitrary research
-notebooks.
+    uv run python build_notebooks.py            # (re)stage into docs/notebooks/
+    uv run python build_notebooks.py --clean    # remove docs/notebooks/ and exit
+    uv run python build_notebooks.py <dir>      # stage into a scratch dir instead
 """
 
 from __future__ import annotations
 
+import json
+import shutil
 import sys
 from pathlib import Path
-
-from nbconvert import HTMLExporter
-from traitlets.config import Config
 
 # --- Configuration ----------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parent
 WORKFLOW_DIR = REPO_ROOT / "workflow"
 
-# Self-contained (no external assets) lightbox injected into every notebook HTML.
-# Clicking any rendered output/markdown image opens it enlarged in an overlay;
-# click anywhere or press Esc to close.
-LIGHTBOX_SNIPPET = """
-<style>
-  .jp-OutputArea-output img, .jp-RenderedImage img, .jp-RenderedMarkdown img { cursor: zoom-in; }
-  .nb-lightbox { position: fixed; inset: 0; z-index: 9999; display: none;
-                 align-items: center; justify-content: center; padding: 2rem;
-                 background: rgba(0, 0, 0, 0.85); cursor: zoom-out; }
-  .nb-lightbox.open { display: flex; }
-  .nb-lightbox img { max-width: 100%; max-height: 100%;
-                     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
-</style>
-<div class="nb-lightbox" id="nb-lightbox"><img alt=""></div>
-<script>
-  (function () {
-    var overlay = document.getElementById("nb-lightbox");
-    var big = overlay.querySelector("img");
-    function close() { overlay.classList.remove("open"); big.removeAttribute("src"); }
-    document.addEventListener("click", function (e) {
-      var img = e.target;
-      if (img.tagName === "IMG" && !img.closest(".nb-lightbox") &&
-          img.closest(".jp-OutputArea-output, .jp-RenderedImage, .jp-RenderedMarkdown")) {
-        big.src = img.currentSrc || img.src;
-        overlay.classList.add("open");
-      }
-    });
-    overlay.addEventListener("click", close);
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
-  })();
-</script>
+# Staging area INSIDE the Quarto project (docs/), so `quarto render docs` picks
+# the notebooks up. Gitignored; regenerated on every build.
+DEFAULT_STAGING_DIR = REPO_ROOT / "docs" / "notebooks"
+
+# Folder-level Quarto metadata applied to every staged notebook. The critical
+# bit is `execute.enabled: false`: research notebooks read an offline data folder
+# and already carry committed outputs, so Quarto must render those as-is and
+# never try to run a cell.
+METADATA_YML = """\
+# AUTO-GENERATED by build_notebooks.py -- do not edit; this whole folder is
+# gitignored staging. Applies to every notebook staged here.
+#
+# Never execute research notebooks: include their committed outputs verbatim.
+execute:
+  enabled: false
+# Each notebook gets its own right-hand contents + anchored headers, like the
+# narrative pages. (Theme, search, lightbox are inherited from _quarto.yml.)
+toc: true
+anchor-sections: true
 """
-
-
-def inject_lightbox(body: str) -> str:
-    """Insert the self-contained lightbox just before the closing </body>."""
-    marker = "</body>"
-    idx = body.rfind(marker)
-    if idx == -1:  # unexpected, but don't lose the document
-        return body + LIGHTBOX_SNIPPET
-    return body[:idx] + LIGHTBOX_SNIPPET + body[idx:]
-
-# Default output: the notebooks/ subdir of the Quarto build output. Override
-# with a single positional CLI arg to verify against a scratch dir without
-# clobbering the shared build directory.
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs" / "_build" / "html" / "notebooks"
 
 
 def is_included(rel_path: Path) -> bool:
     """True if the notebook is a "real" one that should be published.
 
     Excludes any notebook that lives under a path component starting with ``_``
-    (``_archive/``, ``_templates/``, ``_create_readme.ipynb``,
-    ``_TEMPLATE_FULL_RPC_.ipynb``) and anything under ``.ipynb_checkpoints``.
+    (``_archive/``, ``_templates/``, ``_create_readme.ipynb``, ``_TEMPLATE_*``)
+    and anything under ``.ipynb_checkpoints``.
     """
     for part in rel_path.parts:
         if part.startswith("_"):
@@ -122,134 +107,204 @@ def discover_notebooks(workflow_dir: Path) -> tuple[list[Path], list[Path]]:
     return included, excluded
 
 
-def build_exporter() -> HTMLExporter:
-    """HTMLExporter that embeds images and never executes the notebook."""
-    config = Config()
-    # Embed base64 images/outputs so each HTML file is fully self-contained.
-    config.HTMLExporter.embed_images = True
-    # Explicitly ensure no execution preprocessor is attached.
-    config.HTMLExporter.preprocessors = []
-    exporter = HTMLExporter(config=config, template_name="lab")
-    return exporter
+def sanitize_notebook(nb: dict) -> int:
+    """Neutralize Quarto/Pandoc front-matter traps in a notebook's markdown.
+
+    A markdown cell line that is a bare ``---`` thematic break (horizontal rule)
+    is parsed by Pandoc as the opening fence of a YAML metadata block; the lines
+    after it then fail YAML parsing (e.g. ``**Notebook version**:`` -> the ``*``
+    reads as an undefined YAML alias) and the whole render aborts. Rewrite such
+    lines to ``***`` (the site's horizontal-rule convention; see CLAUDE.md).
+
+    Only lines that are a genuine thematic break are touched -- i.e. the first
+    line of a cell, or a ``---`` preceded by a blank line. A ``---`` directly
+    under a text line is a Setext H2 underline and is left alone. Operates on the
+    staged copy only; the real notebook under ``workflow/`` is never modified.
+    Returns the number of cells changed.
+    """
+    changed_cells = 0
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type") != "markdown":
+            continue
+        src = cell.get("source", "")
+        joined = src if isinstance(src, str) else "".join(src)
+        lines = joined.split("\n")
+        changed = False
+        for i, line in enumerate(lines):
+            if line.strip() == "---":
+                prev = lines[i - 1].strip() if i > 0 else ""
+                if prev == "":  # thematic break / YAML fence, not a Setext underline
+                    lines[i] = "***"
+                    changed = True
+        if changed:
+            cell["source"] = "\n".join(lines)
+            changed_cells += 1
+    return changed_cells
 
 
-def convert_notebook(exporter: HTMLExporter, src: Path, dst: Path) -> list[str]:
-    """Convert one notebook to standalone HTML. Returns captured warnings."""
-    import warnings
+def leads_with_h1(nb: dict) -> bool:
+    """True if the notebook's first non-empty markdown cell opens with a ``# ``
+    heading. When it does, Quarto uses that H1 as the page title (and drops it
+    from the body) -- exactly what we want, so we leave the notebook alone. When
+    it doesn't (e.g. the meteoscreening notebooks lead with a logo image and a
+    styled ``<span>``), Quarto has no title, so we inject one (see ``ensure_title``).
+    """
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type") != "markdown":
+            continue
+        src = cell.get("source", "")
+        joined = src if isinstance(src, str) else "".join(src)
+        for line in joined.split("\n"):
+            if line.strip() == "":
+                continue
+            return line.startswith("# ")  # first non-blank line of first md cell
+    return False
 
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    with warnings.catch_warnings(record=True) as caught:
-        warnings.simplefilter("always")
-        body, _resources = exporter.from_filename(str(src))
-        messages = [str(w.message) for w in caught]
-    dst.write_text(inject_lightbox(body), encoding="utf-8")
-    return messages
+
+def ensure_title(nb: dict, title: str) -> bool:
+    """Give an untitled notebook a title by prepending a YAML front-matter cell.
+
+    Quarto reads the leading *raw* cell of a notebook as its front matter, so a
+    ``--- / title: … / ---`` raw cell sets the page (and listing) title without
+    touching the body. Only applied when the notebook doesn't already lead with
+    an H1. Returns True if a cell was injected.
+    """
+    if leads_with_h1(nb):
+        return False
+    front_matter = {
+        "cell_type": "raw",
+        "metadata": {},
+        "source": f'---\ntitle: "{title}"\n---\n',
+    }
+    nb.setdefault("cells", []).insert(0, front_matter)
+    return True
 
 
-def render_index(included: list[Path], output_dir: Path) -> Path:
-    """Write a self-contained index.html grouping links by top-level stage."""
-    # Group by top-level stage folder (first path component).
-    groups: dict[str, list[Path]] = {}
+def stage_notebooks(included: list[Path], staging_dir: Path) -> tuple[int, int, int]:
+    """Stage each included notebook into the staging dir, mirroring the tree.
+
+    Notebooks are read, sanitized (see ``sanitize_notebook``), given a title if
+    they lack one (see ``ensure_title``) and re-written as JSON rather than copied
+    byte-for-byte, so the front-matter traps are fixed in the build inputs. Cell
+    outputs are preserved verbatim. Returns
+    ``(notebooks_staged, cells_sanitized, titles_injected)``.
+    """
+    copied = 0
+    sanitized = 0
+    titled = 0
+    for rel in included:
+        src = WORKFLOW_DIR / rel
+        dst = staging_dir / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        nb = json.loads(src.read_text(encoding="utf-8"))
+        sanitized += sanitize_notebook(nb)
+        if ensure_title(nb, rel.stem):
+            titled += 1
+        dst.write_text(json.dumps(nb, ensure_ascii=False, indent=1), encoding="utf-8")
+        copied += 1
+        print(f"  staged  {rel.as_posix()}")
+    return copied, sanitized, titled
+
+
+def render_index(included: list[Path], staging_dir: Path) -> Path:
+    """Write index.qmd: a themed page with one Quarto listing per stage folder.
+
+    A *listing* reads each notebook's own title (its first H1) and emits the
+    correct link to the rendered page, so we don't hand-maintain filenames or
+    header anchors here. Notebooks are grouped by their top-level stage folder.
+    """
+    # Group by top-level stage folder (first path component); flat notebooks
+    # (directly under workflow/) go under "(root)".
+    stages: dict[str, bool] = {}
     for rel in included:
         stage = rel.parts[0] if len(rel.parts) > 1 else "(root)"
-        groups.setdefault(stage, []).append(rel)
+        stages[stage] = True
+    ordered_stages = sorted(stages)
 
-    def esc(text: str) -> str:
-        return (
-            text.replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-        )
+    def listing_id(stage: str) -> str:
+        # Listing ids must be usable as HTML ids / div refs.
+        safe = "".join(c if (c.isalnum() or c in "-_") else "-" for c in stage)
+        return f"nb-{safe}"
 
-    parts: list[str] = [
-        "<!doctype html>",
-        '<html lang="en">',
-        "<head>",
-        '<meta charset="utf-8">',
-        '<meta name="viewport" content="width=device-width, initial-scale=1">',
-        "<title>CH-LAE workflow notebooks</title>",
-        "<style>",
-        "  :root { color-scheme: light dark; }",
-        "  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;",
-        "         max-width: 60rem; margin: 2rem auto; padding: 0 1.25rem;",
-        "         line-height: 1.5; }",
-        "  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }",
-        "  p.lead { color: #666; margin-top: 0; }",
-        "  h2 { font-size: 1.15rem; margin-top: 2rem; padding-bottom: 0.25rem;",
-        "       border-bottom: 1px solid #ccc; }",
-        "  ul { list-style: none; padding-left: 0; }",
-        "  li { margin: 0.25rem 0; }",
-        "  a { text-decoration: none; }",
-        "  a:hover { text-decoration: underline; }",
-        "  code { font-size: 0.9em; }",
-        "</style>",
-        "</head>",
-        "<body>",
-        "<h1>CH-LAE flux product &mdash; workflow notebooks</h1>",
-        f'<p class="lead">{len(included)} notebooks, grouped by processing stage.</p>',
+    # --- YAML front matter: one listing block per stage --------------------
+    lines: list[str] = ["---", 'title: "Workflow notebooks"', "listing:"]
+    for stage in ordered_stages:
+        # Non-recursive glob for the "(root)" bucket, recursive for real stages.
+        glob = "*.ipynb" if stage == "(root)" else f"{stage}/**/*.ipynb"
+        lines += [
+            f"  - id: {listing_id(stage)}",
+            f'    contents: "{glob}"',
+            "    type: table",
+            "    fields: [title]",
+            "    sort: false",
+            "    filter-ui: false",
+            "    sort-ui: false",
+        ]
+    lines += ["---", ""]
+
+    # --- Body: intro + a section + listing div per stage ------------------
+    lines += [
+        f"{len(included)} working research notebooks, grouped by processing "
+        "stage. Outputs are shown exactly as committed in the notebook "
+        "(the notebooks are not re-executed at build time).",
+        "",
     ]
+    for stage in ordered_stages:
+        lines += [
+            f"## {stage}",
+            "",
+            f"::: {{#{listing_id(stage)}}}",
+            ":::",
+            "",
+        ]
 
-    for stage in sorted(groups):
-        parts.append(f"<h2>{esc(stage)}</h2>")
-        parts.append("<ul>")
-        for rel in sorted(groups[stage]):
-            href = rel.with_suffix(".html").as_posix()
-            parts.append(f'  <li><a href="{esc(href)}"><code>{esc(rel.as_posix())}</code></a></li>')
-        parts.append("</ul>")
-
-    parts += ["</body>", "</html>"]
-
-    index_path = output_dir / "index.html"
+    index_path = staging_dir / "index.qmd"
     index_path.parent.mkdir(parents=True, exist_ok=True)
-    index_path.write_text("\n".join(parts), encoding="utf-8")
+    index_path.write_text("\n".join(lines), encoding="utf-8")
     return index_path
 
 
 def main(argv: list[str]) -> int:
-    output_dir = Path(argv[1]).resolve() if len(argv) > 1 else DEFAULT_OUTPUT_DIR
+    # --clean: wipe the staging dir and exit (used by deploy.ps1 post-render).
+    if len(argv) > 1 and argv[1] == "--clean":
+        if DEFAULT_STAGING_DIR.exists():
+            shutil.rmtree(DEFAULT_STAGING_DIR)
+            print(f"Removed staging dir: {DEFAULT_STAGING_DIR}")
+        else:
+            print(f"Nothing to clean: {DEFAULT_STAGING_DIR} does not exist.")
+        return 0
+
+    staging_dir = Path(argv[1]).resolve() if len(argv) > 1 else DEFAULT_STAGING_DIR
 
     if not WORKFLOW_DIR.is_dir():
         print(f"ERROR: workflow dir not found: {WORKFLOW_DIR}", file=sys.stderr)
         return 1
 
     included, excluded = discover_notebooks(WORKFLOW_DIR)
-    exporter = build_exporter()
 
-    print(f"Output directory : {output_dir}")
+    # Start from a clean staging dir so deleted/renamed notebooks don't linger.
+    if staging_dir.exists():
+        shutil.rmtree(staging_dir)
+    staging_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"Staging dir      : {staging_dir}")
     print(f"Included         : {len(included)} notebooks")
     print(f"Excluded (_*)    : {len(excluded)} notebooks")
     print("-" * 60)
 
-    converted = 0
-    warnings_by_nb: dict[str, list[str]] = {}
-    for rel in included:
-        src = WORKFLOW_DIR / rel
-        dst = output_dir / rel.with_suffix(".html")
-        try:
-            msgs = convert_notebook(exporter, src, dst)
-        except Exception as exc:  # keep going, but surface the failure loudly
-            print(f"  FAILED  {rel.as_posix()}: {exc}", file=sys.stderr)
-            continue
-        converted += 1
-        if msgs:
-            warnings_by_nb[rel.as_posix()] = msgs
-        print(f"  ok      {rel.as_posix()}")
+    copied, sanitized, titled = stage_notebooks(included, staging_dir)
 
-    index_path = render_index(included, output_dir)
+    (staging_dir / "_metadata.yml").write_text(METADATA_YML, encoding="utf-8")
+    index_path = render_index(included, staging_dir)
 
     # --- Summary ------------------------------------------------------------
     print("-" * 60)
-    print(f"Converted        : {converted}/{len(included)} notebooks")
+    print(f"Staged           : {copied}/{len(included)} notebooks")
+    print(f"Sanitized        : {sanitized} cells (--- thematic breaks -> ***)")
+    print(f"Titled           : {titled} notebooks (filename title injected)")
+    print(f"Metadata         : {staging_dir / '_metadata.yml'}")
     print(f"Index page       : {index_path}")
-    print(f"Output location  : {output_dir}")
-
-    if warnings_by_nb:
-        print(f"\nnbconvert warnings ({len(warnings_by_nb)} notebook(s)):")
-        for name, msgs in warnings_by_nb.items():
-            for msg in msgs:
-                print(f"  - {name}: {msg}")
-    else:
-        print("\nnbconvert warnings: none")
+    print("\nNext: `uv run quarto render docs` renders the site incl. notebooks.")
 
     print(f"\nExcluded (_*) notebooks ({len(excluded)}):")
     for rel in excluded:

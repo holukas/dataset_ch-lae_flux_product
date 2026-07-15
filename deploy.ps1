@@ -36,13 +36,17 @@ function Invoke-Step {
     if ($LASTEXITCODE -ne 0) { throw "Step failed: $Desc (exit $LASTEXITCODE)" }
 }
 
-# 1. Render the Quarto website. This CLEANS docs/_build/html, so it must run
-#    before the notebooks are layered in.
-Invoke-Step 'Rendering Quarto website (docs/)' { uv run quarto render docs }
+# 1. Stage the workflow notebooks into docs/notebooks/ (gitignored) so the
+#    Quarto render picks them up. Must run BEFORE the render.
+Invoke-Step 'Staging notebooks (workflow/ -> docs/notebooks/)' { uv run python build_notebooks.py }
 
-# 2. Convert all workflow notebooks to HTML under docs/_build/html/notebooks/.
-#    Must come AFTER the render (step 1 wipes the output dir).
-Invoke-Step 'Building notebook HTML (workflow/ -> notebooks/)' { uv run python build_notebooks.py }
+# 2. Render the whole Quarto website, INCLUDING the staged notebooks (they get
+#    the site theme, TOC, and anchored headers). Output -> docs/_build/html/.
+Invoke-Step 'Rendering Quarto website + notebooks (docs/)' { uv run quarto render docs }
+
+# 3. Clear the staged notebook copies so docs/ stays clean (the rendered HTML is
+#    already in docs/_build/html/notebooks/; only the inputs are removed).
+Invoke-Step 'Clearing notebook staging (docs/notebooks/)' { uv run python build_notebooks.py --clean }
 
 if ($Preview) {
     # Serve the full built site (book + notebooks) exactly as it will deploy.
@@ -60,7 +64,7 @@ if ($NoPublish) {
     return
 }
 
-# 3. Publish to GitHub Pages.
+# 4. Publish to GitHub Pages.
 #    -n  write .nojekyll (stop GitHub from running Jekyll over asset dirs)
 #    -o  no history: replace gh-pages with a single fresh commit each deploy, so
 #        the branch doesn't accumulate every past build's heavy notebook assets
