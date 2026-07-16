@@ -49,6 +49,12 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 - Managed with **uv** (not poetry). Python **3.12**.
 - `uv sync` to set up; `uv run <cmd>` to run inside the env.
 - Local editable path dep via `[tool.uv.sources]`: `diive` (`../../diive`).
+- The dep is declared as **`diive[db]`**, not plain `diive`. The `db` extra pulls in
+  `influxdb-client`, which diive's `InfluxIO` needs to reach the database (the
+  `10_METEO` download notebooks). diive also ships `db` as a dependency group, but
+  groups are local to the project that declares them and are not part of published
+  metadata — `uv sync --group db` only works *inside* diive, so from here the extra
+  is the only way to get it.
 
 ## Docs
 
@@ -150,7 +156,8 @@ stragglers.
   pages that carry a mermaid cell need to be `.qmd` (see Docs).
 - **`pyproject.toml`** — `project.name`, `description`, `authors`. Keep the dep
   groups and `[tool.uv.sources]` (the `../../diive` editable path) unless the
-  sibling-repo layout differs on that machine.
+  sibling-repo layout differs on that machine. Keep the `[db]` extra on `diive`
+  too — every site needs the database download (see Environment).
 - **`deploy.ps1`** — the hard-coded published URL and repo name appear only in
   comments and `Write-Host` messages; the actual push is generic
   (`origin`/`gh-pages`). Update the strings for tidiness.

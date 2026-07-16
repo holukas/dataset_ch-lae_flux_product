@@ -13,7 +13,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "diive",
+    # [db] pulls in influxdb-client, which diive's InfluxIO needs to reach the
+    # database (workflow/10_METEO notebook 01). diive also exposes this as its
+    # own 'db' dependency group, but groups are not transitive — only the extra
+    # is reachable from here.
+    "diive[db]",
     "jupyterlab>=4.5.7",
     "quarto-cli>=1.5",
 ]
