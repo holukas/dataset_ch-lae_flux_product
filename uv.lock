@@ -378,7 +378,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "dbc-influxdb" },
     { name = "diive" },
     { name = "jupyterlab" },
     { name = "quarto-cli" },
@@ -389,45 +388,9 @@ requires-dist = [{ name = "ghp-import", specifier = ">=2.1.0,<3.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "dbc-influxdb", editable = "../../poet/dbc-influxdb" },
     { name = "diive", editable = "../../diive" },
     { name = "jupyterlab", specifier = ">=4.5.7" },
     { name = "quarto-cli", specifier = ">=1.5" },
-]
-
-[[package]]
-name = "dbc-influxdb"
-version = "0.14.0"
-source = { editable = "../../poet/dbc-influxdb" }
-dependencies = [
-    { name = "influxdb-client" },
-    { name = "pandas" },
-    { name = "pytz" },
-    { name = "pyyaml" },
-    { name = "rich" },
-    { name = "textual" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "influxdb-client", specifier = ">=1.37.0" },
-    { name = "pandas", specifier = ">=2.1.0" },
-    { name = "pytz", specifier = ">=2024.1" },
-    { name = "pyyaml", specifier = ">=6.0.1" },
-    { name = "rich", specifier = ">=15.0.0" },
-    { name = "textual", specifier = ">=8.2.7" },
-    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.80.0" },
-]
-provides-extras = ["tui"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "jupyterlab", specifier = ">=4.0.6" },
-    { name = "matplotlib", specifier = ">=3.9.2" },
-    { name = "pytest", specifier = ">=5.2" },
-    { name = "textual", specifier = ">=0.80.0" },
-    { name = "textual-dev", specifier = ">=1.5.0" },
-    { name = "twine", specifier = ">=4.0.1" },
 ]
 
 [[package]]
@@ -517,7 +480,7 @@ requires-dist = [
     { name = "scikit-learn", specifier = ">=1.6.1,<2.0.0" },
     { name = "scikit-optimize", specifier = ">=0.10.2,<0.11.0" },
     { name = "seaborn", specifier = ">=0.13.2,<0.14.0" },
-    { name = "shap", specifier = ">=0.48.0,<1.0.0" },
+    { name = "shap", specifier = ">=0.50.0,<1.0.0" },
     { name = "statsmodels", specifier = ">=0.14.4,<0.15.0" },
     { name = "textual", specifier = ">=8.2.7" },
     { name = "trimesh", marker = "extra == 'gui3d'", specifier = ">=4.0" },
@@ -721,21 +684,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/e4/06/b56dfa750b44e86157093bc8fca0ab81dccbf5260510de4eaf1cb69b5b99/importlib_resources-7.1.0.tar.gz", hash = "sha256:0722d4c6212489c530f2a145a34c0a7a3b4721bc96a15fada5930e2a0b760708", size = 44985, upload-time = "2026-04-12T16:36:09.232Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8a/db/55a262f3606bebcae07cc14095338471ad7c0bbcaa37707e6f0ee49725b7/importlib_resources-7.1.0-py3-none-any.whl", hash = "sha256:1bd7b48b4088eddb2cd16382150bb515af0bd2c70128194392725f82ad2c96a1", size = 37232, upload-time = "2026-04-12T16:36:08.219Z" },
-]
-
-[[package]]
-name = "influxdb-client"
-version = "1.50.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "certifi" },
-    { name = "python-dateutil" },
-    { name = "reactivex" },
-    { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/07/23/77a945465a556a8067917ba84bac04e312cee2a4fe03d41198fe79ed9c84/influxdb_client-1.50.0.tar.gz", hash = "sha256:c2a4906573097103fa6f9a2ab08efe2eb48c2fed60b8129a3e320affde445743", size = 386749, upload-time = "2026-01-23T09:39:39.322Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/ec/6b120b4a86f6fadc7ddb1d7c7cdcb15bcfb332deb022ab60df51bcd4494c/influxdb_client-1.50.0-py3-none-any.whl", hash = "sha256:f172975cf7f0c95bfe74f288b31273393b164d2c58a948de55497d9956ab49be", size = 746289, upload-time = "2026-01-23T09:39:37.377Z" },
 ]
 
 [[package]]
@@ -1915,15 +1863,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytz"
-version = "2026.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ff/46/dd499ec9038423421951e4fad73051febaa13d2df82b4064f87af8b8c0c3/pytz-2026.2.tar.gz", hash = "sha256:0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a", size = 320861, upload-time = "2026-05-04T01:35:29.667Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/dd/96da98f892250475bdf2328112d7468abdd4acc7b902b6af23f4ed958ea0/pytz-2026.2-py2.py3-none-any.whl", hash = "sha256:04156e608bee23d3792fd45c94ae47fae1036688e75032eea2e3bf0323d1f126", size = 510141, upload-time = "2026-05-04T01:35:27.408Z" },
-]
-
-[[package]]
 name = "pywinpty"
 version = "3.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -2008,18 +1947,6 @@ dependencies = [
     { name = "wheel" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/96/c4/53b3295cf6a02cc78f2468c4929f2f22607437ac26624105c65f431b49f7/quarto_cli-1.9.38.tar.gz", hash = "sha256:bd59fdc0d868cd670ea4ebbf5997bfdfd6c81a0d9f50fe099f40f992b257ce18", size = 4630, upload-time = "2026-05-25T10:04:48.71Z" }
-
-[[package]]
-name = "reactivex"
-version = "4.1.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b6/af/38a4b62468e4c5bd50acf511d86fe62e65a466aa6abb55b1d59a4a9e57f3/reactivex-4.1.0.tar.gz", hash = "sha256:c7499e3c802bccaa20839b3e17355a7d939573fded3f38ba3d4796278a169a3d", size = 113482, upload-time = "2025-11-05T21:44:24.557Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ba/9e/3c2f5d3abb6c5d82f7696e1e3c69b7279049e928596ce82ed25ca97a08f3/reactivex-4.1.0-py3-none-any.whl", hash = "sha256:485750ec8d9b34bcc8ff4318971d234dc4f595058a1b4435a74aefef4b2bc9bd", size = 218588, upload-time = "2025-11-05T21:44:23.015Z" },
-]
 
 [[package]]
 name = "referencing"
