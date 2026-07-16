@@ -14,7 +14,6 @@ dependencies = [
 [dependency-groups]
 dev = [
     "diive",
-    "dbc-influxdb",
     "jupyterlab>=4.5.7",
     "quarto-cli>=1.5",
 ]
@@ -24,4 +23,3 @@ package = false
 
 [tool.uv.sources]
 diive = { path = "../../diive", editable = true }
-dbc-influxdb = { path = "../../poet/dbc-influxdb", editable = true }

@@ -48,8 +48,7 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 
 - Managed with **uv** (not poetry). Python **3.12**.
 - `uv sync` to set up; `uv run <cmd>` to run inside the env.
-- Local editable path deps via `[tool.uv.sources]`: `diive` (`../../diive`),
-  `dbc-influxdb` (`../../poet/dbc-influxdb`).
+- Local editable path dep via `[tool.uv.sources]`: `diive` (`../../diive`).
 
 ## Docs
 
@@ -150,8 +149,8 @@ stragglers.
   and `logo.png` (favicon). The page set differs per site; only Stage-30 FPC
   pages that carry a mermaid cell need to be `.qmd` (see Docs).
 - **`pyproject.toml`** — `project.name`, `description`, `authors`. Keep the dep
-  groups and `[tool.uv.sources]` (the `../../diive`, `../../poet/dbc-influxdb`
-  editable paths) unless the sibling-repo layout differs on that machine.
+  groups and `[tool.uv.sources]` (the `../../diive` editable path) unless the
+  sibling-repo layout differs on that machine.
 - **`deploy.ps1`** — the hard-coded published URL and repo name appear only in
   comments and `Write-Host` messages; the actual push is generic
   (`origin`/`gh-pages`). Update the strings for tidiness.
