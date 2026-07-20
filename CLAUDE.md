@@ -51,6 +51,15 @@ The stage is split into three substages, numbered by decade in dependency order.
 them valid); they stay at the stage root, outside the three substages, so they
 are not mistaken for current work.
 
+**Number only where order matters, and scope the number to its folder.** Notebook
+numbers restart at `01` inside each substage — they are not unique stage-wide, and
+a cross-folder reference must name the folder (`30_PRODUCTS/01`). This keeps file
+numbering and substage numbering in separate spaces, so a growing substage can
+never collide with the next decade. A substage whose notebooks have no dependency
+order (`10_REFERENCE/`, `20_SCREENING/`) carries **no** numbers at all: numbering
+independent notebooks asserts an order that does not exist and leaves no
+principled answer to "what number is the new one?".
+
 - **`10_REFERENCE/`** — external reference data, one notebook per source. These
   download from a provider (currently MeteoSwiss) and write **files**; nothing
   here goes into the database. Outputs are named
@@ -67,13 +76,14 @@ are not mistaken for current work.
   stage produces almost no data files. Some read a product from
   `10_REFERENCE/` — that is the edge that puts reference before screening.
 - **`30_PRODUCTS/`** — one notebook **per meteo variable**, numbered in the order
-  they may depend on each other: `31` `SW_IN`, `32` `TA`, `33` `PPFD_IN`,
-  `34` `RH`, `35` `PA`, `36` `LW_IN`, `37` `VPD`. Each downloads the screened
-  series from the database, corrects it, and writes a single product to the
-  external data folder. The notebook name is a prefix of the file it writes
-  (`32_METEO_TA_2004-2025.ipynb` → `32_METEO_TA_GAPFILLED_2004-2025.parquet`),
-  so code and data line up by eye. No verb in the notebook name — the folder
-  already says what these do.
+  they may depend on each other: `01` `SW_IN`, `02` `TA`, `03` `PPFD_IN`,
+  `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`. The order is real, not
+  decorative — `02` and `03` read `01`, and `07` reads `01`/`02`/`04`. Each
+  downloads the screened series from the database, corrects it, and writes a
+  single product to the external data folder. The notebook name is a prefix of
+  the file it writes (`02_METEO_TA_2004-2025.ipynb` →
+  `02_METEO_TA_GAPFILLED_2004-2025.parquet`), so code and data line up by eye.
+  No verb in the notebook name — the folder already says what these do.
 
 The shape below is deliberate — follow it when adding a variable.
 
@@ -103,17 +113,17 @@ The shape below is deliberate — follow it when adding a variable.
   expressed on the **corrected** time axis. Copy the shared windows only when
   the variable has no better evidence — where an independent sensor exists,
   derive the variable's own windows from its residual and say so.
-- **Completeness is per variable, not a house style.** `31`-`33` are gap-filled
+- **Completeness is per variable, not a house style.** `01`-`03` are gap-filled
   products and carry an `ISFILLED` flag naming the model that produced a value.
-  `34` is reconstructed from a co-located sensor (a transfer between two
+  `04` is reconstructed from a co-located sensor (a transfer between two
   measurements of the same quantity) and carries a `FLAG_<var>_MISSING`
   provenance flag: `0` measured, `1` never measured, `2` removed here,
-  `3` reconstructed. `35`/`36` are exported as measured with no flag. A
+  `3` reconstructed. `05`/`06` are exported as measured with no flag. A
   notebook that exports gaps says so in a closing note for downstream users.
 - **Order of operations matters** and is stated in the notebook: timestamp shift
   → removal of damaged periods → value corrections. Masks such as
   "never measured" must be captured *before* any correction that can write a
-  value into a missing record (notebook `33`'s nighttime zero-offset did
+  value into a missing record (notebook `03`'s nighttime zero-offset did
   exactly that and made 7,543 modelled values look measured).
 - Site-specific bits (variable names, sensor heights, fieldbook entries, the
   co-located NABEL reference) do **not** carry over to another site; the
