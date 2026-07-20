@@ -176,8 +176,11 @@ The shape below is deliberate — follow it when adding a variable.
   mirroring the `workflow/` tree), writes a `_metadata.yml` there that sets
   `execute: enabled: false` (Quarto shows the committed outputs and **never runs**
   a cell), and generates `docs/notebooks/index.qmd` — a themed landing page with
-  one Quarto *listing* per stage. It skips any `_`-prefixed path component
-  (`_archive/`, `_templates/`, `_create_readme.ipynb`, `_TEMPLATE*`). While
+  one Quarto *listing* per stage. This generated index is the **only** notebook
+  index — a hand-generated `workflow/README.md` used to duplicate it for the old
+  Jupyter Book build and was deleted once it had rotted to 3 live links out of
+  48. It skips any `_`-prefixed path component
+  (`_archive/`, `_templates/`, `_TEMPLATE*`). While
   staging it also **sanitizes each copy** for two diive-notebook quirks that
   otherwise break/uglify the render (the copies are throwaway, so the real
   notebooks are untouched): a bare `---` thematic-break line in a markdown cell

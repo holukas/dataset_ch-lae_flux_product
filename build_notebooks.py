@@ -33,8 +33,8 @@ What it does
 ------------
 - Walks ``workflow/`` for ``*.ipynb`` and keeps only "real" notebooks: any whose
   relative path (under ``workflow/``) has a path component starting with ``_`` is
-  excluded (drops ``_archive/``, ``_templates/``, ``_create_readme.ipynb`` and the
-  in-stage ``_TEMPLATE_*``). ``.ipynb_checkpoints`` is skipped too.
+  excluded (drops ``_archive/``, ``_templates/`` and the in-stage
+  ``_TEMPLATE_*``). ``.ipynb_checkpoints`` is skipped too.
 - Copies each into ``docs/notebooks/<same relative path>``.
 - Writes ``docs/notebooks/_metadata.yml`` (execution disabled for the folder).
 - Writes ``docs/notebooks/index.qmd``: a themed landing page with one Quarto
@@ -86,8 +86,8 @@ def is_included(rel_path: Path) -> bool:
     """True if the notebook is a "real" one that should be published.
 
     Excludes any notebook that lives under a path component starting with ``_``
-    (``_archive/``, ``_templates/``, ``_create_readme.ipynb``, ``_TEMPLATE_*``)
-    and anything under ``.ipynb_checkpoints``.
+    (``_archive/``, ``_templates/``, ``_TEMPLATE_*``) and anything under
+    ``.ipynb_checkpoints``.
     """
     for part in rel_path.parts:
         if part.startswith("_"):
