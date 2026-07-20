@@ -60,16 +60,28 @@ order (`10_REFERENCE/`, `20_SCREENING/`) carries **no** numbers at all: numberin
 independent notebooks asserts an order that does not exist and leaves no
 principled answer to "what number is the new one?".
 
-- **`10_REFERENCE/`** — external reference data, one notebook per source. These
-  download from a provider (currently MeteoSwiss) and write **files**; nothing
-  here goes into the database. Outputs are named
-  `<VAR>_<provider>_<station>_<resolution>_<years>` and land flat in
-  `10_REFERENCE/` on the data side. Because references are addressed by *path*
-  rather than by database name, moving one breaks every reader — keep the
-  filenames stable. A reference notebook may write more than one product when
-  the source record itself is split (the OED precipitation record is daily to
-  2014 and 30MIN after), which is the one sanctioned exception to
-  one-notebook-one-product in this stage.
+- **`10_REFERENCE/`** — external reference data, one notebook per station. These
+  download from a provider (currently MeteoSwiss, via the open-data STAC API) and
+  write **files**; nothing here goes into the database. Outputs land flat in
+  `10_REFERENCE/` on the data side, named
+  `[<VAR>_]<provider>_<station>_<resolution>_<years>` — the leading `<VAR>_` only
+  when the product holds a single variable (`PREC_MeteoSwiss_OED_30MIN_2014-2025`
+  vs. the multi-variable `MeteoSwiss_LAE_30MIN_2004-2025`). Reference columns are
+  suffixed `_<station>_MS` so they cannot be confused with tower columns.
+  Because references are addressed by *path* rather than by database name, moving
+  one breaks every reader — keep the filenames stable. A reference notebook may
+  write more than one product when the source record itself is split (the OED
+  precipitation record is daily to 2014 and 30MIN after), which is the one
+  sanctioned exception to one-notebook-one-product in this stage.
+  - **Two stations, and they are not interchangeable.** `LAE` (Lägern, 2.5 km,
+    845 m) is the full weather station and covers `TA`/`RH`/`PA`/`SW_IN` plus dew
+    point, vapour pressure, sunshine and wind over 2004-2025 — but measures
+    **no precipitation and no longwave**. `OED` (Ehrendingen, 3.8 km, 428 m) is
+    precipitation-only. So `06` (`LW_IN`) has no MeteoSwiss reference at all.
+  - **Year labels come from the last bin's start, not its label.** 10-min values
+    are end-of-interval, so the final bin of 31 Dec is labelled 00:00 on 1 Jan,
+    and the local-time shift pushes it again. Both traps silently misname the
+    export `..._2004-2026`.
 - **`20_SCREENING/`** — quality screening of the site's own measurements, one
   subfolder per variable (`SW_IN/`, `TA/`, `RH/`, `PA/`, `PPFD_IN/`, `LW_IN/`,
   `PREC/`, `NETRAD/`, `SWC/`). These write to **InfluxDB**, not to files, so the
