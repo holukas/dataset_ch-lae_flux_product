@@ -44,6 +44,57 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 - **Stage 30 (`30_FLUX_PROCESSING_CHAIN/`) is intentionally left on its older
   internal numbering** on both sides; don't reorganize it without being asked.
 
+## Stage 10 (`10_METEO`) conventions
+
+One notebook **per meteo variable**, numbered in the order they may depend on
+each other: `01` `SW_IN`, `02` `TA`, `03` `PPFD_IN`, `04` `RH`, `05` `PA`,
+`06` `LW_IN`. Each one downloads from the InfluxDB database, corrects, and
+writes a single product to the external data folder. `x-`-prefixed notebooks
+are retired and no longer run (they still render, so keep them valid). The
+shape below is deliberate — follow it when adding a variable.
+
+- **Structure of a notebook:** about-this-notebook → data sources → timestamp
+  convention → settings (`DIRCONF`, `TIMEZONE_OFFSET_TO_UTC_HOURS`,
+  `REQUIRED_TIME_RESOLUTION`, `TARGET`/`REFERENCE`, `OUTNAME`/`OUTPATH`) →
+  helpers → download per `data_version` → merge → corrections → export →
+  read the written file back → runtime footer. Sections carry emoji headers.
+- **Timestamps:** the database stores UTC `TIMESTAMP_END`. `InfluxIO.download`
+  shifts by `TIMEZONE_OFFSET_TO_UTC_HOURS` to local time, then
+  `TimestampSanitizer(output_middle_timestamp=True, nominal_freq='30min')`
+  converts to `TIMESTAMP_MID` and **raises** if the data are not 30MIN. Every
+  notebook works on `TIMESTAMP_MID` from that point on.
+- **Data versions:** the same measurement exists under `meteoscreening_mst`
+  (older) and `meteoscreening_diive` (newer). Merging them is a merge of two
+  *screenings of one measurement*, not a gap-fill — use `combine_first` so a
+  future overlap resolves deterministically instead of duplicating timestamps.
+  The `mst`/`diive` boundary sits at 2021/2022 and is where unit and raw-source
+  breaks hide; check the database's own unit tag (`show_field_overview`) against
+  the magnitude of the data, and prove the exported series does not step there.
+- **Guards:** a helper that can silently do nothing gets a **negative control**
+  cell that feeds it bad input and asserts it raises. Sanity checks assert
+  rather than assume (continuous index, no duplicates, physical range).
+- **The 2012 faults are site history and recur in every variable:** the
+  17 Aug 2012 logger clock error (+15.5 h shift of one block), the late-July/
+  August power supply failure, and the Oct/Nov storm damage. Windows are always
+  expressed on the **corrected** time axis. Copy the shared windows only when
+  the variable has no better evidence — where an independent sensor exists,
+  derive the variable's own windows from its residual and say so.
+- **Completeness is per variable, not a house style.** `01`-`03` are gap-filled
+  products and carry an `ISFILLED` flag naming the model that produced a value.
+  `04` is reconstructed from a co-located sensor (a transfer between two
+  measurements of the same quantity) and carries a `FLAG_<var>_MISSING`
+  provenance flag: `0` measured, `1` never measured, `2` removed here,
+  `3` reconstructed. `05`/`06` are exported as measured with no flag. A
+  notebook that exports gaps says so in a closing note for downstream users.
+- **Order of operations matters** and is stated in the notebook: timestamp shift
+  → removal of damaged periods → value corrections. Masks such as
+  "never measured" must be captured *before* any correction that can write a
+  value into a missing record (notebook `03`'s nighttime zero-offset did
+  exactly that and made 7,543 modelled values look measured).
+- Site-specific bits (variable names, sensor heights, fieldbook entries, the
+  co-located NABEL reference) do **not** carry over to another site; the
+  notebook structure and the checks do.
+
 ## Environment
 
 - Managed with **uv** (not poetry). Python **3.12**.
