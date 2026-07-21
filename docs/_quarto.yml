@@ -38,6 +38,8 @@ website:
       - index.md
       - Overview.md
       - Meteo_Data.md
+      # .qmd, not .md: the page carries an executable ```{mermaid} cell.
+      - Meteo_Product_Chain.qmd
       - Management_Data.md
       - section: FPC.qmd
         contents:

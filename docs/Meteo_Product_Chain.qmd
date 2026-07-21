@@ -1,0 +1,131 @@
+# Meteo Product Chain
+
+How the eight meteo product notebooks
+([`10_METEO/30_PRODUCTS`](notebooks/index.html)) turn screened measurements into
+the finished variables, and which of them depend on each other.
+
+The numbering of the notebooks is not decorative: `02` and `03` read the product
+written by `01`, and `07` reads the products written by `02` and `04`. Everything
+else is independent and could run in any order.
+
+```{mermaid}
+%%| label: fig-meteo-chain
+%%| fig-cap: "Inputs, notebooks and products of stage `10_METEO/30_PRODUCTS`. Solid arrows are reads that change the exported values; dashed arrows are diagnostic-only reads."
+flowchart LR
+    %% ---------- inputs ----------
+    DB[("InfluxDB<br/>20_SCREENING output<br/>meteoscreening_mst + _diive")]
+    MSLAE["10_REFERENCE<br/>MeteoSwiss_LAE_30MIN_2004-2025<br/>TA / RH / PA / SW_IN as *_LAE_MS"]
+    MSOED["10_REFERENCE<br/>PREC_MeteoSwiss_OED_DAILY_2004-2014<br/>PREC_MeteoSwiss_OED_30MIN_2014-2025"]
+    MSREG["10_REFERENCE<br/>PREC_MeteoSwiss_REGIONAL_DAILY_2004-2025<br/>13 stations within 21 km"]
+
+    %% ---------- notebooks ----------
+    N01["01 SW_IN"]
+    N02["02 TA"]
+    N03["03 PPFD_IN"]
+    N04["04 RH"]
+    N05["05 PA"]
+    N06["06 LW_IN"]
+    N07["07 VPD"]
+    N08["08 PREC"]
+    N99["99 MERGED"]
+
+    %% ---------- products ----------
+    F01["01_METEO_SW_IN_GAPFILLED_2004-2025<br/>SW_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F02["02_METEO_TA_GAPFILLED_2004-2025<br/>TA_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F03["03_METEO_PPFD_IN_GAPFILLED_2004-2025<br/>PPFD_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F04["04_METEO_RH_CORRECTED_2004-2025<br/>RH_T1_47_1<br/>FLAG_..._MISSING"]
+    F05["05_METEO_PA_2005-2025<br/>PA_T1_47_1<br/>no flag"]
+    F06["06_METEO_LW_IN_2005-2025<br/>LW_IN_T1_47_1<br/>no flag"]
+    F07["07_METEO_VPD_2004-2025<br/>VPD_T1_47_1<br/>FLAG_..._ISFILLED"]
+    F08["08_METEO_PREC_GAPFILLED_2004-2025<br/>PREC_TOT_T1_47_1<br/>PREC_TOT_T1_47_1_HOMOGENIZED<br/>FLAG_..._SOURCE<br/>FLAG_..._ISFILLED"]
+    F99["99_METEO_MERGED_2004-2025<br/>all value + flag columns"]
+
+    %% ---------- database reads ----------
+    DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08
+
+    %% ---------- reference reads ----------
+    MSLAE -->|SW_IN_LAE_MS| N01
+    MSLAE -->|TA_LAE_MS| N02
+    MSLAE -->|SW_IN_LAE_MS| N03
+    MSLAE -->|RH_LAE_MS, fills gaps| N04
+    MSLAE -.->|PA_LAE_MS, diagnostic| N05
+    MSOED -->|fills gaps| N08
+    MSREG -->|homogenisation factors| N08
+
+    %% ---------- notebook -> product ----------
+    N01 --> F01
+    N02 --> F02
+    N03 --> F03
+    N04 --> F04
+    N05 --> F05
+    N06 --> F06
+    N07 --> F07
+    N08 --> F08
+    N99 --> F99
+
+    %% ---------- product -> product ----------
+    F01 -->|SW_IN_gfXG as gap-fill driver| N02
+    F01 -->|SW_IN_gfXG as gap-fill driver| N03
+    F02 -->|TA_gfXG| N07
+    F04 -->|RH| N07
+
+    %% ---------- the merge ----------
+    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 --> N99
+
+    classDef gf fill:#E3F2FD,stroke:#1976D2,color:#000
+    classDef meas fill:#F1F8E9,stroke:#689F38,color:#000
+    classDef calc fill:#FFF3E0,stroke:#F57C00,color:#000
+    classDef src fill:#ECEFF1,stroke:#607D8B,color:#000
+    class F01,F02,F03,F08 gf
+    class F04,F05,F06 meas
+    class F07 calc
+    class DB,MSLAE,MSOED,MSREG src
+```
+
+## Reading the diagram
+
+**Blue products are gap-filled or reference-filled** (`SW_IN`, `TA`, `PPFD_IN`,
+`PREC`), **green products ship as measured** (`RH`, `PA`, `LW_IN`), and the
+**orange product is computed** from other products (`VPD`).
+
+A few things the edges make explicit:
+
+- **Every notebook except `07` reads the database.** `07` downloads nothing at
+  all: it reads two finished product files and applies a formula.
+- **`01` is the hub of the chain.** Its gap-filled `SW_IN_T1_47_1_gfXG` is a
+  driver in both the `TA` and the `PPFD_IN` gap-fill models, which is why the
+  order `01` → `02` / `03` is real and not just a naming convention.
+- **`06` (`LW_IN`) has no reference of any kind.** Lägern measures no longwave
+  and there is no second longwave sensor on the tower, so its corrections rest on
+  provenance rather than on an independent measurement.
+- **`08` (`PREC`) reads more references than any other notebook** — three files,
+  for two different jobs. The Ehrendingen (`OED`) record arrives as two products,
+  daily up to September 2014 and 30MIN after, and the 30MIN half is what fills
+  the gaps. The regional ensemble is a different tool: one nearby gauge can show
+  *that* the tower changed in 2018, but only a dozen of them can show *which
+  side* of that break is wrong, which is what the homogenisation factors rest on.
+- **`05` reads the MeteoSwiss pressure as a diagnostic only** (dashed): it checks
+  the tower record but never writes a value into it. The NABEL hut barometer it
+  also downloads is likewise diagnostic and is not exported.
+
+## What `99` merges
+
+Notebook `99` concatenates the value and flag columns of the individual products
+into one half-hourly table and re-checks the joined index. Its `PRODUCTS` list
+covers `01`–`08`, sixteen columns in all.
+
+`PREC` is the only product that enters the merge **twice**, because it exports
+two value columns: the measured series and the homogenised one. It is listed as
+two entries so that each gets its own overview figure, and the loader skips a
+column it has already taken so the shared file cannot be merged in twice.
+
+Three products may legitimately contain `NaN` in the merged file. `05` (`PA`) and
+`06` (`LW_IN`) export as measured and their sensors start in September 2005;
+`PREC` keeps the 2,224 half-hours before September 2014 that have no sub-daily
+reference to fill them from. The merge check carries a reason for each and
+asserts completeness for everything else.
+
+One more thing `99` had to learn for precipitation: **rain sums, it does not
+average**. Every entry in `PRODUCTS` now names its aggregation, because a daily
+"mean" of 30-minute rainfall is about 0.05 mm and means nothing to anyone,
+whereas a daily total is the number people recognise.
