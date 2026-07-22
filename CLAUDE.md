@@ -197,6 +197,34 @@ Columns: `Date` (`dd.mm.yyyy`), `Operation Tag`, `Event Tag`, `Location`,
 `Device Model`, `Text`. The body is **HTML** — strip tags and unescape entities
 before matching or printing.
 
+- **It is also a personnel record — redact it before printing.** Its entries are
+  signed with the names of the people who did the work, and these notebooks render
+  to a public website. Every fieldbook string therefore passes through
+  `redact_people()`, applied *inside* the notebook's own flattening helper
+  (`plaintext()` / `bulk_plaintext()` / `strip_html()` / `_plaintext()`), so a
+  print site added later is covered without anyone remembering it. The
+  name → pseudonym map is `fieldbook_gin/redact_names.csv`, beside the export and
+  **outside this repository**, so the repo never carries a real name; pseudonyms
+  (`person 01`, `person 02`, …) are stable and append-only, so a re-run reproduces
+  the same text. A missing map **raises** — carrying on with redaction quietly
+  disabled prints real names and looks exactly like success.
+  - **The map only knows the names it has already seen**, so
+    `audit_unmapped_names()` catches the rest. After redaction, a token in one of
+    the two shapes that actually carry names — the author parenthesis entries are
+    signed with, and bylines like `with X` / `durch X` — that is neither an
+    allowlisted technical term (`redact_allow.csv`) nor an all-caps device code
+    raises. It never prints the candidates: an exception message is stored in a
+    notebook like any other output, so the list goes to `redact_unmapped.txt`
+    beside the map and only the count is shown. A third shape, any capitalised
+    pair, was measured and **rejected** — 560 distinct tokens, nearly all sentence
+    starters and device names, which would bury the signal.
+  - **Names in prose and comments count too.** A worked example in a markdown cell
+    or a code comment is exactly as published as a printed one, so use a pseudonym
+    or an invented name (`Ada Lovelace`), never a real one. This was got wrong
+    once already — in the comments explaining the redaction itself.
+  - `python check_no_names.py` scans the repo for any mapped name and exits
+    non-zero. Run it before publishing. `docs/index.md`'s acknowledgements are the
+    one deliberate exception: published credit, skipped by the checker.
 - **Read it in the notebook, don't quote it from memory.** Both `20_SCREENING/SWC`
   and `30_PRODUCTS/08` open the csv and filter it in a cell, so the adjudication
   written up next to a removal window can be re-run and challenged instead of
@@ -226,7 +254,7 @@ before matching or printing.
   - **Parsing it:** convert `<br>` and closing block tags to newlines *before*
     stripping tags, or the whole body collapses into one unreadable line.
     Sub-entries begin with a `dd.mm.yyyy` at line start, sometimes in wiki
-    emphasis (`==01.03.2011 (Thomas Baur)==`). The text is mixed German and
+    emphasis (`==01.03.2011 (person 01)==`). The text is mixed German and
     English — a soil filter needs `Waldboden|Bodenfeuchte|Boden` as well as
     `soil|moisture` — and carries mojibake (`Ã` for `Ü`/`Ö`).
   - **It pays for itself.** Two gaps that the data show at every depth of the old
