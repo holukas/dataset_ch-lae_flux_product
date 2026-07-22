@@ -173,7 +173,8 @@ principled answer to "what number is the new one?".
     below.
 - **`30_PRODUCTS/`** — one notebook **per meteo variable**, numbered in the order
   they may depend on each other: `01` `SW_IN`, `02` `TA`, `03` `PPFD_IN`,
-  `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`, `08` `PREC`. The order is real,
+  `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`, `08` `PREC`, `09` `SWC`. The
+  order is real,
   not decorative — `02` and `03` read `01`, and `07` reads `01`/`02`/`04`. Each
   downloads the screened series from the database, corrects it, and writes a
   single product to the external data folder. The notebook name is a prefix of
@@ -206,6 +207,44 @@ before matching or printing.
   entries behind the SWC gaps are power-supply and logger entries carrying no
   soil device at all. Filter on operation tag **or** location **or** free text
   (`soil|SWC|Teros|SDI|power|logger`, `rain gauge|rainbucket|…`).
+- **The free-text net has to be cut for the era you are asking about, and some
+  identities are not in the text at all.** A regex naming today's hardware finds
+  nothing before it was installed — `Teros` and `SWC` return no pre-2020 hit; the
+  older soil profile is `SoilM|MPS|decagon|multiplier`. And the sensor *type* of
+  that profile (`EC-20`) appears **zero** times in the body: it lives only in the
+  `Device Model`/`Device Name` columns, so a text-only filter misses the whole
+  pre-2020 sensor identity. Search the device columns too.
+- **The pre-2011 record exists, but inside a single row — a date filter cannot
+  see it.** One row dated **`03.06.2011`** (`Event Tag = FBA`, operation and
+  location both `na`) carries a **28,802-character** body beginning *"Additional
+  old fieldbook entries 2006-2011"*. It is the legacy fieldbook pasted in when
+  GIN was introduced, and it holds **94 dated sub-entries covering 2006-08-31 →
+  2011-06-03**. Their dates live *in the text*; the row's own `Date` is 2011, so
+  the `fb['date'].between(START, STOP)` filter every notebook uses **misses all
+  of them** and reports silence where there is a record. Any notebook reaching
+  before 2011 must parse this row specially and say so.
+  - **Parsing it:** convert `<br>` and closing block tags to newlines *before*
+    stripping tags, or the whole body collapses into one unreadable line.
+    Sub-entries begin with a `dd.mm.yyyy` at line start, sometimes in wiki
+    emphasis (`==01.03.2011 (Thomas Baur)==`). The text is mixed German and
+    English — a soil filter needs `Waldboden|Bodenfeuchte|Boden` as well as
+    `soil|moisture` — and carries mojibake (`Ã` for `Ü`/`Ö`).
+  - **It pays for itself.** Two gaps that the data show at every depth of the old
+    soil profile, and that were otherwise unexplained, are named here to the day:
+    *"No forest floor logger data recorded from doy 69 to 162"* (2009) = the
+    93-day gap 2009-03-10 → 06-11; and *"zwischen 6. Maerz und 28. Mai 2010 eine
+    Sicherung herausgerutscht … der Logger ohne Strom"* = the 83-day gap
+    2010-03-06 → 05-28. Both are **retro-added remarks** written a year later by
+    someone other than the original author — weaker than a contemporaneous entry,
+    and worth flagging as such where a removal rests on them.
+  - **What is genuinely absent is 2004-2005.** The bulk row starts 2006-08-31
+    while the soil record starts 2004-09-07, so those first two years have no
+    site record at all. The rows dated 2003, 2006 and 2016-01-01 are backdated
+    GIN inventory imports, not events.
+- **Other holes are informative too.** August 2020 is empty — the month the 5 cm
+  SWC probe decouples — and June 2024 is empty, covering the unexplained 44-hour
+  station gap. Silence is not evidence of nothing happening; it is evidence the
+  record stops there.
 - **Assert the filter matched.** An export whose format changed silently returns
   zero rows, which reads exactly like "nothing happened at the site". Both
   notebooks `assert len(...) > 0`.
@@ -248,6 +287,33 @@ The shape below is deliberate — follow it when adding a variable.
   The `mst`/`diive` boundary sits at 2021/2022 and is where unit and raw-source
   breaks hide; check the database's own unit tag (`show_field_overview`) against
   the magnitude of the data, and prove the exported series does not step there.
+- **A field name is a statement about the variable, not about the instrument.**
+  This site reuses one name across sensor generations, and it has caught us
+  three times: `PREC_TOT_T1_47_1` spans two acquisition systems either side of
+  2018; `SWC_FF1_0.3_1` spans two probes with a 327-day dead period between them,
+  the second installed 40 cm downslope; and every `SWC_FF1_*` name carries the
+  **old EC-20 profile** under `meteoscreening_mst` back to 2004 — the
+  MeteoScreeningTool screened the earlier sensors and stored them under the later
+  names, so the pre-2020 half of that column is a different instrument. Before
+  merging data versions, ask what hardware each era was, not just what it is
+  called: compare season-matched levels across the boundary, and check whether
+  the eras overlap at all. Where they do (`08`), prove they are the same series
+  before splicing. Where they do not (`SWC`), the step cannot be calibrated away
+  and the honest product is a **`SOURCE` flag naming the sensor generation** —
+  optionally with a `_HOMOGENIZED` second column, which must then say out loud
+  that its rescaling rests on climatology rather than on an overlap. Never let a
+  name imply a continuity the hardware does not have: FLUXNET's `SWC_F_MDS_*`
+  splices these two eras with a +9 to +12 % VWC step passed straight through,
+  which is the outcome to avoid reproducing.
+- **A `data_version` filter is not a tag filter.** Within one field and data
+  version there can be several series carrying different `gain`, `raw_varname` or
+  `freq` tags, so anything reading tags must handle a list, not a scalar. A
+  differing `gain` tag does **not** by itself mean the stored values differ in
+  scale — it records what was applied to that era's own raw source (SWC is `1`
+  for `mst`, which read a CSV already in `%`, and `100` for `diive`, which reads
+  `m^3/m^3` and multiplies), and both eras are stored in `%`. Check the tag
+  *against the magnitude* before rescaling anything, because the tag alone looks
+  exactly like a factor-100 bug.
 - **Guards:** a helper that can silently do nothing gets a **negative control**
   cell that feeds it bad input and asserts it raises. Sanity checks assert
   rather than assume (continuous index, no duplicates, physical range).
@@ -257,6 +323,18 @@ The shape below is deliberate — follow it when adding a variable.
   expressed on the **corrected** time axis. Copy the shared windows only when
   the variable has no better evidence — where an independent sensor exists,
   derive the variable's own windows from its residual and say so.
+  - **They are tower history, and do not transfer to the forest floor unread.**
+    Checked against the fieldbook for the soil profile: the 17 Aug 2012 clock
+    entry describes the **meteo** logger and a lag of **28 h 25 min**, not the FF
+    logger and not +15.5 h; the late-July/August power entries are explicitly
+    about the **tower** battery and fuses; and the Oct/Nov storm check found
+    damage to **sap-flow** sensors only, naming no soil sensor. What *is* at the
+    forest floor in that window is three consecutive interventions on the soil
+    sensors' own wiring and power between 18 Jul and 15 Aug 2012, plus a
+    2012-04-25 logger program "with corrected multipliers and offset" that names
+    no channels. So for a forest-floor variable these windows are a hypothesis to
+    test, not a window to copy — and the MOXA clock faults of Aug/Sep/Oct 2012
+    are a *fourth* thing again, belonging to the eddy acquisition computer.
 - **Completeness is per variable, not a house style.** `01`-`03` are gap-filled
   products and carry an `ISFILLED` flag naming the model that produced a value.
   `04` is reconstructed from a co-located sensor (a transfer between two
@@ -264,10 +342,16 @@ The shape below is deliberate — follow it when adding a variable.
   provenance flag: `0` measured, `1` never measured, `2` removed here,
   `3` reconstructed. `05`/`06` are exported as measured with no flag. `07` is
   computed by formula from finished products and its flag says what it was
-  computed *from*. `08` is the only one that exports **two** value columns — the
-  measured series and a `_HOMOGENIZED` rescaling of its pre-2018 era — each with
-  its own flag (`ISFILLED`, and a `SOURCE` flag naming the acquisition era). A
-  notebook that exports gaps says so in a closing note for downstream users.
+  computed *from*. `08` and `09` export a **second, derived value column**
+  alongside the measured one: `08` a `_HOMOGENIZED` rescaling of its pre-2018
+  era, with its own `SOURCE` flag naming the acquisition era beside its
+  `ISFILLED` flag; `09` a `_HOMOGENIZED` column per depth (four of five — 0.5 m
+  has a single era and deliberately gets none, because a duplicate column invites
+  someone to difference it, get zero and conclude the record is homogeneous) plus
+  one `SOURCE` flag per depth naming the **sensor set**. `09` is also the only
+  notebook covering five columns of one variable, because a soil-moisture depth
+  is only interpretable next to the depths above and below it. A notebook that
+  exports gaps says so in a closing note for downstream users.
 - **Order of operations matters** and is stated in the notebook: timestamp shift
   → removal of damaged periods → value corrections. Masks such as
   "never measured" must be captured *before* any correction that can write a
