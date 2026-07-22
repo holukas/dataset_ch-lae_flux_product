@@ -60,7 +60,8 @@ order (`10_REFERENCE/`, `20_SCREENING/`) carries **no** numbers at all: numberin
 independent notebooks asserts an order that does not exist and leaves no
 principled answer to "what number is the new one?".
 
-- **`10_REFERENCE/`** — external reference data, one notebook per station. These
+- **`10_REFERENCE/`** — external reference data, one notebook per station (or,
+  for `REGIONAL`, per station *ensemble*). These
   download from a provider (currently MeteoSwiss, via the open-data STAC API) and
   write **files**; nothing here goes into the database. Outputs land flat in
   `10_REFERENCE/` on the data side, named
@@ -73,29 +74,152 @@ principled answer to "what number is the new one?".
   write more than one product when the source record itself is split (the OED
   precipitation record is daily to 2014 and 30MIN after), which is the one
   sanctioned exception to one-notebook-one-product in this stage.
-  - **Two stations, and they are not interchangeable.** `LAE` (Lägern, 2.5 km,
-    845 m) is the full weather station and covers `TA`/`RH`/`PA`/`SW_IN` plus dew
-    point, vapour pressure, sunshine and wind over 2004-2025 — but measures
-    **no precipitation and no longwave**. `OED` (Ehrendingen, 3.8 km, 428 m) is
+  - **The stations are not interchangeable.** `LAE` (Lägern, 2.5 km, 845 m) is
+    the full weather station and covers `TA`/`RH`/`PA`/`SW_IN` plus dew point,
+    vapour pressure, sunshine and wind over 2004-2025 — but measures **no
+    precipitation and no longwave**. `OED` (Ehrendingen, 3.8 km, 428 m) is
     precipitation-only. So `06` (`LW_IN`) has no MeteoSwiss reference at all.
+  - **One reference finds a break; an ensemble says who moved.** A single nearby
+    station can date a change at the tower, but when the two disagree it cannot
+    say which of them stepped. `MeteoSwiss_REGIONAL_PREC` therefore fetches
+    *every* MeteoSwiss precipitation station within 21 km that covers the whole
+    period (daily; it raises below `MIN_STATIONS`), which is what makes the 2018
+    acquisition break in `30_PRODUCTS/08` attributable to the tower — and, since
+    the stations span elevations, gives an elevation-precipitation gradient as a
+    by-product. Its station table is written alongside as a second csv: metadata
+    for the product, not a second product.
+  - **MeteoSwiss precipitation days run 06 UTC → 06 UTC.** Daily precipitation
+    products are left on that native day and are **not** shifted to local time;
+    anything compared against them must be re-aggregated onto the same 06-UTC day
+    first (`30_PRODUCTS/08` has a `to_ms_precip_day()` helper). A local-midnight
+    daily sum is wrong by six hours and smears every event across two days.
   - **Year labels come from the last bin's start, not its label.** 10-min values
     are end-of-interval, so the final bin of 31 Dec is labelled 00:00 on 1 Jan,
     and the local-time shift pushes it again. Both traps silently misname the
     export `..._2004-2026`.
 - **`20_SCREENING/`** — quality screening of the site's own measurements, one
   subfolder per variable (`SW_IN/`, `TA/`, `RH/`, `PA/`, `PPFD_IN/`, `LW_IN/`,
-  `PREC/`, `NETRAD/`, `SWC/`). These write to **InfluxDB**, not to files, so the
-  stage produces almost no data files. Some read a product from
-  `10_REFERENCE/` — that is the edge that puts reference before screening.
+  `PREC/`, `NETRAD/`, `SWC/`), one notebook per sensor and era. These read the
+  **raw high-resolution** record from InfluxDB, screen and correct it there,
+  resample to 30MIN, and write back to **InfluxDB** as `meteoscreening_diive` —
+  not to files, so the substage produces almost no data files. Some read a
+  product from `10_REFERENCE/` — that is the edge that puts reference before
+  screening. `DatabaseInfluxStepwiseMeteoScreening.ipynb` at the substage root is
+  the vendored diive template every variable notebook is derived from; the header
+  of each notebook records which template version it came from.
+  - **Screening is stepwise and committed by hand.** Run a test, look at its
+    preview plot, then commit it with `mscr.addflag()`; re-run with other
+    parameters as often as you like before committing. Run only the tests the
+    variable actually needs and say in the notebook why the others are off.
+    `finalize_outlier_detection()` aggregates the committed flags into `QCF`.
+  - **The raw record can carry more than one time resolution** (SWC: 10MIN before
+    the March 2021 logger rebuild, 1MIN after). diive drops resolution groups
+    holding <0.2 % of records and **upsamples the coarser era onto the finest
+    grid**, so the early era arrives as runs of identical values. Any test built
+    on *differences* degenerates there — the rolling MAD of a mostly-constant
+    series is `0` and the detection band collapses. Always check a test's
+    flagged count **per era**, never on the total, and write windows as
+    `60 * 24 * …` so they mean the same wall-clock span in both eras.
+  - **A failed sensor read can be a number, not a gap.** The CR1000 firmware
+    predates SDI-12 NaN support, so a failed SDI-12 read lands in the record as
+    that sensor's calibration polynomial at zero response — a fixed negative
+    value per sensor. `notna()` does not mean "measured": absolute limits, not
+    the missing-values flag, is what catches these. Never *clip* to the physical
+    minimum, which would turn a failed read into a fabricated 0.
+  - **A variable with no external reference gets an internal one.** No weather
+    service measures this plot's soil, so the SWC notebooks cross-check each
+    depth against the other four depths of the same profile plus the screened
+    precipitation product. That separates the loud failure (stops reporting) from
+    the quiet one (stops being *coupled* — smooth, in-range, plausible values
+    that no outlier test can see). The diagnostic is the response, not the value:
+    rolling 30-day correlation of daily increments against the profile mean, and
+    the rise after every >10 mm rain day. Depths are **not** replicates, so only
+    the ordering is physically enforced (shallow wets first); the section
+    produces *candidates*, never removals.
+  - **The cross-check is repeated after screening** and must not get worse:
+    if agreement with the reference drops, a test removed real signal, and the
+    notebook says so loudly rather than leaving it to be noticed.
+  - **Audit in proportion to what was removed.** On top of that re-check, two
+    hard invariants are **asserted everywhere**: that every record counted as
+    out-of-range really is outside the physical limits, and that none survived
+    screening. The **full two-direction audit** — *is everything removed
+    genuinely bad* (nothing left without a committed test asking; no isolated bad
+    minute emptied the 30MIN mean that held it) and *is everything real still
+    there* (every rain response preserved, agreement unchanged) — is reserved for
+    a notebook whose `REMOVE_DATES` is **not empty**. A hand-drawn window is the
+    only thing in these notebooks that deletes data on a person's say-so, so it
+    is the thing that needs policing: at `SWC` 0.05 m the audit re-derives the
+    window's own response ratio and rolling agreement against the record medians
+    on every run, and fails it if they stop standing out — the justification is
+    recomputed, not quoted from the prose beside it. Two cautions. A response is
+    measured two days past its event, so an event on a window's trailing edge
+    reports the *recovery* that ended the fault; judge on the median ratio, not
+    the maximum rise. And where one field name spans two sensors (`SWC` 0.3 m),
+    the audit must be **era-split** or it correlates increments from different
+    probes across the dead period and reports nonsense.
+  - **One sanctioned file output.** `SWC/SWC_FF1_PROFILE_2020-2025.ipynb`
+    downloads the five raw profile depths **once** into a parquet the five
+    per-depth notebooks read as their cross-check reference, instead of each of
+    them pulling the same 2.5 M records. It is raw, values-only and carries **no
+    database tags** — so it can never stand in for a screening notebook's own
+    download, which needs the tags that travel through screening onto the upload.
+    Each depth still downloads its own target live. Re-run it before the depth
+    notebooks whenever the raw record grows or is re-ingested; the readers assert
+    it covers their period so a stale file fails loudly.
+  - **Copies of a notebook must re-derive their own evidence.** The per-depth SWC
+    notebooks are copies of the 0.05 m one with `DEPTH` changed — but
+    `REMOVE_DATES` belongs to a sensor, not to a variable, and carrying windows
+    across depths would delete good data. Same rule as the shared 2012 windows
+    below.
 - **`30_PRODUCTS/`** — one notebook **per meteo variable**, numbered in the order
   they may depend on each other: `01` `SW_IN`, `02` `TA`, `03` `PPFD_IN`,
-  `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`. The order is real, not
-  decorative — `02` and `03` read `01`, and `07` reads `01`/`02`/`04`. Each
+  `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`, `08` `PREC`. The order is real,
+  not decorative — `02` and `03` read `01`, and `07` reads `01`/`02`/`04`. Each
   downloads the screened series from the database, corrects it, and writes a
   single product to the external data folder. The notebook name is a prefix of
   the file it writes (`02_METEO_TA_2004-2025.ipynb` →
   `02_METEO_TA_GAPFILLED_2004-2025.parquet`), so code and data line up by eye.
   No verb in the notebook name — the folder already says what these do.
+  `99_METEO_MERGED_2004-2025.ipynb` is the capstone: it runs last, joins the
+  products of `01`-`08` onto one 30MIN `TIMESTAMP_MID` index with their
+  provenance flags, and draws one overview figure per series. It **computes and
+  corrects nothing** — a value in the merged table is exactly what its own
+  notebook exported.
+
+### The GIN fieldbook
+
+The site's maintenance record is exported from GIN and lives in the external data
+folder **beside** `workflow/`, not inside it (it is an input to many stages, not
+the output of one):
+`...\dataset_ch-lae_flux_product-data\fieldbook_gin\CH-LAE-laegeren-export_<yyyymmdd>.csv`.
+Columns: `Date` (`dd.mm.yyyy`), `Operation Tag`, `Event Tag`, `Location`,
+`Device Model`, `Text`. The body is **HTML** — strip tags and unescape entities
+before matching or printing.
+
+- **Read it in the notebook, don't quote it from memory.** Both `20_SCREENING/SWC`
+  and `30_PRODUCTS/08` open the csv and filter it in a cell, so the adjudication
+  written up next to a removal window can be re-run and challenged instead of
+  taken on trust.
+- **Never filter on the device tag alone.** The entries that explain a fault are
+  routinely filed under something else: the two 2018 entries that document the
+  precipitation acquisition change sit under the datalogger and the CNR1, and the
+  entries behind the SWC gaps are power-supply and logger entries carrying no
+  soil device at all. Filter on operation tag **or** location **or** free text
+  (`soil|SWC|Teros|SDI|power|logger`, `rain gauge|rainbucket|…`).
+- **Assert the filter matched.** An export whose format changed silently returns
+  zero rows, which reads exactly like "nothing happened at the site". Both
+  notebooks `assert len(...) > 0`.
+- **Evidence first, fieldbook second.** The data locate the candidate period —
+  `30_PRODUCTS/08` scans blind for the month where the catch ratio steps hardest,
+  the SWC notebooks scan for lost rain response — and only then is the fieldbook
+  asked what happened there. Letting the fieldbook drive the search finds only
+  faults somebody already noticed.
+- **A missing entry is not a veto.** The Aug-Oct 2020 decoupling of the 5 cm SWC
+  probe has no fieldbook entry at all and is still removed, on physical evidence
+  alone; conversely the fieldbook records dates but no times, so every boundary
+  taken from it carries a day of slack. Where the fieldbook cannot separate two
+  candidate dates (the 71-day 2018 transition), the interval gets **its own flag
+  code** rather than being assigned to one side.
 
 The shape below is deliberate — follow it when adding a variable.
 
@@ -108,7 +232,15 @@ The shape below is deliberate — follow it when adding a variable.
   shifts by `TIMEZONE_OFFSET_TO_UTC_HOURS` to local time, then
   `TimestampSanitizer(output_middle_timestamp=True, nominal_freq='30min')`
   converts to `TIMESTAMP_MID` and **raises** if the data are not 30MIN. Every
-  notebook works on `TIMESTAMP_MID` from that point on.
+  `30_PRODUCTS/` notebook works on `TIMESTAMP_MID` from that point on.
+  **`20_SCREENING/` is the exception** and it is easy to get wrong: those
+  notebooks stay on `TIMESTAMP_END` throughout, because
+  `StepwiseMeteoScreeningDb` converts to `TIMESTAMP_MID` *internally* for
+  screening and hands back `TIMESTAMP_END` after `resample()`, ready for upload.
+  So anything a screening notebook reads from a `30_PRODUCTS/` file (the
+  precipitation product, stored on `TIMESTAMP_MID`) must be shifted by +15 min
+  before use. `TIMEZONE_OFFSET_TO_UTC_HOURS` is applied identically on download
+  and upload and must match the timezone the raw data was logged in.
 - **Data versions:** the same measurement exists under `meteoscreening_mst`
   (older) and `meteoscreening_diive` (newer). Merging them is a merge of two
   *screenings of one measurement*, not a gap-fill — use `combine_first` so a
@@ -130,7 +262,11 @@ The shape below is deliberate — follow it when adding a variable.
   `04` is reconstructed from a co-located sensor (a transfer between two
   measurements of the same quantity) and carries a `FLAG_<var>_MISSING`
   provenance flag: `0` measured, `1` never measured, `2` removed here,
-  `3` reconstructed. `05`/`06` are exported as measured with no flag. A
+  `3` reconstructed. `05`/`06` are exported as measured with no flag. `07` is
+  computed by formula from finished products and its flag says what it was
+  computed *from*. `08` is the only one that exports **two** value columns — the
+  measured series and a `_HOMOGENIZED` rescaling of its pre-2018 era — each with
+  its own flag (`ISFILLED`, and a `SOURCE` flag naming the acquisition era). A
   notebook that exports gaps says so in a closing note for downstream users.
 - **Order of operations matters** and is stated in the notebook: timestamp shift
   → removal of damaged periods → value corrections. Masks such as
