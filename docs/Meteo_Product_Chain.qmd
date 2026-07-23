@@ -1,12 +1,18 @@
 # Meteo Product Chain
 
-How the eight meteo product notebooks
+How the ten meteo product notebooks
 ([`10_METEO/30_PRODUCTS`](notebooks/index.html)) turn screened measurements into
 the finished variables, and which of them depend on each other.
 
-The numbering of the notebooks is not decorative: `02` and `03` read the product
-written by `01`, and `07` reads the products written by `02` and `04`. Everything
-else is independent and could run in any order.
+The numbering carries dependency information: `02` and `03` read the product
+written by `01`, `07` reads the products written by `02` and `04`, and `10` reads
+`02` as a diagnostic reference. Everything else is independent and could run in
+any order.
+
+The two soil products, `09` (`SWC`) and `10` (`TS`), differ from the tower
+products in one respect that the diagram makes visible: they have no external
+reference. No weather service measures this plot's soil, so each is checked
+against the other depths of its own profile instead.
 
 ```{mermaid}
 %%| label: fig-meteo-chain
@@ -17,6 +23,7 @@ flowchart LR
     MSLAE["10_REFERENCE<br/>MeteoSwiss_LAE_30MIN_2004-2025<br/>TA / RH / PA / SW_IN as *_LAE_MS"]
     MSOED["10_REFERENCE<br/>PREC_MeteoSwiss_OED_DAILY_2004-2014<br/>PREC_MeteoSwiss_OED_30MIN_2014-2025"]
     MSREG["10_REFERENCE<br/>PREC_MeteoSwiss_REGIONAL_DAILY_2004-2025<br/>13 stations within 21 km"]
+    TSSCR["TS_FF1_SCREENED_30MIN_2004-2025<br/>DIIVE + MST download, 34 channels"]
 
     %% ---------- notebooks ----------
     N01["01 SW_IN"]
@@ -27,6 +34,8 @@ flowchart LR
     N06["06 LW_IN"]
     N07["07 VPD"]
     N08["08 PREC"]
+    N09["09 SWC"]
+    N10["10 TS"]
     N99["99 MERGED"]
 
     %% ---------- products ----------
@@ -38,10 +47,13 @@ flowchart LR
     F06["06_METEO_LW_IN_2005-2025<br/>LW_IN_T1_47_1<br/>no flag"]
     F07["07_METEO_VPD_2004-2025<br/>VPD_T1_47_1<br/>FLAG_..._ISFILLED"]
     F08["08_METEO_PREC_GAPFILLED_2004-2025<br/>PREC_TOT_T1_47_1<br/>PREC_TOT_T1_47_1_HOMOGENIZED<br/>FLAG_..._SOURCE<br/>FLAG_..._ISFILLED"]
+    F09["09_METEO_SWC_FF1_2004-2025<br/>SWC_FF1_*_1, 5 depths<br/>..._HOMOGENIZED, 4 of 5<br/>FLAG_..._SOURCE"]
+    F10["10_METEO_TS_FF1_2004-2025<br/>18 individual channels<br/>TS_FF1_*_HOMOGENIZED_GAPFILLED, 7 depths<br/>FLAG_..._METHOD, FLAG_..._SUSPECT"]
     F99["99_METEO_MERGED_2004-2025<br/>all value + flag columns"]
 
     %% ---------- database reads ----------
-    DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08
+    DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08 & N09
+    DB --> TSSCR --> N10
 
     %% ---------- reference reads ----------
     MSLAE -->|SW_IN_LAE_MS| N01
@@ -61,6 +73,8 @@ flowchart LR
     N06 --> F06
     N07 --> F07
     N08 --> F08
+    N09 --> F09
+    N10 --> F10
     N99 --> F99
 
     %% ---------- product -> product ----------
@@ -68,30 +82,34 @@ flowchart LR
     F01 -->|SW_IN_gfXG as gap-fill driver| N03
     F02 -->|TA_gfXG| N07
     F04 -->|RH| N07
+    F02 -.->|TA_gfXG, diagnostic| N10
 
     %% ---------- the merge ----------
-    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 --> N99
+    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 & F09 --> N99
 
     classDef gf fill:#E3F2FD,stroke:#1976D2,color:#000
     classDef meas fill:#F1F8E9,stroke:#689F38,color:#000
     classDef calc fill:#FFF3E0,stroke:#F57C00,color:#000
     classDef src fill:#ECEFF1,stroke:#607D8B,color:#000
-    class F01,F02,F03,F08 gf
-    class F04,F05,F06 meas
+    class F01,F02,F03,F08,F10 gf
+    class F04,F05,F06,F09 meas
     class F07 calc
-    class DB,MSLAE,MSOED,MSREG src
+    class DB,MSLAE,MSOED,MSREG,TSSCR src
 ```
 
 ## Reading the diagram
 
 **Blue products are gap-filled or reference-filled** (`SW_IN`, `TA`, `PPFD_IN`,
-`PREC`), **green products ship as measured** (`RH`, `PA`, `LW_IN`), and the
-**orange product is computed** from other products (`VPD`).
+`PREC`, `TS`), **green products ship as measured** (`RH`, `PA`, `LW_IN`, `SWC`),
+and the **orange product is computed** from other products (`VPD`).
 
 A few things the edges make explicit:
 
-- **Every notebook except `07` reads the database.** `07` downloads nothing at
-  all: it reads two finished product files and applies a formula.
+- **Two notebooks do not read the database.** `07` downloads nothing at all: it
+  reads two finished product files and applies a formula. `10` reads the database
+  indirectly, through the screened `TS` files that
+  `TS_FF1_SCREENED_30MIN_2004-2025` downloads once, so that the 34 channels are
+  not re-queried every time a decision in `10` is revisited.
 - **`01` is the hub of the chain.** Its gap-filled `SW_IN_T1_47_1_gfXG` is a
   driver in both the `TA` and the `PPFD_IN` gap-fill models, which is why the
   order `01` → `02` / `03` is real and not just a naming convention.
@@ -107,12 +125,18 @@ A few things the edges make explicit:
 - **`05` reads the MeteoSwiss pressure as a diagnostic only** (dashed): it checks
   the tower record but never writes a value into it. The NABEL hut barometer it
   also downloads is likewise diagnostic and is not exported.
+- **The two soil products have no external reference.** `09` (`SWC`) and `10`
+  (`TS`) are checked against the other depths of their own profile. `10`
+  additionally reads `02`'s gap-filled air temperature as a diagnostic (dashed),
+  which cannot validate any single depth but would catch a whole-profile error
+  such as a wrong file, a wrong unit or a shifted year.
 
 ## What `99` merges
 
 Notebook `99` concatenates the value and flag columns of the individual products
 into one half-hourly table and re-checks the joined index. Its `PRODUCTS` list
-covers `01`–`08`, sixteen columns in all.
+covers `01`–`09`, 30 columns in all. **`10` (`TS`) is not merged**: its 35
+columns are read from the `TS` product file directly.
 
 `PREC` is the only product that enters the merge **twice**, because it exports
 two value columns: the measured series and the homogenised one. It is listed as
@@ -125,7 +149,7 @@ Three products may legitimately contain `NaN` in the merged file. `05` (`PA`) an
 reference to fill them from. The merge check carries a reason for each and
 asserts completeness for everything else.
 
-One more thing `99` had to learn for precipitation: **rain sums, it does not
-average**. Every entry in `PRODUCTS` now names its aggregation, because a daily
-"mean" of 30-minute rainfall is about 0.05 mm and means nothing to anyone,
-whereas a daily total is the number people recognise.
+Precipitation aggregates differently from the other products: **rainfall sums,
+it does not average**. Every entry in `PRODUCTS` therefore names its
+aggregation. A daily mean of 30-minute rainfall is approximately 0.05 mm and is
+not an interpretable quantity, whereas the daily total is.
