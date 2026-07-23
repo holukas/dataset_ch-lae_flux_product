@@ -466,6 +466,23 @@ The shape below is deliberate — follow it when adding a variable.
 - Two Pandoc gotchas in narrative text: use `***` for horizontal rules (a bare
   `---` line is parsed as a YAML block and breaks the build), and escape a stray
   `@word` as `\@word` so it isn't treated as a citation key.
+- **Register: this is scientific documentation. Headings and prose stay neutral
+  and professional.** No colloquialisms, no jokes, no second-person warnings
+  dressed up as banter. Write `## Known limitations`, not
+  `## What will bite you`; `reads approximately 25 % low`, not `reads a quarter
+  low`; `their gaps are retained`, not `their gaps stay gaps`. The register is
+  that of a data-product manual a stranger will cite, not that of a commit
+  message. This applies to the published `docs/` pages **and** to notebook
+  markdown, since the notebooks render as site pages too. Direct imperatives
+  addressed to the reader (`Filter on the flag before …`) are fine and are not
+  what this rules out.
+- **A page under `docs/` is written for the person using the data**: which
+  columns exist, units, period, coverage, which provenance flag to filter on,
+  and the known limitations. Keep it concise and leave the method narrative to
+  the notebooks the page links to — they already carry the full evidence trail,
+  and repeating it on the page buries the few facts a data user needs. Verify
+  column names, units and coverage against the exported files, not against the
+  notebook prose.
 - Published to GitHub Pages via `ghp-import` (point it at `docs/_build/html`).
   Quarto uses relative asset paths, so the project subpath works with no extra
   env vars.
