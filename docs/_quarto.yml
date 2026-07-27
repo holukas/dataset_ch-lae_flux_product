@@ -16,7 +16,12 @@ date-format: "D MMMM YYYY"
 
 website:
   title: "CH-LAE Flux Product"
-  favicon: logo.png
+  # Multi-resolution .ico (16/24/32/48/64/128/256): browsers pick the frame that
+  # fits, and each frame is drawn at its own size rather than downscaled from one
+  # bitmap, so the 16 px tab icon stays legible. favicon.svg and favicon.png (512)
+  # sit alongside for reuse (social cards, apple-touch) but Quarto emits only one
+  # icon link, so they are not referenced here.
+  favicon: favicon.ico
   search: true
   # Prev/next links at the bottom of each page, and a "back to top" control.
   page-navigation: true
@@ -31,6 +36,15 @@ website:
   sidebar:
     style: floating
     collapse-level: 1
+    # `logo`/`logo-alt` belong to the sidebar (or navbar), NOT to `website:`
+    # directly — Quarto rejects the project file outright if they sit a level up.
+    # Same spruce-and-beech mark as the favicon, so the tab icon and the sidebar
+    # agree. It keeps its petrol tile rather than a transparent background: the
+    # trunks are white and would vanish against a light page, and the site
+    # renders in both a light and a dark theme. (Quarto would also accept a
+    # light/dark pair here; one tiled mark covers both, so it takes a plain path.)
+    logo: logo.png
+    logo-alt: "Spruce and beech, the mixed stand at CH-LAE Lägern"
     # Structure mirrors the sibling CH-CHA flux-product site. CH-LAE keeps the
     # extra Level-1.1 self-heating-correction page (open-path LI-7500); most of
     # the non-flux pages are stubs to be filled in.

@@ -11,7 +11,9 @@ publish them as a website.
 ## Layout
 
 - `docs/` — the published Quarto website. Curated narrative pages (`*.md`, plus
-  `FPC.qmd`), `images/`, `logo.png`, `references.bib`, `styles.css`, and
+  `FPC.qmd`), `images/`, the site mark (`logo.png`/`.svg` for the sidebar,
+  `favicon.ico`/`.svg`/`.png` for the tab icon — the same artwork, so the two
+  must be regenerated together), `references.bib`, `styles.css`, and
   `_quarto.yml` (single config). This is the reader-facing artifact and is kept
   clean. Only pages listed in `_quarto.yml`'s `website.sidebar.contents` are in
   the nav. Build output lands in `docs/_build/html/` (gitignored).
@@ -517,8 +519,16 @@ stragglers.
   list. Keep `output-dir`, the theme pair, `lightbox`, `search`, and
   `date-modified` as-is unless a site asks otherwise.
 - **`docs/` content** — replace the narrative pages, `references.bib`, `images/`,
-  and `logo.png` (favicon). The page set differs per site; only Stage-30 FPC
-  pages that carry a mermaid cell need to be `.qmd` (see Docs).
+  and the site mark (`logo.*` + `favicon.*`, plus `website.logo-alt`). The page
+  set differs per site; only Stage-30 FPC pages that carry a mermaid cell need to
+  be `.qmd` (see Docs). The mark depicts **this** site's stand — spruce and beech
+  for the mixed forest at Lägern — in colours sampled from the site banner
+  (`images/logo1.jpg`), so another site needs its own artwork, not a recolour.
+  Three things the drawing has to respect: the `.svg` is the editable source and
+  the raster files are generated from it; the `.ico` must carry a hand-drawn
+  16 px frame rather than a downscale of the 256 px one; and foliage must differ
+  in **value** from the tile, not just in hue — a first draft used a dark spruce
+  that vanished into the petrol background below 24 px.
 - **`pyproject.toml`** — `project.name`, `description`, `authors`. Keep the dep
   groups and `[tool.uv.sources]` (the `../../diive` editable path) unless the
   sibling-repo layout differs on that machine. Keep the `[db]` extra on `diive`
