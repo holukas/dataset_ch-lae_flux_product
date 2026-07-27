@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>CH-LAE Flux Product</title>
+  <rect width="256" height="256" rx="46" fill="#054766"/>
+  <polygon points="85,196 103,196 108,230 80,230" fill="#ffffff"/>
+  <g fill="#67c5aa">
+    <polygon points="94,26 136,100 52,100"/>
+    <polygon points="94,66 150,152 38,152"/>
+    <polygon points="94,106 164,202 24,202"/>
+  </g>
+  <polygon points="168,152 188,152 196,230 160,230" fill="#ffffff"/>
+  <g fill="#b2e6d8">
+    <circle cx="178" cy="96" r="36"/><circle cx="152" cy="142" r="32"/>
+    <circle cx="204" cy="142" r="32"/><circle cx="178" cy="118" r="44"/>
+  </g>
+</svg>
