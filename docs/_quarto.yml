@@ -61,6 +61,7 @@ website:
         contents:
           - Meteo_Data_SW_IN.md
           - Meteo_Data_TA.md
+          - Meteo_Data_PPFD_IN.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
