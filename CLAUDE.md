@@ -242,7 +242,40 @@ before matching or printing.
     once already — in the comments explaining the redaction itself.
   - `python check_no_names.py` scans the repo for any mapped name and exits
     non-zero. Run it before publishing. `docs/index.md`'s acknowledgements are the
-    one deliberate exception: published credit, skipped by the checker.
+    one deliberate exception: published credit, skipped by the checker. A whole
+    file is never skipped where a single **line** will do: an author byline
+    (`**Author**`, `author:`, `page-footer:`) is exempt for the same reason a
+    citation is, so a fieldbook quote pasted onto the same page is still checked.
+- **`build_fieldbook_md.py` renders the whole export as one readable redacted
+  markdown file** (`fieldbook_gin/CH-LAE_fieldbook_redacted_until_<year>.md`,
+  beside the export, not in this repo — it is derived data). It flattens the HTML,
+  drops the Word paste-in boilerplate, repairs the mojibake, splits the legacy
+  block back out under its own dates, and removes what a notebook quoting three
+  entries never had to: e-mail and IP addresses, account names, remote-access
+  ports and paths through somebody's home directory. Rendering *everything*
+  exposed shapes the quoting notebooks never touched, and each cost a bug:
+  - **The `Namelist` column is a name list.** The map was built from entry bodies
+    and knew a fraction of it; the whole-export scan added 53 surface forms and
+    39 people. Surnames that only ever appear beside a mapped first name were the
+    other half of the gap.
+  - **Two nets, only one of which can raise.** The notebooks' two-shape net is
+    kept as the raising check. The wide net — every capitalised token left
+    standing, minus the export's own device vocabulary and minus anything seen
+    lowercase — reports ~600 technical terms to a file and is what actually found
+    the missing people. It cannot raise, for the reason the capitalised-pair shape
+    was rejected above.
+  - **Sanitise before redacting.** Redaction first turns an address into
+    `person 07.person 07@x.ch`, which the e-mail rule then only half removes.
+  - **A case-insensitive second pass is needed** (the record writes `eugenie` and
+    `peter waldner` in lower case) and is dangerous: short mapped forms are
+    ordinary words once lowercased. It runs on forms of five characters or more,
+    minus `redact_ci_exclude.csv` beside the map — outside this repo, because
+    naming the two German nouns concerned here would carry a real surname.
+  - **A bare given name can be a physical constant.** `Stefan` was added and
+    matched `Stefan-Boltzmann` — word boundaries do not see the hyphen. It was
+    removed again; the full form covers the one occurrence in the record.
+  - The extended map immediately found a real name in a stored notebook output,
+    printed before the map knew it. Growing the map is how that is caught.
 - **Read it in the notebook, don't quote it from memory.** Both `20_SCREENING/SWC`
   and `30_PRODUCTS/08` open the csv and filter it in a cell, so the adjudication
   written up next to a removal window can be re-run and challenged instead of

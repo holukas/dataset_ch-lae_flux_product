@@ -37,7 +37,12 @@ SUFFIXES = {".ipynb", ".md", ".qmd", ".py", ".yml", ".yaml", ".ps1"}
 # is the opposite of leaking them. Rather than skipping whole pages - which would also hide a
 # genuine fieldbook quote added to them later - a single LINE is exempt when it is visibly a
 # citation or a credit. Anything else on the page is still checked.
-CREDIT_LINE = re.compile(r"et al\.|Photo:|doi\.org|https?://")
+#
+# The author byline is the same case and was added when the redaction map grew to cover the
+# export's `Namelist` column, which names this repository's own author among everyone else who
+# has worked at the site. Every notebook signs itself, and a signature is credit, not a leak.
+CREDIT_LINE = re.compile(r"et al\.|Photo:|doi\.org|https?://"
+                         r"|(?i:\*\*author\*\*|^\s*author\s*:|page-footer\s*:)")
 
 
 def load_names(map_path: Path) -> dict[str, str]:
