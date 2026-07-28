@@ -290,6 +290,26 @@ before matching or printing.
   candidate dates (the 71-day 2018 transition), the interval gets **its own flag
   code** rather than being assigned to one side.
 
+### The logger programs
+
+The dataloggers' own programs say what a sensor was and how its raw signal was
+converted, which the fieldbook usually does not. They live in the external data
+folder beside `workflow/`, like the fieldbook:
+`...\dataset_ch-lae_flux_product-data\csi_loggerscripts\` (the CR10X `.CSI`
+programs, 2004-2006) and
+`...\logger_scripts\ch-lae_idl_t1_47_1-Version_20160118\` (the CR1000 `.CR1`
+program). They are what dates and identifies the 2016 `TA` change and give both
+eras' calibration constants. **Read them in the notebook, don't quote them** —
+same rule as the fieldbook.
+
+- **They are signed, so they are a personnel record too.** Anything printed from
+  a logger program passes through the same `redact_people()` and
+  `audit_unmapped_names()` nets as the fieldbook.
+- **A program names the channel, not the column.** The raw pre-2016 meteo stream
+  is headerless CR10X *array* files (`logger<date>.aNN`), so a column name such
+  as `AirT_C` comes from the acquisition-side configuration and will not be found
+  in the program; match on the channel and its multiplier instead.
+
 The shape below is deliberate — follow it when adding a variable.
 
 - **Structure of a notebook:** about-this-notebook → data sources → timestamp
@@ -319,8 +339,13 @@ The shape below is deliberate — follow it when adding a variable.
   the magnitude of the data, and prove the exported series does not step there.
 - **A field name is a statement about the variable, not about the instrument.**
   This site reuses one name across sensor generations, and it has caught us
-  three times: `PREC_TOT_T1_47_1` spans two acquisition systems either side of
-  2018; `SWC_FF1_0.3_1` spans two probes with a 327-day dead period between them,
+  four times: `TA_T1_47_1` spans a Rotronic MP101A read as a single-ended analog
+  voltage (CR10X program, multiplier 0.1, offset 0 — 10 mV per °C) and a Campbell
+  CS215 on SDI-12 (CR1000 program, multiplier 1), sensor and acquisition replaced
+  together on 2016-01-21; the analog chain carried a constant ≈ -11 mV zero-point
+  error, so the pre-2016 record reads ≈ 1.3 °C too cold; `PREC_TOT_T1_47_1`
+  spans two acquisition systems either side of 2018; `SWC_FF1_0.3_1` spans two
+  probes with a 327-day dead period between them,
   the second installed 40 cm downslope; and every `SWC_FF1_*` name carries the
   **old EC-20 profile** under `meteoscreening_mst` back to 2004 — the
   MeteoScreeningTool screened the earlier sensors and stored them under the later
@@ -331,8 +356,11 @@ The shape below is deliberate — follow it when adding a variable.
   before splicing. Where they do not (`SWC`), the step cannot be calibrated away
   and the honest product is a **`SOURCE` flag naming the sensor generation** —
   optionally with a `_HOMOGENIZED` second column, which must then say out loud
-  that its rescaling rests on climatology rather than on an overlap. Never let a
-  name imply a continuity the hardware does not have: FLUXNET's `SWC_F_MDS_*`
+  what its rescaling rests on: climatology where nothing spans the break (`SWC`),
+  but an independent co-located sensor where one does (`02` raises its pre-2016
+  era by +1.3197 °C against NABEL at 49 m on the same tower, an offset a hold-out
+  can test — see below). Never let a name imply a continuity the hardware does
+  not have: FLUXNET's `SWC_F_MDS_*`
   splices these two eras with a +9 to +12 % VWC step passed straight through,
   which is the outcome to avoid reproducing.
 - **A `data_version` filter is not a tag filter.** Within one field and data
@@ -366,15 +394,22 @@ The shape below is deliberate — follow it when adding a variable.
     test, not a window to copy — and the MOXA clock faults of Aug/Sep/Oct 2012
     are a *fourth* thing again, belonging to the eddy acquisition computer.
 - **Completeness is per variable, not a house style.** `01`-`03` are gap-filled
-  products and carry an `ISFILLED` flag naming the model that produced a value.
+  products and carry an `ISFILLED` flag naming the model that produced a value;
+  `02` gained a code `5` for records reconstructed from the co-located NABEL
+  sensor at 49 m, because the timestamp-only fallback that had been filling them
+  (code `2`) produces climatology, not weather. `02` is also the one product that
+  is *both* gap-filled and inhomogeneous, so it exports four columns on the
+  `08`/`09` pattern — measured, `ISFILLED`, `_HOMOGENIZED`, and a `SOURCE` flag
+  naming the acquisition era (`0` CS215, `1` MP101A, `2` changeover, era
+  undetermined, `3` before the tower record begins).
   `04` is reconstructed from a co-located sensor (a transfer between two
   measurements of the same quantity) and carries a `FLAG_<var>_MISSING`
   provenance flag: `0` measured, `1` never measured, `2` removed here,
   `3` reconstructed. `05`/`06` are exported as measured with no flag. `07` is
   computed by formula from finished products and its flag says what it was
-  computed *from*. `08` and `09` export a **second, derived value column**
-  alongside the measured one: `08` a `_HOMOGENIZED` rescaling of its pre-2018
-  era, with its own `SOURCE` flag naming the acquisition era beside its
+  computed *from*. `08` and `09` likewise export a **second, derived value
+  column** alongside the measured one: `08` a `_HOMOGENIZED` rescaling of its
+  pre-2018 era, with its own `SOURCE` flag naming the acquisition era beside its
   `ISFILLED` flag; `09` a `_HOMOGENIZED` column per depth (four of five — 0.5 m
   has a single era and deliberately gets none, because a duplicate column invites
   someone to difference it, get zero and conclude the record is homogeneous) plus
@@ -387,6 +422,38 @@ The shape below is deliberate — follow it when adding a variable.
   "never measured" must be captured *before* any correction that can write a
   value into a missing record (notebook `03`'s nighttime zero-offset did
   exactly that and made 7,543 modelled values look measured).
+- **Never train a gap-filling model across an instrument change.** One model
+  spanning the 2016 `TA` sensor change put its filled records on neither era's
+  level, which silently invalidated the homogenisation offset for exactly those
+  records. `02` therefore fits three periods, and its two boundaries exist for
+  different reasons — the sensor change, and the loss of a driver where the NABEL
+  reference ends. Say which boundary is which; a reader assumes both are hardware.
+- **An audit that averages over a group can hide two opposite errors that
+  cancel.** In `02` a per-year check passed on a year holding 11,150 records
+  1.1 °C too cold and 1,495 records 5.5 °C too warm. Assert per year **and per
+  fill method**: populations produced by different models have no reason to
+  agree, so a statistic over their union is a statistic about neither.
+- **A check whose reference is fitted on the very records it tests cannot fail.**
+  A correction derived as `mean(reference) - mean(window)` and then "verified"
+  against that same reference reports a departure of exactly zero by
+  construction. The non-circular form is a hold-out: refit excluding the period,
+  predict it, and judge the departure against the irreducible scatter between the
+  two sensors.
+- **A level test cannot catch a fill with the right mean and no weather in it**,
+  so pair it with a **spread** test against a reference — a timestamp-only
+  climatology scatters several degrees more widely than a measurement does. The
+  gate only works in one direction, though: records built from a fitted line
+  scatter *less* than a measurement, so for those neither level nor spread is
+  evidence and the hold-out is what supports them.
+- **Compute the figure in the notebook rather than quoting it in prose.**
+  Several numbers written into `02`'s markdown went stale within a day of being
+  written; an f-string off the live object cannot. Same rule as the SWC audit
+  recomputing its own justification.
+- **Statistics over measured records only and over the complete gap-filled
+  column disagree** — by 0.085 °C on a period difference in `02` — because a
+  measured-only mean is seasonally biased wherever a year's gaps cluster. Report
+  both and label which is which, rather than letting a reader discover the
+  discrepancy and distrust the product.
 - Site-specific bits (variable names, sensor heights, fieldbook entries, the
   co-located NABEL reference) do **not** carry over to another site; the
   notebook structure and the checks do.
@@ -402,6 +469,10 @@ The shape below is deliberate — follow it when adding a variable.
   groups are local to the project that declares them and are not part of published
   metadata — `uv sync --group db` only works *inside* diive, so from here the extra
   is the only way to get it.
+- **`scipy` is declared directly**, not relied on through `diive`:
+  `30_PRODUCTS/02` imports it itself for Theil-Sen and Kendall's tau, and an
+  import that only works transitively breaks the day the dependency it travels
+  through drops it.
 
 ## Docs
 
