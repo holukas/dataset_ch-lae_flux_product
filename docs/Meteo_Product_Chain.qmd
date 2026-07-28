@@ -40,7 +40,7 @@ flowchart LR
 
     %% ---------- products ----------
     F01["01_METEO_SW_IN_GAPFILLED_2004-2025<br/>SW_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
-    F02["02_METEO_TA_GAPFILLED_2004-2025<br/>TA_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F02["02_METEO_TA_GAPFILLED_2004-2025<br/>TA_T1_47_1_gfXG<br/>TA_T1_47_1_HOMOGENIZED_gfXG<br/>FLAG_..._ISFILLED<br/>FLAG_..._SOURCE"]
     F03["03_METEO_PPFD_IN_GAPFILLED_2004-2025<br/>PPFD_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
     F04["04_METEO_RH_CORRECTED_2004-2025<br/>RH_T1_47_1<br/>FLAG_..._MISSING"]
     F05["05_METEO_PA_2005-2025<br/>PA_T1_47_1<br/>no flag"]
@@ -138,10 +138,11 @@ into one half-hourly table and re-checks the joined index. Its `PRODUCTS` list
 covers `01`–`09`, 30 columns in all. **`10` (`TS`) is not merged**: its 35
 columns are read from the `TS` product file directly.
 
-`PREC` is the only product that enters the merge **twice**, because it exports
-two value columns: the measured series and the homogenised one. It is listed as
-two entries so that each gets its own overview figure, and the loader skips a
-column it has already taken so the shared file cannot be merged in twice.
+`TA`, `PREC` and four of the five `SWC` depths enter the merge **twice**, because
+each exports two value columns: the measured series and the homogenised one.
+Each is listed as two entries so that both get their own overview figure, and the
+loader skips a column it has already taken, so a shared file cannot be merged in
+twice.
 
 Three products may legitimately contain `NaN` in the merged file. `05` (`PA`) and
 `06` (`LW_IN`) export as measured and their sensors start in September 2005;
