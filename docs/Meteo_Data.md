@@ -17,7 +17,8 @@ Two conventions apply to every product.
 | variable | unit | period | coverage | provenance flag |
 |---|---|---|---|---|
 | `SW_IN_T1_47_1_gfXG` | W m^-2^ | 2004-2025 | 100 % | `ISFILLED` |
-| `TA_T1_47_1_gfXG` | °C | 2004-2025 | 100 % | `ISFILLED` |
+| `TA_T1_47_1_gfXG` | °C | 2004-2025 | 100 % | `ISFILLED` + `SOURCE` |
+| `TA_T1_47_1_HOMOGENIZED_gfXG` | °C | 2004-2025 | 100 % | `ISFILLED` + `SOURCE` |
 | `PPFD_IN_T1_47_1_gfXG` | µmol m^-2^ s^-1^ | 2004-2025 | 100 % | `ISFILLED` |
 | `RH_T1_47_1` | % | 2004-2025 | 100 % | `MISSING` |
 | `PA_T1_47_1` | kPa | 2005-2025 | 98.9 % | none, gaps left in |
@@ -36,12 +37,13 @@ Flag names are given by their suffix; the full column is `FLAG_<variable>_<suffi
 
 A `_HOMOGENIZED` or `_GAPFILLED` column sits beside the measured one rather than replacing it, so the measured record remains recoverable.
 
-**`_HOMOGENIZED`** rescales an earlier era onto the level of the later one where a hardware change produced a step in the raw values. This makes the two eras comparable; it does not make either era more accurate, and the instrument's own biases are unaffected. `PREC` carries one because its acquisition system changed in 2018, `SWC` one per depth because the soil profile was replaced in 2020.
+**`_HOMOGENIZED`** rescales an earlier era onto the level of the later one where a hardware change produced a step in the raw values. This makes the two eras comparable; it does not make either era more accurate, and the instrument's own biases are unaffected. `TA` carries one because its sensor and acquisition system were replaced together in January 2016, `PREC` one because its acquisition system changed in 2018, `SWC` one per depth because the soil profile was replaced in 2020.
 
 **`_GAPFILLED`** indicates that a model produced some of the values. For `TS` the model is a regression on the remaining depths of the profile, and the `METHOD` flag identifies which values are measured and which are modelled.
 
 ### Known limitations
 
+- **`TA` is not homogeneous across 21 January 2016.** The 47 m sensor and its acquisition system were replaced together on that date, and the measured column reads approximately 1.3 °C too cold before it. Use `TA_T1_47_1_HOMOGENIZED_gfXG` for anything crossing that date, and see [Air temperature at 47 m](Meteo_Data_TA.html) for the columns, flag codes and the limitations of the correction.
 - **`PREC` provides two value columns serving different purposes.** Use the measured column for the recorded gauge amounts, and the `_HOMOGENIZED` column for analyses spanning mid-2018, where the acquisition change causes the earlier era to read approximately 25 % low.
 - **`SWC` spans two sensor generations that changed in 2020 without an overlap period.** The resulting step is approximately +8 to +11 % VWC. The `_HOMOGENIZED` columns remove it on the basis of climatology rather than a measured offset. No such column is provided at 0.5 m, which has a single era.
 - **`TS` diurnal and seasonal amplitudes are not comparable across April 2020.** The earlier sensors were more closely coupled to the surface than the present ones at the same nominal depth, so the amplitude changes with the hardware. Levels are reconciled between eras; amplitudes are not.
