@@ -17,7 +17,7 @@ variable is in the products described below either way.
 
 | parameter | measures | page |
 |---|---|---|
-| `SW_IN` | incoming shortwave radiation | in preparation |
+| `SW_IN` | incoming shortwave radiation | [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html) |
 | `TA` | air temperature at 47 m | [Air temperature at 47 m](Meteo_Data_TA.html) |
 | `PPFD_IN` | photosynthetic photon flux density | in preparation |
 | `RH` | relative humidity | in preparation |
@@ -69,7 +69,10 @@ A `_HOMOGENIZED` or `_GAPFILLED` column sits beside the measured one rather than
 
 ### Known limitations
 
+- **`SW_IN` reads a few per cent high from 2013.** The 47 m radiometer departs from all three of its references simultaneously, by approximately 3 %, developing over about three years rather than stepping at a date. No maintenance record covers it and it is not corrected; see [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html). The `SW_IN` record is otherwise homogeneous, including across the January 2016 acquisition change that moved `TA` and the December 2021 replacement of the radiometer itself.
 - **`TA` is not homogeneous across 21 January 2016.** The 47 m sensor and its acquisition system were replaced together on that date. The measured column reads approximately 1.3 °C too cold before it and also responds differently to sunshine. Use `TA_T1_47_1_HOMOGENIZED_gfXG` for anything crossing that date, and see [Air temperature at 47 m](Meteo_Data_TA.html) for the columns, flag codes and the limitations of the correction.
+- **`PPFD_IN` has been losing response since 2021.** The 47 m quantum sensor reads progressively lower against both the co-located pyranometer and MeteoSwiss Lägern, by approximately 3 to 4 % between 2021 and 2025 and 6 to 7 % below its 2006-2010 level, and the record ends while the decline is in progress. It is exported as measured, so a trend computed over the recent years contains the sensor's own drift. Within-year comparisons are unaffected. The attribution is in [`RADIATION_SENSOR_CONTINUITY`](notebooks/10_METEO/30_PRODUCTS/RADIATION_SENSOR_CONTINUITY.html).
+- **The MeteoSwiss Lägern radiation reference changed level in October 2010.** That station's radiation instrumentation was rebuilt, and its global radiation steps by approximately 5 %. It remains a sound gap-filling driver for `SW_IN` and `PPFD_IN`, but a difference between a tower product and MeteoSwiss Lägern must not be read as evidence about the tower across that date.
 - **`PREC` provides two value columns serving different purposes.** Use the measured column for the recorded gauge amounts, and the `_HOMOGENIZED` column for analyses spanning mid-2018, where the acquisition change causes the earlier era to read approximately 25 % low.
 - **`SWC` spans two sensor generations that changed in 2020 without an overlap period.** The resulting step is approximately +8 to +11 % VWC. The `_HOMOGENIZED` columns remove it on the basis of climatology rather than a measured offset. No such column is provided at 0.5 m, which has a single era.
 - **`TS` diurnal and seasonal amplitudes are not comparable across April 2020.** The earlier sensors were more closely coupled to the surface than the present ones at the same nominal depth, so the amplitude changes with the hardware. Levels are reconciled between eras; amplitudes are not.

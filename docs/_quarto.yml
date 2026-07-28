@@ -51,10 +51,16 @@ website:
     contents:
       - index.md
       - Overview.md
-      - Meteo_Data.md
-      # Per-variable detail page for the 47 m air-temperature product, linked
-      # from the TA row and the TA limitation in Meteo_Data.md.
-      - Meteo_Data_TA.md
+      # The per-variable detail pages are nested under Meteo_Data.md rather than
+      # listed beside it, so the sidebar collapses them: there will eventually be
+      # ten of them and they would otherwise crowd out every other page. Same
+      # `section:` construction as FPC.qmd below, which keeps Meteo_Data.md itself
+      # a link rather than turning it into a bare heading. Listed in the same
+      # order as the parameter table at the top of Meteo_Data.md.
+      - section: Meteo_Data.md
+        contents:
+          - Meteo_Data_SW_IN.md
+          - Meteo_Data_TA.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
