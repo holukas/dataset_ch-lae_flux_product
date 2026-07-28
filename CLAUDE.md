@@ -191,6 +191,14 @@ principled answer to "what number is the new one?".
   the winner would require. **A rejection recorded in prose is a hypothesis, not
   a result** — three objections that had a two-sided `TA` correction rejected were
   written down as settled, and when finally measured none of them held.
+  Where the question spans several variables the prefix is the **group**, not one
+  `<VAR>`: `RADIATION_SENSOR_CONTINUITY.ipynb` attributes every level change in
+  the site's radiation record and necessarily reads `SW_IN`, `PPFD_IN` and both
+  references at once, because the attribution *is* the comparison between them.
+  Same precedent as `09` covering five `SWC` depths — a depth, like a radiation
+  sensor here, is only interpretable next to its neighbours. Such a notebook still
+  exports nothing, and the product notebooks carry the conclusions plus their own
+  guarding assertions rather than deferring to it.
   `99_METEO_MERGED_2004-2025.ipynb` is the capstone: it runs last, joins the
   products of `01`-`08` onto one 30MIN `TIMESTAMP_MID` index with their
   provenance flags, and draws one overview figure per series. It **computes and
@@ -317,6 +325,29 @@ same rule as the fieldbook.
   is headerless CR10X *array* files (`logger<date>.aNN`), so a column name such
   as `AirT_C` comes from the acquisition-side configuration and will not be found
   in the program; match on the channel and its multiplier instead.
+- **There is more than one CR10X program, and reading all of them is the point.**
+  Six `LAEGEREN.*.CSI` files span 2004-2006. The three from 2004 measure **no**
+  incoming shortwave — their comments record that the radiometer's channels then
+  carried a PAR sensor — and the CNR1 instruction first appears in the program
+  dated **14 September 2005**, which is the day the tower `SW_IN` record begins.
+  A date derived from a program and confirmed by the data is worth an assertion.
+- **Parse the constants out of the program text; do not read them off once.**
+  `01` extracts the multiplier and offset from every program that measures the
+  sensor and asserts they are all identical (`99.7009` and `0`, i.e. 1000/10.03
+  for a Kipp & Zonen CNR1, SN 020484 — the same instrument before and after 2016).
+  The two program languages write the same two numbers differently, so the parser
+  matches each shape separately and **raises** rather than returning an empty dict
+  that would agree with anything.
+- **Say what the programs cover and what they do not.** No tower program between
+  May 2006 and January 2016 survives on disk, so the constants could in principle
+  have changed and changed back inside that gap. The programs establish two
+  endpoints; the data have to cover the interval between them.
+- **The redaction net fires on logger-program syntax too.** `Diff` (from
+  `Volt (Diff) (P2)`) and `Kin` (from `Messung von Kin`) are name-shaped and were
+  added to `redact_allow.csv` — the sanctioned fix, since that file lives beside
+  the map outside this repository. Adding a row: the reason field is free text, so
+  **quote it or keep commas out of it**, or the csv gains a third column and every
+  later read raises a tokenizing error.
 
 The shape below is deliberate — follow it when adding a variable.
 
@@ -392,6 +423,71 @@ The shape below is deliberate — follow it when adding a variable.
   extrapolated beyond its fitting reference, say so and test it there: `02`'s
   shield term is fitted on three NABEL years and applied over ten, and the
   extrapolated years land within 0.03 °C of the earlier era's own level.
+- **A hardware change is a hypothesis about the data, not a finding.** The 2016
+  acquisition change moved `TA` by 1.3 °C, so it was assumed to have moved `SW_IN`
+  as well. It did not, and `01` now carries the negative result with the
+  assertions that keep it true. **A negative result is a result** and is worth a
+  section: without one the question gets re-opened every time someone notices the
+  date. The rule generalises — ask what each hardware change actually replaced.
+  For `TA` the sensor *and* its conversion changed; for `SW_IN` the 2016 change
+  swapped only the logger, and the real sensor change is **December 2021**
+  (CNR1 → CNR4, sensitivity 10.03 → 13.89 µV/W/m²), which no one had looked at.
+  Neither moved the series.
+- **Radiation errors are multiplicative, so compare radiation in ratios.** A
+  sensitivity 3 % wrong reads 3 % low at every irradiance, so a difference mixes
+  the error with the weather and a ratio does not. Three controls belong in the
+  helper rather than at each call site, because each of them manufactured a change
+  that was not one while this was being written:
+  - **season** — monthly medians averaged over calendar months, restricted to
+    April-September, because snow and rime on an upward-facing sensor and the
+    horizon differences between two sites at low sun both read as calibration;
+  - **illumination** — select on *potential* radiation, which is astronomical and
+    cannot drift; selecting on a measured series biases the ratio towards it;
+  - **how sunny the year was** — a ratio between two sensors is immune, a ratio
+    against potential radiation is **not**. A clear-sky index rises in a sunny
+    year because more half-hours sit near the envelope. An earlier pass read that
+    as a drift of the tower and attributed the 2011 event to the wrong station.
+- **With *n* sensors there are *n(n−1)/2* ratios, and the pattern of which ones
+  move names the sensor.** Each sensor appears in *n−1* of them, so a change at
+  one moves exactly its own ratios. This is `02`'s step 3️⃣ generalised, and
+  `RADIATION_SENSOR_CONTINUITY.ipynb` implements it as a `moved()` rule that
+  **returns no sensor when the pattern does not identify one** — two sensors
+  moving at once looks exactly like a table with several large entries. Three
+  sensors suffice only while all three overlap: NABEL ends in 2018, which is why
+  the co-located `PPFD_IN` sensor is the fourth witness and why the post-2018
+  period is decidable at all. The rule caught a real trap — across the Dec 2021
+  radiometer swap the pair `SW_IN`/`PPFD_IN` moves, but because the **PAR sensor**
+  is drifting, not the pyranometer. **A ratio says two sensors separated, never
+  which of them left.**
+- **A reference can be the thing that moved.** MeteoSwiss Lägern steps by about
+  5 % on **6 October 2010** — three tower-side sensors from two institutions step
+  against it together and not against each other. The cause is in the reference
+  file itself: `SW_IN_DIFF_LAE_MS` begins on exactly that timestamp, so the
+  station's radiation instrumentation was rebuilt. It remains a sound gap-filling
+  driver, because a driver supplies the *state of the sky* and a scale change does
+  not alter which half-hours were cloudy — but **a tower-minus-Lägern difference
+  is not evidence about the tower across that date**. `01` and `03` use it as a
+  driver; `02` and `TA_HOMOGENIZATION_OPTIONS` only as a binning covariate.
+- **Not everything found has to be corrected, and saying so is the deliverable.**
+  Two real changes in this record are left in place and documented instead: the
+  tower pyranometer rising ~3 % from 2013, and `PPFD_IN` falling ~7 % since 2021
+  and still falling. Both develop over years rather than stepping at a date, so
+  there is no boundary at which a correction could be applied, and neither has a
+  fieldbook entry naming a cause. Correcting an unattributed drift towards a
+  reference replaces a measurement with a guess.
+- **A threshold below the measurement's own noise is mis-set, not strict.** `01`'s
+  first 2016 guard was `< 1.0 %` and the data came in at −0.99 % — one hundredth
+  of a percent from firing on *nothing having happened*, because the wall sat
+  below the median ordinary-year change of the same statistic. Derive the
+  threshold from what the record does in a quiet year, assert that it stays above
+  that, and pair it with a relative test (the change here is smaller than the
+  worst change elsewhere). This is not the same as relaxing a guard: a guard that
+  cannot distinguish signal from its own scatter never had a chance of being
+  informative.
+- **Assert on the pairs the change could physically have touched.** `01`'s first
+  version asserted on all three pairwise ratios at 2016 and failed — on the pair
+  between the two *references*, which a change to this tower's logger cannot have
+  moved. Say which subset the assertion covers and why.
 - **Choosing a model order needs a shape criterion as well as an error.** A
   record-weighted RMSE is dominated by the bulk of the data — for a radiation
   term, the many half-hours at low sun — so a curve can be wrong by several tenths
@@ -424,6 +520,30 @@ The shape below is deliberate — follow it when adding a variable.
   added to `PRODUCTS` later then cannot arrive without a caption, and one whose
   aggregation or flag column changes cannot keep a caption describing what it
   used to be.
+  - **A plotting helper called from more than one place owns its caption.** `01`'s
+    four gap-filling helpers each build theirs from the arguments and the data
+    they were handed, so the second call site cannot arrive without one. Only
+    raw dataframe echoes, `%%time` output, diive's own `report()` and the save
+    confirmation go uncaptioned — that is the line `02` draws and the one to
+    follow.
+  - **Look at the figure before believing the caption.** Two captions in `01`
+    were wrong about their own panels — one described a spike at exactly zero as
+    "a few W m-2 wide", another said two fitted lines were "almost on top of each
+    other" when the panel, once its clipped y-range was fixed, showed them
+    converging from a visible separation. Extract the rendered PNGs and read
+    them; a caption is a claim about a picture, and it is checkable.
+- **A visual is worth adding wherever a table states a number that has a shape.**
+  `01` gained seven figures on this principle: the nighttime offset had a summary
+  table and no plot, and the plot is what shows the offset *drifts* — which is
+  the whole reason it is removed per day rather than as a constant. Likewise a
+  `describe()` of the two gap-filling drivers said they cover a similar range; the
+  hexbin says NABEL tracks the tower at RMSE 41 W m⁻² and MeteoSwiss at 69, which
+  is the actual reason the record is filled in two periods.
+- **Pair a level check with a spread check on the fills themselves.** `01` plots
+  the clearness-index distribution of measured against model-filled records: they
+  should have the same *shape*, including the overcast tail. A filled
+  distribution that is narrower, or that has lost the tail, is climatology
+  wearing the right mean. Same idea as `02`'s spread test against a reference.
 - **The 2012 faults are site history and recur in every variable:** the
   17 Aug 2012 logger clock error (+15.5 h shift of one block), the late-July/
   August power supply failure, and the Oct/Nov storm damage. Windows are always
@@ -443,7 +563,12 @@ The shape below is deliberate — follow it when adding a variable.
     test, not a window to copy — and the MOXA clock faults of Aug/Sep/Oct 2012
     are a *fourth* thing again, belonging to the eddy acquisition computer.
 - **Completeness is per variable, not a house style.** `01`-`03` are gap-filled
-  products and carry an `ISFILLED` flag naming the model that produced a value;
+  products and carry an `ISFILLED` flag naming the model that produced a value.
+  `01` and `03` export **two columns only** — measured-and-filled plus `ISFILLED`
+  — and deliberately no `_HOMOGENIZED` column, because both series were tested at
+  their hardware changes and neither steps. That absence is a claim, so it is the
+  claim the notebook asserts; `09` makes the same point in the other direction by
+  refusing a duplicate column at the one `SWC` depth with a single era.
   `02` gained a code `5` for records reconstructed from the co-located NABEL
   sensor at 49 m, because the timestamp-only fallback that had been filling them
   (code `2`) produces climatology, not weather. `02` is also the one product that
@@ -615,14 +740,19 @@ The shape below is deliberate — follow it when adding a variable.
   column names, units and coverage against the exported files, not against the
   notebook prose.
 - **Every meteo parameter gets its own page**, named `Meteo_Data_<VAR>.md`
-  (`Meteo_Data_TA.md` is the first). `Meteo_Data.md` stays general — the
+  (`Meteo_Data_TA.md`, then `Meteo_Data_SW_IN.md`). `Meteo_Data.md` stays general — the
   conventions shared by all products, the variables table, the known limitations
   worth knowing before picking a variable — and carries a **table of the per-
   variable pages at the top**, listing all ten parameters whether or not their
   page exists yet, so an entry without a link reads as a page not yet written
   rather than a variable not in the dataset. Adding a page means editing that one
-  cell **and** adding the file to `website.sidebar.contents` in
-  `docs/_quarto.yml`; a page absent from the nav is unreachable.
+  cell **and** adding the file to the nav in `docs/_quarto.yml`; a page absent
+  from the nav is unreachable. The per-variable pages are **nested under
+  `Meteo_Data.md`** with the `section:` construction (the same one `FPC.qmd`
+  uses), not listed beside it: with `collapse-level: 1` the sidebar then ships
+  them collapsed, so ten of them cannot crowd out every other page. Writing
+  `- section: Meteo_Data.md` keeps that page a link in its own right rather than
+  turning it into a bare heading.
 - **Explain what was done in plain terms, and link every notebook that carries
   the evidence.** A per-variable page opens with a short list of the notebooks
   behind it — the one that builds the product, any investigation that settled a
@@ -632,6 +762,16 @@ The shape below is deliberate — follow it when adding a variable.
   in passive shields, which heat up in sun, and the newer one heats more" is the
   register, not the fitted polynomial. Give the size of the effect and the size
   of what is left, and leave the fit to the notebook.
+- **A page says what a variable does *not* need, when a reader would expect it
+  to.** `Meteo_Data_TA.md` opens by telling the reader which of two columns to
+  use; `Meteo_Data_SW_IN.md` opens by explaining why there is only one, since the
+  same 2016 date that split `TA` did not split this variable. A limitation that is
+  a property of an *input* rather than of the product belongs there too — the
+  October 2010 step in the MeteoSwiss driver changes nothing in the file, but it
+  changes what a comparison against that station means.
+- **Verify every number on the page against the exported file, not the notebook
+  prose.** Coverage claims are the easiest to get wrong: "every year from 2006 is
+  at least 93 % measured" was written from memory and 2012 is 92.7 %.
 - Published to GitHub Pages via `ghp-import` (point it at `docs/_build/html`).
   Quarto uses relative asset paths, so the project subpath works with no extra
   env vars.
