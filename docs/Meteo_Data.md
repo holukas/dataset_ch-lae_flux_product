@@ -2,6 +2,32 @@
 
 TODO IN PROGRESS
 
+## Pages for the individual variables
+
+Every meteo parameter gets its own page, carrying its columns, units, coverage,
+flag codes and known limitations, and linking the notebooks that produced it.
+This page stays general: the conventions shared by all products, and the
+limitations worth knowing before choosing a variable.
+
+The list below is the full set of parameters. Pages are added as they are
+written, so an entry without a link is not an omission from the dataset — the
+variable is in the products described below either way.
+
+: The per-variable pages. {#tbl-meteo-pages}
+
+| parameter | measures | page |
+|---|---|---|
+| `SW_IN` | incoming shortwave radiation | in preparation |
+| `TA` | air temperature at 47 m | [Air temperature at 47 m](Meteo_Data_TA.html) |
+| `PPFD_IN` | photosynthetic photon flux density | in preparation |
+| `RH` | relative humidity | in preparation |
+| `PA` | air pressure | in preparation |
+| `LW_IN` | incoming longwave radiation | in preparation |
+| `VPD` | vapour pressure deficit | in preparation |
+| `PREC` | precipitation | in preparation |
+| `SWC` | soil water content, five depths | in preparation |
+| `TS` | soil temperature, seven depths | in preparation |
+
 ## Meteo products (notebooks `01`-`10`)
 
 Ten notebooks turn the screened tower and soil measurements into one file per variable, written as parquet and CSV. Each file holds its value columns plus a provenance flag saying, half hour by half hour, whether the number was measured, corrected, reconstructed or modelled.
@@ -37,13 +63,13 @@ Flag names are given by their suffix; the full column is `FLAG_<variable>_<suffi
 
 A `_HOMOGENIZED` or `_GAPFILLED` column sits beside the measured one rather than replacing it, so the measured record remains recoverable.
 
-**`_HOMOGENIZED`** rescales an earlier era onto the level of the later one where a hardware change produced a step in the raw values. This makes the two eras comparable; it does not make either era more accurate, and the instrument's own biases are unaffected. `TA` carries one because its sensor and acquisition system were replaced together in January 2016, `PREC` one because its acquisition system changed in 2018, `SWC` one per depth because the soil profile was replaced in 2020.
+**`_HOMOGENIZED`** removes a step that a hardware change left in the raw values, so the eras either side become comparable. It does not make either era more accurate: what it removes is the *change* in the instrument's bias, not the bias itself. `TA` carries one because its sensor and acquisition system were replaced together in January 2016, `PREC` one because its acquisition system changed in 2018, `SWC` one per depth because the soil profile was replaced in 2020. Most are a rescaling of the earlier era onto the level of the later one; `TA` also corrects the difference between the two sensors' radiation shields, which acts only in daylight.
 
 **`_GAPFILLED`** indicates that a model produced some of the values. For `TS` the model is a regression on the remaining depths of the profile, and the `METHOD` flag identifies which values are measured and which are modelled.
 
 ### Known limitations
 
-- **`TA` is not homogeneous across 21 January 2016.** The 47 m sensor and its acquisition system were replaced together on that date, and the measured column reads approximately 1.3 °C too cold before it. Use `TA_T1_47_1_HOMOGENIZED_gfXG` for anything crossing that date, and see [Air temperature at 47 m](Meteo_Data_TA.html) for the columns, flag codes and the limitations of the correction.
+- **`TA` is not homogeneous across 21 January 2016.** The 47 m sensor and its acquisition system were replaced together on that date. The measured column reads approximately 1.3 °C too cold before it and also responds differently to sunshine. Use `TA_T1_47_1_HOMOGENIZED_gfXG` for anything crossing that date, and see [Air temperature at 47 m](Meteo_Data_TA.html) for the columns, flag codes and the limitations of the correction.
 - **`PREC` provides two value columns serving different purposes.** Use the measured column for the recorded gauge amounts, and the `_HOMOGENIZED` column for analyses spanning mid-2018, where the acquisition change causes the earlier era to read approximately 25 % low.
 - **`SWC` spans two sensor generations that changed in 2020 without an overlap period.** The resulting step is approximately +8 to +11 % VWC. The `_HOMOGENIZED` columns remove it on the basis of climatology rather than a measured offset. No such column is provided at 0.5 m, which has a single era.
 - **`TS` diurnal and seasonal amplitudes are not comparable across April 2020.** The earlier sensors were more closely coupled to the surface than the present ones at the same nominal depth, so the amplitude changes with the hardware. Levels are reconciled between eras; amplitudes are not.
