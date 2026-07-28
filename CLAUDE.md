@@ -183,6 +183,14 @@ principled answer to "what number is the new one?".
   the file it writes (`02_METEO_TA_2004-2025.ipynb` →
   `02_METEO_TA_GAPFILLED_2004-2025.parquet`), so code and data line up by eye.
   No verb in the notebook name — the folder already says what these do.
+  An **unnumbered `<VAR>_<PURPOSE>.ipynb`** beside the numbered ones is an
+  investigation that exports nothing and answers one question
+  (`TA_HOMOGENIZATION_OPTIONS`, `TS_FF1_GAPFILL_ML_COMPARISON`). Use one when a
+  product decision needs evidence: it reads the finished product rather than
+  rebuilding it, scores the candidates on one table, and records what adopting
+  the winner would require. **A rejection recorded in prose is a hypothesis, not
+  a result** — three objections that had a two-sided `TA` correction rejected were
+  written down as settled, and when finally measured none of them held.
   `99_METEO_MERGED_2004-2025.ipynb` is the capstone: it runs last, joins the
   products of `01`-`08` onto one 30MIN `TIMESTAMP_MID` index with their
   provenance flags, and draws one overview figure per series. It **computes and
@@ -357,12 +365,42 @@ The shape below is deliberate — follow it when adding a variable.
   and the honest product is a **`SOURCE` flag naming the sensor generation** —
   optionally with a `_HOMOGENIZED` second column, which must then say out loud
   what its rescaling rests on: climatology where nothing spans the break (`SWC`),
-  but an independent co-located sensor where one does (`02` raises its pre-2016
-  era by +1.3197 °C against NABEL at 49 m on the same tower, an offset a hold-out
-  can test — see below). Never let a name imply a continuity the hardware does
+  but an independent co-located sensor where one does (`02`, see below). Never let a name imply a continuity the hardware does
   not have: FLUXNET's `SWC_F_MDS_*`
   splices these two eras with a +9 to +12 % VWC step passed straight through,
   which is the outcome to avoid reproducing.
+- **A step at a hardware change need not be one number, and a constant can only
+  remove the part that is one.** `02` is the worked case. The 2016 sensor swap
+  moved two things at once: a **zero-point error** in the old analog chain,
+  constant day and night, and a **radiation-shield difference**, present only in
+  sunlight because both 47 m sensors sit in passive shields and the newer one
+  heats more. The constant (+1.3197 °C on the earlier era) removes the first
+  completely — the night step against MeteoSwiss falls to −0.01 °C — and leaves
+  +0.37 °C in daylight, which no constant can reach. The second term is fitted
+  per era against **NABEL**, which is aspirated and so has no shield error of its
+  own, and only the *difference* between the two eras' responses is removed, from
+  the later era. It is zero wherever there is no radiation, which is what stops it
+  correcting the night a second time, and it brings the daytime step to +0.06 °C.
+  The lesson generalises: **split the residual by night and day before deciding
+  a correction is finished.** A statistic over all hours averages the two and
+  reports neither.
+- **Fit against one reference, score against another.** The `TA` terms are fitted
+  against NABEL (same tower, aspirated, but ends 2018) and scored against
+  MeteoSwiss Lägern (2.5 km away, independent institution, covers the record).
+  Neither correction has ever seen the series that judges it, which is what makes
+  the scores a test rather than a restatement of a fit. Where a correction must be
+  extrapolated beyond its fitting reference, say so and test it there: `02`'s
+  shield term is fitted on three NABEL years and applied over ten, and the
+  extrapolated years land within 0.03 °C of the earlier era's own level.
+- **Choosing a model order needs a shape criterion as well as an error.** A
+  record-weighted RMSE is dominated by the bulk of the data — for a radiation
+  term, the many half-hours at low sun — so a curve can be wrong by several tenths
+  of a degree in the brightest conditions and barely move it. Those are exactly
+  the conditions daily maxima come from. `02` therefore picks the smallest order
+  that is both within a tolerance of the best held-out error **and** within
+  0.15 °C of its own binned means, and re-checks the second on every run. Never
+  draw a fitted curve beyond the range it was fitted on; clip the driver and hold
+  the response flat above it, or the polynomial invents a tail.
 - **A `data_version` filter is not a tag filter.** Within one field and data
   version there can be several series carrying different `gain`, `raw_varname` or
   `freq` tags, so anything reading tags must handle a list, not a scalar. A
@@ -375,6 +413,17 @@ The shape below is deliberate — follow it when adding a variable.
 - **Guards:** a helper that can silently do nothing gets a **negative control**
   cell that feeds it bad input and asserts it raises. Sanity checks assert
   rather than assume (continuous index, no duplicates, physical range).
+- **Every table carries a caption above it and every figure one below it.**
+  `tabcap()` and `figcap()` are the two helpers; they live in `02`, `99` and the
+  overview and should be copied as-is. Two things they got wrong once each.
+  **Define them above their first use** — in `99` they sat beside the figure
+  helper, several cells below the table that called one, and the notebook only
+  failed at run time. And where one call site draws many figures (`99` draws one
+  per series from a single `plot_product()`), **build the caption from the
+  series' own metadata row** rather than writing it out per series: a series
+  added to `PRODUCTS` later then cannot arrive without a caption, and one whose
+  aggregation or flag column changes cannot keep a caption describing what it
+  used to be.
 - **The 2012 faults are site history and recur in every variable:** the
   17 Aug 2012 logger clock error (+15.5 h shift of one block), the late-July/
   August power supply failure, and the Oct/Nov storm damage. Windows are always
@@ -428,6 +477,15 @@ The shape below is deliberate — follow it when adding a variable.
   records. `02` therefore fits three periods, and its two boundaries exist for
   different reasons — the sensor change, and the loss of a driver where the NABEL
   reference ends. Say which boundary is which; a reader assumes both are hardware.
+- **An assertion states what a correction does, so changing the correction
+  breaks it — and that is the system working, not an obstacle.** Adding the
+  shield term to `02` fired three separate guards that all asserted the later era
+  is never modified: `02`'s break-year check, `02`'s export check and the
+  overview's integrity check. Each was **re-derived** to describe two terms (the
+  later era now carries exactly the radiative excess; the correction after the
+  break is never positive, is exactly zero in the dark, and takes many distinct
+  values rather than behaving like a second constant). None was relaxed. A guard
+  that fires on a deliberate change has just proved it can fire.
 - **An audit that averages over a group can hide two opposite errors that
   cancel.** In `02` a per-year check passed on a year holding 11,150 records
   1.1 °C too cold and 1,495 records 5.5 °C too warm. Assert per year **and per
@@ -556,6 +614,24 @@ The shape below is deliberate — follow it when adding a variable.
   and repeating it on the page buries the few facts a data user needs. Verify
   column names, units and coverage against the exported files, not against the
   notebook prose.
+- **Every meteo parameter gets its own page**, named `Meteo_Data_<VAR>.md`
+  (`Meteo_Data_TA.md` is the first). `Meteo_Data.md` stays general — the
+  conventions shared by all products, the variables table, the known limitations
+  worth knowing before picking a variable — and carries a **table of the per-
+  variable pages at the top**, listing all ten parameters whether or not their
+  page exists yet, so an entry without a link reads as a page not yet written
+  rather than a variable not in the dataset. Adding a page means editing that one
+  cell **and** adding the file to `website.sidebar.contents` in
+  `docs/_quarto.yml`; a page absent from the nav is unreachable.
+- **Explain what was done in plain terms, and link every notebook that carries
+  the evidence.** A per-variable page opens with a short list of the notebooks
+  behind it — the one that builds the product, any investigation that settled a
+  decision, and the overview — so a reader who wants the derivation is one click
+  away and the page itself can stay short. Describe a correction by what changed
+  physically and what was done about it, not by its algebra: "both sensors sit
+  in passive shields, which heat up in sun, and the newer one heats more" is the
+  register, not the fitted polynomial. Give the size of the effect and the size
+  of what is left, and leave the fit to the notebook.
 - Published to GitHub Pages via `ghp-import` (point it at `docs/_build/html`).
   Quarto uses relative asset paths, so the project subpath works with no extra
   env vars.
