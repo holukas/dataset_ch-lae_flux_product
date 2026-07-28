@@ -1,10 +1,16 @@
 # CH-LAE Flux Product (PI dataset)
 
+::: {.callout-important title="Dataset in preparation"}
+This dataset is currently in preparation. Both the data and this documentation
+are work in progress and are subject to change. Please contact the author before
+using the data.
+:::
+
 produced by [Lukas Hörtnagl](https://gl.ethz.ch/people/person-detail.lukas.html)
 
 Documentation and notebooks for the creation of the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)** . The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/), operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
 
-The dataset comprises ecosystem fluxes measured by the eddy covariance method (CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and detailed management info between 2004 and 2024. More data will be added to this dataset in the future.
+The dataset comprises ecosystem fluxes measured by the eddy covariance method (CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and detailed management info between 2004 and 2025. More data will be added to this dataset in the future.
 
 For an overview of the dataset, see [Overview](Overview.md).
 
@@ -16,8 +22,13 @@ For a list of planned updates and additions, see [Issues on the GitHub repositor
 
 ## Current dataset version
 
-### **CH-LAE FP2025.1 (2004-2024) [in progress]**
-*... currently in progress ...*
+### **CH-LAE FP2026.1 (2016-2025) [in progress]**
+
+First release, covering the enclosed-path LI-7200 era from the January 2016 setup change onwards.
+
+### **CH-LAE FP2026.2 (2004-2025) [in progress]**
+
+Second release, extending the record back to 2004. Supersedes FP2026.1, which it re-includes in full.
 
 ## Acknowledgments
 
