@@ -52,6 +52,9 @@ website:
       - index.md
       - Overview.md
       - Meteo_Data.md
+      # Per-variable detail page for the 47 m air-temperature product, linked
+      # from the TA row and the TA limitation in Meteo_Data.md.
+      - Meteo_Data_TA.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
