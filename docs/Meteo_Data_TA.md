@@ -1,46 +1,43 @@
 # Air temperature at 47 m
 
-Half-hourly air temperature measured at 47 m on the CH-LAE tower, 2004-2025,
-complete and gap-filled. The file is `02_METEO_TA_GAPFILLED_2004-2025` (parquet
-and CSV): **385,728 records** on a continuous 30-minute middle-timestamp index
-(named `TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight
-saving), from 2004-01-01 00:15 to 2025-12-31 23:45.
+Half-hourly air temperature at 47 m on the CH-LAE tower, 2004-2025, gap-filled to
+completeness. The file is `02_METEO_TA_GAPFILLED_2004-2025` (parquet and CSV):
+**385,728 records** on a continuous 30-minute middle-timestamp index (named
+`TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight saving), from
+2004-01-01 00:15 to 2025-12-31 23:45.
 
-The [**interactive dashboard**](dashboards/METEO_TA_dashboard.html) summarises
-the exported product on one page: coverage and provenance, seasonality,
-distributions, extremes and trends, with a table view behind every chart. It is a
-standalone file and can be downloaded and opened without a network connection.
+The [**interactive dashboard**](dashboards/METEO_TA_dashboard.html) summarises the
+product on one page: coverage and provenance, seasonality, distributions, extremes
+and trends, with a table view behind every chart. It is standalone and works
+offline.
 
-The notebooks behind this page carry the full method, the evidence and the
-checks:
+Method, evidence and checks:
 
 - [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2025.html) —
   builds the product: screening, gap-filling, and the 2016 correction.
 - [`TA_HOMOGENIZATION_OPTIONS`](notebooks/10_METEO/30_PRODUCTS/TA_HOMOGENIZATION_OPTIONS.html)
-  — the ways the 2016 break could have been corrected, and why this one was
-  chosen.
-- [`METEO_TA` overview](notebooks/90_DATASET_OVERVIEW/METEO_TA.html) — the
-  finished product year by year, with the residual steps recomputed on each run.
+  — the candidate corrections for the 2016 break, and why this one was chosen.
+- [`METEO_TA` overview](notebooks/90_DATASET_OVERVIEW/METEO_TA.html) — the finished
+  product year by year, with the residual steps recomputed on each run.
 
 ::: {.callout-important title="Which column to use"}
 
-The measured column is **not homogeneous across 21 January 2016**, when the
-sensor and its acquisition system were replaced together.
+The measured column is **not homogeneous across 21 January 2016**, when the sensor
+and its acquisition system were replaced together.
 
-- Analyses that stay inside one sensor era may use `TA_T1_47_1_gfXG`, which is
-  what the instrument reported.
-- Analyses that **cross 21 January 2016** — period means, trends, year
-  rankings, anomalies, daily maxima, threshold-day counts — must use
-  `TA_T1_47_1_HOMOGENIZED_gfXG`. The step exceeds the climate signal over this
-  record.
+- Inside one sensor era, use `TA_T1_47_1_gfXG`, which is what the instrument
+  reported.
+- Across 21 January 2016 (period means, trends, year rankings, anomalies, daily
+  maxima, threshold-day counts) use `TA_T1_47_1_HOMOGENIZED_gfXG`. The step
+  exceeds the climate signal over this record.
 
 :::
 
 ## Columns
 
-Both value columns are complete: every one of the 385,728 records carries a
-value, and the flag columns are defined everywhere. The two value columns share
-the same two flags, because the correction changes values, never provenance.
+Both value columns are complete and both flags are defined at every record. The
+two value columns share the same flags, since the correction changes values, not
+provenance.
 
 : Columns of `02_METEO_TA_GAPFILLED_2004-2025`. {#tbl-ta-cols}
 
@@ -53,8 +50,8 @@ the same two flags, because the correction changes values, never provenance.
 
 ### `FLAG_TA_T1_47_1_ISFILLED`
 
-Filter on `== 0` to select measured records. The series is complete, so every
-other code marks a value a model produced. Code `3` is not used.
+Filter on `== 0` for measured records. The series is complete, so every other code
+marks a modelled value. Code `3` is not used.
 
 : Fill codes and their record counts. {#tbl-ta-isfilled}
 
@@ -66,9 +63,8 @@ other code marks a value a model produced. Code `3` is not used.
 | 4 | linear interpolation across a short gap | 178 | 0.05 % |
 | 5 | reconstructed from NABEL at 49 m on the same tower | 1,530 | 0.4 % |
 
-Codes above `0` account for 4.3 % of the product. The code-`5` records are
-almost entirely January 2004 (1,488 records), with one further record in
-February 2004 and 41 in July 2012.
+Codes above `0` account for 4.3 % of the product. The code-`5` records are almost
+all January 2004 (1,488 records), plus one in February 2004 and 41 in July 2012.
 
 ### `FLAG_TA_T1_47_1_SOURCE`
 
@@ -86,28 +82,26 @@ Select `FLAG_TA_T1_47_1_SOURCE <= 1` where provenance has to be certain.
 
 ***
 
-## What happened in 2016, and what was corrected
+## The 2016 sensor change
 
-On 21 January 2016 the 47 m sensor and its acquisition system were replaced
-together: a Rotronic MP101A, read as an analog voltage, gave way to a Campbell
-CS215 read over a digital line. Two things changed at once, and
-`TA_T1_47_1_HOMOGENIZED_gfXG` corrects both.
+On 21 January 2016 a Rotronic MP101A, read as an analog voltage, was replaced by a
+Campbell CS215 read over a digital line, together with the logger that read it.
+Two things changed at once, and `TA_T1_47_1_HOMOGENIZED_gfXG` corrects both.
 
-**The old chain read too cold, day and night.** It carried a constant
-zero-point error of about -11 mV, which at 10 mV per °C left it reading roughly
-1.1 °C below an aspirated reference on the same tower; the new sensor reads
-about 0.2 °C above that reference. The gap between the two eras is
-**+1.3197 °C**, and that is added to every record before the changeover.
+**The old chain read too cold, day and night.** It carried a constant zero-point
+error of about -11 mV, which at 10 mV per °C left it reading roughly 1.1 °C below
+an aspirated reference on the same tower; the new sensor reads about 0.2 °C above
+that reference. The gap between the two eras is **+1.3197 °C**, added to every
+record before the changeover.
 
 **The two sensors warm differently in sunshine.** Both sit in passive shields,
-which heat up in sun, and the newer one heats more. This part of the step
-appears only in daylight, so no constant can remove it. It was measured against
-NABEL — an aspirated, fan-ventilated sensor at 49 m on the same tower — and is
-subtracted from the later era. It is **zero at night** and reaches **-0.59 °C**
-at most.
+which heat up in sun, and the newer one heats more. This part of the step appears
+only in daylight, so no constant can remove it. It was measured against NABEL, an
+aspirated fan-ventilated sensor at 49 m on the same tower, and subtracted from the
+later era. It is **zero at night** and reaches **-0.59 °C** at most.
 
-Both corrections were established against NABEL and then checked against
-MeteoSwiss Lägern, a station 2.5 km away that entered neither of them:
+Both corrections were fitted against NABEL and then scored against MeteoSwiss
+Lägern, a station 2.5 km away that entered neither of them:
 
 : The step across the sensor change, measured against MeteoSwiss. {#tbl-ta-steps}
 
@@ -117,35 +111,33 @@ MeteoSwiss Lägern, a station 2.5 km away that entered neither of them:
 | day | +1.69 °C | +0.06 °C |
 | all hours | +1.51 °C | +0.03 °C |
 
-Over the whole record the correction more than halves the apparent warming: the
-difference between the 2005-2015 and 2017-2025 period means falls from +2.39 °C
-to +0.91 °C, and the Theil-Sen trend over annual means from +1.76 to
+Over the whole record the correction more than halves the apparent warming. The
+difference between the 2005-2015 and 2017-2025 period means falls from +2.39 °C to
++0.91 °C, and the Theil-Sen trend over annual means from +1.76 to
 +0.76 °C decade^-1^. Those figures come from the complete columns; computed from
-measured records only they differ by less than 0.1 °C, and both are reported in
-notebook `02`.
+measured records only they differ by less than 0.1 °C. Notebook `02` reports both.
 
 ## Known limitations
 
-- **A small difference in the shape of the day remains.** The shield correction
-  is fitted on the three years NABEL overlaps the newer sensor and applied over
-  ten, so it is an extrapolation after 2018. Measured against MeteoSwiss on
-  2013-2015 against 2016-2018, the homogenised column still carries a
-  daily-maximum step of +0.21 °C, a diurnal-range step of +0.18 °C and a
-  daily-minimum step of +0.03 °C; over the full eras all three are smaller. The
-  same statistics on the measured column step by up to +1.90 °C. **Daily maxima
-  and diurnal ranges are the quantities most exposed to what remains.**
-- **The record is made self-consistent, not absolutely accurate.** The later era
-  is standardised onto the earlier one, so the earlier era's own warm bias in
-  sunshine — about +0.4 °C at strong radiation, relative to an aspirated sensor
-  — remains in both. What is removed is the *change* in that bias at the sensor
-  swap, not the bias itself.
+- **A small difference in the shape of the day remains.** The shield correction is
+  fitted on the three years NABEL overlaps the newer sensor and applied over ten,
+  so it is an extrapolation after 2018. Measured against MeteoSwiss on 2013-2015
+  against 2016-2018, the homogenised column still carries a daily-maximum step of
+  +0.21 °C, a diurnal-range step of +0.18 °C and a daily-minimum step of +0.03 °C;
+  over the full eras all three are smaller. The same statistics on the measured
+  column step by up to +1.90 °C. **Daily maxima and diurnal ranges are the
+  quantities most exposed to what remains.**
+- **The record is made self-consistent, not absolutely accurate.** The later era is
+  standardised onto the earlier one, so the earlier era's own warm bias in sunshine
+  (about +0.4 °C at strong radiation, relative to an aspirated sensor) remains in
+  both. What is removed is the change in that bias at the sensor swap, not the bias
+  itself.
 - **The records reconstructed from NABEL carry too little scatter.** The 1,530
   code-`5` values come from a line fitted on NABEL, so they sit approximately
   0.05 °C from it where a real measurement sits approximately 0.25 °C from it.
   Their means are sound; variance, extremes and any statistic of spread computed
   over January 2004 are understated.
-- **2004 is 72 % modelled.** The tower record begins 2004-09-20 10:45. January
-  2004 is reconstructed from NABEL rather than gap-filled, because the
-  MeteoSwiss reference does not begin until 1 February 2004. The year carries
-  source code `3` throughout its first nine months and is the least constrained
-  in the record.
+- **2004 is 72 % modelled.** The tower record begins 2004-09-20 10:45. January 2004
+  is reconstructed from NABEL rather than gap-filled, because the MeteoSwiss
+  reference does not begin until 1 February 2004. The year carries source code `3`
+  throughout its first nine months and is the least constrained in the record.
