@@ -138,13 +138,15 @@ boundary either, including the change of screening tool in January 2020.
   2024; none of the three dates shows up in the data, so nothing is corrected. A
   winter total spanning 2018 mixes the acquisition change with a change in snow
   catch, which is why the largest monthly factors are the winter ones.
-- **The homogenisation cannot correct a single bucket tip.** Homogenised values are
-  rounded back onto the 0.1 mm grid, and 0.1 mm times any monthly factor rounds to
-  0.1 mm again, so 6,580 records are identical in both columns: 32 % of the wet
-  half-hours in the early era, though only 5 % of its rainfall. Totals are
-  unaffected, but a count of wet half-hours or a light-rain intensity statistic is
-  not homogenised, and the factor delivered overall is 1.19 rather than the 1.21
-  fitted.
+- **The homogenisation leaves light rain untouched.** Homogenised values are rounded
+  back onto the 0.1 mm grid, and a small amount times a factor of 1.07 to 1.44 often
+  rounds back to itself. So 9,146 of the 20,801 wet half-hours in the early era are
+  identical in both columns, carrying 11 % of its rainfall: every 0.1 mm record, 55 %
+  of the 0.2 mm records, 28 % of the 0.3 mm ones, and nothing above 1 mm. A count of
+  wet half-hours or a light-rain intensity statistic is therefore not homogenised by
+  that column, and the factor delivered overall is 1.19 rather than the 1.21 fitted,
+  which is part of why the homogenised early era lands 1.2 % below the later level
+  rather than exactly on it.
 - **Filled records are good for sums, not for timing.** A filled value is the
   Ehrendingen gauge's measurement, 3.8 km away and 260 m lower, rescaled. On
   synthetic gaps the summed rainfall is right to within 2.2 % at every gap length,
