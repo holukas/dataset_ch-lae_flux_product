@@ -336,13 +336,12 @@ VARIABLES = {
         title="Vapour pressure deficit",
         units="kPa",
         file="07_METEO_VPD_2004-2025.parquet",
-        value="VPD_T1_47_1_HOMOGENIZED",
-        uncorrected="VPD_T1_47_1",
-        correction_note=(
-            "VPD is computed by formula from the finished air temperature and relative humidity "
-            "products, so it inherits their January 2016 sensor change. The homogenised column is "
-            "the one computed from the homogenised inputs; the correction it carries is therefore "
-            "the correction those inputs carry, not a new one."),
+        # One value column, and deliberately no homogenised one. VPD is computed from two inputs
+        # of which only TA can be put on one level across January 2016: the RH product carries no
+        # homogenised column either, because its step depends on the humidity itself. A
+        # VPD_..._HOMOGENIZED column would claim a continuity that only half its inputs have, so
+        # notebook 07 does not export one and this dashboard must not ask for one.
+        value="VPD_T1_47_1",
         first_year=2005, last_year=2025,
         limits=(0.0, 8.0),
         about=(
@@ -358,6 +357,12 @@ VARIABLES = {
         source_flag="FLAG_VPD_T1_47_1_SOURCE",
         source_legend=PROBE_SOURCE_LEGEND, source_short=PROBE_SOURCE_SHORT,
         extremes=dict(high="driest", low="dampest"),
+        notes=[
+            "VPD inherits the January 2016 sensor change of both its inputs. It is computed from "
+            "the homogenised air temperature, so that part is corrected, but relative humidity has "
+            "no homogenised column and enters uncorrected. The step VPD is left with is about 17 % "
+            "of its mean, and there is no single column that removes it.",
+        ],
     ),
 
     "PREC": dict(
