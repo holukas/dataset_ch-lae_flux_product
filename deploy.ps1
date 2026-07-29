@@ -2,24 +2,28 @@
 #
 # Deploy the CH-LAE flux-product docs site to GitHub Pages.
 #
-# Builds the Quarto website and the notebook HTML, then publishes the output
-# tree (docs/_build/html) to the gh-pages branch with ghp-import. ghp-import
-# commits and (with -p) force-pushes gh-pages — it does NOT touch your source
-# branch or working tree.
+# Builds the Quarto website, the notebook HTML and the meteo dashboards, then
+# publishes the output tree (docs/_build/html) to the gh-pages branch with
+# ghp-import. ghp-import commits and (with -p) force-pushes gh-pages — it does
+# NOT touch your source branch or working tree.
 #
 # Usage (from anywhere):
 #   ./deploy.ps1 -Preview        # build the FULL site + serve locally (pre-deploy check)
 #   ./deploy.ps1                 # build + publish to gh-pages
 #   ./deploy.ps1 -NoPublish      # build only, no serve, no push
+#   ./deploy.ps1 -NoDashboards   # skip the dashboards (see step 4)
 #   ./deploy.ps1 -Remote origin -Branch gh-pages
 #
 # Requires: uv (the env provides quarto-cli and ghp-import) and a configured
-# git remote. Published site: https://holukas.github.io/dataset_ch-lae_flux_product/
+# git remote. The dashboards additionally need the external data folder, which
+# lives outside this repo. Published site:
+# https://holukas.github.io/dataset_ch-lae_flux_product/
 
 [CmdletBinding()]
 param(
     [switch]$Preview,
     [switch]$NoPublish,
+    [switch]$NoDashboards,
     [int]$Port = 8000,
     [string]$Remote = 'origin',
     [string]$Branch = 'gh-pages'
@@ -48,6 +52,26 @@ Invoke-Step 'Rendering Quarto website + notebooks (docs/)' { uv run quarto rende
 #    already in docs/_build/html/notebooks/; only the inputs are removed).
 Invoke-Step 'Clearing notebook staging (docs/notebooks/)' { uv run python build_notebooks.py --clean }
 
+# 4. Build the meteo dashboards straight into the rendered output tree.
+#    AFTER the render, not before: Quarto rewrites docs/_build/html on every
+#    render, so anything placed there first is deleted. Writing into the output
+#    also keeps several megabytes of generated HTML out of the source tree, and
+#    keeps Quarto from seeing files it has no reason to touch — each dashboard is
+#    a complete standalone page with its own CSS and JS, not a site page.
+#
+#    This reads the external (untracked) data folder. Where that folder is not
+#    available the step fails rather than being skipped quietly: the docs link to
+#    these files, so a silent skip would publish dead links. Use -NoDashboards to
+#    build the site without them deliberately.
+if (-not $NoDashboards) {
+    Invoke-Step 'Building meteo dashboards (-> docs/_build/html/dashboards/)' {
+        uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py `
+            --all --outdir docs/_build/html/dashboards
+    }
+} else {
+    Write-Host '==> Skipping meteo dashboards (-NoDashboards); links to them will 404' -ForegroundColor Yellow
+}
+
 if ($Preview) {
     # Serve the full built site (book + notebooks) exactly as it will deploy.
     # A real HTTP server (not file://) is needed so search and /notebooks/ work.
@@ -64,7 +88,7 @@ if ($NoPublish) {
     return
 }
 
-# 4. Publish to GitHub Pages.
+# 5. Publish to GitHub Pages.
 #    -n  write .nojekyll (stop GitHub from running Jekyll over asset dirs)
 #    -o  no history: replace gh-pages with a single fresh commit each deploy, so
 #        the branch doesn't accumulate every past build's heavy notebook assets
