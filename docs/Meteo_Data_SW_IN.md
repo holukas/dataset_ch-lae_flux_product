@@ -7,6 +7,11 @@ continuous 30-minute middle-timestamp index (named `TIMESTAMP_MIDDLE` in the
 file) in local time (UTC+1, no daylight saving), from 2004-01-01 00:15 to
 2025-12-31 23:45.
 
+The [**interactive dashboard**](dashboards/METEO_SW_IN_dashboard.html) summarises
+the exported product on one page: coverage and provenance, seasonality,
+distributions, extremes and trends, with a table view behind every chart. It is a
+standalone file and can be downloaded and opened without a network connection.
+
 The notebooks behind this page carry the full method, the evidence and the
 checks:
 
