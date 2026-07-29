@@ -35,9 +35,12 @@ half-hours away from saturation. The earlier era reads too dry.
 
 **There is no homogenised column.** The step is not one number — it is 3 to 6
 percentage points over the drier half of the range and close to nothing near
-100 % RH — so no constant correction reaches both ends. Anything crossing that
-date must instead be restricted to one probe generation using
-`FLAG_RH_T1_47_1_SOURCE`, or must carry the step as an uncertainty.
+100 % RH — so no constant correction reaches both ends. A correction that varies
+with the humidity was built and tested, and rejected: both eras drift internally
+by more than the step between them, so no fixed transfer is right for any
+particular year. Anything crossing that date must instead be restricted to one
+probe generation using `FLAG_RH_T1_47_1_SOURCE`, or must carry the step as an
+uncertainty.
 
 Comparisons **within** one era are unaffected. See
 [What happened in 2016](#what-happened-in-2016).
@@ -179,19 +182,31 @@ the data.
   statistic crossing 21 January 2016 — period means, trends, year rankings,
   anomalies, threshold-hour counts — contains a step of 2 to 4 percentage points
   of RH. Because the step depends on the humidity itself and vanishes at
-  saturation, no single offset removes it, and none is applied. A homogenised
-  column would need a level-dependent transfer that also respects the 100 %
-  bound, and that has not been established.
+  saturation, no single offset removes it, and none is applied. The
+  level-dependent transfer such a column would need was built and measured, and
+  it does not hold: re-estimated from either half of its own eras it changes by
+  as much as the correction itself, and summer and winter disagree by about as
+  much again. Applying it would also push 19 % of early-era records past 100 %.
+- **Both eras drift internally, by more than the step between them.** Against
+  MeteoSwiss Lägern the earlier era moves approximately −0.31 percentage points
+  of RH per year and the later era approximately +0.50, so each era travels
+  further over its own length than the 2016 jump. A trend computed entirely
+  inside one era therefore still contains sensor movement. The drift is not
+  corrected: it is not attributed to either station, and after the NABEL sensor
+  stops in 2018 there is no third humidity series at this site to attribute it
+  with. Correcting it towards MeteoSwiss would replace the measurement with the
+  reference.
 - **Which era is correct is not settled here.** The evidence shows that the
   earlier probe drifted and that the later one reads moister; it does not
   establish an absolute accuracy for either. The product is the measurement with
   the probe generation named beside it.
-- **`VPD` inherits the step, and inherits it asymmetrically.**
+- **`VPD` inherits this step, and it is the dominant term in it.**
   [`07_METEO_VPD`](notebooks/10_METEO/30_PRODUCTS/07_METEO_VPD_2004-2025.html)
-  is computed from `TA` and `RH`. `TA` is corrected across 21 January 2016 and
-  `RH` is not, so a VPD spanning that date carries a correction on one input and
-  none on the other. The `RH` step is largest in the drier half of the range,
-  which is where VPD is largest.
+  is computed from the homogenised `TA` and from this series, so its temperature
+  term is put on one level and its humidity term cannot be. What remains is a
+  step of about 17 % of the mean VPD. The `RH` step is largest in the drier half
+  of the range, which is where VPD is largest. See
+  [Vapour pressure deficit at 47 m](Meteo_Data_VPD.html).
 - **Reconstructed records are estimates, not measurements.** Code `3` carries
   approximately 3 % RH of uncertainty against a sensor-to-sensor agreement of
   about 2 % RH in summer; code `4` more. January to September 2004 is
