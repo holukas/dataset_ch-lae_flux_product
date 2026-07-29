@@ -20,9 +20,9 @@ variable is in the products described below either way.
 | `SW_IN` | incoming shortwave radiation | [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html) |
 | `TA` | air temperature at 47 m | [Air temperature at 47 m](Meteo_Data_TA.html) |
 | `PPFD_IN` | photosynthetic photon flux density | [Photosynthetic photon flux density at 47 m](Meteo_Data_PPFD_IN.html) |
-| `RH` | relative humidity | in preparation |
-| `PA` | air pressure | in preparation |
-| `LW_IN` | incoming longwave radiation | in preparation |
+| `RH` | relative humidity | [Relative humidity at 47 m](Meteo_Data_RH.html) |
+| `PA` | air pressure | [Air pressure at 47 m](Meteo_Data_PA.html) |
+| `LW_IN` | incoming longwave radiation | [Incoming longwave radiation at 47 m](Meteo_Data_LW_IN.html) |
 | `VPD` | vapour pressure deficit | in preparation |
 | `PREC` | precipitation | in preparation |
 | `SWC` | soil water content, five depths | in preparation |
@@ -36,7 +36,7 @@ Two conventions apply to every product.
 
 **Timestamps are `TIMESTAMP_MID`, local time (UTC+1), on a continuous 30-minute index with no daylight saving.** The label sits in the middle of the averaging period, so `09:15` covers 09:00 to 09:30.
 
-**The provenance flag distinguishes a measurement from an estimate and should be applied before analysis.** `PA` and `LW_IN` are the only products without one, as neither is gap-filled; their gaps are retained.
+**The provenance flag distinguishes a measurement from an estimate and should be applied before analysis.** `PA` is the only product without one. Neither `PA` nor `LW_IN` is gap-filled and both retain their gaps; the `LW_IN` flag names the instrument and calibration behind each value rather than marking a fill.
 
 : Meteo variables currently available. Coverage is the share of that file's own period carrying a value; flag columns are defined at every record. `<d>` is the depth in metres. {#tbl-meteo-vars}
 
@@ -46,9 +46,9 @@ Two conventions apply to every product.
 | `TA_T1_47_1_gfXG` | °C | 2004-2025 | 100 % | `ISFILLED` + `SOURCE` |
 | `TA_T1_47_1_HOMOGENIZED_gfXG` | °C | 2004-2025 | 100 % | `ISFILLED` + `SOURCE` |
 | `PPFD_IN_T1_47_1_gfXG` | µmol m^-2^ s^-1^ | 2004-2025 | 100 % | `ISFILLED` |
-| `RH_T1_47_1` | % | 2004-2025 | 100 % | `MISSING` |
+| `RH_T1_47_1` | % | 2004-2025 | 100 % | `MISSING` + `SOURCE` |
 | `PA_T1_47_1` | kPa | 2005-2025 | 98.9 % | none, gaps left in |
-| `LW_IN_T1_47_1` | W m^-2^ | 2005-2025 | 98.6 % | none, gaps left in |
+| `LW_IN_T1_47_1` | W m^-2^ | 2005-2025 | 98.6 % | `SOURCE`, gaps left in |
 | `VPD_T1_47_1` | kPa | 2004-2025 | 100 % | `ISFILLED` |
 | `PREC_TOT_T1_47_1` | mm (30 min) | 2004-2025 | 99.4 % | `SOURCE` + `ISFILLED` |
 | `PREC_TOT_T1_47_1_HOMOGENIZED` | mm (30 min) | 2004-2025 | 99.4 % | `SOURCE` + `ISFILLED` |
@@ -72,7 +72,11 @@ A `_HOMOGENIZED` or `_GAPFILLED` column sits beside the measured one rather than
 - **`SW_IN` reads a few per cent high from 2013.** The 47 m radiometer departs from all three of its references simultaneously, by approximately 3 %, developing over about three years rather than stepping at a date. No maintenance record covers it and it is not corrected; see [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html). The `SW_IN` record is otherwise homogeneous, including across the January 2016 acquisition change that moved `TA` and the December 2021 replacement of the radiometer itself.
 - **`TA` is not homogeneous across 21 January 2016.** The 47 m sensor and its acquisition system were replaced together on that date. The measured column reads approximately 1.3 °C too cold before it and also responds differently to sunshine. Use `TA_T1_47_1_HOMOGENIZED_gfXG` for anything crossing that date, and see [Air temperature at 47 m](Meteo_Data_TA.html) for the columns, flag codes and the limitations of the correction.
 - **`PPFD_IN` has been losing response since 2022.** The 47 m quantum sensor reads progressively lower against both the co-located pyranometer and MeteoSwiss Lägern, by approximately 3 to 4 % between 2021 and 2025 and 6 to 7 % below its 2006-2010 level, and the record ends while the decline is in progress. It is exported as measured, so a trend computed over the recent years contains the sensor's own drift. Within-year comparisons are unaffected. See [Photosynthetic photon flux density at 47 m](Meteo_Data_PPFD_IN.html); the attribution is in [`RADIATION_SENSOR_CONTINUITY`](notebooks/10_METEO/30_PRODUCTS/RADIATION_SENSOR_CONTINUITY.html).
-- **The MeteoSwiss Lägern radiation reference changed level in October 2010.** That station's radiation instrumentation was rebuilt, and its global radiation steps by approximately 5 %. It remains a sound gap-filling driver for `SW_IN` and `PPFD_IN`, but a difference between a tower product and MeteoSwiss Lägern must not be read as evidence about the tower across that date.
+- **The MeteoSwiss Lägern reference changed level in October 2010.** That station's instrumentation was rebuilt: its global radiation steps by approximately 5 % and its pressure by 0.06 to 0.07 kPa. It remains a sound gap-filling driver for `SW_IN` and `PPFD_IN`, but a difference between a tower product and MeteoSwiss Lägern must not be read as evidence about the tower across that date.
+- **The NABEL reference on the same tower stops being independent in mid-2018.** From 3 July 2018 for pressure and from August 2018 for relative humidity, the ingested NABEL columns reproduce the corresponding tower columns exactly. No product is derived from those months, but a comparison against those NABEL columns returns perfect agreement and means nothing. `TA_NABEL_T1_49_1` is unaffected.
+- **`RH` is not homogeneous across 21 January 2016, and no homogenised column is provided.** The 47 m probe and its acquisition system were replaced on that date, and the record steps upwards: 2 to 3 percentage points of RH over the record as a whole, 3 to 6 below 85 % RH, and close to nothing near saturation, where the 100 % ceiling leaves the step nowhere to go. Because the size depends on the humidity itself, no constant removes it; restrict anything crossing that date to one probe generation using `FLAG_RH_T1_47_1_SOURCE`. `VPD` is computed from `TA` and `RH`, so it crosses the same date with a correction applied to one input and none to the other. See [Relative humidity at 47 m](Meteo_Data_RH.html).
+- **`PA` reads approximately 0.09 kPa high before 21 January 2016.** The barometer itself did not change; the replacement logger reads it differentially where the previous one read it single-ended. The later era is the one that matches the barometric prediction, which places the sensor within 5 m of its nominal elevation. The step is one part in a thousand of the value and is not corrected. See [Air pressure at 47 m](Meteo_Data_PA.html).
+- **`LW_IN` reads low before 7 June 2016, over more than half the record.** Until that date the pyrgeometer's signal was converted with the calibration factor of the pyranometer in the same instrument, 10.03 instead of 12.83 µV/W/m². The resulting error is not a constant: it scales with the departure from $\sigma T_a^4$, reaching approximately 9 W m^-2^ in the middle of the distribution and some 22 W m^-2^ on a clear, dry night, and approximately zero under low overcast. Reversing it would require the radiometer's body temperature, which this product does not read, so it is not corrected and `FLAG_LW_IN_T1_47_1_SOURCE` marks the affected era. A second, smaller change at the December 2021 radiometer replacement could not be attributed. See [Incoming longwave radiation at 47 m](Meteo_Data_LW_IN.html).
 - **`PREC` provides two value columns serving different purposes.** Use the measured column for the recorded gauge amounts, and the `_HOMOGENIZED` column for analyses spanning mid-2018, where the acquisition change causes the earlier era to read approximately 25 % low.
 - **`SWC` spans two sensor generations that changed in 2020 without an overlap period.** The resulting step is approximately +8 to +11 % VWC. The `_HOMOGENIZED` columns remove it on the basis of climatology rather than a measured offset. No such column is provided at 0.5 m, which has a single era.
 - **`TS` diurnal and seasonal amplitudes are not comparable across April 2020.** The earlier sensors were more closely coupled to the surface than the present ones at the same nominal depth, so the amplitude changes with the hardware. Levels are reconciled between eras; amplitudes are not.
