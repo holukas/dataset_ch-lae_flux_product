@@ -371,6 +371,25 @@ def meta_line(row) -> str:
     return " · ".join(bits)
 
 
+REPO = Path(__file__).resolve().parent
+
+
+def refuse_repo_path(out_path: Path) -> None:
+    """Refuse to write the rendered fieldbook anywhere inside this repository.
+
+    The record belongs beside the export, in the untracked data folder. It is derived data, it is
+    a personnel record even after redaction, and anything under docs/ would additionally be
+    rendered onto the public website by Quarto whether or not it is listed in the navigation.
+    Redaction makes the file shareable; it does not make it publishable.
+    """
+    resolved = out_path.resolve() if out_path.is_absolute() else (Path.cwd() / out_path).resolve()
+    if resolved == REPO or REPO in resolved.parents:
+        raise ValueError(
+            f"refusing to write the rendered fieldbook inside the repository ({resolved}). It "
+            f"belongs beside the export in the external data folder. Pass an --out path outside "
+            f"{REPO}.")
+
+
 def self_test(redact: Redactor, allow_path: Path) -> None:
     """Feed each net something it must object to.
 
@@ -397,7 +416,13 @@ def self_test(redact: Redactor, allow_path: Path) -> None:
     mapped = next(iter(redact.pairs))
     if redact(f"visited by {mapped} today") == f"visited by {mapped} today":
         raise AssertionError("(!) the redactor returned a mapped name unchanged - it is broken.")
-    print("  self-test: sanitiser, name net and redactor all fired on planted input")
+    try:
+        refuse_repo_path(REPO / "docs" / "fieldbook.md")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("(!) an output path inside the repository was accepted.")
+    print("  self-test: sanitiser, name net, redactor and output-path guard all fired")
 
 
 def main() -> int:
@@ -411,6 +436,7 @@ def main() -> int:
     export = args.export or max(FIELDBOOK_DIR.glob(EXPORT_GLOB), key=lambda p: p.name)
     until = pd.Timestamp(args.until)
     out_path = args.out or FIELDBOOK_DIR / f"CH-LAE_fieldbook_redacted_until_{until:%Y}.md"
+    refuse_repo_path(out_path)
     print(f"export : {export.name}")
     print(f"until  : {until:%Y-%m-%d}")
 

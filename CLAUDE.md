@@ -248,7 +248,12 @@ before matching or printing.
     citation is, so a fieldbook quote pasted onto the same page is still checked.
 - **`build_fieldbook_md.py` renders the whole export as one readable redacted
   markdown file** (`fieldbook_gin/CH-LAE_fieldbook_redacted_until_<year>.md`,
-  beside the export, not in this repo — it is derived data). It flattens the HTML,
+  beside the export, **never in this repo** — it is derived data, it stays a
+  personnel record after redaction, and a markdown file under `docs/` is rendered
+  onto the public website by Quarto whether or not the nav lists it. The script
+  **refuses an `--out` path inside the repository** and `.gitignore` catches a
+  hand copy; redaction makes the file shareable, not publishable).
+  It flattens the HTML,
   drops the Word paste-in boilerplate, repairs the mojibake, splits the legacy
   block back out under its own dates, and removes what a notebook quoting three
   entries never had to: e-mail and IP addresses, account names, remote-access
