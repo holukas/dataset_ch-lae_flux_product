@@ -10,12 +10,29 @@ Three levels, one page
 1. **The grid.** One tile per month, twenty-one years by twelve months, coloured by whichever
    metric is selected and carrying badges for what was remarkable about that month. Each tile can
    also show its own days as a micro-strip, so a heat wave is visible as a streak before anything
-   is clicked.
+   is clicked. It is read down its columns as well as across its rows: a figure beside each year, a
+   figure under each calendar month, and the record's own figure where the two margins meet.
 2. **The month.** Its statistics against the calendar-month normal, its rank among the same month
-   of every other year, its badges spelled out with the numbers behind them, the daily course of
-   temperature against the climatological band, daily precipitation, and a day calendar.
+   of every other year, its badges spelled out with the numbers behind them, and then the month
+   itself from four directions - day by day (temperature against the climatological band, how far
+   each day sat from its own normal, precipitation daily and accumulated, soil water against the
+   rain that drives it, and radiation, evaporative demand and humidity each over their own normal
+   band), the mean day of the month composited from the hourly arrays against the mean day of that
+   calendar month across the record, where the month sits among its own years, and a day calendar.
 3. **The day.** Every variable's statistics for that day, the flags it set, and - where the hourly
-   arrays are included - the diurnal course of temperature, radiation and precipitation.
+   arrays are included - the diurnal course of radiation, temperature and precipitation, each
+   against the mean day of that calendar month.
+
+Why more than one chart per variable
+------------------------------------
+Each of the month's charts answers a question the others cannot. A monthly anomaly is one number
+for thirty days and arises equally from a uniformly mild month and from a cold first week with a
+hot last, which is what the daily departure chart separates. A monthly mean cannot say whether a
+warm month was warm at night or by day, and the two have different causes - cloud and humidity hold
+the night up, radiation lifts the afternoon - which is what the diurnal composite separates. And an
+anomaly cannot say whether a departure of one degree is remarkable for that calendar month or
+ordinary, because that is a question about the spread of the other years, which the rank strips
+draw rather than summarise.
 
 What it computes, and what it must not
 --------------------------------------
@@ -164,6 +181,19 @@ DERIVED_FLAGS = [
 
 RECORD_DAY_COVERAGE = 90.0  # % of a day measured before it is allowed to set a record for its date
 
+# A name for each day test short enough to sit in a list on a tile. The full label states the
+# threshold and is what the day panel and the reference table use; neither fits where nine of them
+# appear side by side, and the page fell back to printing the key itself ("recwarm", "coldprec").
+# The build asserts the map covers every test that survives, so a test added without a name here
+# fails the build instead of shipping its key to a reader.
+FLAG_SHORT = {
+    "frost": "frost", "ice": "ice", "summer": "summer", "hot": "hot",
+    "tropical": "tropical night", "wet": "wet", "heavy": "heavy rain", "verywet": "very wet",
+    "freezethaw": "freeze-thaw", "coldprec": "precipitation below 1 °C", "saturated": "in cloud",
+    "clear": "clear", "overcast": "overcast", "recwarm": "warmest for its date",
+    "reccold": "coldest for its date", "recwet": "wettest for its date",
+}
+
 
 def date_record(series, measured, how):
     """Days that are the extreme occurrence of their own calendar date across the whole record.
@@ -198,6 +228,9 @@ def day_flags(variables):
                           fn=item["fn"], label=variables[item["var"]].fmt(item["label"])))
     # The word is read in JavaScript, where a bitwise operation is defined on 32 bits.
     assert len(flags) <= 30, f"{len(flags)} day flags do not fit in one 30-bit word"
+    missing = [f["key"] for f in flags if f["key"] not in FLAG_SHORT]
+    assert not missing, (f"day test(s) {', '.join(missing)} have no entry in FLAG_SHORT - the page "
+                         f"would print the key itself where it lists them on a tile")
     return flags
 
 
@@ -493,6 +526,18 @@ BADGES = [
 # of the shared stylesheet, resolved in the browser, so the light and the dark set stay the only
 # place a colour is decided.
 #
+# `group` is what the page's picker groups the list under. Sixteen metrics in one flat list is a
+# menu a reader has to read end to end to find out what is in it; the same sixteen under five
+# headings can be scanned. It is a presentation field and nothing computes from it.
+#
+# `agg` is how the grid's margins - the figure beside each year and the one under each calendar
+# month - combine twelve months or twenty-one years into one number. It defaults to the aggregation
+# of the underlying variable, which is right for everything read straight off a product, and has to
+# be stated where the metric is a derived quantity whose own behaviour differs: growing degree days
+# accumulate, so a year is their sum, while the longest dry spell of a month does not accumulate
+# into the longest dry spell of a year and is averaged. Leaving it to be inferred put the annual
+# degree-day total out by a factor of twelve.
+#
 #   scale 'div'  two poles either side of `center`, neutral at the centre
 #   scale 'seq'  one ramp from the low end of the domain to the high end
 #
@@ -503,90 +548,90 @@ BADGES = [
 METRICS = [
     dict(key="TA_anom", var="TA", field="anom", scale="div", center=0.0,
          poles=("--pole-cold", "--pole-warm"), digits=1,
-         label="Air temperature anomaly", short="TA anomaly",
+         group="Temperature", label="Air temperature anomaly", short="TA anomaly",
          about="Monthly mean temperature minus the normal of that calendar month.",
          day=dict(kind="anom", stat="mean")),
     dict(key="TA", var="TA", field="value", scale="div", center=None,
          poles=("--pole-cold", "--pole-warm"), digits=1,
-         label="Air temperature, monthly mean", short="TA",
+         group="Temperature", label="Air temperature, monthly mean", short="TA",
          about="Monthly mean temperature. The colour diverges about the mean of the whole record, "
                "so the seasons separate rather than the years.",
          day=dict(kind="value", stat="mean")),
     dict(key="PREC_pctn", var="PREC", field="pctn", scale="div", center=100.0,
          poles=("--series-4", "--series-1"), digits=0, unit="%",
-         label="Precipitation, % of normal", short="PREC % of normal",
+         group="Precipitation", label="Precipitation, % of normal", short="PREC % of normal",
          about="Monthly total as a percentage of the normal of that calendar month.",
          day=dict(kind="value", stat="sum")),
     dict(key="PREC", var="PREC", field="value", scale="seq",
          stops=("--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5", "--seq-6", "--seq-7"),
-         digits=0, label="Precipitation, monthly total", short="PREC total",
+         digits=0, group="Precipitation", label="Precipitation, monthly total", short="PREC total",
          about="Monthly precipitation total. A month with gaps under-reports, so the measured "
                "share is worth reading beside it.",
          day=dict(kind="value", stat="sum")),
     dict(key="SW_IN", var="SW_IN", field="value", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0,
-         label="Incoming shortwave, monthly mean", short="SW_IN",
+         group="Radiation and humidity", label="Incoming shortwave, monthly mean", short="SW_IN",
          about="Monthly mean incoming shortwave radiation.",
          day=dict(kind="value", stat="mean")),
     dict(key="VPD", var="VPD", field="value", scale="seq",
          stops=("--neutral-mid", "--series-2"), digits=2,
-         label="Vapour pressure deficit, monthly mean", short="VPD",
+         group="Radiation and humidity", label="Vapour pressure deficit, monthly mean", short="VPD",
          about="Monthly mean vapour pressure deficit, the atmosphere's evaporative demand.",
          day=dict(kind="value", stat="mean")),
     dict(key="RH", var="RH", field="value", scale="seq",
          stops=("--neutral-mid", "--series-3"), digits=0,
-         label="Relative humidity, monthly mean", short="RH",
+         group="Radiation and humidity", label="Relative humidity, monthly mean", short="RH",
          about="Monthly mean relative humidity.",
          day=dict(kind="value", stat="mean")),
     dict(key="SWC_0.2", var="SWC_0.2", field="value", scale="seq",
          stops=("--neutral-mid", "--series-1"), digits=1,
-         label="Soil water content at 0.2 m", short="SWC 0.2 m",
+         group="Soil", label="Soil water content at 0.2 m", short="SWC 0.2 m",
          about="Monthly mean volumetric soil water content at 0.2 m, homogenised across the "
                "2020 sensor change.",
          day=dict(kind="value", stat="mean")),
     dict(key="dtr", var="TA", field="extra", extra="dtr", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=1,
-         label="Diurnal temperature range", short="Day-night range",
+         group="Temperature", label="Diurnal temperature range", short="Day-night range",
          about="Mean of the daily maximum minus the daily minimum. It separates the clear, dry "
                "months from the cloudy ones as directly as radiation does, and from the "
                "temperature record alone.",
          day=dict(kind="range", stats=("min", "max"))),
-    dict(key="gdd", var="TA", field="extra", extra="gdd", scale="seq",
+    dict(key="gdd", var="TA", field="extra", extra="gdd", scale="seq", agg="sum",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="K d",
-         label="Growing degree days above 5 °C", short="Degree days",
+         group="Temperature", label="Growing degree days above 5 °C", short="Degree days",
          about="Sum over the month of the daily mean above 5 °C, the base the growing season is "
                "taken above.",
          day=dict(kind="none")),
     dict(key="spell_dry", var="PREC", field="spell", spell="dry", scale="seq",
          stops=("--neutral-mid", "--series-4"), digits=0, unit="days",
-         label="Longest dry spell", short="Dry spell",
+         group="Precipitation", label="Longest dry spell", short="Dry spell",
          about="The longest run of consecutive days below 1 mm within the month. A month can "
                "reach its normal total and still hold a fortnight without rain.",
          day=dict(kind="none")),
     dict(key="n_wet", var="PREC", field="count", count="wet", scale="seq",
          stops=("--neutral-mid", "--seq-4", "--seq-6"), digits=0, unit="days",
-         label="Wet days per month", short="Wet days",
+         group="Precipitation", label="Wet days per month", short="Wet days",
          about="Days reaching 1 mm.",
          day=dict(kind="flag", flag="wet")),
     dict(key="n_clear", var="SW_IN", field="count", count="clear", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
-         label="Clear days per month", short="Clear days",
+         group="Radiation and humidity", label="Clear days per month", short="Clear days",
          about="Days brighter than the 90th percentile for their own date, so a bright day in "
                "January counts as one.",
          day=dict(kind="flag", flag="clear")),
     dict(key="n_hot", var="TA", field="count", count="hot", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
-         label="Hot days per month", short="Hot days",
+         group="Temperature", label="Hot days per month", short="Hot days",
          about="Days with a daily maximum at or above 30 °C.",
          day=dict(kind="flag", flag="hot")),
     dict(key="n_frost", var="TA", field="count", count="frost", scale="seq",
          stops=("--neutral-mid", "--cold-1", "--cold-2"), digits=0, unit="days",
-         label="Frost days per month", short="Frost days",
+         group="Temperature", label="Frost days per month", short="Frost days",
          about="Days with a daily minimum below 0 °C.",
          day=dict(kind="flag", flag="frost")),
     dict(key="meas", var="TA", field="meas", scale="seq",
          stops=("--seq-7", "--seq-4", "--seq-1"), digits=0, unit="%",
-         label="Measured share, air temperature", short="Coverage",
+         group="Data quality", label="Measured share, air temperature", short="Coverage",
          about="Percentage of the month's half-hours that are measured rather than gap-filled or "
                "missing. Dark is complete.",
          day=dict(kind="meas")),
@@ -1117,7 +1162,13 @@ def build_payload(loaded, with_hourly=True):
             if floor_at_zero:
                 domain = [0.0, domain[1]]
                 day_domain = [0.0, day_domain[1]]
-        entry = {k: metric[k] for k in ("key", "label", "short", "about", "scale", "digits", "day")}
+        entry = {k: metric[k] for k in ("key", "label", "short", "about", "scale", "digits", "day",
+                                       "group")}
+        # A count of days is a count whatever the variable behind it does, so the default follows
+        # the variable only where the metric reads it directly.
+        entry.update(agg=metric.get("agg", "sum" if field == "count"
+                                     else VARIABLES[var].get("agg", "mean") if field == "value"
+                                     else "mean"))
         entry.update(var=var, field=field, count=metric.get("count"), spell=metric.get("spell"),
                      extra=metric.get("extra"),
                      units=metric.get("unit", loaded[var]["v"].units),
@@ -1163,7 +1214,8 @@ def build_payload(loaded, with_hourly=True):
         variables=variables,
         metrics=metrics,
         badges=badge_meta,
-        flags=[dict(key=f["key"], var=f["var"], bit=f["bit"], label=f["label"]) for f in flags],
+        flags=[dict(key=f["key"], var=f["var"], bit=f["bit"], label=f["label"],
+                    short=FLAG_SHORT[f["key"]]) for f in flags],
         months=rows,
         days=dict(
             start=f"{dates[0]:%Y-%m-%d}", n=len(dates),

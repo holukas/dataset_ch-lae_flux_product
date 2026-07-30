@@ -124,7 +124,13 @@
 
   const isNum = v => v !== null && v !== undefined && !Number.isNaN(v);
   const nf = (v, d = 1) => isNum(v) ? v.toFixed(d) : '–';
-  const nfs = (v, d = 1) => isNum(v) ? (v > 0 ? '+' : '') + v.toFixed(d) : '–';
+  /* A departure carries its sign, except where it rounds to nothing: "-0.0" states a direction the
+     printed number does not support, and "+0.0" is the same error the other way. */
+  const nfs = (v, d = 1) => {
+    if (!isNum(v)) return '–';
+    const s = v.toFixed(d);
+    return +s === 0 ? Math.abs(+s).toFixed(d) : (v > 0 ? '+' : '') + s;
+  };
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
   const ord = n => {
     if (!isNum(n)) return '–';
@@ -134,6 +140,17 @@
 
   function token(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  /* The grid's month header sticks directly beneath the top bar, so the offset it sticks at has to
+     be the bar's measured height rather than a number written once. A guessed offset that is too
+     small hides the header behind the bar and one that is too large leaves a band of tiles
+     scrolling in the gap - and the bar's height moves with the font, the zoom and the viewport. */
+  function measureTopbar() {
+    const bar = document.querySelector('.topbar');
+    if (!bar) return;
+    document.documentElement.style.setProperty(
+      '--topbar-h', Math.round(bar.getBoundingClientRect().height) + 'px');
   }
 
   function palette() {
@@ -523,10 +540,21 @@
 
   function buildControls() {
     const host = document.getElementById('controls');
+    /* Grouped rather than listed flat: sixteen metrics in one run have to be read end to end
+       before a reader knows what the page can show them. */
     let html = '<div class="control"><label for="metric-pick">Colour the months by</label>'
       + '<select class="picker" id="metric-pick">';
+    const seen = [];
     DATA.metrics.forEach(m => {
-      html += '<option value="' + m.key + '">' + m.label + '</option>';
+      const g = m.group || 'Other';
+      if (seen.indexOf(g) < 0) seen.push(g);
+    });
+    seen.forEach(g => {
+      html += '<optgroup label="' + g + '">';
+      DATA.metrics.filter(m => (m.group || 'Other') === g).forEach(m => {
+        html += '<option value="' + m.key + '">' + m.label + '</option>';
+      });
+      html += '</optgroup>';
     });
     html += '</select></div>'
       + '<div class="control"><span class="control-label">Detail</span><div class="switchrow">'
@@ -592,10 +620,10 @@
 
     parts.push('<div class="calhead corner">Year</div>');
     MONTH_ABBR.forEach(a => parts.push('<div class="calhead">' + a + '</div>'));
-    parts.push('<div class="calhead">Year</div>');
+    parts.push('<div class="calhead total">' + (summarises(met) ? 'Total' : 'Mean') + '</div>');
 
     YEARS.forEach(y => {
-      parts.push('<div class="calyear">' + y + '</div>');
+      parts.push('<div class="calyear' + (y % 5 === 0 ? ' decade' : '') + '">' + y + '</div>');
       const yearValues = [];
       for (let m = 1; m <= 12; m++) {
         const mo = monthAt(y, m);
@@ -630,9 +658,37 @@
       }
       const summary = summarise(met, yearValues);
       parts.push('<div class="calsummary"><span class="v">' + metricFormat(met, summary)
-        + '</span><span class="k">' + (met.field === 'count' || VARS[met.var].agg === 'sum'
-          ? 'total' : 'mean') + '</span></div>');
+        + '</span><span class="k">' + (summarises(met) ? 'total' : 'mean') + '</span>'
+        + yearSparkline(met, y) + '</div>');
     });
+
+    /* The grid is read down its columns as well as across its rows - "was this a cold February"
+       needs the other Februaries - so it closes with the figure for each calendar month over the
+       whole record, and the record's own figure in the corner. Without it the year column is a
+       margin the grid answers on one axis only. */
+    /* A calendar month's figure across years is a *mean* even where the metric sums, because the
+       quantity being described is one January and not twenty-one of them stacked. The corner then
+       adds those twelve means where the metric sums - giving the mean year rather than the record
+       total - and averages them where it does not. */
+    parts.push('<div class="calfoot-label">Mean</div>');
+    const columnMeans = [];
+    for (let m = 1; m <= 12; m++) {
+      const values = YEARS.map(y => monthAt(y, m)).filter(Boolean)
+        .map(mo => monthValue(met, mo)).filter(isNum);
+      const mean = values.length
+        ? values.reduce((a, b) => a + b, 0) / values.length : null;
+      columnMeans.push(mean);
+      const rgb = isNum(mean) ? metricColor(met, mean, 'month') : null;
+      parts.push('<div class="calfootcell' + (rgb ? ' ' + inkClass(rgb) : '') + '"'
+        + (rgb ? ' style="background:' + css(rgb) + '"' : '') + '>'
+        + '<span class="v">' + metricFormat(met, mean) + '</span></div>');
+    }
+    const kept = columnMeans.filter(isNum);
+    const whole = kept.length
+      ? (summarises(met) ? kept.reduce((a, b) => a + b, 0)
+        : kept.reduce((a, b) => a + b, 0) / kept.length) : null;
+    parts.push('<div class="calfootcell record"><span class="v">' + metricFormat(met, whole)
+      + '</span><span class="k">' + (summarises(met) ? 'mean year' : 'record') + '</span></div>');
 
     host.innerHTML = parts.join('');
     host.querySelectorAll('.cell:not(.empty)').forEach(node => {
@@ -652,35 +708,78 @@
     renderGridNote();
   }
 
+  /** Whether a year's figure on this metric is a total rather than a mean; the registry decides. */
+  const summarises = met => met.agg === 'sum';
+
   /** A year's figure on the active metric: summed where the quantity sums, averaged otherwise. */
   function summarise(met, values) {
     if (!values.length) return null;
-    const sums = met.field === 'count' || (met.field === 'value' && VARS[met.var].agg === 'sum');
     const total = values.reduce((a, b) => a + b, 0);
-    return sums ? total : total / values.length;
+    return summarises(met) ? total : total / values.length;
   }
 
+  /* The year's twelve months as one small shape beside its figure. A year mild throughout and a
+     year that averaged the same from a cold spring and a hot summer carry the same number, and
+     the number alone cannot separate them. */
+  function yearSparkline(met, y) {
+    const parts = [];
+    const w = 100 / 12;
+    for (let m = 1; m <= 12; m++) {
+      const mo = monthAt(y, m);
+      const value = mo ? monthValue(met, mo) : null;
+      const rgb = isNum(value) ? metricColor(met, value, 'month') : null;
+      if (!rgb) continue;
+      parts.push('<rect x="' + ((m - 1) * w).toFixed(2) + '" y="0" width="' + (w * 0.8).toFixed(2)
+        + '" height="10" rx="1" fill="' + css(rgb) + '"/>');
+    }
+    return '<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">'
+      + parts.join('') + '</svg>';
+  }
+
+  /* The bar is drawn as a continuous ramp with real ticks rather than three labels at fixed
+     positions: the centre of a diverging scale is not the middle of its domain unless the domain
+     happens to be symmetric about it, and a label placed there anyway misstates the colour under
+     it. The ticks come from the same nice-number routine every axis on the page uses. */
   function renderScaleBar() {
     const met = metric();
     const host = document.getElementById('scalebar');
     host.innerHTML = '';
-    const width = Math.max(240, host.clientWidth || 320);
-    const height = 44;
+    const width = Math.max(260, host.clientWidth || 320);
+    const height = 52;
     const svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height,
       role: 'img', 'aria-label': 'Colour scale for ' + met.label }, host);
     svgText(svg, 0, 11, met.label + (met.units ? ' (' + met.units + ')' : ''), 'ax-title',
       { 'text-anchor': 'start' });
-    const n = 44, y0 = 18, h = 12;
+
+    const n = 128, y0 = 20, h = 13;
     const [lo, hi] = met.domain;
+    const sx = linear(lo, hi, 0, width);
+    const clip = el('clipPath', { id: 'scale-clip' }, svg);
+    el('rect', { x: 0, y: y0, width: width, height: h, rx: 4 }, clip);
+    const band = el('g', { 'clip-path': 'url(#scale-clip)' }, svg);
     for (let i = 0; i < n; i++) {
       const v = lo + (hi - lo) * (i / (n - 1));
-      const rgb = metricColor(met, v, 'month');
-      el('rect', { x: (i * width / n).toFixed(2), y: y0, width: (width / n + 0.6).toFixed(2),
-        height: h, fill: css(rgb) }, svg);
+      el('rect', { x: (i * width / n).toFixed(2), y: y0, width: (width / n + 0.8).toFixed(2),
+        height: h, fill: css(metricColor(met, v, 'month')) }, band);
     }
-    const mid = met.scale === 'div' && met.center !== null ? met.center : (lo + hi) / 2;
-    [[lo, 'start', 0], [mid, 'middle', width / 2], [hi, 'end', width]].forEach(t => {
-      svgText(svg, t[2], y0 + h + 13, metricFormat(met, t[0]), 'scalebar-text', { 'text-anchor': t[1] });
+    el('rect', { x: 0.5, y: y0 + 0.5, width: width - 1, height: h - 1, rx: 4, fill: 'none',
+      stroke: 'var(--border)' }, svg);
+
+    // The two ends of the domain are always labelled, so an intermediate tick is only kept where
+    // its label clears theirs - otherwise the ramp ends in two numbers printed over each other.
+    let ticks = niceTicks(lo, hi, Math.max(2, Math.floor(width / 78)))
+      .filter(v => sx(v) > 44 && sx(v) < width - 44);
+    // The centre of a diverging scale is the value the neutral colour means, so it is always shown.
+    if (met.scale === 'div' && met.center !== null
+      && !ticks.some(v => Math.abs(v - met.center) < (hi - lo) * 1e-6)) {
+      ticks = ticks.concat([met.center]).sort((a, b) => a - b);
+    }
+    [lo, hi].forEach(v => ticks.push(v));
+    ticks.forEach(v => {
+      const x = Math.max(0, Math.min(width, sx(v)));
+      const anchor = x < 12 ? 'start' : x > width - 12 ? 'end' : 'middle';
+      el('line', { x1: x, x2: x, y1: y0 + h, y2: y0 + h + 4, class: 'ax-line' }, svg);
+      svgText(svg, x, y0 + h + 16, metricFormat(met, v), 'scalebar-text', { 'text-anchor': anchor });
     });
   }
 
@@ -694,7 +793,8 @@
         + (state.filters.size === 1 ? '' : 's') + '; the rest are dimmed.';
     }
     note += ' Hatched tiles are below ' + nf(M.sparse_coverage, 0)
-      + ' % measured. Select a month to open it.';
+      + ' % measured. The column at the right is each year and the row at the foot each calendar '
+      + 'month over the whole record. Select a month to open it.';
     document.getElementById('gridnote').textContent = note;
   }
 
@@ -823,9 +923,15 @@
     body.innerHTML = '<p class="card-sub" style="max-width:none">Each tile is one month. Its '
       + 'colour is the selected metric, and the strip along its bottom is that month\'s days on '
       + 'the same scale, so a heat wave or a wet spell is visible before anything is opened. '
-      + 'Badges mark what was notable. Selecting a tile opens the month, where the days become a '
-      + 'calendar and the daily course is drawn against the climatological band; selecting a day '
-      + 'there opens the day itself.</p>'
+      + 'Badges mark what was notable.</p>'
+      + '<p class="card-sub" style="max-width:none">The grid has two margins and is meant to be '
+      + 'read along both. The column at the right is each year, with its twelve months repeated '
+      + 'as a miniature; the row at the foot is each calendar month over the whole record, which '
+      + 'is what a single month has to be judged against.</p>'
+      + '<p class="card-sub" style="max-width:none">Selecting a tile opens the month, where the '
+      + 'days become a calendar, the daily course is drawn against the climatological band, and '
+      + 'the month is placed among the same month of every other year; selecting a day there '
+      + 'opens the day itself.</p>'
       + '<p class="card-sub" style="max-width:none">Keyboard: arrow keys move between tiles, '
       + 'Enter opens one, Escape goes back.</p>';
 
@@ -907,9 +1013,14 @@
       out.push(tile(v.short + (v.agg === 'sum' ? ', total' : ', mean'), nf(rec.v, v.digits),
         v.units, bits.join(' · ') || 'complete', accent));
     });
-    const counts = FLAGS.filter(f => mo.c[f.key]).map(f => mo.c[f.key] + ' ' + f.key);
-    out.push(tile('Threshold days', String(FLAGS.reduce((a, f) => a + mo.c[f.key], 0)), '',
-      counts.join(', ') || 'none in this month'));
+    /* The tile counts the days that met at least one threshold, not the thresholds met. A day can
+       be a summer day, a hot day, a tropical night and the warmest of its date at once, so summing
+       the tests reported 56 "threshold days" in a month of 31. */
+    let marked = 0;
+    for (let d = 1; d <= mo.n; d++) if (DAYS.flags[mo.i0 + d - 1]) marked += 1;
+    const counts = FLAGS.filter(f => mo.c[f.key]).map(f => mo.c[f.key] + ' ' + f.short);
+    out.push(tile('Days meeting a threshold', String(marked),
+      'of ' + mo.n, counts.join(' · ') || 'none in this month'));
     return out.join('');
   }
 
@@ -1000,6 +1111,465 @@
     rows.forEach(s => { seen[s.why] = (seen[s.why] || []).concat(BADGES[s.key].label); });
     return '<p class="smallnote">Withheld for want of measurement: '
       + Object.keys(seen).map(why => seen[why].join(', ') + ' (' + why + ')').join('; ') + '.</p>';
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     Month-view building blocks
+     ------------------------------------------------------------------------------------------
+     Every chart in the month view reads the month the same way - a day axis of 1..n, one daily
+     statistic, and the ±CLIM_WINDOW normal for the same calendar dates - so the three accessors
+     below are what they all start from. Restating the loop in each chart is what let an earlier
+     pass draw one series against the normal of another.
+     ------------------------------------------------------------------------------------------ */
+
+  function monthDays(mo) {
+    const out = [];
+    for (let d = 1; d <= mo.n; d++) out.push(d);
+    return out;
+  }
+
+  function monthSeries(mo, key, stat) {
+    const out = [];
+    for (let d = 1; d <= mo.n; d++) out.push(dayStat(key, stat, mo.i0 + d - 1));
+    return out;
+  }
+
+  /** The normal course of one statistic over the dates of one month: the band and its centre. */
+  function monthNormal(mo, key, stat) {
+    const n = NORM[key] && NORM[key][stat];
+    const lo = [], hi = [], mid = [];
+    for (let d = 1; d <= mo.n; d++) {
+      const doy = doy365(mo.y, mo.m, d);
+      lo.push(n ? n.p10[doy] : null);
+      hi.push(n ? n.p90[doy] : null);
+      mid.push(n ? n.mean[doy] : null);
+    }
+    return { lo: lo, hi: hi, mid: mid, exists: !!n };
+  }
+
+  /** A second value axis on the right, for the one chart that carries two units at once. */
+  function drawRightAxis(f, sy, spec) {
+    const g = el('g', {}, f.svg);
+    const x = f.m.left + f.iw;
+    el('line', { x1: x, x2: x, y1: f.m.top, y2: f.m.top + f.ih, class: 'ax-line' }, g);
+    (spec.ticks || niceTicks(sy.domain[0], sy.domain[1], 3)).forEach(v => {
+      const y = sy(v);
+      if (y < f.m.top - 1 || y > f.m.top + f.ih + 1) return;
+      el('line', { x1: x, x2: x + 4, y1: y, y2: y, class: 'ax-line' }, g);
+      svgText(g, x + 7, y + 4, nf(v, spec.digits === undefined ? 0 : spec.digits), 'ax-text',
+        { 'text-anchor': 'start' });
+    });
+    if (spec.label) {
+      const t = svgText(g, 0, 0, spec.label, 'ax-title', { 'text-anchor': 'middle' });
+      t.setAttribute('transform',
+        'translate(' + (x + 34) + ',' + (f.m.top + f.ih / 2) + ') rotate(-90)');
+    }
+    return g;
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     Departure from the normal, day by day
+     ------------------------------------------------------------------------------------------
+     A monthly anomaly is one number for thirty days, and the same number arises from a month that
+     was uniformly mild and from one that held a cold first week and a hot last. This is the chart
+     that separates them.
+     ------------------------------------------------------------------------------------------ */
+
+  function drawMonthAnomaly(mo) {
+    return function (host) {
+      const days = monthDays(mo);
+      const value = monthSeries(mo, 'TA', 'mean');
+      const norm = monthNormal(mo, 'TA', 'mean');
+      const dev = value.map((v, i) => isNum(v) && isNum(norm.mid[i]) ? v - norm.mid[i] : null);
+      // The running mean of the departure, which is where the monthly anomaly comes from.
+      const run = [];
+      let acc = 0, seen = 0;
+      dev.forEach(v => {
+        if (isNum(v)) { acc += v; seen += 1; }
+        run.push(seen ? acc / seen : null);
+      });
+
+      const f = frame(host, { aspect: 0.36, ariaLabel: 'Daily temperature departure' });
+      const ext = extent([dev]);
+      const span = Math.max(Math.abs(ext[0]), Math.abs(ext[1]), 1) * 1.12;
+      const sx = linear(0.5, mo.n + 0.5, f.m.left, f.m.left + f.iw);
+      const sy = linear(-span, span, f.m.top + f.ih, f.m.top);
+      drawAxes(f, sx, sy, { yDigits: 0, yLabel: VARS.TA.units, xTicks: dayTicks(mo, f.iw) });
+
+      const bw = Math.max(2, f.iw / mo.n - 2.5);
+      days.forEach((d, i) => {
+        if (!isNum(dev[i])) return;
+        const a = sy(0), b = sy(dev[i]);
+        el('rect', { x: sx(d) - bw / 2, y: Math.min(a, b), width: bw,
+          height: Math.max(1.2, Math.abs(b - a)), rx: Math.min(3, bw / 2),
+          fill: dev[i] >= 0 ? f.p.warm : f.p.cold }, f.svg);
+      });
+      el('line', { x1: f.m.left, x2: f.m.left + f.iw, y1: sy(0), y2: sy(0),
+        stroke: f.p.axis, 'stroke-width': 1 }, f.svg);
+      el('path', { d: pathFrom(days, run, sx, sy), fill: 'none', stroke: f.p.ink,
+        'stroke-width': 1.8, 'stroke-dasharray': '5 3' }, f.svg);
+
+      hover(f, sx, days, d => {
+        const i = d - 1;
+        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+          { k: 'daily mean', v: nf(value[i], 1) + ' ' + VARS.TA.units },
+          { k: 'normal for the date', v: nf(norm.mid[i], 1) + ' ' + VARS.TA.units,
+            color: f.p.muted },
+          { k: 'departure', v: nfs(dev[i], 1) + ' ' + VARS.TA.units,
+            color: isNum(dev[i]) && dev[i] >= 0 ? f.p.warm : f.p.cold },
+          { k: 'month so far', v: nfs(run[i], 1) + ' ' + VARS.TA.units, color: f.p.ink }
+        ]);
+      }, d => selectDay(d));
+    };
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     Soil water against the rain that drives it
+     ------------------------------------------------------------------------------------------
+     The two are only interpretable together: a soil water series alone cannot show whether a
+     decline is drying or a sensor that stopped responding, and the rise after a rain day is what
+     separates the two. The rain is given the lower part of the panel on its own axis so it reads
+     as the driver rather than as a second series of the same kind.
+     ------------------------------------------------------------------------------------------ */
+
+  function drawMonthSoil(mo) {
+    return function (host) {
+      const days = monthDays(mo);
+      const swc = monthSeries(mo, 'SWC_0.2', 'mean');
+      const norm = monthNormal(mo, 'SWC_0.2', 'mean');
+      const rain = monthSeries(mo, 'PREC', 'sum');
+
+      const f = frame(host, { aspect: 0.36, margin: { top: 12, right: 52, bottom: 30, left: 46 },
+        ariaLabel: 'Soil water content and precipitation' });
+      const ext = extent([swc, norm.lo, norm.hi]);
+      const pad = (ext[1] - ext[0]) * 0.12 || 1;
+      const sx = linear(0.5, mo.n + 0.5, f.m.left, f.m.left + f.iw);
+      const sy = linear(ext[0] - pad, ext[1] + pad, f.m.top + f.ih, f.m.top);
+      // The rain axis is stretched so the bars occupy the lower two fifths and do not overdraw the
+      // soil water line, which is the series being explained.
+      const rmax = extent([rain])[1];
+      const sy2 = linear(0, (rmax > 0 ? rmax : 1) * 2.5, f.m.top + f.ih, f.m.top);
+      drawAxes(f, sx, sy, { yDigits: 0, yLabel: VARS['SWC_0.2'].units,
+        xTicks: dayTicks(mo, f.iw) });
+      drawRightAxis(f, sy2, { ticks: niceTicks(0, rmax > 0 ? rmax : 1, 2), digits: 0,
+        label: VARS.PREC.units });
+
+      const bw = Math.max(2, f.iw / mo.n - 2.5);
+      days.forEach((d, i) => {
+        if (!isNum(rain[i]) || rain[i] <= 0) return;
+        el('rect', { x: sx(d) - bw / 2, y: sy2(rain[i]), width: bw,
+          height: Math.max(1, sy2(0) - sy2(rain[i])), rx: Math.min(2.5, bw / 2),
+          fill: f.p.series[0], opacity: 0.42 }, f.svg);
+      });
+      if (norm.exists) {
+        el('path', { d: areaFrom(days, norm.lo, norm.hi, sx, sy), fill: f.p.bandOuter }, f.svg);
+        el('path', { d: pathFrom(days, norm.mid, sx, sy), fill: 'none', stroke: f.p.muted,
+          'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, f.svg);
+      }
+      el('path', { d: pathFrom(days, swc, sx, sy), fill: 'none', stroke: f.p.series[2],
+        'stroke-width': 2.4, 'stroke-linejoin': 'round' }, f.svg);
+
+      hover(f, sx, days, d => {
+        const i = d - 1;
+        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+          { k: 'soil water, 0.2 m', v: nf(swc[i], 1) + ' ' + VARS['SWC_0.2'].units,
+            color: f.p.series[2] },
+          { k: 'normal for the date', v: nf(norm.mid[i], 1) + ' ' + VARS['SWC_0.2'].units,
+            color: f.p.muted },
+          { k: 'precipitation', v: nf(rain[i], 1) + ' ' + VARS.PREC.units, color: f.p.series[0] }
+        ]);
+      }, d => selectDay(d));
+    };
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     One compact panel per remaining variable, each against its own normal band
+     ------------------------------------------------------------------------------------------
+     Radiation, evaporative demand and humidity carry no chart of their own otherwise, and a
+     monthly mean is the statistic least able to describe them: a month can reach its normal
+     radiation from steady weather or from a bright fortnight and a dull one.
+     ------------------------------------------------------------------------------------------ */
+
+  function drawDailyBand(mo, key, stat, kind) {
+    return function (host) {
+      const days = monthDays(mo);
+      const value = monthSeries(mo, key, stat);
+      const norm = monthNormal(mo, key, stat);
+      const v = VARS[key];
+      const f = frame(host, { aspect: 0.52, margin: { top: 10, right: 12, bottom: 26, left: 44 },
+        ariaLabel: 'Daily ' + v.short + ' against the normal' });
+      const ext = extent([value, norm.lo, norm.hi]);
+      const pad = (ext[1] - ext[0]) * 0.08 || 1;
+      const floor = v.agg === 'sum' || key === 'SW_IN' || key === 'VPD' ? 0 : ext[0] - pad;
+      const sx = linear(0.5, mo.n + 0.5, f.m.left, f.m.left + f.iw);
+      const sy = linear(Math.min(floor, ext[0]), ext[1] + pad, f.m.top + f.ih, f.m.top);
+      drawAxes(f, sx, sy, { yDigits: v.digits > 1 ? 1 : 0, yTickCount: 3,
+        xTicks: dayTicks(mo, Math.min(400, f.iw)) });
+      if (norm.exists) {
+        el('path', { d: areaFrom(days, norm.lo, norm.hi, sx, sy), fill: f.p.bandOuter }, f.svg);
+        el('path', { d: pathFrom(days, norm.mid, sx, sy), fill: 'none', stroke: f.p.muted,
+          'stroke-width': 1.4, 'stroke-dasharray': '4 3' }, f.svg);
+      }
+      if (kind === 'area') {
+        el('path', { d: areaFrom(days, days.map(() => sy.domain[0]), value, sx, sy),
+          fill: f.p.series[3], opacity: 0.35 }, f.svg);
+      }
+      el('path', { d: pathFrom(days, value, sx, sy), fill: 'none',
+        stroke: kind === 'area' ? f.p.series[3] : f.p.series[1], 'stroke-width': 2,
+        'stroke-linejoin': 'round' }, f.svg);
+      hover(f, sx, days, d => {
+        const i = d - 1;
+        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+          { k: v.short, v: nf(value[i], v.digits) + ' ' + v.units,
+            color: kind === 'area' ? f.p.series[3] : f.p.series[1] },
+          { k: 'normal for the date', v: nf(norm.mid[i], v.digits) + ' ' + v.units,
+            color: f.p.muted }
+        ]);
+      }, d => selectDay(d));
+    };
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     The average day of the month
+     ------------------------------------------------------------------------------------------
+     Composited from the hourly arrays: every day of the month averaged onto one 24-hour axis, and
+     beside it the same composite over every occurrence of that calendar month in the record. A
+     monthly mean cannot show that a warm month was warm at night rather than by day, and the two
+     have different causes - the first is cloud and humidity, the second radiation.
+     ------------------------------------------------------------------------------------------ */
+
+  const DIURNAL_CACHE = {};
+
+  /* The order the diurnal panels read in: what drives the day, then what it did to the air, then
+     what fell out of it. `Object.keys` would give the order the registry happens to declare. */
+  const DIURNAL_ORDER = ['SW_IN', 'TA', 'PREC'];
+  const diurnalVars = () => (HOURLY ? DIURNAL_ORDER.filter(k => HOURLY.vars[k])
+    .concat(Object.keys(HOURLY.vars).filter(k => DIURNAL_ORDER.indexOf(k) < 0)) : []);
+
+  /** The mean hour-of-day profile of one variable over `count` days from day index `from`. */
+  function composite(key, from, count) {
+    const h = HOURLY && HOURLY.vars[key];
+    if (!h) return null;
+    const sum = new Array(24).fill(0), n = new Array(24).fill(0);
+    for (let k = 0; k < count; k++) {
+      const base = (from + k) * 24;
+      for (let hh = 0; hh < 24; hh++) {
+        const raw = h.values[base + hh];
+        if (raw === null || raw === undefined) continue;
+        sum[hh] += raw / h.scale;
+        n[hh] += 1;
+      }
+    }
+    return n.some(x => x > 0) ? sum.map((s, i) => (n[i] ? s / n[i] : null)) : null;
+  }
+
+  /** The same profile over every occurrence of one calendar month in the record. */
+  function climComposite(key, month) {
+    const id = key + '|' + month;
+    if (id in DIURNAL_CACHE) return DIURNAL_CACHE[id];
+    const h = HOURLY && HOURLY.vars[key];
+    let out = null;
+    if (h) {
+      const sum = new Array(24).fill(0), n = new Array(24).fill(0);
+      MONTHS.filter(x => x.m === month).forEach(x => {
+        for (let k = 0; k < x.n; k++) {
+          const base = (x.i0 + k) * 24;
+          for (let hh = 0; hh < 24; hh++) {
+            const raw = h.values[base + hh];
+            if (raw === null || raw === undefined) continue;
+            sum[hh] += raw / h.scale;
+            n[hh] += 1;
+          }
+        }
+      });
+      out = n.some(v => v > 0) ? sum.map((s, i) => (n[i] ? s / n[i] : null)) : null;
+    }
+    DIURNAL_CACHE[id] = out;
+    return out;
+  }
+
+  function drawComposite(key, values, normal, kind, names) {
+    const label = names || { self: 'this month', ref: 'the record' };
+    return function (host) {
+      const hours = values.map((v, i) => i + 0.5);
+      const v = VARS[key];
+      const f = frame(host, { aspect: 0.62, margin: { top: 10, right: 12, bottom: 28, left: 42 },
+        ariaLabel: 'Mean diurnal course of ' + v.short });
+      const ext = extent([values, normal]);
+      const lo = (kind === 'bars' || kind === 'area') ? 0 : ext[0] - (ext[1] - ext[0]) * 0.1;
+      const sy = linear(lo, ext[1] + (ext[1] - ext[0]) * 0.1 || 1, f.m.top + f.ih, f.m.top);
+      const sx = linear(0, 24, f.m.left, f.m.left + f.iw);
+      drawAxes(f, sx, sy, { yDigits: v.digits > 1 ? 2 : v.digits, yTickCount: 3,
+        xTicks: [0, 6, 12, 18, 24].map(h => ({ v: h, label: h + 'h' })) });
+      if (normal) {
+        el('path', { d: pathFrom(hours, normal, sx, sy), fill: 'none', stroke: f.p.muted,
+          'stroke-width': 1.6, 'stroke-dasharray': '4 3' }, f.svg);
+      }
+      if (kind === 'bars') {
+        const bw = Math.max(2, f.iw / 24 - 2);
+        values.forEach((x, i) => {
+          if (!isNum(x) || x <= 0) return;
+          el('rect', { x: sx(i + 0.5) - bw / 2, y: sy(x), width: bw,
+            height: Math.max(1, sy(0) - sy(x)), rx: Math.min(2, bw / 2),
+            fill: f.p.series[0] }, f.svg);
+        });
+      } else if (kind === 'area') {
+        el('path', { d: areaFrom(hours, values.map(() => 0), values, sx, sy),
+          fill: f.p.series[3], opacity: 0.4 }, f.svg);
+        el('path', { d: pathFrom(hours, values, sx, sy), fill: 'none', stroke: f.p.series[3],
+          'stroke-width': 2.2 }, f.svg);
+      } else {
+        el('path', { d: pathFrom(hours, values, sx, sy), fill: 'none', stroke: f.p.series[1],
+          'stroke-width': 2.4, 'stroke-linejoin': 'round' }, f.svg);
+      }
+      hover(f, sx, hours, h => {
+        const k = Math.floor(h);
+        const rows = [{ k: label.self, v: nf(values[k], v.digits) + ' ' + v.units,
+          color: kind === 'bars' ? f.p.series[0] : kind === 'area' ? f.p.series[3] : f.p.series[1] }];
+        if (normal) {
+          rows.push({ k: label.ref, v: nf(normal[k], v.digits) + ' ' + v.units,
+            color: f.p.muted });
+        }
+        return tipRows(String(k).padStart(2, '0') + ':00–' + String(k + 1).padStart(2, '0') + ':00',
+          rows);
+      });
+    };
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     Where this month sits among the same month of every other year
+     ------------------------------------------------------------------------------------------
+     One line per variable carrying every year that is measured well enough to be ranked, with
+     this one filled. It answers the question an anomaly cannot - whether a departure of one
+     degree is remarkable for this calendar month or ordinary - because the spread of the other
+     years is drawn rather than summarised.
+     ------------------------------------------------------------------------------------------ */
+
+  function drawRankStrip(mo, key) {
+    return function (host) {
+      const v = VARS[key];
+      const rows = MONTHS.filter(x => x.m === mo.m && x[key] && isNum(x[key].v));
+      const width = Math.max(140, host.clientWidth || 220);
+      const height = 30;
+      const svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height,
+        role: 'img', 'aria-label': v.short + ' in every ' + MONTH_NAME[mo.m - 1] + ' of the record' });
+      host.innerHTML = '';
+      host.appendChild(svg);
+      const p = palette();
+      const ext = extent([rows.map(x => x[key].v)]);
+      const pad = (ext[1] - ext[0]) * 0.06 || 1;
+      const sx = linear(ext[0] - pad, ext[1] + pad, 9, width - 9);
+      const yc = 15;
+
+      el('line', { x1: 6, x2: width - 6, y1: yc, y2: yc, stroke: p.grid, 'stroke-width': 2,
+        'stroke-linecap': 'round' }, svg);
+      const nm = CLIM[key] && CLIM[key][String(mo.m)];
+      if (nm) {
+        el('line', { x1: sx(nm.mean), x2: sx(nm.mean), y1: yc - 8, y2: yc + 8, stroke: p.muted,
+          'stroke-width': 1.4, 'stroke-dasharray': '3 2' }, svg);
+      }
+      rows.forEach(x => {
+        const here = x.y === mo.y;
+        const dot = el('circle', { cx: sx(x[key].v), cy: yc, r: here ? 5.5 : 3.4,
+          fill: here ? p.series[1] : p.ink2, opacity: here ? 1 : 0.32,
+          stroke: here ? p.surface : 'none', 'stroke-width': here ? 1.6 : 0,
+          style: here ? '' : 'cursor:pointer' }, svg);
+        dot.addEventListener('mousemove', ev => tip.show(
+          tipRows(MONTH_NAME[mo.m - 1] + ' ' + x.y,
+            [{ k: v.short, v: nf(x[key].v, v.digits) + ' ' + v.units }]),
+          ev.clientX, ev.clientY));
+        dot.addEventListener('mouseleave', tip.hide);
+        if (!here) {
+          dot.addEventListener('click',
+            () => { location.hash = x.y + '-' + String(mo.m).padStart(2, '0'); });
+        }
+      });
+      svgText(svg, 4, height - 1, nf(ext[0], v.digits), 'scalebar-text', { 'text-anchor': 'start' });
+      svgText(svg, width - 4, height - 1, nf(ext[1], v.digits), 'scalebar-text',
+        { 'text-anchor': 'end' });
+    };
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     The same month of every year, as daily curves
+     ------------------------------------------------------------------------------------------
+     The rank strips place the month as one number among twenty-one, and the bar chart places its
+     aggregate. Neither shows its *shape*, which is what says whether a warm month was warm
+     throughout or held one heat wave that carried it - and whether the run it held is one the
+     other years also produce.
+     ------------------------------------------------------------------------------------------ */
+
+  function drawMonthShape(mo) {
+    return function (host) {
+      const rows = MONTHS.filter(x => x.m === mo.m);
+      const days = monthDays(mo);
+      const norm = monthNormal(mo, 'TA', 'mean');
+      const series = rows.map(x => {
+        const out = [];
+        for (let d = 1; d <= mo.n; d++) {
+          // A February of 28 days has no 29th; the curve simply ends where its month does.
+          out.push(d <= x.n ? dayStat('TA', 'mean', x.i0 + d - 1) : null);
+        }
+        return { y: x.y, values: out };
+      });
+
+      const f = frame(host, { aspect: 0.36,
+        ariaLabel: 'Daily mean temperature in every ' + MONTH_NAME[mo.m - 1] + ' of the record' });
+      const ext = extent(series.map(s => s.values));
+      const sx = linear(0.5, mo.n + 0.5, f.m.left, f.m.left + f.iw);
+      const sy = linear(ext[0] - 1, ext[1] + 1, f.m.top + f.ih, f.m.top);
+      drawAxes(f, sx, sy, { yDigits: 0, yLabel: VARS.TA.units, xTicks: dayTicks(mo, f.iw) });
+      series.filter(s => s.y !== mo.y).forEach(s => {
+        el('path', { d: pathFrom(days, s.values, sx, sy), fill: 'none', stroke: f.p.ink2,
+          'stroke-width': 1.1, opacity: 0.26, 'stroke-linejoin': 'round' }, f.svg);
+      });
+      el('path', { d: pathFrom(days, norm.mid, sx, sy), fill: 'none', stroke: f.p.muted,
+        'stroke-width': 1.6, 'stroke-dasharray': '4 3' }, f.svg);
+      const here = series.find(s => s.y === mo.y);
+      if (here) {
+        el('path', { d: pathFrom(days, here.values, sx, sy), fill: 'none', stroke: f.p.series[1],
+          'stroke-width': 2.6, 'stroke-linejoin': 'round' }, f.svg);
+      }
+
+      hover(f, sx, days, d => {
+        const i = d - 1;
+        const others = series.filter(s => s.y !== mo.y).map(s => s.values[i]).filter(isNum)
+          .sort((a, b) => a - b);
+        const rank = here && isNum(here.values[i])
+          ? series.map(s => s.values[i]).filter(isNum).filter(v => v > here.values[i]).length + 1
+          : null;
+        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1], [
+          { k: mo.y, v: nf(here ? here.values[i] : null, 1) + ' ' + VARS.TA.units,
+            color: f.p.series[1] },
+          { k: 'normal for the date', v: nf(norm.mid[i], 1) + ' ' + VARS.TA.units,
+            color: f.p.muted },
+          { k: 'coldest to warmest', v: others.length
+            ? nf(others[0], 1) + ' – ' + nf(others[others.length - 1], 1) : '–' },
+          { k: isNum(rank) ? ord(rank) + ' warmest of ' + (others.length + 1) : '', rule: true }
+        ]);
+      }, d => selectDay(d));
+    };
+  }
+
+  function rankStrips(mo) {
+    const host = document.createElement('div');
+    host.className = 'strips';
+    DATA.variables.forEach(v => {
+      const rec = mo[v.key];
+      if (!rec || !isNum(rec.v)) return;
+      const row = document.createElement('div');
+      row.className = 'strip';
+      const rank = isNum(rec.r) && isNum(rec.n)
+        ? '<b>' + ord(rec.r) + '</b> highest of ' + rec.n
+        : 'not ranked';
+      row.innerHTML = '<span class="sname"><b>' + v.short + '</b>'
+        + nf(rec.v, v.digits) + ' ' + v.units + '</span>'
+        + '<div class="striphost"></div>'
+        + '<span class="srank">' + rank + '</span>';
+      host.appendChild(row);
+      mountChart(row.querySelector('.striphost'), drawRankStrip(mo, v.key));
+    });
+    return host;
   }
 
   function drawMonthTemperature(mo) {
@@ -1237,11 +1807,50 @@
     return tableHTML(columns, rows);
   }
 
+  const SEASON = ['Winter', 'Winter', 'Spring', 'Spring', 'Spring', 'Summer', 'Summer', 'Summer',
+    'Autumn', 'Autumn', 'Autumn', 'Winter'];
+
+  /**
+   * One sentence stating what the month was, assembled from the statistics the tiles carry.
+   * Nothing is asserted that the numbers do not support: a clause is omitted where its value or
+   * its normal is missing, rather than falling back to a form of words that would read as a
+   * measurement.
+   */
+  function monthLede(mo) {
+    const bits = [];
+    const ta = mo.TA, pr = mo.PREC;
+    if (ta && isNum(ta.v)) {
+      let s = 'Mean temperature <b>' + nf(ta.v, 1) + ' ' + VARS.TA.units + '</b>';
+      if (isNum(ta.a)) {
+        s += ', ' + nfs(ta.a, 1) + ' ' + VARS.TA.units + ' against the '
+          + MONTH_NAME[mo.m - 1] + ' normal';
+      }
+      if (isNum(ta.r) && isNum(ta.n)) s += ' (' + ord(ta.r) + ' warmest of ' + ta.n + ')';
+      bits.push(s);
+    }
+    if (pr && isNum(pr.v)) {
+      let s = 'precipitation <b>' + nf(pr.v, 0) + ' ' + VARS.PREC.units + '</b>';
+      if (isNum(pr.p)) s += ', ' + nf(pr.p, 0) + ' % of normal';
+      if (mo.c.wet) s += ' on ' + mo.c.wet + ' wet day' + (mo.c.wet === 1 ? '' : 's');
+      bits.push(s);
+    }
+    const plural = (n, what) => n + ' ' + what + ' day' + (n === 1 ? '' : 's');
+    const counts = [
+      mo.c.hot ? plural(mo.c.hot, 'hot') : null,
+      mo.c.frost ? plural(mo.c.frost, 'frost') : null,
+      mo.c.ice ? plural(mo.c.ice, 'ice') : null
+    ].filter(Boolean);
+    if (counts.length) bits.push(counts.join(', '));
+    if (!bits.length) return 'No variable in this month carries a monthly value.';
+    return cap(bits.join('; ')) + '.';
+  }
+
   function renderMonth() {
     const mo = monthAt(state.y, state.m);
     const host = document.getElementById('month-body');
     compactCharts();
-    document.getElementById('month-title').textContent = MONTH_NAME[state.m - 1] + ' ' + state.y;
+    document.getElementById('month-title').innerHTML = MONTH_NAME[state.m - 1] + ' ' + state.y
+      + '<span class="season">' + SEASON[state.m - 1] + '</span>';
 
     const idx = monthIndex[state.y + '-' + state.m];
     document.getElementById('month-prev').disabled = idx <= 0;
@@ -1249,14 +1858,19 @@
     document.getElementById('year-prev').disabled = !monthAt(state.y - 1, state.m);
     document.getElementById('year-next').disabled = !monthAt(state.y + 1, state.m);
 
-    host.innerHTML = '<div class="tiles" id="month-tiles"></div>'
+    host.innerHTML = '<p class="monthlede" id="month-lede"></p>'
+      + '<div class="tiles" id="month-tiles"></div>'
       + '<h2 class="section">What was notable</h2><div id="month-badges"></div>'
       + '<div class="grid" id="month-highlights"></div>'
       + '<h2 class="section">Day by day</h2><div class="grid" id="month-charts"></div>'
+      + '<h2 class="section">The average day</h2><div class="grid" id="month-diurnal"></div>'
+      + '<h2 class="section">This month against the record</h2>'
+      + '<div class="grid" id="month-context"></div>'
       + '<h2 class="section">The days</h2><div class="grid" id="month-days"></div>'
       + '<div id="day-panel"></div>'
       + '<h2 class="section">Every day of this month</h2><div class="grid" id="month-table"></div>';
 
+    document.getElementById('month-lede').innerHTML = monthLede(mo);
     document.getElementById('month-tiles').innerHTML = monthTiles(mo);
     document.getElementById('month-badges').innerHTML = monthBadges(mo) + suppressedNote(mo);
 
@@ -1267,9 +1881,10 @@
       sub: 'The days a monthly mean does not show.'
     }).innerHTML = monthHighlights(mo);
 
-    const charts = document.getElementById('month-charts');
+    // Named for the section rather than `charts`, which is the module's chart registry.
+    const dayByDay = document.getElementById('month-charts');
     if (VARS.TA) {
-      chartCard(charts, {
+      chartCard(dayByDay, {
         title: 'Daily temperature against the normal', width: 'w-6',
         sub: 'The daily minimum-to-maximum range and the daily mean, over the ±' + M.clim_window
           + ' day climatological band for the same date.',
@@ -1281,9 +1896,22 @@
         ],
         draw: drawMonthTemperature(mo)
       });
+      chartCard(dayByDay, {
+        title: 'How far each day sat from its normal', width: 'w-6',
+        sub: 'Daily mean minus the normal for the same date. The dashed line is the running mean '
+          + 'of those departures, which is where the monthly anomaly comes from.',
+        legend: [
+          { color: 'var(--pole-warm)', label: 'warmer than the date' },
+          { color: 'var(--pole-cold)', label: 'colder than the date' },
+          { color: 'var(--text-primary)', label: 'month to date', line: true }
+        ],
+        foot: 'One monthly anomaly arises from a month that was uniformly mild and from one that '
+          + 'held a cold first week and a hot last. This separates them.',
+        draw: drawMonthAnomaly(mo)
+      });
     }
     if (VARS.PREC) {
-      chartCard(charts, {
+      chartCard(dayByDay, {
         title: 'Daily precipitation', width: 'w-6',
         sub: 'Daily totals, with the normal for each date.',
         legend: [
@@ -1292,7 +1920,7 @@
         ],
         draw: drawMonthPrecip(mo)
       });
-      chartCard(charts, {
+      chartCard(dayByDay, {
         title: 'Precipitation accumulated through the month', width: 'w-6',
         sub: 'The running total against the running total of the daily normals.',
         legend: [
@@ -1302,8 +1930,125 @@
         draw: drawMonthCumulative(mo)
       });
     }
-    chartCard(charts, {
-      title: 'Every ' + MONTH_NAME[state.m - 1] + ' in the record', width: 'w-6',
+    if (VARS['SWC_0.2'] && VARS.PREC) {
+      chartCard(dayByDay, {
+        title: 'Soil water and the rain that drives it', width: 'w-6',
+        sub: 'Soil water content at 0.2 m against its ±' + M.clim_window + ' day normal band, over '
+          + 'the daily precipitation on its own axis.',
+        legend: [
+          { color: 'var(--series-3)', label: 'soil water, 0.2 m', line: true },
+          { color: 'var(--band-outer)', label: 'normal 10th–90th percentile' },
+          { color: 'var(--series-1)', label: 'precipitation, right axis' }
+        ],
+        foot: 'A decline in soil water is drying or a probe that has stopped responding, and the '
+          + 'rise after a rain day is what separates the two.',
+        draw: drawMonthSoil(mo)
+      });
+    }
+
+    // Radiation, evaporative demand and humidity have no chart of their own otherwise. They share
+    // one card of compact panels rather than three half-width cards, which would push the day
+    // calendar below two screens.
+    const bands = [
+      ['SW_IN', 'mean', 'area'], ['VPD', 'mean', 'line'], ['RH', 'mean', 'line']
+    ].filter(b => VARS[b[0]] && DAYS.series[b[0] + '_' + b[1]]);
+    if (bands.length) {
+      const body = cardEl(dayByDay, {
+        title: 'Radiation, evaporative demand and humidity', width: 'w-6',
+        sub: 'Each daily mean over its own ±' + M.clim_window + ' day normal band for the same '
+          + 'dates. Selecting a day opens it.'
+      });
+      const wrap = document.createElement('div');
+      wrap.className = 'dayfacets tight';
+      body.appendChild(wrap);
+      bands.forEach(b => {
+        const v = VARS[b[0]];
+        const box = document.createElement('div');
+        box.innerHTML = '<p class="facet-title">' + v.short
+          + ' <span class="unit">(' + v.units + ')</span></p><div class="chart"></div>';
+        wrap.appendChild(box);
+        mountChart(box.querySelector('.chart'), drawDailyBand(mo, b[0], b[1], b[2]));
+      });
+      body.insertAdjacentHTML('beforeend', legendHTML([
+        { color: 'var(--band-outer)', label: 'normal 10th–90th percentile' },
+        { color: 'var(--text-muted)', label: 'normal for the date', line: true }
+      ]));
+    }
+
+    // -- The average day ---------------------------------------------------------------------
+    const diurnal = document.getElementById('month-diurnal');
+    if (!HOURLY) {
+      cardEl(diurnal, { title: 'The average day', width: 'w-12' }).innerHTML =
+        '<p class="card-sub" style="max-width:none">This page was built without the hourly '
+        + 'arrays, so no diurnal composite can be drawn. Rebuild without <code>--no-hourly</code>.'
+        + '</p>';
+    } else {
+      const body = cardEl(diurnal, {
+        title: 'The mean day of ' + MONTH_NAME[state.m - 1] + ' ' + state.y, width: 'w-12',
+        sub: 'Every day of the month averaged onto one 24-hour axis, against the same composite '
+          + 'over every ' + MONTH_NAME[state.m - 1] + ' of the record.',
+        foot: 'A monthly mean cannot show whether a warm month was warm at night or by day, and '
+          + 'the two have different causes: cloud and humidity hold the night up, radiation lifts '
+          + 'the afternoon.'
+      });
+      const wrap = document.createElement('div');
+      wrap.className = 'dayfacets';
+      body.appendChild(wrap);
+      let drawn = 0;
+      diurnalVars().forEach(key => {
+        const values = composite(key, mo.i0, mo.n);
+        if (!values) return;
+        drawn += 1;
+        const v = VARS[key];
+        const box = document.createElement('div');
+        box.innerHTML = '<p class="facet-title">' + v.short
+          + ' <span class="unit">(' + v.units + (key === 'PREC' ? ' per hour' : '')
+          + ')</span></p><div class="chart"></div>';
+        wrap.appendChild(box);
+        const kind = key === 'PREC' ? 'bars' : (key === 'SW_IN' ? 'area' : 'line');
+        mountChart(box.querySelector('.chart'),
+          drawComposite(key, values, climComposite(key, mo.m), kind));
+      });
+      if (!drawn) {
+        wrap.innerHTML = '<p class="card-sub">No hourly record survives for this month.</p>';
+      } else {
+        body.insertAdjacentHTML('beforeend', legendHTML([
+          { color: 'var(--text-muted)', label: 'every ' + MONTH_NAME[state.m - 1]
+            + ' of ' + M.first_year + '–' + M.last_year, line: true }
+        ]));
+      }
+    }
+
+    // -- The month against every other year of the same month --------------------------------
+    const context = document.getElementById('month-context');
+    const ranks = cardEl(context, {
+      title: 'Where this month sits among its own years', width: 'w-6',
+      sub: 'Every ' + MONTH_NAME[state.m - 1] + ' of the record on one line per variable, this '
+        + 'one filled. The dashed tick is the calendar-month normal.',
+      foot: 'Whether a departure of a degree is remarkable for this month or ordinary is a '
+        + 'question about the spread of the other years, which an anomaly alone does not carry. '
+        + 'Selecting another year opens it.'
+    });
+    ranks.appendChild(rankStrips(mo));
+
+    if (VARS.TA) {
+      chartCard(context, {
+        title: 'The shape of every ' + MONTH_NAME[state.m - 1] + ' in the record', width: 'w-6',
+        sub: 'Daily mean temperature through the month, one line per year, this one drawn over '
+          + 'them.',
+        legend: [
+          { color: 'var(--series-2)', label: MONTH_NAME[state.m - 1] + ' ' + state.y, line: true },
+          { color: 'var(--text-secondary)', label: 'the other years', line: true },
+          { color: 'var(--text-muted)', label: 'normal for the date', line: true }
+        ],
+        foot: 'A rank places the month as one number among twenty-one. This is what says whether '
+          + 'a warm month was warm throughout or held one spell that carried it.',
+        draw: drawMonthShape(mo)
+      });
+    }
+
+    chartCard(context, {
+      title: 'Every ' + MONTH_NAME[state.m - 1] + ' in the record', width: 'w-12',
       sub: metric().label + '. This month is highlighted; selecting another opens it.',
       legend: [
         { color: 'var(--series-2)', label: MONTH_NAME[state.m - 1] + ' ' + state.y },
@@ -1342,44 +2087,6 @@
     if (d === null) return;
     location.hash = state.y + '-' + String(state.m).padStart(2, '0') + '-'
       + String(d).padStart(2, '0');
-  }
-
-  function drawDiurnal(varKey, values, kind) {
-    return function (host) {
-      const hours = values.map((v, i) => i + 0.5);
-      const f = frame(host, { aspect: 0.62, margin: { top: 10, right: 12, bottom: 28, left: 40 },
-        ariaLabel: 'Diurnal course of ' + VARS[varKey].short });
-      const ext = extent([values]);
-      // A quantity drawn as bars or as a filled area is read against zero; a line is not.
-      const lo = (kind === 'bars' || kind === 'area') ? 0 : ext[0] - (ext[1] - ext[0]) * 0.08;
-      const sy = linear(lo, ext[1] + (ext[1] - ext[0]) * 0.08 || 1, f.m.top + f.ih, f.m.top);
-      const sx = linear(0, 24, f.m.left, f.m.left + f.iw);
-      drawAxes(f, sx, sy, { yDigits: VARS[varKey].digits > 1 ? 1 : 0, yTickCount: 3,
-        xTicks: [0, 6, 12, 18, 24].map(h => ({ v: h, label: h + 'h' })) });
-      if (kind === 'bars') {
-        const bw = Math.max(2, f.iw / 24 - 2);
-        values.forEach((v, i) => {
-          if (!isNum(v) || v <= 0) return;
-          el('rect', { x: sx(i + 0.5) - bw / 2, y: sy(v), width: bw,
-            height: Math.max(1, sy(0) - sy(v)), rx: Math.min(2, bw / 2),
-            fill: f.p.series[0] }, f.svg);
-        });
-      } else if (kind === 'area') {
-        el('path', { d: areaFrom(hours, values.map(() => 0), values, sx, sy),
-          fill: f.p.series[3], opacity: 0.55 }, f.svg);
-        el('path', { d: pathFrom(hours, values, sx, sy), fill: 'none', stroke: f.p.series[3],
-          'stroke-width': 2 }, f.svg);
-      } else {
-        el('path', { d: pathFrom(hours, values, sx, sy), fill: 'none', stroke: f.p.series[1],
-          'stroke-width': 2.2, 'stroke-linejoin': 'round' }, f.svg);
-      }
-      hover(f, sx, hours, h => {
-        const k = Math.floor(h);
-        return tipRows(String(k).padStart(2, '0') + ':00–' + String(k + 1).padStart(2, '0') + ':00',
-          [{ k: VARS[varKey].short,
-            v: nf(values[k], VARS[varKey].digits) + ' ' + VARS[varKey].units }]);
-      });
-    };
   }
 
   function hourlyFor(varKey, i) {
@@ -1453,27 +2160,37 @@
       return;
     }
 
+    const monthName = MONTH_NAME[state.m - 1];
     const facets = cardEl(grid, {
       title: 'Through the day', width: 'w-8',
-      sub: 'Hourly means, and hourly totals for precipitation, from the 30-minute products.'
+      sub: 'Hourly means, and hourly totals for precipitation, from the 30-minute products. The '
+        + 'dashed line on each panel is the mean day of every ' + monthName + ' in the record, so '
+        + 'the shape of this day can be read against the shape of an ordinary one.'
     });
     const wrap = document.createElement('div');
     wrap.className = 'dayfacets';
     facets.appendChild(wrap);
     let drawn = 0;
-    Object.keys(HOURLY.vars).forEach(key => {
+    diurnalVars().forEach(key => {
       const values = hourlyFor(key, i);
       if (!values) return;
       drawn++;
       const box = document.createElement('div');
-      box.innerHTML = '<p class="facet-title">' + VARS[key].short + ' (' + VARS[key].units
-        + ')</p><div class="chart"></div>';
+      box.innerHTML = '<p class="facet-title">' + VARS[key].short
+        + ' <span class="unit">(' + VARS[key].units + (key === 'PREC' ? ' per hour' : '')
+        + ')</span></p><div class="chart"></div>';
       wrap.appendChild(box);
       const kind = key === 'PREC' ? 'bars' : (key === 'SW_IN' ? 'area' : 'line');
-      mountChart(box.querySelector('.chart'), drawDiurnal(key, values, kind));
+      mountChart(box.querySelector('.chart'), drawComposite(key, values,
+        climComposite(key, state.m), kind, { self: 'this day', ref: 'mean ' + monthName }));
     });
     if (!drawn) {
       wrap.innerHTML = '<p class="card-sub">No hourly record survives for this day.</p>';
+    } else {
+      facets.insertAdjacentHTML('beforeend', legendHTML([
+        { color: 'var(--text-muted)', label: 'the mean ' + monthName + ' day, '
+          + M.first_year + '–' + M.last_year, line: true }
+      ]));
     }
   }
 
@@ -1598,6 +2315,7 @@
      Go
      ------------------------------------------------------------------------------------------ */
 
+  measureTopbar();
   renderHero();
   buildControls();
   renderBadgeLegend();
@@ -1608,10 +2326,15 @@
   route();
   window.addEventListener('hashchange', route);
 
+  /* The bar's height moves with the viewport - the breadcrumb wraps, the brand line reflows - and
+     the sticky month header offsets by it, so it is remeasured with everything else. */
+  new ResizeObserver(measureTopbar).observe(document.querySelector('.topbar'));
+
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
+      measureTopbar();
       redrawAll();
       renderScaleBar();
     }, 140);
