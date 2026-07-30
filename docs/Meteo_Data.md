@@ -32,11 +32,30 @@ numbers, and the file is standalone and works offline.
 | `VPD` | vapour pressure deficit | [Vapour pressure deficit at 47 m](Meteo_Data_VPD.html) | [`VPD`](dashboards/METEO_VPD_dashboard.html) |
 | `PREC` | precipitation | [Precipitation at 47 m](Meteo_Data_PREC.html) | [`PREC`](dashboards/METEO_PREC_dashboard.html) |
 | `SWC` | soil water content, five depths | [Soil water content at the forest floor](Meteo_Data_SWC.html) | [0.05](dashboards/METEO_SWC_0.05_dashboard.html) / [0.1](dashboards/METEO_SWC_0.1_dashboard.html) / [0.2](dashboards/METEO_SWC_0.2_dashboard.html) / [0.3](dashboards/METEO_SWC_0.3_dashboard.html) / [0.5](dashboards/METEO_SWC_0.5_dashboard.html) m |
-| `TS` | soil temperature, seven depths | in preparation | in preparation |
+| `TS` | soil temperature, seven depths | [Soil temperature at the forest floor](Meteo_Data_TS.html) | in preparation |
 
 A dashboard describes the column a user should analyse. Where a product exports
 both a measured and a `_HOMOGENIZED` column, the dashboard uses the homogenised
 one throughout and names it at the top.
+
+## The record month by month
+
+Where a dashboard takes one variable across the whole record, the
+[**calendar explorer**](dashboards/METEO_CALENDAR_explorer.html) takes one month
+across the variables. Every month of 2005-2025 sits on a single grid, coloured by
+a selectable quantity and marked with badges for what was notable in it; opening
+a month gives its daily course against the climatological normal and a day
+calendar, and opening a day gives that day's statistics and its diurnal course.
+It reads air temperature, precipitation, incoming shortwave radiation, vapour
+pressure deficit, relative humidity and soil water content at 0.2 m, and uses the
+homogenised column wherever a product exports one.
+
+Two conventions govern what it will and will not claim. A badge is withheld where
+less than 80 % of the variable behind it is measured, so an unmarked month means
+either that nothing was notable or that it could not be judged — the month itself
+says which. Calendar-month normals, and the anomalies and ranks taken from them,
+use only the years that are at least 90 % measured, so a sparsely measured month
+is never ranked and cannot appear as a record.
 
 ## Meteo products (notebooks `01`-`10`)
 
