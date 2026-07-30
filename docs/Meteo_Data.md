@@ -32,7 +32,7 @@ numbers, and the file is standalone and works offline.
 | `VPD` | vapour pressure deficit | [Vapour pressure deficit at 47 m](Meteo_Data_VPD.html) | [`VPD`](dashboards/METEO_VPD_dashboard.html) |
 | `PREC` | precipitation | [Precipitation at 47 m](Meteo_Data_PREC.html) | [`PREC`](dashboards/METEO_PREC_dashboard.html) |
 | `SWC` | soil water content, five depths | [Soil water content at the forest floor](Meteo_Data_SWC.html) | [0.05](dashboards/METEO_SWC_0.05_dashboard.html) / [0.1](dashboards/METEO_SWC_0.1_dashboard.html) / [0.2](dashboards/METEO_SWC_0.2_dashboard.html) / [0.3](dashboards/METEO_SWC_0.3_dashboard.html) / [0.5](dashboards/METEO_SWC_0.5_dashboard.html) m |
-| `TS` | soil temperature, seven depths | [Soil temperature at the forest floor](Meteo_Data_TS.html) | in preparation |
+| `TS` | soil temperature, seven depths | [Soil temperature at the forest floor](Meteo_Data_TS.html) | [0.05](dashboards/METEO_TS_0.05_dashboard.html) / [0.1](dashboards/METEO_TS_0.1_dashboard.html) / [0.15](dashboards/METEO_TS_0.15_dashboard.html) / [0.2](dashboards/METEO_TS_0.2_dashboard.html) / [0.3](dashboards/METEO_TS_0.3_dashboard.html) / [0.5](dashboards/METEO_TS_0.5_dashboard.html) / [0.6](dashboards/METEO_TS_0.6_dashboard.html) m |
 
 A dashboard describes the column a user should analyse. Where a product exports
 both a measured and a `_HOMOGENIZED` column, the dashboard uses the homogenised
