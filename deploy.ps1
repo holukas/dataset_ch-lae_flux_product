@@ -2,7 +2,8 @@
 #
 # Deploy the CH-LAE flux-product docs site to GitHub Pages.
 #
-# Builds the Quarto website, the notebook HTML and the meteo dashboards, then
+# Builds the Quarto website, the notebook HTML, the meteo dashboards and the
+# calendar explorer, then
 # publishes the output tree (docs/_build/html) to the gh-pages branch with
 # ghp-import. ghp-import commits and (with -p) force-pushes gh-pages — it does
 # NOT touch your source branch or working tree.
@@ -11,7 +12,7 @@
 #   ./deploy.ps1 -Preview        # build the FULL site + serve locally (pre-deploy check)
 #   ./deploy.ps1                 # build + publish to gh-pages
 #   ./deploy.ps1 -NoPublish      # build only, no serve, no push
-#   ./deploy.ps1 -NoDashboards   # skip the dashboards (see step 4)
+#   ./deploy.ps1 -NoDashboards   # skip the dashboards and the explorer (see step 4)
 #   ./deploy.ps1 -Remote origin -Branch gh-pages
 #
 # Requires: uv (the env provides quarto-cli and ghp-import) and a configured
@@ -63,13 +64,24 @@ Invoke-Step 'Clearing notebook staging (docs/notebooks/)' { uv run python build_
 #    available the step fails rather than being skipped quietly: the docs link to
 #    these files, so a silent skip would publish dead links. Use -NoDashboards to
 #    build the site without them deliberately.
+#
+#    The calendar explorer is built into the same folder and under the same
+#    switch, for the same reasons. It is filed under the meteo dashboards only
+#    because the products it reads are the meteo products; it is a calendar over
+#    whatever the dataset carries, not a meteo page. When the flux products land
+#    it should move out of dashboards/ into a place of its own beside them, and
+#    the link in docs/Meteo_Data.md should move with it.
 if (-not $NoDashboards) {
     Invoke-Step 'Building meteo dashboards (-> docs/_build/html/dashboards/)' {
         uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py `
             --all --outdir docs/_build/html/dashboards
     }
+    Invoke-Step 'Building calendar explorer (-> docs/_build/html/dashboards/)' {
+        uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py `
+            --outdir docs/_build/html/dashboards
+    }
 } else {
-    Write-Host '==> Skipping meteo dashboards (-NoDashboards); links to them will 404' -ForegroundColor Yellow
+    Write-Host '==> Skipping meteo dashboards and calendar explorer (-NoDashboards); links to them will 404' -ForegroundColor Yellow
 }
 
 if ($Preview) {

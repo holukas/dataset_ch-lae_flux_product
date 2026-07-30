@@ -1,0 +1,298 @@
+/* ==============================================================================================
+   CH-LAE meteo calendar explorer - components
+   ----------------------------------------------------------------------------------------------
+   This file is appended to `dashboard_assets/dashboard.css`, which supplies the tokens, the base
+   layout, the cards, the tables and the tooltip. Only the components this page adds are defined
+   here, so the two pages cannot drift apart and no colour is decided twice.
+
+   The one token added is a status colour for sparse coverage. It is deliberately not one of the
+   series slots: a warning is a state, not a series, and reusing a categorical hue for it would
+   make "sparsely measured" look like a sixth variable. It always ships with an icon and a label,
+   and a sparse tile also carries a hatch, so the state survives greyscale and forced colours.
+   ============================================================================================== */
+
+:root {
+  --tone-warn: #a35c00;
+  --tone-wet:  var(--series-1);
+  --tone-dry:  var(--series-4);
+  --tone-warm: var(--pole-warm);
+  --tone-cold: var(--pole-cold);
+  --cell-radius: 9px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where([data-theme="auto"]) { --tone-warn: #f0b74e; }
+}
+:root[data-theme="dark"] { --tone-warn: #f0b74e; }
+
+/* ---------------------------------------------------------------------------------------------
+   Top bar breadcrumb
+   --------------------------------------------------------------------------------------------- */
+
+.crumbs { margin-left: auto; display: flex; align-items: center; gap: 8px;
+          font-size: 13px; color: var(--text-muted); min-width: 0; }
+.crumbs .sep { opacity: .5; }
+.crumbs b { color: var(--text-primary); font-weight: 600; }
+
+/* ---------------------------------------------------------------------------------------------
+   Controls
+   --------------------------------------------------------------------------------------------- */
+
+.controls {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 22px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 13px 16px; margin-bottom: 16px;
+}
+
+.control { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.control > label, .control > .control-label {
+  font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600;
+}
+
+select.picker {
+  font: inherit; font-size: 13.5px; color: var(--text-primary);
+  background: var(--surface-raised); border: 1px solid var(--border);
+  border-radius: 9px; padding: 7px 11px; min-width: 250px; cursor: pointer;
+}
+select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+
+.switchrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.switch {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface-raised);
+  border-radius: 999px; padding: 6px 13px 6px 10px; font-size: 13px;
+  color: var(--text-secondary);
+}
+.switch input { accent-color: var(--series-1); margin: 0; }
+.switch:hover { color: var(--text-primary); }
+
+.control-note { font-size: 12px; color: var(--text-muted); max-width: 46ch; }
+
+.btn {
+  font: inherit; font-size: 13px; color: var(--text-secondary); cursor: pointer;
+  background: var(--surface-raised); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 14px;
+}
+.btn:hover { color: var(--text-primary); background: var(--wash); }
+.btn.icon { padding: 6px 11px; font-size: 15px; line-height: 1; }
+.btn:disabled { opacity: .35; cursor: default; }
+.btn.back::before { content: "\2190"; margin-right: 7px; }
+
+/* ---------------------------------------------------------------------------------------------
+   The grid
+   ---------------------------------------------------------------------------------------------
+   Twelve month columns between a year label and a year summary. Below the width at which a tile
+   can still carry its value the whole grid scrolls sideways rather than the tiles collapsing: a
+   month with an unreadable number in it is worse than a scrollbar.
+   --------------------------------------------------------------------------------------------- */
+
+.calshell { overflow-x: auto; padding-bottom: 4px; }
+
+.calgrid {
+  display: grid;
+  grid-template-columns: 46px repeat(12, minmax(0, 1fr)) 78px;
+  gap: 4px;
+  min-width: 1020px;
+}
+
+.calhead {
+  font-size: 11.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--text-muted); text-align: center; padding: 0 0 6px;
+  position: sticky; top: 60px; z-index: 5;
+  background: linear-gradient(var(--page) 72%, transparent);
+}
+.calhead.corner { text-align: left; }
+
+.calyear {
+  display: flex; align-items: center; justify-content: flex-end;
+  font-size: 12.5px; font-weight: 600; color: var(--text-secondary);
+  font-variant-numeric: tabular-nums; padding-right: 7px;
+}
+
+.cell {
+  position: relative; display: flex; flex-direction: column; gap: 2px;
+  min-height: 62px; padding: 5px 6px 4px; cursor: pointer; text-align: left;
+  border: 1px solid transparent; border-radius: var(--cell-radius);
+  background: var(--neutral-mid); color: var(--text-primary);
+  font: inherit; overflow: hidden;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+.cell:hover { transform: translateY(-1px); box-shadow: 0 4px 14px -4px rgba(0, 0, 0, .35); z-index: 3; }
+.cell:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; z-index: 4; }
+
+/* The tile ink is chosen against the tile, not against the page: a dark end of a ramp needs light
+   ink and the pale middle needs dark ink, and the two cases are set by the renderer. */
+.cell.on-dark { color: #fff; }
+.cell.on-light { color: #101010; }
+
+.cell-value {
+  font-size: 15.5px; font-weight: 600; letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.cell-value .u { font-size: .62em; font-weight: 500; opacity: .72; margin-left: 2px; }
+.cell-sub { font-size: 10.5px; opacity: .78; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+.cell-badges { margin-top: 3px; display: flex; align-items: center; gap: 3px; flex-wrap: nowrap; }
+.cell-badges .more { font-size: 10px; opacity: .8; font-weight: 600; }
+
+/* The day strip sits on the bottom edge of the tile whatever else the tile carries, so the strips
+   of one year read as a continuous band across the row. */
+.cell-strip { display: block; width: 100%; height: 13px; margin-top: auto; padding-top: 3px; }
+
+/* A month with no data at all is drawn as absence rather than as a value at the bottom of the
+   scale, which is what a zero-coloured tile would read as. */
+.cell.empty {
+  background: transparent; border-color: var(--border); cursor: default;
+  color: var(--text-muted);
+}
+.cell.empty:hover { transform: none; box-shadow: none; }
+
+/* Sparse coverage carries a texture as well as a badge, so it survives greyscale and forced
+   colours - and so a reader sees it before reading anything. */
+.cell.sparse::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: var(--cell-radius);
+  background: repeating-linear-gradient(135deg, transparent 0 5px,
+              color-mix(in srgb, var(--page) 55%, transparent) 5px 9px);
+}
+
+.cell.dim { opacity: .17; }
+.cell.hit { box-shadow: inset 0 0 0 2px var(--text-primary); }
+
+.calsummary {
+  display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  padding: 4px 8px; border-radius: var(--cell-radius);
+  background: var(--wash); font-variant-numeric: tabular-nums;
+}
+.calsummary .v { font-size: 13px; font-weight: 600; }
+.calsummary .k { font-size: 10px; color: var(--text-muted); }
+
+.calfoot {
+  grid-column: 1 / -1; margin-top: 2px; padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.undergrid { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 26px; margin-top: 14px; }
+.scalebar { min-width: 260px; flex: 0 1 380px; }
+.scalebar svg { display: block; width: 100%; height: auto; }
+.gridnote { font-size: 12.5px; color: var(--text-muted); margin: 0; max-width: 68ch; }
+
+/* ---------------------------------------------------------------------------------------------
+   Badges
+   --------------------------------------------------------------------------------------------- */
+
+.bicon { width: 14px; height: 14px; flex: none; display: block; }
+.bicon.lg { width: 17px; height: 17px; }
+.badge-warm { color: var(--tone-warm); }
+.badge-cold { color: var(--tone-cold); }
+.badge-wet  { color: var(--tone-wet); }
+.badge-dry  { color: var(--tone-dry); }
+.badge-warn { color: var(--tone-warn); }
+
+/* On a coloured tile the badge hue would fight the tile, so tile badges wear the tile's own ink
+   and are told apart by their shape. The legend and the month view carry the hue. */
+.cell .bicon { color: currentColor; opacity: .92; }
+
+.badgelegend { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.badgegroup {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 13px 15px 14px;
+}
+.badgegroup h3 {
+  font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--text-muted); margin: 0 0 9px; font-weight: 600;
+}
+.badgetoggle {
+  display: flex; align-items: flex-start; gap: 9px; width: 100%; text-align: left;
+  background: transparent; border: 1px solid transparent; border-radius: 10px;
+  padding: 6px 8px; margin: 0 0 2px; cursor: pointer; font: inherit; color: var(--text-primary);
+}
+.badgetoggle:hover { background: var(--wash); }
+.badgetoggle[aria-pressed="true"] { border-color: var(--text-primary); background: var(--wash); }
+.badgetoggle .bicon { margin-top: 2px; }
+.badgetoggle .bl { font-size: 13.5px; font-weight: 600; }
+.badgetoggle .bn { font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.badgetoggle .bd { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
+.badgetoggle .bt { min-width: 0; }
+
+/* ---------------------------------------------------------------------------------------------
+   Month view
+   --------------------------------------------------------------------------------------------- */
+
+.monthbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: clamp(20px, 3vw, 34px) 0 14px;
+}
+.monthnav { display: flex; align-items: center; gap: 8px; }
+.monthnav.year { margin-left: auto; }
+.monthtitle {
+  font-size: clamp(24px, 3vw, 38px); line-height: 1.1; margin: 0; letter-spacing: -.02em;
+  min-width: 5.6em; text-align: center;
+}
+
+.badgelist { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 var(--gap); padding: 0; list-style: none; }
+.badgelist li {
+  display: flex; align-items: flex-start; gap: 9px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 10px 14px 10px 12px; max-width: 42ch;
+}
+.badgelist .bl { font-size: 13.5px; font-weight: 600; }
+.badgelist .bd { font-size: 12.5px; color: var(--text-secondary); }
+.badgelist .bicon { margin-top: 3px; }
+.badgelist.none li { color: var(--text-muted); }
+
+/* ---------------------------------------------------------------------------------------------
+   Day calendar inside a month
+   --------------------------------------------------------------------------------------------- */
+
+.daygrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.dayhead {
+  font-size: 11px; letter-spacing: .05em; text-transform: uppercase; font-weight: 600;
+  color: var(--text-muted); text-align: center; padding-bottom: 3px;
+}
+.daycell {
+  position: relative; display: flex; flex-direction: column; gap: 1px;
+  min-height: 84px; padding: 6px 7px 5px; cursor: pointer; text-align: left;
+  border: 1px solid transparent; border-radius: var(--cell-radius);
+  background: var(--neutral-mid); color: var(--text-primary); font: inherit; overflow: hidden;
+}
+.daycell.blank { background: transparent; border-color: transparent; cursor: default; }
+.daycell.on-dark { color: #fff; }
+.daycell.on-light { color: #101010; }
+.daycell:hover:not(.blank) { box-shadow: 0 4px 14px -4px rgba(0, 0, 0, .35); }
+.daycell:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+.daycell[aria-current="true"] { box-shadow: inset 0 0 0 2px var(--text-primary); }
+.daycell .dnum { font-size: 11.5px; font-weight: 700; opacity: .8; font-variant-numeric: tabular-nums; }
+.daycell .dval { font-size: 15px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.daycell .dsub { font-size: 10.5px; opacity: .8; font-variant-numeric: tabular-nums; }
+.daycell .dflags { margin-top: auto; display: flex; gap: 3px; align-items: center; }
+.daycell .drain {
+  position: absolute; left: 0; bottom: 0; height: 3px;
+  background: var(--series-1); border-radius: 0 2px 0 0;
+}
+.daycell.sparse::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: var(--cell-radius);
+  background: repeating-linear-gradient(135deg, transparent 0 5px,
+              color-mix(in srgb, var(--page) 55%, transparent) 5px 9px);
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Day panel
+   --------------------------------------------------------------------------------------------- */
+
+.daypanel { scroll-margin-top: 80px; }
+.daypanel .card-head .btn { margin-left: auto; }
+.dayfacets { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.facet-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin: 0 0 2px; }
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; margin: 0;
+      font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.kv dt { color: var(--text-secondary); }
+.kv dd { margin: 0; text-align: right; font-weight: 600; }
+
+.smallnote { font-size: 12px; color: var(--text-muted); margin: 10px 0 0; }
+
+@media (max-width: 700px) {
+  .monthnav.year { margin-left: 0; }
+  select.picker { min-width: 0; width: 100%; }
+}
