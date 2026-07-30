@@ -13,10 +13,6 @@
 
 :root {
   --tone-warn: #a35c00;
-  --tone-wet:  var(--series-1);
-  --tone-dry:  var(--series-4);
-  --tone-warm: var(--pole-warm);
-  --tone-cold: var(--pole-cold);
   --cell-radius: 9px;
 }
 
@@ -93,7 +89,9 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
   display: grid;
   grid-template-columns: 46px repeat(12, minmax(0, 1fr)) 78px;
   gap: 4px;
-  min-width: 1020px;
+  /* Wide enough that four badge chips and the overflow count still fit inside a tile at the
+     narrowest the grid is allowed to be; below this the shell scrolls sideways. */
+  min-width: 1080px;
 }
 
 .calhead {
@@ -181,17 +179,65 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
    Badges
    --------------------------------------------------------------------------------------------- */
 
-.bicon { width: 14px; height: 14px; flex: none; display: block; }
-.bicon.lg { width: 17px; height: 17px; }
-.badge-warm { color: var(--tone-warm); }
-.badge-cold { color: var(--tone-cold); }
-.badge-wet  { color: var(--tone-wet); }
-.badge-dry  { color: var(--tone-dry); }
-.badge-warn { color: var(--tone-warn); }
+/* ---------------------------------------------------------------------------------------------
+   Badge chips
+   ---------------------------------------------------------------------------------------------
+   A chip is a solid tile of colour with a white or near-black symbol on it. The colour is a
+   *family*, not an identity: five of them, and the symbol is what names the badge. That is
+   deliberate and was measured rather than assumed - eight distinguishable chip colours do not
+   exist in this token set. Run against the palette validator, a set of eight failed the
+   normal-vision floor (a teal and a blue at deltaE 11) and the CVD floor (a grey and a green at 5);
+   these five pass both checks in light and in dark, which is why a raindrop and a snowflake are
+   both blue on purpose. Every chip ships with its label in the legend and in the month view, so
+   colour is never the only carrier.
 
-/* On a coloured tile the badge hue would fight the tile, so tile badges wear the tile's own ink
-   and are told apart by their shape. The legend and the month view carry the hue. */
-.cell .bicon { color: currentColor; opacity: .92; }
+   The one exception is the data-quality chip, which is a status rather than a family: it is the
+   only chip with a texture, so "sparsely measured" survives greyscale, forced colours and a
+   reader who does not know the palette.
+   --------------------------------------------------------------------------------------------- */
+
+.chip {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 17px; height: 17px; border-radius: 5px;
+}
+.chip svg { width: 12px; height: 12px; display: block; }
+.chip.lg { width: 26px; height: 26px; border-radius: 8px; }
+.chip.lg svg { width: 17px; height: 17px; }
+.chip.sm { width: 14px; height: 14px; border-radius: 4px; }
+.chip.sm svg { width: 10px; height: 10px; }
+
+.chip-warm { background: var(--pole-warm); color: #fff; }
+.chip-cold, .chip-wet { background: var(--pole-cold); color: #fff; }
+.chip-dry, .chip-sun { background: var(--series-4); color: #101010; }
+.chip-grow { background: var(--series-3); color: #101010; }
+.chip-dull { background: var(--text-secondary); color: #fff; }
+.chip-warn {
+  background: var(--tone-warn); color: #fff;
+  background-image: repeating-linear-gradient(135deg,
+    rgba(255, 255, 255, .38) 0 2px, transparent 2px 5px);
+}
+
+/* Both of these tokens inverts with the theme, so the symbol on them has to invert too. */
+@media (prefers-color-scheme: dark) {
+  :root:where([data-theme="auto"]) .chip-dull,
+  :root:where([data-theme="auto"]) .chip-warn { color: #101010; }
+  :root:where([data-theme="auto"]) .chip-warn {
+    background-image: repeating-linear-gradient(135deg,
+      rgba(0, 0, 0, .28) 0 2px, transparent 2px 5px);
+  }
+}
+:root[data-theme="dark"] .chip-dull,
+:root[data-theme="dark"] .chip-warn { color: #101010; }
+:root[data-theme="dark"] .chip-warn {
+  background-image: repeating-linear-gradient(135deg,
+    rgba(0, 0, 0, .28) 0 2px, transparent 2px 5px);
+}
+
+/* On a coloured tile a chip needs a hairline of separation, or a blue chip on a blue tile loses
+   its edge. The ring is drawn in whichever direction the tile's own ink runs. */
+.cell.on-light .chip, .daycell.on-light .chip { box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .85); }
+.cell.on-dark .chip, .daycell.on-dark .chip { box-shadow: 0 0 0 1.5px rgba(0, 0, 0, .28); }
+
 
 .badgelegend { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .badgegroup {
@@ -209,7 +255,7 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
 }
 .badgetoggle:hover { background: var(--wash); }
 .badgetoggle[aria-pressed="true"] { border-color: var(--text-primary); background: var(--wash); }
-.badgetoggle .bicon { margin-top: 2px; }
+.badgetoggle .chip { margin-top: 1px; }
 .badgetoggle .bl { font-size: 13.5px; font-weight: 600; }
 .badgetoggle .bn { font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .badgetoggle .bd { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
@@ -238,7 +284,7 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
 }
 .badgelist .bl { font-size: 13.5px; font-weight: 600; }
 .badgelist .bd { font-size: 12.5px; color: var(--text-secondary); }
-.badgelist .bicon { margin-top: 3px; }
+.badgelist .chip { margin-top: 2px; }
 .badgelist.none li { color: var(--text-muted); }
 
 /* ---------------------------------------------------------------------------------------------
@@ -289,6 +335,8 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
       font-size: 12.5px; font-variant-numeric: tabular-nums; }
 .kv dt { color: var(--text-secondary); }
 .kv dd { margin: 0; text-align: right; font-weight: 600; }
+
+.kv .muted { color: var(--text-muted); font-weight: 500; }
 
 .smallnote { font-size: 12px; color: var(--text-muted); margin: 10px 0 0; }
 

@@ -82,7 +82,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from build_meteo_dashboard import (  # noqa: E402
     OUTDIR, PRODUCTS, SITE, SITE_LONG, VARIABLES, Variable,
-    load_product, longest_spell, r, rlist,
+    growing_season, load_product, longest_spell, r, rlist,
 )
 
 ASSETS = Path(__file__).parent / "calendar_assets"
@@ -130,9 +130,57 @@ EXTRA_INDICES = {
                   op="ge", value=30.0)],
 }
 
+# Day tests that a single threshold on a single statistic cannot express: two conditions at once,
+# two variables at once, or a comparison against the day's own normal. Each is a function of the
+# daily frame, the measured share and an accessor for the daily normals, returning one boolean per
+# day. `var` names the variable a reader should hold responsible for it, which is what decides
+# whose coverage gates a badge built on it.
+#
+# The three record tests are the reason `meas` is passed: a gap-filled value is a model result and
+# cannot set a record, so a day that was not substantially measured is not allowed to win one.
+DERIVED_FLAGS = [
+    dict(key="freezethaw", var="TA",
+         label="freeze-thaw days (minimum below 0 {units}, maximum above it)",
+         fn=lambda day, meas, nrm: (day["TA"]["min"] < 0) & (day["TA"]["max"] > 0)),
+    dict(key="coldprec", var="PREC",
+         label="precipitation days that stayed below 1 °C",
+         fn=lambda day, meas, nrm: (day["PREC"]["sum"] >= 1.0) & (day["TA"]["max"] < 1.0)),
+    dict(key="saturated", var="RH",
+         label="days with a mean relative humidity of 95 {units} or more",
+         fn=lambda day, meas, nrm: day["RH"]["mean"] >= 95.0),
+    dict(key="clear", var="SW_IN",
+         label="days brighter than the 90th percentile for the date",
+         fn=lambda day, meas, nrm: day["SW_IN"]["mean"] > nrm("SW_IN", "mean", "p90")),
+    dict(key="overcast", var="SW_IN",
+         label="days duller than the 10th percentile for the date",
+         fn=lambda day, meas, nrm: day["SW_IN"]["mean"] < nrm("SW_IN", "mean", "p10")),
+    dict(key="recwarm", var="TA", label="warmest occurrence of that calendar date in the record",
+         fn=lambda day, meas, nrm: date_record(day["TA"]["max"], meas["TA"], "max")),
+    dict(key="reccold", var="TA", label="coldest occurrence of that calendar date in the record",
+         fn=lambda day, meas, nrm: date_record(day["TA"]["min"], meas["TA"], "min")),
+    dict(key="recwet", var="PREC", label="wettest occurrence of that calendar date in the record",
+         fn=lambda day, meas, nrm: date_record(day["PREC"]["sum"], meas["PREC"], "max")),
+]
+
+RECORD_DAY_COVERAGE = 90.0  # % of a day measured before it is allowed to set a record for its date
+
+
+def date_record(series, measured, how):
+    """Days that are the extreme occurrence of their own calendar date across the whole record.
+
+    A record for 25 July is decided among the twenty-one 25 Julys, not against the summer, which is
+    what makes it a statement a reader can check. Days that are largely gap-filled are excluded from
+    the comparison rather than merely from winning it: a modelled value that happens to be high
+    would otherwise displace the real record and leave the date looking unremarkable.
+    """
+    eligible = series.where(measured >= RECORD_DAY_COVERAGE)
+    grouped = eligible.groupby([eligible.index.month, eligible.index.day])
+    rank = grouped.rank(ascending=(how == "min"), method="min")
+    return (rank == 1).fillna(False) & eligible.notna()
+
 
 def day_flags(variables):
-    """The per-day threshold tests, each with the bit it occupies in the day flag word."""
+    """The per-day tests, each with the bit it occupies in the day flag word."""
     flags = []
     for key, v in variables.items():
         items = [i for group in VARIABLES[key].get("index_groups", []) for i in group["items"]]
@@ -140,6 +188,14 @@ def day_flags(variables):
         for item in items:
             flags.append(dict(bit=len(flags), var=key, key=item["key"], stat=item["stat"],
                               op=item["op"], value=item["value"], label=v.fmt(item["label"])))
+    for item in DERIVED_FLAGS:
+        # A derived test may read a variable other than the one it is filed under, so it is only
+        # available where every variable it touches is in the build. Rather than inspect the
+        # lambda, the caller is given the whole list and skips what raises a KeyError.
+        if item["var"] not in variables:
+            continue
+        flags.append(dict(bit=len(flags), var=item["var"], key=item["key"],
+                          fn=item["fn"], label=variables[item["var"]].fmt(item["label"])))
     # The word is read in JavaScript, where a bitwise operation is defined on 32 bits.
     assert len(flags) <= 30, f"{len(flags)} day flags do not fit in one 30-bit word"
     return flags
@@ -281,7 +337,7 @@ BADGES = [
                          f"{s['n_heavy']} days above 10 {s['u_PREC']}")
          if s["n_verywet"] >= 1 else None),
 
-    dict(key="sunny", label="Sunnier than normal", group="Radiation", icon="sun", tone="warm",
+    dict(key="sunny", label="Sunnier than normal", group="Radiation", icon="sun", tone="sun",
          priority=4, needs=("SW_IN",),
          about="Mean incoming shortwave radiation is at least one standard deviation above the "
                "calendar-month normal.",
@@ -290,7 +346,7 @@ BADGES = [
                          f"({s['SW_IN_z']:+.1f} standard deviations)")
          if s["SW_IN_z"] >= 1 else None),
 
-    dict(key="dull", label="Duller than normal", group="Radiation", icon="cloud", tone="cold",
+    dict(key="dull", label="Duller than normal", group="Radiation", icon="cloud", tone="dull",
          priority=4, needs=("SW_IN",),
          about="Mean incoming shortwave radiation is at least one standard deviation below the "
                "calendar-month normal.",
@@ -316,6 +372,116 @@ BADGES = [
                          f"{s['SWC_0.2_anom']:+.1f} {s['u_SWC_0.2']} against the "
                          f"{s['month_name']} normal ({s['SWC_0.2_z']:+.1f} standard deviations)")
          if s["SWC_0.2_z"] <= -1 else None),
+
+    dict(key="soil_wet", label="Wet soil", group="Soil", icon="soil", tone="wet", priority=3,
+         needs=("SWC_0.2",),
+         about="Mean soil water content at 0.2 m is at least one standard deviation above the "
+               "calendar-month normal.",
+         rule=lambda s: (f"{s['SWC_0.2']:.1f} {s['u_SWC_0.2']} at 0.2 m, "
+                         f"{s['SWC_0.2_anom']:+.1f} {s['u_SWC_0.2']} against the "
+                         f"{s['month_name']} normal ({s['SWC_0.2_z']:+.1f} standard deviations)")
+         if s["SWC_0.2_z"] >= 1 else None),
+
+    # -- The year's turning points ----------------------------------------------------------
+    # Each is stated against the median date of the same event across the record: a date on its
+    # own says nothing, and the departure from the usual date is the whole content.
+    dict(key="gs_start", label="Growing season begins", group="Season", icon="sprout",
+         tone="grow", priority=2, needs=("TA",), needs_normal=False,
+         about="The month in which the growing season began: six consecutive days above 5 °C.",
+         rule=lambda s: (
+             f"The growing season began on {s['ev_gs_start']['date']}, "
+             + (f"{abs(s['ev_gs_start']['delta'])} days "
+                f"{'earlier' if s['ev_gs_start']['delta'] < 0 else 'later'} than usual"
+                if s["ev_gs_start"]["delta"] else "the usual date")
+             + (f", and ran {s['ev_gs_start']['length']} days" if s["ev_gs_start"]["length"]
+                else "")) if s["ev_gs_start"] else None),
+
+    dict(key="gs_end", label="Growing season ends", group="Season", icon="leaf-fall",
+         tone="grow", priority=2, needs=("TA",), needs_normal=False,
+         about="The month in which the growing season ended: six consecutive days below 5 °C "
+               "after 1 July.",
+         rule=lambda s: (
+             f"The growing season ended on {s['ev_gs_end']['date']}, "
+             + (f"{abs(s['ev_gs_end']['delta'])} days "
+                f"{'earlier' if s['ev_gs_end']['delta'] < 0 else 'later'} than usual"
+                if s["ev_gs_end"]["delta"] else "the usual date")) if s["ev_gs_end"] else None),
+
+    dict(key="last_frost", label="Last frost of spring", group="Season", icon="snowflake",
+         tone="cold", priority=2, needs=("TA",), needs_normal=False,
+         about="The month holding the last frost before midsummer.",
+         rule=lambda s: (
+             f"The last frost of the first half of the year fell on "
+             f"{s['ev_last_frost']['date']}"
+             + (f", {abs(s['ev_last_frost']['delta'])} days "
+                f"{'earlier' if s['ev_last_frost']['delta'] < 0 else 'later'} than usual"
+                if s["ev_last_frost"]["delta"] else ", the usual date"))
+         if s["ev_last_frost"] else None),
+
+    dict(key="first_frost", label="First frost of autumn", group="Season", icon="snowflake",
+         tone="cold", priority=2, needs=("TA",), needs_normal=False,
+         about="The month holding the first frost after midsummer.",
+         rule=lambda s: (
+             f"The first frost of the second half of the year fell on "
+             f"{s['ev_first_frost']['date']}"
+             + (f", {abs(s['ev_first_frost']['delta'])} days "
+                f"{'earlier' if s['ev_first_frost']['delta'] < 0 else 'later'} than usual"
+                if s["ev_first_frost"]["delta"] else ", the usual date"))
+         if s["ev_first_frost"] else None),
+
+    # -- Days that stood out against their own date -------------------------------------------
+    dict(key="record_days", label="Many record days", group="Records", icon="star", tone="warm",
+         priority=1, needs=("TA",), needs_normal=False,
+         about="Eight or more days were the warmest, coldest or wettest occurrence of their own "
+               "calendar date. About four land in an average month, so the threshold marks the "
+               "months that hold unusually many. A largely gap-filled day cannot set one.",
+         rule=lambda s: (
+             f"{s['x']['nrec']} days set a record for their own calendar date: "
+             + ", ".join(p for p in (
+                 f"{s['n_recwarm']} warmest" if s["n_recwarm"] else None,
+                 f"{s['n_reccold']} coldest" if s["n_reccold"] else None,
+                 f"{s['n_recwet']} wettest" if s["n_recwet"] else None) if p))
+         if s["x"]["nrec"] >= 8 else None),
+
+    # -- Weather that a threshold on one variable cannot describe ------------------------------
+    dict(key="wet_spell", label="Wet spell", group="Precipitation", icon="droplets", tone="wet",
+         priority=2, needs=("PREC",), needs_normal=False,
+         about="Seven or more consecutive days reaching 1 mm.",
+         rule=lambda s: (f"{s['spell_wet']} consecutive days reaching 1 {s['u_PREC']}")
+         if s["spell_wet"] >= 7 else None),
+
+    dict(key="coldprec", label="Precipitation below freezing", group="Precipitation",
+         icon="snow-cloud", tone="cold", priority=3, needs=("PREC", "TA"), needs_normal=False,
+         about="Three or more days with at least 1 mm on which the temperature stayed below 1 °C. "
+               "The gauge does not report the phase, so this dates the possibility of snow rather "
+               "than snow itself - and it is where the gauge undercatches most.",
+         rule=lambda s: (f"{s['n_coldprec']} days with at least 1 {s['u_PREC']} on which the "
+                         f"maximum stayed below 1 {s['u_TA']}") if s["n_coldprec"] >= 3 else None),
+
+    dict(key="freezethaw", label="Freeze-thaw", group="Temperature", icon="thermo-swing",
+         tone="cold", priority=3, needs=("TA",), needs_normal=False,
+         about="Ten or more days crossing freezing, dropping below 0 °C and rising above it.",
+         rule=lambda s: (f"{s['n_freezethaw']} days crossed freezing in both directions")
+         if s["n_freezethaw"] >= 10 else None),
+
+    dict(key="clear", label="Clear spell", group="Radiation", icon="sun", tone="sun", priority=3,
+         needs=("SW_IN",), needs_normal=False,
+         about="Eight or more days brighter than the 90th percentile for their date. A count "
+               "against the date rather than a fixed threshold, so a bright January counts.",
+         rule=lambda s: (f"{s['n_clear']} days in the brightest tenth for their date")
+         if s["n_clear"] >= 8 else None),
+
+    dict(key="overcast", label="Overcast spell", group="Radiation", icon="cloud", tone="dull",
+         priority=3, needs=("SW_IN",), needs_normal=False,
+         about="Eight or more days duller than the 10th percentile for their date.",
+         rule=lambda s: (f"{s['n_overcast']} days in the dullest tenth for their date")
+         if s["n_overcast"] >= 8 else None),
+
+    dict(key="saturated", label="In cloud", group="Radiation", icon="fog", tone="dull",
+         priority=3, needs=("RH",), needs_normal=False,
+         about="Twelve or more days whose mean relative humidity reached 95 %. At 47 m on the "
+               "ridge this is the tower sitting inside low cloud or fog.",
+         rule=lambda s: (f"{s['n_saturated']} days with a mean relative humidity of 95 "
+                         f"{s['u_RH']} or more") if s["n_saturated"] >= 12 else None),
 ]
 
 
@@ -378,6 +544,36 @@ METRICS = [
          about="Monthly mean volumetric soil water content at 0.2 m, homogenised across the "
                "2020 sensor change.",
          day=dict(kind="value", stat="mean")),
+    dict(key="dtr", var="TA", field="extra", extra="dtr", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=1,
+         label="Diurnal temperature range", short="Day-night range",
+         about="Mean of the daily maximum minus the daily minimum. It separates the clear, dry "
+               "months from the cloudy ones as directly as radiation does, and from the "
+               "temperature record alone.",
+         day=dict(kind="range", stats=("min", "max"))),
+    dict(key="gdd", var="TA", field="extra", extra="gdd", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="K d",
+         label="Growing degree days above 5 °C", short="Degree days",
+         about="Sum over the month of the daily mean above 5 °C, the base the growing season is "
+               "taken above.",
+         day=dict(kind="none")),
+    dict(key="spell_dry", var="PREC", field="spell", spell="dry", scale="seq",
+         stops=("--neutral-mid", "--series-4"), digits=0, unit="days",
+         label="Longest dry spell", short="Dry spell",
+         about="The longest run of consecutive days below 1 mm within the month. A month can "
+               "reach its normal total and still hold a fortnight without rain.",
+         day=dict(kind="none")),
+    dict(key="n_wet", var="PREC", field="count", count="wet", scale="seq",
+         stops=("--neutral-mid", "--seq-4", "--seq-6"), digits=0, unit="days",
+         label="Wet days per month", short="Wet days",
+         about="Days reaching 1 mm.",
+         day=dict(kind="flag", flag="wet")),
+    dict(key="n_clear", var="SW_IN", field="count", count="clear", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
+         label="Clear days per month", short="Clear days",
+         about="Days brighter than the 90th percentile for their own date, so a bright day in "
+               "January counts as one.",
+         day=dict(kind="flag", flag="clear")),
     dict(key="n_hot", var="TA", field="count", count="hot", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
          label="Hot days per month", short="Hot days",
@@ -461,7 +657,10 @@ def load(keys):
         v = Variable(key, VARIABLES[key])
         df, _ = load_product(v)
         series = df[v.value]
-        measured = ((df[v.fill_flag].eq(v.measured_code) & series.notna()) if v.fill_flag
+        # More than one flag code can mean "measured" - a product may distinguish a raw value from
+        # a corrected one and count both - so the shared registry's set is what decides, not a
+        # single code compared here.
+        measured = ((df[v.fill_flag].isin(v.measured_codes) & series.notna()) if v.fill_flag
                     else series.notna())
         out[key] = dict(v=v, df=df, series=series, measured=measured)
         print(f"  {key:<9} {v.path.name:<44} {len(df):>9,} records  "
@@ -500,16 +699,32 @@ def daily_frame(loaded, dates):
     return day, meas
 
 
-def flag_words(flags, day, dates):
-    """One integer per day holding every threshold that day set."""
+def flag_words(flags, day, meas, nrm, dates):
+    """One integer per day holding every test that day passed, and the tests that survived.
+
+    Bits are assigned here rather than in the registry, so a test dropped for want of a variable
+    does not leave a hole in the word that the page would have to know about.
+    """
     word = np.zeros(len(dates), dtype="int64")
     counts = {}
+    kept = []
     for f in flags:
-        stat = day[f["var"]][f["stat"]]
-        hit = (stat.lt(f["value"]) if f["op"] == "lt" else stat.ge(f["value"])).fillna(False)
+        if "fn" in f:
+            try:
+                hit = f["fn"](day, meas, nrm)
+            except KeyError:
+                # The test reads a variable this build does not include. Dropping it is right;
+                # doing so silently is not, so the caller reports what it lost.
+                continue
+        else:
+            stat = day[f["var"]][f["stat"]]
+            hit = stat.lt(f["value"]) if f["op"] == "lt" else stat.ge(f["value"])
+        hit = hit.reindex(dates).fillna(False).astype(bool)
+        f = dict(f, bit=len(kept))
+        kept.append(f)
         counts[f["key"]] = hit
         word |= hit.to_numpy().astype("int64") << f["bit"]
-    return pd.Series(word, index=dates), counts
+    return pd.Series(word, index=dates), counts, kept
 
 
 def daily_normals(day, dates, keys):
@@ -540,10 +755,85 @@ def daily_normals(day, dates, keys):
                 mean[target] = block.mean()
                 p10[target] = np.percentile(block, 10)
                 p90[target] = np.percentile(block, 90)
-            stats[stat] = dict(mean=[r(x, 2) for x in mean],
-                               p10=[r(x, 2) for x in p10], p90=[r(x, 2) for x in p90])
+            stats[stat] = dict(mean=mean, p10=p10, p90=p90)
         normals[key] = stats
     return normals
+
+
+def normals_payload(normals):
+    """The daily normals rounded for JSON, which is the only place they are rounded."""
+    return {key: {stat: {which: [r(x, 2) for x in arr] for which, arr in bands.items()}
+                  for stat, bands in stats.items()} for key, stats in normals.items()}
+
+
+def normal_accessor(normals, dates):
+    """`nrm(var, stat, which)` as a series on the daily index, for the tests that compare a day
+    against its own date rather than against a fixed threshold."""
+    doy = doy365(dates)
+
+    def nrm(var, stat, which):
+        return pd.Series(normals[var][stat][which][doy], index=dates)
+    return nrm
+
+
+GROWING_SEASON_BASE = 5.0  # °C, the base the season and the degree-day sum are taken above
+
+
+def season_events(day, dates):
+    """The four dates that divide a year at this site, and how each compares with the record.
+
+    The growing season uses the definition of `build_meteo_dashboard.growing_season` - six
+    consecutive days above the base, and the first such run below it after 1 July - so the calendar
+    and the temperature dashboard cannot disagree about when a year's season ran. The frost
+    boundaries are the plain ones: the last frost before midsummer and the first one after it.
+
+    Each event is returned against the median date of the same event across the record, because the
+    date on its own says nothing - "the season began on 3 April" is only interesting next to the
+    fact that it usually begins two weeks later.
+    """
+    if "TA" not in day:
+        return {}
+    tmean, tmin = day["TA"]["mean"], day["TA"]["min"]
+    raw = {}
+    for year, block in tmean.groupby(dates.year):
+        block = block.dropna()
+        if block.empty:
+            continue
+        events = {}
+        season = growing_season(block, base=GROWING_SEASON_BASE)
+        if season is not None:
+            events["gs_start"] = season["start"]
+            events["gs_end"] = season["end"]
+            events["gs_length"] = season["length"]
+        frost = tmin.loc[f"{year}"].dropna()
+        frost = frost[frost < 0]
+        spring = frost[frost.index.month <= 6]
+        autumn = frost[frost.index.month >= 7]
+        if not spring.empty:
+            events["last_frost"] = spring.index[-1]
+        if not autumn.empty:
+            events["first_frost"] = autumn.index[0]
+        raw[year] = events
+
+    # The median date of each event, as a day of the year, so a year can be placed against it.
+    medians = {}
+    for name in ("gs_start", "gs_end", "last_frost", "first_frost"):
+        doys = [doy365(pd.DatetimeIndex([e[name]]))[0] for e in raw.values() if name in e]
+        medians[name] = float(np.median(doys)) if len(doys) >= MIN_NORMAL_YEARS else None
+
+    out = {}
+    for year, events in raw.items():
+        for name, when in events.items():
+            if name == "gs_length":
+                continue
+            key = (year, when.month)
+            median = medians[name]
+            out.setdefault(key, {})[name] = dict(
+                date=f"{when.day} {when:%B}",  # %-d is not portable to Windows
+                delta=None if median is None
+                else int(doy365(pd.DatetimeIndex([when]))[0] - median),
+                length=events.get("gs_length"))
+    return out
 
 
 def hourly_layer(loaded, first_year, last_year):
@@ -617,7 +907,7 @@ def normals(monthly, months):
     return out
 
 
-def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, dates, loaded):
+def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, loaded):
     """Every number a badge rule may read, for one month, as one flat dictionary."""
     ts = pd.Timestamp(y, m, 1)
     s = dict(y=y, m=m, month_name=calendar.month_name[m],
@@ -658,6 +948,23 @@ def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, dates, loa
         s[f"n_{key}"] = int(series.get(ts, 0))
     for key, series in spells.items():
         s[f"spell_{key}"] = int(series.get(ts, 0))
+
+    # Statistics that belong to the month rather than to one of its variables. They are what the
+    # tiles beyond the six products are built from, and what the extra metrics colour by.
+    s["x"] = {}
+    if "TA" in keys:
+        block = day["TA"].loc[f"{y}-{m:02d}"]
+        dtr = (block["max"] - block["min"]).dropna()
+        gdd = (block["mean"] - GROWING_SEASON_BASE).clip(lower=0).dropna()
+        s["x"]["dtr"] = float(dtr.mean()) if len(dtr) else None
+        s["x"]["gdd"] = float(gdd.sum()) if len(gdd) else None
+    s["x"]["nrec"] = sum(s.get(f"n_{k}", 0) for k in ("recwarm", "reccold", "recwet"))
+
+    # The four dates that divide the year, where one of them falls in this month.
+    for name, event in events.get((y, m), {}).items():
+        s[f"ev_{name}"] = event
+    for name in ("gs_start", "gs_end", "last_frost", "first_frost"):
+        s.setdefault(f"ev_{name}", None)
     return s
 
 
@@ -706,9 +1013,18 @@ def build_payload(loaded, with_hourly=True):
     dates = pd.date_range(f"{first_year}-01-01", f"{last_year}-12-31", freq="D")
     months = pd.date_range(f"{first_year}-01-01", f"{last_year}-12-01", freq="MS")
 
-    flags = day_flags({k: loaded[k]["v"] for k in keys})
     day, meas = daily_frame(loaded, dates)
-    word, hits = flag_words(flags, day, dates)
+    # The daily normals come before the day tests, because some of the tests are a comparison
+    # against them rather than against a fixed threshold.
+    daily_norm = daily_normals(day, dates, keys)
+    nrm = normal_accessor(daily_norm, dates)
+
+    flags = day_flags({k: loaded[k]["v"] for k in keys})
+    word, hits, flags = flag_words(flags, day, meas, nrm, dates)
+    dropped = [f["key"] for f in day_flags({k: loaded[k]["v"] for k in keys})
+               if f["key"] not in hits]
+    if dropped:
+        print(f"  day tests dropped for want of a variable: {', '.join(dropped)}")
 
     counts_month = {k: v.resample("MS").sum().reindex(months) for k, v in hits.items()}
     # Spells are the runs a count cannot show: a month can reach a high count without ever holding
@@ -722,18 +1038,22 @@ def build_payload(loaded, with_hourly=True):
 
     monthly = monthly_frames(loaded, months)
     norm = normals(monthly, months)
+    events = season_events(day, dates)
 
     # -- Months ------------------------------------------------------------------------------
     rows, all_stats = [], []
     for ts in months:
         y, m = int(ts.year), int(ts.month)
-        s = month_stats(y, m, keys, monthly, norm, counts_month, spells, day, dates, loaded)
+        s = month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, loaded)
         earned, suppressed = evaluate_badges(s, keys)
         all_stats.append(s)
         row = dict(y=y, m=m, i0=int((ts - dates[0]).days), n=int(s["n_days"]),
                    b=earned, sup=suppressed,
                    c={k: int(s[f"n_{k}"]) for k in hits},
-                   sp={k: int(s[f"spell_{k}"]) for k in spells})
+                   sp={k: int(s[f"spell_{k}"]) for k in spells},
+                   x={k: r(v, 1) for k, v in s["x"].items()},
+                   ev={k[3:]: s[k] for k in ("ev_gs_start", "ev_gs_end", "ev_last_frost",
+                                             "ev_first_frost") if s[k]})
         for key in keys:
             digits = CALENDAR[key]["digits"]
             row[key] = dict(v=r(s[key], digits), a=r(s[f"{key}_anom"], digits),
@@ -751,13 +1071,22 @@ def build_payload(loaded, with_hourly=True):
         if var not in keys:
             continue
         if field == "count":
+            if metric["count"] not in counts_month:
+                continue  # its day test was dropped, so the count would be a column of zeros
             values = [row["c"][metric["count"]] for row in rows]
-            daily_values = [1.0]
+            daily_values = []
+        elif field == "spell":
+            values = [row["sp"][metric["spell"]] for row in rows]
+            daily_values = []
+        elif field == "extra":
+            values = [row["x"].get(metric["extra"]) for row in rows]
+            daily_values = ((day[var]["max"] - day[var]["min"]).dropna().tolist()
+                            if metric["day"]["kind"] == "range" else [])
         else:
             short = dict(value="v", anom="a", pctn="p", meas="meas")[field]
             values = [row[var][short] for row in rows]
             stat = metric["day"].get("stat")
-            daily_values = ([] if metric["day"]["kind"] in ("flag", "meas")
+            daily_values = ([] if metric["day"]["kind"] in ("flag", "meas", "none", "range")
                             else day[var][stat].dropna().tolist())
         if field == "meas":
             domain, day_domain = [0.0, 100.0], [0.0, 100.0]
@@ -781,14 +1110,16 @@ def build_payload(loaded, with_hourly=True):
             # A quantity that accumulates is read against zero, so its ramp starts there; one that
             # does not would waste most of the ramp on values the record never reaches.
             center = None
-            floor_at_zero = field == "count" or VARIABLES[var].get("agg") == "sum"
+            floor_at_zero = (field in ("count", "spell", "extra")
+                             or VARIABLES[var].get("agg") == "sum")
             domain = percentile_domain(values)
             day_domain = percentile_domain(daily_values) if daily_values else [0.0, 1.0]
             if floor_at_zero:
                 domain = [0.0, domain[1]]
                 day_domain = [0.0, day_domain[1]]
         entry = {k: metric[k] for k in ("key", "label", "short", "about", "scale", "digits", "day")}
-        entry.update(var=var, field=field, count=metric.get("count"),
+        entry.update(var=var, field=field, count=metric.get("count"), spell=metric.get("spell"),
+                     extra=metric.get("extra"),
                      units=metric.get("unit", loaded[var]["v"].units),
                      poles=list(metric.get("poles", [])), stops=list(metric.get("stops", [])),
                      center=r(center, 3), domain=[r(domain[0], 3), r(domain[1], 3)],
@@ -842,7 +1173,7 @@ def build_payload(loaded, with_hourly=True):
             meas={key: [None if pd.isna(x) else int(round(x)) for x in meas[key].to_numpy()]
                   for key in keys},
         ),
-        normals=daily_normals(day, dates, keys),
+        normals=normals_payload(daily_norm),
         climatology={key: {str(m): norm[key]["by_month"][m] for m in range(1, 13)} for key in keys},
         hourly=hourly_layer(loaded, first_year, last_year) if with_hourly else None,
     )

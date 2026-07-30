@@ -44,13 +44,25 @@
   const WEEKDAY_LONG = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
     'Sunday'];
 
-  /* Which threshold days are worth a mark on a day cell. The frequent ones (a summer day, a wet
-     day) are left out: a mark that is on half the cells of a July separates nothing, and the wet
-     day already has its own bar. */
-  const DAY_ICON = {
-    frost: 'snowflake', ice: 'icicles', hot: 'flame', tropical: 'moon',
-    heavy: 'cloud-rain', verywet: 'cloud-rain'
-  };
+  /* Which day tests are worth a mark on a day cell, in the order a cell fills its three slots.
+     The frequent ones (a summer day, a wet day) are left out: a mark that is on half the cells of
+     a July separates nothing, and a wet day already has its own bar along the bottom. Records come
+     first because they are the rarest thing a day can be. */
+  const DAY_MARKS = [
+    ['recwarm', { icon: 'star', tone: 'warm', label: 'warmest for its date' }],
+    ['reccold', { icon: 'star', tone: 'cold', label: 'coldest for its date' }],
+    ['recwet', { icon: 'star', tone: 'wet', label: 'wettest for its date' }],
+    ['verywet', { icon: 'cloud-rain', tone: 'wet', label: 'above 30 mm' }],
+    ['hot', { icon: 'flame', tone: 'warm', label: 'hot day' }],
+    ['ice', { icon: 'icicles', tone: 'cold', label: 'ice day' }],
+    ['tropical', { icon: 'moon', tone: 'warm', label: 'tropical night' }],
+    ['heavy', { icon: 'cloud-rain', tone: 'wet', label: 'above 10 mm' }],
+    ['coldprec', { icon: 'snow-cloud', tone: 'cold', label: 'precipitation below 1 °C' }],
+    ['frost', { icon: 'snowflake', tone: 'cold', label: 'frost day' }],
+    ['freezethaw', { icon: 'thermo-swing', tone: 'cold', label: 'crossed freezing' }],
+    ['clear', { icon: 'sun', tone: 'sun', label: 'in the brightest tenth for its date' }],
+    ['saturated', { icon: 'fog', tone: 'dull', label: 'mean humidity above 95 %' }]
+  ];
 
   /* ------------------------------------------------------------------------------------------
      Icons
@@ -77,13 +89,33 @@
     'award': '<circle cx="12" cy="8.5" r="5.6"/><path d="M15.4 13.4 17 22l-5-2.9L7 22l1.6-8.6"/>',
     'arrow-up': '<path d="M12 20V4M5 11l7-7 7 7"/>',
     'arrow-down': '<path d="M12 4v16M19 13l-7 7-7-7"/>',
-    'alert': '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.2M12 17.4h.01"/>'
+    'alert': '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.2M12 17.4h.01"/>',
+    'sprout': '<path d="M7 20.5h10"/><path d="M12 20.5c0-5 0-7 0-9"/><path d="M12 11.5c-2.6 0-4.2-1.4-4.8-4.2 2.8-.3 4.6.9 4.8 4.2zM12 11.5c2.6 0 4.2-1.9 4.8-5.2-2.8.3-4.6 1.9-4.8 5.2z"/>',
+    'leaf-fall': '<path d="M11.5 19.5A6.5 6.5 0 0 1 10.4 6.6C15.7 5.5 17.1 5 19 2.7c.9 1.9 1.8 3.9 1.8 7.4 0 5.1-4.4 9.4-9.3 9.4z"/><path d="M2.5 21.5c0-2.8 1.7-5 4.7-5.6 2.2-.4 4.5-1.9 5.4-2.9"/>',
+    'star': '<path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/>',
+    'snow-cloud': '<path d="M17.5 15.5H9a6 6 0 1 1 5.7-7.8h2.8a4 4 0 1 1 0 7.8z"/><path d="M8.5 18.5v2.4M7.3 19.1l2.4 1.2M9.7 19.1l-2.4 1.2M15.5 18.5v2.4M14.3 19.1l2.4 1.2M16.7 19.1l-2.4 1.2"/>',
+    'thermo-swing': '<path d="M12 3.2v17.6"/><path d="m7.5 7.7 4.5-4.5 4.5 4.5"/><path d="m7.5 16.3 4.5 4.5 4.5-4.5"/>',
+    'fog': '<path d="M3 7.5h18M6 11.5h13M3.5 15.5h14M8 19.5h11"/>'
   };
 
-  function icon(name, cls) {
-    return '<svg class="bicon ' + (cls || '') + '" viewBox="0 0 24 24" fill="none" '
-      + 'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" '
-      + 'aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+  function glyph(name) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '
+      + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+      + (ICONS[name] || '') + '</svg>';
+  }
+
+  /** A badge as a solid chip: the family in the background, the badge in the symbol. */
+  function chip(key, size) {
+    const b = BADGES[key];
+    if (!b) return '';
+    return '<span class="chip chip-' + b.tone + (size ? ' ' + size : '') + '" role="img" '
+      + 'aria-label="' + b.label + '">' + glyph(b.icon) + '</span>';
+  }
+
+  /** The same chip for a day mark, which has no badge entry of its own. */
+  function markChip(mark, size) {
+    return '<span class="chip chip-' + mark.tone + (size ? ' ' + size : '') + '" role="img" '
+      + 'aria-label="' + mark.label + '">' + glyph(mark.icon) + '</span>';
   }
 
   /* ------------------------------------------------------------------------------------------
@@ -422,8 +454,14 @@
   /** The daily quantity a metric shows inside a tile, for one day index. */
   function dayValue(metric, i, y, m, d) {
     const spec = metric.day;
+    if (spec.kind === 'none') return null;
     if (spec.kind === 'meas') return DAYS.meas[metric.var][i];
     if (spec.kind === 'flag') return flagSet(DAYS.flags[i], spec.flag) ? 1 : 0;
+    if (spec.kind === 'range') {
+      const lo = dayStat(metric.var, spec.stats[0], i);
+      const hi = dayStat(metric.var, spec.stats[1], i);
+      return isNum(lo) && isNum(hi) ? hi - lo : null;
+    }
     const v = dayStat(metric.var, spec.stat, i);
     if (!isNum(v)) return null;
     if (spec.kind === 'anom') {
@@ -444,6 +482,11 @@
   /** The value a tile shows, and the number that belongs beside it. */
   function monthValue(metric, mo) {
     if (metric.field === 'count') return mo.c[metric.count];
+    if (metric.field === 'spell') return mo.sp[metric.spell];
+    if (metric.field === 'extra') {
+      const v = mo.x[metric.extra];
+      return v === undefined ? null : v;
+    }
     const short = { value: 'v', anom: 'a', pctn: 'p', meas: 'meas' }[metric.field];
     return mo[metric.var] ? mo[metric.var][short] : null;
   }
@@ -459,7 +502,6 @@
     if (metric.field === 'anom') return nf(rec.v, metric.digits) + ' ' + metric.units;
     if (metric.field === 'pctn') return nf(rec.v, 0) + ' ' + VARS[metric.var].units;
     if (metric.field === 'value' && isNum(rec.a)) return nfs(rec.a, metric.digits);
-    if (metric.field === 'count') return '';
     return '';
   }
 
@@ -576,7 +618,7 @@
         const sub = monthSub(met, mo);
         if (sub) inner += '<span class="cell-sub">' + sub + '</span>';
         inner += '<span class="cell-badges">'
-          + shown.map(b => icon(BADGES[b.k].icon)).join('')
+          + shown.map(b => chip(b.k, 'sm')).join('')
           + (mo.b.length > shown.length
             ? '<span class="more">+' + (mo.b.length - shown.length) + '</span>' : '')
           + '</span>';
@@ -671,7 +713,7 @@
     host.innerHTML = groups.map(g =>
       '<div class="badgegroup"><h3>' + g.name + '</h3>' + g.items.map(b =>
         '<button type="button" class="badgetoggle" data-badge="' + b.key + '" '
-        + 'aria-pressed="false">' + icon(b.icon, 'lg badge-' + b.tone)
+        + 'aria-pressed="false">' + chip(b.key, 'lg')
         + '<span class="bt"><span class="bl">' + b.label + '</span> '
         + '<span class="bn">' + b.n + ' month' + (b.n === 1 ? '' : 's') + '</span>'
         + '<div class="bd">' + b.about + '</div></span></button>').join('') + '</div>').join('');
@@ -871,6 +913,71 @@
     return out.join('');
   }
 
+  /**
+   * The extremes of a month and the statistics that belong to the month rather than to one of its
+   * variables. A monthly mean says what the month was like on average, which is exactly what a
+   * reader looking for the hot Tuesday does not want.
+   */
+  function monthHighlights(mo) {
+    const rows = [];
+    const best = (key, stat, how) => {
+      let bd = null, bv = null;
+      for (let d = 1; d <= mo.n; d++) {
+        const v = dayStat(key, stat, mo.i0 + d - 1);
+        if (!isNum(v)) continue;
+        if (bv === null || (how === 'max' ? v > bv : v < bv)) { bv = v; bd = d; }
+      }
+      return bd === null ? null : { d: bd, v: bv };
+    };
+    const line = (label, hit, key, digits) => {
+      if (!hit) return;
+      rows.push('<dt>' + label + '</dt><dd>' + nf(hit.v, digits) + ' ' + VARS[key].units
+        + ' <span class="muted">on the ' + ord(hit.d) + '</span></dd>');
+    };
+    if (VARS.TA) {
+      line('Warmest day', best('TA', 'max', 'max'), 'TA', 1);
+      line('Coldest night', best('TA', 'min', 'min'), 'TA', 1);
+      let wd = null, wv = null;
+      for (let d = 1; d <= mo.n; d++) {
+        const lo = dayStat('TA', 'min', mo.i0 + d - 1), hi = dayStat('TA', 'max', mo.i0 + d - 1);
+        if (!isNum(lo) || !isNum(hi)) continue;
+        if (wv === null || hi - lo > wv) { wv = hi - lo; wd = d; }
+      }
+      if (wd) {
+        rows.push('<dt>Largest day-night range</dt><dd>' + nf(wv, 1) + ' ' + VARS.TA.units
+          + ' <span class="muted">on the ' + ord(wd) + '</span></dd>');
+      }
+      if (isNum(mo.x.dtr)) {
+        rows.push('<dt>Mean day-night range</dt><dd>' + nf(mo.x.dtr, 1) + ' ' + VARS.TA.units
+          + '</dd>');
+      }
+      if (isNum(mo.x.gdd)) {
+        rows.push('<dt>Degree days above 5 ' + VARS.TA.units + '</dt><dd>' + nf(mo.x.gdd, 0)
+          + ' K d</dd>');
+      }
+    }
+    if (VARS.PREC) line('Wettest day', best('PREC', 'sum', 'max'), 'PREC', 1);
+    if (VARS.SW_IN) line('Brightest day', best('SW_IN', 'mean', 'max'), 'SW_IN', 0);
+
+    let html = '<dl class="kv">' + rows.join('') + '</dl>';
+    const notes = [];
+    if (mo.x.nrec) {
+      notes.push(mo.x.nrec + ' day' + (mo.x.nrec === 1 ? '' : 's') + ' in this month set a record '
+        + 'for its own calendar date. A day that was largely gap-filled cannot set one.');
+    }
+    Object.keys(mo.ev || {}).forEach(name => {
+      const ev = mo.ev[name];
+      const label = { gs_start: 'The growing season began', gs_end: 'The growing season ended',
+        last_frost: 'The last frost of spring fell', first_frost: 'The first frost of autumn fell'
+      }[name];
+      notes.push(label + ' on ' + ev.date + (isNum(ev.delta) && ev.delta !== 0
+        ? ', ' + Math.abs(ev.delta) + ' days ' + (ev.delta < 0 ? 'earlier' : 'later')
+          + ' than the median date of the record.' : ', the median date of the record.'));
+    });
+    if (notes.length) html += '<p class="smallnote">' + notes.join(' ') + '</p>';
+    return html;
+  }
+
   function monthBadges(mo) {
     if (!mo.b.length) {
       return '<ul class="badgelist none"><li><span class="bt"><span class="bd">Nothing in this '
@@ -878,7 +985,7 @@
     }
     return '<ul class="badgelist">' + mo.b.map(b => {
       const meta = BADGES[b.k];
-      return '<li>' + icon(meta.icon, 'lg badge-' + meta.tone) + '<span class="bt">'
+      return '<li>' + chip(b.k, 'lg') + '<span class="bt">'
         + '<span class="bl">' + meta.label + '</span>'
         + '<div class="bd">' + b.t + '.</div></span></li>';
     }).join('') + '</ul>';
@@ -1091,8 +1198,8 @@
       const meas = DAYS.meas[met.var] ? DAYS.meas[met.var][i] : null;
       if (isNum(meas) && meas < M.sparse_coverage) cls.push('sparse');
 
-      const flags = FLAGS.filter(f => DAY_ICON[f.key] && flagSet(DAYS.flags[i], f.key))
-        .slice(0, 3).map(f => icon(DAY_ICON[f.key])).join('');
+      const flags = DAY_MARKS.filter(m => flagSet(DAYS.flags[i], m[0]))
+        .slice(0, 3).map(m => markChip(m[1], 'sm')).join('');
       const rain = dayStat('PREC', 'sum', i);
       const sub = met.var === 'TA'
         ? nf(dayStat('TA', 'min', i), 0) + ' / ' + nf(dayStat('TA', 'max', i), 0)
@@ -1144,6 +1251,7 @@
 
     host.innerHTML = '<div class="tiles" id="month-tiles"></div>'
       + '<h2 class="section">What was notable</h2><div id="month-badges"></div>'
+      + '<div class="grid" id="month-highlights"></div>'
       + '<h2 class="section">Day by day</h2><div class="grid" id="month-charts"></div>'
       + '<h2 class="section">The days</h2><div class="grid" id="month-days"></div>'
       + '<div id="day-panel"></div>'
@@ -1151,6 +1259,13 @@
 
     document.getElementById('month-tiles').innerHTML = monthTiles(mo);
     document.getElementById('month-badges').innerHTML = monthBadges(mo) + suppressedNote(mo);
+
+    const hl = document.getElementById('month-highlights');
+    hl.innerHTML = '';
+    cardEl(hl, {
+      title: 'The month in single days', width: 'w-4',
+      sub: 'The days a monthly mean does not show.'
+    }).innerHTML = monthHighlights(mo);
 
     const charts = document.getElementById('month-charts');
     if (VARS.TA) {
@@ -1310,11 +1425,23 @@
       }
     });
     kv += '</dl>';
-    const set = FLAGS.filter(f => flagSet(DAYS.flags[i], f.key));
+    /* A record is stated first and in words, because it is the one thing about a day that a
+       reader cannot work out from the numbers above it. */
+    const records = [
+      ['recwarm', 'the warmest'], ['reccold', 'the coldest'], ['recwet', 'the wettest']
+    ].filter(x => flagSet(DAYS.flags[i], x[0]));
+    const dateName = d + ' ' + MONTH_NAME[state.m - 1];
+    const set = FLAGS.filter(f => flagSet(DAYS.flags[i], f.key)
+      && !f.key.startsWith('rec'));
     body.innerHTML = kv
+      + (records.length
+        ? '<p class="smallnote"><b>This is ' + records.map(x => x[1]).join(' and ')
+          + ' ' + dateName + ' in the record.</b> Days that were largely gap-filled are left out '
+          + 'of that comparison.</p>'
+        : '')
       + '<p class="smallnote">' + (set.length
-        ? 'Thresholds this day set: ' + set.map(f => f.label).join(', ') + '.'
-        : 'This day set none of the thresholds on this page.')
+        ? 'This day also counts as: ' + set.map(f => f.label).join(', ') + '.'
+        : 'This day met none of the thresholds on this page.')
       + ' Departures in brackets are against the ±' + M.clim_window
       + ' day normal for the same date.</p>';
 
