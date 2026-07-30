@@ -138,7 +138,10 @@ Every other year of 2005-2025 is at least 99 %. {#tbl-vpd-coverage}
   2 % in the same statistic. It is what the uncorrectable humidity step leaves behind
   after the temperature term has been put on one level. Restrict anything crossing
   that date to one probe generation using `FLAG_VPD_T1_47_1_SOURCE`, or carry the
-  step as an uncertainty.
+  step as an uncertainty. Computing `VPD` from the *uncorrected* `TA` instead would
+  report a step about three times smaller, because the two input errors have opposite
+  signs on `VPD` and one masks the other. That is a smaller number, not a better
+  product: this one uses the best available estimate of each input.
 - **Both humidity eras also drift internally.** Against MeteoSwiss Lägern the earlier
   era moves approximately −0.31 percentage points of RH per year and the later era
   approximately +0.50, so a `VPD` trend computed entirely inside one era still

@@ -129,6 +129,12 @@ boundary either, including the change of screening tool in January 2020.
 
 ## Known limitations
 
+- **Neither column is absolutely calibrated, and both read low.** Against the regional
+  stations' elevation gradient the later era sits about 10 % below what a gauge on this
+  ridge should catch, which is ordinary wind under-catch for an exposed ridge top. The
+  homogenisation lifts the early era onto the later one and deliberately stops there,
+  so that 10 % remains in both columns. A total from this product is what the gauge
+  caught, not what fell.
 - **Winter totals are biased low, and the bias changes at 2018.** The gauge misses
   snow as it falls and releases part of it days later on melt, so winter sub-daily
   timing is unreliable in both eras. On days below 2 °C the catch ratio averages 0.62
