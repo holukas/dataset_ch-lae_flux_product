@@ -67,6 +67,7 @@ website:
           - Meteo_Data_LW_IN.md
           - Meteo_Data_VPD.md
           - Meteo_Data_PREC.md
+          - Meteo_Data_SWC.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
