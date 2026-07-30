@@ -200,10 +200,18 @@ principled answer to "what number is the new one?".
   exports nothing, and the product notebooks carry the conclusions plus their own
   guarding assertions rather than deferring to it.
   `99_METEO_MERGED_2004-2025.ipynb` is the capstone: it runs last, joins the
-  products of `01`-`08` onto one 30MIN `TIMESTAMP_MID` index with their
+  products of `01`-`10` onto one 30MIN `TIMESTAMP_MID` index with their
   provenance flags, and draws one overview figure per series. It **computes and
   corrects nothing** — a value in the merged table is exactly what its own
-  notebook exported.
+  notebook exported. Its `PRODUCTS` registry is the one place a series is
+  declared: the merge, the column check, the coverage table and the captions all
+  read it, so adding a variable there is what makes it arrive everywhere. A
+  multi-column product contributes **one entry per series a reader would
+  analyse**, not one per column in its file — `09` five soil-moisture depths plus
+  their homogenised twins, `10` the seven reconciled soil-temperature depths and
+  **not** the eighteen individual channels, which are one sensor each and stay in
+  their own notebook. Every entry needs its `MAY_HAVE_GAPS` reason if it can
+  contain `NaN` and its `FLAG_LABELS` vocabulary for the flag drawn first.
 
 ### The GIN fieldbook
 
