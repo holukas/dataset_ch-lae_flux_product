@@ -176,6 +176,15 @@ channels are never filled.
 
 ## Known limitations
 
+- **Amplitudes are not comparable across April 2020.** The earlier sensors were more
+  closely coupled to the surface than the present ones at the same nominal depth, so the
+  diurnal and seasonal amplitude changes with the hardware, by a factor of three at
+  0.05 m. The levels are reconciled between the two generations; the amplitudes are not,
+  and no correction is applied to them.
+- **Records between January 2009 and May 2012 carry the `SUSPECT` flag.** The early
+  profile's three channels differ from one another by 1.5 to 3.5 K over that period and
+  the available evidence cannot establish which of them is in error. Filter on the flag
+  before using those years quantitatively.
 - **The deep columns have no usable diurnal cycle.** At 0.5 m and 0.6 m the sensors report to
   0.1 K, and the median summer daily amplitude at those depths *is* 0.10 K — one reporting
   step. A diurnal cycle read off the deep columns is the instrument's resolution, not the

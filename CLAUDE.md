@@ -779,8 +779,8 @@ The shape below is deliberate — follow it when adding a variable.
   notebook prose.
 - **Every meteo parameter gets its own page**, named `Meteo_Data_<VAR>.md`
   (`Meteo_Data_TA.md`, then `Meteo_Data_SW_IN.md`). `Meteo_Data.md` stays general — the
-  conventions shared by all products, the variables table, the known limitations
-  worth knowing before picking a variable — and carries a **table of the per-
+  conventions shared by all products, the variables table, and how the products
+  are built — and carries a **table of the per-
   variable pages at the top**, listing all ten parameters whether or not their
   page exists yet, so an entry without a link reads as a page not yet written
   rather than a variable not in the dataset. Adding a page means editing that one
@@ -791,6 +791,16 @@ The shape below is deliberate — follow it when adding a variable.
   them collapsed, so ten of them cannot crowd out every other page. Writing
   `- section: Meteo_Data.md` keeps that page a link in its own right rather than
   turning it into a bare heading.
+- **A limitation belongs to a variable, so it lives on that variable's page**, in
+  its `## Known limitations` section, and nowhere else. `Meteo_Data.md` names the
+  section and points at the pages instead of restating them: a duplicated bullet
+  is the one that goes stale, and a reader picking a variable arrives at its page
+  anyway. The two exceptions are properties of a *reference* rather than of a
+  product (the October 2010 MeteoSwiss Lägern rebuild, the NABEL series ceasing
+  to be independent in mid-2018); the general page says they exist and recur, and
+  each variable page that is touched by one states what it means there.
+  A limitation of the *processing chain* rather than of a variable — the 2022
+  time-shift investigation — belongs on `Issues.md`.
 - **Explain what was done in plain terms, and link every notebook that carries
   the evidence.** A per-variable page opens with a short list of the notebooks
   behind it — the one that builds the product, any investigation that settled a
