@@ -135,7 +135,8 @@ def ta_correction_checks(delta_pre, delta_post, units):
 #   correction_checks                  hook asserting the shape of that correction
 #   correction_note                    how the correction is described on the page
 #   fill_flag, fill_legend,            provenance of each record. Without a fill flag, "measured"
-#   fill_short, measured_code          means simply "not missing"
+#   fill_short, measured_code          means simply "not missing". measured_code takes one code
+#                                      or a collection of them
 #   source_flag, source_legend,        which instrument produced each record
 #   source_short
 #   agg             'mean' | 'sum'     how the variable aggregates over time
@@ -457,6 +458,87 @@ for _depth in ("0.05", "0.1", "0.2", "0.3", "0.5"):
     )
 
 
+# The seven soil-temperature depths share one file and one shape, so their entries are generated
+# too. Two things differ from every other variable here.
+#
+# The METHOD flag is BOTH provenance flags at once: it says whether a value was measured or modelled
+# AND which sensor generation measured it. So it is passed as the fill flag with two measured codes,
+# and again as the source flag, which is not a duplicate - the fill card asks "is this a
+# measurement", the instrument card asks "which profile was in the ground". Nothing else in this
+# registry needs two codes to mean measured, which is why `measured_code` accepts a collection.
+#
+# And the depths do not share a period, because the holes in the ground do not: 0.15 m is early-only
+# and stops in March 2021, 0.2 m and 0.6 m were first dug in 2020. Each entry therefore carries its
+# own whole-year window rather than a blanket one, so no depth draws a decade of empty years or a
+# closing year it has no data in.
+TS_METHOD_LEGEND = {
+    0: "no value",
+    1: "measured, current profile (from 10 Apr 2020)",
+    2: "measured, early profile (2004 to Mar 2021)",
+    3: "modelled from the other depths, nearest one within 0.15 m",
+    4: "modelled from the other depths, nearest one further off",
+}
+TS_METHOD_SHORT = {0: "no value", 1: "current profile", 2: "early profile",
+                   3: "modelled (near)", 4: "modelled (far)"}
+
+# first and last WHOLE year each depth can be summarised over, read off the exported spans.
+TS_YEARS = {"0.05": (2005, 2025), "0.1": (2005, 2025), "0.15": (2005, 2020),
+            "0.2": (2021, 2025), "0.3": (2005, 2025), "0.5": (2005, 2025), "0.6": (2021, 2025)}
+
+for _depth, (_first, _last) in TS_YEARS.items():
+    _early_only = _depth == "0.15"
+    _modern_only = _depth in ("0.2", "0.6")
+    _mostly_modelled = _depth in ("0.3", "0.5")
+    VARIABLES[f"TS_{_depth}"] = dict(
+        title=f"Soil temperature at {_depth} m",
+        units="°C",
+        file="10_METEO_TS_FF1_2004-2025.parquet",
+        value=f"TS_FF1_{_depth}_HOMOGENIZED_GAPFILLED",
+        first_year=_first, last_year=_last,
+        limits=(-15.0, 40.0),
+        about=(
+            f"Soil temperature at {_depth} m in the forest-floor profile, reconciled from that "
+            "depth's sensors into one series and gap-filled from the other depths. "
+            + ("This depth existed only in the early profile and its record stops at the March 2021 "
+               "logger rebuild."
+               if _early_only else
+               "This depth was first instrumented with the current profile in 2020, so it has no "
+               "earlier record."
+               if _modern_only else
+               "Roughly half of this depth is modelled: its early sensor stopped in March 2010 and "
+               "the current one went in ten years later, so the decade between is filled from the "
+               "other depths. Read the provenance below before using it."
+               if _mostly_modelled else
+               "The level difference between the two sensor generations is removed, measured on the "
+               "347 days they overlap.")),
+        fill_flag=f"FLAG_TS_FF1_{_depth}_HOMOGENIZED_GAPFILLED_METHOD",
+        fill_legend=TS_METHOD_LEGEND, fill_short=TS_METHOD_SHORT,
+        measured_code=(1, 2),
+        source_flag=f"FLAG_TS_FF1_{_depth}_HOMOGENIZED_GAPFILLED_METHOD",
+        source_legend=TS_METHOD_LEGEND, source_short=TS_METHOD_SHORT,
+        extremes=dict(high="warmest", low="coldest"),
+        notes=([
+            "Levels cross April 2020; amplitudes do not. The early sensors were far better coupled "
+            "to the surface than today's at the same nominal depth, so a daily or seasonal "
+            "amplitude computed across the changeover is dominated by the sensor change rather "
+            "than by climate. Annual and daily means are comparable."]
+            # Only the depths that actually hold BOTH generations. 0.15 m is early-only and 0.2 and
+            # 0.6 m are modern-only, so for them there is no changeover to warn about and the note
+            # would describe something the column does not contain.
+            if _depth in ("0.05", "0.1", "0.3", "0.5") else []) + ([
+            "The two generations never overlap at this depth, so no level difference could be "
+            "measured and none is removed. A trend across April 2020 here still carries the sensor "
+            "change."] if _mostly_modelled else []) + ([
+            "Between January 2009 and May 2012 the early profile disagreed with itself by 1.5 to "
+            "3.5 {units} beyond its own seasonal norm, and which channel was wrong is not "
+            "determined. Those records are kept and carry a SUSPECT flag in the product file."]
+            if _depth in ("0.05", "0.1", "0.15") else []) + ([
+            "The sensors at this depth report to 0.1 {units}, and the median summer daily amplitude "
+            "here is one such step. A diurnal cycle read off this depth is the instrument's "
+            "resolution, not the soil."] if _depth in ("0.5", "0.6") else []),
+    )
+
+
 # ----------------------------------------------------------------------------------------------
 # Small helpers
 # ----------------------------------------------------------------------------------------------
@@ -596,7 +678,13 @@ class Variable:
         self.fill_flag = cfg.get("fill_flag")
         self.fill_legend = cfg.get("fill_legend", {})
         self.fill_short = cfg.get("fill_short", {})
-        self.measured_code = cfg.get("measured_code", 0)
+        # Usually a single code means "measured". Soil temperature is the exception: its METHOD
+        # flag names the sensor generation as well as the fill, so codes 1 and 2 are both
+        # measurements and only 3 and 4 are modelled. Normalised to a set here, so every reader
+        # downstream asks the same question of every variable instead of special-casing one.
+        _measured = cfg.get("measured_code", 0)
+        self.measured_codes = frozenset(
+            _measured if isinstance(_measured, (set, frozenset, list, tuple)) else (_measured,))
         self.source_flag = cfg.get("source_flag")
         self.source_legend = cfg.get("source_legend", {})
         self.source_short = cfg.get("source_short", {})
@@ -728,7 +816,7 @@ def build_payload(v, df, corrections, use_reference=True):
 
     # "Measured" means what the fill flag says where there is one, and simply "not missing" where
     # there is not. Everything downstream reads this mask rather than re-deciding.
-    measured = (df[v.fill_flag].eq(v.measured_code) & present) if v.fill_flag else present
+    measured = (df[v.fill_flag].isin(v.measured_codes) & present) if v.fill_flag else present
     measured_only = series.where(measured)
     not_measured = ~measured
 
@@ -743,10 +831,18 @@ def build_payload(v, df, corrections, use_reference=True):
     fit = trend(ym)
     anomaly = ym - ym.mean()
 
+    # The period difference needs two periods, and a depth whose sensor was installed late does not
+    # have two: soil temperature at 0.2 m and 0.6 m begins in 2020, so its whole record lies inside
+    # the recent window. That is a fact about the hole in the ground, not a failure, so the tile
+    # reports which years are missing instead of the build stopping. `early_period` then names the
+    # years of the recent window that precede the record, which is what the page prints.
     first_recent = ym.index.max() - N_RECENT_YEARS + 1
-    assert first_recent > ym.index.min(), f"{v.key}: not enough years before the recent period"
-    early = ym.loc[:first_recent - 1].mean()
-    recent = ym.loc[first_recent:].mean()
+    has_early = first_recent > ym.index.min()
+    early = ym.loc[:first_recent - 1].mean() if has_early else np.nan
+    recent = ym.loc[max(first_recent, ym.index.min()):].mean()
+    early_period = ([int(ym.index.min()), int(first_recent - 1)] if has_early
+                    else [int(first_recent), int(ym.index.min()) - 1])
+    assert np.isfinite(recent), f"{v.key}: the recent period holds no yearly value at all"
 
     monthly = series.groupby([series.index.year, series.index.month]).agg(v.agg).unstack()
     monthly = monthly.reindex(columns=range(1, 13))
@@ -804,14 +900,15 @@ def build_payload(v, df, corrections, use_reference=True):
     records_low = per_year(new_low.astype(float), "sum")
 
     # -- Coverage and provenance ------------------------------------------------------------
-    methods = ([v.fill_short.get(c, f"code {c}") for c in sorted(v.fill_legend) if c != v.measured_code]
+    methods = ([v.fill_short.get(c, f"code {c}")
+                for c in sorted(v.fill_legend) if c not in v.measured_codes]
                if v.fill_flag else ["missing"])
     coverage_values = []
     for y in years:
         sel = df.index.year == y
         if v.fill_flag:
             row = [float((df.loc[sel, v.fill_flag] == c).sum())
-                   for c in sorted(v.fill_legend) if c != v.measured_code]
+                   for c in sorted(v.fill_legend) if c not in v.measured_codes]
         else:
             row = [float(not_measured[sel].sum())]
         coverage_values.append(row)
@@ -977,10 +1074,11 @@ def build_payload(v, df, corrections, use_reference=True):
             record_low=r(measured_only.min(), 1),
             record_low_when=window(measured_only.idxmin()),
             measured_pct=r(measured.mean() * 100, 1),
-            early_period=[int(ym.index.min()), int(first_recent - 1)],
-            recent_period=[int(first_recent), int(ym.index.max())],
+            early_period=early_period,
+            recent_period=[int(max(first_recent, ym.index.min())), int(ym.index.max())],
             early_mean=r(early), recent_mean=r(recent), period_delta=r(recent - early),
-            period_delta_pct=r(100 * (recent - early) / early, 1) if early else None,
+            period_delta_pct=(r(100 * (recent - early) / early, 1)
+                              if has_early and early else None),
             growing_season=r(pd.Series({y: s["length"] for y, s in season_rows.items()}).mean(), 0)
             if season_rows else None,
         ),

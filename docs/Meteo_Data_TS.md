@@ -7,6 +7,18 @@ time (UTC+1, no daylight saving), from 2004-09-07 00:15 to 2025-12-31 23:45. Val
 **°C**. The index begins with the soil record rather than on 1 January, because there is no
 soil temperature at this plot before September 2004.
 
+The **interactive dashboards** summarise one depth each on a single page — coverage and
+provenance, seasonality, distributions, extremes and trends, with a table view behind every
+chart. They are standalone and work offline:
+[0.05](dashboards/METEO_TS_0.05_dashboard.html) /
+[0.1](dashboards/METEO_TS_0.1_dashboard.html) /
+[0.15](dashboards/METEO_TS_0.15_dashboard.html) /
+[0.2](dashboards/METEO_TS_0.2_dashboard.html) /
+[0.3](dashboards/METEO_TS_0.3_dashboard.html) /
+[0.5](dashboards/METEO_TS_0.5_dashboard.html) /
+[0.6](dashboards/METEO_TS_0.6_dashboard.html) m. Each covers only the whole years its own
+depth measured, so 0.15 m ends in 2020 and 0.2 m and 0.6 m begin in 2021.
+
 Method, evidence and checks:
 
 - [`10_METEO_TS_FF1`](notebooks/10_METEO/30_PRODUCTS/10_METEO_TS_FF1_2004-2025.html) —
