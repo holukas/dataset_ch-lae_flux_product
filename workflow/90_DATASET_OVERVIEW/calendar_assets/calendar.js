@@ -2315,6 +2315,11 @@
      Go
      ------------------------------------------------------------------------------------------ */
 
+  /* The theme is settled before anything is drawn. Every mark takes its colour from a token read
+     at render time, so a grid drawn while the page is still on `auto` and then switched to the
+     stored theme keeps the colours of the wrong token set until something happens to redraw it.
+     Nothing in setupTheme paints; it only resolves which set is in force. */
+  setupTheme();
   measureTopbar();
   renderHero();
   buildControls();
@@ -2322,7 +2327,6 @@
   renderAbout();
   renderGrid();
   setupNav();
-  setupTheme();
   route();
   window.addEventListener('hashchange', route);
 
