@@ -29,6 +29,8 @@ from the Swiss FluxNet site page; slope, region and altitudinal zone are from
 | site code | CH-LAE |
 | FLUXNET ID | CH-Lae |
 | site name | Lägeren, Canton of Aargau, Switzerland |
+| municipality | Wettingen, canton Aargau |
+| locality | Zindlen |
 | latitude | 47°28'42.0" N (47.478333) |
 | longitude | 8°21'51.8" E (8.364389) |
 | elevation | 689 m a.s.l. |
@@ -36,6 +38,13 @@ from the Swiss FluxNet site page; slope, region and altitudinal zone are from
 | geographical region | Swiss Jura |
 | altitudinal zone | montane |
 | slope | 27°, south-facing |
+
+Reported slopes differ, and the units are the trap: @etzold_carbon_2011 give
+**27°** for the flux site, while the
+[LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/) gives a mean slope of
+**37 %**, which is about 20°. The two describe different extents — the flux
+footprint against a 1.34 ha inventory plot — so they are not in conflict, but
+37 % must not be read as 37°.
 
 The slope is the property of this site that most affects the flux measurement.
 Advection on it contributes measurably to the carbon budget, and the site has
@@ -64,6 +73,24 @@ The swisstopo map carries the relief and the forest cover, which show the slope
 and the extent of the stand better than a street map does.
 
 ![The view from the top of the tower on 17 April 2014, over the canopy and onto the Swiss Plateau, with snow-covered mountains on the horizon. The stand is in early leaf flush, the broadleaves light green against the dark conifers. In the foreground are the tower's own instrument booms, among them a cup anemometer and a shielded temperature and humidity sensor.](images/CH-LAE_2014_2014-04-17_panorama_IMAG0013-14.jpg){#fig-site-panorama}
+
+### The tower
+
+The tower is **47 m** tall and belongs to WSL, which describes it on its
+[Zindlen measurement tower page](https://www.wsl.ch/de/ueber-die-wsl/versuchsanlagen-und-labors/flaechen-im-wald/messturm-laegeren-zindlen/).
+It is not the original structure: the first tower was built under the Swiss
+National Research Programme **NFP 14+**, and was replaced after being damaged by
+**storm Lothar** in December 1999. The eddy covariance measurements of this
+dataset therefore begin, in 2004, on the replacement tower, and no part of the
+record spans the rebuild.
+
+The tower carries instruments for several groups at once, which is why more than
+one measurement of the same quantity exists at this site — see
+[Monitoring programmes and networks](#monitoring-programmes-and-networks) below.
+Physical access requires authorisation from the WSL safety officer.
+
+The instruments of this dataset sit at the 47 m level; the NABEL sensors used as
+co-located references in the meteorological products are recorded at 49 m.
 
 ## Climate
 
@@ -173,8 +200,25 @@ forms a dense understorey, growing from about March to June
 | maximum leaf area index | 1.7-5.5 m^2^ m^-2^ | @etzold_carbon_2011 |
 | age of dominant *Fagus sylvatica* | 52-155 years | @etzold_carbon_2011 |
 | age of dominant *Picea abies* | 105-185 years | @etzold_carbon_2011 |
-| maximum age, *Fagus sylvatica* | approximately 150 years | Swiss FluxNet |
-| maximum age, *Picea abies* | 120-170 years | Swiss FluxNet |
+| maximum age, *Fagus sylvatica* | approximately 150 years | Swiss FluxNet, LWF |
+| maximum age, *Picea abies* | 120-170 years | Swiss FluxNet, LWF |
+
+::: {.callout-note title="The stand numbers describe a 1.34 ha plot, not the footprint"}
+
+Four of the rows above — top-height diameter, stem density, and the two maximum
+ages — appear identically on the Swiss FluxNet site page and on the
+[LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/), and the LWF plot is
+where they were measured. That plot is **1.34 ha**, installed on 1 May 2012 and
+spanning 643-718 m elevation. The flux footprint is very much larger and, as
+described under [Management and footprint](#management-and-footprint), spans two
+different management regimes. Stand statistics from the plot characterise the
+forest but should not be treated as an inventory of the area the fluxes come
+from.
+
+:::
+
+The LWF plot classifies the woodland association, after Ellenberg and Klötzli
+(1972), as *Galio odorati-Fagetum typicum* to *Pulmonario-Fagetum typicum*.
 
 The eddy covariance system and the meteorological sensors of this dataset are
 mounted at 47 m, well above the mean canopy height of about 30 m
@@ -194,6 +238,11 @@ completely within one year (Swiss FluxNet site page).
 |---|---|
 | soil pH | 4.0-7.5 |
 | soil carbon stock, 0-20 cm | 8.4-9.6 kg m^-2^ |
+
+The [LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/) classifies the same
+soils in the WSL scheme as **calcareous brown soil, chromic luvisol and mixed
+rendzina**, adding a luvisol that the World Reference Base pair above does not
+name.
 
 The pH range is wide because the two soil types differ: rendzinas over limestone
 are near-neutral to alkaline, the cambisols acidic. Soil moisture and soil
@@ -223,13 +272,19 @@ than one measurement record exists at the same location:
 - **Swiss FluxNet**, operated by the Grassland Sciences Group, ETH Zurich, which
   runs the eddy covariance system this dataset is built from
   [@shekhar_contrasting_2024].
-- **NABEL**, the Swiss national air pollution monitoring network, which operates
-  its own meteorological sensors on the same tower [@etzold_carbon_2011]. The
-  NABEL air temperature and radiation measurements at 49 m are used as co-located
-  references in the meteorological products; that series ends in mid-2018.
+- **NABEL**, the Swiss national air pollution monitoring network, operated by
+  EMPA, which runs its own meteorological sensors on the same tower
+  [@etzold_carbon_2011]. The NABEL air temperature and radiation measurements at
+  49 m are used as co-located references in the meteorological products. WSL gives
+  the NABEL presence as running through 2017; in the data used here the series
+  ceases to be independent in mid-2018, and the meteorological products are built
+  on the latter, which is measured rather than reported.
 - **LWF**, the long-term forest ecosystem research programme of WSL
-  (Swiss Federal Institute for Forest, Snow and Landscape Research)
-  (Swiss FluxNet site page).
+  (Swiss Federal Institute for Forest, Snow and Landscape Research), which runs
+  the 1.34 ha inventory plot described above.
+- The **University of Zurich** (Soil Science and Biogeochemistry) and a second
+  ETH Zurich group (Land-Climate Dynamics) also measure at the plot
+  ([LWF](https://lwf.wsl.ch/en/flaechen/laegeren/)).
 - **CarboEurope IP**, the European carbon flux network the site joined at the
   start of the measurements (Swiss FluxNet site page).
 
@@ -248,6 +303,11 @@ CH-LAE itself.
 - [CH-LAE FP2022 (2004-2022)](https://doi.org/10.3929/ethz-b-000582198) — the
   previous release of this dataset, in the ETH Research Collection
   [@hortnagl_ch-lae_2023].
+- [WSL: Zindlen measurement tower](https://www.wsl.ch/de/ueber-die-wsl/versuchsanlagen-und-labors/flaechen-im-wald/messturm-laegeren-zindlen/)
+  — the tower itself, its history and the conditions of access.
+- [WSL LWF: Lägeren plot](https://lwf.wsl.ch/en/flaechen/laegeren/) — the
+  long-term forest ecosystem research plot, its inventory statistics and its
+  deposition and foliar data.
 - [Instrumentation](Instrumentation.md) — the instruments deployed at the site and
   their measurement periods.
 
