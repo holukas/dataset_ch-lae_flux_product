@@ -145,6 +145,14 @@ CALENDAR = {
 EXTRA_INDICES = {
     "PREC": [dict(key="verywet", label="very wet days (≥ 30 {units})", stat="sum",
                   op="ge", value=30.0)],
+    # Evaporative demand has no threshold days in the shared registry because the dashboards do not
+    # count them, so they are defined here. 2 kPa is where stomatal closure becomes the usual
+    # response in temperate broadleaf forest rather than an occasional one; 3 kPa is severe. On
+    # this record they fall on 5.4 % and 0.7 % of days, about 20 and 3 days a year.
+    "VPD": [dict(key="vpdstress", label="evaporative stress days (daily maximum ≥ 2 {units})",
+                 stat="max", op="ge", value=2.0),
+            dict(key="vpdsevere", label="severe evaporative stress days (daily maximum ≥ 3 "
+                                        "{units})", stat="max", op="ge", value=3.0)],
 }
 
 # Day tests that a single threshold on a single statistic cannot express: two conditions at once,
@@ -192,6 +200,7 @@ FLAG_SHORT = {
     "freezethaw": "freeze-thaw", "coldprec": "precipitation below 1 °C", "saturated": "in cloud",
     "clear": "clear", "overcast": "overcast", "recwarm": "warmest for its date",
     "reccold": "coldest for its date", "recwet": "wettest for its date",
+    "vpdstress": "evaporative stress", "vpdsevere": "severe evaporative stress",
 }
 
 
@@ -253,8 +262,8 @@ def day_flags(variables):
 BADGES = [
     dict(key="sparse", label="Sparsely measured", group="Data quality", icon="alert",
          tone="warn", priority=0, needs=(), needs_normal=False,
-         about="Less than {sparse:.0f} % of the month's half-hours are measured for temperature or "
-               "precipitation. Its statistics rest on gap-filled or missing records.",
+         about="Under {sparse:.0f} % of the month's half-hours are measured for temperature or "
+               "precipitation, so its statistics rest on filled or missing records.",
          rule=lambda s: (
              "Only " + ", ".join(f"{s[k + '_meas']:.0f} % of {k}" for k in ("TA", "PREC")
                                  if s[k + "_meas"] is not None and s[k + "_meas"] < SPARSE_COVERAGE)
@@ -296,7 +305,7 @@ BADGES = [
 
     dict(key="heat", label="Hot days", group="Temperature", icon="flame", tone="warm",
          priority=3, needs=("TA",), needs_normal=False,
-         about="At least one day reached the hot-day threshold.",
+         about="At least one day reached 30 °C.",
          rule=lambda s: (f"{s['n_hot']} hot day{'s' if s['n_hot'] > 1 else ''} "
                          f"(daily maximum ≥ 30 {s['u_TA']}), warmest "
                          f"{s['TA_daymax']:.1f} {s['u_TA']}") if s["n_hot"] >= 1 else None),
@@ -309,7 +318,7 @@ BADGES = [
 
     dict(key="tropical", label="Tropical nights", group="Temperature", icon="moon", tone="warm",
          priority=3, needs=("TA",), needs_normal=False,
-         about="At least one night stayed above the tropical-night threshold.",
+         about="At least one night stayed above 20 °C.",
          rule=lambda s: (f"{s['n_tropical']} night{'s' if s['n_tropical'] > 1 else ''} with a "
                          f"daily minimum ≥ 20 {s['u_TA']}") if s["n_tropical"] >= 1 else None),
 
@@ -388,7 +397,18 @@ BADGES = [
                          f"({s['SW_IN_z']:+.1f} standard deviations)")
          if s["SW_IN_z"] <= -1 else None),
 
-    dict(key="vpd_high", label="High evaporative demand", group="Radiation", icon="gauge",
+    # -- Evaporative demand -------------------------------------------------------------------
+    # Vapour pressure deficit is the atmospheric limb of a drought: the demand the air makes on
+    # the water a forest still has. It is what closes stomata, so at a flux site it belongs in its
+    # own group rather than filed under radiation.
+    dict(key="vpd_record", label="Driest air on record", group="Evaporative demand", icon="award",
+         tone="dry", priority=1, needs=("VPD",),
+         about="The highest mean vapour pressure deficit of this calendar month in the record.",
+         rule=lambda s: (f"The driest air of any {s['month_name']} in the record: "
+                         f"{s['VPD']:.2f} {s['u_VPD']} mean, {s['VPD_anom']:+.2f} against the "
+                         f"normal of {s['VPD_n']} years") if s["VPD_rank"] == 1 else None),
+
+    dict(key="vpd_high", label="High evaporative demand", group="Evaporative demand", icon="gauge",
          tone="dry", priority=4, needs=("VPD",),
          about="Mean vapour pressure deficit is at least one standard deviation above the "
                "calendar-month normal.",
@@ -396,6 +416,42 @@ BADGES = [
                          f"{s['u_VPD']} against the {s['month_name']} normal "
                          f"({s['VPD_z']:+.1f} standard deviations)")
          if s["VPD_z"] >= 1 else None),
+
+    dict(key="vpd_low", label="Low evaporative demand", group="Evaporative demand",
+         icon="gauge-low", tone="wet", priority=4, needs=("VPD",),
+         about="Mean vapour pressure deficit is at least one standard deviation below the "
+               "calendar-month normal.",
+         rule=lambda s: (f"{s['VPD']:.2f} {s['u_VPD']} mean, {s['VPD_anom']:+.2f} "
+                         f"{s['u_VPD']} against the {s['month_name']} normal "
+                         f"({s['VPD_z']:+.1f} standard deviations)")
+         if s["VPD_z"] <= -1 else None),
+
+    dict(key="vpd_stress", label="Evaporative stress days", group="Evaporative demand",
+         icon="evaporation", tone="dry", priority=3, needs=("VPD",), needs_normal=False,
+         about="Five or more days whose maximum vapour pressure deficit reached 2 kPa, where "
+               "stomata usually begin to close.",
+         rule=lambda s: (
+             f"{s['n_vpdstress']} days reached 2 {s['u_VPD']}"
+             + (f", {s['n_vpdsevere']} of them 3 {s['u_VPD']}" if s["n_vpdsevere"] else "")
+             + (f", {s['spell_vpdstress']} of them consecutively"
+                if s["spell_vpdstress"] >= 3 else "")
+             + f"; the driest air of the month reached {s['VPD_daymax']:.2f} {s['u_VPD']}")
+         if s["n_vpdstress"] >= 5 else None),
+
+    # The compound the flux record cares about most: the air demanding water at the moment the
+    # soil has none left to give. It is not the same event as hot and dry - it catches the late
+    # summers and autumns whose temperature was ordinary and whose rain had merely stopped
+    # earlier - so both compounds exist and a month can carry either or both.
+    dict(key="vpd_soil", label="Dry air over dry soil", group="Compound", icon="droplet-low",
+         tone="dry", priority=1, needs=("VPD", "SWC_0.2"), supersedes=("vpd_high", "soil_dry"),
+         about="Evaporative demand at least one standard deviation above its calendar-month "
+               "normal while soil water is at least one below: the air pulling hardest when "
+               "the soil has least to give.",
+         rule=lambda s: (
+             f"Evaporative demand {s['VPD_z']:+.1f} standard deviations from the "
+             f"{s['month_name']} normal while soil water at 0.2 m stood {s['SWC_0.2_z']:+.1f}, "
+             f"{s['SWC_0.2_anom']:+.1f} {s['u_SWC_0.2']} below normal")
+         if (s["VPD_z"] >= 1 and s["SWC_0.2_z"] <= -1) else None),
 
     dict(key="soil_dry", label="Dry soil", group="Soil", icon="soil", tone="dry", priority=3,
          needs=("SWC_0.2",),
@@ -414,6 +470,30 @@ BADGES = [
                          f"{s['SWC_0.2_anom']:+.1f} {s['u_SWC_0.2']} against the "
                          f"{s['month_name']} normal ({s['SWC_0.2_z']:+.1f} standard deviations)")
          if s["SWC_0.2_z"] >= 1 else None),
+
+    # -- Two things at once -------------------------------------------------------------------
+    # The compound state, and the reason this page has a Compound group at all: heat and drought
+    # arriving together is not the sum of a warm month and a dry one. Warm air raises the demand
+    # for water at the moment the supply stops, the soil cannot buffer both, and a forest that
+    # closes its stomata stops taking up carbon - which for this site is the whole point. The
+    # thresholds are exactly those of the `warm` and `dry` badges, so the compound badge marks
+    # their intersection and nothing new has to be defined; `supersedes` then removes the two
+    # marginal badges from the month, because three chips for one state is what buried the state
+    # in the first place.
+    dict(key="hot_dry", label="Hot and dry together", group="Compound", icon="drought",
+         tone="dry", priority=1, needs=("TA", "PREC"), supersedes=("warm", "dry"),
+         about="The monthly mean is at least one standard deviation above the calendar-month "
+               "normal and the total at most half of it. Either alone is ordinary weather; "
+               "together they close stomata.",
+         rule=lambda s: (
+             f"{s['TA_anom']:+.1f} {s['u_TA']} against the {s['month_name']} normal, and only "
+             f"{s['PREC_pctn']:.0f} % of its precipitation ({s['PREC']:.0f} {s['u_PREC']} against "
+             f"{s['PREC_norm']:.0f})"
+             + (f", with soil water {s['SWC_0.2_z']:+.1f} standard deviations from normal"
+                if s.get("SWC_0.2_z") is not None else "")
+             + (f" and evaporative demand {s['VPD_z']:+.1f}"
+                if s.get("VPD_z") is not None else ""))
+         if (s["TA_z"] >= 1 and s["PREC_pctn"] <= 50) else None),
 
     # -- The year's turning points ----------------------------------------------------------
     # Each is stated against the median date of the same event across the record: a date on its
@@ -465,8 +545,8 @@ BADGES = [
     dict(key="record_days", label="Many record days", group="Records", icon="star", tone="warm",
          priority=1, needs=("TA",), needs_normal=False,
          about="Eight or more days were the warmest, coldest or wettest occurrence of their own "
-               "calendar date. About four land in an average month, so the threshold marks the "
-               "months that hold unusually many. A largely gap-filled day cannot set one.",
+               "calendar date; about four land in an average month. A largely gap-filled day "
+               "cannot set one.",
          rule=lambda s: (
              f"{s['x']['nrec']} days set a record for their own calendar date: "
              + ", ".join(p for p in (
@@ -485,21 +565,21 @@ BADGES = [
     dict(key="coldprec", label="Precipitation below freezing", group="Precipitation",
          icon="snow-cloud", tone="cold", priority=3, needs=("PREC", "TA"), needs_normal=False,
          about="Three or more days with at least 1 mm on which the temperature stayed below 1 °C. "
-               "The gauge does not report the phase, so this dates the possibility of snow rather "
-               "than snow itself - and it is where the gauge undercatches most.",
+               "The gauge does not report phase, so this dates the possibility of snow, not "
+               "snow itself. It is also where the gauge catches least.",
          rule=lambda s: (f"{s['n_coldprec']} days with at least 1 {s['u_PREC']} on which the "
                          f"maximum stayed below 1 {s['u_TA']}") if s["n_coldprec"] >= 3 else None),
 
     dict(key="freezethaw", label="Freeze-thaw", group="Temperature", icon="thermo-swing",
          tone="cold", priority=3, needs=("TA",), needs_normal=False,
-         about="Ten or more days crossing freezing, dropping below 0 °C and rising above it.",
+         about="Ten or more days that dropped below 0 °C and rose above it again.",
          rule=lambda s: (f"{s['n_freezethaw']} days crossed freezing in both directions")
          if s["n_freezethaw"] >= 10 else None),
 
     dict(key="clear", label="Clear spell", group="Radiation", icon="sun", tone="sun", priority=3,
          needs=("SW_IN",), needs_normal=False,
-         about="Eight or more days brighter than the 90th percentile for their date. A count "
-               "against the date rather than a fixed threshold, so a bright January counts.",
+         about="Eight or more days brighter than the 90th percentile for their date. Counted "
+               "against the date, not a fixed threshold, so a bright January counts.",
          rule=lambda s: (f"{s['n_clear']} days in the brightest tenth for their date")
          if s["n_clear"] >= 8 else None),
 
@@ -512,7 +592,7 @@ BADGES = [
     dict(key="saturated", label="In cloud", group="Radiation", icon="fog", tone="dull",
          priority=3, needs=("RH",), needs_normal=False,
          about="Twelve or more days whose mean relative humidity reached 95 %. At 47 m on the "
-               "ridge this is the tower sitting inside low cloud or fog.",
+               "ridge, that is the tower inside low cloud or fog.",
          rule=lambda s: (f"{s['n_saturated']} days with a mean relative humidity of 95 "
                          f"{s['u_RH']} or more") if s["n_saturated"] >= 12 else None),
 ]
@@ -554,8 +634,8 @@ METRICS = [
     dict(key="TA", var="TA", field="value", scale="div", center=None,
          poles=("--pole-cold", "--pole-warm"), digits=1,
          group="Temperature", label="Air temperature, monthly mean", short="TA",
-         about="Monthly mean temperature. The colour diverges about the mean of the whole record, "
-               "so the seasons separate rather than the years.",
+         about="Monthly mean temperature. Colour diverges about the record mean, so the seasons "
+               "separate, not the years.",
          day=dict(kind="value", stat="mean")),
     dict(key="PREC_pctn", var="PREC", field="pctn", scale="div", center=100.0,
          poles=("--series-4", "--series-1"), digits=0, unit="%",
@@ -578,6 +658,24 @@ METRICS = [
          group="Radiation and humidity", label="Vapour pressure deficit, monthly mean", short="VPD",
          about="Monthly mean vapour pressure deficit, the atmosphere's evaporative demand.",
          day=dict(kind="value", stat="mean")),
+    # The absolute mean is dominated by the seasons - every July is dry air and every January is
+    # not - so the departure is the one that answers "which months were unusually dry", and for a
+    # variable that exists to describe drought that is the question worth colouring by.
+    dict(key="VPD_anom", var="VPD", field="anom", scale="div", center=0.0,
+         poles=("--series-1", "--series-4"), digits=2,
+         group="Radiation and humidity", label="Vapour pressure deficit anomaly",
+         short="VPD anomaly",
+         about="Monthly mean evaporative demand minus the normal of that calendar month. Amber is "
+               "drier air than usual, blue damper: the same poles the precipitation anomaly "
+               "uses, so dry reads as dry across the page.",
+         day=dict(kind="anom", stat="mean")),
+    dict(key="n_vpdstress", var="VPD", field="count", count="vpdstress", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
+         group="Radiation and humidity", label="Evaporative stress days per month",
+         short="Stress days",
+         about="Days whose maximum vapour pressure deficit reached 2 kPa, where stomata usually "
+               "begin to close.",
+         day=dict(kind="flag", flag="vpdstress")),
     dict(key="RH", var="RH", field="value", scale="seq",
          stops=("--neutral-mid", "--series-3"), digits=0,
          group="Radiation and humidity", label="Relative humidity, monthly mean", short="RH",
@@ -589,12 +687,30 @@ METRICS = [
          about="Monthly mean volumetric soil water content at 0.2 m, homogenised across the "
                "2020 sensor change.",
          day=dict(kind="value", stat="mean")),
+    # The two composite metrics answer the questions the per-variable ones cannot: how far from
+    # normal a month was at all, and in how many independent ways at once.
+    dict(key="zmax", var="TA", field="extra", extra="zmax", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=1, unit="sd",
+         group="Across the variables", label="How unusual the month was", short="Unusualness",
+         about="The largest departure from the calendar-month normal, in standard deviations, "
+               "across the five axes and in either direction. One dimensionless scale, so a "
+               "strange February and a strange July are comparable.",
+         day=dict(kind="none")),
+    dict(key="nsd", var="TA", field="extra", extra="nsd", scale="seq",
+         stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="axes",
+         group="Across the variables",
+         label="How many things were unusual at once", short="Unusual axes",
+         about="How many of the five axes (temperature, precipitation, radiation, evaporative "
+               "demand, soil water) stood at least one standard deviation from their "
+               "calendar-month normal. The axes are not independent; the correlation between "
+               "them is measured and shown beside the grid.",
+         day=dict(kind="none")),
     dict(key="dtr", var="TA", field="extra", extra="dtr", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=1,
          group="Temperature", label="Diurnal temperature range", short="Day-night range",
-         about="Mean of the daily maximum minus the daily minimum. It separates the clear, dry "
-               "months from the cloudy ones as directly as radiation does, and from the "
-               "temperature record alone.",
+         about="Mean of the daily maximum minus the daily minimum. It separates clear dry months "
+               "from cloudy ones as sharply as radiation does, from the temperature record "
+               "alone.",
          day=dict(kind="range", stats=("min", "max"))),
     dict(key="gdd", var="TA", field="extra", extra="gdd", scale="seq", agg="sum",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="K d",
@@ -616,8 +732,8 @@ METRICS = [
     dict(key="n_clear", var="SW_IN", field="count", count="clear", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
          group="Radiation and humidity", label="Clear days per month", short="Clear days",
-         about="Days brighter than the 90th percentile for their own date, so a bright day in "
-               "January counts as one.",
+         about="Days brighter than the 90th percentile for their own date, so a bright January "
+               "day counts as one.",
          day=dict(kind="flag", flag="clear")),
     dict(key="n_hot", var="TA", field="count", count="hot", scale="seq",
          stops=("--neutral-mid", "--warm-1", "--warm-2", "--warm-3"), digits=0, unit="days",
@@ -632,7 +748,7 @@ METRICS = [
     dict(key="meas", var="TA", field="meas", scale="seq",
          stops=("--seq-7", "--seq-4", "--seq-1"), digits=0, unit="%",
          group="Data quality", label="Measured share, air temperature", short="Coverage",
-         about="Percentage of the month's half-hours that are measured rather than gap-filled or "
+         about="Percentage of the month's half-hours that are measured, not gap-filled or "
                "missing. Dark is complete.",
          day=dict(kind="meas")),
 ]
@@ -823,6 +939,122 @@ def normal_accessor(normals, dates):
 
 GROWING_SEASON_BASE = 5.0  # °C, the base the season and the degree-day sum are taken above
 
+# ----------------------------------------------------------------------------------------------
+# How unusual a month was, over how many things at once
+#
+# The composite counts axes, not variables. A drought has three limbs and they are not the same
+# event: the water that fails to arrive (PREC), the water no longer stored (SWC) and the demand the
+# air makes on what is left (VPD). Vapour pressure deficit is the one that closes stomata, so a
+# composite of atmospheric dryness that omitted it would be measuring around the thing it is for.
+# Radiation and temperature complete the set at five.
+#
+# Relative humidity is the one variable deliberately left out. VPD is the physically meaningful
+# combination of temperature and humidity; RH beside it would be the same information a third time.
+#
+# **The five axes are not independent, and the page says so rather than implying otherwise.** VPD
+# is computed from temperature and humidity, so a hot month tends to score on both. The correlation
+# between every pair of axes is therefore measured from the record on each build and published with
+# the composite, so a reader can see how much of "three axes at once" is three separate things.
+#
+# The axes a month cannot be judged on are dropped rather than counted as ordinary, and a month
+# left with fewer than `COMPOSITE_MIN_AXES` of them carries no composite at all - a count out of
+# two is not comparable with a count out of five, and showing it beside one would invite exactly
+# that comparison.
+# ----------------------------------------------------------------------------------------------
+
+COMPOSITE_VARS = ("TA", "PREC", "SW_IN", "VPD", "SWC_0.2")
+COMPOSITE_MIN_AXES = 4
+
+# ----------------------------------------------------------------------------------------------
+# Seasons
+#
+# The meteorological seasons, not the astronomical ones: whole months, and a winter that is
+# December to February. A winter therefore crosses a year boundary and a calendar grid cuts every
+# one of them in half, which is the reason this second scale exists at all.
+#
+# A winter is labelled by the year of its January, the usual convention. Two consequences are
+# stated rather than hidden: the first winter of the record has no December, so it is short by a
+# third and its coverage says so; and the last December belongs to a winter the record does not
+# reach, so it appears in no season tile. Coverage is measured against the half-hours the season
+# *should* hold rather than the ones the file happens to carry, which is what makes both visible.
+#
+# `Q-NOV` quarters end in February, May, August and November, so pandas' own period arithmetic
+# produces exactly these four seasons and labels the winter the same way.
+# ----------------------------------------------------------------------------------------------
+
+SEASONS = [
+    dict(key="DJF", quarter=1, label="Winter", name="winter", months=(12, 1, 2)),
+    dict(key="MAM", quarter=2, label="Spring", name="spring", months=(3, 4, 5)),
+    dict(key="JJA", quarter=3, label="Summer", name="summer", months=(6, 7, 8)),
+    dict(key="SON", quarter=4, label="Autumn", name="autumn", months=(9, 10, 11)),
+]
+SEASON_FREQ = "Q-NOV"
+
+# The badges that mean the same thing over three months as over one. Everything defined on a
+# z-score, a percentage of normal or a rank is scale-free and travels; everything defined on a
+# count of days or a run of them does not, because "five frost days" is a remarkable January and an
+# unremarkable winter. The counts are still shown on a season's page, as numbers rather than as
+# claims.
+SEASON_BADGES = {
+    "sparse", "record_warm", "record_cold", "warm", "cold", "record_wet", "record_dry",
+    "wet", "dry", "sunny", "dull", "vpd_record", "vpd_high", "vpd_low", "vpd_soil",
+    "soil_dry", "soil_wet", "hot_dry", "gs_start", "gs_end", "last_frost", "first_frost",
+}
+
+
+def season_periods(first_year, last_year):
+    """The season spans of the record, as dictionaries the rest of the build can treat like months.
+
+    A season is contiguous in the daily arrays, so it needs only an offset and a length; the offset
+    of the first winter is clipped to the start of the record, and its coverage carries the rest of
+    the story.
+    """
+    out = []
+    for year in range(first_year, last_year + 1):
+        for season in SEASONS:
+            if season["key"] == "DJF":
+                start = pd.Timestamp(year - 1, 12, 1)
+                end = pd.Timestamp(year, 2, 1) + pd.offsets.MonthEnd(0)
+            else:
+                m0 = season["months"][0]
+                start = pd.Timestamp(year, m0, 1)
+                end = pd.Timestamp(year, season["months"][-1], 1) + pd.offsets.MonthEnd(0)
+            out.append(dict(y=year, skey=season["key"], group=season["quarter"],
+                            name=season["name"], label=season["label"],
+                            title=f"{season['label']} {year}", start=start, end=end,
+                            n_days=int((end - start).days) + 1,
+                            period=pd.Period(f"{year}Q{season['quarter']}", freq=SEASON_FREQ)))
+    return out
+
+
+def composite_correlation(all_stats, months, keys):
+    """How far the axes duplicate one another, measured on the record rather than asserted.
+
+    The z-scores are already taken against each calendar month's own normal, so correlating them
+    across all months compares departures with seasonality removed - which is the correlation that
+    matters for a count of simultaneous departures. Pairs are computed on the months where both
+    axes could be judged.
+    """
+    axes = [k for k in COMPOSITE_VARS if k in keys]
+    frame = pd.DataFrame([s["z"] for s in all_stats], index=months).reindex(columns=axes)
+    corr = frame.corr(min_periods=24)
+    strongest = None
+    for i, a in enumerate(axes):
+        for b in axes[i + 1:]:
+            value = corr.loc[a, b]
+            if pd.isna(value):
+                continue
+            if strongest is None or abs(value) > abs(strongest["r"]):
+                strongest = dict(a=a, b=b, r=float(value))
+    return dict(
+        vars=axes, min_axes=COMPOSITE_MIN_AXES,
+        n=int(frame.notna().all(axis=1).sum()),
+        labels=[VARIABLES[k]["title"] for k in axes],
+        correlation=[[r(corr.loc[a, b], 2) for b in axes] for a in axes],
+        strongest=None if strongest is None else dict(
+            a=strongest["a"], b=strongest["b"], r=r(strongest["r"], 2)),
+    )
+
 
 def season_events(day, dates):
     """The four dates that divide a year at this site, and how each compares with the record.
@@ -922,52 +1154,87 @@ def monthly_frames(loaded, months):
     return out
 
 
-def normals(monthly, months):
-    """Calendar-month normals from the months complete enough to support one.
+def seasonal_frames(loaded, spans):
+    """The same three frames per season, with coverage measured against a whole season.
 
-    A normal built from whatever happens to be present would be pulled by exactly the months that
-    are least trustworthy, and every anomaly and rank derived from it would inherit that. The
-    qualifying rule is stated once here and used by everything downstream.
+    A share of the records the file happens to hold would report the first winter, which has no
+    December, as complete. The denominator here is the half-hours the season should contain, so a
+    season the record only partly reaches is short by exactly as much as it is missing.
     """
+    index = pd.PeriodIndex([sp["period"] for sp in spans])
+    expected = pd.Series([sp["n_days"] * 48 for sp in spans], index=index, dtype=float)
     out = {}
-    for key, frames in monthly.items():
-        value, meas = frames["value"], frames["meas"]
-        qualifies = meas >= NORMAL_MIN_COVERAGE
-        by_month = {}
-        for m in range(1, 13):
-            sel = (months.month == m) & qualifies.to_numpy()
-            block = value[sel].dropna()
-            if len(block) < MIN_NORMAL_YEARS:
-                by_month[m] = None
-                continue
-            by_month[m] = dict(mean=float(block.mean()), sd=float(block.std()), n=int(len(block)),
-                               min=float(block.min()), max=float(block.max()),
-                               min_year=int(block.idxmin().year), max_year=int(block.idxmax().year))
-        # Ranks are computed within the qualifying months only, so a sparse month is not ranked.
-        ranks = pd.Series(pd.NA, index=months, dtype="Int64")
-        for m in range(1, 13):
-            sel = months.month == m
-            ranks[sel] = rank_of(value[sel], qualifies[sel])
-        out[key] = dict(by_month=by_month, ranks=ranks, qualifies=qualifies)
+    for key, d in loaded.items():
+        v = d["v"]
+        group = d["series"].index.to_period(SEASON_FREQ)
+        value = (d["series"].groupby(group).sum(min_count=1) if v.agg == "sum"
+                 else d["series"].groupby(group).mean()).reindex(index)
+        meas = (d["measured"].astype(float).groupby(group).sum().reindex(index)
+                .fillna(0) / expected * 100)
+        avail = (d["series"].notna().astype(float).groupby(group).sum().reindex(index)
+                 .fillna(0) / expected * 100)
+        out[key] = dict(value=value, meas=meas, avail=avail)
     return out
 
 
-def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, loaded):
-    """Every number a badge rule may read, for one month, as one flat dictionary."""
-    ts = pd.Timestamp(y, m, 1)
-    s = dict(y=y, m=m, month_name=calendar.month_name[m],
-             n_days=calendar.monthrange(y, m)[1])
+def normals(frames_by_var, groups, years):
+    """Normals for each group of the cycle, from the spans complete enough to support one.
+
+    `groups` labels every span with the slot of the cycle it belongs to: the calendar month for the
+    monthly scale, the season for the seasonal one. One function serves both, so a winter is
+    ranked against winters by exactly the rule a July is ranked against Julys.
+
+    A normal built from whatever happens to be present would be pulled by the spans that are least
+    trustworthy, and every anomaly and rank derived from it would inherit that. The qualifying rule
+    is stated once here and used by everything downstream.
+    """
+    groups = np.asarray(groups)
+    years = np.asarray(years)
+    out = {}
+    for key, frames in frames_by_var.items():
+        value, meas = frames["value"], frames["meas"]
+        qualifies = meas >= NORMAL_MIN_COVERAGE
+        by_group = {}
+        for g in sorted(set(groups.tolist())):
+            sel = (groups == g) & qualifies.to_numpy()
+            block = value[sel].dropna()
+            if len(block) < MIN_NORMAL_YEARS:
+                by_group[g] = None
+                continue
+            block_years = years[(groups == g) & qualifies.to_numpy()][value[sel].notna().to_numpy()]
+            by_group[g] = dict(mean=float(block.mean()), sd=float(block.std()), n=int(len(block)),
+                               min=float(block.min()), max=float(block.max()),
+                               min_year=int(block_years[int(np.argmin(block.to_numpy()))]),
+                               max_year=int(block_years[int(np.argmax(block.to_numpy()))]))
+        # Ranks are computed within the qualifying spans only, so a sparse span is not ranked.
+        ranks = pd.Series(pd.NA, index=value.index, dtype="Int64")
+        for g in sorted(set(groups.tolist())):
+            sel = groups == g
+            ranks[sel] = rank_of(value[sel], qualifies[sel])
+        out[key] = dict(by_group=by_group, ranks=ranks, qualifies=qualifies)
+    return out
+
+
+def span_stats(sp, keys, frames_by_var, norm, counts, spells, day, events, loaded):
+    """Every number a badge rule may read, for one span, as one flat dictionary.
+
+    A span is a month or a season. Both carry an index label into the aggregated frames, a slot of
+    the cycle to be judged against, and a stretch of days; nothing below this line needs to know
+    which of the two it has, which is what keeps a winter and a July describable by one registry.
+    """
+    idx, group = sp["idx"], sp["group"]
+    s = dict(y=sp["y"], m=sp.get("m"), month_name=sp["name"], n_days=sp["n_days"])
     for key in keys:
         v = loaded[key]["v"]
-        frames, n = monthly[key], norm[key]
-        value = frames["value"].get(ts)
+        frames, n = frames_by_var[key], norm[key]
+        value = frames["value"].get(idx)
         value = None if pd.isna(value) else float(value)
-        nm = n["by_month"][m]
-        rank = n["ranks"].get(ts)
+        nm = n["by_group"][group]
+        rank = n["ranks"].get(idx)
         s[key] = value
         s[f"u_{key}"] = v.units
-        s[f"{key}_meas"] = None if pd.isna(frames["meas"].get(ts)) else float(frames["meas"][ts])
-        s[f"{key}_avail"] = None if pd.isna(frames["avail"].get(ts)) else float(frames["avail"][ts])
+        s[f"{key}_meas"] = None if pd.isna(frames["meas"].get(idx)) else float(frames["meas"][idx])
+        s[f"{key}_avail"] = None if pd.isna(frames["avail"].get(idx)) else float(frames["avail"][idx])
         s[f"{key}_norm"] = nm["mean"] if nm else None
         s[f"{key}_sd"] = nm["sd"] if nm else None
         s[f"{key}_n"] = nm["n"] if nm else None
@@ -979,8 +1246,8 @@ def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, lo
         else:
             s[f"{key}_anom"] = s[f"{key}_z"] = s[f"{key}_pctn"] = None
 
-        # The extreme day of the month, which is what a badge quotes as its evidence.
-        block = day[key].loc[f"{y}-{m:02d}"]
+        # The extreme day of the span, which is what a badge quotes as its evidence.
+        block = day[key].loc[sp["start"]:sp["end"]]
         for stat in ("min", "max", "sum"):
             if stat in block.columns:
                 col = block[stat].dropna()
@@ -989,31 +1256,52 @@ def month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, lo
             col = block["min"].dropna()
             s[f"{key}_daymin"] = float(col.min()) if len(col) else None
 
-    for key, series in counts_month.items():
-        s[f"n_{key}"] = int(series.get(ts, 0))
+    for key, series in counts.items():
+        s[f"n_{key}"] = int(series.get(idx, 0))
     for key, series in spells.items():
-        s[f"spell_{key}"] = int(series.get(ts, 0))
+        s[f"spell_{key}"] = int(series.get(idx, 0))
 
-    # Statistics that belong to the month rather than to one of its variables. They are what the
+    # Statistics that belong to the span rather than to one of its variables. They are what the
     # tiles beyond the six products are built from, and what the extra metrics colour by.
     s["x"] = {}
     if "TA" in keys:
-        block = day["TA"].loc[f"{y}-{m:02d}"]
+        block = day["TA"].loc[sp["start"]:sp["end"]]
         dtr = (block["max"] - block["min"]).dropna()
         gdd = (block["mean"] - GROWING_SEASON_BASE).clip(lower=0).dropna()
         s["x"]["dtr"] = float(dtr.mean()) if len(dtr) else None
         s["x"]["gdd"] = float(gdd.sum()) if len(gdd) else None
     s["x"]["nrec"] = sum(s.get(f"n_{k}", 0) for k in ("recwarm", "reccold", "recwet"))
 
-    # The four dates that divide the year, where one of them falls in this month.
-    for name, event in events.get((y, m), {}).items():
-        s[f"ev_{name}"] = event
+    # The composite: how far from normal this span was on its most unusual axis, and on how many
+    # axes at once. Only the axes that are present, sufficiently measured and have a normal are
+    # judged, and the number judged travels with the answer.
+    s["z"] = {}
+    for key in COMPOSITE_VARS:
+        if key not in keys:
+            continue
+        z, cov = s[f"{key}_z"], s[f"{key}_meas"]
+        if z is None or cov is None or cov < MIN_BADGE_COVERAGE:
+            continue
+        s["z"][key] = z
+    s["x"]["nz"] = len(s["z"])
+    if len(s["z"]) >= COMPOSITE_MIN_AXES:
+        s["x"]["zmax"] = max(abs(z) for z in s["z"].values())
+        s["x"]["nsd"] = sum(1 for z in s["z"].values() if abs(z) >= 1)
+    else:
+        s["x"]["zmax"] = None
+        s["x"]["nsd"] = None
+
+    # The turning points of the year that fall inside this span. A season inherits them from
+    # whichever of its months holds them.
+    found = {}
+    for month_key in sp["event_keys"]:
+        found.update(events.get(month_key, {}))
     for name in ("gs_start", "gs_end", "last_frost", "first_frost"):
-        s.setdefault(f"ev_{name}", None)
+        s[f"ev_{name}"] = found.get(name)
     return s
 
 
-def evaluate_badges(s, keys):
+def evaluate_badges(s, keys, scale="month"):
     """Which badges this month earns, and what each of them rests on.
 
     A rule that reads a key the statistics do not carry is a bug in the registry, not a month
@@ -1021,6 +1309,8 @@ def evaluate_badges(s, keys):
     """
     earned, suppressed = [], []
     for badge in BADGES:
+        if scale == "season" and badge["key"] not in SEASON_BADGES:
+            continue
         blocked = None
         for need in badge["needs"]:
             if need not in keys:
@@ -1044,6 +1334,13 @@ def evaluate_badges(s, keys):
                            f"not carry") from None
         if why:
             earned.append(dict(k=badge["key"], t=why))
+
+    # A badge that states a compound of two others removes them: the compound says both, and a
+    # month carrying all three spends its tile repeating itself.
+    folded = {k for b in earned
+              for k in next(x for x in BADGES if x["key"] == b["k"]).get("supersedes", ())}
+    earned = [b for b in earned if b["k"] not in folded]
+
     earned.sort(key=lambda b: next(x["priority"] for x in BADGES if x["key"] == b["k"]))
     return earned, suppressed
 
@@ -1074,68 +1371,106 @@ def build_payload(loaded, with_hourly=True):
     counts_month = {k: v.resample("MS").sum().reindex(months) for k, v in hits.items()}
     # Spells are the runs a count cannot show: a month can reach a high count without ever holding
     # the threshold for a week. The dry spell is the one run defined by the absence of a threshold.
-    spell_defs = dict(hot=hits["hot"], frost=hits["frost"], wet=hits["wet"],
-                      dry=~hits["wet"] & day["PREC"]["sum"].notna())
+    spell_defs = {name: hits[name] for name in ("hot", "frost", "wet", "vpdstress")
+                  if name in hits}
+    if "wet" in hits:
+        spell_defs["dry"] = ~hits["wet"] & day["PREC"]["sum"].notna()
     spells = {}
     for name, mask in spell_defs.items():
         spells[name] = pd.Series({ts: longest_spell(mask.loc[f"{ts:%Y-%m}"])[0] for ts in months},
                                  dtype="int64")
 
     monthly = monthly_frames(loaded, months)
-    norm = normals(monthly, months)
+    norm = normals(monthly, [ts.month for ts in months], [ts.year for ts in months])
     events = season_events(day, dates)
+
+    # -- Seasons -------------------------------------------------------------------------------
+    # The second scale, built by the same machinery: a winter is judged against winters exactly as
+    # a July is judged against Julys.
+    season_spans = season_periods(first_year, last_year)
+    seasonal = seasonal_frames(loaded, season_spans)
+    season_index = pd.PeriodIndex([sp["period"] for sp in season_spans])
+    season_norm = normals(seasonal, [sp["group"] for sp in season_spans],
+                          [sp["y"] for sp in season_spans])
+    season_counts = {k: pd.Series(v.groupby(v.index.to_period(SEASON_FREQ)).sum())
+                     .reindex(season_index).fillna(0) for k, v in hits.items()}
+    season_spells = {}
+    for name, mask in spell_defs.items():
+        season_spells[name] = pd.Series(
+            {sp["period"]: longest_spell(mask.loc[sp["start"]:sp["end"]])[0]
+             for sp in season_spans}, dtype="int64")
+
+    def span_row(sp, frames_by_var, group_norm, counts, spell_set, scale):
+        """One tile's worth of payload, for either scale."""
+        st = span_stats(sp, keys, frames_by_var, group_norm, counts, spell_set, day, events,
+                        loaded)
+        earned, suppressed = evaluate_badges(st, keys, scale=scale)
+        # A span may start before the record does, in which case it is clipped and its coverage
+        # already says so.
+        i0 = int((sp["start"] - dates[0]).days)
+        n = sp["n_days"]
+        if i0 < 0:
+            n, i0 = n + i0, 0
+        row = dict(y=sp["y"], i0=i0, n=int(max(0, min(n, len(dates) - i0))),
+                   b=earned, sup=suppressed,
+                   c={k: int(st[f"n_{k}"]) for k in hits},
+                   sp={k: int(st[f"spell_{k}"]) for k in spell_set},
+                   x={k: r(v, 1) for k, v in st["x"].items()},
+                   z={k: r(v, 2) for k, v in st["z"].items()},
+                   ev={k[3:]: st[k] for k in ("ev_gs_start", "ev_gs_end", "ev_last_frost",
+                                              "ev_first_frost") if st[k]})
+        for key in keys:
+            digits = CALENDAR[key]["digits"]
+            row[key] = dict(v=r(st[key], digits), a=r(st[f"{key}_anom"], digits),
+                            z=r(st[f"{key}_z"], 2), p=r(st[f"{key}_pctn"], 0),
+                            r=st[f"{key}_rank"], n=st[f"{key}_n"],
+                            meas=r(st[f"{key}_meas"], 0), avail=r(st[f"{key}_avail"], 0))
+        return row, st
 
     # -- Months ------------------------------------------------------------------------------
     rows, all_stats = [], []
     for ts in months:
         y, m = int(ts.year), int(ts.month)
-        s = month_stats(y, m, keys, monthly, norm, counts_month, spells, day, events, loaded)
-        earned, suppressed = evaluate_badges(s, keys)
-        all_stats.append(s)
-        row = dict(y=y, m=m, i0=int((ts - dates[0]).days), n=int(s["n_days"]),
-                   b=earned, sup=suppressed,
-                   c={k: int(s[f"n_{k}"]) for k in hits},
-                   sp={k: int(s[f"spell_{k}"]) for k in spells},
-                   x={k: r(v, 1) for k, v in s["x"].items()},
-                   ev={k[3:]: s[k] for k in ("ev_gs_start", "ev_gs_end", "ev_last_frost",
-                                             "ev_first_frost") if s[k]})
-        for key in keys:
-            digits = CALENDAR[key]["digits"]
-            row[key] = dict(v=r(s[key], digits), a=r(s[f"{key}_anom"], digits),
-                            z=r(s[f"{key}_z"], 2), p=r(s[f"{key}_pctn"], 0),
-                            r=s[f"{key}_rank"], n=s[f"{key}_n"],
-                            meas=r(s[f"{key}_meas"], 0), avail=r(s[f"{key}_avail"], 0))
+        sp = dict(idx=ts, group=m, y=y, m=m, name=calendar.month_name[m],
+                  n_days=calendar.monthrange(y, m)[1], start=ts,
+                  end=ts + pd.offsets.MonthEnd(0), event_keys=[(y, m)])
+        row, st = span_row(sp, monthly, norm, counts_month, spells, "month")
+        row["m"] = m
         rows.append(row)
+        all_stats.append(st)
+
+    season_rows = []
+    for sp in season_spans:
+        sp = dict(sp, idx=sp["period"], event_keys=[(sp["y"] - 1, 12) if mm == 12 else (sp["y"], mm)
+                                                    for mm in SEASONS[sp["group"] - 1]["months"]])
+        row, _ = span_row(sp, seasonal, season_norm, season_counts, season_spells, "season")
+        row.update(s=sp["skey"], label=sp["label"], title=sp["title"],
+                   months=[[sp["y"] - 1 if mm == 12 else sp["y"], mm]
+                           for mm in SEASONS[sp["group"] - 1]["months"]])
+        season_rows.append(row)
 
     # -- Metric domains ----------------------------------------------------------------------
     # Computed here rather than in the browser so the scale bar, the tiles and the day strips all
     # read one domain, and so it does not move when a filter hides part of the grid.
-    metrics = []
-    for metric in METRICS:
-        key, var, field = metric["key"], metric["var"], metric["field"]
-        if var not in keys:
-            continue
+    #
+    # Each scale gets its own: three months of precipitation is three times a month of it, and one
+    # domain across both would leave every season tile at the dark end of the ramp saying nothing.
+    def span_values(metric, span_rows, field):
+        """The column of numbers a metric colours, for one scale."""
         if field == "count":
-            if metric["count"] not in counts_month:
-                continue  # its day test was dropped, so the count would be a column of zeros
-            values = [row["c"][metric["count"]] for row in rows]
-            daily_values = []
-        elif field == "spell":
-            values = [row["sp"][metric["spell"]] for row in rows]
-            daily_values = []
-        elif field == "extra":
-            values = [row["x"].get(metric["extra"]) for row in rows]
-            daily_values = ((day[var]["max"] - day[var]["min"]).dropna().tolist()
-                            if metric["day"]["kind"] == "range" else [])
-        else:
-            short = dict(value="v", anom="a", pctn="p", meas="meas")[field]
-            values = [row[var][short] for row in rows]
-            stat = metric["day"].get("stat")
-            daily_values = ([] if metric["day"]["kind"] in ("flag", "meas", "none", "range")
-                            else day[var][stat].dropna().tolist())
+            return [row["c"][metric["count"]] for row in span_rows]
+        if field == "spell":
+            return [row["sp"][metric["spell"]] for row in span_rows]
+        if field == "extra":
+            return [row["x"].get(metric["extra"]) for row in span_rows]
+        short = dict(value="v", anom="a", pctn="p", meas="meas")[field]
+        return [row[metric["var"]][short] for row in span_rows]
+
+    def domains_for(metric, values, daily_values, field, var):
+        """The colour domain of one metric on one scale, and the wider one its day strips need."""
         if field == "meas":
-            domain, day_domain = [0.0, 100.0], [0.0, 100.0]
-        elif metric["scale"] == "div":
+            return None, [0.0, 100.0], [0.0, 100.0]
+        if metric["scale"] == "div":
             # A diverging scale is symmetric about its centre, or the same departure reads as two
             # different colours depending on its sign. Where no centre is given the record's own
             # mean is it, which is what makes an absolute temperature tile separate the seasons.
@@ -1151,17 +1486,38 @@ def build_payload(loaded, with_hourly=True):
             else:
                 day_domain = percentile_domain(daily_values, symmetric=True) if daily_values \
                     else [-1.0, 1.0]
+            return center, domain, day_domain
+        # A quantity that accumulates is read against zero, so its ramp starts there; one that does
+        # not would waste most of the ramp on values the record never reaches.
+        floor_at_zero = (field in ("count", "spell", "extra")
+                         or VARIABLES[var].get("agg") == "sum")
+        domain = percentile_domain(values)
+        day_domain = percentile_domain(daily_values) if daily_values else [0.0, 1.0]
+        if floor_at_zero:
+            domain = [0.0, domain[1]]
+            day_domain = [0.0, day_domain[1]]
+        return None, domain, day_domain
+
+    metrics = []
+    for metric in METRICS:
+        key, var, field = metric["key"], metric["var"], metric["field"]
+        if var not in keys:
+            continue
+        if field == "count" and metric["count"] not in counts_month:
+            continue  # its day test was dropped, so the count would be a column of zeros
+        if metric["day"]["kind"] == "range":
+            daily_values = (day[var]["max"] - day[var]["min"]).dropna().tolist()
+        elif field in ("count", "spell", "extra") \
+                or metric["day"]["kind"] in ("flag", "meas", "none"):
+            daily_values = []
         else:
-            # A quantity that accumulates is read against zero, so its ramp starts there; one that
-            # does not would waste most of the ramp on values the record never reaches.
-            center = None
-            floor_at_zero = (field in ("count", "spell", "extra")
-                             or VARIABLES[var].get("agg") == "sum")
-            domain = percentile_domain(values)
-            day_domain = percentile_domain(daily_values) if daily_values else [0.0, 1.0]
-            if floor_at_zero:
-                domain = [0.0, domain[1]]
-                day_domain = [0.0, day_domain[1]]
+            daily_values = day[var][metric["day"]["stat"]].dropna().tolist()
+
+        center, domain, day_domain = domains_for(
+            metric, span_values(metric, rows, field), daily_values, field, var)
+        _, season_domain, _ = domains_for(
+            metric, span_values(metric, season_rows, field), daily_values, field, var)
+
         entry = {k: metric[k] for k in ("key", "label", "short", "about", "scale", "digits", "day",
                                        "group")}
         # A count of days is a count whatever the variable behind it does, so the default follows
@@ -1174,6 +1530,7 @@ def build_payload(loaded, with_hourly=True):
                      units=metric.get("unit", loaded[var]["v"].units),
                      poles=list(metric.get("poles", [])), stops=list(metric.get("stops", [])),
                      center=r(center, 3), domain=[r(domain[0], 3), r(domain[1], 3)],
+                     season_domain=[r(season_domain[0], 3), r(season_domain[1], 3)],
                      day_domain=[r(day_domain[0], 3), r(day_domain[1], 3)])
         metrics.append(entry)
 
@@ -1209,6 +1566,9 @@ def build_payload(loaded, with_hourly=True):
             min_badge_coverage=MIN_BADGE_COVERAGE, normal_min_coverage=NORMAL_MIN_COVERAGE,
             min_normal_years=MIN_NORMAL_YEARS, sparse_coverage=SPARSE_COVERAGE,
             clim_window=CLIM_WINDOW,
+            composite_vars=[k for k in COMPOSITE_VARS if k in keys],
+            composite_min_axes=COMPOSITE_MIN_AXES,
+            composite=composite_correlation(all_stats, months, keys),
             products=str(PRODUCTS),
         ),
         variables=variables,
@@ -1217,6 +1577,9 @@ def build_payload(loaded, with_hourly=True):
         flags=[dict(key=f["key"], var=f["var"], bit=f["bit"], label=f["label"],
                     short=FLAG_SHORT[f["key"]]) for f in flags],
         months=rows,
+        seasons=season_rows,
+        season_defs=[dict(key=x["key"], label=x["label"], name=x["name"],
+                          months=list(x["months"])) for x in SEASONS],
         days=dict(
             start=f"{dates[0]:%Y-%m-%d}", n=len(dates),
             flags=[int(x) for x in word.to_numpy()],
@@ -1226,13 +1589,18 @@ def build_payload(loaded, with_hourly=True):
                   for key in keys},
         ),
         normals=normals_payload(daily_norm),
-        climatology={key: {str(m): norm[key]["by_month"][m] for m in range(1, 13)} for key in keys},
+        climatology={key: {str(m): norm[key]["by_group"][m] for m in range(1, 13)}
+                     for key in keys},
+        season_climatology={key: {x["key"]: season_norm[key]["by_group"][x["quarter"]]
+                                  for x in SEASONS} for key in keys},
         hourly=hourly_layer(loaded, first_year, last_year) if with_hourly else None,
     )
 
     # The grid is the page, so its shape is asserted rather than assumed: one tile per month of
     # every year, and every tile addressing a real window of the daily arrays.
     assert len(rows) == (last_year - first_year + 1) * 12, "the grid is not a whole number of years"
+    assert len(season_rows) == (last_year - first_year + 1) * 4, \
+        "the season grid is not a whole number of years"
     assert all(row["i0"] + row["n"] <= len(dates) for row in rows), "a month runs past the days"
     return payload
 
