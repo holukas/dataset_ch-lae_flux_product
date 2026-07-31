@@ -13,7 +13,7 @@ offline.
 
 Method, evidence and checks:
 
-- [`05_METEO_PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2004-2025.html) — builds
+- [`05_METEO_PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2005-2025.html) — builds
   the product: the unit harmonisation of the two screenings, the 2012 corrections,
   the identification of the barometer from the logger programs, the check of the
   absolute level against the barometric formula, and the two hardware boundaries.

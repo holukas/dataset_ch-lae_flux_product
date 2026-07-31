@@ -115,7 +115,7 @@ Each notebook documents its own decisions and the evidence behind them, and each
 [`02` `TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2025.html),
 [`03` `PPFD_IN`](notebooks/10_METEO/30_PRODUCTS/03_METEO_PPFD_IN_2004-2025.html),
 [`04` `RH`](notebooks/10_METEO/30_PRODUCTS/04_METEO_RH_2004-2025.html),
-[`05` `PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2004-2025.html),
+[`05` `PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2005-2025.html),
 [`06` `LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2025.html),
 [`07` `VPD`](notebooks/10_METEO/30_PRODUCTS/07_METEO_VPD_2004-2025.html),
 [`08` `PREC`](notebooks/10_METEO/30_PRODUCTS/08_METEO_PREC_2004-2025.html),
