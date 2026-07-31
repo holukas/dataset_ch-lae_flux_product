@@ -1,6 +1,12 @@
 .idea/
 .obsidian/
-.claude/
+# Claude Code's local state stays out of git, but two subfolders are project
+# documentation and are tracked: .claude/rules/ (path-scoped guidance that would
+# be published to the website if it lived under docs/) and .claude/skills/.
+# settings.local.json is machine-specific and stays ignored by .claude/*.
+.claude/*
+!.claude/rules/
+!.claude/skills/
 workflow/0_data/
 workflow/10_METEO/*.parquet
 workflow/10_METEO/*.csv
