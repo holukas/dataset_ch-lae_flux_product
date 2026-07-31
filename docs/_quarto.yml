@@ -51,6 +51,7 @@ website:
     contents:
       - index.md
       - Overview.md
+      - Site_Info.md
       # The per-variable detail pages are nested under Meteo_Data.md rather than
       # listed beside it, so the sidebar collapses them: there will eventually be
       # ten of them and they would otherwise crowd out every other page. Same
