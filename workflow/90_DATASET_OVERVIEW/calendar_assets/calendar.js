@@ -31,6 +31,8 @@
   DATA.badges.forEach(b => { BADGES[b.key] = b; });
   const FLAGS = DATA.flags;
   const MONTHS = DATA.months;
+  const SEASONS = DATA.seasons;
+  const SEASON_DEFS = DATA.season_defs;
   const DAYS = DATA.days;
   const NORM = DATA.normals;
   const CLIM = DATA.climatology;
@@ -95,7 +97,11 @@
     'star': '<path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/>',
     'snow-cloud': '<path d="M17.5 15.5H9a6 6 0 1 1 5.7-7.8h2.8a4 4 0 1 1 0 7.8z"/><path d="M8.5 18.5v2.4M7.3 19.1l2.4 1.2M9.7 19.1l-2.4 1.2M15.5 18.5v2.4M14.3 19.1l2.4 1.2M16.7 19.1l-2.4 1.2"/>',
     'thermo-swing': '<path d="M12 3.2v17.6"/><path d="m7.5 7.7 4.5-4.5 4.5 4.5"/><path d="m7.5 16.3 4.5 4.5 4.5-4.5"/>',
-    'fog': '<path d="M3 7.5h18M6 11.5h13M3.5 15.5h14M8 19.5h11"/>'
+    'fog': '<path d="M3 7.5h18M6 11.5h13M3.5 15.5h14M8 19.5h11"/>',
+    'gauge-low': '<path d="M3.6 18.5a10 10 0 1 1 16.8 0"/><path d="M12 14.5 7.9 9.7"/><circle cx="12" cy="15.5" r="1.6"/>',
+    'evaporation': '<path d="M2.8 20.5h18.4"/><path d="M7 17V8.5M7 8.5 5.2 10.6M7 8.5l1.8 2.1M12 17V4.6M12 4.6l-1.8 2.1M12 4.6l1.8 2.1M17 17V9.8M17 9.8l-1.8 2.1M17 9.8l1.8 2.1"/>',
+    'droplet-low': '<path d="M12 3.1s5.3 5.7 5.3 8.9a5.3 5.3 0 0 1-10.6 0C6.7 8.8 12 3.1 12 3.1z"/><path d="M7.1 14.6h9.8"/>',
+    'drought': '<circle cx="12" cy="6.4" r="3.1"/><path d="M12 1.3v1.3M7.6 6.4H6.3M17.7 6.4h-1.3M8.9 3.3 8 2.4M15.1 3.3l.9-.9"/><path d="M2.6 14.5h18.8"/><path d="M8.2 14.5v6.9M8.2 17.4l-2.3 1.5M15.8 14.5v6.9M15.8 18.1l2.3 1.3"/>'
   };
 
   function glyph(name) {
@@ -198,7 +204,9 @@
    */
   function metricColor(metric, value, which) {
     if (!isNum(value)) return null;
-    const domain = which === 'day' ? metric.day_domain : metric.domain;
+    const domain = which === 'day' ? metric.day_domain
+      : (state.scale === 'season' && metric.season_domain) ? metric.season_domain
+        : metric.domain;
     if (metric.scale === 'div') {
       const center = metric.center === null ? 0 : metric.center;
       const absmax = Math.max(domain[1] - center, center - domain[0]) || 1;
@@ -241,7 +249,9 @@
 
   function extent(arrays) {
     let lo = Infinity, hi = -Infinity;
-    arrays.forEach(a => a.forEach(v => {
+    // A series may legitimately be absent (a normal that does not exist at this scale), and an
+    // absent series is not an empty one: it simply does not take part in the extent.
+    arrays.filter(Boolean).forEach(a => a.forEach(v => {
       if (!isNum(v)) return;
       if (v < lo) lo = v;
       if (v > hi) hi = v;
@@ -446,8 +456,57 @@
   MONTHS.forEach((mo, i) => { monthIndex[mo.y + '-' + mo.m] = i; });
   const monthAt = (y, m) => MONTHS[monthIndex[y + '-' + m]];
 
+  const seasonIndex = {};
+  SEASONS.forEach((se, i) => { seasonIndex[se.y + '-' + se.s] = i; });
+  const seasonAt = (y, key) => SEASONS[seasonIndex[y + '-' + key]];
+
+  /* The two scales differ in four things and nothing else: the list of spans, the columns of the
+     grid, how a span is addressed in the URL, and what a span is called. Everything downstream
+     reads these rather than asking which scale is active. */
+  const SCALES = {
+    month: {
+      spans: () => MONTHS,
+      cols: () => MONTH_ABBR.map((label, i) => ({ label: label, id: i + 1 })),
+      at: (y, id) => monthAt(y, +id),
+      idOf: mo => mo.m,
+      slug: mo => String(mo.m).padStart(2, '0'),
+      title: mo => MONTH_NAME[mo.m - 1] + ' ' + mo.y,
+      peerName: mo => MONTH_NAME[mo.m - 1],
+      colName: id => MONTH_NAME[id - 1]
+    },
+    season: {
+      spans: () => SEASONS,
+      cols: () => SEASON_DEFS.map(d => ({ label: d.label, id: d.key })),
+      at: (y, id) => seasonAt(y, id),
+      idOf: se => se.s,
+      slug: se => se.s,
+      title: se => se.title,
+      peerName: se => se.label.toLowerCase() + 's',
+      colName: id => (SEASON_DEFS.find(d => d.key === id) || { label: id }).label
+    }
+  };
+  const scale = () => SCALES[state.scale];
+
+  /** The season a month sits in, and the month's place within it. */
+  function seasonOfMonth(mo) {
+    const def = SEASON_DEFS.find(d => d.months.indexOf(mo.m) >= 0);
+    if (!def) return null;
+    // December belongs to the winter labelled by the following January.
+    return seasonAt(mo.m === 12 ? mo.y + 1 : mo.y, def.key);
+  }
+
   const dayIndex = (y, m, d) => Math.round((Date.UTC(y, m - 1, d) - DAY0) / 86400000);
   const isLeap = y => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+
+  /* A span may run across a year boundary, so a day is identified by its index into the daily
+     arrays and the calendar date is derived from that rather than from the span it sits in. This
+     is what lets one set of chart renderers serve a July and a winter. */
+  function dateAt(i) {
+    const t = new Date(DAY0 + i * 86400000);
+    return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() };
+  }
+  const doyAt = i => { const x = dateAt(i); return doy365(x.y, x.m, x.d); };
+  const labelAt = i => { const x = dateAt(i); return x.d + ' ' + MONTH_ABBR[x.m - 1]; };
 
   /** Day of year with 29 February folded onto 1 March, matching how the normals were built. */
   function doy365(y, m, d) {
@@ -527,10 +586,12 @@
      ------------------------------------------------------------------------------------------ */
 
   const state = {
+    scale: 'month',
     metric: DATA.metrics[0].key,
     strips: true,
+    allBadges: false,
     filters: new Set(),
-    y: null, m: null, d: null
+    y: null, m: null, d: null, span: null
   };
   const metric = () => METRICS[state.metric];
 
@@ -559,7 +620,13 @@
     html += '</select></div>'
       + '<div class="control"><span class="control-label">Detail</span><div class="switchrow">'
       + '<label class="switch"><input type="checkbox" id="strip-toggle" checked>'
-      + 'Show each day inside the tile</label></div></div>'
+      + 'Show each day inside the tile</label>'
+      + '<label class="switch"><input type="checkbox" id="badge-toggle">'
+      + 'Show every badge</label></div></div>'
+      + '<div class="control"><label for="scale-pick">Scale</label>'
+      + '<select class="picker narrow" id="scale-pick">'
+      + '<option value="month">Months</option>'
+      + '<option value="season">Seasons (DJF, MAM, JJA, SON)</option></select></div>'
       + '<p class="control-note" id="metric-about"></p>';
     host.innerHTML = html;
 
@@ -571,6 +638,23 @@
     });
     document.getElementById('strip-toggle').addEventListener('change', ev => {
       state.strips = ev.target.checked;
+      renderGrid();
+    });
+    /* Letting the chips wrap makes the busiest month set the height of its whole row, so it is a
+       choice rather than the default: compact keeps the grid even, and the tooltip carries the
+       full list either way. */
+    const scalePick = document.getElementById('scale-pick');
+    scalePick.value = state.scale;
+    /* Switching scale re-reads the same registries against a different list of spans; the metric,
+       the badge filter and the strips all survive it. */
+    scalePick.addEventListener('change', () => {
+      state.scale = scalePick.value;
+      document.getElementById('calgrid').classList.toggle('seasons', state.scale === 'season');
+      renderGrid();
+    });
+    document.getElementById('badge-toggle').addEventListener('change', ev => {
+      state.allBadges = ev.target.checked;
+      document.getElementById('calgrid').classList.toggle('all-badges', state.allBadges);
       renderGrid();
     });
   }
@@ -589,8 +673,17 @@
         v: [mo.c.hot ? mo.c.hot + ' hot' : null, mo.c.frost ? mo.c.frost + ' frost' : null,
           mo.c.wet ? mo.c.wet + ' wet' : null].filter(Boolean).join(', ') });
     }
-    if (mo.b.length) rows.push({ k: mo.b.map(b => BADGES[b.k].label).join(' · '), rule: true });
-    return tipRows(MONTH_NAME[mo.m - 1] + ' ' + mo.y, rows);
+    if (isNum(mo.x.nsd)) {
+      rows.push({ k: 'Unusual axes', v: mo.x.nsd + ' of ' + mo.x.nz });
+    }
+    /* Every badge, always - the tile shows four unless asked otherwise, so this is where a
+       reader finds the rest without opening the month. */
+    const badges = mo.b.length
+      ? '<div class="tt-badges">' + mo.b.map(b =>
+        '<span class="tt-badge">' + chip(b.k, 'sm') + BADGES[b.k].label + '</span>').join('')
+        + '</div>'
+      : '';
+    return tipRows(scale().title(mo), rows) + badges;
   }
 
   function stripSVG(mo, met) {
@@ -598,7 +691,8 @@
     const w = 100 / mo.n;
     for (let d = 1; d <= mo.n; d++) {
       const i = mo.i0 + d - 1;
-      const value = dayValue(met, i, mo.y, mo.m, d);
+      const at = dateAt(i);
+      const value = dayValue(met, i, at.y, at.m, at.d);
       const rgb = dayColor(met, value);
       if (!rgb) continue;
       parts.push('<rect x="' + ((d - 1) * w).toFixed(2) + '" y="0" width="'
@@ -618,15 +712,17 @@
     const host = document.getElementById('calgrid');
     const parts = [];
 
+    const sc = scale();
+    const cols = sc.cols();
     parts.push('<div class="calhead corner">Year</div>');
-    MONTH_ABBR.forEach(a => parts.push('<div class="calhead">' + a + '</div>'));
+    cols.forEach(c => parts.push('<div class="calhead">' + c.label + '</div>'));
     parts.push('<div class="calhead total">' + (summarises(met) ? 'Total' : 'Mean') + '</div>');
 
     YEARS.forEach(y => {
       parts.push('<div class="calyear' + (y % 5 === 0 ? ' decade' : '') + '">' + y + '</div>');
       const yearValues = [];
-      for (let m = 1; m <= 12; m++) {
-        const mo = monthAt(y, m);
+      for (const col of cols) {
+        const mo = sc.at(y, col.id);
         const value = mo ? monthValue(met, mo) : null;
         if (isNum(value)) yearValues.push(value);
         if (!mo || !isNum(value)) {
@@ -636,7 +732,7 @@
         const rgb = metricColor(met, value, 'month');
         const sparse = isNum(mo[met.var] && mo[met.var].meas)
           && mo[met.var].meas < M.sparse_coverage;
-        const shown = mo.b.slice(0, 4);
+        const shown = state.allBadges ? mo.b : mo.b.slice(0, 4);
         const cls = ['cell', inkClass(rgb)];
         if (sparse) cls.push('sparse');
         if (!matchesFilter(mo)) cls.push('dim');
@@ -653,8 +749,8 @@
         if (state.strips) inner += stripSVG(mo, met);
 
         parts.push('<button type="button" class="' + cls.join(' ') + '" style="background:'
-          + css(rgb) + '" data-y="' + y + '" data-m="' + m + '" '
-          + 'aria-label="' + MONTH_NAME[m - 1] + ' ' + y + '">' + inner + '</button>');
+          + css(rgb) + '" data-y="' + y + '" data-c="' + col.id + '" '
+          + 'aria-label="' + sc.title(mo) + '">' + inner + '</button>');
       }
       const summary = summarise(met, yearValues);
       parts.push('<div class="calsummary"><span class="v">' + metricFormat(met, summary)
@@ -692,7 +788,7 @@
 
     host.innerHTML = parts.join('');
     host.querySelectorAll('.cell:not(.empty)').forEach(node => {
-      const y = +node.dataset.y, m = +node.dataset.m;
+      const y = +node.dataset.y, m = node.dataset.c;
       node.addEventListener('click', () => { location.hash = y + '-' + String(m).padStart(2, '0'); });
       node.addEventListener('mousemove', ev => tip.show(cellTooltip(monthAt(y, m)), ev.clientX, ev.clientY));
       node.addEventListener('mouseleave', tip.hide);
@@ -785,16 +881,23 @@
 
   function renderGridNote() {
     const met = metric();
-    const shown = MONTHS.filter(mo => isNum(monthValue(met, mo))).length;
-    const filtered = state.filters.size ? MONTHS.filter(matchesFilter).length : null;
-    let note = shown + ' of ' + MONTHS.length + ' months carry a value on this metric.';
+    const spans = scale().spans();
+    const noun = state.scale === 'season' ? 'seasons' : 'months';
+    const shown = spans.filter(mo => isNum(monthValue(met, mo))).length;
+    const filtered = state.filters.size ? spans.filter(matchesFilter).length : null;
+    let note = shown + ' of ' + spans.length + ' ' + noun + ' carry a value on this metric.';
     if (filtered !== null) {
-      note += ' ' + filtered + ' month' + (filtered === 1 ? '' : 's') + ' carry the selected badge'
+      note += ' ' + filtered + ' ' + (filtered === 1 ? noun.slice(0, -1) : noun)
+        + ' carry the selected badge'
         + (state.filters.size === 1 ? '' : 's') + '; the rest are dimmed.';
     }
     note += ' Hatched tiles are below ' + nf(M.sparse_coverage, 0)
-      + ' % measured. The column at the right is each year and the row at the foot each calendar '
-      + 'month over the whole record. Select a month to open it.';
+      + ' % measured. The right-hand column is each year, the foot row each ' + noun.slice(0, -1)
+      + ' over the whole record. Select one to open it.'
+      + (state.scale === 'season'
+        ? ' A winter is December to February and is labelled by the year of its January, so the '
+          + 'first winter is short of its December and the last December belongs to a winter the '
+          + 'record does not reach.' : '');
     document.getElementById('gridnote').textContent = note;
   }
 
@@ -828,11 +931,10 @@
     });
 
     document.getElementById('badge-lede').textContent =
-      'A badge marks something notable about a month, and states the numbers it rests on. '
-      + 'Select one to keep only the months that carry it. A badge is withheld where less than '
-      + nf(M.min_badge_coverage, 0) + ' % of the variable it reads is measured, so a tile without '
-      + 'a badge means either that nothing was notable or that it could not be judged - the month '
-      + 'itself says which.';
+      'A badge marks something notable about a month and states the numbers behind it. '
+      + 'Select one to keep only the months that carry it. Badges are withheld where less than '
+      + nf(M.min_badge_coverage, 0) + ' % of the variable behind them is measured. So an unbadged '
+      + 'tile means either nothing was notable or it could not be judged. The month says which.';
   }
 
   /* ------------------------------------------------------------------------------------------
@@ -862,10 +964,9 @@
     document.getElementById('brand-site').textContent = M.site;
     document.getElementById('page-lede').textContent =
       'Every month of the ' + M.site + ' meteo record on one grid, ' + M.first_year + ' to '
-      + M.last_year + '. Each tile is coloured by the selected metric, carries badges for what was '
-      + 'notable in that month, and can show its own days. Open a month to walk it day by day. '
-      + 'The values are the exported products; this page aggregates and compares them and corrects '
-      + 'nothing.';
+      + M.last_year + '. Tiles are coloured by the selected metric and badged with what was '
+      + 'notable. Open one to walk the month day by day. The values are the exported products: '
+      + 'this page aggregates and compares them, and corrects nothing.';
 
     const chips = [
       '<li><b>' + M.n_months + '</b> months</li>',
@@ -921,23 +1022,19 @@
       sub: 'Three levels: the record, a month, a day.'
     });
     body.innerHTML = '<p class="card-sub" style="max-width:none">Each tile is one month. Its '
-      + 'colour is the selected metric, and the strip along its bottom is that month\'s days on '
-      + 'the same scale, so a heat wave or a wet spell is visible before anything is opened. '
-      + 'Badges mark what was notable.</p>'
-      + '<p class="card-sub" style="max-width:none">The grid has two margins and is meant to be '
-      + 'read along both. The column at the right is each year, with its twelve months repeated '
-      + 'as a miniature; the row at the foot is each calendar month over the whole record, which '
+      + 'colour is the selected metric. The strip along its bottom is that month\'s days on the '
+      + 'same scale, so a heat wave or a wet spell shows before anything is opened, and the chips '
+      + 'mark what was notable.</p>'
+      + '<p class="card-sub" style="max-width:none">Read the two margins as well. The right-hand '
+      + 'column is each year; the foot row is each calendar month across the whole record, which '
       + 'is what a single month has to be judged against.</p>'
-      + '<p class="card-sub" style="max-width:none">Selecting a tile opens the month, where the '
-      + 'days become a calendar, the daily course is drawn against the climatological band, and '
-      + 'the month is placed among the same month of every other year; selecting a day there '
-      + 'opens the day itself.</p>'
-      + '<p class="card-sub" style="max-width:none">Keyboard: arrow keys move between tiles, '
-      + 'Enter opens one, Escape goes back.</p>';
+      + '<p class="card-sub" style="max-width:none">Open a tile for the month: its days as a '
+      + 'calendar, its daily course against the climatological band, and its place among the same '
+      + 'month of every other year. Open a day there for the day itself. Arrow keys move between '
+      + 'tiles, Enter opens one, Escape goes back.</p>';
 
     body = cardEl(host, { title: 'Threshold days', width: 'w-4',
-      sub: 'The definitions are the ones the per-variable dashboards use, read from the same '
-        + 'registry rather than restated here.' });
+      sub: 'The same definitions the per-variable dashboards use, read from one registry.' });
     body.innerHTML = tableHTML(['Threshold', 'Variable'],
       FLAGS.map(f => [cap(f.label), VARS[f.var].short]));
 
@@ -947,20 +1044,41 @@
       DATA.variables.map(v => [v.short, '<code>' + v.column + '</code>',
         v.first_year + '–' + v.last_year]));
 
+    /* The composite counts departures on several axes at once, so how far those axes duplicate
+       one another is not a footnote to it - it is the thing that decides whether the count means
+       what it appears to mean. Measured on the record, published beside the grid. */
+    const C = M.composite;
+    body = cardEl(host, {
+      title: 'The axes of the composite, and how far they overlap', width: 'w-6',
+      sub: 'Correlation between the monthly departures of every pair, over the '
+        + C.n + ' months where all ' + C.vars.length + ' could be judged. Departures are taken '
+        + 'against each calendar month’s own normal, so the seasons are already out of this.'
+    });
+    body.innerHTML = tableHTML([''].concat(C.vars.map(k => VARS[k].short)),
+      C.vars.map((a, i) => [VARS[a].short].concat(C.correlation[i].map((v, j) => {
+        if (i === j) return { v: '—', cls: '' };
+        return { v: nfs(v, 2), cls: Math.abs(v) >= 0.5 ? 'num-warm' : '' };
+      }))))
+      + '<p class="smallnote">Vapour pressure deficit is computed from air temperature and '
+      + 'relative humidity, so it cannot be independent of temperature; the table says by how '
+      + 'much. It is counted all the same, being the atmospheric limb of a drought and the one a '
+      + 'forest responds to. Relative humidity is the variable left out: VPD is the meaningful '
+      + 'combination of the two, and RH beside it would be the same information twice.</p>';
+
     body = cardEl(host, { title: 'What a badge rests on', width: 'w-6',
       sub: 'Coverage rules, stated once and applied everywhere.' });
     body.innerHTML = '<p class="card-sub" style="max-width:none">A badge is a claim about a month, '
       + 'so a month that was not measured cannot make one. Every badge names the variables it '
       + 'reads and is withheld where less than ' + nf(M.min_badge_coverage, 0) + ' % of them is '
-      + 'measured; the month view lists what was withheld and why. A calendar-month normal — and '
-      + 'every anomaly, standard score and rank taken from it — uses only the years whose month is '
+      + 'measured; the month view lists what was withheld and why. A calendar-month normal, and '
+      + 'every anomaly, standard score and rank taken from it, uses only the years whose month is '
       + 'at least ' + nf(M.normal_min_coverage, 0) + ' % measured, and is not computed at all below '
-      + M.min_normal_years + ' such years. A sparse month is therefore ranked against nothing and '
-      + 'can never be the driest on record.</p>';
+      + M.min_normal_years + ' such years. A sparse month is ranked against nothing, so it can '
+      + 'never come out as the driest on record.</p>';
 
     body = cardEl(host, { title: 'Coverage across the record', width: 'w-6',
-      sub: 'The measured share of each variable, by year. Filled and reconstructed records are '
-        + 'not counted as measured.' });
+      sub: 'The measured share of each variable, by year. Filled and reconstructed records '
+        + 'do not count as measured.' });
     const host2 = document.createElement('div');
     host2.className = 'chart';
     body.appendChild(host2);
@@ -1089,6 +1207,81 @@
     return html;
   }
 
+  /**
+   * The composite, with the axes it was taken over shown rather than summarised away.
+   * A reader who is told a month scored 3 of 4 will want to know which three.
+   */
+  function monthComposite(mo) {
+    const axes = M.composite_vars;
+    const rows = axes.map(key => {
+      const z = mo.z[key];
+      const strong = isNum(z) && Math.abs(z) >= 1;
+      return '<dt>' + VARS[key].short + '</dt><dd' + (strong ? ' class="strong"' : '') + '>'
+        + (isNum(z) ? nfs(z, 1) + ' sd' : '<span class="muted">not judgeable</span>') + '</dd>';
+    });
+    let head;
+    if (!isNum(mo.x.zmax)) {
+      head = '<p class="card-sub" style="max-width:none">Fewer than ' + M.composite_min_axes
+        + ' of the ' + axes.length + ' axes could be judged here, so this month carries no '
+        + 'composite: a count out of two is not comparable with a count out of five.</p>';
+    } else {
+      let driver = null;
+      axes.forEach(key => {
+        if (isNum(mo.z[key]) && (driver === null || Math.abs(mo.z[key]) > Math.abs(mo.z[driver]))) {
+          driver = key;
+        }
+      });
+      head = '<p class="card-sub" style="max-width:none">'
+        + (mo.x.nsd === 0
+          ? 'Nothing in this month reached one standard deviation from its normal.'
+          : '<b>' + mo.x.nsd + ' of ' + mo.x.nz + ' axes</b> stood at least one standard '
+            + 'deviation from normal')
+        + (driver ? ', the furthest being ' + VARS[driver].short.toLowerCase() + ' at '
+          + nfs(mo.z[driver], 1) + ' sd.' : '.') + '</p>';
+    }
+    const C = M.composite;
+    const pair = C.strongest;
+    return head + '<dl class="kv">' + rows.join('') + '</dl>'
+      + '<p class="smallnote">An axis below ' + nf(M.min_badge_coverage, 0) + ' % measured, or '
+      + 'without a normal for this calendar month, is dropped, not counted as ordinary. '
+      + 'The axes are not independent'
+      + (pair ? ': ' + VARS[pair.a].short.toLowerCase() + ' and ' + VARS[pair.b].short.toLowerCase()
+        + ' correlate at r = ' + nf(pair.r, 2) + ' across the record' : '')
+      + ', so a count of two is not always two separate things. The whole matrix is on the '
+      + 'grid page.</p>';
+  }
+
+  /**
+   * The season a month belongs to, with the season's own standing, so a warm July can be read
+   * against the summer it sat in. On the season scale it runs the other way and lists the months.
+   */
+  function seasonLine(mo) {
+    if (state.scale === 'season') {
+      return 'The three months of this season: ' + mo.months.map(ym => {
+        const child = monthAt(ym[0], ym[1]);
+        return child
+          ? '<a href="#' + ym[0] + '-' + String(ym[1]).padStart(2, '0') + '">'
+            + MONTH_NAME[ym[1] - 1] + ' ' + ym[0] + '</a>'
+          : MONTH_NAME[ym[1] - 1] + ' ' + ym[0] + ' (outside the record)';
+      }).join(', ') + '.';
+    }
+    const se = seasonOfMonth(mo);
+    if (!se) return '';
+    let line = 'Part of <a href="#' + se.y + '-' + se.s + '">' + se.title.toLowerCase()
+      + '</a>, which ran ';
+    const rec = se.TA;
+    line += isNum(rec.v) ? nf(rec.v, 1) + ' ' + VARS.TA.units : 'unmeasured';
+    if (isNum(rec.a)) line += ' (' + nfs(rec.a, 1) + ' against its normal)';
+    if (isNum(rec.r) && isNum(rec.n)) {
+      line += ' and stands ' + ord(rec.r) + ' warmest of ' + rec.n + ' '
+        + se.label.toLowerCase() + 's';
+    }
+    if (se.b.length) {
+      line += '. The season carries ' + se.b.map(b => BADGES[b.k].label.toLowerCase()).join(', ');
+    }
+    return line + '.';
+  }
+
   function monthBadges(mo) {
     if (!mo.b.length) {
       return '<ul class="badgelist none"><li><span class="bt"><span class="bd">Nothing in this '
@@ -1139,7 +1332,7 @@
     const n = NORM[key] && NORM[key][stat];
     const lo = [], hi = [], mid = [];
     for (let d = 1; d <= mo.n; d++) {
-      const doy = doy365(mo.y, mo.m, d);
+      const doy = doyAt(mo.i0 + d - 1);
       lo.push(n ? n.p10[doy] : null);
       hi.push(n ? n.p90[doy] : null);
       mid.push(n ? n.mean[doy] : null);
@@ -1211,7 +1404,7 @@
 
       hover(f, sx, days, d => {
         const i = d - 1;
-        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+        return tipRows(labelAt(mo.i0 + d - 1) + ' ' + dateAt(mo.i0 + d - 1).y, [
           { k: 'daily mean', v: nf(value[i], 1) + ' ' + VARS.TA.units },
           { k: 'normal for the date', v: nf(norm.mid[i], 1) + ' ' + VARS.TA.units,
             color: f.p.muted },
@@ -1271,7 +1464,7 @@
 
       hover(f, sx, days, d => {
         const i = d - 1;
-        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+        return tipRows(labelAt(mo.i0 + d - 1) + ' ' + dateAt(mo.i0 + d - 1).y, [
           { k: 'soil water, 0.2 m', v: nf(swc[i], 1) + ' ' + VARS['SWC_0.2'].units,
             color: f.p.series[2] },
           { k: 'normal for the date', v: nf(norm.mid[i], 1) + ' ' + VARS['SWC_0.2'].units,
@@ -1319,7 +1512,7 @@
         'stroke-linejoin': 'round' }, f.svg);
       hover(f, sx, days, d => {
         const i = d - 1;
-        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+        return tipRows(labelAt(mo.i0 + d - 1) + ' ' + dateAt(mo.i0 + d - 1).y, [
           { k: v.short, v: nf(value[i], v.digits) + ' ' + v.units,
             color: kind === 'area' ? f.p.series[3] : f.p.series[1] },
           { k: 'normal for the date', v: nf(norm.mid[i], v.digits) + ' ' + v.units,
@@ -1448,11 +1641,12 @@
   function drawRankStrip(mo, key) {
     return function (host) {
       const v = VARS[key];
-      const rows = MONTHS.filter(x => x.m === mo.m && x[key] && isNum(x[key].v));
+      const rows = scale().spans().filter(x => scale().idOf(x) === scale().idOf(mo)
+        && x[key] && isNum(x[key].v));
       const width = Math.max(140, host.clientWidth || 220);
       const height = 30;
       const svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height,
-        role: 'img', 'aria-label': v.short + ' in every ' + MONTH_NAME[mo.m - 1] + ' of the record' });
+        role: 'img', 'aria-label': v.short + ' in every ' + scale().colName(scale().idOf(mo)) + ' of the record' });
       host.innerHTML = '';
       host.appendChild(svg);
       const p = palette();
@@ -1463,7 +1657,7 @@
 
       el('line', { x1: 6, x2: width - 6, y1: yc, y2: yc, stroke: p.grid, 'stroke-width': 2,
         'stroke-linecap': 'round' }, svg);
-      const nm = CLIM[key] && CLIM[key][String(mo.m)];
+      const nm = climFor(key, mo);
       if (nm) {
         el('line', { x1: sx(nm.mean), x2: sx(nm.mean), y1: yc - 8, y2: yc + 8, stroke: p.muted,
           'stroke-width': 1.4, 'stroke-dasharray': '3 2' }, svg);
@@ -1475,13 +1669,13 @@
           stroke: here ? p.surface : 'none', 'stroke-width': here ? 1.6 : 0,
           style: here ? '' : 'cursor:pointer' }, svg);
         dot.addEventListener('mousemove', ev => tip.show(
-          tipRows(MONTH_NAME[mo.m - 1] + ' ' + x.y,
+          tipRows(scale().colName(scale().idOf(mo)) + ' ' + x.y,
             [{ k: v.short, v: nf(x[key].v, v.digits) + ' ' + v.units }]),
           ev.clientX, ev.clientY));
         dot.addEventListener('mouseleave', tip.hide);
         if (!here) {
           dot.addEventListener('click',
-            () => { location.hash = x.y + '-' + String(mo.m).padStart(2, '0'); });
+            () => { location.hash = x.y + '-' + scale().slug(mo); });
         }
       });
       svgText(svg, 4, height - 1, nf(ext[0], v.digits), 'scalebar-text', { 'text-anchor': 'start' });
@@ -1501,7 +1695,7 @@
 
   function drawMonthShape(mo) {
     return function (host) {
-      const rows = MONTHS.filter(x => x.m === mo.m);
+      const rows = scale().spans().filter(x => scale().idOf(x) === scale().idOf(mo));
       const days = monthDays(mo);
       const norm = monthNormal(mo, 'TA', 'mean');
       const series = rows.map(x => {
@@ -1514,7 +1708,7 @@
       });
 
       const f = frame(host, { aspect: 0.36,
-        ariaLabel: 'Daily mean temperature in every ' + MONTH_NAME[mo.m - 1] + ' of the record' });
+        ariaLabel: 'Daily mean temperature in every ' + scale().colName(scale().idOf(mo)) + ' of the record' });
       const ext = extent(series.map(s => s.values));
       const sx = linear(0.5, mo.n + 0.5, f.m.left, f.m.left + f.iw);
       const sy = linear(ext[0] - 1, ext[1] + 1, f.m.top + f.ih, f.m.top);
@@ -1576,7 +1770,7 @@
     return function (host) {
       const days = [], tmin = [], tmax = [], tmean = [], nlo = [], nhi = [], nmean = [];
       for (let d = 1; d <= mo.n; d++) {
-        const i = mo.i0 + d - 1, doy = doy365(mo.y, mo.m, d);
+        const i = mo.i0 + d - 1, doy = doyAt(i);
         days.push(d);
         tmin.push(dayStat('TA', 'min', i));
         tmax.push(dayStat('TA', 'max', i));
@@ -1599,7 +1793,7 @@
         'stroke-width': 2, 'stroke-linejoin': 'round' }, f.svg);
       hover(f, sx, days, d => {
         const i = d - 1;
-        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+        return tipRows(labelAt(mo.i0 + d - 1) + ' ' + dateAt(mo.i0 + d - 1).y, [
           { k: 'minimum', v: nf(tmin[i], 1) + ' ' + VARS.TA.units },
           { k: 'mean', v: nf(tmean[i], 1) + ' ' + VARS.TA.units, color: f.p.series[1] },
           { k: 'maximum', v: nf(tmax[i], 1) + ' ' + VARS.TA.units },
@@ -1613,7 +1807,7 @@
     return function (host) {
       const days = [], sums = [], norm = [];
       for (let d = 1; d <= mo.n; d++) {
-        const i = mo.i0 + d - 1, doy = doy365(mo.y, mo.m, d);
+        const i = mo.i0 + d - 1, doy = doyAt(i);
         days.push(d);
         sums.push(dayStat('PREC', 'sum', i));
         norm.push(NORM.PREC.sum ? NORM.PREC.sum.mean[doy] : null);
@@ -1634,7 +1828,7 @@
         'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, f.svg);
       hover(f, sx, days, d => {
         const i = d - 1;
-        return tipRows(d + ' ' + MONTH_ABBR[mo.m - 1] + ' ' + mo.y, [
+        return tipRows(labelAt(mo.i0 + d - 1) + ' ' + dateAt(mo.i0 + d - 1).y, [
           { k: 'total', v: nf(sums[i], 1) + ' ' + VARS.PREC.units, color: f.p.series[0] },
           { k: 'normal for the date', v: nf(norm[i], 1) + ' ' + VARS.PREC.units, color: f.p.muted }
         ]);
@@ -1647,7 +1841,7 @@
       const days = [], run = [], runNorm = [];
       let a = 0, b = 0, seen = false;
       for (let d = 1; d <= mo.n; d++) {
-        const i = mo.i0 + d - 1, doy = doy365(mo.y, mo.m, d);
+        const i = mo.i0 + d - 1, doy = doyAt(i);
         const v = dayStat('PREC', 'sum', i);
         const n = NORM.PREC.sum ? NORM.PREC.sum.mean[doy] : null;
         days.push(d);
@@ -1664,7 +1858,7 @@
         'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, f.svg);
       el('path', { d: pathFrom(days, run, sx, sy), fill: 'none', stroke: f.p.series[0],
         'stroke-width': 2.2, 'stroke-linejoin': 'round' }, f.svg);
-      hover(f, sx, days, d => tipRows('to ' + d + ' ' + MONTH_ABBR[mo.m - 1], [
+      hover(f, sx, days, d => tipRows('to ' + labelAt(mo.i0 + d - 1), [
         { k: 'this month', v: nf(run[d - 1], 1) + ' ' + VARS.PREC.units, color: f.p.series[0] },
         { k: 'normal by this date', v: nf(runNorm[d - 1], 1) + ' ' + VARS.PREC.units,
           color: f.p.muted }
@@ -1672,13 +1866,20 @@
     };
   }
 
+  /** The climatology of the slot a span belongs to: a calendar month, or a season. */
+  function climFor(key, mo) {
+    return state.scale === 'season'
+      ? (DATA.season_climatology[key] || {})[mo.s]
+      : (CLIM[key] || {})[String(mo.m)];
+  }
+
   function drawAcrossYears(mo) {
     const met = metric();
     return function (host) {
-      const rows = MONTHS.filter(x => x.m === mo.m);
+      const rows = scale().spans().filter(x => scale().idOf(x) === scale().idOf(mo));
       const years = rows.map(x => x.y);
       const values = rows.map(x => monthValue(met, x));
-      const f = frame(host, { aspect: 0.34, ariaLabel: met.label + ' in every ' + MONTH_NAME[mo.m - 1] });
+      const f = frame(host, { aspect: 0.34, ariaLabel: met.label + ' in every ' + scale().colName(scale().idOf(mo)) });
       const ext = extent([values]);
       const lo = Math.min(0, ext[0]), hi = ext[1];
       const sx = linear(years[0] - 0.5, years[years.length - 1] + 0.5, f.m.left, f.m.left + f.iw);
@@ -1695,18 +1896,18 @@
           rx: Math.min(3, bw / 2), fill: y === mo.y ? f.p.series[1] : f.p.series[0],
           opacity: y === mo.y ? 1 : 0.55 }, f.svg);
       });
-      const nm = CLIM[met.var] && CLIM[met.var][String(mo.m)];
+      const nm = climFor(met.var, mo);
       if (nm && met.field === 'value') {
         el('line', { x1: f.m.left, x2: f.m.left + f.iw, y1: sy(nm.mean), y2: sy(nm.mean),
           stroke: f.p.muted, 'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, f.svg);
       }
       hover(f, sx, years, y => {
         const i = years.indexOf(y);
-        return tipRows(MONTH_NAME[mo.m - 1] + ' ' + y, [
+        return tipRows(scale().colName(scale().idOf(mo)) + ' ' + y, [
           { k: met.short, v: nf(values[i], met.digits) + ' ' + met.units,
             color: y === mo.y ? f.p.series[1] : f.p.series[0] }
         ]);
-      }, y => { if (y !== mo.y) location.hash = y + '-' + String(mo.m).padStart(2, '0'); });
+      }, y => { if (y !== mo.y) location.hash = y + '-' + scale().slug(mo); });
     };
   }
 
@@ -1746,7 +1947,24 @@
     if (onClick) hit.addEventListener('click', ev => onClick(nearest(ev)));
   }
 
+  /* A season is three months, so its calendar is three calendars: a ninety-day sheet with one
+     unbroken run of weeks would put the 1st of March in the middle of a row and read as nothing. */
   function dayCalendar(mo) {
+    if (state.scale === 'season') {
+      return mo.months.map(ym => {
+        const child = monthAt(ym[0], ym[1]);
+        if (!child) return '';
+        // Each child keeps the month it came from, so a day opens in that month rather than
+        // as an ambiguous nth day of a season.
+        return '<p class="facet-title">' + MONTH_NAME[ym[1] - 1] + ' ' + ym[0] + '</p>'
+          + dayCalendarOf(child).replace(/data-day="/g,
+            'data-ym="' + ym[0] + '-' + ym[1] + '" data-day="');
+      }).join('');
+    }
+    return dayCalendarOf(mo);
+  }
+
+  function dayCalendarOf(mo) {
     const met = metric();
     const first = (new Date(Date.UTC(mo.y, mo.m - 1, 1)).getUTCDay() + 6) % 7;
     const parts = WEEKDAY.map(w => '<div class="dayhead">' + w + '</div>');
@@ -1760,7 +1978,8 @@
 
     for (let d = 1; d <= mo.n; d++) {
       const i = mo.i0 + d - 1;
-      const value = dayValue(met, i, mo.y, mo.m, d);
+      const at = dateAt(i);
+      const value = dayValue(met, i, at.y, at.m, at.d);
       const rgb = dayColor(met, value);
       const cls = ['daycell'];
       let style = '';
@@ -1798,7 +2017,7 @@
     const rows = [];
     for (let d = 1; d <= mo.n; d++) {
       const i = mo.i0 + d - 1;
-      const row = [d + ' ' + MONTH_ABBR[mo.m - 1]];
+      const row = [labelAt(mo.i0 + d - 1)];
       DATA.variables.forEach(v => v.ship.forEach(s => {
         row.push(nf(dayStat(v.key, s, i), v.digits));
       }));
@@ -1823,7 +2042,7 @@
       let s = 'Mean temperature <b>' + nf(ta.v, 1) + ' ' + VARS.TA.units + '</b>';
       if (isNum(ta.a)) {
         s += ', ' + nfs(ta.a, 1) + ' ' + VARS.TA.units + ' against the '
-          + MONTH_NAME[mo.m - 1] + ' normal';
+          + scale().colName(scale().idOf(mo)) + ' normal';
       }
       if (isNum(ta.r) && isNum(ta.n)) s += ' (' + ord(ta.r) + ' warmest of ' + ta.n + ')';
       bits.push(s);
@@ -1846,20 +2065,25 @@
   }
 
   function renderMonth() {
-    const mo = monthAt(state.y, state.m);
+    const mo = state.span;
+    const sc = scale();
     const host = document.getElementById('month-body');
     compactCharts();
-    document.getElementById('month-title').innerHTML = MONTH_NAME[state.m - 1] + ' ' + state.y
-      + '<span class="season">' + SEASON[state.m - 1] + '</span>';
+    document.getElementById('month-title').innerHTML = sc.title(mo)
+      + (state.scale === 'month'
+        ? '<span class="season">' + SEASON[mo.m - 1] + '</span>' : '');
 
-    const idx = monthIndex[state.y + '-' + state.m];
+    const list = sc.spans();
+    const idx = list.indexOf(mo);
+    const yearStep = state.scale === 'season' ? 4 : 12;
     document.getElementById('month-prev').disabled = idx <= 0;
-    document.getElementById('month-next').disabled = idx >= MONTHS.length - 1;
-    document.getElementById('year-prev').disabled = !monthAt(state.y - 1, state.m);
-    document.getElementById('year-next').disabled = !monthAt(state.y + 1, state.m);
+    document.getElementById('month-next').disabled = idx >= list.length - 1;
+    document.getElementById('year-prev').disabled = idx - yearStep < 0;
+    document.getElementById('year-next').disabled = idx + yearStep >= list.length;
 
     host.innerHTML = '<p class="monthlede" id="month-lede"></p>'
       + '<div class="tiles" id="month-tiles"></div>'
+      + '<p class="seasonline" id="month-season"></p>'
       + '<h2 class="section">What was notable</h2><div id="month-badges"></div>'
       + '<div class="grid" id="month-highlights"></div>'
       + '<h2 class="section">Day by day</h2><div class="grid" id="month-charts"></div>'
@@ -1872,21 +2096,26 @@
 
     document.getElementById('month-lede').innerHTML = monthLede(mo);
     document.getElementById('month-tiles').innerHTML = monthTiles(mo);
+    document.getElementById('month-season').innerHTML = seasonLine(mo);
     document.getElementById('month-badges').innerHTML = monthBadges(mo) + suppressedNote(mo);
 
     const hl = document.getElementById('month-highlights');
     hl.innerHTML = '';
     cardEl(hl, {
       title: 'The month in single days', width: 'w-4',
-      sub: 'The days a monthly mean does not show.'
+      sub: 'What the monthly mean hides.'
     }).innerHTML = monthHighlights(mo);
+    cardEl(hl, {
+      title: 'How unusual it was', width: 'w-4',
+      sub: 'Departure from the calendar-month normal on each independent axis.'
+    }).innerHTML = monthComposite(mo);
 
     // Named for the section rather than `charts`, which is the module's chart registry.
     const dayByDay = document.getElementById('month-charts');
     if (VARS.TA) {
       chartCard(dayByDay, {
         title: 'Daily temperature against the normal', width: 'w-6',
-        sub: 'The daily minimum-to-maximum range and the daily mean, over the ±' + M.clim_window
+        sub: 'Daily range and daily mean, over the ±' + M.clim_window
           + ' day climatological band for the same date.',
         legend: [
           { color: 'var(--band-outer)', label: 'normal 10th–90th percentile' },
@@ -2007,14 +2236,16 @@
         wrap.appendChild(box);
         const kind = key === 'PREC' ? 'bars' : (key === 'SW_IN' ? 'area' : 'line');
         mountChart(box.querySelector('.chart'),
-          drawComposite(key, values, climComposite(key, mo.m), kind));
+          drawComposite(key, values,
+            state.scale === 'month' ? climComposite(key, mo.m) : null, kind));
       });
       if (!drawn) {
         wrap.innerHTML = '<p class="card-sub">No hourly record survives for this month.</p>';
       } else {
         body.insertAdjacentHTML('beforeend', legendHTML([
-          { color: 'var(--text-muted)', label: 'every ' + MONTH_NAME[state.m - 1]
-            + ' of ' + M.first_year + '–' + M.last_year, line: true }
+          { color: 'var(--text-muted)', label: 'every '
+            + scale().colName(scale().idOf(mo)) + ' of ' + M.first_year + '–' + M.last_year,
+          line: true }
         ]));
       }
     }
@@ -2061,18 +2292,23 @@
     const daysHost = document.getElementById('month-days');
     const body = cardEl(daysHost, {
       title: 'The days of ' + MONTH_NAME[state.m - 1] + ' ' + state.y, width: 'w-8',
-      sub: 'Coloured by ' + metric().label.toLowerCase() + '. Marks show the thresholds a day set '
-        + 'and the bar along the bottom is its precipitation. Select a day to open it.'
+      sub: 'Coloured by ' + metric().label.toLowerCase() + '. Chips show the thresholds a day '
+        + 'set, the bar along the bottom its precipitation. Select a day to open it.'
     });
     body.innerHTML = dayCalendar(mo);
     body.querySelectorAll('.daycell[data-day]').forEach(node => {
-      node.addEventListener('click', () => selectDay(+node.dataset.day));
+      node.addEventListener('click', () => {
+        if (!node.dataset.ym) { selectDay(+node.dataset.day); return; }
+        const ym = node.dataset.ym.split('-');
+        location.hash = ym[0] + '-' + String(ym[1]).padStart(2, '0') + '-'
+          + String(node.dataset.day).padStart(2, '0');
+      });
     });
 
     document.getElementById('month-table').innerHTML = '';
     const tbody = cardEl(document.getElementById('month-table'), {
       title: 'Daily values', width: 'w-8',
-      sub: 'The same numbers the charts and the calendar above are drawn from.'
+      sub: 'The numbers the charts and the calendar above are drawn from.'
     });
     tbody.innerHTML = dayTable(mo);
 
@@ -2143,8 +2379,8 @@
     body.innerHTML = kv
       + (records.length
         ? '<p class="smallnote"><b>This is ' + records.map(x => x[1]).join(' and ')
-          + ' ' + dateName + ' in the record.</b> Days that were largely gap-filled are left out '
-          + 'of that comparison.</p>'
+          + ' ' + dateName + ' in the record.</b> Largely gap-filled days are left out of that '
+          + 'comparison.</p>'
         : '')
       + '<p class="smallnote">' + (set.length
         ? 'This day also counts as: ' + set.map(f => f.label).join(', ') + '.'
@@ -2206,28 +2442,41 @@
       crumbs.innerHTML = '<b>' + M.first_year + '–' + M.last_year + '</b>';
     } else {
       crumbs.innerHTML = '<span>' + M.first_year + '–' + M.last_year + '</span>'
-        + '<span class="sep">›</span><b>' + MONTH_NAME[state.m - 1] + ' ' + state.y + '</b>'
+        + '<span class="sep">›</span><b>' + scale().title(state.span) + '</b>'
         + (state.d ? '<span class="sep">›</span><b>' + state.d + '</b>' : '');
     }
   }
 
+  /* A span is addressed by year and either a month number or a season key: #2019-07, #2019-JJA,
+     #2019-07-25. The scale follows from which of the two the URL carries, so a link into a season
+     switches the grid behind it as well. */
   function route() {
     const hash = location.hash.replace('#', '');
-    const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(hash);
-    if (!m || !monthAt(+m[1], +m[2])) {
-      state.y = state.m = state.d = null;
+    const m = /^(\d{4})-(\d{2}|[A-Z]{3})(?:-(\d{2}))?$/.exec(hash);
+    const wanted = m ? (/^\d+$/.test(m[2]) ? 'month' : 'season') : null;
+    const span = m ? SCALES[wanted].at(+m[1], /^\d+$/.test(m[2]) ? +m[2] : m[2]) : null;
+    if (!span) {
+      state.y = state.m = state.d = state.span = null;
       showView('grid');
       tip.hide();
       window.scrollTo({ top: 0 });
       return;
     }
-    const sameMonth = state.y === +m[1] && state.m === +m[2];
+    const same = state.span === span;
+    if (state.scale !== wanted) {
+      state.scale = wanted;
+      const pick = document.getElementById('scale-pick');
+      if (pick) pick.value = wanted;
+      document.getElementById('calgrid').classList.toggle('seasons', wanted === 'season');
+      renderGrid();
+    }
     state.y = +m[1];
-    state.m = +m[2];
-    state.d = m[3] ? +m[3] : null;
+    state.m = span.m || null;
+    state.span = span;
+    state.d = (m[3] && wanted === 'month') ? +m[3] : null;
     showView('month');
     tip.hide();
-    if (sameMonth && state.d) {
+    if (same && state.d) {
       renderDay();
       const panel = document.getElementById('day-panel');
       if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2242,14 +2491,15 @@
       location.hash = 'grid';
     });
     const step = delta => {
-      const idx = monthIndex[state.y + '-' + state.m] + delta;
-      const target = MONTHS[idx];
-      if (target) location.hash = target.y + '-' + String(target.m).padStart(2, '0');
+      const list = scale().spans();
+      const target = list[list.indexOf(state.span) + delta];
+      if (target) location.hash = target.y + '-' + scale().slug(target);
     };
     document.getElementById('month-prev').addEventListener('click', () => step(-1));
     document.getElementById('month-next').addEventListener('click', () => step(1));
-    document.getElementById('year-prev').addEventListener('click', () => step(-12));
-    document.getElementById('year-next').addEventListener('click', () => step(12));
+    const yearStep = () => (state.scale === 'season' ? 4 : 12);
+    document.getElementById('year-prev').addEventListener('click', () => step(-yearStep()));
+    document.getElementById('year-next').addEventListener('click', () => step(yearStep()));
 
     /* Arrow keys walk the grid, Enter opens a month, Escape goes back. A tile is a button, so the
        browser already gives it focus; the arrows only have to move that focus. */
@@ -2262,16 +2512,18 @@
       }
       const active = document.activeElement;
       if (!active || !active.classList.contains('cell')) return;
-      const y = +active.dataset.y, m = +active.dataset.m;
-      let ty = y, tm = m;
-      if (ev.key === 'ArrowLeft') tm -= 1;
-      else if (ev.key === 'ArrowRight') tm += 1;
+      const cols = scale().cols();
+      let ty = +active.dataset.y;
+      let ci = cols.findIndex(c => String(c.id) === active.dataset.c);
+      if (ev.key === 'ArrowLeft') ci -= 1;
+      else if (ev.key === 'ArrowRight') ci += 1;
       else if (ev.key === 'ArrowUp') ty -= 1;
       else if (ev.key === 'ArrowDown') ty += 1;
       else return;
-      if (tm === 0) { tm = 12; ty -= 1; }
-      if (tm === 13) { tm = 1; ty += 1; }
-      const next = document.querySelector('.cell[data-y="' + ty + '"][data-m="' + tm + '"]');
+      if (ci < 0) { ci = cols.length - 1; ty -= 1; }
+      if (ci >= cols.length) { ci = 0; ty += 1; }
+      const next = document.querySelector('.cell[data-y="' + ty + '"][data-c="'
+        + cols[ci].id + '"]');
       if (next) { next.focus(); ev.preventDefault(); }
     });
   }

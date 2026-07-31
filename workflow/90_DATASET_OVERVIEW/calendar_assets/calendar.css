@@ -181,6 +181,23 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
 .cell-sub { font-size: 10.5px; opacity: .76; line-height: 1.2; font-variant-numeric: tabular-nums; }
 
 .cell-badges { margin-top: 3px; display: flex; align-items: center; gap: 3px; flex-wrap: nowrap; }
+/* With every badge shown the chips wrap, and the busiest tile sets the height of its row - which
+   is why this is a choice in the controls rather than how the grid always looks. */
+.all-badges .cell-badges { flex-wrap: wrap; row-gap: 3px; }
+.all-badges .cell { min-height: 76px; }
+
+/* Four seasons instead of twelve months: the tiles are three times as wide, which is room the day
+   strip uses well - ninety days of a summer read as a curve rather than as a bar code. */
+.calgrid.seasons { grid-template-columns: 50px repeat(4, minmax(0, 1fr)) 84px; min-width: 620px; }
+.calgrid.seasons .cell { min-height: 74px; }
+.calgrid.seasons .cell-strip { height: 18px; }
+
+select.picker.narrow { min-width: 210px; }
+
+.seasonline {
+  margin: 14px 0 0; font-size: 13px; color: var(--text-secondary); max-width: 82ch;
+}
+.seasonline a { color: var(--series-1); }
 .cell-badges .more { font-size: 10px; opacity: .8; font-weight: 600; }
 
 /* The day strip sits on the bottom edge of the tile whatever else the tile carries, so the strips
@@ -253,6 +270,16 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
 .scalebar { min-width: 280px; flex: 0 1 400px; }
 .scalebar svg { display: block; width: 100%; height: auto; }
 .gridnote { font-size: 12.5px; color: var(--text-muted); margin: 0; max-width: 68ch; flex: 1 1 320px; }
+
+/* The tooltip's badge list. It carries every badge of the month whatever the tile shows, so the
+   compact grid hides nothing - which is what lets four chips be the default. The shared stylesheet
+   caps the tooltip at 280 px for prose; a list of chips needs the room a long label asks for. */
+.tooltip:has(.tt-badges) { max-width: 340px; }
+.tt-badges {
+  display: flex; flex-direction: column; gap: 3px;
+  margin-top: 7px; padding-top: 7px; border-top: 1px solid var(--border);
+}
+.tt-badge { display: flex; align-items: center; gap: 7px; font-size: 12px; white-space: nowrap; }
 
 /* ---------------------------------------------------------------------------------------------
    Badges
@@ -433,6 +460,9 @@ select.picker:focus-visible { outline: 2px solid var(--series-1); outline-offset
 .kv dd { margin: 0; text-align: right; font-weight: 600; }
 
 .kv .muted { color: var(--text-muted); font-weight: 500; }
+/* An axis that reached one standard deviation is what the count is counting, so it is
+   marked in the list the count is taken from. */
+.kv dd.strong { color: var(--pole-warm); }
 
 .smallnote { font-size: 12px; color: var(--text-muted); margin: 10px 0 0; }
 
