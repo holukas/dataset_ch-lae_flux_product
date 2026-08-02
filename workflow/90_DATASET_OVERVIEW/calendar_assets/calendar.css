@@ -44,6 +44,9 @@
 }
 
 .control { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+/* A `display` of its own outranks the user agent's rule for the `hidden` attribute, so a control
+   that hides itself has to say so here or it stays on screen with its state ignored. */
+.control[hidden] { display: none; }
 .control > label, .control > .control-label {
   font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
   color: var(--text-muted); font-weight: 600;
@@ -249,20 +252,81 @@ select.picker.narrow { min-width: 210px; }
 }
 .calfoot-label {
   position: sticky; left: 0; z-index: 5; background: var(--page);
-  display: flex; align-items: center; justify-content: flex-end;
+  display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
   font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--text-muted); font-weight: 600; padding-right: 8px;
+  color: var(--text-muted); font-weight: 600; padding-right: 8px; text-align: right;
 }
+.calfoot-label .sub { font-size: 9px; letter-spacing: .04em; opacity: .8; }
 .calfootcell {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   background-clip: content-box; border-radius: var(--cell-radius);
-  min-height: 42px; font-variant-numeric: tabular-nums; color: var(--text-primary);
+  min-height: 48px; font-variant-numeric: tabular-nums; color: var(--text-primary);
 }
 .calfootcell.on-dark { color: #fff; }
 .calfootcell.on-light { color: #101010; }
 .calfootcell .v { font-size: 13.5px; font-weight: 650; letter-spacing: -.02em; }
 .calfootcell .k { font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; opacity: .72; }
 .calfootcell.record { background: var(--wash); color: var(--text-primary); }
+
+/* The slope under a column figure. It is deliberately quieter than the mean above it - the mean is
+   the baseline a reader is comparing tiles against, and the slope is the qualification on it. Where
+   Kendall's tau clears the threshold the number is given its full weight and an asterisk, so the
+   distinction between a measured trend and an undecided one survives at this size. */
+.calfootcell .t { font-size: 10px; font-weight: 500; opacity: .62; letter-spacing: -.01em; }
+.calfootcell .t.sig { font-weight: 700; opacity: .95; }
+.calfootcell .t.none { font-style: italic; opacity: .45; }
+
+/* ---------------------------------------------------------------------------------------------
+   The day raster
+   ---------------------------------------------------------------------------------------------
+   The third resolution of the same grid: one mark per day, a row to the year. It replaces the
+   tile grid inside the same shell, so the shell's twelve-column template has to be switched off
+   rather than fought - and its minimum width with it, because a raster reflows to any width while
+   a tile carrying four chips and a number does not.
+   --------------------------------------------------------------------------------------------- */
+
+.calgrid.raster { display: block; min-width: 0; }
+.rasterhost { width: 100%; }
+.rasterhost svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rasterhost svg:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* A day the record does not carry has to read as a gap in a row rather than as page showing
+   through where no row was drawn, so every row is laid on a track first. */
+.raster-track { fill: var(--wash); }
+/* The first of each month: the boundaries this scale exists to draw across. They are kept faint
+   and kept visible - a spell only reads as continuous if the line it runs over does too. */
+.raster-rule { stroke: var(--border); stroke-width: 1; opacity: .85; }
+.raster-cursor { fill: none; stroke: var(--text-primary); stroke-width: 1.6; pointer-events: none; }
+.raster-year {
+  font-size: 10px; fill: var(--text-muted); font-variant-numeric: tabular-nums;
+}
+.raster-year.decade { fill: var(--text-primary); font-weight: 600; }
+.rasterempty {
+  margin: 0; padding: 26px 0; font-size: 13.5px; color: var(--text-secondary); max-width: 62ch;
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Trend
+   --------------------------------------------------------------------------------------------- */
+
+/* Direction is carried by which side of the zero line a bar falls on, and significance by whether
+   it is filled. No hue is spent on either: a slope has no warm end, and giving it one would make
+   a rise in humidity read as a rise in temperature. */
+.trendbar { fill: none; stroke: var(--text-secondary); stroke-width: 1; opacity: .75; }
+.trendbar.sig { fill: var(--text-secondary); opacity: 1; }
+
+.scalenote { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 8px; max-width: 52ch; }
+.scalenote b { color: var(--text-primary); font-weight: 600; }
+
+.tablewrap .muted { color: var(--text-muted); font-weight: 400; }
+
+/* A note under the rows of a tooltip: a sentence rather than a value, so it wraps where the rows
+   do not, and the tooltip is allowed the width a sentence needs. */
+.tooltip:has(.tt-note) { max-width: 340px; }
+.tt-note {
+  margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border);
+  font-size: 11.5px; color: var(--text-secondary); white-space: normal;
+}
 
 .undergrid {
   display: flex; flex-wrap: wrap; align-items: flex-start; gap: 14px 30px; margin-top: 18px;

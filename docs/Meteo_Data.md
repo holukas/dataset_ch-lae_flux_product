@@ -7,12 +7,19 @@ TODO IN PROGRESS
 **[Every month of the record on one grid](dashboards/METEO_CALENDAR_explorer.html)**
 
 Twenty-one years by twelve months, one tile per month, coloured by the metric
-selected and badged with what was notable in that month. Open a month for its
-statistics against the calendar-month normal, its rank among the same month of every
-other year, and a calendar of its days; open a day for that day's statistics, its
-flags and its diurnal course. The page aggregates and compares the exported products
-and corrects nothing. A month too sparsely measured to support a claim carries no
-badge and is ranked against nothing. The file is standalone and works offline.
+selected and badged with what was notable in that month. The same grid is drawn at
+three resolutions: months, meteorological seasons, and a raster of every day of the
+record, which is the only one of the three that does not cut a spell in half at a
+boundary. Open a month for its statistics against the calendar-month normal, its
+rank among the same month of every other year, and a calendar of its days; open a
+day for that day's statistics, its flags and its diurnal course.
+
+The page aggregates and compares the exported products and corrects nothing. A month
+too sparsely measured to support a claim carries no badge and is ranked against
+nothing. A normal drawn from the whole record is a period average rather than a
+climate that held still, so the trend of each calendar month is published under it,
+with the estimator, the coverage rule and the significance test the slope rests on.
+The file is standalone and works offline.
 
 ## Pages for the individual variables
 

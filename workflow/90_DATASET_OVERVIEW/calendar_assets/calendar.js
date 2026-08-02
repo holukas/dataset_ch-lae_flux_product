@@ -199,14 +199,29 @@
   }
 
   /**
+   * The domain a metric is drawn on at the moment: the wider daily one where the mark is a day,
+   * the seasonal one where a tile covers three months, the monthly one otherwise.
+   *
+   * One function rather than the same condition repeated at each call site, because the scale bar
+   * has to be drawn on exactly the domain the marks beside it are coloured by. A legend on one
+   * domain over a grid on another misstates every colour it claims to explain.
+   */
+  function activeDomain(metric, which) {
+    if (which === 'day') return metric.day_domain;
+    return (state.scale === 'season' && metric.season_domain) ? metric.season_domain
+      : metric.domain;
+  }
+
+  /** Whether the grid's marks are days or spans, which is what selects the domain they read. */
+  const gridMark = () => (state.grid === 'day' ? 'day' : 'month');
+
+  /**
    * The colour of one value on one metric's scale, as [rgb, inkClass].
    * `which` selects the monthly domain or the wider one the daily strips need.
    */
   function metricColor(metric, value, which) {
     if (!isNum(value)) return null;
-    const domain = which === 'day' ? metric.day_domain
-      : (state.scale === 'season' && metric.season_domain) ? metric.season_domain
-        : metric.domain;
+    const domain = activeDomain(metric, which);
     if (metric.scale === 'div') {
       const center = metric.center === null ? 0 : metric.center;
       const absmax = Math.max(domain[1] - center, center - domain[0]) || 1;
@@ -585,13 +600,20 @@
      State
      ------------------------------------------------------------------------------------------ */
 
+  /* Two scales rather than one, and they are not the same question. `scale` is what a *span* is -
+     what a tile covers, what a normal is taken over, what the month view walks - and it is only
+     ever a month or a season, because a day is opened as a day of its month and never as a span of
+     its own. `grid` is what the grid *draws*, which is those two plus the day raster. Keeping them
+     apart is what lets a reader open a day out of the raster and come back to the raster. */
   const state = {
     scale: 'month',
+    grid: 'month',
     metric: DATA.metrics[0].key,
     strips: true,
     allBadges: false,
     filters: new Set(),
-    y: null, m: null, d: null, span: null
+    y: null, m: null, d: null, span: null,
+    cursor: null
   };
   const metric = () => METRICS[state.metric];
 
@@ -618,7 +640,8 @@
       html += '</optgroup>';
     });
     html += '</select></div>'
-      + '<div class="control"><span class="control-label">Detail</span><div class="switchrow">'
+      + '<div class="control" id="detail-control"><span class="control-label">Detail</span>'
+      + '<div class="switchrow">'
       + '<label class="switch"><input type="checkbox" id="strip-toggle" checked>'
       + 'Show each day inside the tile</label>'
       + '<label class="switch"><input type="checkbox" id="badge-toggle">'
@@ -626,7 +649,8 @@
       + '<div class="control"><label for="scale-pick">Scale</label>'
       + '<select class="picker narrow" id="scale-pick">'
       + '<option value="month">Months</option>'
-      + '<option value="season">Seasons (DJF, MAM, JJA, SON)</option></select></div>'
+      + '<option value="season">Seasons (DJF, MAM, JJA, SON)</option>'
+      + '<option value="day">Days (every day of the record)</option></select></div>'
       + '<p class="control-note" id="metric-about"></p>';
     host.innerHTML = html;
 
@@ -644,12 +668,12 @@
        choice rather than the default: compact keeps the grid even, and the tooltip carries the
        full list either way. */
     const scalePick = document.getElementById('scale-pick');
-    scalePick.value = state.scale;
+    scalePick.value = state.grid;
     /* Switching scale re-reads the same registries against a different list of spans; the metric,
-       the badge filter and the strips all survive it. */
+       the badge filter and the strips all survive it. The day raster is not a span scale, so it
+       moves `grid` alone and leaves the month view walking whichever spans it walked before. */
     scalePick.addEventListener('change', () => {
-      state.scale = scalePick.value;
-      document.getElementById('calgrid').classList.toggle('seasons', state.scale === 'season');
+      setGrid(scalePick.value);
       renderGrid();
     });
     document.getElementById('badge-toggle').addEventListener('change', ev => {
@@ -657,6 +681,27 @@
       document.getElementById('calgrid').classList.toggle('all-badges', state.allBadges);
       renderGrid();
     });
+  }
+
+  /**
+   * Move the grid to one of its three resolutions, and everything that has to move with it.
+   *
+   * The two switches that describe a tile are hidden rather than disabled at the raster, where a
+   * mark is one day and carries neither a strip of its own days nor a badge. A control that is
+   * present but inert reads as a control that is broken.
+   */
+  function setGrid(which) {
+    state.grid = which;
+    if (which !== 'day') state.scale = which;
+    const grid = document.getElementById('calgrid');
+    grid.classList.toggle('seasons', which === 'season');
+    grid.classList.toggle('raster', which === 'day');
+    grid.setAttribute('aria-label', which === 'day' ? 'Every day of the record'
+      : which === 'season' ? 'Seasons of the record' : 'Months of the record');
+    const detail = document.getElementById('detail-control');
+    if (detail) detail.hidden = which === 'day';
+    const pick = document.getElementById('scale-pick');
+    if (pick && pick.value !== which) pick.value = which;
   }
 
   function cellTooltip(mo) {
@@ -707,7 +752,19 @@
     return mo.b.some(b => state.filters.has(b.k));
   }
 
+  /* The grid at whichever resolution is selected, and the three things that describe it whichever
+     that is. The raster and the tiles share the scale bar and the note deliberately: they are the
+     same metric on the same colour scale, drawn at two grains, and a reader moving between them
+     should not have to re-read the legend. */
   function renderGrid() {
+    compactCharts();
+    if (state.grid === 'day') renderRaster(); else renderTileGrid();
+    document.getElementById('metric-about').textContent = metric().about;
+    renderScaleBar();
+    renderGridNote();
+  }
+
+  function renderTileGrid() {
     const met = metric();
     const host = document.getElementById('calgrid');
     const parts = [];
@@ -766,25 +823,35 @@
        quantity being described is one January and not twenty-one of them stacked. The corner then
        adds those twelve means where the metric sums - giving the mean year rather than the record
        total - and averages them where it does not. */
-    parts.push('<div class="calfoot-label">Mean</div>');
+    /* The second line of the foot row is the slope of that column across the record. It belongs
+       here rather than in a chart of its own: the mean above it is the normal every tile in the
+       column is compared against, and the slope is the statement that the normal is not a fixed
+       climate. Read together they say how much of a departure in a late year is the year and how
+       much is the baseline. */
+    parts.push('<div class="calfoot-label"><span>Mean</span>'
+      + '<span class="sub">per decade</span></div>');
     const columnMeans = [];
-    for (let m = 1; m <= 12; m++) {
-      const values = YEARS.map(y => monthAt(y, m)).filter(Boolean)
+    cols.forEach(col => {
+      const values = YEARS.map(y => sc.at(y, col.id)).filter(Boolean)
         .map(mo => monthValue(met, mo)).filter(isNum);
       const mean = values.length
         ? values.reduce((a, b) => a + b, 0) / values.length : null;
       columnMeans.push(mean);
       const rgb = isNum(mean) ? metricColor(met, mean, 'month') : null;
       parts.push('<div class="calfootcell' + (rgb ? ' ' + inkClass(rgb) : '') + '"'
-        + (rgb ? ' style="background:' + css(rgb) + '"' : '') + '>'
-        + '<span class="v">' + metricFormat(met, mean) + '</span></div>');
-    }
+        + (rgb ? ' style="background:' + css(rgb) + '"' : '')
+        + ' data-col="' + col.id + '">'
+        + '<span class="v">' + metricFormat(met, mean) + '</span>'
+        + trendSpan(met, trendFor(met, col.id)) + '</div>');
+    });
     const kept = columnMeans.filter(isNum);
     const whole = kept.length
       ? (summarises(met) ? kept.reduce((a, b) => a + b, 0)
         : kept.reduce((a, b) => a + b, 0) / kept.length) : null;
-    parts.push('<div class="calfootcell record"><span class="v">' + metricFormat(met, whole)
-      + '</span><span class="k">' + (summarises(met) ? 'mean year' : 'record') + '</span></div>');
+    parts.push('<div class="calfootcell record" data-col="record">'
+      + '<span class="v">' + metricFormat(met, whole) + '</span>'
+      + '<span class="k">' + (summarises(met) ? 'mean year' : 'record') + '</span>'
+      + trendSpan(met, met.trend_year) + '</div>');
 
     host.innerHTML = parts.join('');
     host.querySelectorAll('.cell:not(.empty)').forEach(node => {
@@ -799,9 +866,311 @@
       node.addEventListener('blur', tip.hide);
     });
 
-    document.getElementById('metric-about').textContent = met.about;
-    renderScaleBar();
-    renderGridNote();
+    /* The foot cells print a slope in the room a tile leaves them, which is not enough room for the
+       interval, the p-value and the years it rests on. Those travel in the tooltip, so the cell can
+       stay a number without the number standing unqualified. */
+    host.querySelectorAll('.calfootcell').forEach(node => {
+      const col = node.dataset.col;
+      const record = col === 'record';
+      const t = record ? met.trend_year : trendFor(met, col);
+      const what = record ? (summarises(met) ? 'The mean year' : 'The record')
+        : sc.colName(state.scale === 'month' ? +col : col);
+      node.addEventListener('mousemove', ev => tip.show(
+        tipRows(what, [{ k: summarises(met) && record ? 'Mean year' : 'Mean',
+          v: metricFormat(met, record ? whole : columnMeans[cols.findIndex(c =>
+            String(c.id) === col)]) + ' ' + met.units }])
+        + '<div class="tt-note">' + trendSentence(met, t) + '</div>',
+        ev.clientX, ev.clientY));
+      node.addEventListener('mouseleave', tip.hide);
+    });
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     Trend
+     ------------------------------------------------------------------------------------------
+     Every anomaly, standard score and rank on this page is taken against a normal drawn from the
+     whole record, and that normal is not a fixed climate: if the record moves, the baseline sits
+     between its early years and its late ones. The slope is what says by how much, so it is shown
+     wherever the normal it qualifies is shown, and never folded into the comparison itself.
+
+     The numbers come from the build - a Theil-Sen slope with Kendall's tau, on the same estimator
+     the per-variable dashboards draw - so nothing is fitted here.
+     ------------------------------------------------------------------------------------------ */
+
+  const TREND_ALPHA = 0.05;
+
+  /** The trend down one column of the grid, at whichever scale the grid is drawn. */
+  function trendFor(met, colId) {
+    const map = state.scale === 'season' ? met.season_trend : met.trend;
+    return map ? map[String(colId)] : null;
+  }
+
+  /* A slope is a tenth the size of the values it runs through, so it is written one decimal finer
+     than they are: a metric printed to whole numbers would report every slope below half a unit
+     per decade as no change at all. */
+  const fmtSlope = (met, slope) =>
+    nfs(slope, met.digits + (Math.abs(slope) < 10 ? 1 : 0));
+
+  /* The slope as it fits under a figure in a foot cell. A column with too few complete years says
+     how few rather than going blank: "no trend shown" and "no trend" are different claims, and only
+     one of them is true. */
+  function trendSpan(met, t) {
+    if (!t) return '';
+    if (!isNum(t.slope)) return '<span class="t none">' + t.n + ' yr</span>';
+    const sig = isNum(t.p) && t.p < TREND_ALPHA;
+    return '<span class="t' + (sig ? ' sig' : '') + '">' + fmtSlope(met, t.slope)
+      + (sig ? '*' : '') + '</span>';
+  }
+
+  /** The same slope with everything a reader needs to judge it, for a tooltip or a note. */
+  function trendSentence(met, t) {
+    if (!t) return 'No trend is taken on this metric.';
+    if (!isNum(t.slope)) {
+      return 'No slope is stated: only ' + t.n + ' year' + (t.n === 1 ? '' : 's')
+        + ' of the record are complete and well enough measured to enter one, and '
+        + M.trend_min_years + ' are needed.';
+    }
+    const sig = isNum(t.p) && t.p < TREND_ALPHA;
+    return 'Trend ' + fmtSlope(met, t.slope) + ' ' + met.units + ' per decade'
+      + (isNum(t.lo) ? ' (95 % interval ' + fmtSlope(met, t.lo) + ' to '
+        + fmtSlope(met, t.hi) + ')' : '')
+      + ', over ' + t.n + ' years between ' + t.y0 + ' and ' + t.y1 + '. Kendall p = '
+      + (isNum(t.p) ? nf(t.p, 3) : 'not defined')
+      + (sig ? ', so a monotonic change is unlikely to be noise.'
+        : ', which does not clear ' + nf(TREND_ALPHA, 2) + '; treat the slope as undecided.');
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     The grid at its third resolution: every day of the record
+     ------------------------------------------------------------------------------------------
+     A calendar is a grid of boxes and every boundary between two boxes cuts whatever crosses it.
+     That is why the seasonal scale exists at all - a winter runs December to February and a grid of
+     years by months halves every one of them - and the same argument goes one step further down. A
+     heat wave from 28 July to 4 August is a streak in neither July's tile nor August's; each holds a
+     fragment, and the strip inside a tile stops at the month it belongs to.
+
+     The raster is that argument taken to its end: one mark per day, a row to the year, the year
+     running left to right, and no boundary anywhere except the turn of the year. It reads the same
+     daily quantity the micro-strip inside a tile reads and colours it on the same domain, so the
+     two are one picture at two grains rather than two pictures.
+
+     What it gives up is what a tile carries: a value in writing, a badge, a margin. That is the
+     trade, and it is why this is a third scale rather than a replacement for the first.
+     ------------------------------------------------------------------------------------------ */
+
+  const RASTER_ROW = 15;  // px per year
+  // Day of the year each month begins on, in an ordinary year. A leap year runs a day behind from
+  // March, which at this width is a third of a pixel and is not worth a second set of rules.
+  const MONTH_START = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
+
+  function renderRaster() {
+    const host = document.getElementById('calgrid');
+    host.innerHTML = '<div class="rasterhost"></div>';
+    if (!isNum(state.cursor)) state.cursor = dayIndex(YEARS[YEARS.length - 1], 1, 1);
+    mountChart(host.firstChild, drawRaster);
+  }
+
+  function drawRaster(host) {
+    const met = metric();
+    if (met.day.kind === 'none') {
+      host.innerHTML = '<p class="rasterempty"><b>' + met.label + '</b> is computed over a whole '
+        + 'month or season and has no value for a single day, so there is nothing to raster here. '
+        + 'The month and season scales draw it.</p>';
+      return;
+    }
+
+    const rows = YEARS.length;
+    const f = frame(host, {
+      height: 24 + rows * RASTER_ROW + 26,
+      margin: { top: 24, right: 16, bottom: 26, left: 44 },
+      ariaLabel: met.label + ', every day from ' + M.first_year + ' to ' + M.last_year
+        + ', one row per year'
+    });
+    const x0 = f.m.left, iw = f.iw, bottom = f.m.top + rows * RASTER_ROW;
+    const fx = t => x0 + t * iw;
+    const rowTop = k => f.m.top + k * RASTER_ROW;
+
+    // A track behind each row, so a day the record does not carry reads as a gap in a row rather
+    // than as page showing through where no row was drawn.
+    const tracks = el('g', {}, f.svg);
+    YEARS.forEach((y, k) => el('rect', { x: x0, y: rowTop(k), width: iw, height: RASTER_ROW - 2,
+      class: 'raster-track' }, tracks));
+
+    /* Seven thousand marks are built as markup and parsed once. Creating them one element at a
+       time is the same picture and an order of magnitude slower, which a redraw on every resize
+       and every theme change would make visible. */
+    /* A badge is a claim about a month, so at the day scale it can only say which days fall inside
+       a month that carries it. That is worth drawing rather than dropping: it is how a reader asks
+       what the days of every hot and dry month actually looked like. Membership is decided once per
+       month rather than once per day. */
+    const filtered = state.filters.size > 0;
+    const dim = {};
+    if (filtered) {
+      MONTHS.forEach(mo => { dim[mo.y + '-' + mo.m] = !matchesFilter(mo); });
+    }
+
+    const parts = [];
+    YEARS.forEach((y, k) => {
+      const len = isLeap(y) ? 366 : 365;
+      const w = iw / len;
+      const start = dayIndex(y, 1, 1);
+      const top = rowTop(k);
+      for (let d = 0; d < len; d++) {
+        const i = start + d;
+        if (i < 0 || i >= DAYS.n) continue;
+        const at = dateAt(i);
+        const rgb = dayColor(met, dayValue(met, i, at.y, at.m, at.d));
+        if (!rgb) continue;
+        if (filtered && dim[at.y + '-' + at.m]) {
+          parts.push('<rect x="' + fx(d / len).toFixed(2) + '" y="' + top + '" width="'
+            + (w + 0.35).toFixed(2) + '" height="' + (RASTER_ROW - 2) + '" fill="' + css(rgb)
+            + '" opacity="0.17"/>');
+          continue;
+        }
+        // A third of a pixel of overlap, which is what closes the seam between two marks once the
+        // renderer has snapped them to whole pixels. More than that and each day is painted over
+        // by the next one, which moves every boundary in the picture a day to the left.
+        parts.push('<rect x="' + fx(d / len).toFixed(2) + '" y="' + top + '" width="'
+          + (w + 0.35).toFixed(2) + '" height="' + (RASTER_ROW - 2) + '" fill="' + css(rgb)
+          + '"/>');
+      }
+    });
+    const layer = el('g', { 'shape-rendering': 'crispEdges' }, f.svg);
+    layer.innerHTML = parts.join('');
+
+    // The rules are the first of each month: the boundaries this scale exists to draw across, so
+    // they are shown rather than removed - a spell is only visibly continuous if the line it runs
+    // over is visible too.
+    const rules = el('g', {}, f.svg);
+    MONTH_START.forEach((doy, i) => {
+      if (i > 0) {
+        const x = fx((doy - 1) / 365);
+        el('line', { x1: x, x2: x, y1: f.m.top - 3, y2: bottom + 3, class: 'raster-rule' }, rules);
+      }
+      const next = i === 11 ? 366 : MONTH_START[i + 1];
+      const mid = fx(((doy - 1) + (next - 1)) / 2 / 365);
+      svgText(f.svg, mid, f.m.top - 8, MONTH_ABBR[i], 'ax-text', { 'text-anchor': 'middle' });
+      svgText(f.svg, mid, bottom + 17, MONTH_ABBR[i], 'ax-text', { 'text-anchor': 'middle' });
+    });
+
+    YEARS.forEach((y, k) => svgText(f.svg, x0 - 7, rowTop(k) + RASTER_ROW - 5, String(y),
+      'raster-year' + (y % 5 === 0 ? ' decade' : ''), { 'text-anchor': 'end' }));
+
+    // -- The cursor, which is both the hover mark and the keyboard's position -------------------
+    const cursor = el('rect', { class: 'raster-cursor', height: RASTER_ROW - 2, width: 0,
+      x: 0, y: 0, visibility: 'hidden' }, f.svg);
+
+    const place = i => {
+      if (!isNum(i)) { cursor.setAttribute('visibility', 'hidden'); return; }
+      const at = dateAt(i);
+      const k = YEARS.indexOf(at.y);
+      if (k < 0) { cursor.setAttribute('visibility', 'hidden'); return; }
+      const len = isLeap(at.y) ? 366 : 365;
+      const d = i - dayIndex(at.y, 1, 1);
+      cursor.setAttribute('x', (fx(d / len) - 0.5).toFixed(2));
+      cursor.setAttribute('y', rowTop(k));
+      cursor.setAttribute('width', Math.max(2.5, iw / len + 1).toFixed(2));
+      cursor.setAttribute('visibility', 'visible');
+    };
+
+    const at = xy => {
+      const k = Math.floor((xy[1] - f.m.top) / RASTER_ROW);
+      if (k < 0 || k >= rows) return null;
+      const year = YEARS[k];
+      const len = isLeap(year) ? 366 : 365;
+      const d = Math.floor((xy[0] - x0) / iw * len);
+      if (d < 0 || d >= len) return null;
+      const i = dayIndex(year, 1, 1) + d;
+      return (i >= 0 && i < DAYS.n) ? i : null;
+    };
+    // The svg is laid out at whatever width the card gives it, so client pixels are converted
+    // through its own box rather than assumed to be user units.
+    const local = ev => {
+      const box = f.svg.getBoundingClientRect();
+      const k = f.width / (box.width || f.width);
+      return [(ev.clientX - box.left) * k, (ev.clientY - box.top) * k];
+    };
+
+    f.svg.addEventListener('mousemove', ev => {
+      const i = at(local(ev));
+      if (i === null) { tip.hide(); place(null); return; }
+      place(i);
+      tip.show(dayTooltip(met, i), ev.clientX, ev.clientY);
+    });
+    f.svg.addEventListener('mouseleave', () => { tip.hide(); place(null); });
+    f.svg.addEventListener('click', ev => {
+      const i = at(local(ev));
+      if (i !== null) openDay(i);
+    });
+
+    /* The tile grid is walked with the arrow keys, so the raster is too - a scale that can only be
+       reached with a pointer would be a part of the page some readers cannot open. Left and right
+       step a day, up and down hold the date and change the year, which is the comparison the rows
+       are stacked to make. */
+    f.svg.setAttribute('tabindex', '0');
+    f.svg.addEventListener('focus', () => {
+      place(state.cursor);
+      const box = f.svg.getBoundingClientRect();
+      tip.show(dayTooltip(met, state.cursor), box.left + box.width / 2, box.top + 40);
+    });
+    f.svg.addEventListener('blur', () => { tip.hide(); place(null); });
+    f.svg.addEventListener('keydown', ev => {
+      const now = dateAt(state.cursor);
+      let next = null;
+      if (ev.key === 'ArrowLeft') next = state.cursor - 1;
+      else if (ev.key === 'ArrowRight') next = state.cursor + 1;
+      else if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
+        const year = now.y + (ev.key === 'ArrowUp' ? -1 : 1);
+        // 29 February has no counterpart in three years out of four; it steps to the 28th rather
+        // than silently landing on 1 March.
+        const day = (now.m === 2 && now.d === 29 && !isLeap(year)) ? 28 : now.d;
+        next = dayIndex(year, now.m, day);
+      } else if (ev.key === 'Home') next = dayIndex(now.y, 1, 1);
+      else if (ev.key === 'End') next = dayIndex(now.y, 12, 31);
+      else if (ev.key === 'Enter' || ev.key === ' ') { openDay(state.cursor); ev.preventDefault(); }
+      if (next === null || next < 0 || next >= DAYS.n) return;
+      ev.preventDefault();
+      state.cursor = next;
+      place(next);
+      const box = f.svg.getBoundingClientRect();
+      tip.show(dayTooltip(met, next), box.left + box.width / 2, box.top + 40);
+    });
+    if (document.activeElement === f.svg) place(state.cursor);
+  }
+
+  const pad2 = n => String(n).padStart(2, '0');
+
+  function openDay(i) {
+    const at = dateAt(i);
+    state.cursor = i;
+    location.hash = at.y + '-' + pad2(at.m) + '-' + pad2(at.d);
+  }
+
+  /** One day as the raster describes it: what it was on every variable, and what it was marked as. */
+  function dayTooltip(met, i) {
+    const at = dateAt(i);
+    const stamp = new Date(Date.UTC(at.y, at.m - 1, at.d));
+    const title = WEEKDAY_LONG[(stamp.getUTCDay() + 6) % 7] + ' ' + at.d + ' '
+      + MONTH_NAME[at.m - 1] + ' ' + at.y;
+    const rows = [];
+    // What the colour under the cursor means, before the day's own numbers. The metric names
+    // itself: a short that already reads "TA anomaly" must not be given a second one.
+    const own = dayValue(met, i, at.y, at.m, at.d);
+    if (isNum(own) && met.day.kind !== 'flag') {
+      rows.push({ k: met.short,
+        v: (met.day.kind === 'anom' ? nfs(own, met.digits) : nf(own, met.digits))
+          + ' ' + met.units });
+    }
+    DATA.variables.forEach(v => {
+      const shown = v.ship.map(s => dayStat(v.key, s, i)).filter(isNum);
+      if (shown.length !== v.ship.length) return;
+      rows.push({ k: v.short + ' ' + v.ship.map(s => s === 'sum' ? 'total' : s).join('/'),
+        v: v.ship.map(s => nf(dayStat(v.key, s, i), v.digits)).join(' / ') + ' ' + v.units });
+    });
+    const marks = FLAGS.filter(fl => flagSet(DAYS.flags[i], fl.key));
+    return tipRows(title, rows)
+      + (marks.length ? '<div class="tt-note">' + cap(marks.map(fl => fl.short).join(', '))
+        + '</div>' : '');
   }
 
   /** Whether a year's figure on this metric is a total rather than a mean; the registry decides. */
@@ -840,15 +1209,32 @@
     const met = metric();
     const host = document.getElementById('scalebar');
     host.innerHTML = '';
+
+    /* At the raster a mark is one day, and two of the daily quantities are not a ramp at all: a
+       threshold day is met or it is not, and some metrics have no daily counterpart to draw. A
+       continuous bar over either would be a legend for a picture that is not there. Where there is
+       no picture the bar says nothing at all, the raster itself having already said it. */
+    if (state.grid === 'day' && met.day.kind === 'none') return;
+    if (state.grid === 'day' && met.day.kind === 'flag') {
+      host.innerHTML = '<p class="scalenote"><b>' + met.label + '</b>. A day either met the '
+        + 'threshold or it did not, so the raster marks the days that did.</p>'
+        + legendHTML([{ color: 'var(' + met.stops[met.stops.length - 1] + ')',
+          label: 'day meeting the threshold' }]);
+      return;
+    }
+
     const width = Math.max(260, host.clientWidth || 320);
     const height = 52;
     const svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height,
       role: 'img', 'aria-label': 'Colour scale for ' + met.label }, host);
-    svgText(svg, 0, 11, met.label + (met.units ? ' (' + met.units + ')' : ''), 'ax-title',
-      { 'text-anchor': 'start' });
+    svgText(svg, 0, 11, met.label + (met.units ? ' (' + met.units + ')' : '')
+      + (state.grid === 'day' ? ', per day' : ''), 'ax-title', { 'text-anchor': 'start' });
 
     const n = 128, y0 = 20, h = 13;
-    const [lo, hi] = met.domain;
+    // The bar is drawn on the domain the grid is actually coloured by, which is not always the
+    // monthly one: a season tile reads a wider domain and a day in the raster a wider one still.
+    const mark = gridMark();
+    const [lo, hi] = activeDomain(met, mark);
     const sx = linear(lo, hi, 0, width);
     const clip = el('clipPath', { id: 'scale-clip' }, svg);
     el('rect', { x: 0, y: y0, width: width, height: h, rx: 4 }, clip);
@@ -856,7 +1242,7 @@
     for (let i = 0; i < n; i++) {
       const v = lo + (hi - lo) * (i / (n - 1));
       el('rect', { x: (i * width / n).toFixed(2), y: y0, width: (width / n + 0.8).toFixed(2),
-        height: h, fill: css(metricColor(met, v, 'month')) }, band);
+        height: h, fill: css(metricColor(met, v, mark)) }, band);
     }
     el('rect', { x: 0.5, y: y0 + 0.5, width: width - 1, height: h - 1, rx: 4, fill: 'none',
       stroke: 'var(--border)' }, svg);
@@ -881,6 +1267,11 @@
 
   function renderGridNote() {
     const met = metric();
+    const host = document.getElementById('gridnote');
+    if (state.grid === 'day') {
+      host.textContent = rasterNote(met);
+      return;
+    }
     const spans = scale().spans();
     const noun = state.scale === 'season' ? 'seasons' : 'months';
     const shown = spans.filter(mo => isNum(monthValue(met, mo))).length;
@@ -898,7 +1289,43 @@
         ? ' A winter is December to February and is labelled by the year of its January, so the '
           + 'first winter is short of its December and the last December belongs to a winter the '
           + 'record does not reach.' : '');
-    document.getElementById('gridnote').textContent = note;
+    /* The trend closes the note because it qualifies everything above it: the foot row's means are
+       the normals the tiles are compared against, and a slope through the record says that those
+       normals are a period average rather than a climate that held still. The coverage metric is
+       the one that carries no slope - fitting a trend through how well measured the well-measured
+       months are would be circular - so the note simply does not raise it there. */
+    if (met.trend) {
+      note += ' Under each foot figure is the slope of that column across the record, per decade; '
+        + '* marks a Kendall p below ' + nf(TREND_ALPHA, 2) + '. '
+        + trendSentence(met, met.trend_year).replace(/^Trend /, 'Over the record as a whole, ');
+    }
+    host.textContent = note;
+  }
+
+  /** The note under the raster, which has different things to say than the one under the tiles. */
+  function rasterNote(met) {
+    if (met.day.kind === 'none') {
+      return 'Choose a metric with a daily counterpart, or read this one at the month or season '
+        + 'scale, where it is defined.';
+    }
+    let note = 'One mark per day, ' + M.n_days.toLocaleString() + ' of them, a row to the year and '
+      + 'the year running left to right. ';
+    note += 'This is the one scale on this page that does not cut an event in half: a heat wave '
+      + 'across the turn of a month, or a dry spell running from August into September, is one '
+      + 'streak here and two tiles at every other scale. ';
+    note += 'The faint rules are the first of each month. Select a day to open it. '
+      + 'Arrow keys move a day at a time, up and down a year at a time, Enter opens the day.';
+    if (state.filters.size) {
+      const kept = MONTHS.filter(matchesFilter);
+      note += ' A badge describes a month, so the filter keeps the days of the '
+        + kept.length + ' month' + (kept.length === 1 ? '' : 's') + ' carrying the selected badge'
+        + (state.filters.size === 1 ? '' : 's') + ' and fades the rest.';
+    }
+    if (met.day.kind === 'anom') {
+      note += ' Departures are taken against the normal of that calendar date, pooled from a ±'
+        + M.clim_window + ' day window across every year of the record.';
+    }
+    return note;
   }
 
   /* ------------------------------------------------------------------------------------------
@@ -1065,6 +1492,8 @@
       + 'forest responds to. Relative humidity is the variable left out: VPD is the meaningful '
       + 'combination of the two, and RH beside it would be the same information twice.</p>';
 
+    renderTrendCards(host);
+
     body = cardEl(host, { title: 'What a badge rests on', width: 'w-6',
       sub: 'Coverage rules, stated once and applied everywhere.' });
     body.innerHTML = '<p class="card-sub" style="max-width:none">A badge is a claim about a month, '
@@ -1086,6 +1515,167 @@
       color: 'var(--series-' + (i % 4 + 1) + ')', label: v.short, line: true
     }))));
     mountChart(host2, drawCoverage);
+  }
+
+  /* ------------------------------------------------------------------------------------------
+     The baseline, and the fact that it moves
+     ------------------------------------------------------------------------------------------
+     Two cards, because the trend has to answer two different questions. The first is "how much
+     does this matter" - a rate in the units of the variable, beside the record split in half, so
+     the size of the movement can be read against the single normal every anomaly here is taken
+     from. The second is "does it matter evenly through the year", which it does not, and which is
+     the reason the slope is shown per calendar month rather than once for the record.
+     ------------------------------------------------------------------------------------------ */
+
+  const trendVars = () => DATA.variables.filter(v => v.metric && METRICS[v.metric].trend);
+
+  function renderTrendCards(host) {
+    const ta = VARS.TA && METRICS[VARS.TA.metric];
+    const bias = ta && ta.epoch && isNum(ta.epoch.bias) ? ta.epoch : null;
+
+    const body = cardEl(host, {
+      title: 'The normal is not stationary', width: 'w-6',
+      sub: 'Every anomaly, standard score and rank on this page is measured against a mean of the '
+        + 'whole record. This is what that mean is doing.'
+    });
+    body.innerHTML = '<p class="card-sub" style="max-width:none">A normal drawn from '
+      + M.first_year + ' to ' + M.last_year + ' is a period average, not a climate that held '
+      + 'still. Where the record moves, that average sits between its early years and its late '
+      + 'ones, and a month near either end is partly being compared with a climate that is not '
+      + 'its own. The slope below says by how much.</p>'
+      + (bias
+        ? '<p class="card-sub" style="max-width:none">For air temperature the effect is '
+          + nfs(bias.bias, 2) + ' ' + VARS.TA.units + ': a year in the later half of the record '
+          + 'begins that far from the normal it is judged against before any weather happens, so '
+          + 'a warm badge late in the record is a smaller departure than the same badge early '
+          + 'in it.</p>'
+        : '')
+      + tableHTML(['Variable', 'Per decade', 'Kendall p', 'Years', 'Earlier half', 'Later half'],
+        trendVars().map(v => {
+          const met = METRICS[v.metric], t = met.trend_year, e = met.epoch;
+          const sig = t && isNum(t.p) && t.p < TREND_ALPHA;
+          const half = part => (e && e[part]
+            ? nf(e[part].mean, v.digits) + ' <span class="muted">' + e[part].y0 + '–'
+              + e[part].y1 + '</span>' : '–');
+          return [v.short,
+            { v: t && isNum(t.slope) ? fmtSlope(met, t.slope) + (sig ? '*' : '') : '–',
+              cls: sig ? 'num-warm' : '' },
+            t && isNum(t.p) ? nf(t.p, 3) : '–',
+            t ? String(t.n) : '–',
+            { v: half('early') }, { v: half('late') }];
+        }))
+      + '<p class="smallnote">Theil-Sen slope, which a single extreme year does not move, with '
+      + 'Kendall’s tau for the test; * marks p below ' + nf(TREND_ALPHA, 2) + '. A year takes '
+      + 'part only where all twelve of its months are at least ' + nf(M.normal_min_coverage, 0)
+      + ' % measured, so a slope is never a picture of changing coverage, and no slope is stated '
+      + 'below ' + M.trend_min_years + ' such years. The two halves are the same complete years, '
+      + 'split down the middle.</p>'
+      + '<p class="smallnote">The baseline is deliberately not selectable. Badges are decided in '
+      + 'the build against the whole-record normal, and a page that let the tiles be re-based '
+      + 'would show tiles and badges disagreeing about the same month. One baseline carries every '
+      + 'claim here; the trend is published as the fact that qualifies it.</p>';
+
+    const items = trendVars();
+    const monthly = items.reduce((a, v) => a + Object.keys(METRICS[v.metric].trend).length, 0);
+    const clear = items.reduce((a, v) => a + Object.values(METRICS[v.metric].trend)
+      .filter(t => isNum(t.p) && t.p < TREND_ALPHA).length, 0);
+    chartCard(host, {
+      title: 'Where in the year the record is moving', width: 'w-6',
+      sub: 'The same slope taken down each calendar month, divided by the spread of that month’s '
+        + 'own normal. In standard deviations per decade, so a January and a July are comparable '
+        + 'and so are a temperature and a soil water content. Filled bars clear p < '
+        + nf(TREND_ALPHA, 2),
+      draw: drawTrendByMonth,
+      foot: clear + ' of the ' + monthly + ' calendar-month slopes here clear that threshold. One '
+        + 'month of one year is a small and noisy sample, and most of these slopes are undecided '
+        + 'rather than flat: the record resolves a trend over a season or a year, which is what '
+        + 'the season scale of the grid and the record row beneath it show.'
+    });
+  }
+
+  const TREND_ROW = 44;
+
+  function drawTrendByMonth(host) {
+    const items = trendVars();
+    const f = frame(host, {
+      height: 22 + items.length * TREND_ROW + 30,
+      margin: { top: 22, right: 14, bottom: 30, left: 84 },
+      ariaLabel: 'Trend per calendar month, in standard deviations per decade, by variable'
+    });
+
+    /* Dividing by the calendar month's own standard deviation is what makes the twelve comparable:
+       a January whose spread is four degrees and a July whose spread is two are not moving by the
+       same amount when both move by half a degree. */
+    const at = (v, m) => {
+      const t = METRICS[v.metric].trend[String(m)];
+      const c = CLIM[v.key] && CLIM[v.key][String(m)];
+      return (t && isNum(t.slope) && c && c.sd) ? t.slope / c.sd : null;
+    };
+    let lim = 0.6;
+    items.forEach(v => {
+      for (let m = 1; m <= 12; m++) {
+        const x = at(v, m);
+        if (isNum(x)) lim = Math.max(lim, Math.abs(x));
+      }
+    });
+
+    const band = f.iw / 12;
+    const bx = m => f.m.left + (m - 1) * band;
+    items.forEach((v, k) => {
+      const top = f.m.top + k * TREND_ROW;
+      const sy = linear(-lim, lim, top + TREND_ROW - 8, top + 4);
+      const g = el('g', {}, f.svg);
+      [-1, 0, 1].forEach(level => {
+        if (Math.abs(level) > lim) return;
+        el('line', { x1: f.m.left, x2: f.m.left + f.iw, y1: sy(level), y2: sy(level),
+          class: level === 0 ? 'ax-line' : 'gridline' }, g);
+        if (k === 0 && level !== 0) {
+          svgText(f.svg, f.m.left - 6, sy(level) + 3, nfs(level, 0), 'ax-text',
+            { 'text-anchor': 'end' });
+        }
+      });
+      svgText(f.svg, f.m.left - 6, top + TREND_ROW / 2 + 4, v.short, 'ax-text',
+        { 'text-anchor': 'end' });
+      for (let m = 1; m <= 12; m++) {
+        const value = at(v, m);
+        if (!isNum(value)) continue;
+        const t = METRICS[v.metric].trend[String(m)];
+        const sig = isNum(t.p) && t.p < TREND_ALPHA;
+        const y = sy(Math.max(-lim, Math.min(lim, value)));
+        const zero = sy(0);
+        el('rect', { x: (bx(m) + band * 0.22).toFixed(2), y: Math.min(y, zero).toFixed(2),
+          width: (band * 0.56).toFixed(2), height: Math.max(1.2, Math.abs(zero - y)).toFixed(2),
+          class: 'trendbar' + (sig ? ' sig' : '') }, g);
+      }
+    });
+
+    const bottom = f.m.top + items.length * TREND_ROW;
+    for (let m = 1; m <= 12; m++) {
+      svgText(f.svg, bx(m) + band / 2, bottom + 14, MONTH_ABBR[m - 1], 'ax-text',
+        { 'text-anchor': 'middle' });
+    }
+    svgText(f.svg, f.m.left, bottom + 28, 'standard deviations per decade, against that '
+      + 'calendar month’s own spread', 'ax-title', { 'text-anchor': 'start' });
+
+    // The bars are small, so everything a slope needs to be judged by travels in the tooltip.
+    const local = ev => {
+      const box = f.svg.getBoundingClientRect();
+      const s = f.width / (box.width || f.width);
+      return [(ev.clientX - box.left) * s, (ev.clientY - box.top) * s];
+    };
+    f.svg.addEventListener('mousemove', ev => {
+      const [px, py] = local(ev);
+      const k = Math.floor((py - f.m.top) / TREND_ROW);
+      const m = Math.floor((px - f.m.left) / band) + 1;
+      if (k < 0 || k >= items.length || m < 1 || m > 12) { tip.hide(); return; }
+      const v = items[k], met = METRICS[v.metric], t = met.trend[String(m)];
+      const sd = at(v, m);
+      tip.show(tipRows(MONTH_NAME[m - 1] + ' · ' + v.short,
+        isNum(sd) ? [{ k: 'Per decade', v: fmtSlope(met, t.slope) + ' ' + met.units },
+          { k: 'Against its spread', v: nfs(sd, 2) + ' sd' }] : [])
+        + '<div class="tt-note">' + trendSentence(met, t) + '</div>', ev.clientX, ev.clientY);
+    });
+    f.svg.addEventListener('mouseleave', tip.hide);
   }
 
   function drawCoverage(host) {
@@ -2465,15 +3055,18 @@
     const same = state.span === span;
     if (state.scale !== wanted) {
       state.scale = wanted;
-      const pick = document.getElementById('scale-pick');
-      if (pick) pick.value = wanted;
-      document.getElementById('calgrid').classList.toggle('seasons', wanted === 'season');
+      // A reader who opened this day out of the raster gets the raster back when they leave the
+      // month, so the grid only follows the span scale where it was already showing spans.
+      if (state.grid !== 'day') setGrid(wanted);
       renderGrid();
     }
     state.y = +m[1];
     state.m = span.m || null;
     state.span = span;
     state.d = (m[3] && wanted === 'month') ? +m[3] : null;
+    // The raster's cursor follows whatever day the reader opened, from wherever they opened it, so
+    // going back leaves them where they were rather than at the start of the record.
+    if (state.d) state.cursor = span.i0 + state.d - 1;
     showView('month');
     tip.hide();
     if (same && state.d) {
@@ -2575,6 +3168,9 @@
   measureTopbar();
   renderHero();
   buildControls();
+  // The grid's classes, its label and the picker are set from one place, so the opening state
+  // cannot differ from the state any later switch produces.
+  setGrid(state.grid);
   renderBadgeLegend();
   renderAbout();
   renderGrid();
