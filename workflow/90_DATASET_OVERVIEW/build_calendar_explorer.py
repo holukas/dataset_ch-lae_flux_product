@@ -11,7 +11,10 @@ Three levels, one page
    metric is selected and carrying badges for what was remarkable about that month. Each tile can
    also show its own days as a micro-strip, so a heat wave is visible as a streak before anything
    is clicked. It is read down its columns as well as across its rows: a figure beside each year, a
-   figure under each calendar month, and the record's own figure where the two margins meet.
+   figure under each calendar month, the trend of that column across the record, and the record's
+   own figure where the two margins meet. The same grid can be drawn at three resolutions - months,
+   seasons, or every day of the record as one raster, which is the only one of the three that does
+   not cut a spell in half at a boundary.
 2. **The month.** Its statistics against the calendar-month normal, its rank among the same month
    of every other year, its badges spelled out with the numbers behind them, and then the month
    itself from four directions - day by day (temperature against the climatological band, how far
@@ -53,6 +56,26 @@ Two rules keep the badges honest.
   anomaly, z-score and rank derived from it, uses only the years whose month is at least
   `NORMAL_MIN_COVERAGE` measured, and is withheld entirely below `MIN_NORMAL_YEARS` of them. A
   sparse month is ranked against nothing and can therefore never be "the driest on record".
+
+The normal is not stationary, and the page says so
+--------------------------------------------------
+Every anomaly, standard score and rank on this page is taken against the mean of the whole record.
+That mean is not a fixed climate: over twenty-one years the record itself moves, so a baseline
+drawn from all of it sits between the early years and the late ones, and a late month is measured
+against a climate that is partly no longer current. Left unstated, the effect reads as weather.
+
+So the trend is computed rather than assumed, published beside the grid, and never quietly folded
+into the comparison. `metric_trends` takes a Theil-Sen slope and Kendall's tau down each column of
+the grid and over the record as a whole, using `build_meteo_dashboard.trend` - the same estimator
+the per-variable dashboards draw - so the two cannot disagree about the slope of a series. The foot
+row carries the slope under each calendar month, and `epoch_split` states the same thing as two
+numbers by halving the record, which is what makes the size of the effect legible next to the
+single normal the rest of the page compares against.
+
+The baseline itself is deliberately **not** made selectable. Badges are evaluated in this build
+against the whole-record normal; a page that let a reader re-baseline the tiles would show tiles and
+badges disagreeing about the same month. One baseline is used for every claim, and the trend is
+published as the fact that qualifies it.
 
 Where this page belongs
 -----------------------
@@ -99,7 +122,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from build_meteo_dashboard import (  # noqa: E402
     OUTDIR, PRODUCTS, SITE, SITE_LONG, VARIABLES, Variable,
-    growing_season, load_product, longest_spell, r, rlist,
+    growing_season, load_product, longest_spell, r, rlist, trend,
 )
 
 ASSETS = Path(__file__).parent / "calendar_assets"
@@ -114,6 +137,8 @@ NORMAL_MIN_COVERAGE = 90.0  # % measured for a month to contribute to a normal, 
 MIN_NORMAL_YEARS = 8        # qualifying years below which a calendar-month normal is not computed
 SPARSE_COVERAGE = 90.0      # % measured below which a month is marked as sparsely measured
 CLIM_WINDOW = 7             # +/- days around a calendar date that go into its daily normal
+TREND_MIN_YEARS = 10        # qualifying years below which a slope is not stated
+EPOCH_MIN_YEARS = 5         # complete years each half of the record needs before the two are shown
 
 
 # ----------------------------------------------------------------------------------------------
@@ -1346,6 +1371,126 @@ def evaluate_badges(s, keys, scale="month"):
 
 
 # ----------------------------------------------------------------------------------------------
+# Trend
+#
+# The one statistic on this page that is about the record rather than about a span of it, and the
+# reason it exists: everything else here compares a month against a normal drawn from all twenty-one
+# years, and that normal is not a fixed climate. If the record moves, the baseline sits between its
+# early years and its late ones, and a warm month at the end of the record is partly being measured
+# against a climate that has gone. The size of that effect is a number, so it is computed and shown
+# rather than left for a reader to suspect.
+#
+# The estimator is `build_meteo_dashboard.trend` - a Theil-Sen slope, which one extreme year does not
+# move, with Kendall's tau to test a monotonic trend without assuming normal residuals. Importing it
+# rather than restating it is the same rule the badges follow: the calendar must not disagree with
+# the temperature dashboard about the slope of a series.
+#
+# Three rules keep a slope from saying more than it can.
+#
+# - **A trend is taken on the quantity the grid shows.** `row_value` reads the finished row, so the
+#   number the slope is fitted through is the number under the reader's cursor.
+# - **A sparse span does not take part.** Coverage gates a trend by the rule that gates a normal: a
+#   year that was half-measured would move a slope exactly as a real change would.
+# - **A year's figure needs its whole year.** A mean of ten qualifying months is not the mean of the
+#   year and a total of ten is certainly not its total, so an incomplete year is dropped from the
+#   record-wide trend rather than aggregated from what is present.
+# ----------------------------------------------------------------------------------------------
+
+def row_value(metric, row):
+    """The number a metric shows on one span, read back from the finished row.
+
+    The trend is fitted through the values the grid is coloured by rather than through a parallel
+    computation, so a slope cannot describe a quantity the tiles do not show.
+    """
+    field = metric["field"]
+    if field == "count":
+        return row["c"].get(metric["count"])
+    if field == "spell":
+        return row["sp"].get(metric["spell"])
+    if field == "extra":
+        return row["x"].get(metric["extra"])
+    return row[metric["var"]][dict(value="v", anom="a", pctn="p", meas="meas")[field]]
+
+
+def row_qualifies(metric, row):
+    """Whether a span is measured well enough to take part in a trend."""
+    meas = row[metric["var"]]["meas"]
+    return meas is not None and meas >= NORMAL_MIN_COVERAGE
+
+
+def trend_of(pairs):
+    """The slope through (year, value) pairs, or the count alone where there are too few.
+
+    Returning the count rather than nothing is what lets the page say *why* a column carries no
+    slope - "eight qualifying years" is an answer, an empty cell is not.
+    """
+    series = pd.Series({y: v for y, v in pairs if v is not None}, dtype=float).dropna()
+    if len(series) < TREND_MIN_YEARS:
+        return dict(n=int(len(series)))
+    t = trend(series)
+    return dict(slope=r(t["slope"], 4), lo=r(t["low"], 4), hi=r(t["high"], 4),
+                p=r(t["pvalue"], 4), tau=r(t["tau"], 3), n=int(len(series)),
+                y0=int(series.index.min()), y1=int(series.index.max()))
+
+
+def yearly_figures(metric, agg, span_rows, n_cols):
+    """One figure per complete year on this metric: the same figure the grid's year column shows.
+
+    A year is only formed where every one of its spans qualifies. Aggregating what happens to be
+    present would let coverage masquerade as a trend - and for a metric that sums, a year missing
+    two months is simply a smaller year.
+    """
+    by_year = {}
+    for row in span_rows:
+        by_year.setdefault(row["y"], []).append(row)
+    out = []
+    for year, rows_in in sorted(by_year.items()):
+        values = [row_value(metric, row) for row in rows_in if row_qualifies(metric, row)]
+        if len(values) < n_cols or any(v is None for v in values):
+            continue
+        out.append((year, sum(values) if agg == "sum" else sum(values) / len(values)))
+    return out
+
+
+def metric_trends(metric, agg, span_rows, col_of, n_cols):
+    """The slope down each column of the grid, and the one through the record's own years."""
+    # The coverage metric is the one a coverage gate cannot be applied to: selecting the months that
+    # are well measured and then fitting a trend through how well measured they are is circular.
+    if metric["field"] == "meas":
+        return None, None
+    by_col = {}
+    for row in span_rows:
+        by_col.setdefault(str(col_of(row)), []).append(row)
+    cols = {col: trend_of([(row["y"], row_value(metric, row))
+                           for row in rows_in if row_qualifies(metric, row)])
+            for col, rows_in in by_col.items()}
+    return cols, trend_of(yearly_figures(metric, agg, span_rows, n_cols))
+
+
+def epoch_split(metric, agg, span_rows, n_cols):
+    """The record halved, as two means with the years each was taken from.
+
+    A slope states a rate, which is the right form for a comparison across metrics and the wrong one
+    for judging a single month. Two means in the units of the variable are what make the size of the
+    movement legible beside the one normal every anomaly on this page is taken against.
+    """
+    if metric["field"] == "meas":
+        return None
+    figures = yearly_figures(metric, agg, span_rows, n_cols)
+    if len(figures) < 2 * EPOCH_MIN_YEARS:
+        return dict(n=len(figures))
+    half = len(figures) // 2
+    early, late = figures[:half], figures[half:]
+
+    def block(part):
+        return dict(mean=r(sum(v for _, v in part) / len(part), 3), n=len(part),
+                    y0=part[0][0], y1=part[-1][0])
+    whole = sum(v for _, v in figures) / len(figures)
+    return dict(early=block(early), late=block(late), n=len(figures), mean=r(whole, 3),
+                bias=r(sum(v for _, v in late) / len(late) - whole, 3))
+
+
+# ----------------------------------------------------------------------------------------------
 # Payload
 # ----------------------------------------------------------------------------------------------
 
@@ -1532,6 +1677,16 @@ def build_payload(loaded, with_hourly=True):
                      center=r(center, 3), domain=[r(domain[0], 3), r(domain[1], 3)],
                      season_domain=[r(season_domain[0], 3), r(season_domain[1], 3)],
                      day_domain=[r(day_domain[0], 3), r(day_domain[1], 3)])
+
+        # The trend down each column of the grid, on both scales, and the one through the years.
+        # A season's slope is taken on seasons rather than inherited from its months: three months
+        # aggregated is a different series from three series aggregated, and only the first is what
+        # the season row of the grid shows.
+        col_trend, year_trend = metric_trends(metric, entry["agg"], rows, lambda x: x["m"], 12)
+        season_col_trend, _ = metric_trends(metric, entry["agg"], season_rows,
+                                            lambda x: x["s"], 4)
+        entry.update(trend=col_trend, season_trend=season_col_trend, trend_year=year_trend,
+                     epoch=epoch_split(metric, entry["agg"], rows, 12))
         metrics.append(entry)
 
     # -- Badge registry, with the icons checked against the ones the page can draw ------------
@@ -1548,12 +1703,17 @@ def build_payload(loaded, with_hourly=True):
                                about=badge["about"].format(sparse=SPARSE_COVERAGE), n=n))
 
     # -- Variables and their day flags --------------------------------------------------------
+    # `metric` names the metric that reads the variable straight off the product, which is the one
+    # a statement about the variable itself - its trend, its two halves - has to be taken from. It
+    # is resolved here rather than by matching keys in the browser, where the fact that a metric
+    # happens to be named after its variable would become a rule nothing enforces.
     variables = []
     for key in keys:
         v = loaded[key]["v"]
+        own = next((m["key"] for m in metrics if m["var"] == key and m["field"] == "value"), None)
         variables.append(dict(key=key, title=v.title, short=CALENDAR[key]["short"], units=v.units,
                               digits=CALENDAR[key]["digits"], agg=v.agg, product=v.path.name,
-                              column=v.value, ship=list(CALENDAR[key]["ship"]),
+                              column=v.value, ship=list(CALENDAR[key]["ship"]), metric=own,
                               first_year=int(v.first_year), last_year=int(v.last_year),
                               about=v.about))
 
@@ -1565,7 +1725,8 @@ def build_payload(loaded, with_hourly=True):
             generated=datetime.now().strftime("%Y-%m-%d %H:%M"),
             min_badge_coverage=MIN_BADGE_COVERAGE, normal_min_coverage=NORMAL_MIN_COVERAGE,
             min_normal_years=MIN_NORMAL_YEARS, sparse_coverage=SPARSE_COVERAGE,
-            clim_window=CLIM_WINDOW,
+            clim_window=CLIM_WINDOW, trend_min_years=TREND_MIN_YEARS,
+            epoch_min_years=EPOCH_MIN_YEARS,
             composite_vars=[k for k in COMPOSITE_VARS if k in keys],
             composite_min_axes=COMPOSITE_MIN_AXES,
             composite=composite_correlation(all_stats, months, keys),
@@ -1644,6 +1805,19 @@ def build(keys, out=None, outdir=None, with_hourly=True):
     payload = build_payload(loaded, with_hourly=with_hourly)
     counted = sorted(((b["n"], b["label"]) for b in payload["badges"]), reverse=True)
     print("  badges awarded: " + ", ".join(f"{label} {n}" for n, label in counted if n))
+
+    # The record-wide trends, printed because they are the one thing on the page that qualifies
+    # every anomaly on it - a build that silently lost them should be visible from the console.
+    for m in payload["metrics"]:
+        t = m.get("trend_year")
+        if not t:
+            continue
+        if "slope" not in t:
+            print(f"  trend {m['short']:<16} withheld, {t['n']} complete years")
+            continue
+        pvalue = "n/a" if t["p"] is None else f"{t['p']:.3f}"
+        print(f"  trend {m['short']:<16} {t['slope']:+8.3f} {m['units']}/decade  "
+              f"p = {pvalue}, {t['n']} years")
 
     path = render(payload, out or Path(outdir or OUTDIR) / "METEO_CALENDAR_explorer.html")
     print(f"  written: {path}  ({path.stat().st_size / 1024 / 1024:.1f} MB)")
