@@ -20,6 +20,13 @@ publish them as a website.
   stage. This is research scratch space and is **not** built into the book. Two
   reserved folders: `_archive/` (dead/experimental, mirrors the stage layout)
   and `_templates/` (reusable notebook templates).
+- `PLAN.md` — what the dataset is to contain, what exists, and what is missing:
+  the variable inventory, the flux chain's state per level, the ordered list of
+  what to do next, and the open questions blocking scope decisions. Read it
+  before starting new work and update it when a stage's state changes. It sits at
+  the root rather than in `docs/` because Quarto would publish it; settled
+  sections move to `docs/Overview.md` and `docs/Variables.md` and are deleted
+  from `PLAN.md`, so the two never state the same thing twice.
 
 ## Where the detailed guidance lives
 
@@ -78,7 +85,9 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 
 ## Hard rules
 
-- **Never run `git commit` or `git push`.** The user does all committing.
+- **Never commit or push without being asked.** `git commit` and `git push` run
+  only on an explicit request; never as the closing step of a task, and never to
+  tidy up a working tree. Staging, diffing and reading the log need no request.
 - **Never build the docs** (`quarto render`/`quarto preview`, or
   `build_notebooks.py`) unless explicitly asked. A full site build is
   `build_notebooks.py` (stage) **then** `quarto render docs` **then**
