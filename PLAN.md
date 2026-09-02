@@ -98,7 +98,9 @@ variables (`SW_VIN_T1_47_1`, `SW_VOUT_T1_47_1`, `LW_VIN_T1_47_1`,
 `LW_VOUT_T1_47_1`), and `docs/Instrumentation.md` gives the CNR1 a single
 sensitivity covering `SW_IN` and `LW_IN` only.
 
-**Both outgoing channels begin on 2020-01-02 00:52**, the same timestamp to the
+**Both outgoing channels begin on 2020-01-02 00:52 local time** (`2020-01-01
+23:52` UTC, which is what the database stores and what `show_field_overview`
+returns — say which of the two any check asserts on), the same timestamp to the
 minute, and probes at 2005, 2008, 2010, 2011, 2014, 2016, 2018 and 2019 return
 nothing for either. The pair was added to the archive together, years before the
 CNR4, so the CNR1's outgoing channels were never ingested. `SW_OUT`, `LW_OUT`,
