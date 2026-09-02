@@ -183,7 +183,7 @@ Levels as defined in `docs/FPC.qmd`.
 |---|---|---|---|---|
 | Raw | binary → ASCII (bico) | done | done | stub |
 | L0 | preliminary run, per setup period | done, 2004-2019 | done, **through 2025** | written |
-| L1 | final run, per setup period | done, 2004-2019 | done **only through 2024** | stub |
+| L1 | final run, per setup period | done, 2004-2019 | done through 2024, **being re-run 2016-2025** | stub |
 | L1.1 | self-heating correction (open path only) | notebooks exist | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | stub |
 | L3.1 | storage term added | in `30_` chain | in `30_` chain | stub |
@@ -193,8 +193,9 @@ Levels as defined in `docs/FPC.qmd`.
 | L4.2 | partitioning into `GPP` / `RECO` | open | open | stub |
 | QCF | overall quality flag | — | — | stub |
 
-Every chain stage stops at **2024** for `IRGA72`. Extending it to 2025 is the
-work described in section 5.
+Every chain stage stops at **2024** for `IRGA72`. Section 5 describes the work
+that carries it to 2025; Level 1 is being re-run over the whole 2016-2025 record
+rather than extended, so every stage below it reads a new input.
 
 ### 4.3 Auxiliary flux-derived series to decide on
 
@@ -209,13 +210,20 @@ that will state it.
 
 In order. Each item is blocked by the one above it.
 
-1. **Final 2025 fluxes for `IRGA72`.** EddyPro run for setup period `2025_1`,
-   using `2025_1`'s own time lags from
+1. **Final fluxes for `IRGA72`, 2016-2025.** A complete re-run of Level 1 over
+   the whole `IRGA72` record rather than an extension of the 2016-2024 set, so
+   the released fluxes come from one EddyPro configuration end to end. One run
+   per setup period, using each period's own time-lag window from
    `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2025.ipynb` and the
    biomet file `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`. Output into
    `0_data/IRGA72-Level-1_fluxnet_2016-2025/`. The biomet file is ready and has
    been checked against the 2016-2024 runs: same timestamp convention, no
-   discontinuity.
+   discontinuity. Three points to settle before starting: whether the wrong
+   calibration gas of note 15 is corrected inside the run (factor 0.974 on the
+   CO2 concentration, 14 Dec 2017 - 15 Mar 2019 — it cannot be applied to a
+   finished flux); whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
+   did; and that `2022_2`, `2022_3` and `2022_4` stay separate runs, their lag
+   windows being far apart (notes 7, 12).
 2. **Carry `20_MERGE_DATA/IRGA72` to 2025** — notebooks `22.1` and `22.3`, both
    currently named `2016-2024`.
 3. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to 2025** — `32_` u* detection,
