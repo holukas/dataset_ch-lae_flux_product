@@ -56,8 +56,8 @@ These produce the tower series documented under
 |---|---|---|---|
 | `TA`, `RH` | Rotronic MP101A, read as a single-ended analog voltage (multiplier 0.1, offset 0) | until 21 January 2016 | CR10X logger program |
 | `TA`, `RH` | Campbell Scientific CS215, on SDI-12 (multiplier 1) | from 21 January 2016 | CR1000 logger program |
-| `SW_IN`, `LW_IN` | Kipp & Zonen CNR1, SN 020484, sensitivity 10.03 µV W^-1^ m^2^ (multiplier 99.7009, offset 0) | 14 September 2005 until December 2021 | CR10X and CR1000 logger programs |
-| `SW_IN`, `LW_IN` | Kipp & Zonen CNR4, SN 212965, sensitivities 13.89 (SW in), 14.38 (SW out), 10.85 (LW in), 11.33 (LW out) µV W^-1^ m^2^ | installed 14 December 2021 | fieldbook |
+| `SW_IN`, `SW_OUT`, `LW_IN`, `LW_OUT` | Kipp & Zonen CNR1, SN 020484, sensitivity 10.03 µV W^-1^ m^2^ (multiplier 99.7009, offset 0) applied to **all four** channels | 14 September 2005 until December 2021 | CR10X and CR1000 logger programs |
+| `SW_IN`, `SW_OUT`, `LW_IN`, `LW_OUT` | Kipp & Zonen CNR4, SN 212965, sensitivities 13.89 (SW in), 14.38 (SW out), 10.85 (LW in), 11.33 (LW out) µV W^-1^ m^2^, **one per channel** | installed 14 December 2021 | fieldbook |
 | `PPFD_IN` | Kipp & Zonen PAR LITE, SN 050590, sensitivity 5.65 µV µmol^-1^ m^2^ s (primary, incoming) | installed 8 January 2016 | fieldbook |
 | `PPFD_OUT` | Kipp & Zonen PAR LITE, SN 050603, sensitivity 5.26 µV µmol^-1^ m^2^ s (secondary, outgoing) | installed 8 January 2016 | fieldbook |
 | PAR, total and diffuse | Delta-T BF2 sunshine sensor, SN BF2116 | entries 2016-2024, active | fieldbook |
@@ -91,6 +91,27 @@ Neither instrument change moved the shortwave series measurably, which is
 asserted rather than assumed — see
 [Incoming shortwave radiation](Meteo_Data_SW_IN.md).
 
+**One constant for four detectors.** A CNR1 head holds four sensors, and the
+factory calibrates each one separately. The logger programs, however, convert all
+four with a single factor, the one belonging to the pyranometer. So the longwave
+channels, and the outgoing channels, were converted with a factor that is not
+their own. The CNR4 that replaced it is converted with four separate
+sensitivities, which is why the two instruments cannot be compared channel by
+channel without allowing for that difference. Both outgoing products flag the
+instrument era for this reason.
+
+**Two dates are easily confused.** The CNR1 instruction first appears in the
+logger program of **18 August 2005**, which measures all four channels. The
+program of **14 September 2005** changed the relay, moving the outgoing channels
+onto different differential inputs, and that is also the day the archive's record
+begins. The period column above gives the record, not the program.
+
+**The serial is not fully reconciled.** The logger program comments and this table
+give the tower CNR1 as **SN 020484**. The fieldbook row recording the 14 December
+2021 exchange names **CNR1_020522**, at a different location. It is most likely a
+bookkeeping artefact in GIN rather than a second instrument, but nothing has
+settled it.
+
 ::: {.callout-warning title="Unverified: 14 December 2021 to 7 January 2022"}
 
 The CNR4 was installed on **14 December 2021**, and the installing entry notes
@@ -98,14 +119,26 @@ that the logger script still needed to be adapted to the new calibration
 constants. The logger program was updated on **7 January 2022**, adding the four
 CNR4 sensitivities and new raw-voltage variables.
 
-The two dates are 24 days apart. What the logger recorded in between has not yet
-been established: if the CNR4 was read through the CNR1's multiplier, the
-radiation values of that period are wrong by the ratio of the two sensitivities.
-Anyone using December 2021 or early January 2022 radiation data should treat that
-window as unverified until it has been checked against the screened series. This
-is a question about a 24-day window, and the continuity checks in
-[Incoming shortwave radiation](Meteo_Data_SW_IN.md) work on seasonal and annual
-ratios, which would not necessarily resolve it.
+The two dates are 24 days apart, and which conversion the logger applied in
+between is not recorded anywhere. If the CNR4 was read through the CNR1's
+multiplier, the values of that period are wrong by the ratio of the two
+sensitivities.
+
+Two products have since tested the window, and between them they bound the
+problem without identifying the constant.
+[Outgoing shortwave radiation](Meteo_Data_SW_OUT.md) compares the window against
+the MeteoSwiss Lägern station and finds the levels **not** consistent with the old
+constant still being in force, which argues against the worst case.
+[Outgoing longwave radiation](Meteo_Data_LW_OUT.md) bounds any error there at
+about 1.6 W m⁻², roughly 0.5 % of the reported value, because a conversion error
+scales only the small net signal a pyrgeometer measures and not the large
+Stefan-Boltzmann term added to it.
+
+So the window is better understood than it was, and it is still flagged rather
+than corrected in all four radiation products. Two things follow for anyone using
+it. A correction, if one is ever derived, has to be applied to all four channels
+at once, since they share the head and the constant. And the bound above is a
+ceiling on the error rather than a demonstration that there is none.
 
 :::
 
@@ -123,7 +156,23 @@ with no overlap, so the step across it cannot be calibrated away.
 | water potential | METER **TEROS 21** | 0.2, 0.3, 0.5 m | from 19 March 2020 |
 | soil temperature | Campbell **107** thermistor | 0.05 m | until March 2021 |
 | soil temperature | Campbell **109** thermistor | 0.05 m | from 24 March 2021 |
-| soil heat flux | Hukseflux **HFP01** | 0.05 m | throughout |
+| soil heat flux | **three** Hukseflux **HFP01** plates | 0.05 m | three until 24 March 2021, two after |
+
+The soil heat flux row differs from the others in the table, because it describes
+three sensors rather than one. The GIN device records list three HFP01 plates at
+this location. One of them was discarded at the logger-box rebuild of 24 March
+2021 and the two survivors were kept, which is why the product exports three plate
+columns of which the third ends in 2021. The plates sit metres apart under a
+deciduous canopy, so they are not repeat measurements of one thing: under leaf-off
+sunflecks one can read several times another, and that disagreement describes
+where the light fell.
+
+The depth is what the archive declares rather than a surveyed figure. The field
+names carry 0.05 m until the end of 2011, 0.025 m from 2012 to March 2021, and
+0.05 m again afterwards. Whether the plates were ever reburied shallower is
+tested in the product notebook from the size and timing of the daily cycle, and
+the measurement matches neither a move nor an unchanged depth, so the question is
+open. See [Soil heat flux](Meteo_Data_G.md).
 
 The 0.5 m depth exists only in the TEROS 12 generation, which is why the
 soil-water-content product carries a homogenised second column at four depths and
