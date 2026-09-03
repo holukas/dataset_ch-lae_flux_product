@@ -66,119 +66,40 @@ One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
 | `PREC` | precipitation | 2004-2025 | `08` | yes | done |
 | `SWC` | soil water content, 5 depths | 2004-2025 | `09` | yes | done |
 | `TS` | soil temperature, 7 depths | 2004-2025 | `10` | yes | done |
+| `G` | soil heat flux, forest floor, 3 plates | 2004-2025 | `11` | yes | done |
+| `SW_OUT` | outgoing (reflected) shortwave, 47 m | 2005-2025 | `12` | yes | done |
+| `LW_OUT` | outgoing (emitted) longwave, 47 m | 2005-2025 | `13` | yes | done |
 
 Six of these are re-formatted for EddyPro by
 `40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb` (`TA`, `RH`, `PA`, `SW_IN`,
 `LW_IN`, `PPFD_IN`) and are the biomet input to the final flux runs.
 
-### 3.2 To be added
+### 3.2 Recently added
 
-The three variables below are the agreed next additions. Each needs the same
-chain as an existing variable: screening notebooks per sensor and era in
-`20_SCREENING/<VAR>/`, one product notebook in `30_PRODUCTS/`, an entry in the
-`PRODUCTS` registry of `30_PRODUCTS/99`, and a page under `docs/Meteo_Data.md`.
+`G`, `SW_OUT` and `LW_OUT` were added in September 2026 and are listed in 3.1. Their
+methods live in the notebooks and on their `docs/Meteo_Data_*.md` pages; only what is
+still unresolved is kept here, in section 6.
 
-| variable | measures | raw database field | state |
-|---|---|---|---|
-| `SW_OUT` | outgoing (reflected) shortwave, 47 m | `SW_OUT_T1_47_1` | open, 2020-2025 |
-| `LW_OUT` | outgoing (emitted) longwave, 47 m | `LW_OUT_T1_47_1` | screened 2020-2025, product open |
-| `G` | soil heat flux, forest floor | `G_FF1_0.05_1`, `G_FF1_0.05_2` | screening notebooks written for 2021-2025, not yet run; earlier eras and product open |
+Three things about them are worth knowing before the next variable is added, because
+each cost a wrong result first.
 
-**Both outgoing radiation fields exist in `ch-lae_raw`.** Measurement `SW` holds
-five fields (`SW_IN_BC_M1_2_1`, `SW_IN_NABEL_T1_49_1`, `SW_IN_T1_47_1`,
-`SW_OUT_BC_M1_2_1`, `SW_OUT_T1_47_1`) and measurement `LW` holds four
-(`LW_IN_BC_M1_2_1`, `LW_IN_T1_47_1`, `LW_OUT_BC_M1_2_1`, `LW_OUT_T1_47_1`), per
-the field listings cached in the outputs of the `SW_IN` and `LW_IN` screening
-notebooks. So the tower has a full four-component radiation record and a second
-four-component set below canopy at the subcanopy station.
-
-What the listing does **not** say is how far back each field reaches. The CR1000
-update of 7 January 2022 introduced the CNR4 with four *new* raw-voltage
-variables (`SW_VIN_T1_47_1`, `SW_VOUT_T1_47_1`, `LW_VIN_T1_47_1`,
-`LW_VOUT_T1_47_1`), and `docs/Instrumentation.md` gives the CNR1 a single
-sensitivity covering `SW_IN` and `LW_IN` only.
-
-**Both outgoing channels begin on 2020-01-02 00:52 local time** (`2020-01-01
-23:52` UTC, which is what the database stores and what `show_field_overview`
-returns — say which of the two any check asserts on), the same timestamp to the
-minute, and probes at 2005, 2008, 2010, 2011, 2014, 2016, 2018 and 2019 return
-nothing for either. The pair was added to the archive together, years before the
-CNR4, so the CNR1's outgoing channels were never ingested. `SW_OUT`, `LW_OUT`,
-`ALB` and a four-component `NETRAD` are therefore all **2020-2025** products, not
-2005-2025 and not 2022-2025.
-
-`LW_OUT` is screened: 1MIN throughout, 99.88 % complete, one artefact — the CNR4
-installation of 14 December 2021 — removed by
-`20_SCREENING/LW_OUT/LW_OUT_T1_47_1_2020-2025.ipynb`. `SW_OUT` is screened by
-`20_SCREENING/SW_OUT/SW_OUT_T1_47_1_2020-2025.ipynb`, which unlike `LW_OUT` applies
-the nighttime zero-offset correction and therefore runs its *Analyses* section
-before *Corrections*, so the potential-radiation check does not end up measuring
-the correction. Its `REMOVE_DATES` is empty: the 14 December 2021 installation
-window that `LW_OUT` removes has **not** been adjudicated for this channel, though
-it is the same instrument head mounted in the same minutes. Neither notebook has
-been run yet, so both are code without stored outputs.
-
-Note also that `ch-lae_processed` already carries `LW_IN_COR_T1_47_1` and
-`LW_OUT_COR_T1_47_1` — a corrected longwave version from earlier work. Establish
-what that correction was, since the existing `LW_IN` product does not use it. One
-piece is already known: the raw `LW_OUT_T1_47_1` carries the tag
-`raw_varname = LW_OUT_COR_T1_47_1_Avg`, so the *raw* field is itself fed from the
-logger's temperature-corrected channel. What the separately stored processed
-series adds on top of that is still open.
-
-**Soil heat flux: the measurement is `G`, and the record is in three eras.** The
-database has been queried. Raw `ch-lae_raw` holds five fields: the two current
-plates `G_FF1_0.05_1` and `G_FF1_0.05_2` (1MIN, W m-2, `gain 1.0`, filegroup
-`12_meteo_forestfloor`, first record 2021-03-26), and three older ones,
-`G_M1_0.05_1` to `G_M3_0.05_1` (10MIN, ending 2021-03-24 at the FF1 logger-box
-rebuild). Processed `ch-lae_processed` holds six more under `meteoscreening_mst`:
-`G_FF1_0.05_1` to `_3` covering 2004-09-07 to 2011-12-31, and `G_FF1_0.025_1` to
-`_3` covering 2011-12-31 to 2021-03-24. So **`G_FF1_0.05_1` as a name spans two
-different plate sets nine years apart**, separated only by the data version, and
-the middle era is stored at a different depth under a different name. Nothing
-downstream may splice them; the product needs a `SOURCE` flag per sensor
-generation, as `08` and `09` do.
-
-The GIN device records settle the plate count: **three** HFP01 at `CH-LAE_FF1_0.05`
-before March 2021, of which one was discarded on 2021-03-24 and two were kept
-across the rebuild — so `docs/Instrumentation.md`'s single HFP01 is wrong for
-every era, and the 2004 CR10X program's four declared plates (`SHF_A` to `SHF_D`,
-only `A`-`C` stored) match the three-plate era. They also place the Campbell 109
-thermistors `TS_FF1_0.05_3` and `_4` directly beside plates `_1` and `_2`, which
-is the co-located reference the screening notebooks use.
-
-`20_SCREENING/G/G_FF1_0.05_1_2021-2025.ipynb` and `..._2_2021-2025.ipynb` are
-written and not yet run. Both screen on absolute limits and missing values only:
-the plates' extremes are pre-leaf-out sunflecks and cold-rain excursions, both
-real, and each notebook carries a *Candidate excursions* section that judges an
-event by whether the second plate and the two thermistors moved with it. One
-removal candidate is recorded and deliberately left in — plate `_1`,
-2021-04-12 13:45-15:30 local, -64.6 W m-2 with no neighbour response — because
-the check that would settle it is the precipitation product and `SWC_FF1_0.05_1`,
-which live in `30_PRODUCTS/`.
-
-Three points remain for the product:
-
-- **Which eras it covers.** Whether the pre-2021 plates are re-screened here or
-  taken from `meteoscreening_mst` as screened, and whether the raw `G_M*` fields
-  and the processed `G_FF1_0.025_*` fields are the same three plates under two
-  naming schemes — their coverage ends on the same timestamp, which suggests they
-  are, and no notebook has checked.
-- **Individual plates or their mean.** The FLUXNET convention is `G_1_1_1`,
-  `G_2_1_1`, … per plate. Two plates metres apart in a deciduous stand see very
-  different sun: `_2` reaches +127 W m-2 under sunflecks where `_1` stays below
-  +31, so a mean is not a neutral summary of them.
-
-Two further points to settle while writing these products:
-
-- **`G` is measured below the surface.** A plate at 0.05 m misses the heat stored
-  in the soil above it. Whether the product exports the plate flux as measured or
-  adds a storage term computed from `TS` and `SWC` is a scope decision, and it
-  determines whether `G` can be used in an energy-balance closure figure.
-- **The 24-day CNR4 window (14 Dec 2021 - 7 Jan 2022)** is unresolved for the
-  incoming components already and applies to the outgoing ones identically: if
-  the CNR4 was read through the CNR1 multiplier, those values are wrong by the
-  ratio of the sensitivities. See `docs/Instrumentation.md`.
+- **A field rename is not an instrument change, and the two need not coincide.** The
+  archive renamed the `G` fields on 2011-12-31 while the measurement carried on
+  unchanged for another three months; the acquisition actually changed in March and
+  April 2012. A first version of `11` put the era boundary on the rename and pushed a
+  visible artefact into the exported product. Derive an era boundary from the data and
+  report the rename separately.
+- **A provenance flag must be built from where the values ended up, not from where they
+  started.** `12` shifted the August 2012 block onto its corrected time axis without
+  moving the masks that record which screening supplied each value, and exported 31
+  records under the wrong screening. Anything that moves data in time has to move its
+  provenance with it.
+- **A threshold derived from an effect size degenerates when the effect is zero.**
+  Several checks in `12` and `13` compared a scatter against a fraction of the very
+  departure they were testing, so they could not pass when the answer was "no
+  difference". Derive a threshold from what the record does when nothing happened, and
+  check that such years exist before relying on them: in `13` they do not, and the
+  notebook says so rather than pretending otherwise.
 
 ### 3.3 Candidates, not yet decided
 
@@ -191,7 +112,7 @@ scope question is asked once rather than rediscovered.
 | `PPFD_DIF` | `PPFD_DIF_T1_47_1` | Delta-T BF2 sunshine sensor, total and diffuse PAR, from Aug 2004 |
 | second `PPFD_IN` | `PPFD_IN_T1_47_2` | a second incoming sensor at the same level; decide whether it is a replicate or a replacement era |
 | `NETRAD` | `NETRAD_FF1_2_1`, `NETRAD_NABEL_T1_49_1` | no tower-level net radiometer field; a 47 m `NETRAD` would be derived from the four components. Only the NABEL sensor is screened (2004-2018), and no product exists |
-| `ALB` | derived, `SW_OUT`/`SW_IN` | follows from 3.2, costs nothing extra |
+| `ALB` | derived, `SW_OUT`/`SW_IN` | both components are now products (3.1), so this costs nothing extra. `12` already computes the albedo as a diagnostic and reports a median of 0.112 |
 | `WS`, `WD` | — | A100LK cup anemometer from Jan 2016; the sonic series is already in the flux output |
 | `SWP` | — | MPS-2 and TEROS 21 water potential, FF1 and FF2; same 19 Mar 2020 generation change as `SWC` |
 | subcanopy (`M1_2`) | `SW_IN_BC_M1_2_1`, `SW_OUT_BC_M1_2_1`, `LW_IN_BC_M1_2_1`, `LW_OUT_BC_M1_2_1`, `PPFD_IN_BC_M1_2_1` | a full four-component radiation set below canopy, plus PAR — a second measurement level, not a single variable |
@@ -277,11 +198,12 @@ In order. Each item is blocked by the one above it.
    `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage `34_IRGA72_2016-2024`
    holds notebooks whose filenames say `IRGA75`; check which instrument they
    actually process before extending them.
-4. **Add `SW_OUT`, `LW_OUT` and `G`** — resolve the remaining `verify` items in
-   3.2 first, since they set each product's period. Both radiation periods are now
-   settled at 2020-2025: `LW_OUT` is screened and needs its `30_PRODUCTS/`
-   notebook next, `SW_OUT` needs a screening notebook first, and `G` still needs
-   its measurement name.
+4. ~~**Add `SW_OUT`, `LW_OUT` and `G`.**~~ Done, September 2026: notebooks `11`,
+   `12` and `13`, registered in `99` and documented under `docs/Meteo_Data.md`.
+   Two follow-ups they leave behind. The **24-day CNR4 window** now affects four
+   radiation products rather than two, and a correction there has to be applied to
+   all four at once (section 6). And `docs/Instrumentation.md` needs its heat flux
+   plate row corrected: it describes one plate where the site had three.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
 6. **Close the flux gaps** — `H` through the chain, and Level-4.2 partitioning.
@@ -294,20 +216,42 @@ In order. Each item is blocked by the one above it.
 
 Carried here because each blocks a scope decision or a published statement.
 
-- ~~**How far back do `SW_OUT_T1_47_1` and `LW_OUT_T1_47_1` reach?**~~ Answered:
-  both begin **2020-01-02 00:52** and nothing precedes either, so `SW_OUT`,
-  `LW_OUT`, `ALB` and a four-component `NETRAD` are 2020-2025 products.
-  Section 3.2.
-- **Are the raw `G_M1..M3_0.05_1` fields the same plates as the processed
-  `G_FF1_0.025_1..3`?** Both cover the pre-2021 era and end on the same
-  timestamp, but under different names and depths, and nothing has compared them.
-  It decides whether the middle era of `G` is screened here or inherited from
-  `meteoscreening_mst`. Section 3.2.
-- **What is `LW_*_COR_T1_47_1` in `ch-lae_processed`?** A longwave correction
-  from earlier work that the current `LW_IN` product does not use. Section 3.2.
-- **Does `G` carry a storage term above the plate?** Section 3.2.
-- **The 24-day CNR4 window, 14 Dec 2021 - 7 Jan 2022.** Radiation values there
-  are unverified. `docs/Instrumentation.md`.
+- ~~**How far back do `SW_OUT_T1_47_1` and `LW_OUT_T1_47_1` reach?**~~ Answered, and
+  the first answer was wrong. Only the **raw** fields begin in 2020; the
+  MeteoScreeningTool wrote both channels into `ch-lae_processed` back to
+  **2005-09-14**, because it read CSVs rather than the raw bucket. `SW_OUT` and
+  `LW_OUT` are therefore 2005-2025 products. The same is likely to hold for any
+  other field whose raw record looks short, so check `meteoscreening_mst` before
+  concluding a record is recent.
+- ~~**Are the raw `G_M1..M3_0.05_1` fields the same plates as the processed
+  `G_FF1_0.025_1..3`?**~~ Answered by `11`: they are, and over the timestamps they
+  share the screened series is bit-identical to the raw one, so "screened by the
+  MeteoScreeningTool" means "passed through unchanged" there. That overlap is only
+  about 14 % of the pre-rebuild record.
+- ~~**Does `G` carry a storage term above the plate?**~~ Decided: no. `11` estimates
+  the term and reports its size instead, because adding it would need a measured bulk
+  density and a soil temperature above the plate, and this site has neither. An
+  energy-balance closure computed from `G` is therefore a closure at plate depth.
+- **What is `LW_*_COR_T1_47_1` in `ch-lae_processed`?** A longwave correction from
+  earlier work that neither `06` nor `13` uses. `13` established only that the raw
+  field is already fed from the logger's temperature-corrected channel; what the
+  separately stored series adds is still unknown.
+- **The 24-day CNR4 window, 14 Dec 2021 - 7 Jan 2022.** The radiometer was exchanged
+  on 14 December and its constants reached the logger program on 7 January, so the
+  conversion in force between those dates is not established. It now touches four
+  products (`01`, `06`, `12`, `13`), all of which flag the interval rather than
+  correcting it. `12` tests it against MeteoSwiss and finds the levels **not**
+  consistent with the old constant still being applied, which bounds the error but
+  does not identify the constant. A correction has to be applied to all four channels
+  together. `docs/Instrumentation.md`.
+- **What moved `LW_OUT` at the December 2021 exchange?** `13` measures a step in the
+  annual means at the CNR1 to CNR4 change and flags it rather than correcting it,
+  because nothing measured through the change. Whether it is the instrument or the
+  conversion cannot be separated with what is on site.
+- **Which CNR1 was on the tower?** `docs/Instrumentation.md` and `06` give SN 020484,
+  which is also what the logger program comments say, but the fieldbook row recording
+  the 14 December 2021 exchange names CNR1_020522 at a different location. Probably a
+  GIN bookkeeping artefact, unreconciled.
 - **Sonic orientation from `2005_2`**: note 5 records a possible change from
   209° to 206° and asks for verification. Unresolved, and it falls in the
   `IRGA75` era. `workflow/00_L0_checks/CLAUDE.md`.
