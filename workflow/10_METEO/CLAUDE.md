@@ -358,8 +358,23 @@ folder beside `workflow/`, like the fieldbook:
 programs, 2004-2006) and
 `...\logger_scripts\ch-lae_idl_t1_47_1-Version_20160118\` (the CR1000 `.CR1`
 program). They are what dates and identifies the 2016 `TA` change and give both
-eras' calibration constants. **Read them in the notebook, don't quote them** —
-same rule as the fieldbook.
+eras' calibration constants.
+
+- **Declare the constant in the notebook, then verify it against the program when
+  the program is there.** The external data folder cannot be assumed present: a
+  notebook that only parses cannot run without it, and a reader of the published
+  page sees no number, only the claim that one was read. So write each constant
+  into the settings with a comment naming its source file, use *that* value
+  everywhere downstream, and let the parser assert the declaration rather than
+  supply it. Where the folder is missing, print that the constants are declared
+  but unverified for this run and skip the parsing cells behind a
+  `LOGGER_SCRIPTS_AVAILABLE` guard. Downstream results must never depend on
+  whether the files happened to be present, or two runs of one notebook disagree.
+  This is the same "a setting is a claim" pattern the date settings already use.
+- **The fieldbook is the exception and stays a hard dependency.** Its content is
+  quoted text rather than a handful of numbers, and it needs the redaction map,
+  which must never live in this repo. A missing map still **raises**: carrying on
+  with redaction disabled prints real names onto a public page.
 
 - **They are signed, so they are a personnel record too.** Anything printed from
   a logger program passes through the same `redact_people()` and
@@ -370,17 +385,44 @@ same rule as the fieldbook.
   in the program; match on the channel and its multiplier instead.
 - **There is more than one CR10X program, and reading all of them is the point.**
   Six `LAEGEREN.*.CSI` files span 2004-2006. The three from 2004 measure **no**
-  incoming shortwave — their comments record that the radiometer's channels then
-  carried a PAR sensor — and the CNR1 instruction first appears in the program
-  dated **14 September 2005**, which is the day the tower `SW_IN` record begins.
-  A date derived from a program and confirmed by the data is worth an assertion.
+  radiometer channel at all — their comments record that those channels then
+  carried a PAR sensor. The CNR1 instruction first appears in the program dated
+  **18 August 2005**, which measures all four channels (`Kin`, `Kout`, `Lin`,
+  `Lout`). The programs of 14 September 2005 and 24 May 2006 carry a conversion
+  for only three, because `Kout` lost its own instruction to the two-repetition
+  `Ex-Del-Diff` described above.
+  - This corrects an earlier version of this file, which put the first CNR1
+    instruction in the **14 September 2005** program. What that program changed is
+    the relay, moving `Lout` and `Kout` onto DIFF3 and DIFF4; a comment in the file
+    says so. 14 September remains the day the tower `SW_IN` *record* begins, which
+    is a fact about the data and not about the program. Anything asserting the
+    program date — `01` does — needs re-reading against this.
+  - A date derived from a program and confirmed by the data is worth an assertion,
+    but assert the claim the programs actually support.
 - **Parse the constants out of the program text; do not read them off once.**
   `01` extracts the multiplier and offset from every program that measures the
   sensor and asserts they are all identical (`99.7009` and `0`, i.e. 1000/10.03
   for a Kipp & Zonen CNR1, SN 020484 — the same instrument before and after 2016).
   The two program languages write the same two numbers differently, so the parser
   matches each shape separately and **raises** rather than returning an empty dict
-  that would agree with anything.
+  that would agree with anything. Parsing now checks the declared constant above
+  rather than replacing it, which makes it a stronger test: it verifies the number
+  a reader can actually see.
+- **A storage location is named twice, and only one of the two carries the
+  conversion.** A CR10X program names a location in the instruction that measures
+  into it, and again in the `Average` instruction that writes it to the data
+  table. Only the first is followed by `Mult` and `Offset`. A pattern that selects
+  the location alone therefore matches twice and a strict count check fires on a
+  perfectly normal program — which is how `12` and `13` both failed. Require
+  `Mult` inside the block, keep the count check strict, and add a control that the
+  filter can reject everything, so a layout change fails loudly instead of
+  silently selecting nothing.
+- **One instruction can fill several locations.** From 14 September 2005 the
+  outgoing pair is a single `Ex-Del-Diff` with two repetitions, so the outgoing
+  shortwave location follows the outgoing longwave one and has **no instruction of
+  its own**. Assert the constants across all locations of all programs rather than
+  looking one channel up, and report the per-program channel layout so a missing
+  channel reads as a layout fact rather than as a missing measurement.
 - **Say what the programs cover and what they do not.** No tower program between
   May 2006 and January 2016 survives on disk, so the constants could in principle
   have changed and changed back inside that gap. The programs establish two
