@@ -22,6 +22,17 @@ information for 2004–2025. Two releases are in preparation: `FP2026.1`
 (2016–2025, the enclosed-path LI-7200 era) and `FP2026.2` (2004–2025, which
 supersedes and re-includes the first).
 
+The meteorological part currently comprises thirteen products: the four radiation
+components (`SW_IN`, `SW_OUT`, `LW_IN`, `LW_OUT`), `PPFD_IN`, `TA`, `RH`, `VPD`,
+`PA` and `PREC` at the 47 m tower level, and at the forest floor the soil heat
+flux `G` (three plates), soil water content at five depths and soil temperature
+at seven. Each product is one file per variable, carrying its values and a
+provenance flag that states, half hour by half hour, whether a value was
+measured, corrected, reconstructed or modelled. A final merge step joins them
+into one wide table and writes a description of that table beside it, so a
+recipient of the data folder can read what they have without finding this
+website first.
+
 This repository holds the **methods narrative and the notebooks that produce the
 product**. The flux computation itself (EddyPro) and the meteo screening runs
 happen in a separate offline pipeline; what is documented here is how their
@@ -31,7 +42,7 @@ output is checked, corrected, merged and exported.
 
 | Path | Contents |
 | --- | --- |
-| [`docs/`](docs/) | The reader-facing [Quarto website](https://holukas.github.io/dataset_ch-lae_flux_product/): narrative pages, per-variable meteo pages, the flux-processing-chain levels, instrumentation and site info. Single config file [`docs/_quarto.yml`](docs/_quarto.yml). |
+| [`docs/`](docs/) | The reader-facing [Quarto website](https://holukas.github.io/dataset_ch-lae_flux_product/): narrative pages, per-variable meteo pages, the data-dashboards page, the flux-processing-chain levels, instrumentation and site info. Single config file [`docs/_quarto.yml`](docs/_quarto.yml). |
 | [`workflow/`](workflow/) | The working notebooks and scripts, by numbered stage. Research scratch space, rendered onto the site as a notebook appendix but not part of the curated narrative. |
 | `workflow/_archive/`, `workflow/_templates/` | Reserved: dead or experimental work (mirroring the stage layout), and reusable notebook templates. Both are excluded from the site build. |
 
@@ -40,10 +51,10 @@ output is checked, corrected, merged and exported.
 | Stage | Purpose |
 | --- | --- |
 | `00_L0_checks/` | Level-0 preliminary flux calculation: merge the EddyPro per-setup-period runs, then check fluxes, wind direction and time lags per instrument. |
-| `10_METEO/` | Meteo, in three substages — `10_REFERENCE/` (MeteoSwiss and NABEL reference series), `20_SCREENING/` (per-variable, per-sensor stepwise screening), `30_PRODUCTS/` (the gap-filled products) — plus `40_EXPORTS/` (the EddyPro biomet file). |
+| `10_METEO/` | Meteo, in three substages — `10_REFERENCE/` (MeteoSwiss and NABEL reference series), `20_SCREENING/` (per-variable, per-sensor stepwise screening), `30_PRODUCTS/` (thirteen product notebooks `01`–`13`, one per variable, joined by `99` into the merged file and its information file) — plus `40_EXPORTS/` (the EddyPro biomet file). |
 | `20_MERGE_DATA/` | Merge Level-1 fluxes with the meteo product, per instrument. |
 | `30_FLUX_PROCESSING_CHAIN/` | Self-heating correction, u\* threshold detection, and the Level-3.3/4.1 chain runs. Kept on its own older internal numbering. |
-| `90_DATASET_OVERVIEW/` | Dataset-wide overview notebooks, and the generators for the standalone meteo dashboards and the calendar explorer. |
+| `90_DATASET_OVERVIEW/` | Dataset-wide overview notebooks, and the two generators for the standalone HTML products: 23 meteo dashboards, one per variable or soil depth, and the calendar explorer. |
 
 Stages that process both analysers split into `IRGA72/` and `IRGA75/`
 subfolders.
@@ -117,9 +128,10 @@ uv run python build_notebooks.py && uv run quarto render docs && uv run python b
 `build_notebooks.py` is a **staging** step, not a converter: it copies the real
 notebooks into `docs/notebooks/` (gitignored build inputs), disables execution
 for that folder so Quarto shows the committed outputs and never runs a cell, and
-generates the notebook index page. Rendering therefore gives the notebooks the
-site theme, search, anchored headers and a table of contents, exactly like the
-narrative pages.
+generates the notebook index page: one table per workflow folder, giving each
+notebook's number, title and file name. Rendering therefore gives the notebooks
+the site theme, search, anchored headers and a table of contents, exactly like
+the narrative pages.
 
 ## Helper scripts
 

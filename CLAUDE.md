@@ -17,9 +17,11 @@ publish them as a website.
   (`logo.*` for the sidebar, `favicon.*` for the tab icon) is the same artwork,
   so the two must be regenerated together.
 - `workflow/` — the real working notebooks and scripts, organized by numbered
-  stage. This is research scratch space and is **not** built into the book. Two
-  reserved folders: `_archive/` (dead/experimental, mirrors the stage layout)
-  and `_templates/` (reusable notebook templates).
+  stage. This is research scratch space: `build_notebooks.py` stages the
+  notebooks onto the site as an appendix behind the generated notebook index, but
+  they are not part of the curated narrative. Two reserved folders: `_archive/`
+  (dead/experimental, mirrors the stage layout) and `_templates/` (reusable
+  notebook templates).
 - `PLAN.md` — what the dataset is to contain, what exists, and what is missing:
   the variable inventory, the flux chain's state per level, the ordered list of
   what to do next, and the open questions blocking scope decisions. Read it
@@ -67,6 +69,15 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   only heavy data (`*.parquet`/`*.csv`/`*.pkl`) goes to the external data folder.
 - Raw inputs (`0_data/`) and `tests/` outputs live only in the external data
   folder and are gitignored.
+- **The external data folder cannot be assumed present.** Where a notebook depends
+  on a value that lives there — a calibration constant, a date — declare the value
+  in the notebook with its source file named, use that declaration everywhere
+  downstream, and let the external file only **verify** it, behind an availability
+  guard. A notebook that reads the value instead of asserting it cannot run
+  without the folder, and shows the reader of the published page no number at all.
+  Results must never depend on whether the folder happened to be there. The
+  pattern, and the one dependency that stays hard, are in
+  `workflow/10_METEO/CLAUDE.md`.
 - **Stage 30 (`30_FLUX_PROCESSING_CHAIN/`) is intentionally left on its older
   internal numbering** on both sides; don't reorganize it without being asked.
 

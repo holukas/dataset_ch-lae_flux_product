@@ -37,9 +37,13 @@ What it does
   ``_TEMPLATE_*``). ``.ipynb_checkpoints`` is skipped too.
 - Copies each into ``docs/notebooks/<same relative path>``.
 - Writes ``docs/notebooks/_metadata.yml`` (execution disabled for the folder).
-- Writes ``docs/notebooks/index.qmd``: a themed landing page with one Quarto
-  *listing* per top-level stage folder, so titles and links are derived from the
-  notebooks themselves (no manual filename/anchor bookkeeping).
+- Writes ``docs/notebooks/index.qmd``: a themed landing page with one table per
+  workflow folder, giving each notebook's number, its linked title and its file
+  name. Titles are read from each notebook's own H1, the heading Quarto would
+  promote to the page title, so there is still no manual bookkeeping. This used a
+  Quarto *listing* per stage until it turned out that a listing renders only the
+  fields it knows about, which left the substages invisible and the numbers with
+  nowhere to go.
 
 Usage
 -----
