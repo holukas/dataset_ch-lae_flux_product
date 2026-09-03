@@ -14,6 +14,8 @@ The dataset comprises ecosystem fluxes measured by the eddy covariance method (C
 
 For an overview of the dataset, see [Overview](Overview.md).
 
+Thirteen meteorological variables are documented so far, measured at the 47 m tower level and at the forest floor between 2004 and 2025. Each has its own page under [Meteorological data](Meteo_Data.md) giving its columns, units, coverage, provenance flags and known limitations, and each also has an [interactive dashboard](Data_Dashboards.md) summarising the exported series year by year.
+
 For an overview of recent documentation updates see [here](https://github.com/holukas/dataset_ch-lae_flux_product/commits/main/).
 
 For a list of planned updates and additions, see [Issues on the GitHub repository](https://github.com/holukas/dataset_ch-lae_flux_product/issues).
