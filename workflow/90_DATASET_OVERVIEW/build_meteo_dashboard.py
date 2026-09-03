@@ -414,6 +414,162 @@ VARIABLES = {
         # statistic - it is a tie across twenty years broken by whichever record came first.
         extremes=dict(high="wettest", low="driest", low_halfhour=False, low_day=False),
     ),
+
+    # One entry, not three. The soil-moisture and soil-temperature loops below generate an entry per
+    # depth because each depth is its own quantity; the three heat-flux plates are one quantity at
+    # one depth, reconciled into the column this entry points at, and the plate columns are
+    # individual sensors rather than the series a reader analyses.
+    #
+    # Soil heat flux is the only signed variable here, so its limits straddle zero and neither end
+    # of its scale is a floor. It also carries neither flag slot. Its fill flag would be the plate
+    # count, which marks a gap with code 0 exactly where the value is missing and otherwise says how
+    # many plates stand behind a record - nothing here is filled, and the page's fill card would
+    # announce that it was. Its source flags belong to the individual plates, not to the reconciled
+    # column this page shows, so an instrument card built from one of them would report that plate's
+    # gaps as the reconciled column's provenance. The acquisition history is stated in prose instead.
+    "G": dict(
+        title="Soil heat flux",
+        units="W m\u207b\u00b2",
+        file="11_METEO_G_FF1_2004-2025.parquet",
+        value="G_FF1_0.05_HOMOGENIZED",
+        first_year=2005, last_year=2025,
+        limits=(-200.0, 250.0),
+        about=(
+            "Soil heat flux at 0.05 m in the forest-floor profile, reconciled across the "
+            "acquisition changes of 2012 and 2021 and exported with its gaps. Positive values are "
+            "heat moving down into the soil. The column is a derived estimate rather than a "
+            "measurement: it is the average of the two plates that reach the modern acquisition, "
+            "each first put onto that acquisition's scale and onto its zero point. Use it to cross "
+            "the two boundaries; inside a single acquisition setup it says no more than the "
+            "individual plate columns do."),
+        extremes=dict(high="highest", low="lowest"),
+        notes=[
+            "The correction has two terms, and both are fitted on climatology because nothing "
+            "measures soil heat flux independently at this plot: a multiplicative gain per calendar "
+            "month, which puts the three acquisition setups on one scale, and then one additive "
+            "constant per setup, which puts the zero point where physics requires it, since a year "
+            "of soil heat flux at a few centimetres has to average near zero. The gain alone left a "
+            "step at the 2012 boundary. With the constant, both boundaries fall inside what the "
+            "same statistic produces at dates where nothing changed.",
+            "The average is taken over two plates and never three. The third plate was discarded at "
+            "the 2021 logger-box rebuild, before the reference setup began, so neither term could "
+            "be fitted for it; it keeps its own exported column and enters nothing here. "
+            "<code>FLAG_G_FF1_0.05_HOMOGENIZED_NPLATES</code> counts how many of the two "
+            "contributed to each record and takes the values 0, 1 and 2.",
+            "The plates are not repeat measurements of the same thing. They sit metres apart under "
+            "a deciduous canopy, so with the leaves off a patch of sunlight can fall on one and not "
+            "the other, and one plate then reads several times the other. What they disagree by "
+            "describes where the light fell.",
+            "A constant cannot follow a zero point that moves, and one is moving, so interannual "
+            "variability in the early years is a real signal plus a residual drift that this "
+            "product cannot separate from it. The heat stored in the soil above the plates is not "
+            "added, so the column is the flux at plate depth rather than at the surface, and "
+            "nothing is gap-filled.",
+        ],
+    ),
+
+    "SW_OUT": dict(
+        title="Outgoing shortwave radiation",
+        units="W m\u207b\u00b2",
+        file="12_METEO_SW_OUT_2005-2025.parquet",
+        value="SW_OUT_T1_47_1",
+        first_year=2006, last_year=2025,
+        limits=(-100.0, 300.0),
+        about=(
+            "Reflected shortwave radiation measured at 47 m on the tower, exported as measured with "
+            "its gaps. The tower record begins on 14 September 2005, so this page starts with the "
+            "first complete year. The values are exactly zero at night, and the stand reflects "
+            "roughly a tenth of the shortwave that falls on it: the median albedo against "
+            "<code>SW_IN</code> is 0.112, so a reader expecting numbers of the same order as "
+            "incoming shortwave will misread the file by a factor of ten."),
+        # Of the file's two provenance flags, this is the one that names a break in the values. The
+        # other names the screening, and the two screenings were measured to be on one scale.
+        source_flag="FLAG_SW_OUT_T1_47_1_INSTRUMENT",
+        source_legend={0: "CNR4, each shortwave channel on its own constant (from 7 Jan 2022)",
+                       1: "CNR1, one constant for all four channels of the head (to 14 Dec 2021)",
+                       2: "changeover, conversion in force not established"},
+        source_short={0: "CNR4", 1: "CNR1", 2: "changeover"},
+        daily_stats=("mean", "max"),
+        ribbon=dict(band=("mean", "max"), band_label="daily mean to daily maximum", line=None),
+        extremes=dict(high="highest", low="lowest", low_halfhour=False),
+        notes=[
+            "The file carries a second provenance flag, "
+            "<code>FLAG_SW_OUT_T1_47_1_SOURCE</code>, naming which screening produced each value. "
+            "The two screenings overlap for two full years while both describe the same instrument, "
+            "and on those records they were measured to be on one scale, so neither era is rescaled "
+            "and the product has no homogenised column. A trend or a multi-year mean can be taken "
+            "straight across that boundary. The instrument flag shown above is the boundary that "
+            "does move the values.",
+            "The December 2021 radiometer change is flagged rather than corrected. The older "
+            "instrument converted all four channels of its head with one constant, the newer one "
+            "uses a constant of its own for this channel, and the weeks between the exchange and "
+            "the logger-program update carry a code of their own. The albedo moves by about 4 % "
+            "across the change, which is less than it moves from one year to the next, so the "
+            "difference between the two instruments is not measured here and correcting it would "
+            "need calibration figures that no longer exist. Filter on the instrument flag before "
+            "comparing values across December 2021, and drop the changeover code before using "
+            "those weeks at all.",
+            "Nothing is gap-filled. No station at or near the site measures the shortwave this "
+            "canopy reflects, so a fill model would have no driver to learn from, and the gaps are "
+            "retained. There is no external reference and therefore no comparison card: what takes "
+            "its place in the notebook is the incoming channel of the same radiometer, since "
+            "<code>SW_OUT / SW_IN</code> is the surface albedo and anything that scales both "
+            "channels together cancels in that ratio.",
+        ],
+    ),
+
+    "LW_OUT": dict(
+        title="Outgoing longwave radiation",
+        units="W m\u207b\u00b2",
+        file="13_METEO_LW_OUT_2005-2025.parquet",
+        value="LW_OUT_T1_47_1",
+        first_year=2006, last_year=2025,
+        limits=(150.0, 600.0),
+        about=(
+            "Outgoing longwave radiation at 47 m, exported as measured with its gaps. It is the "
+            "thermal emission of the canopy plus the small part of the downwelling flux the canopy "
+            "reflects, so it stays at several hundred W m\u207b\u00b2 day and night and is never "
+            "zero. The "
+            "source flag names the instrument and the conversion factor behind each value, "
+            "including the 24 days in which the new radiometer was still read through the old "
+            "instrument's constant."),
+        source_flag="FLAG_LW_OUT_T1_47_1_SOURCE",
+        source_legend={0: "CNR4 on its own calibration factor (from 7 Jan 2022)",
+                       1: "CNR1, logger program of 7 Jun 2016 onwards",
+                       2: "CNR1 at the pyranometer factor (to 6 Jun 2016)",
+                       3: "changeover, calibration undetermined"},
+        source_short={0: "CNR4", 1: "CNR1 (2016 program)", 2: "CNR1 (pyranometer factor)",
+                      3: "changeover"},
+        extremes=dict(high="highest", low="lowest"),
+        notes=[
+            "Two documented changes step this record, and neither is corrected: the logger "
+            "program of June 2016 changed the calibration factor of this channel, and the record "
+            "steps again at the December 2021 radiometer exchange, for which the change of "
+            "screening was excluded as the cause. There is no homogenised column, so a trend or a "
+            "mean taken across the whole record carries both steps. The source flag is what "
+            "separates the three eras.",
+            "The December 2021 instrument step is flagged rather than corrected, and so are the 24 "
+            "days that follow it. Between 14 December 2021 and 6 January 2022 the new CNR4 was "
+            "read through whatever constant the CNR1 had been left with, and which constant that "
+            "was is not established. Undoing the error would need the radiometer's own body "
+            "temperature, a channel this product does not read, so those days carry code 3 and can "
+            "be dropped out of a twenty-year record. The error they could hold is at most about "
+            "1.6 {units}.",
+            "A wrong calibration factor scales only the net signal the pyrgeometer measures, not "
+            "the instrument's own emission that is added to it. That net signal is a few tens of "
+            "{units} where the exported numbers are several hundred, so a large error in the factor "
+            "produces a small error in watts, and a calibration boundary that is plain in the "
+            "incoming channel can be faint here.",
+            "No weather service near the site measures longwave, so this variable has no external "
+            "reference and no comparison card. Its checks are made against physics, using the "
+            "Stefan-Boltzmann emission of a canopy at air temperature, and the source flag is what "
+            "carries its provenance.",
+            "No nighttime zero-offset is removed, unlike the two incoming shortwave products. A "
+            "canopy emits thermal radiation all night, here typically 250 to 350 {units}, so "
+            "forcing the nighttime values to zero would destroy about half the record. Nothing is "
+            "gap-filled either.",
+        ],
+    ),
 }
 
 # The five soil-moisture depths share one file and one shape, so their entries are generated rather
