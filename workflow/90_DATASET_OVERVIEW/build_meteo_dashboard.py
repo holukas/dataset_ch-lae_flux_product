@@ -998,6 +998,26 @@ def build_payload(v, df, corrections, use_reference=True):
     recent = ym.loc[max(first_recent, ym.index.min()):].mean()
     early_period = ([int(ym.index.min()), int(first_recent - 1)] if has_early
                     else [int(first_recent), int(ym.index.min()) - 1])
+
+    # Whether the change between the two periods can be expressed as a percentage at all.
+    #
+    # Two things have to hold, and soil heat flux is the variable that showed it, being the first
+    # signed one here. The baseline has to have a sign the reader expects: dividing a rise by a
+    # negative early mean prints it as a fall, which is how G's tile came to read -25.9 % for an
+    # increase. And the baseline has to be a meaningful scale: G averages near zero because the
+    # soil returns each year to about the temperature it started at, so the ratio is then governed
+    # by how close that mean happens to land to zero rather than by the change itself, and a
+    # movement of a few tenths of a W m-2 turns into hundreds of percent.
+    #
+    # So the percentage divides by the MAGNITUDE of the baseline, which fixes the sign, and is
+    # withheld unless that magnitude is at least the year-to-year spread of the annual means. That
+    # threshold is the record's own scatter rather than a round number: below it, the baseline is
+    # not distinguishable from zero, and a ratio against it says nothing. The dashboard omits the
+    # segment when the value is null, so a withheld percentage leaves the absolute change standing
+    # on its own, which is the honest thing to show for a variable of this kind.
+    _pct_baseline = abs(float(early)) if has_early and pd.notna(early) else 0.0
+    _pct_spread = float(ym.std()) if int(ym.notna().sum()) > 1 else 0.0
+    pct_is_meaningful = bool(_pct_baseline) and _pct_baseline >= _pct_spread
     assert np.isfinite(recent), f"{v.key}: the recent period holds no yearly value at all"
 
     monthly = series.groupby([series.index.year, series.index.month]).agg(v.agg).unstack()
@@ -1233,8 +1253,8 @@ def build_payload(v, df, corrections, use_reference=True):
             early_period=early_period,
             recent_period=[int(max(first_recent, ym.index.min())), int(ym.index.max())],
             early_mean=r(early), recent_mean=r(recent), period_delta=r(recent - early),
-            period_delta_pct=(r(100 * (recent - early) / early, 1)
-                              if has_early and early else None),
+            period_delta_pct=(r(100 * (recent - early) / _pct_baseline, 1)
+                              if pct_is_meaningful else None),
             growing_season=r(pd.Series({y: s["length"] for y, s in season_rows.items()}).mean(), 0)
             if season_rows else None,
         ),
