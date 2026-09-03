@@ -1,0 +1,201 @@
+<!--
+  Make every Mermaid diagram pannable and zoomable.
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+  to the article width, which leaves the node labels small and the diagram hard to
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+  Deliberate choices, both about not surprising the reader:
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+    reader scrolling past a diagram is never trapped inside it.
+  - The viewport can be dragged taller by its bottom edge, because how much height
+    a diagram deserves depends on the diagram.
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+  site would otherwise gain a network dependency for it.
+-->
+<style>
+  .mzoom-wrap {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.35);
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 220px;
+    height: 460px;
+    background: transparent;
+    touch-action: none;
+  }
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+  .mzoom-wrap > svg {
+    transform-origin: 0 0;
+    max-width: none !important;
+    max-height: none !important;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+  .mzoom-bar {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    gap: 4px;
+    z-index: 2;
+  }
+  .mzoom-bar button {
+    font: inherit;
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 4px 8px;
+    cursor: pointer;
+    border: 1px solid rgba(128, 128, 128, 0.45);
+    border-radius: 3px;
+    background: rgba(127, 127, 127, 0.12);
+    color: inherit;
+  }
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+  .mzoom-hint {
+    position: absolute;
+    left: 8px;
+    bottom: 6px;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+(function () {
+  var MIN = 0.15, MAX = 8;
+
+  function enhance(svg) {
+    if (svg.dataset.mzoom) return;
+    svg.dataset.mzoom = "1";
+
+    var wrap = document.createElement("div");
+    wrap.className = "mzoom-wrap";
+    svg.parentNode.insertBefore(wrap, svg);
+    wrap.appendChild(svg);
+
+    var bar = document.createElement("div");
+    bar.className = "mzoom-bar";
+    wrap.appendChild(bar);
+
+    var hint = document.createElement("div");
+    hint.className = "mzoom-hint";
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+    wrap.appendChild(hint);
+
+    var k = 1, tx = 0, ty = 0;
+
+    function apply() {
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+    }
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+    function fit() {
+      var box = svg.getBBox ? svg.getBBox() : null;
+      var w = box && box.width ? box.width : svg.clientWidth;
+      var h = box && box.height ? box.height : svg.clientHeight;
+      if (!w || !h) return;
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+      k = Math.max(MIN, Math.min(MAX, k));
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+      apply();
+    }
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+    // stays under the cursor.
+    function zoomAt(px, py, factor) {
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+      tx = px - (px - tx) * (next / k);
+      ty = py - (py - ty) * (next / k);
+      k = next;
+      apply();
+    }
+
+    function button(label, title, fn) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = label;
+      b.title = title;
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+      bar.appendChild(b);
+    }
+    button("−", "Zoom out", function () {
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+    });
+    button("+", "Zoom in", function () {
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+    });
+    button("⤢", "Fit to view", fit);
+
+    wrap.addEventListener("wheel", function (e) {
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      var r = wrap.getBoundingClientRect();
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+
+    var dragging = false, lastX = 0, lastY = 0;
+    wrap.addEventListener("pointerdown", function (e) {
+      if (e.target.closest(".mzoom-bar")) return;
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      wrap.classList.add("mzoom-grabbing");
+      wrap.setPointerCapture(e.pointerId);
+    });
+    wrap.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      tx += e.clientX - lastX;
+      ty += e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      apply();
+    });
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      wrap.classList.remove("mzoom-grabbing");
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+    }
+    wrap.addEventListener("pointerup", endDrag);
+    wrap.addEventListener("pointercancel", endDrag);
+    wrap.addEventListener("dblclick", fit);
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+    // fonts have settled since label widths move the bounding box.
+    requestAnimationFrame(fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  }
+
+  function scan() {
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+  }
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+  // watch for the SVG appearing and stop once every diagram has one.
+  document.addEventListener("DOMContentLoaded", function () {
+    scan();
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+    if (!targets.length) return;
+    var obs = new MutationObserver(function () {
+      scan();
+      var pending = document.querySelectorAll(
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+      if (!pending.length) obs.disconnect();
+    });
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+    // Backstop for browsers without :has() support in querySelectorAll.
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+  });
+})();
+</script>

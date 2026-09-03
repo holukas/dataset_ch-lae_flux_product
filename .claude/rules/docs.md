@@ -18,9 +18,17 @@ paths:
   it in each page's top title block) — the name lives in `website.page-footer`.
   `date-modified: last-modified` (project level) shows a "Modified" last-updated
   date on every page (filesystem mtime, not the git commit date).
-- Two `include-after-body` partials (both listed in `_quarto.yml`) move things
-  into the **right ("On this page") sidebar** with client-side JS, since Quarto
-  has no option for either: `_theme-toggle.html` relocates the **light/dark
+- Three `include-after-body` partials (all listed in `_quarto.yml`) apply
+  client-side tweaks Quarto has no option for. `_mermaid-zoom.html` makes every
+  Mermaid diagram pannable and zoomable: the flowcharts on `Meteo_Product_Chain.qmd`
+  and `FPC.qmd` are wider than the article column, so Quarto scales them down until
+  the labels are hard to read, and `lightbox: auto` cannot help because it works on
+  `<img>` elements while a mermaid cell renders to an inline `<svg>`. It wraps each
+  diagram in a drag-to-pan viewport with zoom buttons, deliberately requiring
+  **ctrl/cmd + wheel** to zoom so a reader scrolling past a diagram is never trapped
+  inside it, and carries no external library. Mermaid renders after the partial runs
+  and Quarto exposes no hook for it, hence the MutationObserver. The other two move
+  things into the **right ("On this page") sidebar**: `_theme-toggle.html` relocates the **light/dark
   toggle** to the top of the right sidebar (and `styles.css` restyles it into a
   labelled "Dark mode"/"Light mode" pill — CSS only, keying off Quarto's
   `.alternate` class), and `_last-modified-sidebar.html` moves the **"Modified"
