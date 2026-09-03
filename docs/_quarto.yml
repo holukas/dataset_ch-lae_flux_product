@@ -73,6 +73,12 @@ website:
           - Meteo_Data_G.md
           - Meteo_Data_SW_OUT.md
           - Meteo_Data_LW_OUT.md
+      # Sits beside Meteo_Data rather than inside it: a dashboard covers one
+      # exported series, and the flux products will add their own, so this is not
+      # a meteorological page. Each dashboard is a standalone HTML file built
+      # into the render output by deploy.ps1, not a Quarto page, so the entry
+      # points at a page that links them rather than at the files.
+      - Data_Dashboards.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
