@@ -6,6 +6,12 @@ records** on a continuous 30-minute middle-timestamp index (named `TIMESTAMP_MID
 file) in local time (UTC+1, no daylight saving), from 2005-09-14 00:15 to 2025-12-31 23:45. The
 first measurement is at 2005-09-14 13:15.
 
+The [**interactive dashboard**](dashboards/METEO_LW_OUT_dashboard.html) summarises the product
+on one page: coverage and provenance, seasonality, distributions, extremes and trends, with a
+table view under every chart. Read its trend with the instrument card beside it: the record
+steps at June 2016 and again at December 2021, and neither step is corrected, so a trend taken
+across the whole record carries both.
+
 Method, evidence and checks:
 
 - [`13_METEO_LW_OUT`](notebooks/10_METEO/30_PRODUCTS/13_METEO_LW_OUT_2005-2025.html) — builds

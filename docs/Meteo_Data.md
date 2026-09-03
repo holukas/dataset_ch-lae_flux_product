@@ -53,9 +53,9 @@ numbers, and the file is standalone and works offline.
 | `PREC` | precipitation | [Precipitation at 47 m](Meteo_Data_PREC.html) | [`PREC`](dashboards/METEO_PREC_dashboard.html) |
 | `SWC` | soil water content, five depths | [Soil water content at the forest floor](Meteo_Data_SWC.html) | [0.05](dashboards/METEO_SWC_0.05_dashboard.html) / [0.1](dashboards/METEO_SWC_0.1_dashboard.html) / [0.2](dashboards/METEO_SWC_0.2_dashboard.html) / [0.3](dashboards/METEO_SWC_0.3_dashboard.html) / [0.5](dashboards/METEO_SWC_0.5_dashboard.html) m |
 | `TS` | soil temperature, seven depths | [Soil temperature at the forest floor](Meteo_Data_TS.html) | [0.05](dashboards/METEO_TS_0.05_dashboard.html) / [0.1](dashboards/METEO_TS_0.1_dashboard.html) / [0.15](dashboards/METEO_TS_0.15_dashboard.html) / [0.2](dashboards/METEO_TS_0.2_dashboard.html) / [0.3](dashboards/METEO_TS_0.3_dashboard.html) / [0.5](dashboards/METEO_TS_0.5_dashboard.html) / [0.6](dashboards/METEO_TS_0.6_dashboard.html) m |
-| `G` | soil heat flux, three plates | [Soil heat flux at the forest floor](Meteo_Data_G.html) | `G` |
-| `SW_OUT` | outgoing shortwave radiation | [Outgoing shortwave radiation at 47 m](Meteo_Data_SW_OUT.html) | `SW_OUT` |
-| `LW_OUT` | outgoing longwave radiation | [Outgoing longwave radiation at 47 m](Meteo_Data_LW_OUT.html) | `LW_OUT` |
+| `G` | soil heat flux, three plates | [Soil heat flux at the forest floor](Meteo_Data_G.html) | [`G`](dashboards/METEO_G_dashboard.html) |
+| `SW_OUT` | outgoing shortwave radiation | [Outgoing shortwave radiation at 47 m](Meteo_Data_SW_OUT.html) | [`SW_OUT`](dashboards/METEO_SW_OUT_dashboard.html) |
+| `LW_OUT` | outgoing longwave radiation | [Outgoing longwave radiation at 47 m](Meteo_Data_LW_OUT.html) | [`LW_OUT`](dashboards/METEO_LW_OUT_dashboard.html) |
 
 A dashboard describes the column a user should analyse. Where a product exports
 both a measured and a `_HOMOGENIZED` column, the dashboard uses the homogenised

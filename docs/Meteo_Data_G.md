@@ -8,6 +8,11 @@ in the file) in local time (UTC+1, no daylight saving), from 2004-09-07 00:15 to
 soil**. The index begins with the plate record rather than on 1 January, because there is no
 soil heat flux at this plot before September 2004.
 
+The [**interactive dashboard**](dashboards/METEO_G_dashboard.html) summarises the product on
+one page: coverage and provenance, seasonality, distributions, extremes and trends, with a
+table view under every chart. It shows the reconciled column, which is the series a reader
+analyses; the three plate columns stay in the notebook.
+
 Method, evidence and checks:
 
 - [`11_METEO_G_FF1`](notebooks/10_METEO/30_PRODUCTS/11_METEO_G_FF1_2004-2025.html) — builds the

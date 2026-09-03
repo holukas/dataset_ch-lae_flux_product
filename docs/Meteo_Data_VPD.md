@@ -6,6 +6,10 @@ records** on a continuous 30-minute middle-timestamp index (named
 `TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight saving), from
 2004-01-01 00:15 to 2025-12-31 23:45.
 
+The [**interactive dashboard**](dashboards/METEO_VPD_dashboard.html) summarises the product on
+one page: coverage and provenance, seasonality, distributions, extremes and trends, with a table
+view under every chart.
+
 `VPD` is not measured. It is computed from air temperature and relative humidity by
 formula, so its properties are inherited from those two products rather than from an
 instrument of its own.

@@ -6,6 +6,11 @@ records** on a continuous 30-minute middle-timestamp index (named `TIMESTAMP_MID
 file) in local time (UTC+1, no daylight saving), from 2005-09-14 00:15 to 2025-12-31 23:45. The
 first measurement is at 2005-09-14 11:15.
 
+The [**interactive dashboard**](dashboards/METEO_SW_OUT_dashboard.html) summarises the product
+on one page: coverage and provenance, seasonality, distributions, extremes and trends, with a
+table view under every chart. Its instrument card shows how much of each year came from the
+CNR1, the changeover window and the CNR4.
+
 Method, evidence and checks:
 
 - [`12_METEO_SW_OUT`](notebooks/10_METEO/30_PRODUCTS/12_METEO_SW_OUT_2005-2025.html) — builds
