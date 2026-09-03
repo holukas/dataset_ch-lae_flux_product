@@ -1,18 +1,24 @@
 # Meteo Product Chain
 
-How the ten meteo product notebooks
+How the thirteen meteo product notebooks
 ([`10_METEO/30_PRODUCTS`](notebooks/index.html)) turn screened measurements into
 the finished variables, and which of them depend on each other.
 
-The numbering carries dependency information: `02` and `03` read the product
-written by `01`, `07` reads the products written by `02` and `04`, and `10` reads
-`02` as a diagnostic reference. Everything else is independent and could run in
-any order.
+The numbering is a run order: a notebook reads only products whose number is
+lower than its own, so running `01` to `13` and then the merge `99` satisfies
+every dependency. Only four of those reads change an exported value: `02` and
+`03` take `01`'s gap-filled `SW_IN` as a gap-fill driver, and `07` computes
+`VPD` from `02` and `04`. All the others are diagnostic — `06` reads `01` and
+`02`; `08` reads `02`, `05` and `06`; `09` reads `02` and `08`; `10` reads `02`
+and `09`; `11` reads `09` and `10`; `12` reads `01`; `13` reads `02` and `06`. A
+diagnostic read changes what a notebook concludes, not what it writes.
 
-The two soil products, `09` (`SWC`) and `10` (`TS`), differ from the tower
-products in one respect that the diagram makes visible: they have no external
-reference. No weather service measures this plot's soil, so each is checked
-against the other depths of its own profile instead.
+Six products have no external reference at all, which the diagram makes visible.
+No weather service measures this plot's soil, and nothing anywhere near the site
+measures the radiation this canopy sends back. `09` (`SWC`), `10` (`TS`) and
+`11` (`G`) are therefore checked against the other depths and plates of their
+own profile, and `06` (`LW_IN`), `12` (`SW_OUT`) and `13` (`LW_OUT`) against the
+other channel of the same radiometer and against physics.
 
 ```{mermaid}
 %%| label: fig-meteo-chain
@@ -36,6 +42,9 @@ flowchart LR
     N08["08 PREC"]
     N09["09 SWC"]
     N10["10 TS"]
+    N11["11 G"]
+    N12["12 SW_OUT"]
+    N13["13 LW_OUT"]
     N99["99 MERGED"]
 
     %% ---------- products ----------
@@ -44,15 +53,18 @@ flowchart LR
     F03["03_METEO_PPFD_IN_GAPFILLED_2004-2025<br/>PPFD_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
     F04["04_METEO_RH_CORRECTED_2004-2025<br/>RH_T1_47_1<br/>FLAG_..._MISSING"]
     F05["05_METEO_PA_2005-2025<br/>PA_T1_47_1<br/>no flag"]
-    F06["06_METEO_LW_IN_2005-2025<br/>LW_IN_T1_47_1<br/>no flag"]
+    F06["06_METEO_LW_IN_2005-2025<br/>LW_IN_T1_47_1<br/>FLAG_..._SOURCE"]
     F07["07_METEO_VPD_2004-2025<br/>VPD_T1_47_1<br/>FLAG_..._ISFILLED"]
     F08["08_METEO_PREC_GAPFILLED_2004-2025<br/>PREC_TOT_T1_47_1<br/>PREC_TOT_T1_47_1_HOMOGENIZED<br/>FLAG_..._SOURCE<br/>FLAG_..._ISFILLED"]
     F09["09_METEO_SWC_FF1_2004-2025<br/>SWC_FF1_*_1, 5 depths<br/>..._HOMOGENIZED, 4 of 5<br/>FLAG_..._SOURCE"]
     F10["10_METEO_TS_FF1_2004-2025<br/>18 individual channels<br/>TS_FF1_*_HOMOGENIZED_GAPFILLED, 7 depths<br/>FLAG_..._METHOD, FLAG_..._SUSPECT"]
+    F11["11_METEO_G_FF1_2004-2025<br/>G_FF1_0.05_1 to _3, 3 plates<br/>G_FF1_0.05_HOMOGENIZED<br/>FLAG_..._SOURCE, FLAG_..._NPLATES"]
+    F12["12_METEO_SW_OUT_2005-2025<br/>SW_OUT_T1_47_1<br/>FLAG_..._SOURCE<br/>FLAG_..._INSTRUMENT"]
+    F13["13_METEO_LW_OUT_2005-2025<br/>LW_OUT_T1_47_1<br/>FLAG_..._SOURCE"]
     F99["99_METEO_MERGED_2004-2025<br/>all value + flag columns"]
 
     %% ---------- database reads ----------
-    DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08 & N09
+    DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08 & N09 & N11 & N12 & N13
     DB --> TSSCR --> N10
 
     %% ---------- reference reads ----------
@@ -61,8 +73,12 @@ flowchart LR
     MSLAE -->|SW_IN_LAE_MS| N03
     MSLAE -->|RH_LAE_MS, fills gaps| N04
     MSLAE -.->|PA_LAE_MS, diagnostic| N05
+    MSLAE -.->|TA_LAE_MS, RH_LAE_MS, diagnostic| N07
+    MSLAE -.->|SW_IN_LAE_MS, diagnostic| N12
     MSOED -->|fills gaps| N08
     MSREG -->|homogenisation factors| N08
+    MSREG -.->|regional rain, second check| N09
+    TSSCR -.->|early TS channels| N09
 
     %% ---------- notebook -> product ----------
     N01 --> F01
@@ -75,24 +91,42 @@ flowchart LR
     N08 --> F08
     N09 --> F09
     N10 --> F10
+    N11 --> F11
+    N12 --> F12
+    N13 --> F13
     N99 --> F99
 
-    %% ---------- product -> product ----------
+    %% ---------- product -> product, changes exported values ----------
     F01 -->|SW_IN_gfXG as gap-fill driver| N02
     F01 -->|SW_IN_gfXG as gap-fill driver| N03
     F02 -->|TA_gfXG| N07
     F04 -->|RH| N07
+
+    %% ---------- product -> product, diagnostic only ----------
+    F01 -.->|SW_IN, same radiometer| N06
+    F02 -.->|TA, emission check| N06
+    F02 -.->|TA, rain or snow| N08
+    F05 -.->|PA, shared outage| N08
+    F06 -.->|LW_IN, shared outage| N08
+    F02 -.->|TA, detector covariate| N09
+    F08 -.->|PREC, detector covariate| N09
     F02 -.->|TA_gfXG, diagnostic| N10
+    F09 -.->|SWC at the 2015 break| N10
+    F09 -.->|SWC, heat capacity| N11
+    F10 -.->|TS 0.05 m, depth and storage tests| N11
+    F01 -.->|SW_IN, albedo| N12
+    F02 -.->|TA, emission check| N13
+    F06 -.->|LW_IN, same instrument| N13
 
     %% ---------- the merge ----------
-    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 & F09 --> N99
+    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 & F09 & F10 & F11 & F12 & F13 --> N99
 
     classDef gf fill:#E3F2FD,stroke:#1976D2,color:#000
     classDef meas fill:#F1F8E9,stroke:#689F38,color:#000
     classDef calc fill:#FFF3E0,stroke:#F57C00,color:#000
     classDef src fill:#ECEFF1,stroke:#607D8B,color:#000
     class F01,F02,F03,F08,F10 gf
-    class F04,F05,F06,F09 meas
+    class F04,F05,F06,F09,F11,F12,F13 meas
     class F07 calc
     class DB,MSLAE,MSOED,MSREG,TSSCR src
 ```
@@ -100,8 +134,9 @@ flowchart LR
 ## Reading the diagram
 
 **Blue products are gap-filled or reference-filled** (`SW_IN`, `TA`, `PPFD_IN`,
-`PREC`, `TS`), **green products ship as measured** (`RH`, `PA`, `LW_IN`, `SWC`),
-and the **orange product is computed** from other products (`VPD`).
+`PREC`, `TS`), **green products ship as measured** (`RH`, `PA`, `LW_IN`, `SWC`,
+`G`, `SW_OUT`, `LW_OUT`), and the **orange product is computed** from other
+products (`VPD`).
 
 A few things the edges make explicit:
 
@@ -109,34 +144,50 @@ A few things the edges make explicit:
   reads two finished product files and applies a formula. `10` reads the database
   indirectly, through the screened `TS` files that
   `TS_FF1_SCREENED_30MIN_2004-2025` downloads once, so that the 34 channels are
-  not re-queried every time a decision in `10` is revisited.
+  not re-queried every time a decision in `10` is revisited. `09` reads the early
+  half of that same download, as its witness for the June 2015 wiring break.
 - **`01` is the hub of the chain.** Its gap-filled `SW_IN_T1_47_1_gfXG` is a
   driver in both the `TA` and the `PPFD_IN` gap-fill models, which is why the
-  order `01` → `02` / `03` is real and not just a naming convention.
-- **`06` (`LW_IN`) has no reference of any kind.** Lägern measures no longwave
-  and there is no second longwave sensor on the tower, so its corrections rest on
-  provenance rather than on an independent measurement.
+  order `01` → `02` / `03` is real and not just a naming convention. It is also
+  the diagnostic partner of the two notebooks that describe the other channels of
+  the same radiometer, `06` and `12`.
+- **`02` is read by more notebooks than any other product**, by six of them, and
+  in only one does it change a value. Air temperature separates rain from snow in
+  `08`, excludes snowmelt in `09`, and gives the Stefan-Boltzmann yardstick in
+  `06` and `13`; the arrow into `07` is the one that writes. Every notebook that
+  reads it across January 2016 reads the `HOMOGENIZED` column, because the
+  measured one carries the acquisition step of that date.
 - **`08` (`PREC`) reads more references than any other notebook** — three files,
   for two different jobs. The Ehrendingen (`OED`) record arrives as two products,
   daily up to September 2014 and 30MIN after, and the 30MIN half is what fills
   the gaps. The regional ensemble is a different tool: one nearby gauge can show
   *that* the tower changed in 2018, but only a dozen of them can show *which
   side* of that break is wrong, which is what the homogenisation factors rest on.
+  `09` reads that same ensemble, for a third job again: its jump detector must not
+  read a gap in the tower gauge as a dry spell.
 - **`05` reads the MeteoSwiss pressure as a diagnostic only** (dashed): it checks
   the tower record but never writes a value into it. The NABEL hut barometer it
   also downloads is likewise diagnostic and is not exported.
-- **The two soil products have no external reference.** `09` (`SWC`) and `10`
-  (`TS`) are checked against the other depths of their own profile. `10`
-  additionally reads `02`'s gap-filled air temperature as a diagnostic (dashed),
-  which cannot validate any single depth but would catch a whole-profile error
-  such as a wrong file, a wrong unit or a shifted year.
+- **Where there is no external reference, a second channel takes its place.**
+  `09` (`SWC`), `10` (`TS`) and `11` (`G`) are checked against the other depths
+  and plates of their own profile. `06` (`LW_IN`) and `13` (`LW_OUT`) are checked
+  against the Stefan-Boltzmann emission at `02`'s air temperature, and `13`
+  additionally against `06`, the second pyrgeometer of the same instrument. `12`
+  (`SW_OUT`) is checked against `01`, because `SW_OUT / SW_IN` is the surface
+  albedo and anything that scales both channels of one radiometer together
+  cancels in that ratio. None of these reads writes a value: they catch a
+  whole-record error such as a wrong file, a wrong unit or a shifted year, but
+  cannot validate any single measurement.
 
 ## What `99` merges
 
 Notebook `99` concatenates the value and flag columns of the individual products
 into one half-hourly table and re-checks the joined index. Its `PRODUCTS` list
-covers `01`–`09`, 30 columns in all. **`10` (`TS`) is not merged**: its 35
-columns are read from the `TS` product file directly.
+covers `01`–`13`: 29 data series and, beside them, 30 flag columns, 59 in all.
+`10` and `11` contribute only their reconciled series — seven soil-temperature
+depths and one soil heat flux — because a merged column is one variable or one
+depth, whereas the 18 soil-temperature channels and the three plates are one
+sensor each. Those stay in their own product files.
 
 `TA`, `PREC` and four of the five `SWC` depths enter the merge **twice**, because
 each exports two value columns: the measured series and the homogenised one.
@@ -144,11 +195,14 @@ Each is listed as two entries so that both get their own overview figure, and th
 loader skips a column it has already taken, so a shared file cannot be merged in
 twice.
 
-Three products may legitimately contain `NaN` in the merged file. `05` (`PA`) and
-`06` (`LW_IN`) export as measured and their sensors start in September 2005;
-`PREC` keeps the 2,224 half-hours before September 2014 that have no sub-daily
-reference to fill them from. The merge check carries a reason for each and
-asserts completeness for everything else.
+Only six of the 29 series cover the whole period; the rest may legitimately
+contain `NaN`. `05` (`PA`), `06` (`LW_IN`), `12` (`SW_OUT`) and `13` (`LW_OUT`)
+export as measured and their sensors start in September 2005; the soil series of
+`09`, `10` and `11` begin in September 2004, or in April 2020 for the depths the
+2020 profile added, and they lose the forest-floor logger outages; `PREC` keeps
+the 2,224 half-hours before September 2014 that have no
+sub-daily reference to fill them from. The merge check carries a reason for each
+and asserts completeness for everything else.
 
 Precipitation aggregates differently from the other products: **rainfall sums,
 it does not average**. Every entry in `PRODUCTS` therefore names its
