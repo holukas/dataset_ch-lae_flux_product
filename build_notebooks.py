@@ -161,6 +161,47 @@ def leads_with_h1(nb: dict) -> bool:
     return False
 
 
+def notebook_title(path: Path) -> str:
+    """The notebook's own H1 text, or its filename stem when it has none.
+
+    The index builds its own tables rather than using a Quarto listing, because a listing exposes
+    only a fixed set of fields and we want the notebook's number and its folder as well as its
+    title. That means resolving the title here, the same way Quarto would: the first ``# `` heading
+    of the first markdown cell, which Quarto promotes to the page title and drops from the body.
+    """
+    try:
+        nb = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return path.stem
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type") != "markdown":
+            continue
+        src = cell.get("source", "")
+        joined = src if isinstance(src, str) else "".join(src)
+        for line in joined.split("\n"):
+            if line.strip() == "":
+                continue
+            return line[2:].strip() if line.startswith("# ") else path.stem
+    return path.stem
+
+
+def notebook_number(rel: Path) -> str:
+    """The leading number of a notebook's filename, e.g. ``01`` for ``01_METEO_SW_IN_...``.
+
+    Returns an empty string for the notebooks that deliberately carry no number: the substages
+    whose notebooks have no dependency order do not number them, and an unnumbered investigation
+    beside a numbered product is a real category rather than an oversight.
+    """
+    stem = rel.stem
+    digits = ""
+    for ch in stem:
+        if ch.isdigit():
+            digits += ch
+        else:
+            break
+    return digits
+
+
 def ensure_title(nb: dict, title: str) -> bool:
     """Give an untitled notebook a title by prepending a YAML front-matter cell.
 
@@ -207,56 +248,60 @@ def stage_notebooks(included: list[Path], staging_dir: Path) -> tuple[int, int, 
 
 
 def render_index(included: list[Path], staging_dir: Path) -> Path:
-    """Write index.qmd: a themed page with one Quarto listing per stage folder.
+    """Write index.qmd: a themed page listing every notebook by folder and number.
 
-    A *listing* reads each notebook's own title (its first H1) and emits the
-    correct link to the rendered page, so we don't hand-maintain filenames or
-    header anchors here. Notebooks are grouped by their top-level stage folder.
+    Earlier this used one Quarto *listing* per top-level stage. A listing renders only the fields
+    it knows about, and with ``fields: [title]`` the result was a flat table per stage: a reader
+    could not see that ``SW_IN`` is notebook ``01`` of ``10_METEO/30_PRODUCTS`` rather than of
+    ``10_METEO`` at large, and the substages were invisible. So the tables are built here instead,
+    which also keeps the number, the folder and the file name under our own control.
+
+    Notebooks are grouped by their full folder path, and within a folder they are sorted by name,
+    which is the order their numbers already express.
     """
-    # Group by top-level stage folder (first path component); flat notebooks
-    # (directly under workflow/) go under "(root)".
-    stages: dict[str, bool] = {}
+    # Group by full relative folder; notebooks directly under workflow/ go under "(root)".
+    by_folder: dict[str, list[Path]] = {}
     for rel in included:
-        stage = rel.parts[0] if len(rel.parts) > 1 else "(root)"
-        stages[stage] = True
-    ordered_stages = sorted(stages)
+        folder = rel.parent.as_posix() if rel.parent != Path(".") else "(root)"
+        by_folder.setdefault(folder, []).append(rel)
 
-    def listing_id(stage: str) -> str:
-        # Listing ids must be usable as HTML ids / div refs.
-        safe = "".join(c if (c.isalnum() or c in "-_") else "-" for c in stage)
-        return f"nb-{safe}"
+    def sort_key(folder: str) -> tuple[int, str]:
+        # "(root)" first, then the stage folders in their numeric order.
+        return (0, "") if folder == "(root)" else (1, folder)
 
-    # --- YAML front matter: one listing block per stage --------------------
-    lines: list[str] = ["---", 'title: "Workflow notebooks"', "listing:"]
-    for stage in ordered_stages:
-        # Non-recursive glob for the "(root)" bucket, recursive for real stages.
-        glob = "*.ipynb" if stage == "(root)" else f"{stage}/**/*.ipynb"
-        lines += [
-            f"  - id: {listing_id(stage)}",
-            f'    contents: "{glob}"',
-            "    type: table",
-            "    fields: [title]",
-            "    sort: false",
-            "    filter-ui: false",
-            "    sort-ui: false",
-        ]
-    lines += ["---", ""]
-
-    # --- Body: intro + a section + listing div per stage ------------------
-    lines += [
-        f"{len(included)} working research notebooks, grouped by processing "
-        "stage. Outputs are shown exactly as committed in the notebook "
-        "(the notebooks are not re-executed at build time).",
+    lines: list[str] = [
+        "---",
+        'title: "Workflow notebooks"',
+        "---",
+        "",
+        f"{len(included)} working research notebooks, grouped by the folder they live in. "
+        "The number is the notebook's own prefix and orders the notebooks within a folder, so "
+        "`01` in `10_METEO/30_PRODUCTS` is the incoming shortwave product. A folder whose "
+        "notebooks have no dependency order does not number them, so the column is empty there. "
+        "Outputs are shown exactly as committed in the notebook; the notebooks are not "
+        "re-executed at build time.",
         "",
     ]
-    for stage in ordered_stages:
-        lines += [
-            f"## {stage}",
-            "",
-            f"::: {{#{listing_id(stage)}}}",
-            ":::",
-            "",
-        ]
+
+    current_stage = None
+    for folder in sorted(by_folder, key=sort_key):
+        stage = folder.split("/")[0]
+        if stage != current_stage:
+            lines += [f"## {stage}", ""]
+            current_stage = stage
+        # Only add a sub-heading when the folder is deeper than the stage itself.
+        if folder != stage:
+            lines += [f"### {folder}", ""]
+
+        lines += ["| # | Notebook | File |", "|---|---|---|"]
+        for rel in sorted(by_folder[folder], key=lambda p: p.name):
+            title = notebook_title(WORKFLOW_DIR / rel)
+            href = rel.with_suffix(".html").as_posix()
+            number = notebook_number(rel)
+            # Escape the pipe, which would otherwise split the table cell.
+            safe_title = title.replace("|", "\\|")
+            lines += [f"| {number} | [{safe_title}]({href}) | `{rel.name}` |"]
+        lines += [""]
 
     index_path = staging_dir / "index.qmd"
     index_path.parent.mkdir(parents=True, exist_ok=True)
