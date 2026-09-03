@@ -10,7 +10,7 @@ paths:
 
 - Quarto **website** project (Pandoc-based, not Jupyter Book/MyST). Single config
   file `docs/_quarto.yml`: title, `website.sidebar.contents` (the nav, with a
-  `section:` for the nested Flux-Processing-Chain pages), `bibliography`, theme,
+  `section:` for the nested meteo and Flux-Processing-Chain pages), `bibliography`, theme,
   and favicon all live there. `output-dir: _build/html` keeps the old publish
   path. It's a **website**, not a book, specifically so the left sidebar is
   collapsible/hideable.
@@ -48,8 +48,18 @@ paths:
   copies the real notebooks into `docs/notebooks/` (gitignored build inputs,
   mirroring the `workflow/` tree), writes a `_metadata.yml` there that sets
   `execute: enabled: false` (Quarto shows the committed outputs and **never runs**
-  a cell), and generates `docs/notebooks/index.qmd` — a themed landing page with
-  one Quarto *listing* per stage. This generated index is the **only** notebook
+  a cell), and generates `docs/notebooks/index.qmd` — a themed landing page whose
+  tables the script writes itself, one per folder, grouped by the **full folder
+  path** and carrying each notebook's **number, title and file name**. A Quarto
+  *listing* per stage was the first version and cannot carry those fields: a
+  listing renders only what it knows about, so a row could not say that `SW_IN`
+  is `01` of `10_METEO/30_PRODUCTS` rather than of `10_METEO` at large, and the
+  substages were invisible. Building the tables means the script has to resolve
+  each title the way Quarto would — the first `# ` heading of the first markdown
+  cell, else the filename. A folder whose notebooks carry no number leaves that
+  column empty, which is a real category rather than an oversight: an
+  investigation beside a numbered product has no place in a dependency order.
+  This generated index is the **only** notebook
   index — a hand-generated `workflow/README.md` used to duplicate it for the old
   Jupyter Book build and was deleted once it had rotted to 3 live links out of
   48. It skips any `_`-prefixed path component
@@ -60,8 +70,8 @@ paths:
   (Pandoc parses it as a YAML front-matter block and the build aborts — same
   gotcha as the narrative pages) is rewritten to `***`; and a notebook that
   doesn't lead with a `# ` H1 (e.g. the meteoscreening notebooks open with a logo
-  image + a styled `<span>`) gets a `title:` injected from its filename, so its
-  page and listing row aren't blank/garbage. Because the
+  image + a styled `<span>`) gets a `title:` injected from its filename, so
+  neither its page nor its row on the index is blank. Because the
   notebooks are now part of the render, the order **flipped**: stage
   **before** `quarto render docs`, not after. Run order:
   `uv run python build_notebooks.py` → `uv run quarto render docs` →
@@ -69,7 +79,8 @@ paths:
   does all three. The sidebar's "Notebooks" entry points at `notebooks/index.html`.
   (History: this replaced a standalone-**nbconvert** build whose HTML carried
   JupyterLab styling and had no header anchors or shared nav.)
-- Pages are plain `.md` **except** `FPC.qmd`: Quarto only allows executable cells
+- Pages are plain `.md` **except** `FPC.qmd` and `Meteo_Product_Chain.qmd`:
+  Quarto only allows executable cells
   (the ` ```{mermaid} ` flowchart) in `.qmd` files. Any page that gains an
   executable cell must be renamed to `.qmd`; the output `.html` name is unchanged.
 - Quarto markup conventions (not MyST): callouts `::: {.callout-note title="…"}`
@@ -86,21 +97,37 @@ paths:
   the notebooks the page links to — they already carry the full evidence trail,
   and repeating it on the page buries the few facts a data user needs. Verify
   column names, units and coverage against the exported files, not against the
-  notebook prose.
+  notebook prose. The merged meteo product is the one description that is not
+  written here: notebook `99` generates a `_INFO.md` beside the parquet and the
+  csv, from the same registry the merge itself reads, because a recipient of a
+  data folder may never see this website. Do not restate its column list by hand
+  on a page — a hand-copied table stops being true the first time a variable is
+  added.
 - **Every meteo parameter gets its own page**, named `Meteo_Data_<VAR>.md`
   (`Meteo_Data_TA.md`, then `Meteo_Data_SW_IN.md`). `Meteo_Data.md` stays general — the
   conventions shared by all products, the variables table, and how the products
   are built — and carries a **table of the per-
-  variable pages at the top**, listing all ten parameters whether or not their
-  page exists yet, so an entry without a link reads as a page not yet written
-  rather than a variable not in the dataset. Adding a page means editing that one
+  variable pages at the top**, listing all thirteen parameters with their pages
+  and their dashboards, whether or not each exists yet, so an entry without a
+  link reads as a page not yet written rather than a variable not in the dataset.
+  Adding a page means editing that one
   cell **and** adding the file to the nav in `docs/_quarto.yml`; a page absent
   from the nav is unreachable. The per-variable pages are **nested under
   `Meteo_Data.md`** with the `section:` construction (the same one `FPC.qmd`
   uses), not listed beside it: with `collapse-level: 1` the sidebar then ships
-  them collapsed, so ten of them cannot crowd out every other page. Writing
+  them collapsed, so thirteen of them cannot crowd out every other page. Writing
   `- section: Meteo_Data.md` keeps that page a link in its own right rather than
   turning it into a bare heading.
+- **The dashboards have their own page**, `Data_Dashboards.md`, listed in the nav
+  *beside* `Meteo_Data.md` rather than under it: a dashboard covers one exported
+  series and the flux products will add their own, so it is not a meteorological
+  page. A dashboard is a standalone HTML file, not a Quarto page — `deploy.ps1`
+  builds it straight into `docs/_build/html/dashboards/` **after** the render, so
+  a page links it as a plain `dashboards/…html` path and nothing under `docs/`
+  holds its source. Keep the split the page itself states: a dashboard *summarises*
+  a product, the variable page *documents* it, so what was corrected and what is
+  still open never moves onto the dashboard page. A new variable therefore gets a
+  row in two tables, `Meteo_Data.md` and `Data_Dashboards.md`.
 - **A limitation belongs to a variable, so it lives on that variable's page**, in
   its `## Known limitations` section, and nowhere else. `Meteo_Data.md` names the
   section and points at the pages instead of restating them: a duplicated bullet
@@ -153,15 +180,19 @@ paths:
   step order (all respect the "never build unless asked" rule):
   - `preview_fast.ps1` — Quarto live-reload dev server for `docs/*.md` only
     (no notebooks; `/notebooks/` links won't resolve). Fast edit loop.
-  - `preview_full.ps1` — full local build (website **+** notebooks) served over
-    real HTTP, so search and `/notebooks/` work. Final check before deploy.
+  - `preview_full.ps1` — full local build (website, notebooks **and**
+    dashboards) served over real HTTP, so search, `/notebooks/` and
+    `/dashboards/` work. Final check before deploy.
   - `deploy.ps1` — the one deploy entry point: stages notebooks, renders the
-    site (notebooks included), clears the staging, then `ghp-import`s
+    site (notebooks included), clears the staging, builds the dashboards and the
+    calendar explorer into `docs/_build/html/dashboards/` — **after** the render,
+    because Quarto rewrites that tree on every render — then `ghp-import`s
     `docs/_build/html` to `gh-pages`
     (`-o`/single-commit so the branch doesn't accumulate old notebook assets).
     `-Preview` = build + serve (same as `preview_full.ps1`), `-NoPublish` =
-    build only, `-Remote`/`-Branch` override the target. It touches only
-    `gh-pages`, never your source branch/working tree.
+    build only, `-NoDashboards` = skip the dashboards (their links then 404, so
+    it is for a quicker loop, not for a deploy), `-Remote`/`-Branch` override the
+    target. It touches only `gh-pages`, never your source branch/working tree.
 - Pages are editable in Obsidian. Use standard Markdown links and Quarto
   cross-references — **not** Obsidian `[[wikilinks]]`/`![[embeds]]`, which the
   site won't resolve.
