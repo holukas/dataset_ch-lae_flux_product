@@ -29,11 +29,11 @@ This page stays general: the conventions shared by all products, what they
 contain, and how they are built. A limitation belongs to a variable and is
 documented on that variable's page.
 
-The list below is the full set of parameters. Pages are added as they are
-written, so an entry without a link is a page not yet written rather than a
+The list below is the full set of parameters. Pages and dashboards are added as
+they are written, so an entry without a link is one not yet written rather than a
 variable missing from the dataset.
 
-Each parameter also has an **interactive dashboard**: one self-contained page
+Most parameters also have an **interactive dashboard**: one self-contained page
 summarising the exported product year by year, with coverage and provenance,
 seasonality, distributions, extremes, trends, and the comparison against the
 reference station where one exists. Every chart carries a table view of the same
@@ -53,6 +53,9 @@ numbers, and the file is standalone and works offline.
 | `PREC` | precipitation | [Precipitation at 47 m](Meteo_Data_PREC.html) | [`PREC`](dashboards/METEO_PREC_dashboard.html) |
 | `SWC` | soil water content, five depths | [Soil water content at the forest floor](Meteo_Data_SWC.html) | [0.05](dashboards/METEO_SWC_0.05_dashboard.html) / [0.1](dashboards/METEO_SWC_0.1_dashboard.html) / [0.2](dashboards/METEO_SWC_0.2_dashboard.html) / [0.3](dashboards/METEO_SWC_0.3_dashboard.html) / [0.5](dashboards/METEO_SWC_0.5_dashboard.html) m |
 | `TS` | soil temperature, seven depths | [Soil temperature at the forest floor](Meteo_Data_TS.html) | [0.05](dashboards/METEO_TS_0.05_dashboard.html) / [0.1](dashboards/METEO_TS_0.1_dashboard.html) / [0.15](dashboards/METEO_TS_0.15_dashboard.html) / [0.2](dashboards/METEO_TS_0.2_dashboard.html) / [0.3](dashboards/METEO_TS_0.3_dashboard.html) / [0.5](dashboards/METEO_TS_0.5_dashboard.html) / [0.6](dashboards/METEO_TS_0.6_dashboard.html) m |
+| `G` | soil heat flux, three plates | [Soil heat flux at the forest floor](Meteo_Data_G.html) | `G` |
+| `SW_OUT` | outgoing shortwave radiation | [Outgoing shortwave radiation at 47 m](Meteo_Data_SW_OUT.html) | `SW_OUT` |
+| `LW_OUT` | outgoing longwave radiation | [Outgoing longwave radiation at 47 m](Meteo_Data_LW_OUT.html) | `LW_OUT` |
 
 A dashboard describes the column a user should analyse. Where a product exports
 both a measured and a `_HOMOGENIZED` column, the dashboard uses the homogenised
@@ -60,9 +63,9 @@ one throughout and names it at the top.
 
 ## The meteo products
 
-Ten notebooks turn the screened tower and soil measurements into one file per variable, written as parquet and CSV. Each file holds its value columns plus a provenance flag saying, half hour by half hour, whether the number was measured, corrected, reconstructed or modelled.
+Thirteen notebooks turn the screened tower and soil measurements into one file per variable, written as parquet and CSV. Each file holds its value columns plus a provenance flag saying, half hour by half hour, whether the number was measured, corrected, reconstructed or modelled.
 
-One notebook produces one variable. They are numbered `01` to `10` in the order in which they may read one another — `02` and `03` read `01`, and `07` reads `01`, `02` and `04` — and those numbers are used as shorthand throughout this documentation and inside the notebooks themselves. In the repository they are the folder `workflow/10_METEO/30_PRODUCTS/`; on this site they are rendered under [Notebooks](notebooks/index.html), and each is listed with its number and variable under [How they are built](#how-they-are-built) below.
+One notebook produces one variable. They are numbered `01` to `13` in the order in which they may read one another — `02` and `03` read `01`, and `07` reads `01`, `02` and `04` — and those numbers are used as shorthand throughout this documentation and inside the notebooks themselves. In the repository they are the folder `workflow/10_METEO/30_PRODUCTS/`; on this site they are rendered under [Notebooks](notebooks/index.html), and each is listed with its number and variable under [How they are built](#how-they-are-built) below.
 
 Two conventions apply to every product.
 
@@ -88,6 +91,10 @@ Two conventions apply to every product.
 | `SWC_FF1_<d>_1_HOMOGENIZED`, the four depths above 0.5 m | % VWC | 2004-2025 | 81-96 % | `SOURCE` |
 | `TS_FF1_<d>_HOMOGENIZED_GAPFILLED`, depths 0.05 / 0.1 / 0.15 / 0.2 / 0.3 / 0.5 / 0.6 m | °C | 2004-2025 | 27-94 % | `METHOD` + `SUSPECT` |
 | eighteen individual `TS_FF1_*` / `TS_PRF_FF1_*` channels | °C | 2004-2025 | 21-72 % | none, raw as screened |
+| `G_FF1_0.05_<n>`, three plates | W m^-2^ | 2004-2025 | 73-96 % | `SOURCE` |
+| `G_FF1_0.05_HOMOGENIZED`, the plate mean | W m^-2^ | 2004-2025 | 95.6 % | `NPLATES` |
+| `SW_OUT_T1_47_1` | W m^-2^ | 2005-2025 | 98.8 % | `INSTRUMENT` + `SOURCE` |
+| `LW_OUT_T1_47_1` | W m^-2^ | 2005-2025 | 98.1 % | `SOURCE`, gaps left in |
 
 Flag names are given by their suffix; the full column is `FLAG_<variable>_<suffix>`.
 
@@ -105,7 +112,7 @@ Every product carries limitations that are specific to it, and they are document
 that variable's own page under *Known limitations*: which dates the record is not
 homogeneous across, which columns are estimates rather than measurements, and what a
 trend or a period comparison computed over that series contains besides the weather.
-@tbl-meteo-pages links all ten pages.
+@tbl-meteo-pages links every page.
 
 Two limitations are properties of a reference rather than of a product, and recur on
 several of those pages: the MeteoSwiss Lägern station changed level in October 2010, when its
@@ -127,6 +134,9 @@ Each notebook documents its own decisions and the evidence behind them, and each
 [`07` `VPD`](notebooks/10_METEO/30_PRODUCTS/07_METEO_VPD_2004-2025.html),
 [`08` `PREC`](notebooks/10_METEO/30_PRODUCTS/08_METEO_PREC_2004-2025.html),
 [`09` `SWC`](notebooks/10_METEO/30_PRODUCTS/09_METEO_SWC_FF1_2004-2025.html),
-[`10` `TS`](notebooks/10_METEO/30_PRODUCTS/10_METEO_TS_FF1_2004-2025.html).
+[`10` `TS`](notebooks/10_METEO/30_PRODUCTS/10_METEO_TS_FF1_2004-2025.html),
+[`11` `G`](notebooks/10_METEO/30_PRODUCTS/11_METEO_G_FF1_2004-2025.html),
+[`12` `SW_OUT`](notebooks/10_METEO/30_PRODUCTS/12_METEO_SW_OUT_2005-2025.html),
+[`13` `LW_OUT`](notebooks/10_METEO/30_PRODUCTS/13_METEO_LW_OUT_2005-2025.html).
 A handful of unnumbered notebooks beside them export nothing and settle one question each, such as [`RADIATION_SENSOR_CONTINUITY`](notebooks/10_METEO/30_PRODUCTS/RADIATION_SENSOR_CONTINUITY.html); the variable pages link the ones that bear on them.
 

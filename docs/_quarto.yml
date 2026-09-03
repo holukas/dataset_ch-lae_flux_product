@@ -53,8 +53,8 @@ website:
       - Overview.md
       - Site_Info.md
       # The per-variable detail pages are nested under Meteo_Data.md rather than
-      # listed beside it, so the sidebar collapses them: there will eventually be
-      # ten of them and they would otherwise crowd out every other page. Same
+      # listed beside it, so the sidebar collapses them: there are more than a
+      # dozen and they would otherwise crowd out every other page. Same
       # `section:` construction as FPC.qmd below, which keeps Meteo_Data.md itself
       # a link rather than turning it into a bare heading. Listed in the same
       # order as the parameter table at the top of Meteo_Data.md.
@@ -70,6 +70,9 @@ website:
           - Meteo_Data_PREC.md
           - Meteo_Data_SWC.md
           - Meteo_Data_TS.md
+          - Meteo_Data_G.md
+          - Meteo_Data_SW_OUT.md
+          - Meteo_Data_LW_OUT.md
       # .qmd, not .md: the page carries an executable ```{mermaid} cell.
       - Meteo_Product_Chain.qmd
       - Management_Data.md
