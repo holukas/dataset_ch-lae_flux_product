@@ -252,6 +252,18 @@ and this site has neither.
 - **The measured columns are exported exactly as recorded, so they step at the setup
   boundaries.** The correction lives only in `G_FF1_0.05_HOMOGENIZED`. A mean or a trend taken
   across 2012 or 2021 from a plate column mixes three scales and three zero points.
+- **The amplitude of the record is not comparable across 2011/2012, in any column.** At the
+  2012 acquisition change the median daily swing of plates `_1` and `_2` falls by three to four
+  times, from 8.4 and 10.3 W m^-2^ in 2011 to 2.6 and 3.3 in 2012 and 1.2 and 1.8 in 2013, while
+  plate `_3` does not follow at all: it runs 15.7, 12.1 and 10.8 across the same years. So
+  whatever changed in 2012 did not reach the three plates equally, and the per-month gains do not
+  repair it — the reconciled column's own median daily swing then jumps between adjacent years,
+  2.0 in 2011, 5.7 in 2012, 3.5 in 2013 and 5.5 in 2014, which no soil does. Read a level here if
+  you must, but do not read an amplitude, a variance or a trend through this period, and do not
+  compare the early years with the later ones on any of those. The cause is not established; the
+  daily-record panel of the [dashboard](dashboards/METEO_G_dashboard.html) shows the symptom
+  plainly.
+
 - **The gain carries an unknown amount of climate.** Refitted on half the years of a setup and
   scored on the other half, the monthly gains miss by up to 125 %, worst in winter, and within
   one setup they vary by up to a factor of two across the calendar. An instrument gain does not
