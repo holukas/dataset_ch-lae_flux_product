@@ -232,6 +232,27 @@ Carried here because each blocks a scope decision or a published statement.
   the term and reports its size instead, because adding it would need a measured bulk
   density and a soil temperature above the plate, and this site has neither. An
   energy-balance closure computed from `G` is therefore a closure at plate depth.
+- **`G` around 2011/2012: the correction does not make the record homogeneous, and
+  the daily-record panel of the dashboard shows it.** Three facts, all from the
+  exported file. At the 2012 acquisition change the median daily amplitude of
+  plates 1 and 2 falls by three to four times, from 8.4 and 10.3 W m-2 in 2011 to
+  2.6 and 3.3 in 2012 and 1.2 and 1.8 in 2013, while **plate 3 does not follow**:
+  it runs 15.7, 12.1, 10.8 across the same years. And the reconciled column swings
+  between adjacent years, 2.0 in 2011, 5.7 in 2012, 3.5 in 2013, 5.5 in 2014, which
+  no soil does.
+  So whatever happened in 2012 did not happen to all three plates equally, and the
+  per-calendar-month gains do not repair it. Notebook `11` already reports the
+  symptom from the other side: its gain hold-out, fitted on odd years and scored on
+  even ones, misses by up to 125 % inside a single setup, which is what a gain
+  contaminated by climatology rather than describing an instrument looks like.
+  Until this is understood, treat the amplitude of `G` as not comparable across
+  2011/2012 in either the measured or the reconciled columns, and do not read a
+  trend through it. Three things to try: whether plate 3 escaping the change
+  identifies what changed, since it is the plate discarded in 2021 and the only one
+  excluded from the reconciled column; whether the fieldbook's 2012-04-25 program
+  "with corrected multipliers and offset" names channels anywhere; and whether the
+  amplitude loss is a gain change or a loss of coupling, which the plates' response
+  to a rain event or to a clear-sky day would separate. Section 3.2.
 - **What is `LW_*_COR_T1_47_1` in `ch-lae_processed`?** A longwave correction from
   earlier work that neither `06` nor `13` uses. `13` established only that the raw
   field is already fed from the logger's temperature-corrected channel; what the
