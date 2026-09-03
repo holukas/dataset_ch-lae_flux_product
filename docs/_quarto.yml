@@ -125,3 +125,7 @@ format:
     include-after-body:
       - _last-modified-sidebar.html
       - _theme-toggle.html
+      # Make the Mermaid flowcharts pannable and zoomable. `lightbox: auto`
+      # above cannot help there, because it works on <img> elements and Quarto
+      # renders a mermaid cell to an inline <svg>.
+      - _mermaid-zoom.html
