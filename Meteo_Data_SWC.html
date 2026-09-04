@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>meteo_data_swc – CH-LAE Flux Product</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Meteo_Data_TS.html" rel="next">
+<link href="./Meteo_Data_PREC.html" rel="prev">
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Meteo_Data.html">Meteo Data</a></li><li class="breadcrumb-item"><a href="./Meteo_Data_SWC.html">Soil water content at the forest floor</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CH-LAE Flux Product (PI dataset)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Site_Info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Site information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./Meteo_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_SW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_TA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air temperature at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_PPFD_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photosynthetic photon flux density at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_RH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relative humidity at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_PA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air pressure at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_LW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming longwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_VPD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vapour pressure deficit at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_PREC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Precipitation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_SWC.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Soil water content at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_TS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil temperature at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_G.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil heat flux at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_SW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Data_LW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing longwave radiation at 47 m</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Data_Dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dashboards</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Meteo_Product_Chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Product Chain</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Management_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Management Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./FPC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flux Processing Chain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Raw_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw Data: Eddy Covariance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-0: Preliminary flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1: Final flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L1.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1.1: Self-heating correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-2: Quality flag expansion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L3.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.1: Storage correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L3.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.2: Outlier flagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L3.3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.3: USTAR filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L4.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.1: Gap-filling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./L4.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.2: NEE Partitioning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./QCF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QCF: overall quality control flag</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Instrumentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Supplementary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplementary Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Used Software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Versions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Versions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Yearly_Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yearly Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open issue</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#soil-water-content-at-the-forest-floor" id="toc-soil-water-content-at-the-forest-floor" class="nav-link active" data-scroll-target="#soil-water-content-at-the-forest-floor">Soil water content at the forest floor</a>
+  <ul class="collapse">
+  <li><a href="#columns" id="toc-columns" class="nav-link" data-scroll-target="#columns">Columns</a>
+  <ul class="collapse">
+  <li><a href="#flag_swc_ff1_d_1_source" id="toc-flag_swc_ff1_d_1_source" class="nav-link" data-scroll-target="#flag_swc_ff1_d_1_source"><code>FLAG_SWC_FF1_&lt;d&gt;_1_SOURCE</code></a></li>
+  </ul></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage">Coverage</a></li>
+  <li><a href="#the-2020-profile-replacement" id="toc-the-2020-profile-replacement" class="nav-link" data-scroll-target="#the-2020-profile-replacement">The 2020 profile replacement</a></li>
+  <li><a href="#the-2015-break-in-the-older-era" id="toc-the-2015-break-in-the-older-era" class="nav-link" data-scroll-target="#the-2015-break-in-the-older-era">The 2015 break in the older era</a></li>
+  <li><a href="#no-break-at-the-january-2016-site-renewal" id="toc-no-break-at-the-january-2016-site-renewal" class="nav-link" data-scroll-target="#no-break-at-the-january-2016-site-renewal">No break at the January 2016 site renewal</a></li>
+  <li><a href="#known-limitations" id="toc-known-limitations" class="nav-link" data-scroll-target="#known-limitations">Known limitations</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/Meteo_Data_SWC.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Meteo_Data.html">Meteo Data</a></li><li class="breadcrumb-item"><a href="./Meteo_Data_SWC.html">Soil water content at the forest floor</a></li></ol></nav>
+<div class="quarto-title">
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">30 July 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="soil-water-content-at-the-forest-floor" class="level1">
+<h1>Soil water content at the forest floor</h1>
+<p>Half-hourly volumetric soil water content at five depths of the <code>FF1</code> soil profile at CH-LAE, 2004-2025. The file is <code>09_METEO_SWC_FF1_2004-2025</code> (parquet and CSV): <strong>373,728 records</strong> on a continuous 30-minute middle-timestamp index (named <code>TIMESTAMP_MIDDLE</code> in the file) in local time (UTC+1, no daylight saving), from 2004-09-07 00:15 to 2025-12-31 23:45. Values are in <strong>% VWC</strong>. The index begins with the soil record rather than on 1 January, because there is no soil moisture at this plot before September 2004.</p>
+<p>The <strong>interactive dashboards</strong> summarise one depth each on a single page — coverage and provenance, seasonality, distributions, extremes and trends, with a table view behind every chart. They are standalone and work offline: <a href="dashboards/METEO_SWC_0.05_dashboard.html">0.05</a> / <a href="dashboards/METEO_SWC_0.1_dashboard.html">0.1</a> / <a href="dashboards/METEO_SWC_0.2_dashboard.html">0.2</a> / <a href="dashboards/METEO_SWC_0.3_dashboard.html">0.3</a> / <a href="dashboards/METEO_SWC_0.5_dashboard.html">0.5</a> m.</p>
+<p>Method, evidence and checks:</p>
+<ul>
+<li><a href="notebooks/10_METEO/30_PRODUCTS/09_METEO_SWC_FF1_2004-2025.html"><code>09_METEO_SWC_FF1</code></a> — builds the product, splices the sensor generations, and tests the older era for internal breaks.</li>
+<li>The screening notebooks of the current profile, one per depth, which correct the raw high-resolution record before this product reads it: <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_0.05_1_2020-2025.html">0.05</a> / <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_0.1_1_2020-2025.html">0.1</a> / <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_0.2_1_2020-2025.html">0.2</a> / <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_0.3_1_2020-2025.html">0.3</a> / <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_0.5_1_2020-2025.html">0.5</a> m, and the <a href="notebooks/10_METEO/20_SCREENING/SWC/SWC_FF1_PROFILE_2020-2025.html">profile download</a> they share as a cross-check reference.</li>
+<li><a href="Meteo_Product_Chain.html"><code>Meteo_Product_Chain</code></a> — where this product sits in the chain.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Which column to use">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Which column to use
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No column is homogeneous across April 2020, when the whole soil profile was replaced. The step between the two profiles is <strong>+7.6 to +10.7 % VWC</strong> depending on depth, and it is an instrument change, not weather.</p>
+<ul>
+<li>Inside one profile, use <code>SWC_FF1_&lt;d&gt;_1</code>, which is what the probe recorded.</li>
+<li>Across April 2020, use <code>SWC_FF1_&lt;d&gt;_1_HOMOGENIZED</code> — but read <em>The 2020 profile replacement</em> below first, because that column rests on climatology alone and is a derived estimate rather than a measurement.</li>
+<li>At <strong>0.5 m there is no homogenised column</strong>, because that depth has only one profile.</li>
+</ul>
+<p><strong>Nothing in this product is gap-filled</strong>, and coverage varies strongly by depth, from 80.8 % at 0.05 m to 96.0 % at 0.2 m over the full period. A missing record is <code>NaN</code>, never <code>0</code>.</p>
+</div>
+</div>
+<section id="columns" class="level2">
+<h2 class="anchored" data-anchor-id="columns">Columns</h2>
+<p>Fourteen columns: one measured value, one homogenised twin and one flag per depth, except at 0.5 m, which has no homogenised twin. They are grouped by depth in the file, so a value and its provenance stay adjacent. <code>&lt;d&gt;</code> is one of <code>0.05</code>, <code>0.1</code>, <code>0.2</code>, <code>0.3</code>, <code>0.5</code>.</p>
+<div id="tbl-swc-cols" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-swc-cols-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Columns of <code>09_METEO_SWC_FF1_2004-2025</code>.
+</figcaption>
+<div aria-describedby="tbl-swc-cols-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>column</th>
+<th>unit</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SWC_FF1_&lt;d&gt;_1</code></td>
+<td>% VWC</td>
+<td>Soil water content as the probe recorded it, screened. Not homogeneous across April 2020.</td>
+</tr>
+<tr class="even">
+<td><code>SWC_FF1_&lt;d&gt;_1_HOMOGENIZED</code></td>
+<td>% VWC</td>
+<td>The same series with the pre-2020 era shifted onto the level of the current profile. A derived estimate. Absent at 0.5 m.</td>
+</tr>
+<tr class="odd">
+<td><code>FLAG_SWC_FF1_&lt;d&gt;_1_SOURCE</code></td>
+<td>-</td>
+<td>Which sensor generation measured the value.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A value is present exactly where its flag is greater than <code>0</code>, and the homogenised column is present exactly where the measured one is.</p>
+<section id="flag_swc_ff1_d_1_source" class="level3">
+<h3 class="anchored" data-anchor-id="flag_swc_ff1_d_1_source"><code>FLAG_SWC_FF1_&lt;d&gt;_1_SOURCE</code></h3>
+<p>The codes name a <strong>sensor generation</strong>, not a gap-filling model: any code above <code>0</code> means this depth measured this value. Filter on <code>&gt; 0</code> for measurements.</p>
+<div id="tbl-swc-source" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-swc-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Source codes and their record counts per depth.
+</figcaption>
+<div aria-describedby="tbl-swc-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>code</th>
+<th>sensor generation</th>
+<th>0.05 m</th>
+<th>0.1 m</th>
+<th>0.2 m</th>
+<th>0.3 m</th>
+<th>0.5 m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>no measurement: a gap, or before this depth’s record begins</td>
+<td>71,670</td>
+<td>36,422</td>
+<td>14,865</td>
+<td>50,638</td>
+<td>275,140</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>EC-20 profile, screened with the MeteoScreeningTool</td>
+<td>207,596</td>
+<td>238,767</td>
+<td>260,311</td>
+<td>239,424</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>TEROS 12 <code>FF1</code> profile, installed 19 March 2020</td>
+<td>94,462</td>
+<td>98,539</td>
+<td>98,552</td>
+<td>69,152</td>
+<td>98,588</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>TEROS 12 replacement probe, 40 cm downslope</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>14,514</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Code <code>1</code> runs from 2004 to each probe’s own death, between December 2018 and March 2020. Code <code>2</code> begins on 2020-04-10 at every depth. Code <code>3</code> exists at 0.3 m only, from 2025-03-04. The whole of 2004-2020 is code <code>0</code> at 0.5 m, because the older profile had no probe at that depth — no instrument, rather than missing data.</p>
+</section>
+</section>
+<section id="coverage" class="level2">
+<h2 class="anchored" data-anchor-id="coverage">Coverage</h2>
+<p>Coverage differs by depth more than for any other meteo variable, because each probe failed on its own schedule and was not replaced until the whole profile was.</p>
+<div id="tbl-swc-cov" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-swc-cov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Coverage and gap structure since each depth’s own record begins. A gap is measured as the interval between the values surrounding it.
+</figcaption>
+<div aria-describedby="tbl-swc-cov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>depth</th>
+<th>record begins</th>
+<th>coverage</th>
+<th>gaps</th>
+<th>gaps &gt; 30 d</th>
+<th>longest gap</th>
+<th>ends</th>
+<th>range</th>
+<th>mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.05 m</td>
+<td>2004-09-07</td>
+<td>80.8 %</td>
+<td>100</td>
+<td>6</td>
+<td>695 d</td>
+<td>2015-06-03</td>
+<td>7.7-39.7</td>
+<td>23.5</td>
+</tr>
+<tr class="even">
+<td>0.1 m</td>
+<td>2004-09-07</td>
+<td>90.3 %</td>
+<td>105</td>
+<td>3</td>
+<td>480 d</td>
+<td>2020-04-10</td>
+<td>0.8-41.7</td>
+<td>22.9</td>
+</tr>
+<tr class="odd">
+<td>0.2 m</td>
+<td>2004-09-07</td>
+<td>96.0 %</td>
+<td>108</td>
+<td>2</td>
+<td>92 d</td>
+<td>2009-06-11</td>
+<td>7.3-39.0</td>
+<td>23.6</td>
+</tr>
+<tr class="even">
+<td>0.3 m</td>
+<td>2004-09-07</td>
+<td>86.5 %</td>
+<td>70</td>
+<td>6</td>
+<td>328 d</td>
+<td>2025-03-04</td>
+<td>3.3-36.4</td>
+<td>21.1</td>
+</tr>
+<tr class="odd">
+<td>0.5 m</td>
+<td>2020-04-10</td>
+<td>98.2 %</td>
+<td>31</td>
+<td>0</td>
+<td>14 d</td>
+<td>2024-04-23</td>
+<td>18.9-31.7</td>
+<td>24.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Means and ranges mix the two profiles and are given for orientation only. Three of the five longest gaps are hardware rather than downtime: 0.1 m waits 480 days between its old probe dying and the new profile starting, 0.3 m waits 328 days for its replacement in 2025, and the 695 days at 0.05 m are the unexplained absence discussed under <em>Known limitations</em>.</p>
+<hr>
+</section>
+<section id="the-2020-profile-replacement" class="level2">
+<h2 class="anchored" data-anchor-id="the-2020-profile-replacement">The 2020 profile replacement</h2>
+<p>The five TEROS 12 probes of the current profile were installed on 19 March 2020 and began reporting on 10 April. The EC-20 probes they replaced had failed one by one over the preceding year and a half, so <strong>the two generations never overlap at any depth</strong>: the interval between them runs from 22 days at 0.2 m to 480 days at 0.1 m. That interval is a dead probe, not an outage, and it is not filled.</p>
+<p>Because nothing measured through the break — no second profile, no weather service, and not the other depths, which changed on the same day — the step cannot be calibrated the way the precipitation step at 2018 can. The <code>_HOMOGENIZED</code> columns shift the older era onto the current level using <strong>additive calendar-month offsets fitted on climatology alone</strong>, which assumes the two periods had the same monthly soil-moisture climate. Use them for continuity and trend work that has to cross 2020. Do not read a homogenised pre-2020 value as an estimate of what the soil held at the time.</p>
+<p>The four homogenised columns are also <strong>not on one reference period</strong>: each is shifted onto its own depth’s current-profile era, and at 0.3 m that era ends at the April 2024 probe failure while elsewhere it runs to the end of 2025. Within a depth this changes nothing; differencing <em>between</em> depths across 2020 carries the difference.</p>
+</section>
+<section id="the-2015-break-in-the-older-era" class="level2">
+<h2 class="anchored" data-anchor-id="the-2015-break-in-the-older-era">The 2015 break in the older era</h2>
+<p>The older era is not one level either, and this matters for anyone using it. On <strong>25 June 2015, between 08:15 and 09:15</strong>, all four depths drop by about <strong>3.9 % VWC</strong> at once and stay down. The maintenance record has people working on the forest-floor logger’s wiring that morning, and three weeks earlier it records the plot’s power supply being replaced and the soil-moisture probes’ connectors being found loose. These probes were read as a voltage scaled by a fixed multiplier, so a poor connection in that path shifts the reported level directly.</p>
+<p>The break is not corrected, because removing it alone would leave a larger problem in place. Underneath it, both the wettest and the driest conditions of each year rise steadily at every depth through 2005-2015, by <strong>+0.5 to +1.2 % VWC per year</strong> — five to nine % VWC in total — while precipitation over the same decade trends slightly downward. The driest half-hour of a year is a property of the soil, so a record whose dry end nearly doubles is not tracking the weather. It is consistent with the site inventory, which flags three of the four old probes as defective. A drift has no date at which a correction could be applied and no reference to fit against, so it is documented rather than removed, as for the tower pyranometer on the <a href="Meteo_Data_SW_IN.html"><code>SW_IN</code> page</a> and the PAR sensor on the <a href="Meteo_Data_PPFD_IN.html"><code>PPFD_IN</code> page</a>.</p>
+<p>The practical consequence: <strong>a level comparison inside the pre-2020 era across June 2015 is not a comparison of measurements</strong>, and a trend fitted through that era is dominated by instrument drift rather than by climate.</p>
+</section>
+<section id="no-break-at-the-january-2016-site-renewal" class="level2">
+<h2 class="anchored" data-anchor-id="no-break-at-the-january-2016-site-renewal">No break at the January 2016 site renewal</h2>
+<p>The January 2016 tower renewal moved air temperature, relative humidity and air pressure, and a program change that June left much of the longwave record reading low. It did <strong>not</strong> affect this profile, which is on the forest-floor datalogger rather than the tower one: the tower program contains no soil-moisture instruction at all, the profile lost no records while the tower logger was replaced, and neither the level nor any individual half-hour moves at the date. The notebook asserts all three, so the question is settled rather than open.</p>
+</section>
+<section id="known-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="known-limitations">Known limitations</h2>
+<ul>
+<li><strong>Depths are not replicates.</strong> Each is a single probe at one point in one profile. They share a logger, a power supply and an SDI-12 bus, so they fail together; but they do not measure the same soil, and their disagreement is information rather than error.</li>
+<li><strong>0.3 m carries three sensor generations and steps twice.</strong> The original probe stopped communicating in April 2024 and, in failing, took the whole profile’s SDI-12 port down, which is why every depth has an April 2024 gap. Its last value in this file is <code>2024-04-09 16:45</code>, and the 328-day gap that follows ends when a replacement went in on 4 March 2025 <strong>40 cm down the slope</strong>, in different soil, reading about 3 % VWC high relative to its neighbours. Code <code>3</code> marks it; the measured column keeps the step and the homogenised column removes it.</li>
+<li><strong>The pre-2020 era was screened once, with the deprecated MeteoScreeningTool, and never re-screened.</strong> Values outside the physical range are removed here — failed sensor reads, which that hardware stores as a fixed negative constant rather than as a gap — but a probe that stopped responding to rainfall while still reporting plausible values would not be caught. The per-depth screening notebooks run that test for the current profile only.</li>
+<li><strong>The two largest gaps in the older era were power failures</strong>, documented in the site record: 10 March to 11 June 2009 and 6 March to 28 May 2010, when a fuse slipped out and the battery-powered forest-floor logger lost power. The forest floor had no site record at all before 2006, so the first two years of the soil record are unadjudicable in principle.</li>
+<li><strong>The nearly two-year absence at 0.05 m</strong> (July 2013 to June 2015) has no explanation anywhere in the site record, and unlike the 2009 and 2010 gaps it affects one depth only. It is why 0.05 m has the lowest coverage and the longest gap of the five depths.</li>
+<li><strong>Sub-daily timestamps in August 2012 carry the same uncertainty as the tower variables.</strong> A logger clock error that month is corrected in the tower products. Whether the forest-floor logger shared it is not recorded, and the fault is undetectable in soil moisture, which has no diurnal cycle to align against. Nothing is applied.</li>
+<li><strong>FLUXNET’s <code>SWC_F_MDS_1..4</code> are not this product.</strong> They splice the same two profiles with the 2020 step passed straight through, and flat-fill some stretches at a constant value. The source flag exists so that this product cannot be used the same way by accident.</li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<!--
+  Moves the page's "Modified" date out of the top title block and into the right
+  ("On this page") sidebar, at the very end. Quarto has no built-in option to
+  relocate title-block metadata, so we do it client-side: read the
+  `date-modified` value Quarto emits, drop the title meta block, and append a
+  "Last updated" line at the bottom of the right margin sidebar. Falls back to
+  the left sidebar on pages that have no TOC (so the right sidebar is absent).
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  .sidebar-last-modified {
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    // Prefer the right ("On this page") sidebar; fall back to the left one on
+    // pages without a TOC.
+    var right = document.getElementById("quarto-margin-sidebar");
+    var left = document.getElementById("quarto-sidebar");
+    var host = right || left;
+    if (!host) return;
+
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    if (right) {
+      host.appendChild(box); // end of the right sidebar, after the TOC
+    } else {
+      var container = left.querySelector(".sidebar-menu-container") || left;
+      container.appendChild(box);
+    }
+  });
+</script>
+<!--
+  Relocates Quarto's light/dark theme toggle out of the left sidebar title into
+  the top of the right ("On this page") sidebar. Quarto has no option to place
+  the toggle there, so we move the node client-side on load. On pages without a
+  TOC (no right sidebar) the toggle is left where Quarto put it. Styling is in
+  styles.css (.margin-theme-toggle, .quarto-color-scheme-toggle). Wired in via
+  docs/_quarto.yml -> format.html.include-after-body.
+-->
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var tools = document.querySelector(
+      "#quarto-sidebar .sidebar-title .sidebar-tools-main"
+    );
+    var right = document.getElementById("quarto-margin-sidebar");
+    if (!tools || !right) return;
+    var holder = document.createElement("div");
+    // `sidebar-navigation` makes Quarto's own (theme-aware) sun/moon icon rules
+    // match the toggle here in the right sidebar -- they're scoped to that class
+    // and would otherwise leave an empty icon box. styles.css neutralizes the
+    // stray padding that class brings.
+    holder.className = "margin-theme-toggle sidebar-navigation";
+    holder.appendChild(tools); // move the node (the toggle lives inside)
+    right.insertBefore(holder, right.firstChild);
+  });
+</script>
+<!--
+
+  Make every Mermaid diagram pannable and zoomable.
+
+
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+
+  to the article width, which leaves the node labels small and the diagram hard to
+
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+
+
+  Deliberate choices, both about not surprising the reader:
+
+
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+
+    reader scrolling past a diagram is never trapped inside it.
+
+  - The viewport can be dragged taller by its bottom edge, because how much height
+
+    a diagram deserves depends on the diagram.
+
+
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+
+  site would otherwise gain a network dependency for it.
+
+-->
+
+<style>
+
+  .mzoom-wrap {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(128, 128, 128, 0.35);
+
+    border-radius: 4px;
+
+    resize: vertical;
+
+    min-height: 220px;
+
+    height: 460px;
+
+    background: transparent;
+
+    touch-action: none;
+
+  }
+
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+
+  .mzoom-wrap > svg {
+
+    transform-origin: 0 0;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+  }
+
+  .mzoom-bar {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    display: flex;
+
+    gap: 4px;
+
+    z-index: 2;
+
+  }
+
+  .mzoom-bar button {
+
+    font: inherit;
+
+    font-size: 0.85rem;
+
+    line-height: 1;
+
+    padding: 4px 8px;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(128, 128, 128, 0.45);
+
+    border-radius: 3px;
+
+    background: rgba(127, 127, 127, 0.12);
+
+    color: inherit;
+
+  }
+
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+
+  .mzoom-hint {
+
+    position: absolute;
+
+    left: 8px;
+
+    bottom: 6px;
+
+    font-size: 0.75rem;
+
+    opacity: 0.6;
+
+    pointer-events: none;
+
+  }
+
+</style>
+
+
+
+<script>
+
+(function () {
+
+  var MIN = 0.15, MAX = 8;
+
+
+
+  function enhance(svg) {
+
+    if (svg.dataset.mzoom) return;
+
+    svg.dataset.mzoom = "1";
+
+
+
+    var wrap = document.createElement("div");
+
+    wrap.className = "mzoom-wrap";
+
+    svg.parentNode.insertBefore(wrap, svg);
+
+    wrap.appendChild(svg);
+
+
+
+    var bar = document.createElement("div");
+
+    bar.className = "mzoom-bar";
+
+    wrap.appendChild(bar);
+
+
+
+    var hint = document.createElement("div");
+
+    hint.className = "mzoom-hint";
+
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+
+    wrap.appendChild(hint);
+
+
+
+    var k = 1, tx = 0, ty = 0;
+
+
+
+    function apply() {
+
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+
+    }
+
+
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+
+    function fit() {
+
+      var box = svg.getBBox ? svg.getBBox() : null;
+
+      var w = box && box.width ? box.width : svg.clientWidth;
+
+      var h = box && box.height ? box.height : svg.clientHeight;
+
+      if (!w || !h) return;
+
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+
+      k = Math.max(MIN, Math.min(MAX, k));
+
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+
+      apply();
+
+    }
+
+
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+
+    // stays under the cursor.
+
+    function zoomAt(px, py, factor) {
+
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+
+      tx = px - (px - tx) * (next / k);
+
+      ty = py - (py - ty) * (next / k);
+
+      k = next;
+
+      apply();
+
+    }
+
+
+
+    function button(label, title, fn) {
+
+      var b = document.createElement("button");
+
+      b.type = "button";
+
+      b.textContent = label;
+
+      b.title = title;
+
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+
+      bar.appendChild(b);
+
+    }
+
+    button("−", "Zoom out", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+
+    });
+
+    button("+", "Zoom in", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+
+    });
+
+    button("⤢", "Fit to view", fit);
+
+
+
+    wrap.addEventListener("wheel", function (e) {
+
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+
+      var r = wrap.getBoundingClientRect();
+
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+
+    }, { passive: false });
+
+
+
+    var dragging = false, lastX = 0, lastY = 0;
+
+    wrap.addEventListener("pointerdown", function (e) {
+
+      if (e.target.closest(".mzoom-bar")) return;
+
+      dragging = true;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      wrap.classList.add("mzoom-grabbing");
+
+      wrap.setPointerCapture(e.pointerId);
+
+    });
+
+    wrap.addEventListener("pointermove", function (e) {
+
+      if (!dragging) return;
+
+      tx += e.clientX - lastX;
+
+      ty += e.clientY - lastY;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      apply();
+
+    });
+
+    function endDrag(e) {
+
+      if (!dragging) return;
+
+      dragging = false;
+
+      wrap.classList.remove("mzoom-grabbing");
+
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+
+    }
+
+    wrap.addEventListener("pointerup", endDrag);
+
+    wrap.addEventListener("pointercancel", endDrag);
+
+    wrap.addEventListener("dblclick", fit);
+
+
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+
+    // fonts have settled since label widths move the bounding box.
+
+    requestAnimationFrame(fit);
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  }
+
+
+
+  function scan() {
+
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+
+  }
+
+
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+
+  // watch for the SVG appearing and stop once every diagram has one.
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    scan();
+
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+
+    if (!targets.length) return;
+
+    var obs = new MutationObserver(function () {
+
+      scan();
+
+      var pending = document.querySelectorAll(
+
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+
+      if (!pending.length) obs.disconnect();
+
+    });
+
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+
+    // Backstop for browsers without :has() support in querySelectorAll.
+
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+
+  });
+
+})();
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Meteo_Data_PREC.html" class="pagination-link" aria-label="Precipitation at 47 m">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Precipitation at 47 m</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Meteo_Data_TS.html" class="pagination-link" aria-label="Soil temperature at the forest floor">
+        <span class="nav-page-text">Soil temperature at the forest floor</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lukas Hörtnagl · © 2025</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/Meteo_Data_SWC.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

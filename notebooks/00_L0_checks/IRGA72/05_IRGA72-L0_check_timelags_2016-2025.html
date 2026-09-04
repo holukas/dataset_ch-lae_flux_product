@@ -1,0 +1,3001 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Time lag checks L0 fluxes IRGA72 (2016-2025) – CH-LAE Flux Product</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Time lag checks L0 fluxes IRGA72 (2016-2025)</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      <img src="../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CH-LAE Flux Product (PI dataset)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Site_Info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Site information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../Meteo_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_TA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air temperature at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PPFD_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photosynthetic photon flux density at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_RH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relative humidity at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air pressure at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_LW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming longwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_VPD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vapour pressure deficit at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PREC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Precipitation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SWC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil water content at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_TS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil temperature at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_G.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil heat flux at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_LW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing longwave radiation at 47 m</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Data_Dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dashboards</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Product_Chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Product Chain</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Management_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Management Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../FPC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flux Processing Chain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Raw_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw Data: Eddy Covariance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-0: Preliminary flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1: Final flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L1.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1.1: Self-heating correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-2: Quality flag expansion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.1: Storage correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.2: Outlier flagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.3: USTAR filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L4.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.1: Gap-filling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L4.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.2: NEE Partitioning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../QCF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QCF: overall quality control flag</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Instrumentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Supplementary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplementary Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Used Software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Versions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Versions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Yearly_Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yearly Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open issue</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
+  <li><a href="#function-for-plotting-time-lags-and-ranges" id="toc-function-for-plotting-time-lags-and-ranges" class="nav-link" data-scroll-target="#function-for-plotting-time-lags-and-ranges">Function for plotting time lags and ranges</a></li>
+  <li><a href="#time-lags-from-openlag-runs" id="toc-time-lags-from-openlag-runs" class="nav-link" data-scroll-target="#time-lags-from-openlag-runs">Time lags from OPENLAG runs</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">2016_2</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2016_3</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">2017_1+2</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3">2018_1</a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">2018_2</a></li>
+  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5">2018_3</a></li>
+  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6">2018_4+2019_1</a></li>
+  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7">2019_2</a></li>
+  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8">2019_4</a></li>
+  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9">2020_1</a></li>
+  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10">2021_1+2</a></li>
+  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11">2022_1+2+3+4</a>
+  <ul class="collapse">
+  <li><a href="#complete-year" id="toc-complete-year" class="nav-link" data-scroll-target="#complete-year">Complete year</a></li>
+  <li><a href="#section-12" id="toc-section-12" class="nav-link" data-scroll-target="#section-12">2022_2</a></li>
+  <li><a href="#section-13" id="toc-section-13" class="nav-link" data-scroll-target="#section-13">2022_3</a></li>
+  <li><a href="#section-14" id="toc-section-14" class="nav-link" data-scroll-target="#section-14">2022_4</a></li>
+  </ul></li>
+  <li><a href="#section-15" id="toc-section-15" class="nav-link" data-scroll-target="#section-15">2023_1+2</a></li>
+  <li><a href="#section-16" id="toc-section-16" class="nav-link" data-scroll-target="#section-16">2024_1</a></li>
+  <li><a href="#section-17" id="toc-section-17" class="nav-link" data-scroll-target="#section-17">2025_1</a></li>
+  </ul></li>
+  <li><a href="#end-of-notebook." id="toc-end-of-notebook." class="nav-link" data-scroll-target="#end-of-notebook.">End of notebook.</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2025.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Time lag checks L0 fluxes IRGA72 (2016-2025)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">4 September 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br></p>
+<section id="imports" class="level1">
+<h1>Imports</h1>
+<div id="5a09714c-d1cd-4596-992c-eca6fdb5fe21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:26.267178Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:26.266179Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:31.788701Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:31.787696Z&quot;}}" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.analysis <span class="im">import</span> Histogram</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.plotting <span class="im">import</span> HeatmapDateTime</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.io.files <span class="im">import</span> load_parquet</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.gridspec <span class="im">as</span> gridspec</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.transforms <span class="im">as</span> transforms</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.plotting.plotfuncs <span class="im">import</span> default_format</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+<section id="load-data" class="level1">
+<h1>Load data</h1>
+<div id="0d8aecae-8d90-4805-8b87-c7433028c8c1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:31.792703Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:31.792703Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:33.129562Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:33.128554Z&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The merged Level-0 record written by 01_IRGA72-L0_merge_output_to_parquet_2016-2025. It lives in</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the external (untracked) data folder and is addressed by absolute path, so this notebook does not</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># depend on the working directory.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>SOURCEPATH <span class="op">=</span> (<span class="vs">r"F:</span><span class="dv">\S</span><span class="vs">ync</span><span class="er">\</span><span class="vs">luhk_work</span><span class="dv">\d</span><span class="vs">ev-data</span><span class="dv">\d</span><span class="vs">atasets-data</span><span class="dv">\d</span><span class="vs">ataset_ch-lae_flux_product-data"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>              <span class="vs">r"</span><span class="dv">\w</span><span class="vs">orkflow</span><span class="ch">\00</span><span class="vs">_L0_checks</span><span class="er">\</span><span class="vs">IRGA72"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              <span class="vs">r"</span><span class="ch">\01</span><span class="vs">_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2025</span><span class="dv">.</span><span class="vs">parquet"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_parquet(filepath<span class="op">=</span>SOURCEPATH)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Loaded .parquet file 
+F:\Sync\luhk_work\dev-data\datasets-data\dataset_ch-lae_flux_product-data\workflow\00_L0_checks\IRGA
+72\01_OPENLAG_EDDYPRO_FLUXNET_OUTPUT_IRGA72_2016-2025.parquet (0.677 seconds).
+</pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">AIR_MV</th>
+<th data-quarto-table-cell-role="th">AIR_DENSITY</th>
+<th data-quarto-table-cell-role="th">AIR_RHO_CP</th>
+<th data-quarto-table-cell-role="th">AIR_CP</th>
+<th data-quarto-table-cell-role="th">AOA_METHOD</th>
+<th data-quarto-table-cell-role="th">AXES_ROTATION_METHOD</th>
+<th data-quarto-table-cell-role="th">BOWEN</th>
+<th data-quarto-table-cell-role="th">BURBA_METHOD</th>
+<th data-quarto-table-cell-role="th">BADM_LOCATION_LAT</th>
+<th data-quarto-table-cell-role="th">BADM_LOCATION_LONG</th>
+<th data-quarto-table-cell-role="th">BADM_LOCATION_ELEV</th>
+<th data-quarto-table-cell-role="th">BADM_HEIGHTC</th>
+<th data-quarto-table-cell-role="th">BADM_INST_SAMPLING_INT</th>
+<th data-quarto-table-cell-role="th">BADM_INST_AVERAGING_INT</th>
+<th data-quarto-table-cell-role="th">BADM_INST_MODEL_SA</th>
+<th data-quarto-table-cell-role="th">BADM_INST_HEIGHT_SA</th>
+<th data-quarto-table-cell-role="th">BADM_INST_SA_WIND_FORMAT</th>
+<th data-quarto-table-cell-role="th">BADM_INST_SA_GILL_ALIGN</th>
+<th data-quarto-table-cell-role="th">BADM_SA_OFFSET_NORTH</th>
+<th data-quarto-table-cell-role="th">BADM_INST_MODEL_GA_CO2</th>
+<th data-quarto-table-cell-role="th">BADM_INSTPAIR_NORTHWARD_SEP_GA_CO2</th>
+<th data-quarto-table-cell-role="th">BADM_INSTPAIR_EASTWARD_SEP_GA_CO2</th>
+<th data-quarto-table-cell-role="th">BADM_INSTPAIR_HEIGHT_SEP_GA_CO2</th>
+<th data-quarto-table-cell-role="th">BADM_INST_GA_CP_TUBE_LENGTH_GA_CO2</th>
+<th data-quarto-table-cell-role="th">BADM_INST_GA_CP_TUBE_IN_DIAM_GA_CO2</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">W_NONE_MEAS_COV</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N1626</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0614</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0277</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0133</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0065</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0032</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0016</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0008</th>
+<th data-quarto-table-cell-role="th">W_T_SONIC_COV_IBROM_N0004</th>
+<th data-quarto-table-cell-role="th">W_NUM_SPIKES</th>
+<th data-quarto-table-cell-role="th">WD_FILTER_NREX</th>
+<th data-quarto-table-cell-role="th">W_SPIKE_NREX</th>
+<th data-quarto-table-cell-role="th">W_ABSLIM_NREX</th>
+<th data-quarto-table-cell-role="th">W_VM97_TEST</th>
+<th data-quarto-table-cell-role="th">W_LGD</th>
+<th data-quarto-table-cell-role="th">W_KID</th>
+<th data-quarto-table-cell-role="th">W_ZCD</th>
+<th data-quarto-table-cell-role="th">W_ITC</th>
+<th data-quarto-table-cell-role="th">W_ITC_TEST</th>
+<th data-quarto-table-cell-role="th">WBOOST_APPLIED</th>
+<th data-quarto-table-cell-role="th">WPL_APPLIED</th>
+<th data-quarto-table-cell-role="th">ZL</th>
+<th data-quarto-table-cell-role="th">ZL_UNCORR</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_MIDDLE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2016-01-11 15:15:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2016-01-11 15:45:00</th>
+<td>0.025415</td>
+<td>1.13966</td>
+<td>1145.77</td>
+<td>1005.36</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>801010000.0</td>
+<td>1.50</td>
+<td>7.65689</td>
+<td>0.0</td>
+<td>4.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.009173</td>
+<td>0.009198</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2016-01-11 16:15:00</th>
+<td>0.025509</td>
+<td>1.13546</td>
+<td>1141.57</td>
+<td>1005.38</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>801010000.0</td>
+<td>1.55</td>
+<td>7.31186</td>
+<td>0.0</td>
+<td>6.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.008916</td>
+<td>0.008932</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2016-01-11 16:45:00</th>
+<td>0.025582</td>
+<td>1.13222</td>
+<td>1138.33</td>
+<td>1005.40</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>800010000.0</td>
+<td>0.10</td>
+<td>8.96945</td>
+<td>1.0</td>
+<td>7.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0.024976</td>
+<td>-0.025218</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2016-01-11 17:15:00</th>
+<td>0.025625</td>
+<td>1.13030</td>
+<td>1136.42</td>
+<td>1005.41</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>800010000.0</td>
+<td>0.80</td>
+<td>7.41958</td>
+<td>0.0</td>
+<td>9.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0.000850</td>
+<td>-0.000857</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 22:45:00</th>
+<td>0.024009</td>
+<td>1.20514</td>
+<td>1213.13</td>
+<td>1006.63</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.067569</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>11.0</td>
+<td>1.0</td>
+<td>-1.0</td>
+<td>100.0</td>
+<td>5.3</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>800000011.0</td>
+<td>0.00</td>
+<td>11.29880</td>
+<td>4601.0</td>
+<td>49.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0.015730</td>
+<td>-0.030361</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-12-31 23:15:00</th>
+<td>0.024015</td>
+<td>1.20467</td>
+<td>1212.83</td>
+<td>1006.78</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>4.971290</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>11.0</td>
+<td>1.0</td>
+<td>-1.0</td>
+<td>100.0</td>
+<td>5.3</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>18.0</td>
+<td>0.0</td>
+<td>32.0</td>
+<td>0.0</td>
+<td>800000011.0</td>
+<td>0.00</td>
+<td>19.45800</td>
+<td>7892.0</td>
+<td>32.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.686305</td>
+<td>0.697002</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 23:45:00</th>
+<td>0.024015</td>
+<td>1.20467</td>
+<td>1212.86</td>
+<td>1006.79</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.369620</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>11.0</td>
+<td>1.0</td>
+<td>-1.0</td>
+<td>100.0</td>
+<td>5.3</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>800000011.0</td>
+<td>0.00</td>
+<td>13.98160</td>
+<td>6271.0</td>
+<td>20.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>2.106530</td>
+<td>2.193120</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2026-01-01 00:15:00</th>
+<td>0.025108</td>
+<td>1.15344</td>
+<td>1160.99</td>
+<td>1006.55</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.851410</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>11.0</td>
+<td>1.0</td>
+<td>-1.0</td>
+<td>100.0</td>
+<td>5.3</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>801000011.0</td>
+<td>0.00</td>
+<td>11.12460</td>
+<td>12955.0</td>
+<td>51.0</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.733960</td>
+<td>1.787630</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2026-01-01 00:45:00</th>
+<td>0.025117</td>
+<td>1.15302</td>
+<td>1160.52</td>
+<td>1006.50</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-0.653445</td>
+<td>0.0</td>
+<td>47.4783</td>
+<td>8.36439</td>
+<td>689.0</td>
+<td>37.0</td>
+<td>20.0</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>47.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209.0</td>
+<td>NaN</td>
+<td>11.0</td>
+<td>1.0</td>
+<td>-1.0</td>
+<td>100.0</td>
+<td>5.3</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>800000011.0</td>
+<td>0.00</td>
+<td>15.58690</td>
+<td>8833.0</td>
+<td>40.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0.269067</td>
+<td>-0.259494</td>
+</tr>
+</tbody>
+</table>
+
+<p>174836 rows × 495 columns</p>
+</div>
+</div>
+</div>
+<div id="854b03ad-23d9-4f4d-8b97-8f709456332a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:33.133562Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:33.132562Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:33.145074Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:33.143562Z&quot;}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tlag_actual_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> df.columns <span class="cf">if</span> c.endswith(<span class="st">"_TLAG_ACTUAL"</span>)]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tlag_actual_cols</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['CO2_TLAG_ACTUAL', 'CH4_TLAG_ACTUAL', 'H2O_TLAG_ACTUAL', 'NONE_TLAG_ACTUAL']</code></pre>
+</div>
+</div>
+<div id="a6f327ac-f0db-43ff-971b-0a33c33ad7b3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:33.149076Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:33.148077Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:33.157589Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:33.156075Z&quot;}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Time range</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index.year == 2019) &amp; (df.index.month &gt;= 5)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># locs = df.index.year == 2021</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index.year == 2017) | (df.index.year == 2018)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index.year == 2017) &amp; (df.index &lt; "2017-03-15 23:59:00")</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index.year == 2019) &amp; ((df.index &gt; "2019-02-17 23:59:00") &amp; (df.index &lt;= "2019-04-30 23:59:00"))</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># #         ((df.index &gt; "2019-01-01 23:59:00") &amp; (df.index &lt; "2019-02-18 07:00:00")) |</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># #         ((df.index &gt; "2019-05-01 07:00:00") &amp; (df.index &lt; "2019-05-22 07:00:00"))</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># # )</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index &gt; "2020-02-28 23:59:00") &amp; (df.index &lt; "2020-05-13 07:00:00")</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># # locs = (df.index &gt; "2021-07-23 23:59:00")</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># tlag_actual = df[tlag_actual_cols][locs].copy()</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># first_date = tlag_actual.index[0].date()</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># last_date = tlag_actual.index[-1].date()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+<section id="function-for-plotting-time-lags-and-ranges" class="level1">
+<h1>Function for plotting time lags and ranges</h1>
+<div id="f8f1d147-02b5-435e-bd8c-36dc70141aaa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:33.162103Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:33.161103Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:33.191123Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:33.190113Z&quot;}}" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timelags(gascol: <span class="bu">str</span>, series: pd.Series, vline1: <span class="bu">float</span>, vline2: <span class="bu">float</span>, startbin: <span class="bu">float</span>, endbin: <span class="bu">float</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate histogram</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    hist <span class="op">=</span> Histogram(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        series<span class="op">=</span>series,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        method<span class="op">=</span><span class="st">'uniques'</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># n_bins=10,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ignore_fringe_bins=None</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        ignore_fringe_bins<span class="op">=</span>[<span class="dv">5</span>, <span class="dv">10</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> hist.results</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    peakbins <span class="op">=</span> hist.peakbins</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    peak <span class="op">=</span> peakbins[<span class="dv">0</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Restrict shown results</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    locs <span class="op">=</span> (results[<span class="st">'BIN_START_INCL'</span>] <span class="op">&gt;=</span> startbin) <span class="op">&amp;</span> (results[<span class="st">'BIN_START_INCL'</span>] <span class="op">&lt;=</span> endbin)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> results[locs].copy()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    hist_bins <span class="op">=</span> results[<span class="st">'BIN_START_INCL'</span>].copy()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    hist_counts <span class="op">=</span> results[<span class="st">'COUNTS'</span>].copy()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure(layout<span class="op">=</span><span class="st">"constrained"</span>, facecolor<span class="op">=</span><span class="st">'white'</span>, figsize<span class="op">=</span>(<span class="dv">21</span>, <span class="dv">8</span>), dpi<span class="op">=</span><span class="dv">72</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    gs <span class="op">=</span> gridspec.GridSpec(<span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># rows, cols</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    gs.update(wspace<span class="op">=</span><span class="fl">0.3</span>, hspace<span class="op">=</span><span class="fl">0.3</span>, left<span class="op">=</span><span class="fl">0.03</span>, right<span class="op">=</span><span class="fl">0.97</span>, top<span class="op">=</span><span class="fl">0.97</span>, bottom<span class="op">=</span><span class="fl">0.03</span>)    </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    gs <span class="op">=</span> gridspec.GridSpec(<span class="dv">2</span>, <span class="dv">1</span>, figure<span class="op">=</span>fig)  <span class="co"># rows, cols</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, :])</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    ax2 <span class="op">=</span> fig.add_subplot(gs[<span class="dv">1</span>, :])</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    bar_width <span class="op">=</span> <span class="fl">.05</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bar_width = (hist_bins[1] - hist_bins[0]) * 1  # Calculate bar width</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    args <span class="op">=</span> <span class="bu">dict</span>(width<span class="op">=</span>bar_width, align<span class="op">=</span><span class="st">'edge'</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Axis 1: histogram plot</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    ax.bar(x<span class="op">=</span>hist_bins, height<span class="op">=</span>hist_counts, label<span class="op">=</span><span class="st">'counts'</span>, zorder<span class="op">=</span><span class="dv">90</span>, color<span class="op">=</span><span class="st">'#78909c'</span>, <span class="op">**</span>args)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>gascol<span class="sc">}</span><span class="ss"> (between </span><span class="sc">{</span>first_date<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>last_date<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">24</span>, weight<span class="op">=</span><span class="st">'bold'</span>) </span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    default_format(ax<span class="op">=</span>ax, ax_xlabel_txt<span class="op">=</span><span class="st">"lag (seconds)"</span>, ax_ylabel_txt<span class="op">=</span><span class="st">"counts"</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    ax.axvline(peak, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    ax.axvline(vline1, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    ax.axvline(vline2, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    ax.locator_params(axis<span class="op">=</span><span class="st">'both'</span>, nbins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    trans <span class="op">=</span> transforms.blended_transform_factory(ax.transData, ax.transAxes)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    ax.text(peak, <span class="fl">0.98</span>, <span class="ss">f"PEAK </span><span class="sc">{</span>peak<span class="sc">}</span><span class="ss">s"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">16</span>, color<span class="op">=</span><span class="st">'black'</span>, backgroundcolor<span class="op">=</span><span class="st">'none'</span>, transform<span class="op">=</span>trans,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>            alpha<span class="op">=</span><span class="dv">1</span>, horizontalalignment<span class="op">=</span><span class="st">'center'</span>, verticalalignment<span class="op">=</span><span class="st">'top'</span>, zorder<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    trans <span class="op">=</span> transforms.blended_transform_factory(ax.transData, ax.transAxes)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    ax.text(vline1, <span class="fl">0.70</span>, <span class="ss">f"start </span><span class="sc">{</span>vline1<span class="sc">}</span><span class="ss">s"</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">16</span>, color<span class="op">=</span><span class="st">'blue'</span>, backgroundcolor<span class="op">=</span><span class="st">'none'</span>, transform<span class="op">=</span>trans,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>            alpha<span class="op">=</span><span class="dv">1</span>, horizontalalignment<span class="op">=</span><span class="st">'right'</span>, verticalalignment<span class="op">=</span><span class="st">'top'</span>, zorder<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    ax.text(vline2, <span class="fl">0.70</span>, <span class="ss">f"end </span><span class="sc">{</span>vline2<span class="sc">}</span><span class="ss">s"</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">16</span>, color<span class="op">=</span><span class="st">'red'</span>, backgroundcolor<span class="op">=</span><span class="st">'none'</span>, transform<span class="op">=</span>trans,</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>            alpha<span class="op">=</span><span class="dv">1</span>, horizontalalignment<span class="op">=</span><span class="st">'left'</span>, verticalalignment<span class="op">=</span><span class="st">'top'</span>, zorder<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Axis 2: time series</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    ax2.plot(series.index, series, alpha<span class="op">=</span><span class="fl">0.5</span>, c<span class="op">=</span><span class="st">'#5f87ae'</span>, marker<span class="op">=</span><span class="st">'.'</span>, ms<span class="op">=</span><span class="dv">5</span>, ls<span class="op">=</span><span class="st">'solid'</span>, lw<span class="op">=</span><span class="dv">1</span>)    </span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    ax2.axhline(peak, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    ax2.axhline(vline1, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    ax2.axhline(vline2, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    ax2.locator_params(axis<span class="op">=</span><span class="st">'both'</span>, nbins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>    default_format(ax<span class="op">=</span>ax2, ax_xlabel_txt<span class="op">=</span><span class="st">"date"</span>, ax_ylabel_txt<span class="op">=</span><span class="st">"lag (s)"</span>)      </span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    ax2.set_ylim([hist_bins.iloc[<span class="dv">0</span>], hist_bins.iloc[<span class="op">-</span><span class="dv">1</span>]])  <span class="co"># Use same scaling as for ax</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<p><br></p>
+</section>
+<section id="time-lags-from-openlag-runs" class="level1">
+<h1>Time lags from OPENLAG runs</h1>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">2016_2</h2>
+<p><em>Faulty data after 1 Mar 2016</em></p>
+<div id="519119ef-cf8c-482e-9ab6-ea0238997f24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:33.197124Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:33.196123Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:33.215383Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:33.214375Z&quot;}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2016-01-11 15:05:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2016-03-01 01:00:00"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="4a3578b2-6441-442c-b072-532a7422b245" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:33.219384Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:33.218385Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:34.709236Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:34.708229Z&quot;}}" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="662ae137-2850-4aa1-b1a8-582f5d4ad86a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:34.713237Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:34.712238Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:36.429812Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:36.428301Z&quot;}}" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1">2016_3</h2>
+<div id="bb1c564d-801a-4748-a0ec-bb8a4bee4933" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:36.432813Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:36.431813Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:36.453332Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:36.450819Z&quot;}}" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2016-05-26 07:00:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2016-12-31 19:00:00"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3fb1cc4e-fa42-4448-9b55-bec1a8099c6b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:36.456331Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:36.455332Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:38.331805Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:38.330798Z&quot;}}" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-11-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="76cd6096-e67a-473c-8daf-12546508b0b4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:38.335805Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:38.334806Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:41.302284Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:41.301277Z&quot;}}" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-12-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2">2017_1+2</h2>
+<div id="1ec54e40-d8bd-4d12-84c9-ba693651c9c5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:41.305284Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:41.305284Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:41.343236Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:41.341227Z&quot;}}" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2017</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fc77a2c9-0877-4e96-bf93-579c7a9afc58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:41.346236Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:41.346236Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:43.410899Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:43.409388Z&quot;}}" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="06ccbd13-e278-4dd2-98fb-fe62e6447d6e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:43.414899Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:43.413900Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:45.956046Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:45.955039Z&quot;}}" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3">2018_1</h2>
+<div id="eacb6881-4b6b-476b-9aae-7268cacc18c0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:45.960046Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:45.959048Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:45.975653Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:45.974646Z&quot;}}" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2018-01-01 00:28:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2018-01-31 19:00:00"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3265466b-d0cb-45e3-bd52-4bba23f439a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:45.978654Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:45.978654Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:47.850812Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:47.849804Z&quot;}}" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="82b77b4c-bbd3-41c0-b4f4-5eae6a37e525" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:47.855812Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:47.854813Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:49.643479Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:49.642474Z&quot;}}" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-4" class="level2">
+<h2 class="anchored" data-anchor-id="section-4">2018_2</h2>
+<div id="5a767095-6a01-49cf-8116-284e8ff7d5e8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:49.647480Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:49.647480Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:49.659693Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:49.658688Z&quot;}}" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2018-01-31 11:28:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2018-05-18 19:00:00"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="0183ddae-813b-4163-8624-1a411cdf23e5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:49.661693Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:49.661693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:50.652208Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:50.651702Z&quot;}}" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-20-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="58d925d9-1ea5-4cbf-ac00-4fbf7bb8945d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:50.657216Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:50.656215Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:52.586221Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:52.585212Z&quot;}}" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-21-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-5" class="level2">
+<h2 class="anchored" data-anchor-id="section-5">2018_3</h2>
+<p><em>Very low flowrate, unclear time lag, CO2 and H2O fluxes cannot be used</em></p>
+<div id="6e126ca5-6a25-4b48-b502-1da0ecf52f12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:52.591218Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:52.590219Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:52.605527Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:52.605022Z&quot;}}" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2018-05-19 00:01:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2018-06-07 19:00:00"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="96a016bb-bf82-4b8e-85c9-932d75b166c8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:52.610039Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:52.609041Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:54.021143Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:54.020134Z&quot;}}" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-23-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="a8928608-2a3c-457a-ae2b-af653cd2aade" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:54.026142Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:54.026142Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:55.675228Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:55.674723Z&quot;}}" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-24-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-6" class="level2">
+<h2 class="anchored" data-anchor-id="section-6">2018_4+2019_1</h2>
+<div id="36e95140-e0ad-4742-a084-f92bec3fd055" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:55.681235Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:55.680238Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:55.696454Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:55.695445Z&quot;}}" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index <span class="op">&gt;</span> <span class="st">"2018-06-07 13:00:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2019-01-10 13:00:00"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="dd910503-9c61-4426-97d4-66e94b17b6e9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:55.699452Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:55.699452Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:57.476559Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:57.475552Z&quot;}}" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">1</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-26-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="a13b63de-db12-4d13-b542-e565ae802a1f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:57.480560Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:57.480560Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:59.615233Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:59.614226Z&quot;}}" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.05</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-27-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-7" class="level2">
+<h2 class="anchored" data-anchor-id="section-7">2019_2</h2>
+<p><em>Few data records, files incomplete, IRGA data missing, transition period to files with artifical time lag</em></p>
+<div id="e0504c2c-342f-4fb7-bc20-9b4d8a31ac15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:59.620234Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:59.620234Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:59.626188Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:59.625179Z&quot;}}" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># locs = (df.index &gt; "2019-01-10 15:54:00") &amp; (df.index &lt;= "2019-01-17 07:00:00")</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tlag_actual = df[tlag_actual_cols][locs].copy()</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># first_date = tlag_actual.index[0].date()</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># last_date = tlag_actual.index[-1].date()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="6bdee893-e98d-4434-8e11-c010e6c569ee" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:59.630185Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:59.629186Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:59.635540Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:59.634530Z&quot;}}" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># timelags(gascol="CO2", series=tlag_actual["CO2_TLAG_ACTUAL"], vline1=7.9, vline2=8.8, startbin=0, endbin=20)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="6b8d99ce-5dc2-46eb-923a-e425e0e7d4d0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:59.638537Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:59.638537Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:59.645056Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:59.643538Z&quot;}}" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># timelags(gascol="H2O", series=tlag_actual["H2O_TLAG_ACTUAL"], vline1=7.75, vline2=13, startbin=0, endbin=20)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="section-8" class="level2">
+<h2 class="anchored" data-anchor-id="section-8">2019_4</h2>
+<div id="9f8a2a86-1896-4ac3-b2ce-4b3ea8811cd1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:59.649052Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:59.648050Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:01:59.674088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:01:59.672575Z&quot;}}" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index.year <span class="op">==</span> <span class="dv">2019</span>) <span class="op">&amp;</span> ((df.index <span class="op">&gt;</span> <span class="st">"2019-03-20 00:00:00"</span>))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="40f72d19-1ff8-4c66-b1db-b0707085d143" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:01:59.677090Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:01:59.676088Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:01.613065Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:01.612054Z&quot;}}" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="dv">7</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-32-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-32-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="e4e8cf45-e3f7-4640-a5d3-34856f031f99" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:01.617062Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:01.617062Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:04.041984Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:04.040976Z&quot;}}" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.75</span>, vline2<span class="op">=</span><span class="dv">13</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-33-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-9" class="level2">
+<h2 class="anchored" data-anchor-id="section-9">2020_1</h2>
+<div id="1e538e40-202f-4212-a7db-8ada914267a0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:04.046986Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:04.045984Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:04.070003Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:04.069498Z&quot;}}" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2020</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="e896043b-6172-4e06-9513-fb9ef38a15f8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:04.074014Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:04.073017Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:06.210243Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:06.209233Z&quot;}}" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="dv">7</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-35-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-35-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="3a1cac20-5031-4552-9aa6-aa2a601961a3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:06.214241Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:06.214241Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:08.666028Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:08.665021Z&quot;}}" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.75</span>, vline2<span class="op">=</span><span class="fl">13.05</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-36-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-10" class="level2">
+<h2 class="anchored" data-anchor-id="section-10">2021_1+2</h2>
+<div id="11962a90-baeb-4f99-90c3-c2d0846d7769" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:08.671030Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:08.670030Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:08.693168Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:08.692161Z&quot;}}" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2021</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="39ff13f8-5a02-4149-a415-530f0707d44e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:08.697168Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:08.696169Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:10.579581Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:10.579076Z&quot;}}" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="dv">7</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-38-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-38-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="b00f1aef-abbb-4e3d-a83e-4297230ece8e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:10.583587Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:10.583587Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:13.353752Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:13.352745Z&quot;}}" data-execution_count="38">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">8</span>, vline2<span class="op">=</span><span class="dv">13</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-39-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-39-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-11" class="level2">
+<h2 class="anchored" data-anchor-id="section-11">2022_1+2+3+4</h2>
+<ul>
+<li>2022_1 not usable</li>
+</ul>
+<section id="complete-year" class="level3">
+<h3 class="anchored" data-anchor-id="complete-year">Complete year</h3>
+<div id="05badd3b-2cd1-4b76-9424-25e4c858d79e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:13.360761Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:13.360761Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:13.410314Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:13.408802Z&quot;}}" data-execution_count="39">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index.year <span class="op">==</span> <span class="dv">2022</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="bef10d80-891b-47c7-94af-1b2b6f284b76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:13.413316Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:13.413316Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:16.436652Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:16.435644Z&quot;}}" data-execution_count="40">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">0</span>, vline2<span class="op">=</span><span class="dv">20</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-41-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-41-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cb337ea9-e83f-492b-875e-ced7bda43817" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:16.442653Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:16.442653Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:18.788472Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:18.787467Z&quot;}}" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">0</span>, vline2<span class="op">=</span><span class="dv">20</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-42-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-42-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-12" class="level3">
+<h3 class="anchored" data-anchor-id="section-12">2022_2</h3>
+<div id="49210998-ad01-4856-b2b0-bbcbfe67e8c5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:18.791472Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:18.790472Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:18.807668Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:18.806663Z&quot;}}" data-execution_count="42">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index.year <span class="op">==</span> <span class="dv">2022</span>) <span class="op">&amp;</span> ((df.index <span class="op">&gt;</span> <span class="st">"2022-02-07 10:58:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2022-03-09 10:26:00"</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="2472f65e-18de-40a7-89d9-eae2833e7041" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:18.809668Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:18.809668Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:19.911602Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:19.910594Z&quot;}}" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">0.95</span>, vline2<span class="op">=</span><span class="fl">1.4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-44-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-44-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="2413d832-9ebc-4d5f-b285-9fe596053e53" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:19.916602Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:19.915602Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:22.156939Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:22.155932Z&quot;}}" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">1</span>, vline2<span class="op">=</span><span class="dv">4</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-45-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-45-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-13" class="level3">
+<h3 class="anchored" data-anchor-id="section-13">2022_3</h3>
+<div id="69687564-e156-4ff8-8b71-68ec2ce094df" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:22.160939Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:22.160939Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:22.186389Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:22.185383Z&quot;}}" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index.year <span class="op">==</span> <span class="dv">2022</span>) <span class="op">&amp;</span> ((df.index <span class="op">&gt;</span> <span class="st">"2022-03-09 11:00:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2022-11-18 01:00:00"</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="6c985db5-b0ab-4349-b879-86d8a4e07104" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:22.189391Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:22.189391Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:24.253536Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:24.251528Z&quot;}}" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">8.45</span>, vline2<span class="op">=</span><span class="fl">9.55</span>, startbin<span class="op">=</span><span class="dv">7</span>, endbin<span class="op">=</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-47-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-47-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="542bd9d2-419d-41ff-a40f-4f2ab0f3e178" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:24.257535Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:24.256534Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:26.781749Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:26.778230Z&quot;}}" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">8.2</span>, vline2<span class="op">=</span><span class="fl">13.05</span>, startbin<span class="op">=</span><span class="dv">6</span>, endbin<span class="op">=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-48-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-48-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-14" class="level3">
+<h3 class="anchored" data-anchor-id="section-14">2022_4</h3>
+<div id="0c4dc1b1-7754-4d2a-88bd-e9cc0dcec726" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:26.785750Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:26.784749Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:26.814751Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:26.813743Z&quot;}}" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> (df.index.year <span class="op">==</span> <span class="dv">2022</span>) <span class="op">&amp;</span> ((df.index <span class="op">&gt;</span> <span class="st">"2022-11-18 01:00:00"</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;=</span> <span class="st">"2022-12-31 23:59:00"</span>))</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="e3325958-504e-45f2-b98b-e2002924b6b6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:26.818750Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:26.817751Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:28.519533Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:28.519028Z&quot;}}" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">8</span>, vline2<span class="op">=</span><span class="fl">9.3</span>, startbin<span class="op">=</span><span class="dv">6</span>, endbin<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-50-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-50-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="73f5678a-e69a-4dd2-a057-896f4a8bbfbb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:28.524540Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:28.523541Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:31.334348Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:31.333340Z&quot;}}" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="dv">8</span>, vline2<span class="op">=</span><span class="dv">13</span>, startbin<span class="op">=</span><span class="dv">0</span>, endbin<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-51-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-51-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="section-15" class="level2">
+<h2 class="anchored" data-anchor-id="section-15">2023_1+2</h2>
+<div id="8bd46bea-069f-4a20-ab1b-8d97762cdf35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:31.339347Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:31.339347Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:31.365868Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:31.363854Z&quot;}}" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2023</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c40395a9-f4b4-433f-88a9-d4dc02e52d83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:31.368870Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:31.367869Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:33.757884Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:33.756883Z&quot;}}" data-execution_count="52">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="fl">7.5</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-53-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-53-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="789d8b54-c545-440a-a243-cc533a3cae2b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:33.760884Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:33.760884Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:36.903972Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:36.903467Z&quot;}}" data-execution_count="53">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.75</span>, vline2<span class="op">=</span><span class="fl">13.05</span>, startbin<span class="op">=</span><span class="dv">6</span>, endbin<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-54-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-54-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-16" class="level2">
+<h2 class="anchored" data-anchor-id="section-16">2024_1</h2>
+<div id="1bf1b01f-d39c-46e3-bf3c-2f9a1c36a8dc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:36.907979Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:36.907979Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:36.951324Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:36.947317Z&quot;}}" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2024</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="af520bb8-155e-470f-8966-2b9619b3a090" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:36.954323Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:36.954323Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:40.721410Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:40.718897Z&quot;}}" data-execution_count="55">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="fl">7.5</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-56-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-56-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="617bae5b-2e08-4fe9-8f86-5e2a49dbd509" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:40.724410Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:40.723412Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:44.165310Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:44.163796Z&quot;}}" data-execution_count="56">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.75</span>, vline2<span class="op">=</span><span class="fl">13.05</span>, startbin<span class="op">=</span><span class="dv">6</span>, endbin<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-57-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-32"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-57-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-17" class="level2">
+<h2 class="anchored" data-anchor-id="section-17">2025_1</h2>
+<div id="tlag-2025-sel" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:44.169318Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:44.168311Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:44.202338Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:44.201834Z&quot;}}" data-execution_count="57">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>locs <span class="op">=</span> df.index.year <span class="op">==</span> <span class="dv">2025</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>tlag_actual <span class="op">=</span> df[tlag_actual_cols][locs].copy()</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>first_date <span class="op">=</span> tlag_actual.index[<span class="dv">0</span>].date()</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>last_date <span class="op">=</span> tlag_actual.index[<span class="op">-</span><span class="dv">1</span>].date()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tlag-2025-co2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:44.205347Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:44.205347Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:47.816373Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:47.815867Z&quot;}}" data-execution_count="58">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"CO2"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"CO2_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.9</span>, vline2<span class="op">=</span><span class="fl">8.8</span>, startbin<span class="op">=</span><span class="fl">7.5</span>, endbin<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-59-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-33"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-59-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="tlag-2025-h2o" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:47.819381Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:47.819381Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:50.466499Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:50.463491Z&quot;}}" data-execution_count="59">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>timelags(gascol<span class="op">=</span><span class="st">"H2O"</span>, series<span class="op">=</span>tlag_actual[<span class="st">"H2O_TLAG_ACTUAL"</span>], vline1<span class="op">=</span><span class="fl">7.75</span>, vline2<span class="op">=</span><span class="fl">13.05</span>, startbin<span class="op">=</span><span class="dv">6</span>, endbin<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-60-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-34"><img src="05_IRGA72-L0_check_timelags_2016-2025_files/figure-html/cell-60-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="end-of-notebook." class="level1">
+<h1>End of notebook.</h1>
+<div id="5908aa43-2395-4d1a-93c6-9d2fa91bfdd2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-31T11:02:50.469499Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-31T11:02:50.468499Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-31T11:02:50.477721Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-31T11:02:50.476713Z&quot;}}" data-execution_count="60">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>dt_string <span class="op">=</span> datetime.now().strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Finished. </span><span class="sc">{</span>dt_string<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished. 2026-07-31 13:02:50</code></pre>
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<!--
+  Moves the page's "Modified" date out of the top title block and into the right
+  ("On this page") sidebar, at the very end. Quarto has no built-in option to
+  relocate title-block metadata, so we do it client-side: read the
+  `date-modified` value Quarto emits, drop the title meta block, and append a
+  "Last updated" line at the bottom of the right margin sidebar. Falls back to
+  the left sidebar on pages that have no TOC (so the right sidebar is absent).
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  .sidebar-last-modified {
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    // Prefer the right ("On this page") sidebar; fall back to the left one on
+    // pages without a TOC.
+    var right = document.getElementById("quarto-margin-sidebar");
+    var left = document.getElementById("quarto-sidebar");
+    var host = right || left;
+    if (!host) return;
+
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    if (right) {
+      host.appendChild(box); // end of the right sidebar, after the TOC
+    } else {
+      var container = left.querySelector(".sidebar-menu-container") || left;
+      container.appendChild(box);
+    }
+  });
+</script>
+<!--
+  Relocates Quarto's light/dark theme toggle out of the left sidebar title into
+  the top of the right ("On this page") sidebar. Quarto has no option to place
+  the toggle there, so we move the node client-side on load. On pages without a
+  TOC (no right sidebar) the toggle is left where Quarto put it. Styling is in
+  styles.css (.margin-theme-toggle, .quarto-color-scheme-toggle). Wired in via
+  docs/_quarto.yml -> format.html.include-after-body.
+-->
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var tools = document.querySelector(
+      "#quarto-sidebar .sidebar-title .sidebar-tools-main"
+    );
+    var right = document.getElementById("quarto-margin-sidebar");
+    if (!tools || !right) return;
+    var holder = document.createElement("div");
+    // `sidebar-navigation` makes Quarto's own (theme-aware) sun/moon icon rules
+    // match the toggle here in the right sidebar -- they're scoped to that class
+    // and would otherwise leave an empty icon box. styles.css neutralizes the
+    // stray padding that class brings.
+    holder.className = "margin-theme-toggle sidebar-navigation";
+    holder.appendChild(tools); // move the node (the toggle lives inside)
+    right.insertBefore(holder, right.firstChild);
+  });
+</script>
+<!--
+
+  Make every Mermaid diagram pannable and zoomable.
+
+
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+
+  to the article width, which leaves the node labels small and the diagram hard to
+
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+
+
+  Deliberate choices, both about not surprising the reader:
+
+
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+
+    reader scrolling past a diagram is never trapped inside it.
+
+  - The viewport can be dragged taller by its bottom edge, because how much height
+
+    a diagram deserves depends on the diagram.
+
+
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+
+  site would otherwise gain a network dependency for it.
+
+-->
+
+<style>
+
+  .mzoom-wrap {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(128, 128, 128, 0.35);
+
+    border-radius: 4px;
+
+    resize: vertical;
+
+    min-height: 220px;
+
+    height: 460px;
+
+    background: transparent;
+
+    touch-action: none;
+
+  }
+
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+
+  .mzoom-wrap > svg {
+
+    transform-origin: 0 0;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+  }
+
+  .mzoom-bar {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    display: flex;
+
+    gap: 4px;
+
+    z-index: 2;
+
+  }
+
+  .mzoom-bar button {
+
+    font: inherit;
+
+    font-size: 0.85rem;
+
+    line-height: 1;
+
+    padding: 4px 8px;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(128, 128, 128, 0.45);
+
+    border-radius: 3px;
+
+    background: rgba(127, 127, 127, 0.12);
+
+    color: inherit;
+
+  }
+
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+
+  .mzoom-hint {
+
+    position: absolute;
+
+    left: 8px;
+
+    bottom: 6px;
+
+    font-size: 0.75rem;
+
+    opacity: 0.6;
+
+    pointer-events: none;
+
+  }
+
+</style>
+
+
+
+<script>
+
+(function () {
+
+  var MIN = 0.15, MAX = 8;
+
+
+
+  function enhance(svg) {
+
+    if (svg.dataset.mzoom) return;
+
+    svg.dataset.mzoom = "1";
+
+
+
+    var wrap = document.createElement("div");
+
+    wrap.className = "mzoom-wrap";
+
+    svg.parentNode.insertBefore(wrap, svg);
+
+    wrap.appendChild(svg);
+
+
+
+    var bar = document.createElement("div");
+
+    bar.className = "mzoom-bar";
+
+    wrap.appendChild(bar);
+
+
+
+    var hint = document.createElement("div");
+
+    hint.className = "mzoom-hint";
+
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+
+    wrap.appendChild(hint);
+
+
+
+    var k = 1, tx = 0, ty = 0;
+
+
+
+    function apply() {
+
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+
+    }
+
+
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+
+    function fit() {
+
+      var box = svg.getBBox ? svg.getBBox() : null;
+
+      var w = box && box.width ? box.width : svg.clientWidth;
+
+      var h = box && box.height ? box.height : svg.clientHeight;
+
+      if (!w || !h) return;
+
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+
+      k = Math.max(MIN, Math.min(MAX, k));
+
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+
+      apply();
+
+    }
+
+
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+
+    // stays under the cursor.
+
+    function zoomAt(px, py, factor) {
+
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+
+      tx = px - (px - tx) * (next / k);
+
+      ty = py - (py - ty) * (next / k);
+
+      k = next;
+
+      apply();
+
+    }
+
+
+
+    function button(label, title, fn) {
+
+      var b = document.createElement("button");
+
+      b.type = "button";
+
+      b.textContent = label;
+
+      b.title = title;
+
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+
+      bar.appendChild(b);
+
+    }
+
+    button("−", "Zoom out", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+
+    });
+
+    button("+", "Zoom in", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+
+    });
+
+    button("⤢", "Fit to view", fit);
+
+
+
+    wrap.addEventListener("wheel", function (e) {
+
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+
+      var r = wrap.getBoundingClientRect();
+
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+
+    }, { passive: false });
+
+
+
+    var dragging = false, lastX = 0, lastY = 0;
+
+    wrap.addEventListener("pointerdown", function (e) {
+
+      if (e.target.closest(".mzoom-bar")) return;
+
+      dragging = true;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      wrap.classList.add("mzoom-grabbing");
+
+      wrap.setPointerCapture(e.pointerId);
+
+    });
+
+    wrap.addEventListener("pointermove", function (e) {
+
+      if (!dragging) return;
+
+      tx += e.clientX - lastX;
+
+      ty += e.clientY - lastY;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      apply();
+
+    });
+
+    function endDrag(e) {
+
+      if (!dragging) return;
+
+      dragging = false;
+
+      wrap.classList.remove("mzoom-grabbing");
+
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+
+    }
+
+    wrap.addEventListener("pointerup", endDrag);
+
+    wrap.addEventListener("pointercancel", endDrag);
+
+    wrap.addEventListener("dblclick", fit);
+
+
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+
+    // fonts have settled since label widths move the bounding box.
+
+    requestAnimationFrame(fit);
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  }
+
+
+
+  function scan() {
+
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+
+  }
+
+
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+
+  // watch for the SVG appearing and stop once every diagram has one.
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    scan();
+
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+
+    if (!targets.length) return;
+
+    var obs = new MutationObserver(function () {
+
+      scan();
+
+      var pending = document.querySelectorAll(
+
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+
+      if (!pending.length) obs.disconnect();
+
+    });
+
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+
+    // Backstop for browsers without :has() support in querySelectorAll.
+
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+
+  });
+
+})();
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lukas Hörtnagl · © 2025</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2025.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

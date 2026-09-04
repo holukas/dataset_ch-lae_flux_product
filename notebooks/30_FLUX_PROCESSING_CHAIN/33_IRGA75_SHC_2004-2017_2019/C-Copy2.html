@@ -1,0 +1,2635 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>C-Copy2 – CH-LAE Flux Product</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">C-Copy2</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      <img src="../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CH-LAE Flux Product (PI dataset)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Site_Info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Site information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../Meteo_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_TA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air temperature at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PPFD_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photosynthetic photon flux density at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_RH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relative humidity at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air pressure at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_LW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming longwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_VPD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vapour pressure deficit at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_PREC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Precipitation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SWC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil water content at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_TS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil temperature at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_G.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil heat flux at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_SW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Data_LW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing longwave radiation at 47 m</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Data_Dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dashboards</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Meteo_Product_Chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Product Chain</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Management_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Management Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../FPC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flux Processing Chain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Raw_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw Data: Eddy Covariance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-0: Preliminary flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1: Final flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L1.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1.1: Self-heating correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-2: Quality flag expansion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.1: Storage correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.2: Outlier flagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L3.3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.3: USTAR filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L4.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.1: Gap-filling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../L4.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.2: NEE Partitioning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../QCF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QCF: overall quality control flag</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Instrumentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Supplementary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplementary Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Used Software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Versions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Versions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Yearly_Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yearly Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open issue</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-previous-fpc-instance" id="toc-load-previous-fpc-instance" class="nav-link active" data-scroll-target="#load-previous-fpc-instance">Load previous <code>fpc</code> instance</a></li>
+  <li><a href="#level-4.1-gap-filling" id="toc-level-4.1-gap-filling" class="nav-link" data-scroll-target="#level-4.1-gap-filling">🟢Level-4.1: GAP-FILLING</a>
+  <ul class="collapse">
+  <li><a href="#long-term-random-forest" id="toc-long-term-random-forest" class="nav-link" data-scroll-target="#long-term-random-forest">🔸Long-term random forest</a></li>
+  <li><a href="#mds-marginal-distribution-sampling" id="toc-mds-marginal-distribution-sampling" class="nav-link" data-scroll-target="#mds-marginal-distribution-sampling">🔸MDS (Marginal Distribution Sampling)</a></li>
+  <li><a href="#get-results" id="toc-get-results" class="nav-link" data-scroll-target="#get-results">Get results</a></li>
+  <li><a href="#model-scores" id="toc-model-scores" class="nav-link" data-scroll-target="#model-scores">Model scores</a>
+  <ul class="collapse">
+  <li><a href="#model-scores-and-details-on-test-data" id="toc-model-scores-and-details-on-test-data" class="nav-link" data-scroll-target="#model-scores-and-details-on-test-data">Model scores and details on test data</a></li>
+  <li><a href="#model-scores-on-all-data" id="toc-model-scores-on-all-data" class="nav-link" data-scroll-target="#model-scores-on-all-data">Model scores on all data</a></li>
+  </ul></li>
+  <li><a href="#names-of-gap-filled-variables" id="toc-names-of-gap-filled-variables" class="nav-link" data-scroll-target="#names-of-gap-filled-variables">Names of gap-filled variables</a></li>
+  <li><a href="#plots" id="toc-plots" class="nav-link" data-scroll-target="#plots">Plots</a>
+  <ul class="collapse">
+  <li><a href="#heatmaps" id="toc-heatmaps" class="nav-link" data-scroll-target="#heatmaps">Heatmaps</a></li>
+  <li><a href="#cumulatives-per-year" id="toc-cumulatives-per-year" class="nav-link" data-scroll-target="#cumulatives-per-year">Cumulatives per year</a></li>
+  <li><a href="#cumulative-across-all-data" id="toc-cumulative-across-all-data" class="nav-link" data-scroll-target="#cumulative-across-all-data">Cumulative across all data</a></li>
+  <li><a href="#ml-feature-ranks-per-year-machine-learning-models-only" id="toc-ml-feature-ranks-per-year-machine-learning-models-only" class="nav-link" data-scroll-target="#ml-feature-ranks-per-year-machine-learning-models-only">ML Feature ranks per year (machine learning models only)</a></li>
+  <li><a href="#mds-gap-filling-qualities-mds-only-otherwise-skipped" id="toc-mds-gap-filling-qualities-mds-only-otherwise-skipped" class="nav-link" data-scroll-target="#mds-gap-filling-qualities-mds-only-otherwise-skipped">MDS gap-filling qualities (MDS only, otherwise skipped)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#save-results-to-file" id="toc-save-results-to-file" class="nav-link" data-scroll-target="#save-results-to-file">SAVE RESULTS TO FILE</a>
+  <ul class="collapse">
+  <li><a href="#option-1-save-complete-data-input-data-and-results-to-csv-large-and-slow" id="toc-option-1-save-complete-data-input-data-and-results-to-csv-large-and-slow" class="nav-link" data-scroll-target="#option-1-save-complete-data-input-data-and-results-to-csv-large-and-slow">Option 1: Save complete data (input data and results) to CSV (large and slow)</a></li>
+  <li><a href="#option-2-save-input-data-and-results-to-parquet-small-and-fast" id="toc-option-2-save-input-data-and-results-to-parquet-small-and-fast" class="nav-link" data-scroll-target="#option-2-save-input-data-and-results-to-parquet-small-and-fast">Option 2: Save input data and results to Parquet (small and fast)</a></li>
+  </ul></li>
+  <li><a href="#end-of-notebook" id="toc-end-of-notebook" class="nav-link" data-scroll-target="#end-of-notebook">✅END OF NOTEBOOK</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/30_FLUX_PROCESSING_CHAIN/33_IRGA75_SHC_2004-2017_2019/C-Copy2.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">C-Copy2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">4 September 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>—title: “C-Copy2”—</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../images/logo_diive1_128px.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="lop"><img src="../../images/logo_diive1_128px.png" class="img-fluid figure-img" alt="lop"></a></p>
+<figcaption>lop</figcaption>
+</figure>
+</div>
+<p><span style="font-size:40px; display:block;"> <b> Flux Processing Chain (here starting Level-4.1) </b> <br></span></p>
+
+<p>
+Post-processing of EddyPro <i><em>fluxnet</em></i> output files
+</p>
+<p>*****Notebook version<strong>: <code>11.0</code> (19 Nov 2025) </strong>Author**: Lukas Hörtnagl (holukas@ethz.ch)</p>
+<p><br></p>
+<div id="d5b99602-7cbf-402e-99a2-766a4e1729d4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<section id="load-previous-fpc-instance" class="level1">
+<h1>Load previous <code>fpc</code> instance</h1>
+<div id="49ef090a-7cb5-473b-9261-a48e27ba2054" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Load the instance from the pickle file</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'B_fpcInstance.pkl'</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(file_path, <span class="st">'rb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    fpc <span class="op">=</span> pickle.load(<span class="bu">file</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ee41a3cc-247f-484f-82e7-e849befa8e15" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fpc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>&lt;diive.pkgs.fluxprocessingchain.fluxprocessingchain.FluxProcessingChain at 0x1c7580b2e10&gt;</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><br></p>
+<div style="
+    height: 30px; /* Adjust height as desired */
+    background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%); /* Warm gradient */
+    background-image: 
+        radial-gradient(circle at 100% 150%, #FF6B6B 0%, #FFE66D 100%),
+        linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 100% 100%, 15px 15px, 15px 15px; /* Adjust pattern size */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+">
+
+</div>
+</section>
+<section id="level-4.1-gap-filling" class="level1">
+<h1>🟢Level-4.1: GAP-FILLING</h1>
+<ul>
+<li>Introduced in <code>diive</code> v0.85.0, gap-filling can now be done using both random forest and MDS</li>
+<li>For gap-filling using MDS, make sure that variables are in the required units: short-wave incoming radiation in <code>W m-2</code>, air temperature in <code>°C</code>, VPD in <code>hPa</code></li>
+</ul>
+<p>Parameters: - <code>mds_settings</code> are parameters for the MDS gap-filling method, <a href="https://github.com/holukas/diive/blob/main/diive/pkgs/gapfilling/mds.py">see docstring here for more details</a> - <code>rf_settings</code> are parameters for scikit’s <code>RandomForestRegressor</code> model, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">see their official documentation for allowed parameters</a> - <code>ml_feature_settings</code> are general settings for machine-learning models (such as random forest)</p>
+<section id="long-term-random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="long-term-random-forest">🔸Long-term random forest</h2>
+<div id="77448740-596d-4ffc-916d-85e358ffc371" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>FEATURES <span class="op">=</span> [<span class="st">"TA_T1_47_1_gfXG"</span>, <span class="st">"SW_IN_T1_47_1_gfXG"</span>, <span class="st">"VPD_T1_47_1_gfXG"</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fpc.level41_longterm_random_forest(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    features<span class="op">=</span>FEATURES,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    sanitize_timestamp<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    features_lag<span class="op">=</span>[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    features_lag_stepsize<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    features_lag_exclude_cols<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    reduce_features<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    vectorize_timestamps<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    add_continuous_record_number<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    perm_n_repeats<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">200</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    min_samples_split<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    min_samples_leaf<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+
+Adding new data columns ...
+++ Added new columns with lagged variants for: ['TA_T1_47_1_gfXG', 'SW_IN_T1_47_1_gfXG', 'VPD_T1_47_1_gfXG'] (lags between -1 and -1 with stepsize 1), no lagged variants for: ['NEE_L3.1_L3.3_CUT_50_QCF']. Shifting the time series created gaps which were then filled with the nearest value.
+++ Added new columns with timestamp info: ['.YEAR', '.SEASON', '.SEASON_SIN', '.SEASON_COS', '.MONTH', '.MONTH_SIN', '.MONTH_COS', '.WEEK', '.WEEK_SIN', '.WEEK_COS', '.DOY', '.DOY_SIN', '.DOY_COS', '.HOUR', '.HOUR_SIN', '.HOUR_COS', '.YEARMONTH', '.YEARDOY', '.YEARWEEK'] 
+++ Added new column .RECORDNUMBER with record numbers from 1 to 241171.
+
+Sanitizing timestamp ...
+&gt;&gt;&gt; Validating timestamp naming of timestamp column TIMESTAMP_MIDDLE ... Timestamp name OK.
+&gt;&gt;&gt; Converting timestamp TIMESTAMP_MIDDLE to datetime ... OK
+&gt;&gt;&gt; All rows have timestamp TIMESTAMP_MIDDLE, no rows removed.
+&gt;&gt;&gt; Sorting timestamp TIMESTAMP_MIDDLE ascending ...
+&gt;&gt;&gt; Removing data records with duplicate indexes ... OK (no duplicates found in timestamp index)
+&gt;&gt;&gt; Creating continuous &lt;30 * Minutes&gt; timestamp index for timestamp TIMESTAMP_MIDDLE between 2004-03-30 14:45:00 and 2017-12-31 23:45:00 ...
+(!)Some features are incomplete and have less than 241171 values:
+    --&gt; TA_T1_47_1_gfXG (232827 values)
+    --&gt; SW_IN_T1_47_1_gfXG (232827 values)
+    --&gt; VPD_T1_47_1_gfXG (232827 values)
+    --&gt; .TA_T1_47_1_gfXG-1 (232826 values)
+    --&gt; .SW_IN_T1_47_1_gfXG-1 (232826 values)
+    --&gt; .VPD_T1_47_1_gfXG-1 (232826 values)
+This means that not all target values can be predicted based on the full model.
+[neighboring_years] Assigned [2004, 2005, 2006] to data pool for 2004.
+[neighboring_years] Assigned [2004, 2005, 2006] to data pool for 2005.
+[neighboring_years] Assigned [2005, 2006, 2007] to data pool for 2006.
+[neighboring_years] Assigned [2006, 2007, 2008] to data pool for 2007.
+[neighboring_years] Assigned [2007, 2008, 2009] to data pool for 2008.
+[neighboring_years] Assigned [2008, 2009, 2010] to data pool for 2009.
+[neighboring_years] Assigned [2009, 2010, 2011] to data pool for 2010.
+[neighboring_years] Assigned [2010, 2011, 2012] to data pool for 2011.
+[neighboring_years] Assigned [2011, 2012, 2013] to data pool for 2012.
+[neighboring_years] Assigned [2012, 2013, 2014] to data pool for 2013.
+[neighboring_years] Assigned [2013, 2014, 2015] to data pool for 2014.
+[neighboring_years] Assigned [2014, 2015, 2016] to data pool for 2015.
+[neighboring_years] Assigned [2015, 2016, 2017] to data pool for 2016.
+[neighboring_years] Assigned [2015, 2016, 2017] to data pool for 2017.
+Initializing model for 2004 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+(!)Some features are incomplete and have less than 48307 values:
+    --&gt; TA_T1_47_1_gfXG (39963 values)
+    --&gt; SW_IN_T1_47_1_gfXG (39963 values)
+    --&gt; VPD_T1_47_1_gfXG (39963 values)
+    --&gt; .TA_T1_47_1_gfXG-1 (39962 values)
+    --&gt; .SW_IN_T1_47_1_gfXG-1 (39962 values)
+    --&gt; .VPD_T1_47_1_gfXG-1 (39962 values)
+This means that not all target values can be predicted based on the full model.
+Initializing model for 2005 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+(!)Some features are incomplete and have less than 48307 values:
+    --&gt; TA_T1_47_1_gfXG (39963 values)
+    --&gt; SW_IN_T1_47_1_gfXG (39963 values)
+    --&gt; VPD_T1_47_1_gfXG (39963 values)
+    --&gt; .TA_T1_47_1_gfXG-1 (39962 values)
+    --&gt; .SW_IN_T1_47_1_gfXG-1 (39962 values)
+    --&gt; .VPD_T1_47_1_gfXG-1 (39962 values)
+This means that not all target values can be predicted based on the full model.
+Initializing model for 2006 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2007 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2008 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2009 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2010 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2011 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2012 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2013 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2014 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2015 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2016 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+Initializing model for 2017 ...
+
+
+============================================================
+Starting gap-filling for
+NEE_L3.1_L3.3_CUT_50_QCF
+using &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt;
+============================================================
+
+Training model for 2004 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2004-09-20 11:45:00 and 2006-12-31 21:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2004 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 39962 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 28211 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 8345 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model is trained on NEE_L3.1_L3.3_CUT_50_QCF_gfRF and timestamp info ...
+++ Added new columns with timestamp info: ['.YEAR', '.SEASON', '.SEASON_SIN', '.SEASON_COS', '.MONTH', '.MONTH_SIN', '.MONTH_COS', '.WEEK', '.WEEK_SIN', '.WEEK_COS', '.DOY', '.DOY_SIN', '.DOY_COS', '.HOUR', '.HOUR_SIN', '.HOUR_COS', '.YEARMONTH', '.YEARDOY', '.YEARWEEK'] (ONLY FALLBACK)
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2005 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2004-09-20 11:45:00 and 2006-12-31 21:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2005 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 39962 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 28211 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 8345 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model is trained on NEE_L3.1_L3.3_CUT_50_QCF_gfRF and timestamp info ...
+++ Added new columns with timestamp info: ['.YEAR', '.SEASON', '.SEASON_SIN', '.SEASON_COS', '.MONTH', '.MONTH_SIN', '.MONTH_COS', '.WEEK', '.WEEK_SIN', '.WEEK_COS', '.DOY', '.DOY_SIN', '.DOY_COS', '.HOUR', '.HOUR_SIN', '.HOUR_COS', '.YEARMONTH', '.YEARDOY', '.YEARWEEK'] (ONLY FALLBACK)
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2006 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2005-01-01 11:15:00 and 2007-12-30 20:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2006 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52560 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36119 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2007 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2006-01-03 11:45:00 and 2008-12-31 08:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2007 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 35289 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2008 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2007-01-01 20:15:00 and 2009-12-31 20:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2008 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 35285 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2009 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2008-01-01 10:45:00 and 2010-12-31 13:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2009 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 35995 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2010 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2009-01-01 23:45:00 and 2011-12-30 15:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2010 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52560 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36200 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2011 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2010-01-02 09:15:00 and 2012-12-31 21:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2011 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36819 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2012 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2011-01-01 08:45:00 and 2013-12-31 15:15:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2012 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 37068 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2013 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2012-01-01 09:15:00 and 2014-12-31 16:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2013 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 37447 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2014 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2013-01-01 02:15:00 and 2015-12-30 15:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2014 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52560 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36710 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2015 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2014-01-01 11:45:00 and 2016-12-31 01:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2015 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36332 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2016 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2015-01-01 08:45:00 and 2017-12-12 01:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2016 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36332 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+
+Training model for 2017 ...
+
+Training final model ...
+&gt;&gt;&gt; Training model &lt;class 'sklearn.ensemble._forest.RandomForestRegressor'&gt; based on data between 2015-01-01 08:45:00 and 2017-12-12 01:45:00 ...
+&gt;&gt;&gt; Fitting model to training data ...
+&gt;&gt;&gt; Using model to predict target NEE_L3.1_L3.3_CUT_50_QCF in unseen test data ...
+&gt;&gt;&gt; Using model to calculate permutation importance based on unseen test data ...
+&gt;&gt;&gt; Calculating prediction scores based on predicting unseen test data of NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Collecting results, details about training and testing can be accessed by calling .report_traintest().
+&gt;&gt;&gt; Done.
+
+Gap-filling 2017 ...
+
+Gap-filling using final model ...
+&gt;&gt;&gt; Using final model on all data to predict target NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Using final model on all data to calculate permutation importance ...
+&gt;&gt;&gt; Calculating prediction scores based on all data predicting NEE_L3.1_L3.3_CUT_50_QCF ...
+&gt;&gt;&gt; Predicting target NEE_L3.1_L3.3_CUT_50_QCF where all features are available ... predicted 52608 records.
+&gt;&gt;&gt; Collecting results for final model ...
+&gt;&gt;&gt; Filling 36332 missing records in target with predictions from final model ...
+&gt;&gt;&gt; Storing gap-filled time series in variable NEE_L3.1_L3.3_CUT_50_QCF_gfRF ...
+&gt;&gt;&gt; Restoring original timestamp in results ...
+
+Gap-filling 0 remaining missing records in NEE_L3.1_L3.3_CUT_50_QCF_gfRF using fallback model ...
+&gt;&gt;&gt; Fallback model not necessary, all gaps were already filled.
+&gt;&gt;&gt; Combining predictions from full model and fallback model ...
+Collecting results for 2004 ...
+Collecting results for 2005 ...
+Collecting results for 2006 ...
+Collecting results for 2007 ...
+Collecting results for 2008 ...
+Collecting results for 2009 ...
+Collecting results for 2010 ...
+Collecting results for 2011 ...
+Collecting results for 2012 ...
+Collecting results for 2013 ...
+Collecting results for 2014 ...
+Collecting results for 2015 ...
+Collecting results for 2016 ...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\pkgs\gapfilling\longterm.py:297: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._gapfilling_df = pd.concat([self._gapfilling_df, rfts.gapfilling_df_[keepyear]], axis=0)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Collecting results for 2017 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="mds-marginal-distribution-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="mds-marginal-distribution-sampling">🔸MDS (Marginal Distribution Sampling)</h2>
+<div id="487e6464-06f1-4eb6-88b7-f5bc46f24834" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fpc.level41_mds(</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     swin="SW_IN_T1_47_1_gfXG",</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     ta="TA_T1_47_1_gfXG",</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     vpd="VPD_T1_47_1_gfXG",</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     swin_tol=[20, 50],</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     ta_tol=2.5,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     vpd_tol=0.5,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     avg_min_n_vals=5</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="get-results" class="level2">
+<h2 class="anchored" data-anchor-id="get-results">Get results</h2>
+<ul>
+<li>Results from the flux processing chain can be accessed using <code>.get_data()</code></li>
+<li>This returns a dataframe containing all input data and all newly generated variables, such as quality flags, quality-filtered fluxes and gap-filled fluxes</li>
+</ul>
+<div id="44e8de56094351ae" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># results = fpc.get_data(verbose=1)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="model-scores" class="level2">
+<h2 class="anchored" data-anchor-id="model-scores">Model scores</h2>
+<section id="model-scores-and-details-on-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="model-scores-and-details-on-test-data">Model scores and details on test data</h3>
+<div id="e20e597b-4b1e-4a9e-9459-c624f0257646" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show train/test details</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fpc.report_traintest_model_scores())</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fpc.report_traintest_details())</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># fpc.report_traintest_model_scores(outpath=".")  # Save in current folder</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># fpc.report_traintest_details(outpath=".")  # Save in current folder</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+MODEL SCORES from TRAINING/TESTING (long_term_random_forest): 
+ trained on training data, tested on unseen test data CUT_50
+            2004       2005       2006       2007       2008       2009  ...       2012       2013       2014       2015       2016       2017
+mae     3.040437   3.040437   2.955227   3.130412   3.113520   3.135692  ...   3.742347   3.911198   4.026708   3.902863   3.627127   3.627127
+medae   1.987764   1.987764   1.937050   2.052374   2.067061   2.048894  ...   2.448807   2.501296   2.566827   2.478643   2.348969   2.348969
+mse    19.268642  19.268642  18.076255  21.229145  20.161002  20.967912  ...  29.898990  33.182284  36.877319  33.803735  28.935338  28.935338
+rmse    4.389606   4.389606   4.251618   4.607510   4.490100   4.579073  ...   5.467997   5.760407   6.072670   5.814098   5.379158   5.379158
+mape    2.120986   2.120986   3.289724   2.302887   2.700356   3.283020  ...   2.563246   7.505633   2.862284   2.396269   2.510818   2.510818
+maxe   25.012547  25.012547  30.570336  37.741843  42.558337  30.857056  ...  37.742557  35.090304  50.285796  49.799326  42.135128  42.135128
+r2      0.682053   0.682053   0.732316   0.727207   0.753489   0.752507  ...   0.704550   0.667635   0.650350   0.693880   0.725950   0.725950
+
+[7 rows x 14 columns]
+None
+
+DETAILS from TRAINING/TESTING (long_term_random_forest CUT_50): 
+ trained on training data, tested on unseen test data
+                                                        2004                                               2005                                               2006                                               2007                                               2008                                               2009  ...                                               2012                                               2013                                               2014                                               2015                                               2016                                               2017
+train_df                        TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...  ...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...
+test_df                         TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...  ...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...                       TA_T1_47_1_gfXG  SW_IN_T1...
+test_size                                               0.25                                               0.25                                               0.25                                               0.25                                               0.25                                               0.25  ...                                               0.25                                               0.25                                               0.25                                               0.25                                               0.25                                               0.25
+X_names    [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  ...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...  [TA_T1_47_1_gfXG, SW_IN_T1_47_1_gfXG, VPD_T1_4...
+model      (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  ...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...  (DecisionTreeRegressor(max_features=1.0, rando...
+
+[5 rows x 14 columns]
+None</code></pre>
+</div>
+</div>
+</section>
+<section id="model-scores-on-all-data" class="level3">
+<h3 class="anchored" data-anchor-id="model-scores-on-all-data">Model scores on all data</h3>
+<div id="ab5b39c6714930a6" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fpc.report_gapfilling_model_scores()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fpc.report_gapfilling_model_scores(outpath=".")  # Save in current folder</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+MODEL SCORES (long_term_random_forest): CUT_50
+            2004       2005       2006       2007       2008       2009  ...       2012       2013       2014       2015       2016       2017
+mae     1.598423   1.598423   1.590005   1.631258   1.642002   1.655671  ...   1.970887   2.078433   2.123972   2.065773   1.946502   1.946502
+medae   0.901337   0.901337   0.917948   0.917065   0.932374   0.943749  ...   1.106579   1.177802   1.179773   1.161082   1.094585   1.094585
+mse     6.843232   6.843232   6.599542   7.359325   7.174201   7.412016  ...  10.701628  11.862507  12.896371  11.873888  10.425316  10.425316
+rmse    2.615957   2.615957   2.568957   2.712808   2.678470   2.722502  ...   3.271334   3.444199   3.591152   3.445851   3.228826   3.228826
+mape    1.489281   1.489281   1.583848   1.497540   1.444131   1.543478  ...   1.955301   3.116634   2.072816   1.696687   1.313247   1.313247
+maxe   25.012547  25.012547  30.570336  37.741843  42.558337  30.857056  ...  37.742557  35.090304  50.285796  49.799326  42.135128  42.135128
+r2      0.888419   0.888419   0.905048   0.905091   0.914918   0.911392  ...   0.895409   0.885784   0.879539   0.892780   0.903113   0.903113
+
+[7 rows x 14 columns]</code></pre>
+</div>
+</div>
+<p>During long-term gap-filling, different years are pooled together to predict one central year, i.e., multiple models are used.<br>
+The used data pools can be display with:</p>
+<div id="0f40bba0-62e3-4eee-84cf-122a52856880" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2024-10-04T12:05:10.722182Z&quot;,&quot;start_time&quot;:&quot;2024-10-04T12:05:10.711180Z&quot;}}" data-tags="[]" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fpc.report_gapfilling_poolyears()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DATA POOLS USED FOR MACHINE-LEARNING GAP-FILLING:
+2004: long_term_random_forest used data from [2004, 2005, 2006] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2005: long_term_random_forest used data from [2004, 2005, 2006] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2006: long_term_random_forest used data from [2005, 2006, 2007] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2007: long_term_random_forest used data from [2006, 2007, 2008] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2008: long_term_random_forest used data from [2007, 2008, 2009] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2009: long_term_random_forest used data from [2008, 2009, 2010] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2010: long_term_random_forest used data from [2009, 2010, 2011] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2011: long_term_random_forest used data from [2010, 2011, 2012] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2012: long_term_random_forest used data from [2011, 2012, 2013] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2013: long_term_random_forest used data from [2012, 2013, 2014] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2014: long_term_random_forest used data from [2013, 2014, 2015] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2015: long_term_random_forest used data from [2014, 2015, 2016] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2016: long_term_random_forest used data from [2015, 2016, 2017] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF
+2017: long_term_random_forest used data from [2015, 2016, 2017] for gap-filling NEE_L3.1_L3.3_CUT_50_QCF and producing --&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF</code></pre>
+</div>
+</div>
+<div id="ef5607e2-59ee-4d8d-ad8e-4fab7724044f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fpc.report_gapfilling_feature_importances()  <span class="co"># Save in current folder</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fpc.report_gapfilling_feature_importances(outpath=".")  # Save in current folder</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+FEATURE IMPORTANCES (long_term_random_forest): CUT_50
+YEAR                       2004      2005      2006      2007      2008      2009  ...      2012      2013      2014      2015      2016      2017
+FEATURE                                                                            ...                                                            
+.WEEK_COS              0.354295  0.354295  0.160685  0.010582  0.015786  0.060666  ...  0.011231  0.006953  0.012704  0.025862  0.036016  0.036016
+SW_IN_T1_47_1_gfXG     0.332296  0.332296  0.426530  0.571511  0.409815  0.347442  ...  0.224790  0.320492  0.420224  0.523137  0.654979  0.654979
+.DOY_COS               0.224520  0.224520  0.188182  0.454931  0.586836  0.266316  ...  0.683459  0.627618  0.567980  0.535762  0.613036  0.613036
+.HOUR_COS              0.211513  0.211513  0.256257  0.218088  0.325360  0.267647  ...  0.217721  0.220977  0.150278  0.191723  0.168602  0.168602
+.SW_IN_T1_47_1_gfXG-1  0.188794  0.188794  0.152060  0.119881  0.136423  0.179771  ...  0.306434  0.220261  0.183465  0.124462  0.107453  0.107453
+.DOY_SIN               0.132553  0.132553  0.089693  0.084341  0.076858  0.034761  ...  0.077075  0.081027  0.074686  0.055194  0.044098  0.044098
+.VPD_T1_47_1_gfXG-1    0.099922  0.099922  0.125139  0.124683  0.089018  0.065748  ...  0.089580  0.119612  0.100907  0.113701  0.156681  0.156681
+VPD_T1_47_1_gfXG       0.094329  0.094329  0.077351  0.059974  0.052751  0.069411  ...  0.061522  0.049792  0.057125  0.062720  0.051161  0.051161
+TA_T1_47_1_gfXG        0.051223  0.051223  0.046898  0.036310  0.033769  0.037674  ...  0.055051  0.051694  0.044985  0.046373  0.031717  0.031717
+.TA_T1_47_1_gfXG-1     0.049590  0.049590  0.037629  0.036554  0.037644  0.035071  ...  0.044955  0.050439  0.056521  0.044890  0.034245  0.034245
+.RECORDNUMBER          0.047067  0.047067  0.061105  0.041673  0.036242  0.038234  ...  0.074880  0.051789  0.062811  0.049172  0.038660  0.038660
+.HOUR_SIN              0.036906  0.036906  0.031176  0.024988  0.018830  0.016511  ...  0.029806  0.027018  0.030084  0.025787  0.026955  0.026955
+.YEARDOY               0.013979  0.013979  0.021496  0.015194  0.012455  0.014042  ...  0.025860  0.016238  0.026046  0.017649  0.015204  0.015204
+.WEEK_SIN              0.011656  0.011656  0.010804  0.017031  0.013899  0.013193  ...  0.011135  0.044669  0.017754  0.020086  0.028490  0.028490
+.YEARWEEK              0.004115  0.004115  0.005650  0.006618  0.005097  0.005106  ...  0.007322  0.008760  0.008548  0.007491  0.006311  0.006311
+.MONTH_COS             0.002761  0.002761  0.003246  0.002470  0.002397  0.001956  ...  0.005998  0.006417  0.032918  0.012970  0.009554  0.009554
+.MONTH_SIN             0.002719  0.002719  0.001871  0.005840  0.001914  0.123672  ...  0.005277  0.008189  0.004424  0.004674  0.010056  0.010056
+.YEARMONTH             0.001611  0.001611  0.002044  0.002725  0.002498  0.001701  ...  0.002525  0.002161  0.002527  0.001884  0.002218  0.002218
+.SEASON_COS            0.001174  0.001174  0.002815  0.004078  0.002287  0.003165  ...  0.005235  0.005094  0.001943  0.000834  0.000796  0.000796
+.YEAR                  0.000575  0.000575  0.000652  0.001430  0.000829  0.000588  ...  0.000992  0.000872  0.001041  0.000740  0.001171  0.001171
+.SEASON_SIN            0.000423  0.000423  0.000346  0.000366  0.000272  0.000305  ...  0.000309  0.000268  0.000458  0.000501  0.000533  0.000533
+
+[21 rows x 14 columns]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="names-of-gap-filled-variables" class="level2">
+<h2 class="anchored" data-anchor-id="names-of-gap-filled-variables">Names of gap-filled variables</h2>
+<div id="67ac09197518fa3e" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Used model, USTAR scenario, non-gapfilled variable and gap-filled variable:"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fpc.report_gapfilling_variables()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Used model, USTAR scenario, non-gapfilled variable and gap-filled variable:
+long_term_random_forest (CUT_50): NEE_L3.1_L3.3_CUT_50_QCF -&gt; NEE_L3.1_L3.3_CUT_50_QCF_gfRF</code></pre>
+</div>
+</div>
+<div id="f168f6c7-f1ae-4331-9141-f61d1896a70d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2024-10-04T12:05:12.470835Z&quot;,&quot;start_time&quot;:&quot;2024-10-04T12:05:12.142303Z&quot;}}" data-tags="[]" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gapfilled_names <span class="op">=</span> fpc.get_gapfilled_names()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gapfilled_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>['NEE_L3.1_L3.3_CUT_50_QCF_gfRF']</code></pre>
+</div>
+</div>
+<p>Gap-filled data can also be accessed directly. To get all gap-filled variables and also the same variables before gap-filling in a dataframe, use <code>.get_gapfilled_variables()</code>:</p>
+<div id="5890e28ad1215d94" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gapfilled_vars <span class="op">=</span> fpc.get_gapfilled_variables()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>gapfilled_vars.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">NEE_L3.1_L3.3_CUT_50_QCF_gfRF</th>
+<th data-quarto-table-cell-role="th">NEE_L3.1_L3.3_CUT_50_QCF</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_MIDDLE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2004-03-30 14:45:00</th>
+<td>-1.732018</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2004-03-30 15:15:00</th>
+<td>-1.056391</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2004-03-30 15:45:00</th>
+<td>-1.056391</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The names of the flux that was gap-filled can be accessed like this:</p>
+<div id="1566ce70-085b-4b80-9eef-ab4a274c53a6" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>nongapfilled_names <span class="op">=</span> fpc.get_nongapfilled_names()</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>nongapfilled_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>['NEE_L3.1_L3.3_CUT_50_QCF']</code></pre>
+</div>
+</div>
+</section>
+<section id="plots" class="level2">
+<h2 class="anchored" data-anchor-id="plots">Plots</h2>
+<section id="heatmaps" class="level3">
+<h3 class="anchored" data-anchor-id="heatmaps">Heatmaps</h3>
+<div id="66724bb53617a6eb" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fpc.showplot_gapfilled_heatmap()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\pkgs\fluxprocessingchain\fluxprocessingchain.py:502: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  fig.show()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="C-Copy2_files/figure-html/cell-16-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="C-Copy2_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cumulatives-per-year" class="level3">
+<h3 class="anchored" data-anchor-id="cumulatives-per-year">Cumulatives per year</h3>
+<div id="1e530523e251f709" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fpc.showplot_gapfilled_cumulative(gain<span class="op">=</span><span class="fl">0.02161926</span>, units<span class="op">=</span><span class="vs">r'</span><span class="kw">(</span><span class="dv">$\m</span><span class="vs">athrm{gC</span><span class="ch">\ </span><span class="vs">m</span><span class="dv">^</span><span class="vs">{-2}}</span><span class="dv">$</span><span class="kw">)</span><span class="vs">'</span>, per_year<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\core\plotting\cumulative.py:145: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  self.fig.show()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="C-Copy2_files/figure-html/cell-17-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="C-Copy2_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cumulative-across-all-data" class="level3">
+<h3 class="anchored" data-anchor-id="cumulative-across-all-data">Cumulative across all data</h3>
+<div id="7eded5ad24f11852" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fpc.showplot_gapfilled_cumulative(gain<span class="op">=</span><span class="fl">0.02161926</span>, units<span class="op">=</span><span class="vs">r'</span><span class="kw">(</span><span class="dv">$\m</span><span class="vs">athrm{gC</span><span class="ch">\ </span><span class="vs">m</span><span class="dv">^</span><span class="vs">{-2}}</span><span class="dv">$</span><span class="kw">)</span><span class="vs">'</span>, per_year<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\core\plotting\cumulative.py:251: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  self.fig.show()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="C-Copy2_files/figure-html/cell-18-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="C-Copy2_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ml-feature-ranks-per-year-machine-learning-models-only" class="level3">
+<h3 class="anchored" data-anchor-id="ml-feature-ranks-per-year-machine-learning-models-only">ML Feature ranks per year (machine learning models only)</h3>
+<div id="991a78ed1fbbdf4a" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fpc.showplot_feature_ranks_per_year()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\pkgs\gapfilling\longterm.py:268: UserWarning: marker is redundantly defined by the 'marker' keyword argument and the fmt string "o" (-&gt; marker='o'). The keyword argument will take precedence.
+  ax.plot(row.index, row.values, "o", marker=verts, ms=20,
+F:\Sync\luhk_work\20 - CODING\21 - DIIVE\diive\diive\pkgs\gapfilling\longterm.py:287: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  fig.show()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="C-Copy2_files/figure-html/cell-19-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="C-Copy2_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mds-gap-filling-qualities-mds-only-otherwise-skipped" class="level3">
+<h3 class="anchored" data-anchor-id="mds-gap-filling-qualities-mds-only-otherwise-skipped">MDS gap-filling qualities (MDS only, otherwise skipped)</h3>
+<div id="405e06a9-4f40-406d-9c6b-59eab20b6c48" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fpc.showplot_mds_gapfilling_qualities()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<p><br></p>
+<div style="
+    height: 30px; /* Adjust height as desired */
+    background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%); /* Warm gradient */
+    background-image: 
+        radial-gradient(circle at 100% 150%, #FF6B6B 0%, #FFE66D 100%),
+        linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 100% 100%, 15px 15px, 15px 15px; /* Adjust pattern size */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+">
+
+</div>
+</section>
+</section>
+</section>
+<section id="save-results-to-file" class="level1">
+<h1>SAVE RESULTS TO FILE</h1>
+<ul>
+<li>Save results to file for futher processing</li>
+<li>This can be useful if you want to use the data in another software, e.g.&nbsp;continuing post-processing using the library <code>ReddyProc</code> in <code>R</code></li>
+<li><code>Parquet</code> format is recommended for large datasets</li>
+</ul>
+<p><br></p>
+<section id="option-1-save-complete-data-input-data-and-results-to-csv-large-and-slow" class="level2">
+<h2 class="anchored" data-anchor-id="option-1-save-complete-data-input-data-and-results-to-csv-large-and-slow">Option 1: Save complete data (input data and results) to CSV (large and slow)</h2>
+<div id="63b6f953f4cd5f16" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># results.to_csv("FluxProcessingChain_L4.1.csv")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+<section id="option-2-save-input-data-and-results-to-parquet-small-and-fast" class="level2">
+<h2 class="anchored" data-anchor-id="option-2-save-input-data-and-results-to-parquet-small-and-fast">Option 2: Save input data and results to Parquet (small and fast)</h2>
+<ul>
+<li>Needed if you want to continue post-processing in notebooks</li>
+<li>Can also be used in <code>R</code> with the <code>arrow</code> package</li>
+</ul>
+<div id="9c48022bcea5a94e" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save_parquet(data=results, filename="04_outFrom03")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<p><br></p>
+<div style="
+    height: 30px; /* Adjust height as desired */
+    background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%); /* Warm gradient */
+    background-image: 
+        radial-gradient(circle at 100% 150%, #FF6B6B 0%, #FFE66D 100%),
+        linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 100% 100%, 15px 15px, 15px 15px; /* Adjust pattern size */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+">
+
+</div>
+</section>
+</section>
+<section id="end-of-notebook" class="level1">
+<h1>✅END OF NOTEBOOK</h1>
+<p>Congratulations, you reached the end of this notebook! Before you go let’s store your finish time.</p>
+<div id="b003f13901e2707c" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dt_string <span class="op">=</span> datetime.now().strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Finished. </span><span class="sc">{</span>dt_string<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished. 2025-12-08 00:57:30</code></pre>
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<!--
+  Moves the page's "Modified" date out of the top title block and into the right
+  ("On this page") sidebar, at the very end. Quarto has no built-in option to
+  relocate title-block metadata, so we do it client-side: read the
+  `date-modified` value Quarto emits, drop the title meta block, and append a
+  "Last updated" line at the bottom of the right margin sidebar. Falls back to
+  the left sidebar on pages that have no TOC (so the right sidebar is absent).
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  .sidebar-last-modified {
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    // Prefer the right ("On this page") sidebar; fall back to the left one on
+    // pages without a TOC.
+    var right = document.getElementById("quarto-margin-sidebar");
+    var left = document.getElementById("quarto-sidebar");
+    var host = right || left;
+    if (!host) return;
+
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    if (right) {
+      host.appendChild(box); // end of the right sidebar, after the TOC
+    } else {
+      var container = left.querySelector(".sidebar-menu-container") || left;
+      container.appendChild(box);
+    }
+  });
+</script>
+<!--
+  Relocates Quarto's light/dark theme toggle out of the left sidebar title into
+  the top of the right ("On this page") sidebar. Quarto has no option to place
+  the toggle there, so we move the node client-side on load. On pages without a
+  TOC (no right sidebar) the toggle is left where Quarto put it. Styling is in
+  styles.css (.margin-theme-toggle, .quarto-color-scheme-toggle). Wired in via
+  docs/_quarto.yml -> format.html.include-after-body.
+-->
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var tools = document.querySelector(
+      "#quarto-sidebar .sidebar-title .sidebar-tools-main"
+    );
+    var right = document.getElementById("quarto-margin-sidebar");
+    if (!tools || !right) return;
+    var holder = document.createElement("div");
+    // `sidebar-navigation` makes Quarto's own (theme-aware) sun/moon icon rules
+    // match the toggle here in the right sidebar -- they're scoped to that class
+    // and would otherwise leave an empty icon box. styles.css neutralizes the
+    // stray padding that class brings.
+    holder.className = "margin-theme-toggle sidebar-navigation";
+    holder.appendChild(tools); // move the node (the toggle lives inside)
+    right.insertBefore(holder, right.firstChild);
+  });
+</script>
+<!--
+
+  Make every Mermaid diagram pannable and zoomable.
+
+
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+
+  to the article width, which leaves the node labels small and the diagram hard to
+
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+
+
+  Deliberate choices, both about not surprising the reader:
+
+
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+
+    reader scrolling past a diagram is never trapped inside it.
+
+  - The viewport can be dragged taller by its bottom edge, because how much height
+
+    a diagram deserves depends on the diagram.
+
+
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+
+  site would otherwise gain a network dependency for it.
+
+-->
+
+<style>
+
+  .mzoom-wrap {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(128, 128, 128, 0.35);
+
+    border-radius: 4px;
+
+    resize: vertical;
+
+    min-height: 220px;
+
+    height: 460px;
+
+    background: transparent;
+
+    touch-action: none;
+
+  }
+
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+
+  .mzoom-wrap > svg {
+
+    transform-origin: 0 0;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+  }
+
+  .mzoom-bar {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    display: flex;
+
+    gap: 4px;
+
+    z-index: 2;
+
+  }
+
+  .mzoom-bar button {
+
+    font: inherit;
+
+    font-size: 0.85rem;
+
+    line-height: 1;
+
+    padding: 4px 8px;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(128, 128, 128, 0.45);
+
+    border-radius: 3px;
+
+    background: rgba(127, 127, 127, 0.12);
+
+    color: inherit;
+
+  }
+
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+
+  .mzoom-hint {
+
+    position: absolute;
+
+    left: 8px;
+
+    bottom: 6px;
+
+    font-size: 0.75rem;
+
+    opacity: 0.6;
+
+    pointer-events: none;
+
+  }
+
+</style>
+
+
+
+<script>
+
+(function () {
+
+  var MIN = 0.15, MAX = 8;
+
+
+
+  function enhance(svg) {
+
+    if (svg.dataset.mzoom) return;
+
+    svg.dataset.mzoom = "1";
+
+
+
+    var wrap = document.createElement("div");
+
+    wrap.className = "mzoom-wrap";
+
+    svg.parentNode.insertBefore(wrap, svg);
+
+    wrap.appendChild(svg);
+
+
+
+    var bar = document.createElement("div");
+
+    bar.className = "mzoom-bar";
+
+    wrap.appendChild(bar);
+
+
+
+    var hint = document.createElement("div");
+
+    hint.className = "mzoom-hint";
+
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+
+    wrap.appendChild(hint);
+
+
+
+    var k = 1, tx = 0, ty = 0;
+
+
+
+    function apply() {
+
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+
+    }
+
+
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+
+    function fit() {
+
+      var box = svg.getBBox ? svg.getBBox() : null;
+
+      var w = box && box.width ? box.width : svg.clientWidth;
+
+      var h = box && box.height ? box.height : svg.clientHeight;
+
+      if (!w || !h) return;
+
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+
+      k = Math.max(MIN, Math.min(MAX, k));
+
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+
+      apply();
+
+    }
+
+
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+
+    // stays under the cursor.
+
+    function zoomAt(px, py, factor) {
+
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+
+      tx = px - (px - tx) * (next / k);
+
+      ty = py - (py - ty) * (next / k);
+
+      k = next;
+
+      apply();
+
+    }
+
+
+
+    function button(label, title, fn) {
+
+      var b = document.createElement("button");
+
+      b.type = "button";
+
+      b.textContent = label;
+
+      b.title = title;
+
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+
+      bar.appendChild(b);
+
+    }
+
+    button("−", "Zoom out", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+
+    });
+
+    button("+", "Zoom in", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+
+    });
+
+    button("⤢", "Fit to view", fit);
+
+
+
+    wrap.addEventListener("wheel", function (e) {
+
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+
+      var r = wrap.getBoundingClientRect();
+
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+
+    }, { passive: false });
+
+
+
+    var dragging = false, lastX = 0, lastY = 0;
+
+    wrap.addEventListener("pointerdown", function (e) {
+
+      if (e.target.closest(".mzoom-bar")) return;
+
+      dragging = true;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      wrap.classList.add("mzoom-grabbing");
+
+      wrap.setPointerCapture(e.pointerId);
+
+    });
+
+    wrap.addEventListener("pointermove", function (e) {
+
+      if (!dragging) return;
+
+      tx += e.clientX - lastX;
+
+      ty += e.clientY - lastY;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      apply();
+
+    });
+
+    function endDrag(e) {
+
+      if (!dragging) return;
+
+      dragging = false;
+
+      wrap.classList.remove("mzoom-grabbing");
+
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+
+    }
+
+    wrap.addEventListener("pointerup", endDrag);
+
+    wrap.addEventListener("pointercancel", endDrag);
+
+    wrap.addEventListener("dblclick", fit);
+
+
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+
+    // fonts have settled since label widths move the bounding box.
+
+    requestAnimationFrame(fit);
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  }
+
+
+
+  function scan() {
+
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+
+  }
+
+
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+
+  // watch for the SVG appearing and stop once every diagram has one.
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    scan();
+
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+
+    if (!targets.length) return;
+
+    var obs = new MutationObserver(function () {
+
+      scan();
+
+      var pending = document.querySelectorAll(
+
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+
+      if (!pending.length) obs.disconnect();
+
+    });
+
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+
+    // Backstop for browsers without :has() support in querySelectorAll.
+
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+
+  });
+
+})();
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lukas Hörtnagl · © 2025</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/30_FLUX_PROCESSING_CHAIN/33_IRGA75_SHC_2004-2017_2019/C-Copy2.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

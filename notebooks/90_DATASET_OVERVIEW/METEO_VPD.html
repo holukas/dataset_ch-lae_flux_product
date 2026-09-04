@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Meteo: Air temperature (VPD) (2005-2024) – CH-LAE Flux Product</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Meteo: Air temperature (VPD) (2005-2024)</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CH-LAE Flux Product (PI dataset)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Site_Info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Site information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../Meteo_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_SW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_TA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air temperature at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_PPFD_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photosynthetic photon flux density at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_RH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relative humidity at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_PA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air pressure at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_LW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming longwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_VPD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vapour pressure deficit at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_PREC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Precipitation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_SWC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil water content at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_TS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil temperature at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_G.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil heat flux at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_SW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Data_LW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing longwave radiation at 47 m</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Data_Dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dashboards</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Meteo_Product_Chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Product Chain</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Management_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Management Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../FPC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flux Processing Chain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Raw_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw Data: Eddy Covariance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-0: Preliminary flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1: Final flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L1.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1.1: Self-heating correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-2: Quality flag expansion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L3.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.1: Storage correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L3.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.2: Outlier flagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L3.3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.3: USTAR filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L4.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.1: Gap-filling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../L4.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.2: NEE Partitioning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../QCF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QCF: overall quality control flag</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Instrumentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Supplementary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplementary Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Used Software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Versions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Versions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../Yearly_Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yearly Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open issue</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#variable" id="toc-variable" class="nav-link active" data-scroll-target="#variable">Variable</a></li>
+  <li><a href="#imports" id="toc-imports" class="nav-link" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
+  <li><a href="#stats" id="toc-stats" class="nav-link" data-scroll-target="#stats">Stats</a>
+  <ul class="collapse">
+  <li><a href="#overall-mean" id="toc-overall-mean" class="nav-link" data-scroll-target="#overall-mean">Overall mean</a></li>
+  <li><a href="#yearly-means" id="toc-yearly-means" class="nav-link" data-scroll-target="#yearly-means">Yearly means</a></li>
+  <li><a href="#monthly-averages" id="toc-monthly-averages" class="nav-link" data-scroll-target="#monthly-averages">Monthly averages</a></li>
+  <li><a href="#number-of-days-below" id="toc-number-of-days-below" class="nav-link" data-scroll-target="#number-of-days-below">Number of days below …</a></li>
+  <li><a href="#number-of-days-above" id="toc-number-of-days-above" class="nav-link" data-scroll-target="#number-of-days-above">Number of days above …</a></li>
+  </ul></li>
+  <li><a href="#heatmap-plots" id="toc-heatmap-plots" class="nav-link" data-scroll-target="#heatmap-plots">Heatmap plots</a>
+  <ul class="collapse">
+  <li><a href="#half-hourly" id="toc-half-hourly" class="nav-link" data-scroll-target="#half-hourly">Half-hourly</a></li>
+  <li><a href="#monthly" id="toc-monthly" class="nav-link" data-scroll-target="#monthly">Monthly</a></li>
+  <li><a href="#monthly-ranks" id="toc-monthly-ranks" class="nav-link" data-scroll-target="#monthly-ranks">Monthly ranks</a>
+  <ul class="collapse">
+  <li><a href="#mean-ranks-per-year" id="toc-mean-ranks-per-year" class="nav-link" data-scroll-target="#mean-ranks-per-year">Mean ranks per year</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#ridgeline-plots" id="toc-ridgeline-plots" class="nav-link" data-scroll-target="#ridgeline-plots">Ridgeline plots</a>
+  <ul class="collapse">
+  <li><a href="#yearly" id="toc-yearly" class="nav-link" data-scroll-target="#yearly">Yearly</a></li>
+  <li><a href="#monthly-1" id="toc-monthly-1" class="nav-link" data-scroll-target="#monthly-1">Monthly</a></li>
+  <li><a href="#weekly" id="toc-weekly" class="nav-link" data-scroll-target="#weekly">Weekly</a></li>
+  <li><a href="#single-years-per-month" id="toc-single-years-per-month" class="nav-link" data-scroll-target="#single-years-per-month">Single years per month</a></li>
+  <li><a href="#single-years-per-week" id="toc-single-years-per-week" class="nav-link" data-scroll-target="#single-years-per-week">Single years per week</a></li>
+  </ul></li>
+  <li><a href="#cumulative-plot" id="toc-cumulative-plot" class="nav-link" data-scroll-target="#cumulative-plot">Cumulative plot</a></li>
+  <li><a href="#long-term-anomalies" id="toc-long-term-anomalies" class="nav-link" data-scroll-target="#long-term-anomalies">Long-term anomalies</a></li>
+  <li><a href="#end-of-notebook" id="toc-end-of-notebook" class="nav-link" data-scroll-target="#end-of-notebook">End of notebook</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/90_DATASET_OVERVIEW/METEO_VPD.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Meteo: Air temperature (VPD) (2005-2024)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">4 September 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Author</strong>: Lukas Hörtnagl (holukas@ethz.ch)</p>
+<section id="variable" class="level1">
+<h1>Variable</h1>
+<div id="874b35be-f930-4475-a127-a920854f7537" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>varname <span class="op">=</span> <span class="st">'VPD_T1_47_1'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>var <span class="op">=</span> <span class="st">"VPD"</span>  <span class="co"># Name shown in plots</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>units <span class="op">=</span> <span class="st">"kPa"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="imports" class="level1">
+<h1>Imports</h1>
+<div id="f8fb99de-1f34-4fba-901b-59dc7c110ea8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib.metadata</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.gridspec <span class="im">as</span> gridspec</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> diive <span class="im">as</span> dv</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.io.files <span class="im">import</span> save_parquet, load_parquet</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.plotting.cumulative <span class="im">import</span> CumulativeYear</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.plotting.bar <span class="im">import</span> LongtermAnomaliesYear</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>version_diive <span class="op">=</span> importlib.metadata.version(<span class="st">"diive"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"diive version: v</span><span class="sc">{</span>version_diive<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>diive version: v0.87.1</code></pre>
+</div>
+</div>
+</section>
+<section id="load-data" class="level1">
+<h1>Load data</h1>
+<div id="6b6f26f5-6594-43aa-bd36-0d067a1bd374" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SOURCEDIR <span class="op">=</span> <span class="vs">r"</span><span class="dv">..</span><span class="vs">/10_METEO"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>FILENAME <span class="op">=</span> <span class="vs">r"12</span><span class="dv">.</span><span class="vs">5_METEO7_GAPFILLED_2004-2024</span><span class="dv">.</span><span class="vs">parquet"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>FILEPATH <span class="op">=</span> Path(SOURCEDIR) <span class="op">/</span> FILENAME</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_parquet(filepath<span class="op">=</span>FILEPATH)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>keeplocs <span class="op">=</span> (df.index.year <span class="op">&gt;=</span> <span class="dv">2005</span>) <span class="op">&amp;</span> (df.index.year <span class="op">&lt;=</span> <span class="dv">2024</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[keeplocs].copy()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loaded .parquet file ..\10_METEO\12.5_METEO7_GAPFILLED_2004-2024.parquet (0.049 seconds).
+    --&gt; Detected time resolution of &lt;30 * Minutes&gt; / 30min </code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">LW_IN_T1_47_1</th>
+<th data-quarto-table-cell-role="th">PA_T1_47_1</th>
+<th data-quarto-table-cell-role="th">PPFD_IN_T1_47_1</th>
+<th data-quarto-table-cell-role="th">RH_T1_47_1</th>
+<th data-quarto-table-cell-role="th">SW_IN_T1_47_1</th>
+<th data-quarto-table-cell-role="th">TA_T1_47_1</th>
+<th data-quarto-table-cell-role="th">SW_IN_T1_47_1_gfXG</th>
+<th data-quarto-table-cell-role="th">TA_T1_47_1_gfXG</th>
+<th data-quarto-table-cell-role="th">PPFD_IN_T1_47_1_gfXG</th>
+<th data-quarto-table-cell-role="th">VPD_T1_47_1</th>
+<th data-quarto-table-cell-role="th">VPD_T1_47_1_gfXG</th>
+<th data-quarto-table-cell-role="th">FLAG_VPD_T1_47_1_gfXG_ISFILLED</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_MIDDLE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2005-01-01 00:15:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>96.203705</td>
+<td>0.0</td>
+<td>-2.160000</td>
+<td>0.0</td>
+<td>-2.160000</td>
+<td>0.0</td>
+<td>0.019778</td>
+<td>0.019778</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2005-01-01 00:45:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>98.003701</td>
+<td>0.0</td>
+<td>-2.010000</td>
+<td>0.0</td>
+<td>-2.010000</td>
+<td>0.0</td>
+<td>0.010517</td>
+<td>0.010517</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2005-01-01 01:15:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>98.203705</td>
+<td>0.0</td>
+<td>-1.791000</td>
+<td>0.0</td>
+<td>-1.791000</td>
+<td>0.0</td>
+<td>0.009618</td>
+<td>0.009618</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2005-01-01 01:45:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>98.203705</td>
+<td>0.0</td>
+<td>-1.539000</td>
+<td>0.0</td>
+<td>-1.539000</td>
+<td>0.0</td>
+<td>0.009799</td>
+<td>0.009799</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2005-01-01 02:15:00</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>98.203705</td>
+<td>0.0</td>
+<td>-1.338000</td>
+<td>0.0</td>
+<td>-1.338000</td>
+<td>0.0</td>
+<td>0.009946</td>
+<td>0.009946</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2024-12-31 21:45:00</th>
+<td>232.595527</td>
+<td>94.211806</td>
+<td>0.0</td>
+<td>87.254008</td>
+<td>0.0</td>
+<td>-0.504794</td>
+<td>0.0</td>
+<td>-0.504794</td>
+<td>0.0</td>
+<td>0.075030</td>
+<td>0.075030</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2024-12-31 22:15:00</th>
+<td>232.609777</td>
+<td>94.189013</td>
+<td>0.0</td>
+<td>87.430236</td>
+<td>0.0</td>
+<td>-0.296828</td>
+<td>0.0</td>
+<td>-0.296828</td>
+<td>0.0</td>
+<td>0.075127</td>
+<td>0.075127</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2024-12-31 22:45:00</th>
+<td>232.345020</td>
+<td>94.169525</td>
+<td>0.0</td>
+<td>89.787920</td>
+<td>0.0</td>
+<td>-0.392922</td>
+<td>0.0</td>
+<td>-0.392922</td>
+<td>0.0</td>
+<td>0.060608</td>
+<td>0.060608</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2024-12-31 23:15:00</th>
+<td>234.211100</td>
+<td>94.168413</td>
+<td>0.0</td>
+<td>81.809355</td>
+<td>0.0</td>
+<td>0.792661</td>
+<td>0.0</td>
+<td>0.792661</td>
+<td>0.0</td>
+<td>0.117695</td>
+<td>0.117695</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2024-12-31 23:45:00</th>
+<td>231.760533</td>
+<td>94.170793</td>
+<td>0.0</td>
+<td>88.311314</td>
+<td>0.0</td>
+<td>-0.422600</td>
+<td>0.0</td>
+<td>-0.422600</td>
+<td>0.0</td>
+<td>0.069221</td>
+<td>0.069221</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+<p>350640 rows × 12 columns</p>
+</div>
+</div>
+</div>
+<div id="3ceb40c6-437c-4d59-bd59-80eca0757dbf" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>series <span class="op">=</span> df[varname].copy()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>series.plot(x_compat<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>series</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>TIMESTAMP_MIDDLE
+2005-01-01 00:15:00    0.019778
+2005-01-01 00:45:00    0.010517
+2005-01-01 01:15:00    0.009618
+2005-01-01 01:45:00    0.009799
+2005-01-01 02:15:00    0.009946
+                         ...   
+2024-12-31 21:45:00    0.075030
+2024-12-31 22:15:00    0.075127
+2024-12-31 22:45:00    0.060608
+2024-12-31 23:15:00    0.117695
+2024-12-31 23:45:00    0.069221
+Freq: 30min, Name: VPD_T1_47_1, Length: 350640, dtype: float64</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-5-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="METEO_VPD_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="85ba1865-7e0d-45a0-a602-6024c00cc181" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>xlabel <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>units<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>xlim <span class="op">=</span> [series.<span class="bu">min</span>(), series.<span class="bu">max</span>()]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+<section id="stats" class="level1">
+<h1>Stats</h1>
+<section id="overall-mean" class="level2">
+<h2 class="anchored" data-anchor-id="overall-mean">Overall mean</h2>
+<div id="18c6d0e8-c141-4c82-a49c-885004875c41" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>_yearly_avg <span class="op">=</span> series.resample(<span class="st">'YE'</span>).mean()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>_overall_mean <span class="op">=</span> _yearly_avg.mean()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>_overall_sd <span class="op">=</span> _yearly_avg.std()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Overall mean: </span><span class="sc">{</span>_overall_mean<span class="sc">}</span><span class="ss"> +/- </span><span class="sc">{</span>_overall_sd<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Overall mean: 0.3552420731579419 +/- 0.04715788745007997</code></pre>
+</div>
+</div>
+</section>
+<section id="yearly-means" class="level2">
+<h2 class="anchored" data-anchor-id="yearly-means">Yearly means</h2>
+<div id="02c93efd-57e0-44d9-ab86-2686545511a9" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ym <span class="op">=</span> series.resample(<span class="st">'YE'</span>).mean()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ym</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>TIMESTAMP_MIDDLE
+2005-12-31    0.346331
+2006-12-31    0.359115
+2007-12-31    0.335538
+2008-12-31    0.306914
+2009-12-31    0.334010
+2010-12-31    0.302139
+2011-12-31    0.381283
+2012-12-31    0.322967
+2013-12-31    0.311386
+2014-12-31    0.323487
+2015-12-31    0.415564
+2016-12-31    0.340576
+2017-12-31    0.378826
+2018-12-31    0.424159
+2019-12-31    0.409711
+2020-12-31    0.404670
+2021-12-31    0.290171
+2022-12-31    0.438485
+2023-12-31    0.391231
+2024-12-31    0.288277
+Freq: YE-DEC, Name: VPD_T1_47_1, dtype: float64</code></pre>
+</div>
+</div>
+<div id="999aca84-fa9f-4dd5-b99a-bdb913a5a6f5" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ym.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>TIMESTAMP_MIDDLE
+2022-12-31    0.438485
+2018-12-31    0.424159
+2015-12-31    0.415564
+2019-12-31    0.409711
+2020-12-31    0.404670
+2023-12-31    0.391231
+2011-12-31    0.381283
+2017-12-31    0.378826
+2006-12-31    0.359115
+2005-12-31    0.346331
+2016-12-31    0.340576
+2007-12-31    0.335538
+2009-12-31    0.334010
+2014-12-31    0.323487
+2012-12-31    0.322967
+2013-12-31    0.311386
+2008-12-31    0.306914
+2010-12-31    0.302139
+2021-12-31    0.290171
+2024-12-31    0.288277
+Name: VPD_T1_47_1, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="monthly-averages" class="level2">
+<h2 class="anchored" data-anchor-id="monthly-averages">Monthly averages</h2>
+<div id="d97fad47-a8a4-4266-8566-51fa41087ea7" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>seriesdf <span class="op">=</span> pd.DataFrame(series)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>seriesdf[<span class="st">'MONTH'</span>] <span class="op">=</span> seriesdf.index.month</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>seriesdf[<span class="st">'YEAR'</span>] <span class="op">=</span> seriesdf.index.year</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>monthly_avg <span class="op">=</span> seriesdf.groupby([<span class="st">'YEAR'</span>, <span class="st">'MONTH'</span>])[varname].mean().unstack()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>monthly_avg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">MONTH</th>
+<th data-quarto-table-cell-role="th">1</th>
+<th data-quarto-table-cell-role="th">2</th>
+<th data-quarto-table-cell-role="th">3</th>
+<th data-quarto-table-cell-role="th">4</th>
+<th data-quarto-table-cell-role="th">5</th>
+<th data-quarto-table-cell-role="th">6</th>
+<th data-quarto-table-cell-role="th">7</th>
+<th data-quarto-table-cell-role="th">8</th>
+<th data-quarto-table-cell-role="th">9</th>
+<th data-quarto-table-cell-role="th">10</th>
+<th data-quarto-table-cell-role="th">11</th>
+<th data-quarto-table-cell-role="th">12</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">YEAR</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2005</th>
+<td>0.098728</td>
+<td>0.071203</td>
+<td>0.255526</td>
+<td>0.368644</td>
+<td>0.566865</td>
+<td>0.826770</td>
+<td>0.667390</td>
+<td>0.451273</td>
+<td>0.419682</td>
+<td>0.241639</td>
+<td>0.130418</td>
+<td>0.038538</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2006</th>
+<td>0.065026</td>
+<td>0.077202</td>
+<td>0.125051</td>
+<td>0.296425</td>
+<td>0.418049</td>
+<td>0.762348</td>
+<td>1.136930</td>
+<td>0.319461</td>
+<td>0.448141</td>
+<td>0.285055</td>
+<td>0.238983</td>
+<td>0.119354</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2007</th>
+<td>0.097568</td>
+<td>0.151464</td>
+<td>0.228125</td>
+<td>0.798676</td>
+<td>0.527100</td>
+<td>0.484729</td>
+<td>0.570716</td>
+<td>0.469590</td>
+<td>0.342726</td>
+<td>0.202463</td>
+<td>0.094519</td>
+<td>0.053188</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2008</th>
+<td>0.156523</td>
+<td>0.209550</td>
+<td>0.180537</td>
+<td>0.242362</td>
+<td>0.625697</td>
+<td>0.534153</td>
+<td>0.644119</td>
+<td>0.493965</td>
+<td>0.257575</td>
+<td>0.174711</td>
+<td>0.103464</td>
+<td>0.050405</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2009</th>
+<td>0.055331</td>
+<td>0.095297</td>
+<td>0.154754</td>
+<td>0.515293</td>
+<td>0.578902</td>
+<td>0.487260</td>
+<td>0.604620</td>
+<td>0.783934</td>
+<td>0.410350</td>
+<td>0.234502</td>
+<td>0.146221</td>
+<td>0.067759</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2010</th>
+<td>0.031270</td>
+<td>0.115490</td>
+<td>0.262697</td>
+<td>0.478771</td>
+<td>0.275770</td>
+<td>0.596658</td>
+<td>0.734554</td>
+<td>0.434073</td>
+<td>0.368292</td>
+<td>0.210315</td>
+<td>0.104567</td>
+<td>0.051532</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2011</th>
+<td>0.074444</td>
+<td>0.160941</td>
+<td>0.304421</td>
+<td>0.665664</td>
+<td>0.720928</td>
+<td>0.539708</td>
+<td>0.542076</td>
+<td>0.721999</td>
+<td>0.456061</td>
+<td>0.173393</td>
+<td>0.143382</td>
+<td>0.060903</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2012</th>
+<td>0.047402</td>
+<td>0.096555</td>
+<td>0.436990</td>
+<td>0.345349</td>
+<td>0.541762</td>
+<td>0.526567</td>
+<td>0.529450</td>
+<td>0.644753</td>
+<td>0.338462</td>
+<td>0.188343</td>
+<td>0.112636</td>
+<td>0.060602</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2013</th>
+<td>0.044530</td>
+<td>0.040868</td>
+<td>0.151234</td>
+<td>0.300698</td>
+<td>0.236430</td>
+<td>0.563825</td>
+<td>0.927837</td>
+<td>0.680899</td>
+<td>0.355528</td>
+<td>0.195319</td>
+<td>0.076643</td>
+<td>0.150297</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2014</th>
+<td>0.089826</td>
+<td>0.133849</td>
+<td>0.381018</td>
+<td>0.414037</td>
+<td>0.427751</td>
+<td>0.841078</td>
+<td>0.476376</td>
+<td>0.396185</td>
+<td>0.335520</td>
+<td>0.206614</td>
+<td>0.106579</td>
+<td>0.067637</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2015</th>
+<td>0.080089</td>
+<td>0.086698</td>
+<td>0.288041</td>
+<td>0.517502</td>
+<td>0.444502</td>
+<td>0.654488</td>
+<td>1.181111</td>
+<td>0.875660</td>
+<td>0.382253</td>
+<td>0.147485</td>
+<td>0.176234</td>
+<td>0.124083</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2016</th>
+<td>0.163168</td>
+<td>0.073469</td>
+<td>0.194694</td>
+<td>0.271803</td>
+<td>0.471009</td>
+<td>0.361981</td>
+<td>0.714703</td>
+<td>0.749679</td>
+<td>0.579225</td>
+<td>0.145200</td>
+<td>0.120538</td>
+<td>0.104775</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2017</th>
+<td>0.027242</td>
+<td>0.131541</td>
+<td>0.346825</td>
+<td>0.418633</td>
+<td>0.621429</td>
+<td>0.818097</td>
+<td>0.717419</td>
+<td>0.727567</td>
+<td>0.305520</td>
+<td>0.304060</td>
+<td>0.092604</td>
+<td>0.014897</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2018</th>
+<td>0.048989</td>
+<td>0.033899</td>
+<td>0.134523</td>
+<td>0.690992</td>
+<td>0.466109</td>
+<td>0.575210</td>
+<td>1.045025</td>
+<td>0.955584</td>
+<td>0.618676</td>
+<td>0.370566</td>
+<td>0.094623</td>
+<td>0.027068</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2019</th>
+<td>0.035984</td>
+<td>0.260537</td>
+<td>0.324951</td>
+<td>0.416678</td>
+<td>0.317199</td>
+<td>0.903075</td>
+<td>1.006291</td>
+<td>0.675062</td>
+<td>0.442672</td>
+<td>0.177969</td>
+<td>0.083475</td>
+<td>0.098477</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020</th>
+<td>0.093285</td>
+<td>0.197273</td>
+<td>0.266215</td>
+<td>0.770265</td>
+<td>0.566880</td>
+<td>0.471992</td>
+<td>0.916620</td>
+<td>0.799875</td>
+<td>0.474777</td>
+<td>0.145026</td>
+<td>0.108674</td>
+<td>0.038461</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2021</th>
+<td>0.034762</td>
+<td>0.217407</td>
+<td>0.314375</td>
+<td>0.445382</td>
+<td>0.327642</td>
+<td>0.648965</td>
+<td>0.400432</td>
+<td>0.399979</td>
+<td>0.438516</td>
+<td>0.208789</td>
+<td>0.037754</td>
+<td>0.014229</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2022</th>
+<td>0.075574</td>
+<td>0.150512</td>
+<td>0.514989</td>
+<td>0.368359</td>
+<td>0.598409</td>
+<td>0.775528</td>
+<td>1.144731</td>
+<td>0.910807</td>
+<td>0.308749</td>
+<td>0.252991</td>
+<td>0.084683</td>
+<td>0.041637</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2023</th>
+<td>0.056557</td>
+<td>0.152780</td>
+<td>0.241544</td>
+<td>0.200306</td>
+<td>0.383447</td>
+<td>1.009227</td>
+<td>0.773765</td>
+<td>0.756753</td>
+<td>0.634094</td>
+<td>0.384954</td>
+<td>0.038167</td>
+<td>0.053353</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2024</th>
+<td>0.059489</td>
+<td>0.127057</td>
+<td>0.251946</td>
+<td>0.449865</td>
+<td>0.342013</td>
+<td>0.398504</td>
+<td>0.634605</td>
+<td>0.760310</td>
+<td>0.267576</td>
+<td>0.072583</td>
+<td>0.053014</td>
+<td>0.041320</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="number-of-days-below" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-days-below">Number of days below …</h2>
+<div id="f5fac758-44f8-4fd9-86b0-957343bf005e" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plotdf = df[[varname]].copy()</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plotdf = plotdf.resample('D').min()</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># belowzero = plotdf.loc[plotdf[varname] &lt; 0].copy()</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># belowzero = belowzero.groupby(belowzero.index.year).count()</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># belowzero["YEAR"] = belowzero.index</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># belowzero</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># belowzero.plot.bar(x="YEAR", y=varname, title=f"Number of days with {varname} &lt; 0°");</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># display(belowzero)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f"Average per year: {belowzero[varname].mean()} +/- {belowzero[varname].std():.2f} SD")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="number-of-days-above" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-days-above">Number of days above …</h2>
+<div id="7b20914c-d07d-4932-8585-c6cd8dd4009b" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plotdf <span class="op">=</span> df[[varname]].copy()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plotdf <span class="op">=</span> plotdf.resample(<span class="st">'D'</span>).<span class="bu">max</span>()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> plotdf.loc[plotdf[varname] <span class="op">&gt;</span> <span class="dv">2</span>].copy()</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> above.groupby(above.index.year).count()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>above[<span class="st">"YEAR"</span>] <span class="op">=</span> above.index</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>above.plot.bar(x<span class="op">=</span><span class="st">"YEAR"</span>, y<span class="op">=</span>varname, title<span class="op">=</span><span class="ss">f"Number of days with </span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss"> &gt; 2 </span><span class="sc">{</span>units<span class="sc">}</span><span class="ss">"</span>)<span class="op">;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>display(above)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average per year: </span><span class="sc">{</span>above[varname]<span class="sc">.</span>mean()<span class="sc">}</span><span class="ss"> +/- </span><span class="sc">{</span>above[varname]<span class="sc">.</span>std()<span class="sc">:.2f}</span><span class="ss"> SD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">VPD_T1_47_1</th>
+<th data-quarto-table-cell-role="th">YEAR</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_MIDDLE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2005</th>
+<td>23</td>
+<td>2005</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2006</th>
+<td>21</td>
+<td>2006</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2007</th>
+<td>9</td>
+<td>2007</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2008</th>
+<td>7</td>
+<td>2008</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2009</th>
+<td>13</td>
+<td>2009</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2010</th>
+<td>11</td>
+<td>2010</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2011</th>
+<td>13</td>
+<td>2011</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2012</th>
+<td>11</td>
+<td>2012</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2013</th>
+<td>15</td>
+<td>2013</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2014</th>
+<td>10</td>
+<td>2014</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2015</th>
+<td>30</td>
+<td>2015</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2016</th>
+<td>16</td>
+<td>2016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2017</th>
+<td>30</td>
+<td>2017</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2018</th>
+<td>38</td>
+<td>2018</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2019</th>
+<td>29</td>
+<td>2019</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020</th>
+<td>16</td>
+<td>2020</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2021</th>
+<td>7</td>
+<td>2021</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2022</th>
+<td>38</td>
+<td>2022</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2023</th>
+<td>27</td>
+<td>2023</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2024</th>
+<td>15</td>
+<td>2024</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average per year: 18.95 +/- 9.91 SD</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-12-output-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="METEO_VPD_files/figure-html/cell-12-output-3.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="heatmap-plots" class="level1">
+<h1>Heatmap plots</h1>
+<section id="half-hourly" class="level2">
+<h2 class="anchored" data-anchor-id="half-hourly">Half-hourly</h2>
+<div id="bf331a26-899f-42b6-adf1-f52e966c1409" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">12</span>), dpi<span class="op">=</span><span class="dv">72</span>, layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dv.heatmapdatetime(series<span class="op">=</span>series, ax<span class="op">=</span>axs, cb_digits_after_comma<span class="op">=</span><span class="dv">0</span>).plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="METEO_VPD_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="monthly" class="level2">
+<h2 class="anchored" data-anchor-id="monthly">Monthly</h2>
+<div id="b3dae42d-7628-4d22-8c15-eef8143d0d4b" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">21</span>, <span class="dv">7</span>), dpi<span class="op">=</span><span class="dv">120</span>, layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="ss">f'Per month'</span>, fontsize<span class="op">=</span><span class="dv">32</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth(series_monthly<span class="op">=</span>series.resample(<span class="st">'M'</span>).mean(), title<span class="op">=</span><span class="st">"monthly mean"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>], cb_digits_after_comma<span class="op">=</span><span class="dv">0</span>, zlabel<span class="op">=</span><span class="st">"monthly mean"</span>).plot()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth(series_monthly<span class="op">=</span>series.resample(<span class="st">'M'</span>).<span class="bu">min</span>(), title<span class="op">=</span><span class="st">"monthly minimum"</span>, ax<span class="op">=</span>axs[<span class="dv">1</span>], cb_digits_after_comma<span class="op">=</span><span class="dv">0</span>, zlabel<span class="op">=</span><span class="st">"monthly minimum"</span>).plot()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth(series_monthly<span class="op">=</span>series.resample(<span class="st">'M'</span>).<span class="bu">max</span>(), title<span class="op">=</span><span class="st">"monthly maximum"</span>, ax<span class="op">=</span>axs[<span class="dv">2</span>], cb_digits_after_comma<span class="op">=</span><span class="dv">0</span>, zlabel<span class="op">=</span><span class="st">"monthly maximum"</span>).plot()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>_range <span class="op">=</span> series.resample(<span class="st">'M'</span>).<span class="bu">max</span>().sub(series.resample(<span class="st">'M'</span>).<span class="bu">min</span>())</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth(series_monthly<span class="op">=</span>_range, title<span class="op">=</span><span class="st">"monthly range"</span>, ax<span class="op">=</span>axs[<span class="dv">3</span>], cb_digits_after_comma<span class="op">=</span><span class="dv">0</span>, zlabel<span class="op">=</span><span class="st">"monthly range"</span>).plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="METEO_VPD_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="monthly-ranks" class="level2">
+<h2 class="anchored" data-anchor-id="monthly-ranks">Monthly ranks</h2>
+<div id="4b5320d5-daee-44c3-8c23-65ea85fdfdf8" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(facecolor<span class="op">=</span><span class="st">'white'</span>, figsize<span class="op">=</span>(<span class="dv">17</span>, <span class="dv">6</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gridspec for layout</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> gridspec.GridSpec(<span class="dv">1</span>, <span class="dv">4</span>)  <span class="co"># rows, cols</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>gs.update(wspace<span class="op">=</span><span class="fl">0.35</span>, hspace<span class="op">=</span><span class="fl">0.3</span>, left<span class="op">=</span><span class="fl">0.03</span>, right<span class="op">=</span><span class="fl">0.97</span>, top<span class="op">=</span><span class="fl">0.97</span>, bottom<span class="op">=</span><span class="fl">0.03</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>ax_mean <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>ax_mean_ranks <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>ax_max <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, <span class="dv">2</span>])</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>ax_max_ranks <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, <span class="dv">3</span>])</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'axlabels_fontsize'</span>: <span class="dv">10</span>, <span class="st">'ticks_labelsize'</span>: <span class="dv">10</span>, <span class="st">'cb_labelsize'</span>: <span class="dv">10</span>}</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth_ranks(ax<span class="op">=</span>ax_mean, series<span class="op">=</span>series, agg<span class="op">=</span><span class="st">'mean'</span>, ranks<span class="op">=</span><span class="va">False</span>, zlabel<span class="op">=</span>units, cmap<span class="op">=</span><span class="st">"RdYlBu_r"</span>, show_values<span class="op">=</span><span class="va">False</span>, <span class="op">**</span>params).plot()</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>hm_mean_ranks <span class="op">=</span> dv.heatmapyearmonth_ranks(ax<span class="op">=</span>ax_mean_ranks, series<span class="op">=</span>series, agg<span class="op">=</span><span class="st">'mean'</span>, show_values<span class="op">=</span><span class="va">True</span>, <span class="op">**</span>params)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>hm_mean_ranks.plot()</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth_ranks(ax<span class="op">=</span>ax_max, series<span class="op">=</span>series, agg<span class="op">=</span><span class="st">'max'</span>, ranks<span class="op">=</span><span class="va">False</span>, zlabel<span class="op">=</span>units, cmap<span class="op">=</span><span class="st">"RdYlBu_r"</span>, show_values<span class="op">=</span><span class="va">False</span>, <span class="op">**</span>params).plot()</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>dv.heatmapyearmonth_ranks(ax<span class="op">=</span>ax_max_ranks, series<span class="op">=</span>series, agg<span class="op">=</span><span class="st">'max'</span>, show_values<span class="op">=</span><span class="va">True</span>, <span class="op">**</span>params).plot()</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>ax_mean.set_title(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> mean"</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>ax_mean_ranks.set_title(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> mean: ranks"</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>ax_max.set_title(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> max"</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>ax_max_ranks.set_title(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> max: ranks"</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>ax_mean.tick_params(left<span class="op">=</span><span class="va">True</span>, right<span class="op">=</span><span class="va">False</span>, top<span class="op">=</span><span class="va">False</span>, bottom<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>                    labelleft<span class="op">=</span><span class="va">True</span>, labelright<span class="op">=</span><span class="va">False</span>, labeltop<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>ax_mean_ranks.tick_params(left<span class="op">=</span><span class="va">True</span>, right<span class="op">=</span><span class="va">False</span>, top<span class="op">=</span><span class="va">False</span>, bottom<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>                   labelleft<span class="op">=</span><span class="va">False</span>, labelright<span class="op">=</span><span class="va">False</span>, labeltop<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>ax_max.tick_params(left<span class="op">=</span><span class="va">True</span>, right<span class="op">=</span><span class="va">False</span>, top<span class="op">=</span><span class="va">False</span>, bottom<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>                     labelleft<span class="op">=</span><span class="va">False</span>, labelright<span class="op">=</span><span class="va">False</span>, labeltop<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>ax_max_ranks.tick_params(left<span class="op">=</span><span class="va">True</span>, right<span class="op">=</span><span class="va">False</span>, top<span class="op">=</span><span class="va">False</span>, bottom<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>                     labelleft<span class="op">=</span><span class="va">False</span>, labelright<span class="op">=</span><span class="va">False</span>, labeltop<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>ax_mean_ranks.set_ylabel(<span class="st">""</span>)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>ax_max.set_ylabel(<span class="st">""</span>)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>ax_max_ranks.set_ylabel(<span class="st">""</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="METEO_VPD_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="mean-ranks-per-year" class="level3">
+<h3 class="anchored" data-anchor-id="mean-ranks-per-year">Mean ranks per year</h3>
+<div id="1bd43d6d-12f2-42a5-a628-098f200bf1f0" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hm_mean_ranks.hm.get_plot_data().mean(axis<span class="op">=</span><span class="dv">1</span>).plot(title<span class="op">=</span><span class="st">"Mean ranks per year"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-16-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="METEO_VPD_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="ridgeline-plots" class="level1">
+<h1>Ridgeline plots</h1>
+<section id="yearly" class="level2">
+<h2 class="anchored" data-anchor-id="yearly">Yearly</h2>
+<div id="2fa0a938-c361-435e-b2c7-0759aa1eec9f" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rp = dv.ridgeline(series=series)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rp.plot(</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     how='yearly',</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     kd_kwargs=None,  # params from scikit KernelDensity as dict</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlim=xlim,  # min/max as list</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     ylim=[0, 0.50],  # min/max as list</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     hspace=-0.8,  # overlap between months</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlabel=f"{var} ({units})",</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_width=5,</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_height=9,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     shade_percentile=0.5,</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     show_mean_line=False,</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_title=f"{var} per year (2005-2024)",</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_dpi=72,</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     showplot=True,</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     ascending=False</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="monthly-1" class="level2">
+<h2 class="anchored" data-anchor-id="monthly-1">Monthly</h2>
+<div id="d909fbdc-e3a2-4c6d-9cf3-0da1ad15d3d8" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rp.plot(</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     how='monthly',</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     kd_kwargs=None,  # params from scikit KernelDensity as dict</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlim=xlim,  # min/max as list</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     ylim=[0, 0.14],  # min/max as list</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     hspace=-0.6,  # overlap between months</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlabel=f"{var} ({units})",</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_width=4.5,</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_height=8,</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     shade_percentile=0.5,</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     show_mean_line=False,</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_title=f"{var} per month (2005-2024)",</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_dpi=72,</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     showplot=True,</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ascending=False</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="weekly" class="level2">
+<h2 class="anchored" data-anchor-id="weekly">Weekly</h2>
+<div id="d4e07ac7-355b-4eee-bca3-d4a7caf4e01e" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rp.plot(</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     how='weekly',</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     kd_kwargs=None,  # params from scikit KernelDensity as dict</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlim=xlim,  # min/max as list</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     ylim=[0, 0.15],  # min/max as list</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     hspace=-0.6,  # overlap</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlabel=f"{var} ({units})",</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_width=6,</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_height=16,</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     shade_percentile=0.5,</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     show_mean_line=False,</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_title=f"{var} per week (2005-2024)",</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig_dpi=72,</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     showplot=True,</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     ascending=False</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="single-years-per-month" class="level2">
+<h2 class="anchored" data-anchor-id="single-years-per-month">Single years per month</h2>
+<div id="6f6ee66c-e3d0-4081-849e-7f2182f8ec8e" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uniq_years = series.index.year.unique()</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for uy in uniq_years:</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     series_yr = series.loc[series.index.year == uy].copy()</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     rp = dv.ridgeline(series=series_yr)</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     rp.plot(</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         how='monthly',</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         kd_kwargs=None,  # params from scikit KernelDensity as dict</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         xlim=xlim,  # min/max as list</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         ylim=[0, 0.18],  # min/max as list</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         hspace=-0.6,  # overlap</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         xlabel=f"{var} ({units})",</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_width=6,</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_height=7,</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         shade_percentile=0.5,</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">#         show_mean_line=False,</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_title=f"{var} per month ({uy})",</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_dpi=72,</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">#         showplot=True,</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co">#         ascending=False</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="single-years-per-week" class="level2">
+<h2 class="anchored" data-anchor-id="single-years-per-week">Single years per week</h2>
+<div id="6cdebf5c-6903-4496-bb0a-21e8b5a82fb7" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uniq_years = series.index.year.unique()</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for uy in uniq_years:</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     series_yr = series.loc[series.index.year == uy].copy()</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     rp = dv.ridgeline(series=series_yr)</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     rp.plot(</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         how='weekly',</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         kd_kwargs=None,  # params from scikit KernelDensity as dict</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         xlim=xlim,  # min/max as list</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         ylim=[0, 0.3],  # min/max as list</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         hspace=-0.8,  # overlap</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         xlabel=f"{var} ({units})",</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_width=9,</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_height=18,</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         shade_percentile=0.5,</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#         show_mean_line=False,</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_title=f"{var} per week ({uy})",</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#         fig_dpi=72,</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">#         showplot=True,</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">#         ascending=False</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="cumulative-plot" class="level1">
+<h1>Cumulative plot</h1>
+<div id="05086a04-4e4c-42b3-bb33-3e940cef2792" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>CumulativeYear(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    series<span class="op">=</span>series,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    series_units<span class="op">=</span>units,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2005</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2024</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    show_reference<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    excl_years_from_reference<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    highlight_year<span class="op">=</span><span class="dv">2024</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    highlight_year_color<span class="op">=</span><span class="st">'#F44336'</span>).plot()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-22-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="METEO_VPD_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="long-term-anomalies" class="level1">
+<h1>Long-term anomalies</h1>
+<div id="1e041b71-ca7f-4704-a120-379de9483ef2" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>series_yearly_mean <span class="op">=</span> series.resample(<span class="st">'YE'</span>).mean()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>series_yearly_mean.index <span class="op">=</span> series_yearly_mean.index.year</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>series_label <span class="op">=</span> <span class="ss">f"CH-LAE: </span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>LongtermAnomaliesYear(series<span class="op">=</span>series_yearly_mean,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                      series_label<span class="op">=</span>series_label,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                      series_units<span class="op">=</span>units,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                      reference_start_year<span class="op">=</span><span class="dv">2005</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                      reference_end_year<span class="op">=</span><span class="dv">2024</span>).plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="METEO_VPD_files/figure-html/cell-23-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="METEO_VPD_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="end-of-notebook" class="level1">
+<h1>End of notebook</h1>
+<div id="65dafb8d-15c8-465b-915e-8f22c5adcce3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2024-10-04T12:05:15.229626Z&quot;,&quot;start_time&quot;:&quot;2024-10-04T12:05:15.220627Z&quot;}}" data-tags="[]" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dt_string <span class="op">=</span> datetime.now().strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Finished. </span><span class="sc">{</span>dt_string<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished. 2025-06-12 00:54:40</code></pre>
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<!--
+  Moves the page's "Modified" date out of the top title block and into the right
+  ("On this page") sidebar, at the very end. Quarto has no built-in option to
+  relocate title-block metadata, so we do it client-side: read the
+  `date-modified` value Quarto emits, drop the title meta block, and append a
+  "Last updated" line at the bottom of the right margin sidebar. Falls back to
+  the left sidebar on pages that have no TOC (so the right sidebar is absent).
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  .sidebar-last-modified {
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    // Prefer the right ("On this page") sidebar; fall back to the left one on
+    // pages without a TOC.
+    var right = document.getElementById("quarto-margin-sidebar");
+    var left = document.getElementById("quarto-sidebar");
+    var host = right || left;
+    if (!host) return;
+
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    if (right) {
+      host.appendChild(box); // end of the right sidebar, after the TOC
+    } else {
+      var container = left.querySelector(".sidebar-menu-container") || left;
+      container.appendChild(box);
+    }
+  });
+</script>
+<!--
+  Relocates Quarto's light/dark theme toggle out of the left sidebar title into
+  the top of the right ("On this page") sidebar. Quarto has no option to place
+  the toggle there, so we move the node client-side on load. On pages without a
+  TOC (no right sidebar) the toggle is left where Quarto put it. Styling is in
+  styles.css (.margin-theme-toggle, .quarto-color-scheme-toggle). Wired in via
+  docs/_quarto.yml -> format.html.include-after-body.
+-->
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var tools = document.querySelector(
+      "#quarto-sidebar .sidebar-title .sidebar-tools-main"
+    );
+    var right = document.getElementById("quarto-margin-sidebar");
+    if (!tools || !right) return;
+    var holder = document.createElement("div");
+    // `sidebar-navigation` makes Quarto's own (theme-aware) sun/moon icon rules
+    // match the toggle here in the right sidebar -- they're scoped to that class
+    // and would otherwise leave an empty icon box. styles.css neutralizes the
+    // stray padding that class brings.
+    holder.className = "margin-theme-toggle sidebar-navigation";
+    holder.appendChild(tools); // move the node (the toggle lives inside)
+    right.insertBefore(holder, right.firstChild);
+  });
+</script>
+<!--
+
+  Make every Mermaid diagram pannable and zoomable.
+
+
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+
+  to the article width, which leaves the node labels small and the diagram hard to
+
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+
+
+  Deliberate choices, both about not surprising the reader:
+
+
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+
+    reader scrolling past a diagram is never trapped inside it.
+
+  - The viewport can be dragged taller by its bottom edge, because how much height
+
+    a diagram deserves depends on the diagram.
+
+
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+
+  site would otherwise gain a network dependency for it.
+
+-->
+
+<style>
+
+  .mzoom-wrap {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(128, 128, 128, 0.35);
+
+    border-radius: 4px;
+
+    resize: vertical;
+
+    min-height: 220px;
+
+    height: 460px;
+
+    background: transparent;
+
+    touch-action: none;
+
+  }
+
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+
+  .mzoom-wrap > svg {
+
+    transform-origin: 0 0;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+  }
+
+  .mzoom-bar {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    display: flex;
+
+    gap: 4px;
+
+    z-index: 2;
+
+  }
+
+  .mzoom-bar button {
+
+    font: inherit;
+
+    font-size: 0.85rem;
+
+    line-height: 1;
+
+    padding: 4px 8px;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(128, 128, 128, 0.45);
+
+    border-radius: 3px;
+
+    background: rgba(127, 127, 127, 0.12);
+
+    color: inherit;
+
+  }
+
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+
+  .mzoom-hint {
+
+    position: absolute;
+
+    left: 8px;
+
+    bottom: 6px;
+
+    font-size: 0.75rem;
+
+    opacity: 0.6;
+
+    pointer-events: none;
+
+  }
+
+</style>
+
+
+
+<script>
+
+(function () {
+
+  var MIN = 0.15, MAX = 8;
+
+
+
+  function enhance(svg) {
+
+    if (svg.dataset.mzoom) return;
+
+    svg.dataset.mzoom = "1";
+
+
+
+    var wrap = document.createElement("div");
+
+    wrap.className = "mzoom-wrap";
+
+    svg.parentNode.insertBefore(wrap, svg);
+
+    wrap.appendChild(svg);
+
+
+
+    var bar = document.createElement("div");
+
+    bar.className = "mzoom-bar";
+
+    wrap.appendChild(bar);
+
+
+
+    var hint = document.createElement("div");
+
+    hint.className = "mzoom-hint";
+
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+
+    wrap.appendChild(hint);
+
+
+
+    var k = 1, tx = 0, ty = 0;
+
+
+
+    function apply() {
+
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+
+    }
+
+
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+
+    function fit() {
+
+      var box = svg.getBBox ? svg.getBBox() : null;
+
+      var w = box && box.width ? box.width : svg.clientWidth;
+
+      var h = box && box.height ? box.height : svg.clientHeight;
+
+      if (!w || !h) return;
+
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+
+      k = Math.max(MIN, Math.min(MAX, k));
+
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+
+      apply();
+
+    }
+
+
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+
+    // stays under the cursor.
+
+    function zoomAt(px, py, factor) {
+
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+
+      tx = px - (px - tx) * (next / k);
+
+      ty = py - (py - ty) * (next / k);
+
+      k = next;
+
+      apply();
+
+    }
+
+
+
+    function button(label, title, fn) {
+
+      var b = document.createElement("button");
+
+      b.type = "button";
+
+      b.textContent = label;
+
+      b.title = title;
+
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+
+      bar.appendChild(b);
+
+    }
+
+    button("−", "Zoom out", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+
+    });
+
+    button("+", "Zoom in", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+
+    });
+
+    button("⤢", "Fit to view", fit);
+
+
+
+    wrap.addEventListener("wheel", function (e) {
+
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+
+      var r = wrap.getBoundingClientRect();
+
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+
+    }, { passive: false });
+
+
+
+    var dragging = false, lastX = 0, lastY = 0;
+
+    wrap.addEventListener("pointerdown", function (e) {
+
+      if (e.target.closest(".mzoom-bar")) return;
+
+      dragging = true;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      wrap.classList.add("mzoom-grabbing");
+
+      wrap.setPointerCapture(e.pointerId);
+
+    });
+
+    wrap.addEventListener("pointermove", function (e) {
+
+      if (!dragging) return;
+
+      tx += e.clientX - lastX;
+
+      ty += e.clientY - lastY;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      apply();
+
+    });
+
+    function endDrag(e) {
+
+      if (!dragging) return;
+
+      dragging = false;
+
+      wrap.classList.remove("mzoom-grabbing");
+
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+
+    }
+
+    wrap.addEventListener("pointerup", endDrag);
+
+    wrap.addEventListener("pointercancel", endDrag);
+
+    wrap.addEventListener("dblclick", fit);
+
+
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+
+    // fonts have settled since label widths move the bounding box.
+
+    requestAnimationFrame(fit);
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  }
+
+
+
+  function scan() {
+
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+
+  }
+
+
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+
+  // watch for the SVG appearing and stop once every diagram has one.
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    scan();
+
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+
+    if (!targets.length) return;
+
+    var obs = new MutationObserver(function () {
+
+      scan();
+
+      var pending = document.querySelectorAll(
+
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+
+      if (!pending.length) obs.disconnect();
+
+    });
+
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+
+    // Backstop for browsers without :has() support in querySelectorAll.
+
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+
+  });
+
+})();
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lukas Hörtnagl · © 2025</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/90_DATASET_OVERVIEW/METEO_VPD.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

@@ -1,0 +1,2823 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MeteoScreening TS_FF1_0.1_1 (2020-2025) from database (influxdb) – CH-LAE Flux Product</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../../favicon.ico" rel="icon">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../../../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">MeteoScreening <code>TS_FF1_0.1_1</code> (2020-2025) from database (influxdb)</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../../index.html" class="sidebar-logo-link">
+      <img src="../../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../../../logo.png" alt="Spruce and beech, the mixed stand at CH-LAE Lägern" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CH-LAE Flux Product (PI dataset)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Site_Info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Site information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../../Meteo_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_SW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_TA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air temperature at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_PPFD_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photosynthetic photon flux density at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_RH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relative humidity at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_PA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Air pressure at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_LW_IN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Incoming longwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_VPD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vapour pressure deficit at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_PREC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Precipitation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_SWC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil water content at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_TS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil temperature at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_G.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil heat flux at the forest floor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_SW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing shortwave radiation at 47 m</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Data_LW_OUT.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outgoing longwave radiation at 47 m</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Data_Dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dashboards</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Meteo_Product_Chain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meteo Product Chain</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Management_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Management Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../../FPC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flux Processing Chain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Raw_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raw Data: Eddy Covariance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-0: Preliminary flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1: Final flux calculations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L1.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-1.1: Self-heating correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-2: Quality flag expansion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L3.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.1: Storage correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L3.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.2: Outlier flagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L3.3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-3.3: USTAR filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L4.1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.1: Gap-filling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../L4.2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Level-4.2: NEE Partitioning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../QCF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QCF: overall quality control flag</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Instrumentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Supplementary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplementary Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Used Software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Versions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Versions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Yearly_Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yearly Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open issue</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ℹ-about-this-notebook" id="toc-ℹ-about-this-notebook" class="nav-link active" data-scroll-target="#ℹ-about-this-notebook">ℹ️ About this notebook</a></li>
+  <li><a href="#timestamp-convention-important" id="toc-timestamp-convention-important" class="nav-link" data-scroll-target="#timestamp-convention-important">⏱️ Timestamp convention (important)</a></li>
+  <li><a href="#user-settings-please-adjust" id="toc-user-settings-please-adjust" class="nav-link" data-scroll-target="#user-settings-please-adjust">✏️ User settings (please adjust)</a></li>
+  <li><a href="#auto-settings" id="toc-auto-settings" class="nav-link" data-scroll-target="#auto-settings">🤖 Auto settings</a>
+  <ul class="collapse">
+  <li><a href="#buckets-do-not-adjust" id="toc-buckets-do-not-adjust" class="nav-link" data-scroll-target="#buckets-do-not-adjust">Buckets (do not adjust)</a></li>
+  <li><a href="#imports" id="toc-imports" class="nav-link" data-scroll-target="#imports">Imports</a></li>
+  </ul></li>
+  <li><a href="#download-data-from-database" id="toc-download-data-from-database" class="nav-link" data-scroll-target="#download-data-from-database">⬇️ Download data from database</a>
+  <ul class="collapse">
+  <li><a href="#connect-to-database" id="toc-connect-to-database" class="nav-link" data-scroll-target="#connect-to-database">Connect to database</a></li>
+  <li><a href="#download" id="toc-download" class="nav-link" data-scroll-target="#download">Download</a></li>
+  <li><a href="#inspect-downloaded-data" id="toc-inspect-downloaded-data" class="nav-link" data-scroll-target="#inspect-downloaded-data">Inspect downloaded data</a></li>
+  <li><a href="#verify-download-timestamps" id="toc-verify-download-timestamps" class="nav-link" data-scroll-target="#verify-download-timestamps">Verify download timestamps</a></li>
+  <li><a href="#plot-downloaded-high-res-data" id="toc-plot-downloaded-high-res-data" class="nav-link" data-scroll-target="#plot-downloaded-high-res-data">Plot downloaded high-res data</a></li>
+  </ul></li>
+  <li><a href="#start-meteoscreening-with-diive" id="toc-start-meteoscreening-with-diive" class="nav-link" data-scroll-target="#start-meteoscreening-with-diive">▶️ Start MeteoScreening with <code>diive</code></a></li>
+  <li><a href="#outlier-detection" id="toc-outlier-detection" class="nav-link" data-scroll-target="#outlier-detection">🔍 Outlier detection</a>
+  <ul class="collapse">
+  <li><a href="#manual-removal" id="toc-manual-removal" class="nav-link" data-scroll-target="#manual-removal">Manual removal</a></li>
+  <li><a href="#absolute-limits" id="toc-absolute-limits" class="nav-link" data-scroll-target="#absolute-limits">Absolute limits</a></li>
+  <li><a href="#other-tests-all-off" id="toc-other-tests-all-off" class="nav-link" data-scroll-target="#other-tests-all-off">Other tests (all off)</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
+  <li><a href="#overall-quality-flag-qcf" id="toc-overall-quality-flag-qcf" class="nav-link" data-scroll-target="#overall-quality-flag-qcf">Overall quality flag QCF</a></li>
+  </ul></li>
+  <li><a href="#corrections" id="toc-corrections" class="nav-link" data-scroll-target="#corrections">🔧 Corrections</a></li>
+  <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling">🔁 Resampling</a>
+  <ul class="collapse">
+  <li><a href="#resample-to-30min" id="toc-resample-to-30min" class="nav-link" data-scroll-target="#resample-to-30min">Resample to 30MIN</a></li>
+  <li><a href="#check-the-resampled-time-resolution" id="toc-check-the-resampled-time-resolution" class="nav-link" data-scroll-target="#check-the-resampled-time-resolution">Check the resampled time resolution</a></li>
+  </ul></li>
+  <li><a href="#upload-data-to-database" id="toc-upload-data-to-database" class="nav-link" data-scroll-target="#upload-data-to-database">⬆️ Upload data to database</a>
+  <ul class="collapse">
+  <li><a href="#verify-upload" id="toc-verify-upload" class="nav-link" data-scroll-target="#verify-upload">Verify upload</a></li>
+  </ul></li>
+  <li><a href="#end-of-notebook" id="toc-end-of-notebook" class="nav-link" data-scroll-target="#end-of-notebook">✅ End of notebook</a>
+  <ul class="collapse">
+  <li><a href="#notes-for-this-variable" id="toc-notes-for-this-variable" class="nav-link" data-scroll-target="#notes-for-this-variable">📝 Notes for this variable</a></li>
+  <li><a href="#sibling-notebooks" id="toc-sibling-notebooks" class="nav-link" data-scroll-target="#sibling-notebooks">♻️ Sibling notebooks</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/10_METEO/20_SCREENING/TS/TS_FF1_0.1_1_2020-2025.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MeteoScreening <code>TS_FF1_0.1_1</code> (2020-2025) from database (influxdb)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">4 September 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<p><strong>Site</strong>: CH-LAE &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Variable</strong>: <code>TS_FF1_0.1_1</code> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Sensor</strong>: METER <strong>MPS-2</strong> water-potential sensor, temperature channel, installed 19 Mar 2020 at 0.1 m &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Period</strong>: 2020-2025 <strong>Derived from</strong>: diive notebook template <code>DatabaseInfluxStepwiseMeteoScreening.ipynb</code> (version <code>9</code>, 15 Jul 2026), via <code>TS_FF1_0.05_1_2020-2025.ipynb</code> <strong>Author</strong>: Lukas Hörtnagl (holukas@ethz.ch)</p>
+<section id="ℹ-about-this-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="ℹ-about-this-notebook">ℹ️ About this notebook</h2>
+<p>Download raw soil temperature from the InfluxDB database, remove the worst outliers on the <strong>high-resolution</strong> data, resample to 30MIN, and upload the result back to the database. Screening uses <code>StepwiseMeteoScreeningDb</code> from <a href="https://github.com/holukas/diive">diive</a> (<code>diive/preprocessing/qaqc/meteoscreening.py</code>); download and upload use diive’s in-house InfluxDB engine (<code>InfluxIO</code>, in <code>diive/core/io/db/influx</code>).</p>
+<p><strong>Flow:</strong> download (<code>InfluxIO</code>) → screen on high-res data (<code>diive</code>) → resample to 30MIN → upload.</p>
+<p><strong>Scope is deliberately narrow.</strong> The raw record is millions of rows, so anything done here is expensive. This notebook only takes out what is unambiguously wrong at high resolution — the April 2024 SDI-12 decode garbage (absolute limits) and the seven December 2025 logger-artefact minutes (manual removal) — and hands over a clean 30MIN series. Everything else (sensor comparisons, level/offset questions, gap handling, homogenisation across sensor generations) is settled later in <code>30_PRODUCTS/</code>, <strong>on the half-hourly data</strong>, where it costs a fraction as much.</p>
+<p><strong>Outlier detection is stepwise:</strong> run a test, inspect its preview plot, then commit it with <code>mscr.addflag()</code>. Re-run with different parameters as often as you like before committing. Run only the tests a variable actually needs. At the end all committed flags are aggregated into one overall quality flag <code>QCF</code>.</p>
+<blockquote class="blockquote">
+<p><strong>Which sensor this is.</strong> In this profile the replicate suffix names the sensor family, not the depth: <code>_1</code> = the water-potential sensors of the 19 Mar 2020 install (MPS-2 at 0.05/0.1/0.6 m, TEROS 21 at 0.2/0.3/0.5 m), <code>_2</code> = the TEROS 12 probes that also report <code>SWC_FF1_&lt;depth&gt;_1</code>, <code>_3</code>/<code>_4</code> = Campbell 109 thermistors added at the March 2021 logger rebuild. <strong>This one is a METER MPS-2 water-potential sensor, temperature channel.</strong></p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Database access</strong> needs the <code>influxdb-client</code> package, which this project pulls in via the <strong><code>diive[db]</code> extra</strong> (declared in <code>pyproject.toml</code>). diive <em>also</em> ships a <code>db</code> dependency group, but dependency groups are local to the project that declares them — <code>uv sync --group db</code> only works inside the diive repo, not from here.</p>
+</blockquote>
+</section>
+<section id="timestamp-convention-important" class="level2">
+<h2 class="anchored" data-anchor-id="timestamp-convention-important">⏱️ Timestamp convention (important)</h2>
+<p>The database stores every timestamp in <strong>UTC</strong> and as <strong><code>TIMESTAMP_END</code></strong> (the stamp marks the <em>end</em> of the averaging interval). Getting this right is the one thing that must not go wrong: the value written back to the database depends on it, and so does every window in <code>REMOVE_DATES</code>.</p>
+<p>The single knob is <code>TIMEZONE_OFFSET_TO_UTC_HOURS</code> (set in <em>User settings</em>). It is applied <strong>identically</strong> on download and on upload:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Timezone</th>
+<th>Convention</th>
+<th>Done by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Database</td>
+<td>UTC</td>
+<td><code>TIMESTAMP_END</code></td>
+<td>InfluxDB</td>
+</tr>
+<tr class="even">
+<td>After <code>dbc.download(..., timezone_offset_to_utc_hours=N)</code></td>
+<td>local (UTC+N)</td>
+<td><code>TIMESTAMP_END</code></td>
+<td>InfluxIO</td>
+</tr>
+<tr class="odd">
+<td>During screening</td>
+<td>local</td>
+<td><code>TIMESTAMP_MIDDLE</code> (converted internally)</td>
+<td><code>StepwiseMeteoScreeningDb</code></td>
+</tr>
+<tr class="even">
+<td>After <code>mscr.resample()</code></td>
+<td>local</td>
+<td>back to <code>TIMESTAMP_END</code></td>
+<td>diive</td>
+</tr>
+<tr class="odd">
+<td>After <code>dbc.upload_singlevar(..., timezone_offset_to_utc_hours=N)</code></td>
+<td>UTC</td>
+<td><code>TIMESTAMP_END</code></td>
+<td>InfluxIO</td>
+</tr>
+</tbody>
+</table>
+<p><strong>One place where this bites.</strong> <code>REMOVE_DATES</code> is matched against <code>TIMESTAMP_MID</code>, not <code>TIMESTAMP_END</code>: <code>StepwiseMeteoScreeningDb</code> hands the series to <code>ManualRemoval</code> <em>after</em> the internal conversion, so the record whose <code>TIMESTAMP_END</code> is <code>10:39:00</code> carries the label <code>10:38:30</code> inside the test. A bare <code>'2025-12-19 10:39:00'</code> would therefore match <strong>nothing</strong> and the removal would silently do nothing. It only matters when removing individual records: a window spanning days has edges far larger than the half-record offset.</p>
+</section>
+<section id="user-settings-please-adjust" class="level2">
+<h2 class="anchored" data-anchor-id="user-settings-please-adjust">✏️ User settings (please adjust)</h2>
+<p>Adjust these before running. What each setting means:</p>
+<p><strong>Site</strong> - <code>SITE</code>, <code>SITE_LAT</code>, <code>SITE_LON</code>: site ID and coordinates. The coordinates set the day/night split used during screening — not used here, see <em>Outlier detection</em>.</p>
+<p><strong>Variable to screen</strong> - <code>PROFILE</code>, <code>DEPTH</code>, <code>REPL</code>: the sensor’s position tags. <code>FIELD</code> is assembled from them and is the InfluxDB <code>_field</code>. <code>REPL</code> changes the sensor <em>family</em>, not just the probe. - <code>MEASUREMENT</code>: exactly <strong>one</strong> measurement grouping the variables — <code>TS</code> for soil temperature.</p>
+<p><strong>Time range to screen</strong> - <code>START</code>: first timestamp to screen — <strong>is</strong> included. - <code>STOP</code>: upper bound — <strong>is not</strong> included.</p>
+<p><strong>Data settings</strong> - <code>TIMEZONE_OFFSET_TO_UTC_HOURS</code>: the critical timestamp knob — see <em>Timestamp convention</em>. Must match how the raw data was logged (<code>1</code> for CET winter time) and must be the same value everywhere. - <code>DATA_VERSION</code>: the source data version in the database (<code>raw</code>). - <code>DIRCONF</code>: local folder holding the database connection config.</p>
+<p><strong>Resampling</strong> - <code>RESAMPLING_FREQ</code> / <code>RESAMPLING_AGG</code>: soil temperature is a <strong>state</strong>, so <code>'mean'</code> — never <code>'sum'</code>.</p>
+<p><strong>Physical range</strong> - <code>TS_MIN</code>, <code>TS_MAX</code>: the absolute-limits test, justified from this sensor’s own measured extremes.</p>
+<p><strong>Parameter help</strong> - <code>SHOW_PARAM_HELP</code>: <code>True</code> prints the full docstring of each screening method right before it runs.</p>
+<div id="e276d90a" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Site ---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>SITE <span class="op">=</span> <span class="st">'ch-lae'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>SITE_LAT <span class="op">=</span> <span class="fl">47.478333</span>  <span class="co"># CH-LAE</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>SITE_LON <span class="op">=</span> <span class="fl">8.364389</span>  <span class="co"># CH-LAE</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Variable to screen ---</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (!) REPL, not DEPTH, is what names the sensor family in this profile:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#       _1  the water-potential sensors of the 19 Mar 2020 install - MPS-2 at 0.05/0.1/0.6 m,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#           TEROS 21 at 0.2/0.3/0.5 m. Six channels.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#       _2  METER TEROS 12, the same probes that report SWC_FF1_&lt;depth&gt;_1. Five channels.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#       _3/_4  Campbell 109 thermistors at 0.05 m, added at the March 2021 logger rebuild.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># This notebook screens: METER MPS-2 water-potential sensor, temperature channel.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>PROFILE <span class="op">=</span> <span class="st">'FF1'</span>  <span class="co"># horizontal position (soil profile)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>DEPTH <span class="op">=</span> <span class="st">'0.1'</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>REPL <span class="op">=</span> <span class="st">'1'</span>  <span class="co"># &lt;-- the sensor family, see above</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>FIELD <span class="op">=</span> <span class="ss">f'TS_</span><span class="sc">{</span>PROFILE<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>DEPTH<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>REPL<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>FIELDS <span class="op">=</span> [FIELD]  <span class="co"># StepwiseMeteoScreeningDb expects a list</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>MEASUREMENT <span class="op">=</span> <span class="st">'TS'</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Time range to screen ---</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Raw resolution is 10MIN until the March 2021 logger rebuild and 1MIN after, so this</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># range is ~2.5 million records. The record starts 2020-04-10 15:00; asking for</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 2020-01-01 simply starts at the first record.</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>START <span class="op">=</span> <span class="st">'2020-01-01 00:00:01'</span>  <span class="co"># included</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>STOP <span class="op">=</span> <span class="st">'2026-01-01 00:00:01'</span>  <span class="co"># not included</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Data settings ---</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>DATA_VERSION <span class="op">=</span> <span class="st">'raw'</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>TIMEZONE_OFFSET_TO_UTC_HOURS <span class="op">=</span> <span class="dv">1</span>  <span class="co"># UTC+01:00 (CET, winter time). Must match how the raw data was logged.</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>DIRCONF <span class="op">=</span> <span class="vs">r'F:</span><span class="dv">\d</span><span class="vs">ev</span><span class="er">\</span><span class="vs">poet</span><span class="er">\</span><span class="vs">configs'</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># DIRCONF = r'P:\Flux\RDS_calculations\_scripts\_configs\configs'</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Resampling ---</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>RESAMPLING_FREQ <span class="op">=</span> <span class="st">'30min'</span>  <span class="co"># screened high-res data is resampled to this frequency</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>RESAMPLING_AGG <span class="op">=</span> <span class="st">'mean'</span>  <span class="co"># (!) soil temperature is a state variable, never summed</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Physical range of soil temperature at this site, in degC ---</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Measured on this channel over 2020-2025 the raw record spans 0.00 to 40.60 degC - but both</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ends are artefacts, not soil: 0.00 is the failed-SDI-12-read sentinel and 40.60 is April 2024</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># decode garbage. The soil signal at 0.1 m is *damped relative to 0.05 m* (median daily amplitude</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.30 K against 0.40 K on the same sensor family), so it cannot reach further than the shallower</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># channel does - and that one spans 1.70 to 19.60 degC. The limits below therefore sit several</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># kelvin outside anything this depth can produce, and do catch every decode record.</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># (!) Verify against this channel's own extremes on the first run rather than trusting the line</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     above: the plot and the value counts below both show them.</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>TS_MIN, TS_MAX <span class="op">=</span> <span class="op">-</span><span class="dv">5</span>, <span class="dv">30</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Parameter help ---</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>SHOW_PARAM_HELP <span class="op">=</span> <span class="va">False</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="auto-settings" class="level2">
+<h2 class="anchored" data-anchor-id="auto-settings">🤖 Auto settings</h2>
+<section id="buckets-do-not-adjust" class="level3">
+<h3 class="anchored" data-anchor-id="buckets-do-not-adjust">Buckets (do not adjust)</h3>
+<div id="f8e5340b" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>BUCKET_RAW <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>SITE<span class="sc">}</span><span class="ss">_raw'</span>  <span class="co"># source bucket, e.g. 'ch-lae_raw'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>BUCKET_PROCESSED <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>SITE<span class="sc">}</span><span class="ss">_processed'</span>  <span class="co"># destination bucket, e.g. 'ch-lae_processed'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Screening variable:             </span><span class="sc">{</span>FIELD<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Source bucket (raw data):       </span><span class="sc">{</span>BUCKET_RAW<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Destination bucket (processed): </span><span class="sc">{</span>BUCKET_PROCESSED<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Screening variable:             TS_FF1_0.1_1
+Source bucket (raw data):       ch-lae_raw
+Destination bucket (processed): ch-lae_processed</code></pre>
+</div>
+</div>
+</section>
+<section id="imports" class="level3">
+<h3 class="anchored" data-anchor-id="imports">Imports</h3>
+<div id="07ef3902" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib.metadata</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> diive <span class="im">as</span> dv</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> diive.core.io.db.influx <span class="im">import</span> InfluxIO  <span class="co"># needs influxdb-client, via the diive[db] extra</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_rows'</span>, <span class="dv">30</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="dv">30</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.width'</span>, <span class="dv">1000</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>NOTEBOOK_START <span class="op">=</span> datetime.now()</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Last run: </span><span class="sc">{</span>NOTEBOOK_START<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"diive v</span><span class="sc">{</span>importlib<span class="sc">.</span>metadata<span class="sc">.</span>version(<span class="st">'diive'</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Last run: 2026-07-22 18:57:38
+diive v0.91.0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="download-data-from-database" class="level2">
+<h2 class="anchored" data-anchor-id="download-data-from-database">⬇️ Download data from database</h2>
+<section id="connect-to-database" class="level3">
+<h3 class="anchored" data-anchor-id="connect-to-database">Connect to database</h3>
+<div id="219a82a3" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dbc <span class="op">=</span> InfluxIO(dirconf<span class="op">=</span>DIRCONF)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Reading configuration files was successful.
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008000; text-decoration-color: #008000">v</span> Connection to database works.
+</pre>
+</div>
+</div>
+<p>Optional - list all fields available in the measurement (does not check the selected time range). Worth a look here because <code>TS</code> also holds the <em>old</em> forest-floor sensors (<code>TS_M5_*</code> and the Campbell 107s removed on 2021-03-25), which belong to different instruments and must never be spliced onto this one:</p>
+<div id="bdf3bb9c" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display(dbc.show_fields_in_measurement(bucket<span class="op">=</span>BUCKET_RAW, measurement<span class="op">=</span>MEASUREMENT))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Fields in measurement TS of bucket ch-lae_raw:
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Found 33 fields in measurement TS of bucket ch-lae_raw.
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>['TS_FF1_0.05_1',
+ 'TS_FF1_0.05_2',
+ 'TS_FF1_0.05_3',
+ 'TS_FF1_0.05_4',
+ 'TS_FF1_0.1_1',
+ 'TS_FF1_0.1_2',
+ 'TS_FF1_0.2_1',
+ 'TS_FF1_0.2_2',
+ 'TS_FF1_0.3_1',
+ 'TS_FF1_0.3_2',
+ 'TS_FF1_0.5_1',
+ 'TS_FF1_0.5_2',
+ 'TS_FF1_0.6_1',
+ 'TS_FF3_0.05_1',
+ 'TS_FF3_0.05_2',
+ 'TS_FF3_0.1_1',
+ 'TS_FF3_0.2_1',
+ 'TS_FF3_0.3_1',
+ 'TS_FF3_0.4_1',
+ 'TS_FF3_0.5_1',
+ 'TS_H1_0.05_1',
+ 'TS_H1_0.15_1',
+ 'TS_H1_0.1_1',
+ 'TS_H1_0.2_1',
+ 'TS_H1_0.3_1',
+ 'TS_M1_0.05_1',
+ 'TS_M2_0.05_1',
+ 'TS_M3_0.05_1',
+ 'TS_M4_0.05_1',
+ 'TS_M4_0.15_1',
+ 'TS_M4_0.1_1',
+ 'TS_M4_0.3_1',
+ 'TS_M4_0.5_1']</code></pre>
+</div>
+</div>
+</section>
+<section id="download" class="level3">
+<h3 class="anchored" data-anchor-id="download">Download</h3>
+<p>Returns three objects: - <code>data_simple</code>: high-res time series, one column per variable (nice to look at). - <code>data_detailed</code>: dict <code>{varname: DataFrame}</code> with each variable’s time series <strong>and its database tags</strong> - this is what the screening consumes. - <code>assigned_measurements</code>: the auto-detected measurement per variable (a sanity check).</p>
+<div id="5e07ae85" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data_simple, data_detailed, assigned_measurements <span class="op">=</span> dbc.download(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    bucket<span class="op">=</span>BUCKET_RAW,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    measurements<span class="op">=</span>[MEASUREMENT],</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    fields<span class="op">=</span>FIELDS,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span>START,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    stop<span class="op">=</span>STOP,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    timezone_offset_to_utc_hours<span class="op">=</span>TIMEZONE_OFFSET_TO_UTC_HOURS,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    data_version<span class="op">=</span>DATA_VERSION,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> DOWNLOADING from bucket ch-lae_raw: variables ['TS_FF1_0.1_1'] from measurements ['TS'], data 
+version ['raw'], between 2020-01-01 00:00:01 and 2026-01-01 00:00:01 (timezone offset to UTC 1)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Downloaded data for 1 variables:
+</pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: total: 43.1 s
+Wall time: 1min 3s</code></pre>
+</div>
+</div>
+</section>
+<section id="inspect-downloaded-data" class="level3">
+<h3 class="anchored" data-anchor-id="inspect-downloaded-data">Inspect downloaded data</h3>
+<div id="246f2bba" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_simple</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TS_FF1_0.1_1</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_END</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 15:00:00</th>
+<td>9.60</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020-04-10 15:10:00</th>
+<td>9.60</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 15:20:00</th>
+<td>9.65</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020-04-10 15:30:00</th>
+<td>9.70</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 15:40:00</th>
+<td>9.70</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 23:56:00</th>
+<td>3.40</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-12-31 23:57:00</th>
+<td>3.40</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 23:58:00</th>
+<td>3.40</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-12-31 23:59:00</th>
+<td>3.40</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2026-01-01 00:00:00</th>
+<td>3.40</td>
+</tr>
+</tbody>
+</table>
+
+<p>2506841 rows × 1 columns</p>
+</div>
+</div>
+</div>
+<div id="fe136319" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>assigned_measurements</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>{'TS_FF1_0.1_1': 'TS'}</code></pre>
+</div>
+</div>
+<p>Drop any requested variable that has no data in this period:</p>
+<div id="94a69759" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vars_not_available <span class="op">=</span> [v <span class="cf">for</span> v <span class="kw">in</span> FIELDS <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> data_detailed.keys()]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rem <span class="kw">in</span> vars_not_available:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    FIELDS.remove(rem)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Removed </span><span class="sc">{</span>rem<span class="sc">}</span><span class="ss"> from FIELDS (no data in this period).'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Data available for: </span><span class="sc">{</span><span class="bu">list</span>(data_detailed.keys())<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> FIELD <span class="kw">in</span> data_detailed, <span class="ss">f'(!) </span><span class="sc">{</span>FIELD<span class="sc">}</span><span class="ss"> returned no data - nothing to screen'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data available for: ['TS_FF1_0.1_1']</code></pre>
+</div>
+</div>
+</section>
+<section id="verify-download-timestamps" class="level3">
+<h3 class="anchored" data-anchor-id="verify-download-timestamps">Verify download timestamps</h3>
+<p>Confirm the timestamps look right: <strong>local time</strong> (UTC+<code>TIMEZONE_OFFSET_TO_UTC_HOURS</code>), marking the <strong>end</strong> of each averaging interval. The database itself stores UTC - <code>InfluxIO</code> applied the offset on download. Eyeball the first/last stamps against the <code>START</code>/<code>STOP</code> you requested.</p>
+<div id="b89abec9" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> data_detailed.keys():</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> data_detailed[v].index</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">: index name=</span><span class="sc">{</span>idx<span class="sc">.</span>name<span class="sc">!r}</span><span class="ss">, tz=</span><span class="sc">{</span>idx<span class="sc">.</span>tz<span class="sc">}</span><span class="ss">, freq=</span><span class="sc">{</span>idx<span class="sc">.</span>freqstr<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'   first=</span><span class="sc">{</span>idx[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">   last=</span><span class="sc">{</span>idx[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="ch">\n</span><span class="ss">Applied UTC offset: +</span><span class="sc">{</span>TIMEZONE_OFFSET_TO_UTC_HOURS<span class="sc">}</span><span class="ss">h (timestamps above are local time)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TS_FF1_0.1_1: index name='TIMESTAMP_END', tz=None, freq=None
+   first=2020-04-10 15:00:00   last=2026-01-01 00:00:00
+
+Applied UTC offset: +1h (timestamps above are local time)</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-downloaded-high-res-data" class="level3">
+<h3 class="anchored" data-anchor-id="plot-downloaded-high-res-data">Plot downloaded high-res data</h3>
+<div id="4c3e1826" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> varname, frame <span class="kw">in</span> data_detailed.items():</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    dv.plotting.TimeSeries(series<span class="op">=</span>frame[varname]).plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-12-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="start-meteoscreening-with-diive" class="level2">
+<h2 class="anchored" data-anchor-id="start-meteoscreening-with-diive">▶️ Start MeteoScreening with <code>diive</code></h2>
+<div id="b8994853" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mscr <span class="op">=</span> dv.qaqc.StepwiseMeteoScreeningDb(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    site<span class="op">=</span>SITE,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    data_detailed<span class="op">=</span>data_detailed,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    fields<span class="op">=</span>FIELDS,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    site_lat<span class="op">=</span>SITE_LAT,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    site_lon<span class="op">=</span>SITE_LON,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    utc_offset<span class="op">=</span>TIMEZONE_OFFSET_TO_UTC_HOURS,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>mscr.showplot_orig()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Validating data for variable TS_FF1_0.1_1 ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Found 5 unique frequencies across 2506366 records.
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Found frequencies:
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> The following frequencies will be used: [60.0, 600.0] (seconds)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Note that there is more than one single time resolution and all data will be upsampled to match 
+the highest found time resolution (60.0S).
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-13-output-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-13-output-6.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="outlier-detection" class="level2">
+<h2 class="anchored" data-anchor-id="outlier-detection">🔍 Outlier detection</h2>
+<p>Run a test → inspect its preview → commit with <code>mscr.addflag()</code>. Only the committed flag of the <strong>most recent</strong> test is added. Skip any test a variable does not need.</p>
+<p><strong>What is committed here</strong>: the <strong>December 2025 logger-artefact minutes</strong> (manual removal), the <strong>April 2024 SDI-12 decode garbage</strong> (absolute limits), and the <strong>missing-values</strong> flag. Why the rest are off:</p>
+<ul>
+<li><strong>Never split day and night.</strong> Soil temperature does have a diurnal cycle, but at this depth it is damped and lagged relative to the surface, so a solar-geometry split does not line up with it — it would only halve the sample behind every threshold. Every test below runs with <code>separate_daytime_nighttime=False</code>.</li>
+<li><strong>Distribution-wide tests measure the season, not a fault.</strong> A z-score over the whole record asks how far a value sits from the multi-year mean; January at 2 °C and July at 19 °C are both correct.</li>
+<li><strong>Differencing-based tests are degenerate on this record.</strong> The 10MIN era (to March 2021) is back-filled onto the 1MIN grid by diive, so nine of every ten increments are zero by construction; the 1MIN era is quantised to exactly 0.05 °C and the soil moves a few tenths of a kelvin a day, so ~97 % of minute-to-minute increments are genuinely zero. The rolling MAD a Hampel filter scales its band by is then zero, and raising <code>n_sigma</code> cannot help.</li>
+</ul>
+<div id="a3e770a1" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mscr.start_outlier_detection()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Starting step-wise outlier detection for variable TS_FF1_0.1_1 ...
+</pre>
+</div>
+</div>
+<p>Plot the current cleaned data at any point during detection:</p>
+<div id="1639157d" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key, val <span class="kw">in</span> mscr.outlier_detection.items():</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    val.showplot_cleaned(interactive<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="manual-removal" class="level3">
+<h3 class="anchored" data-anchor-id="manual-removal">Manual removal</h3>
+<p>Flag specific timestamps or time ranges for removal - known sensor failures, maintenance windows, logger artefacts. Give <code>[start, stop]</code> pairs and/or single timestamps.</p>
+<p><strong>Why this variable needs one.</strong> On 18-19 December 2025 two remote logger-program uploads corrupted the SDI-12 scale: in seven individual minutes <em>all eleven</em> SDI-12 channels of the profile depart from their own local median at once, by exactly the same factor — <code>0.00 ×</code> on four minutes and <code>0.50 ×</code> on three — while the two analogue Campbell 109 thermistors on a different port read a steady 4.8-5.7 °C throughout. Eleven probes between 5 and 60 cm cannot go to zero, or halve, in the same minute for any physical reason. No automatic test reaches them: <code>0.00 °C</code> and <code>3.10 °C</code> are both plausible December soil temperatures at 0.1 m, so absolute limits cannot see them, and the differencing tests are degenerate here.</p>
+<blockquote class="blockquote">
+<p><strong>The windows are written as <code>[T − 1 min, T]</code>, and that is deliberate</strong> — see <em>Timestamp convention</em>. <code>ManualRemoval</code> matches against <code>TIMESTAMP_MID</code>, so the closed interval <code>['2025-12-19 10:38:00', '2025-12-19 10:39:00']</code> selects exactly the one record whose <code>TIMESTAMP_END</code> is <code>10:39:00</code>, and a bare timestamp would select nothing. Asserted below.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>⚠️ <strong>These windows are a <em>bus</em> event, not a property of this probe.</strong> They are shared with every SDI-12 channel — which is why they appear identically in the <code>_1</code> notebook. Verify them on the preview plot rather than trusting the copy: <code>REMOVE_DATES</code> belongs to a sensor.</p>
+</blockquote>
+<div id="8f65e88a" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> SHOW_PARAM_HELP:</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">help</span>(dv.outliers.ManualRemoval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="15c54a95" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>REMOVE_DATES <span class="op">=</span> [</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-18 17:44:00'</span>, <span class="st">'2025-12-18 17:45:00'</span>],  <span class="co"># reads 0.00 on all eleven SDI-12 channels</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 09:48:00'</span>, <span class="st">'2025-12-19 09:49:00'</span>],  <span class="co"># reads exactly half the true value</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 09:50:00'</span>, <span class="st">'2025-12-19 09:51:00'</span>],  <span class="co"># reads exactly half the true value</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 09:56:00'</span>, <span class="st">'2025-12-19 09:57:00'</span>],  <span class="co"># reads 0.00 on all eleven SDI-12 channels</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 10:30:00'</span>, <span class="st">'2025-12-19 10:31:00'</span>],  <span class="co"># reads 0.00 on all eleven SDI-12 channels</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 10:35:00'</span>, <span class="st">'2025-12-19 10:36:00'</span>],  <span class="co"># reads exactly half the true value</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'2025-12-19 10:38:00'</span>, <span class="st">'2025-12-19 10:39:00'</span>],  <span class="co"># reads 0.00 on all eleven SDI-12 channels</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># A window that brackets no middle stamp removes nothing at all, silently - so check the shape.</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _w <span class="kw">in</span> REMOVE_DATES:</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    _s, _e <span class="op">=</span> pd.Timestamp(_w[<span class="dv">0</span>]), pd.Timestamp(_w[<span class="dv">1</span>])</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> _e <span class="op">-</span> _s <span class="op">==</span> pd.Timedelta(<span class="st">'1min'</span>), (</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'(!) window </span><span class="sc">{</span>_w<span class="sc">}</span><span class="ss"> is not the one-minute bracket the TIMESTAMP_MID convention needs'</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> REMOVE_DATES:</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    mscr.flag_manualremoval_test(remove_dates<span class="op">=</span>REMOVE_DATES, showplot<span class="op">=</span><span class="va">True</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'No manual removal windows for this sensor - skip the addflag cell below.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> running ManualRemoval ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-17-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c4b97cb6" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> REMOVE_DATES:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    mscr.addflag()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> ++Added flag column FLAG_TS_FF1_0.1_1_OUTLIER_MANUAL_TEST to flag data
+</pre>
+</div>
+</div>
+</section>
+<section id="absolute-limits" class="level3">
+<h3 class="anchored" data-anchor-id="absolute-limits">Absolute limits</h3>
+<p>Flags values outside a fixed physical range <code>[minval, maxval]</code>. This is the workhorse test for this channel: the only artefact that is not the December 2025 logger trouble is the April 2024 SDI-12 decode garbage, and every one of those records lands far outside anything the soil can do — this channel’s raw maximum is <strong>80.00 °C</strong>.</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Do not clip instead.</strong> <code>correction_setto_max_threshold(threshold=30)</code> would turn an 80 °C decode error into a fabricated 30 °C - a value inside the physical range that nothing downstream could ever identify as fake. A removed value is honest; a clipped one is not.</p>
+</blockquote>
+<div id="d5d696fd" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> SHOW_PARAM_HELP:</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">help</span>(dv.outliers.AbsoluteLimits)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="35958638" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mscr.flag_outliers_abslim_test(minval<span class="op">=</span>TS_MIN, maxval<span class="op">=</span>TS_MAX, showplot<span class="op">=</span><span class="va">True</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> running AbsoluteLimits ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-20-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-20-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="b8b1a33f" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mscr.addflag()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> ++Added flag column FLAG_TS_FF1_0.1_1_OUTLIER_ABSLIM_TEST to flag data
+</pre>
+</div>
+</div>
+</section>
+<section id="other-tests-all-off" class="level3">
+<h3 class="anchored" data-anchor-id="other-tests-all-off">Other tests (all off)</h3>
+<p>Left switched off for the reasons given at the top of <em>Outlier detection</em>. If you do enable one, report its flagged count <strong>per era</strong> (10MIN before the March 2021 rebuild, 1MIN after) rather than as a total — the two eras behave completely differently. Note also that differencing-based tests compute their differences <strong>after dropping missing records</strong>, so the records flanking every gap are compared across the gap and look like spikes; this record has a 13-day gap in April 2024 and a 10-day one in September 2022.</p>
+<div id="e12c0dde" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional, all off by default - read the note above before enabling any of these.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.flag_outliers_hampel_test(window_length=60 * 24, n_sigma=8, use_differencing=False,</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                                separate_daytime_nighttime=False,</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                                repeat=False, showplot=True, verbose=3)</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.flag_outliers_zscore_test(thres_zscore=4.5, separate_daytime_nighttime=False,</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                                repeat=True, showplot=True, verbose=True)</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.flag_outliers_zscore_rolling_test(thres_zscore=4.5, winsize=60 * 24 * 7,</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                                        repeat=True, showplot=True, verbose=True)</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.flag_outliers_localsd_test(n_sd=7, winsize=60 * 24 * 7, constant_sd=False,</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                                 separate_daytime_nighttime=False,</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                                 repeat=False, showplot=True, verbose=True)</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.flag_outliers_increments_zcore_test(thres_zscore=40, repeat=True, showplot=True, verbose=True)</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.addflag()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="missing-values">Missing values</h3>
+<p>Not an outlier test - flags missing records so they are counted in the overall <code>QCF</code>.</p>
+<div id="6b6915d2" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mscr.flag_missingvals_test(verbose<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> running MissingValues ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> MISSING VALUES TEST: Generated new flag variable FLAG_TS_FF1_0.1_1_MISSING_TEST, newly 
+calculated from variable TS_FF1_0.1_1, with flag 0 (good values) where TS_FF1_0.1_1 is available, 
+flag 2 (bad values) where TS_FF1_0.1_1 is missing.
+</pre>
+</div>
+</div>
+</section>
+<section id="overall-quality-flag-qcf" class="level3">
+<h3 class="anchored" data-anchor-id="overall-quality-flag-qcf">Overall quality flag QCF</h3>
+<p>Aggregate all committed test flags into one overall flag <code>QCF</code> (0 = good, 1 = marginal, 2 = bad) and filter the series. Required before corrections and resampling.</p>
+<div id="8fff0fe0" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mscr.finalize_outlier_detection()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="reports" class="level4">
+<h4 class="anchored" data-anchor-id="reports">Reports</h4>
+<div id="036e37dc" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mscr.report_outlier_detection_qcf_evolution()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+====================================================================================================
+====================
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">QCF EVOLUTION: SEQUENTIAL TEST APPLICATION
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">====================================================================================================
+====================
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Shows how QCF flag distribution changes as tests are applied sequentially
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Target variable: TS_FF1_0.1_1
+
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Measured records (excluding missing): 2957063
+
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Step  Test Name                              New Rej  Available    Rejected     Avail %   Rej %     
+QCF Distribution
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                      (count)      (count)                          
+0/1/2          
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">----------------------------------------------------------------------------------------------------
+--------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">1     TS_FF1_0.1_1_MISSING                   0        2957063      0            100.00    0.00      
+2957063/0/0    
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">2     TS_FF1_0.1_1_OUTLIER_MANUAL            2        2957061      2            100.00    0.00      
+2957061/0/2    
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">3     TS_FF1_0.1_1_OUTLIER_ABSLIM            2        2957059      4            100.00    0.00      
+2957059/0/4    
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">====================================================================================================
+====================
+
+</pre>
+</div>
+</div>
+<div id="16fd291a" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mscr.report_outlier_detection_qcf_flags()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+════════════════════════════════════════════════════════════════════════════════════════════════════
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  INDIVIDUAL TEST FLAG STATISTICS: TS_FF1_0.1_1
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">════════════════════════════════════════════════════════════════════════════════════════════════════
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  Total test flags: 3
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+  ┌─ REPORT 1A: ALL RECORDS (INCLUDING MISSING VALUES)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_MISSING
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 2957063 ( 98.2%) │     0 (  0.0%)  │ 54527 (  1.8%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_OUTLIER_MANUAL
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 3011583 (100.0%) │     0 (  0.0%)  │     7 (  0.0%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_OUTLIER_ABSLIM
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 3011588 (100.0%) │     0 (  0.0%)  │     2 (  0.0%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ┌─ REPORT 1B: AVAILABLE RECORDS ONLY (EXCLUDING MISSING VALUES)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_MISSING
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 2957063 (100.0%) │     0 (  0.0%)  │     0 (  0.0%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_OUTLIER_MANUAL
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 2957061 (100.0%) │     0 (  0.0%)  │     2 (  0.0%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  ├─ TS_FF1_0.1_1_OUTLIER_ABSLIM
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  Period          │ Pass (0)        │ Warn (1)        │ Fail (2)        │ Missing     
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  -------------------------------------------------------------------------------------
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  │  OVERALL         │ 2957061 (100.0%) │     0 (  0.0%)  │     2 (  0.0%)  │    0 (  0.0%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">════════════════════════════════════════════════════════════════════════════════════════════════════
+
+</pre>
+</div>
+</div>
+<div id="22318b8f" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mscr.report_outlier_detection_qcf_series()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+======================================================================
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">QCF QUALITY CONTROL REPORT: TS_FF1_0.1_1
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">======================================================================
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[1] TIME PERIOD
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Start:  2020-04-10 14:50
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    End:    2025-12-31 23:59
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Duration: 2091 days (3011590 records)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[2] DATA AVAILABILITY STAGES
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Potential records (all time slots): 3011590
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Measured records (data exists):     2957063 ( 98.19% of potential)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Missing records (gaps/gaps):        54527 (  1.81% of potential)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    |__ After QC (QCF &lt; 2):             2957059 (100.00% of measured)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    |__ Rejected by QC (QCF &gt;= 2):         4 (  0.00% of measured)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[3] QCF FLAG DISTRIBUTION (for measured records)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    QCF=0 (Good quality):     2957059 (100.00%) - All tests pass
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    QCF=1 (Marginal quality):    0 (  0.00%) - Minor quality issues
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    QCF=2 (Poor quality):     54531 (  1.84%) - Critical issues or too many warnings
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[4] DATA LOSS ANALYSIS
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Records retained after QC: 2957059/2957063 (100.00%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Data loss from QC:         4/2957063 (0.00%)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Final data coverage:       2957059/3011590 (98.19% of potential)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">======================================================================
+
+</pre>
+</div>
+</div>
+</section>
+<section id="plots" class="level4">
+<h4 class="anchored" data-anchor-id="plots">Plots</h4>
+<div id="8bf626b4" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mscr.showplot_outlier_detection_qcf_heatmaps()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.showplot_outlier_detection_qcf_timeseries()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-28-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="corrections" class="level2">
+<h2 class="anchored" data-anchor-id="corrections">🔧 Corrections</h2>
+<p>Applied to the high-res, QCF-filtered data. <strong>None of them apply to soil temperature</strong>, and every call below stays commented out. The corrections diive offers are offset removals for radiation and relative humidity, threshold clipping, and setting ranges to a constant - every one of them writes a value the sensor did not measure.</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>Do not set the exact value 0 to missing.</strong> <code>correction_set_exact_value_to_missing(values=[0])</code> looks like the obvious way to catch the failed SDI-12 reads, and it is wrong twice over: it would delete every genuine <code>0.00 °C</code> reading this soil ever produces, and it would miss the half-scale minutes entirely, because those are not a fixed value at all. That is why those minutes are handled by named manual removal instead.</p>
+</blockquote>
+<div id="ff07a9e6" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mscr.showplot_cleaned()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-29-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Inspect the most frequent values first (read-only, safe to run). This channel <strong>is expected to show heavily repeated values</strong>: the 1MIN era is quantised to 0.05 °C, so a few hundred distinct values carry millions of records, and the 10MIN era is back-filled across ten 1MIN slots. What would be a fault is a <em>single</em> value appearing far more often than its neighbours in the seasonal distribution - that is a stuck sensor rather than a coarse one.</p>
+<div id="6f1f32d3" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ff <span class="kw">in</span> mscr.fields:</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    vc <span class="op">=</span> mscr.series_hires_cleaned[ff].value_counts()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'--- </span><span class="sc">{</span>ff<span class="sc">}</span><span class="ss"> (top 20 of </span><span class="sc">{</span>mscr<span class="sc">.</span>series_hires_cleaned[ff]<span class="sc">.</span>count()<span class="sc">:,}</span><span class="ss"> records, '</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f'</span><span class="sc">{</span>mscr<span class="sc">.</span>series_hires_cleaned[ff]<span class="sc">.</span>nunique()<span class="sc">:,}</span><span class="ss"> distinct) ---'</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(vc.head(<span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- TS_FF1_0.1_1 (top 20 of 2,957,059 records, 2,190 distinct) ---
+TS_FF1_0.1_1_METSCR_QCF
+6.3     30224
+6.4     29798
+6.5     29497
+3.9     29052
+15.4    28823
+15.1    28229
+15.5    27731
+5.5     27643
+15.3    27637
+15.6    26124
+5.2     26105
+15.7    26034
+6.2     25885
+11.3    25746
+3.8     25209
+15.0    25191
+14.4    24994
+14.5    24298
+15.2    23973
+15.9    23936
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="5bdb9d34" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All commented out on purpose - none of these apply to soil temperature. See the traps above.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.correction_setto_max_threshold(threshold=30)</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.correction_setto_min_threshold(threshold=-5)</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.correction_setto_value(dates=[['2022-04-01', '2022-04-05']], value=0, verbose=1)</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.correction_set_exact_value_to_missing(values=[0])</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co"># mscr.showplot_cleaned(interactive=False)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="resampling" class="level2">
+<h2 class="anchored" data-anchor-id="resampling">🔁 Resampling</h2>
+<section id="resample-to-30min" class="level3">
+<h3 class="anchored" data-anchor-id="resample-to-30min">Resample to 30MIN</h3>
+<p>Resample the screened high-res series to <code>RESAMPLING_FREQ</code>. The output timestamp is <code>TIMESTAMP_END</code> again (see <em>Timestamp convention</em>), ready for upload. <strong>This is the handover point</strong>: everything downstream of here works on the half-hourly series.</p>
+<div id="4f253134" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mincounts_perc stays at the template default of .25, i.e. 7.5 of the 30 records a full</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># half hour holds in the 1MIN era. A 30MIN *mean* of a smooth state variable is well</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># estimated from a quarter of the records - this series moves a few hundredths of a kelvin</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># in half an hour. (A *sum* would be the opposite case and is why the precipitation</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># notebook chose differently.)</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>mscr.resample(to_freqstr<span class="op">=</span>RESAMPLING_FREQ, agg<span class="op">=</span>RESAMPLING_AGG, mincounts_perc<span class="op">=</span><span class="fl">.25</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>mscr.showplot_resampled()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> running resample_series_to_freq ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Resampling data from min to 30min frequency ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-32-output-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="TS_FF1_0.1_1_2020-2025_files/figure-html/cell-32-output-3.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="check-the-resampled-time-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="check-the-resampled-time-resolution">Check the resampled time resolution</h3>
+<div id="ef41d317" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> mscr.resampled_detailed.keys():</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> dv.times.DetectFrequency(index<span class="op">=</span>mscr.resampled_detailed[v].index, verbose<span class="op">=</span><span class="va">True</span>).get()</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> <span class="st">'PASSED'</span> <span class="cf">if</span> freq <span class="op">==</span> RESAMPLING_FREQ <span class="cf">else</span> <span class="st">'(!) FAILED'</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>status<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>freq<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Detect frequency: 30min (all methods agree)
+</pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>PASSED - TS_FF1_0.1_1: 30min</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="upload-data-to-database" class="level2">
+<h2 class="anchored" data-anchor-id="upload-data-to-database">⬆️ Upload data to database</h2>
+<p><strong>Re-uploading overwrites the same variant - safe to re-run.</strong> With <code>delete_from_db_before_upload=True</code> (below), the upload first <em>deletes</em>, then writes. The delete is scoped to the exact match <code>_measurement</code> + <code>varname</code> + <code>data_version</code> (<code>meteoscreening_diive</code>) over the uploaded time range, so re-screening a period replaces only its previous screened result. It never touches the raw data (different <code>data_version</code>, and a different <code>_raw</code> bucket), other variables, or other data versions. The delete-first step (rather than a plain overwrite) matters because InfluxDB keys a point by its full tag set: if a tag changed between runs (e.g.&nbsp;<code>units</code>, <code>gain</code>, <code>offset</code>), a plain write would leave the old point as a <strong>duplicate</strong> - the delete removes it regardless of tags.</p>
+<div id="6dd6303d" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Uploading to bucket </span><span class="sc">{</span>BUCKET_PROCESSED<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> mscr.resampled_detailed.keys():</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    dbc.upload_singlevar(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        to_bucket<span class="op">=</span>BUCKET_PROCESSED,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        to_measurement<span class="op">=</span>assigned_measurements[v],</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        var_df<span class="op">=</span>mscr.resampled_detailed[v],</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        timezone_offset_to_utc_hours<span class="op">=</span>TIMEZONE_OFFSET_TO_UTC_HOURS,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>        delete_from_db_before_upload<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Uploading to bucket ch-lae_processed</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Deleted variables ['TS_FF1_0.1_1'] between 2020-04-10T15:00:00+01:00 and 
+2026-01-01T00:00:00+01:00 from measurements ['TS'] in bucket ch-lae_processed.
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Connecting to database ...
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> --&gt; UPLOAD TO DATABASE BUCKET ch-lae_processed:  ['TS_FF1_0.1_1']
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008000; text-decoration-color: #008000">v</span> Upload finished.
+</pre>
+</div>
+</div>
+<section id="verify-upload" class="level3">
+<h3 class="anchored" data-anchor-id="verify-upload">Verify upload</h3>
+<p>Download the just-uploaded data back and confirm the time resolution and timestamps. The offset is the same <code>TIMEZONE_OFFSET_TO_UTC_HOURS</code>, so the timestamps below should again be local <code>TIMESTAMP_END</code> - matching what you screened.</p>
+<div id="9c193781" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fresh variable names so the screened originals (data_detailed etc.) are not overwritten:</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>check_simple, check_detailed, check_measurements <span class="op">=</span> dbc.download(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    bucket<span class="op">=</span>BUCKET_PROCESSED,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    measurements<span class="op">=</span>[MEASUREMENT],</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    fields<span class="op">=</span>FIELDS,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span>START,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    stop<span class="op">=</span>STOP,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    timezone_offset_to_utc_hours<span class="op">=</span>TIMEZONE_OFFSET_TO_UTC_HOURS,</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    data_version<span class="op">=</span><span class="st">'meteoscreening_diive'</span>,</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>check_simple</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> DOWNLOADING from bucket ch-lae_processed: variables ['TS_FF1_0.1_1'] from measurements ['TS'], 
+data version ['meteoscreening_diive'], between 2020-01-01 00:00:01 and 2026-01-01 00:00:01 (timezone
+offset to UTC 1)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Downloaded data for 1 variables:
+</pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TS_FF1_0.1_1</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TIMESTAMP_END</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 15:00:00</th>
+<td>9.600000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020-04-10 15:30:00</th>
+<td>9.650000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 16:00:00</th>
+<td>9.700000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2020-04-10 16:30:00</th>
+<td>9.770000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2020-04-10 17:00:00</th>
+<td>9.826667</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 22:00:00</th>
+<td>3.493333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-12-31 22:30:00</th>
+<td>3.435000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-12-31 23:00:00</th>
+<td>3.400000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-12-31 23:30:00</th>
+<td>3.400000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2026-01-01 00:00:00</th>
+<td>3.400000</td>
+</tr>
+</tbody>
+</table>
+
+<p>98611 rows × 1 columns</p>
+</div>
+</div>
+</div>
+<div id="1279ba8d" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> check_detailed.keys():</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> check_detailed[v].index</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> dv.times.DetectFrequency(index<span class="op">=</span>idx, verbose<span class="op">=</span><span class="va">True</span>).get()</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> <span class="st">'PASSED'</span> <span class="cf">if</span> freq <span class="op">==</span> RESAMPLING_FREQ <span class="cf">else</span> <span class="st">'(!) FAILED'</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>status<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">: freq=</span><span class="sc">{</span>freq<span class="sc">}</span><span class="ss">, first=</span><span class="sc">{</span>idx[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, last=</span><span class="sc">{</span>idx[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  <span style="color: #008080; text-decoration-color: #008080">&gt;</span> Detect frequency: 30min (timedelta, 100% match)
+</pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>PASSED - TS_FF1_0.1_1: freq=30min, first=2020-04-10 15:00:00, last=2026-01-01 00:00:00</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="end-of-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="end-of-notebook">✅ End of notebook</h2>
+<div id="09ae63a7" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>_end <span class="op">=</span> datetime.now()</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Finished: </span><span class="sc">{</span>_end<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S'</span>)<span class="sc">}</span><span class="ss">  "</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(runtime </span><span class="sc">{</span><span class="bu">str</span>(_end <span class="op">-</span> NOTEBOOK_START)<span class="sc">.</span>split(<span class="st">'.'</span>)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished: 2026-07-22 19:00:50  (runtime 0:03:11)</code></pre>
+</div>
+</div>
+<hr>
+<section id="notes-for-this-variable" class="level3">
+<h3 class="anchored" data-anchor-id="notes-for-this-variable">📝 Notes for this variable</h3>
+<ul>
+<li><strong>Mean, not sum.</strong> <code>RESAMPLING_AGG = 'mean'</code> - soil temperature is a state, not a flux.</li>
+<li><strong>Units are °C</strong>, filegroup <code>12_meteo_forestfloor</code>.</li>
+<li><strong>Sensor identity.</strong> The temperature channel of a METER <strong>MPS-2</strong> water-potential sensor installed 19 Mar 2020 at 0.1 m, first logged 2020-04-10 15:00. It is <strong>not</strong> a TEROS 12 - that is <code>TS_FF1_0.1_2</code>, the same physical probe that reports <code>SWC_FF1_0.1_1</code>. The replicate suffix names the sensor family, and the mapping is the opposite of the obvious guess.</li>
+<li><strong>Coverage</strong> 2 506 841 records, 99.12 % over 2020-2025 - the most complete channel in the FF1 profile. Its gaps are the five shared power and logger outages, not sensor events.</li>
+<li><strong>Raw range 0.00 … 40.60 °C</strong>, both ends artefacts: <code>0.00</code> is the failed-SDI-12-read sentinel, <code>40.60</code> is April 2024 decode garbage.</li>
+<li><strong>Median daily amplitude 0.30 K</strong> (2023), against 0.40 K for the same sensor family at 0.05 m and 0.20 K at 0.2 m. The damping with depth is monotone, which is the cheapest check that this channel is where it claims to be.</li>
+<li><strong>Two raw time resolutions</strong>, 10MIN until the March 2021 logger rebuild and 1MIN after. diive drops any resolution group holding &lt;0.2 % of records and <strong>upsamples the coarser era onto the finest grid</strong> before screening. Report any test’s flagged count per era, never as a total.</li>
+<li><strong>Values are quantised to 0.05 °C</strong> in the 1MIN era. At an 0.30 K daily amplitude that is six steps - still resolvable, but do not read fine structure into it, and do not expect a differencing-based test to work.</li>
+<li><strong>A failed sensor read is a number, not a gap.</strong> The CR1000 firmware predates SDI-12 NaN support and the update was declined on 2020-04-10, so a failed read arrives as the true value times a wrong scale factor (<code>0 ×</code> or <code>0.5 ×</code>). <code>notna()</code> does not mean “measured”, and neither does “inside the physical range”.</li>
+<li><strong>Deferred to <code>30_PRODUCTS/</code>, on the 30MIN data:</strong> the comparison against the rest of the FF1 profile and against air temperature, the placement and offset questions, and any gap handling. This notebook exports gaps where the station was down and does not fill them.</li>
+</ul>
+</section>
+<section id="sibling-notebooks" class="level3">
+<h3 class="anchored" data-anchor-id="sibling-notebooks">♻️ Sibling notebooks</h3>
+<p>Its same-depth partner is <code>TS_FF1_0.1_2</code>, the TEROS 12 — a different make of sensor in the same soil at the same nominal depth, which makes it the sharpest available check on whether a change is in the sensor or in the soil. That comparison belongs in <code>30_PRODUCTS/</code>, on the 30MIN data, not here.</p>
+<p>This notebook is a near-copy of <code>TS_FF1_0.05_1_2020-2025.ipynb</code>: both are MPS-2 channels on the SDI-12 bus, so the seven removal windows and the quantisation argument carry across unchanged. The <code>0.05_3</code>/<code>0.05_4</code> notebooks are <strong>not</strong> copies in that sense — those are analogue thermistors and three of the arguments invert.</p>
+<p>The standing rule for all of them: <strong><code>REMOVE_DATES</code> belongs to a sensor, not to a variable.</strong> These notebooks are copies of each other with a few settings changed, and carrying a window across a copy deletes good data under a justification written about a different probe.</p>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<!--
+  Moves the page's "Modified" date out of the top title block and into the right
+  ("On this page") sidebar, at the very end. Quarto has no built-in option to
+  relocate title-block metadata, so we do it client-side: read the
+  `date-modified` value Quarto emits, drop the title meta block, and append a
+  "Last updated" line at the bottom of the right margin sidebar. Falls back to
+  the left sidebar on pages that have no TOC (so the right sidebar is absent).
+  Wired in via docs/_quarto.yml -> format.html.include-after-body.
+-->
+<style>
+  .sidebar-last-modified {
+    margin: 1rem 0 0.5rem;
+    padding-top: 0.6rem;
+    /* Theme-agnostic (works under both cosmo light and darkly dark). */
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+  .sidebar-last-modified .slm-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    opacity: 0.85;
+  }
+</style>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var meta = document.querySelector(".quarto-title-meta");
+    var dateEl = (meta || document).querySelector(".date-modified");
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+
+    // Remove the date from the top title block (author is already footer-only,
+    // so the title meta holds nothing else).
+    if (meta) meta.remove();
+
+    // Prefer the right ("On this page") sidebar; fall back to the left one on
+    // pages without a TOC.
+    var right = document.getElementById("quarto-margin-sidebar");
+    var left = document.getElementById("quarto-sidebar");
+    var host = right || left;
+    if (!host) return;
+
+    var box = document.createElement("div");
+    box.className = "sidebar-last-modified";
+    var label = document.createElement("span");
+    label.className = "slm-label";
+    label.textContent = "Last updated";
+    box.appendChild(label);
+    box.appendChild(document.createTextNode(dateText));
+
+    if (right) {
+      host.appendChild(box); // end of the right sidebar, after the TOC
+    } else {
+      var container = left.querySelector(".sidebar-menu-container") || left;
+      container.appendChild(box);
+    }
+  });
+</script>
+<!--
+  Relocates Quarto's light/dark theme toggle out of the left sidebar title into
+  the top of the right ("On this page") sidebar. Quarto has no option to place
+  the toggle there, so we move the node client-side on load. On pages without a
+  TOC (no right sidebar) the toggle is left where Quarto put it. Styling is in
+  styles.css (.margin-theme-toggle, .quarto-color-scheme-toggle). Wired in via
+  docs/_quarto.yml -> format.html.include-after-body.
+-->
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var tools = document.querySelector(
+      "#quarto-sidebar .sidebar-title .sidebar-tools-main"
+    );
+    var right = document.getElementById("quarto-margin-sidebar");
+    if (!tools || !right) return;
+    var holder = document.createElement("div");
+    // `sidebar-navigation` makes Quarto's own (theme-aware) sun/moon icon rules
+    // match the toggle here in the right sidebar -- they're scoped to that class
+    // and would otherwise leave an empty icon box. styles.css neutralizes the
+    // stray padding that class brings.
+    holder.className = "margin-theme-toggle sidebar-navigation";
+    holder.appendChild(tools); // move the node (the toggle lives inside)
+    right.insertBefore(holder, right.firstChild);
+  });
+</script>
+<!--
+
+  Make every Mermaid diagram pannable and zoomable.
+
+
+
+  Quarto renders a ```{mermaid} cell to an inline <svg>, which its `lightbox: auto`
+
+  setting cannot help with: lightbox works on <img> elements. The flowcharts on
+
+  Meteo_Product_Chain.qmd and FPC.qmd are wide enough that Quarto scales them down
+
+  to the article width, which leaves the node labels small and the diagram hard to
+
+  follow. So each one is wrapped in a viewport it can be moved around inside.
+
+
+
+  Deliberate choices, both about not surprising the reader:
+
+
+
+  - A plain mouse wheel scrolls the page as usual. Zoom needs Ctrl (or Cmd), so a
+
+    reader scrolling past a diagram is never trapped inside it.
+
+  - The viewport can be dragged taller by its bottom edge, because how much height
+
+    a diagram deserves depends on the diagram.
+
+
+
+  No external library and no CDN: the whole behaviour is a few dozen lines, and the
+
+  site would otherwise gain a network dependency for it.
+
+-->
+
+<style>
+
+  .mzoom-wrap {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(128, 128, 128, 0.35);
+
+    border-radius: 4px;
+
+    resize: vertical;
+
+    min-height: 220px;
+
+    height: 460px;
+
+    background: transparent;
+
+    touch-action: none;
+
+  }
+
+  .mzoom-wrap.mzoom-grabbing { cursor: grabbing; }
+
+  .mzoom-wrap:not(.mzoom-grabbing) { cursor: grab; }
+
+  .mzoom-wrap > svg {
+
+    transform-origin: 0 0;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+  }
+
+  .mzoom-bar {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    display: flex;
+
+    gap: 4px;
+
+    z-index: 2;
+
+  }
+
+  .mzoom-bar button {
+
+    font: inherit;
+
+    font-size: 0.85rem;
+
+    line-height: 1;
+
+    padding: 4px 8px;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(128, 128, 128, 0.45);
+
+    border-radius: 3px;
+
+    background: rgba(127, 127, 127, 0.12);
+
+    color: inherit;
+
+  }
+
+  .mzoom-bar button:hover { background: rgba(127, 127, 127, 0.28); }
+
+  .mzoom-hint {
+
+    position: absolute;
+
+    left: 8px;
+
+    bottom: 6px;
+
+    font-size: 0.75rem;
+
+    opacity: 0.6;
+
+    pointer-events: none;
+
+  }
+
+</style>
+
+
+
+<script>
+
+(function () {
+
+  var MIN = 0.15, MAX = 8;
+
+
+
+  function enhance(svg) {
+
+    if (svg.dataset.mzoom) return;
+
+    svg.dataset.mzoom = "1";
+
+
+
+    var wrap = document.createElement("div");
+
+    wrap.className = "mzoom-wrap";
+
+    svg.parentNode.insertBefore(wrap, svg);
+
+    wrap.appendChild(svg);
+
+
+
+    var bar = document.createElement("div");
+
+    bar.className = "mzoom-bar";
+
+    wrap.appendChild(bar);
+
+
+
+    var hint = document.createElement("div");
+
+    hint.className = "mzoom-hint";
+
+    hint.textContent = "drag to pan · ctrl+wheel to zoom";
+
+    wrap.appendChild(hint);
+
+
+
+    var k = 1, tx = 0, ty = 0;
+
+
+
+    function apply() {
+
+      svg.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + k + ")";
+
+    }
+
+
+
+    // Fit the whole diagram into the viewport, centred, with a small margin.
+
+    function fit() {
+
+      var box = svg.getBBox ? svg.getBBox() : null;
+
+      var w = box && box.width ? box.width : svg.clientWidth;
+
+      var h = box && box.height ? box.height : svg.clientHeight;
+
+      if (!w || !h) return;
+
+      k = Math.min(wrap.clientWidth / w, wrap.clientHeight / h) * 0.95;
+
+      k = Math.max(MIN, Math.min(MAX, k));
+
+      tx = (wrap.clientWidth - w * k) / 2 - (box ? box.x * k : 0);
+
+      ty = (wrap.clientHeight - h * k) / 2 - (box ? box.y * k : 0);
+
+      apply();
+
+    }
+
+
+
+    // Zoom about a point in viewport coordinates, so the thing under the cursor
+
+    // stays under the cursor.
+
+    function zoomAt(px, py, factor) {
+
+      var next = Math.max(MIN, Math.min(MAX, k * factor));
+
+      tx = px - (px - tx) * (next / k);
+
+      ty = py - (py - ty) * (next / k);
+
+      k = next;
+
+      apply();
+
+    }
+
+
+
+    function button(label, title, fn) {
+
+      var b = document.createElement("button");
+
+      b.type = "button";
+
+      b.textContent = label;
+
+      b.title = title;
+
+      b.addEventListener("click", function (e) { e.preventDefault(); fn(); });
+
+      bar.appendChild(b);
+
+    }
+
+    button("−", "Zoom out", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1 / 1.25);
+
+    });
+
+    button("+", "Zoom in", function () {
+
+      zoomAt(wrap.clientWidth / 2, wrap.clientHeight / 2, 1.25);
+
+    });
+
+    button("⤢", "Fit to view", fit);
+
+
+
+    wrap.addEventListener("wheel", function (e) {
+
+      // Plain wheel keeps scrolling the page; only ctrl/cmd zooms.
+
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+
+      var r = wrap.getBoundingClientRect();
+
+      zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+
+    }, { passive: false });
+
+
+
+    var dragging = false, lastX = 0, lastY = 0;
+
+    wrap.addEventListener("pointerdown", function (e) {
+
+      if (e.target.closest(".mzoom-bar")) return;
+
+      dragging = true;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      wrap.classList.add("mzoom-grabbing");
+
+      wrap.setPointerCapture(e.pointerId);
+
+    });
+
+    wrap.addEventListener("pointermove", function (e) {
+
+      if (!dragging) return;
+
+      tx += e.clientX - lastX;
+
+      ty += e.clientY - lastY;
+
+      lastX = e.clientX;
+
+      lastY = e.clientY;
+
+      apply();
+
+    });
+
+    function endDrag(e) {
+
+      if (!dragging) return;
+
+      dragging = false;
+
+      wrap.classList.remove("mzoom-grabbing");
+
+      try { wrap.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+
+    }
+
+    wrap.addEventListener("pointerup", endDrag);
+
+    wrap.addEventListener("pointercancel", endDrag);
+
+    wrap.addEventListener("dblclick", fit);
+
+
+
+    // getBBox needs the SVG laid out, so fit on the next frame, and again once
+
+    // fonts have settled since label widths move the bounding box.
+
+    requestAnimationFrame(fit);
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  }
+
+
+
+  function scan() {
+
+    document.querySelectorAll("pre.mermaid > svg, .mermaid > svg").forEach(enhance);
+
+  }
+
+
+
+  // Mermaid renders after our script runs, and Quarto gives no hook for it, so
+
+  // watch for the SVG appearing and stop once every diagram has one.
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    scan();
+
+    var targets = document.querySelectorAll("pre.mermaid, .mermaid");
+
+    if (!targets.length) return;
+
+    var obs = new MutationObserver(function () {
+
+      scan();
+
+      var pending = document.querySelectorAll(
+
+        "pre.mermaid:not(:has(> svg[data-mzoom])), .mermaid:not(:has(> svg[data-mzoom]))");
+
+      if (!pending.length) obs.disconnect();
+
+    });
+
+    targets.forEach(function (t) { obs.observe(t, { childList: true, subtree: true }); });
+
+    // Backstop for browsers without :has() support in querySelectorAll.
+
+    setTimeout(function () { scan(); obs.disconnect(); }, 8000);
+
+  });
+
+})();
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lukas Hörtnagl · © 2025</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/blob/main/notebooks/10_METEO/20_SCREENING/TS/TS_FF1_0.1_1_2020-2025.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/holukas/dataset_ch-lae_flux_product/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
