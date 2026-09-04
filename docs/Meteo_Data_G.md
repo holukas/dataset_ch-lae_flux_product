@@ -42,8 +42,10 @@ coincide.
   column* below first: it averages **two** plates after putting each non-reference setup onto
   the modern setup's scale and zero point, and it is a derived estimate rather than a
   measurement.
-- **Exclude source flag `4`** from anything you compute. It marks 519 records of the 2012
-  reconfiguration itself, which sit on neither setup's scale.
+- **Exclude source flags `4` and `5`** from anything you compute. Flag `4` marks 519 records of
+  the 2012 reconfiguration itself. Flag `5` marks 17,517 records in which a plate read with its
+  sign reversed. Both are real readings of a station in a known state, and neither sits on any
+  setup's scale.
 
 **Nothing in this product is gap-filled**, and a missing record is `NaN`, never `0`: for a
 signed flux, `0` means that no heat crossed the plate. **The heat stored in the soil above the
@@ -73,23 +75,29 @@ column holds one exactly where `NPLATES` is greater than `0`.
 ### `FLAG_G_FF1_0.05_<n>_SOURCE`
 
 The codes name the **acquisition state**, not the field name the record is filed under. Codes
-`1`, `2` and `3` are measurements; code `4` is a measurement that belongs to no setup, and code
-`0` is no measurement.
+`1`, `2` and `3` are measurements taken in a settled setup. Codes `4` and `5` are measurements
+that belong to no setup, and code `0` is no measurement.
 
 : Source codes and their record counts per plate. {#tbl-g-source}
 
 | code | acquisition setup | plate 1 | plate 2 | plate 3 |
 |---|---|---|---|---|
 | 0 | no measurement: a gap, or after this plate was discarded | 16,418 | 21,571 | 99,069 |
-| 1 | original forest-floor acquisition, screened with the MeteoScreeningTool | 120,058 | 116,149 | 120,055 |
+| 1 | original forest-floor acquisition, screened with the MeteoScreeningTool | 120,058 | 105,878 | 112,809 |
 | 2 | the same station after the 2012 reconfiguration, still MeteoScreeningTool | 154,604 | 152,837 | 154,604 |
 | 3 | after the March 2021 logger-box rebuild, screened with diive | 82,648 | 82,652 | 0 |
 | 4 | the 2012 reconfiguration itself: recorded, but on neither setup's scale | 0 | 519 | 0 |
+| 5 | the plate read against the other plates: recorded, but with its sign reversed | 0 | 10,271 | 7,246 |
 
 Code `1` runs from the start of the record to 2012-03-22 08:45. Code `2` begins at
 2012-04-12 13:45 and runs to 2021-03-24 09:45. Code `3` begins at 2021-03-26 15:15. Plate 3 has
 no code `3` at all, because it was discarded at the rebuild. Its flag reads `0` from then on,
 which means that there was no instrument rather than that data are missing.
+
+Code `5` marks two stretches, both inside the original acquisition: plate 3 from November 2004 to
+March 2005, and plate 2 from June to December 2011. Over each of them the plate falls while the
+other plates rise, which is what a reversed sign looks like. See *Two plates read backwards for a
+while* below.
 
 ### `FLAG_G_FF1_0.05_HOMOGENIZED_NPLATES`
 
@@ -98,8 +106,8 @@ which means that there was no instrument rather than that data are missing.
 | code | meaning | records | share |
 |---|---|---|---|
 | 0 | neither contributing plate had a usable value | 16,414 | 4.4 % |
-| 1 | one of the two: the other has a gap, or its record belongs to the 2012 reconfiguration | 5,680 | 1.5 % |
-| 2 | both plates | 351,634 | 94.1 % |
+| 1 | one of the two: the other has a gap, or its record belongs to no setup | 15,951 | 4.3 % |
+| 2 | both plates | 341,363 | 91.3 % |
 
 The count never reaches `3`. Plate 3 is excluded from this column throughout the record, not
 only after the rebuild, for the reason given under *The reconciled column*.
@@ -113,7 +121,7 @@ only after the rebuild, for the reason given under *The reconciled column*.
 | `G_FF1_0.05_1` | 95.6 % | −90.7 to 84.1 | −1.33 | 5.99 |
 | `G_FF1_0.05_2` | 94.2 % | −84.5 to 129.3 | −1.26 | 5.78 |
 | `G_FF1_0.05_3` | 73.5 % | −65.9 to 100.6 | −5.03 | 9.93 |
-| `G_FF1_0.05_HOMOGENIZED` | 95.6 % | −80.6 to 45.6 | −0.37 | 5.09 |
+| `G_FF1_0.05_HOMOGENIZED` | 95.6 % | −80.6 to 45.6 | −0.39 | 5.09 |
 
 Plate 3 has the lowest coverage because it has no instrument after March 2021, and its mean sits
 furthest from zero because its zero point drifted; both are discussed below. The plates
@@ -161,13 +169,46 @@ The 2021 boundary is simpler: the pre-rebuild record ends on 2021-03-24 09:45 an
 record begins on 2021-03-26 15:15. The 2 days and 5.5 hours between them are the rebuild itself,
 and they are left as a gap.
 
+## Two plates read backwards for a while
+
+Twice in the original acquisition, one plate reversed its sign and kept recording. The values stay
+plausible in size and keep a plausible daily cycle, so a limit screening passes them; what gives
+them away is that the plate falls while the other plates rise.
+
+The product finds these stretches by correlating each plate with each other plate one calendar
+month at a time. A plate that moves against **all** of the others for a whole month has its sign
+reversed. Nine months fail that test, the weakest of them at a correlation of −0.70, while the 674
+months outside a reversed stretch never fall below +0.46, so the two are clearly separate
+populations.
+
+: The two stretches in which a plate read backwards. Both carry source flag `5`. {#tbl-g-reversed}
+
+| plate | from | to | records | correlation with the other plates |
+|---|---|---|---|---|
+| 3 | 2004-11 | 2005-03 | 7,246 | −0.70 to −0.86 in the three full months |
+| 2 | 2011-06 | 2011-12 | 10,271 | −0.88 to −0.94 in the six full months |
+
+The windows are whole calendar months. Plate 2 in fact flips within one half-hour, on
+2011-06-16 between 09:15 and 09:45, when it steps by −17 W m^-2^ while plate 1 does not move; the
+month it happens in holds both states and is excluded with the rest.
+
+**The values are not turned back over.** Over its reversed stretch plate 2 regresses on plate 1
+with a slope of −0.79 and an intercept of −15.5 W m^-2^, against intercepts of −0.1 to −2.2 W m^-2^
+in the same months of the five preceding years. Negating the values would restore the daily cycle
+but leave that intercept in place, and the plate would then read +6 to +11 W m^-2^ into the soil
+through an autumn in which both its neighbours read about −11. Removing the intercept as well
+would mean fitting a constant to one plate against its neighbour over a stretch with no
+independent reference. The records are excluded instead: they take no part in any fit, in any
+per-setup statistic, or in the reconciled column, and where plate 2 drops out in 2011 the
+reconciled column falls back to plate 1 alone and `NPLATES` reads `1`.
+
 ## The declared depth, and the 2012 change
 
 The archive declares these plates at 0.025 m between 2012 and 2021, which would mean they were
 dug up and reburied at half the depth. A daily temperature wave weakens and arrives later the
 deeper it travels, so a plate that really moved to 0.025 m should show a daily swing about
 1.28 times larger and a peak about 0.95 h earlier. Neither happened. Across the two setups the
-mean amplitude ratio is **0.48**, so the daily swing fell instead of growing, and the peak moved
+mean amplitude ratio is **0.47**, so the daily swing fell instead of growing, and the peak moved
 **2.8 h later** instead of earlier. A change of depth can produce neither sign, so the 0.025 m
 label has no support in the data and the product treats the plates as sitting at 0.05 m
 throughout. What did change in 2012 is not identified: the maintenance record's candidate is the
@@ -175,9 +216,10 @@ corrected multipliers in the new logger program, and a plate disturbed while the
 being redone is not ruled out.
 
 Two further questions about the same station have clearer answers. **The sign convention held
-across both boundaries**: every plate in every setup reads higher in the
-afternoon than before dawn, by 1.1 to 11.1 W m^-2^, which is the direction heat actually moves,
-so no plate was rewired backwards. And **25 June 2015, when the forest-floor rewiring stepped
+across both boundaries**: once the two reversed stretches above are set aside, every plate in
+every setup reads higher in the afternoon than before dawn, by 1.1 to 11.1 W m^-2^, which is the
+direction heat actually moves, so no plate was rewired backwards at a boundary. And
+**25 June 2015, when the forest-floor rewiring stepped
 soil water content by about 3.9 % VWC**, left no measurable trace here: the change in each
 plate's spread across that date stays inside the band of what late June ordinarily does. The
 null behind that verdict holds only twelve to seventeen years, and the question is one-sided,
@@ -206,8 +248,8 @@ acquisition's is about 40 % of it, so the gains run from 0.37 to 1.02 for the fi
 the gained series, puts the zero point where physics requires it. Over a full year the soil ends
 up near the temperature it started at, so a soil heat flux record at a few centimetres must
 average near zero. The reconfigured and the diive setups meet that constraint on their own, to a
-few tenths of a W m^-2^, while the original acquisition sits 3.3 to 3.6 W m^-2^ below the
-reference at both plates. The constants that remove what is left are −1.28 and −1.66 W m^-2^ for
+few tenths of a W m^-2^, while the original acquisition sits 2.9 to 3.6 W m^-2^ below the
+reference at both plates. The constants that remove what is left are −1.28 and −1.29 W m^-2^ for
 the original acquisition and +0.13 and +1.17 W m^-2^ for the reconfigured one. They are smaller
 than the level differences above because the gain runs first, and multiplying a series whose
 mean is not zero moves that mean as well.
@@ -218,11 +260,11 @@ boundaries, so nothing independent anchors either term. The one exception is the
 annual mean, which pins the additive term to something outside the record; the gain has no such
 anchor.
 
-**What the correction leaves.** The season-matched level of the reconciled column steps by **+0.71 W m^-2^ at
+**What the correction leaves.** The season-matched level of the reconciled column steps by **+0.61 W m^-2^ at
 the 2012 boundary and −0.03 W m^-2^ at the 2021 boundary**, against the same statistic computed
-at 33 dates well inside a single setup, where it moves by 0.57 W m^-2^ in the median and up to
-1.91 W m^-2^. Both boundaries are therefore inside what this level does when nothing happens.
-Read the size of that null before reading the result as zero: a step smaller than 1.91 W m^-2^
+at 33 dates well inside a single setup, where it moves by 0.46 W m^-2^ in the median and up to
+1.89 W m^-2^. Both boundaries are therefore inside what this level does when nothing happens.
+Read the size of that null before reading the result as zero: a step smaller than 1.89 W m^-2^
 is a step this test cannot see rather than a step that is not there. With the gain alone the
 2012 boundary failed the same check, which is why the additive term exists.
 
@@ -257,26 +299,26 @@ and this site has neither.
   times, from 8.4 and 10.3 W m^-2^ in 2011 to 2.6 and 3.3 in 2012 and 1.2 and 1.8 in 2013, while
   plate `_3` does not follow at all: it runs 15.7, 12.1 and 10.8 across the same years. So
   whatever changed in 2012 did not reach the three plates equally, and the per-month gains do not
-  repair it — the reconciled column's own median daily swing then jumps between adjacent years,
-  2.0 in 2011, 5.7 in 2012, 3.5 in 2013 and 5.5 in 2014, which no soil does. Read a level here if
+  repair it — the reconciled column's own median daily swing still moves between adjacent years,
+  4.7 in 2011, 5.7 in 2012, 3.4 in 2013 and 5.5 in 2014, which no soil does. Read a level here if
   you must, but do not read an amplitude, a variance or a trend through this period, and do not
   compare the early years with the later ones on any of those. The cause is not established; the
   daily-record panel of the [dashboard](dashboards/METEO_G_dashboard.html) shows the symptom
   plainly.
 
 - **The gain carries an unknown amount of climate.** Refitted on half the years of a setup and
-  scored on the other half, the monthly gains miss by up to 125 %, worst in winter, and within
+  scored on the other half, the monthly gains miss by up to 109 %, worst in winter, and within
   one setup they vary by up to a factor of two across the calendar. An instrument gain does not
   know what month it is, so part of what these factors remove is the difference between the
   years the setups cover rather than between their electronics. The per-month form is kept
   because a single flat gain would match each month less closely and the notebook has not
   measured which of the two errors is smaller. The additive constants behave the opposite way:
-  held out the same way, they land within 0.25 W m^-2^ of the reference level, which is what a
+  held out the same way, they land within 0.41 W m^-2^ of the reference level, which is what a
   property of an instrument should do.
 - **A constant cannot follow a zero point that moves, and one is moving.** After the correction,
-  the annual means of the corrected setups still drift by up to 0.42 W m^-2^ per year, and the
-  reconciled column's annual means over the original acquisition run −1.78 to +1.14 W m^-2^ with
-  a slope of −0.38 W m^-2^ per year. An analysis of interannual variability in the early years is
+  the annual means of the corrected setups still drift by up to 0.38 W m^-2^ per year, and the
+  reconciled column's annual means over the original acquisition run −1.21 to +0.98 W m^-2^ with
+  a slope of −0.30 W m^-2^ per year. An analysis of interannual variability in the early years is
   reading a real signal plus a residual drift, and this product cannot separate them. A per-year
   offset was considered and rejected, because it would force every year's mean onto the reference
   and erase whatever interannual signal the record holds.
@@ -286,6 +328,16 @@ and this site has neither.
   2011, a trend of −1.76 W m^-2^ per year, which is a plate or its wiring degrading rather than a
   soil storing more heat every year. Do not use this column across the original acquisition. It
   is not in the reconciled column, so none of this reaches anything derived.
+- **Two plates read backwards for a while, and those records are flagged rather than repaired.**
+  Plate 3 from November 2004 to March 2005 and plate 2 from June to December 2011 carry source
+  flag `5`. They are exported with their values intact and are excluded from every fit and from
+  the reconciled column, so the only thing a reader has to do is filter the flag out. Do not
+  negate them: the reversal comes with a large offset that negation would leave in place, which
+  *Two plates read backwards for a while* sets out. Both stretches were found by comparing the
+  plates with each other, which is the only check in this product that would catch a plate still
+  reporting plausible numbers while measuring the wrong thing. That the same check found two such
+  stretches is a reason to treat the early record as less well characterised than the later one,
+  not as cleared.
 - **The plates are not repeat measurements.** They sit metres apart beneath a deciduous canopy,
   so when the leaves are off a patch of sunlight can fall on one and not on another and one plate
   then reads several times the other. Their disagreement describes where the light fell; it is

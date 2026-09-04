@@ -238,12 +238,16 @@ Carried here because each blocks a scope decision or a published statement.
   plates 1 and 2 falls by three to four times, from 8.4 and 10.3 W m-2 in 2011 to
   2.6 and 3.3 in 2012 and 1.2 and 1.8 in 2013, while **plate 3 does not follow**:
   it runs 15.7, 12.1, 10.8 across the same years. And the reconciled column swings
-  between adjacent years, 2.0 in 2011, 5.7 in 2012, 3.5 in 2013, 5.5 in 2014, which
-  no soil does.
+  between adjacent years, 4.7 in 2011, 5.7 in 2012, 3.4 in 2013, 5.5 in 2014, which
+  no soil does. Part of what this entry originally described in 2011 was a separate
+  fault, since found and flagged: plate 2 read with its sign reversed from June to
+  December 2011, and the reconciled column averaged it with plate 1 and nearly
+  cancelled. Those records now carry flag `5` and the 2011 swing reads 4.7 rather
+  than 2.0. The 2012 change itself is unaffected and still unexplained.
   So whatever happened in 2012 did not happen to all three plates equally, and the
   per-calendar-month gains do not repair it. Notebook `11` already reports the
   symptom from the other side: its gain hold-out, fitted on odd years and scored on
-  even ones, misses by up to 125 % inside a single setup, which is what a gain
+  even ones, misses by up to 109 % inside a single setup, which is what a gain
   contaminated by climatology rather than describing an instrument looks like.
   Until this is understood, treat the amplitude of `G` as not comparable across
   2011/2012 in either the measured or the reconciled columns, and do not read a

@@ -460,6 +460,12 @@ VARIABLES = {
             "a deciduous canopy, so with the leaves off a patch of sunlight can fall on one and not "
             "the other, and one plate then reads several times the other. What they disagree by "
             "describes where the light fell.",
+            "Twice in the early record a plate reversed its sign and kept measuring: plate 3 from "
+            "November 2004 to March 2005 and plate 2 from June to December 2011. Comparing the "
+            "plates with each other month by month is what finds this, since the values stay "
+            "plausible in size. Those records carry source flag 5 in the product file and are "
+            "excluded from this column, so where plate 2 drops out in 2011 it rests on plate 1 "
+            "alone.",
             "A constant cannot follow a zero point that moves, and one is moving, so interannual "
             "variability in the early years is a real signal plus a residual drift that this "
             "product cannot separate from it. The heat stored in the soil above the plates is not "
