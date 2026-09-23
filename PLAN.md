@@ -145,7 +145,10 @@ processing-chain flowchart, but neither has a notebook.
 
 ### 4.2 Chain status
 
-Levels as defined in `docs/FPC.qmd`.
+Levels as defined in `docs/FPC.qmd`. The run-by-run progress of the flux
+calculations (versions, settings, what has been run for which year) is logged in
+the [flux progress sheet](https://docs.google.com/spreadsheets/d/1kltV0Vuh9L1IR_z9HWqLBzEKpT6-G7C3TUN7H6uvA4A/edit?gid=0#gid=0);
+the table below summarizes it per level.
 
 | level | what it does | `IRGA75` | `IRGA72` | site page |
 |---|---|---|---|---|
