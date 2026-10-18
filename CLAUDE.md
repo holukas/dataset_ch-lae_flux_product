@@ -13,9 +13,11 @@ publish them as a website.
 - `docs/` — the published Quarto website, with a single config file
   `docs/_quarto.yml`. This is the reader-facing artifact and is kept clean. Only
   pages listed in `_quarto.yml`'s `website.sidebar.contents` are in the nav.
-  Build output lands in `docs/_build/html/` (gitignored). The site mark
-  (`logo.*` for the sidebar, `favicon.*` for the tab icon) is the same artwork,
-  so the two must be regenerated together.
+  Build output lands in `docs/_build/html/` (gitignored). The site mark is one
+  artwork in two places: `docs/_logo-sidebar.html` draws the sidebar brand from
+  an inline copy of `docs/logo.svg`, and `favicon.*` is the tab icon. The inline
+  copy must be kept in sync with `logo.svg`, and the two places regenerated
+  together. `docs/logo.png` is kept but no longer referenced by the site.
 - `workflow/` — the real working notebooks and scripts, organized by numbered
   stage. This is research scratch space: `build_notebooks.py` stages the
   notebooks onto the site as an appendix behind the generated notebook index, but

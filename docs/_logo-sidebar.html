@@ -1,0 +1,50 @@
+<!--
+  The sidebar brand: the site mark beside the name, on one line, with the site code in bold.
+
+  Quarto's sidebar title is plain text, so this script replaces the title link's text with an
+  inline copy of logo.svg and the wordmark. The mark carries its own dark tile, so it reads on
+  both the light and the dark theme and needs no theme variable.
+
+  The inline SVG is a hand-made copy of docs/logo.svg: keep it in sync with logo.svg whenever
+  the drawing changes. The favicon (favicon.*) is the same artwork.
+-->
+<style>
+  .site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
+  }
+  .site-brand svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .site-brand > span { white-space: nowrap; font-size: 0.85em; }
+  .site-brand .site-brand-bold { font-weight: 700; }
+  .site-brand .site-brand-normal { font-weight: 400; }
+</style>
+<script>
+(function () {
+  var link = document.querySelector("#quarto-sidebar .sidebar-title > a");
+  if (!link) return;
+  link.classList.add("site-brand");
+  link.setAttribute("aria-label", "CH-LAE Flux Product, home");
+  link.innerHTML =
+    '<svg viewBox="0 0 256 256" aria-hidden="true">' +
+    '<rect width="256" height="256" rx="46" fill="#054766"/>' +
+    '<polygon points="85,196 103,196 108,230 80,230" fill="#ffffff"/>' +
+    '<g fill="#67c5aa">' +
+    '<polygon points="94,26 136,100 52,100"/>' +
+    '<polygon points="94,66 150,152 38,152"/>' +
+    '<polygon points="94,106 164,202 24,202"/>' +
+    '</g>' +
+    '<polygon points="168,152 188,152 196,230 160,230" fill="#ffffff"/>' +
+    '<g fill="#b2e6d8">' +
+    '<circle cx="178" cy="96" r="36"/><circle cx="152" cy="142" r="32"/>' +
+    '<circle cx="204" cy="142" r="32"/><circle cx="178" cy="118" r="44"/>' +
+    '</g>' +
+    '</svg>' +
+    '<span><span class="site-brand-bold">CH-LAE</span> <span class="site-brand-normal">flux product</span></span>';
+})();
+</script>
