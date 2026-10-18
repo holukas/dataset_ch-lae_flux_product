@@ -56,6 +56,11 @@ rather than in every session. Read the relevant one before working there.
 and is linked into the repo root as a directory junction (gitignored), so Claude
 Code still finds it here. On a new machine, recreate the link from the repo root:
 `New-Item -ItemType Junction -Path .claude -Target <that folder>`.
+**Commits older than the move still track `rules/docs.md` and `skills/site-template/SKILL.md` under `.claude/`.**
+Git writes and deletes through the junction like any other folder, so checking
+out, rebasing across or resetting to such a commit changes the files in the
+external folder, and leaving it again deletes them (a rebase on 2026-10-18 emptied
+the CH-LAE folder this way). Avoid it, or copy the external folder first.
 
 ## Code/data layout and conventions
 
