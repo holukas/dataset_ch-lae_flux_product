@@ -1,12 +1,10 @@
 .idea/
 .obsidian/
-# Claude Code's local state stays out of git, but two subfolders are project
-# documentation and are tracked: .claude/rules/ (path-scoped guidance that would
-# be published to the website if it lived under docs/) and .claude/skills/.
-# settings.local.json is machine-specific and stays ignored by .claude/*.
-.claude/*
-!.claude/rules/
-!.claude/skills/
+# Claude Code's project folder (rules, skills, settings) lives outside this repo,
+# in the external data folder (...\dataset_ch-lae_flux_product-data\.claude\), and is
+# linked in as a directory junction. No trailing slash, so the pattern also
+# matches the junction itself rather than only a real directory.
+.claude
 workflow/0_data/
 workflow/10_METEO/*.parquet
 workflow/10_METEO/*.csv

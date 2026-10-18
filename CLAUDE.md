@@ -49,6 +49,12 @@ rather than in every session. Read the relevant one before working there.
 - `.claude/skills/site-template/SKILL.md` — reusing this repo as the template for
   another site.
 
+`.claude/` is **not in git**. It lives in the external data folder,
+`F:\Sync\luhk_work\dev-data\datasets-data\dataset_ch-lae_flux_product-data\.claude\`,
+and is linked into the repo root as a directory junction (gitignored), so Claude
+Code still finds it here. On a new machine, recreate the link from the repo root:
+`New-Item -ItemType Junction -Path .claude -Target <that folder>`.
+
 ## Code/data layout and conventions
 
 Code lives in this repo under `workflow/`. The **data files it produces live in a

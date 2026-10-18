@@ -152,10 +152,11 @@ The bulk of the conventions are scoped to one part of the tree and live in a
 - [`workflow/10_METEO/CLAUDE.md`](workflow/10_METEO/CLAUDE.md) — the meteo stage,
   the GIN fieldbook and its redaction rules, the logger programs, and the
   structure of a product notebook.
-- [`.claude/rules/docs.md`](.claude/rules/docs.md) — the Quarto website: build
-  mechanics, notebook staging, markup conventions, and how the pages are
-  organized. (It lives there rather than under `docs/` because Quarto would
-  render it onto the public website.)
+- `.claude/rules/docs.md` — the Quarto website: build mechanics, notebook
+  staging, markup conventions, and how the pages are organized. (It lives there
+  rather than under `docs/` because Quarto would render it onto the public
+  website.) The `.claude/` folder is not part of this repository: it is kept in
+  the external data folder and linked in locally.
 
 Two rules are worth stating up front, because both are enforced:
 
