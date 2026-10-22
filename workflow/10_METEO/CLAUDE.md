@@ -181,13 +181,21 @@ principled answer to "what number is the new one?".
   sensor here, is only interpretable next to its neighbours. Such a notebook still
   exports nothing, and the product notebooks carry the conclusions plus their own
   guarding assertions rather than deferring to it.
-  `99_METEO_MERGED_2004-2025.ipynb` is the capstone: it runs last, joins the
-  products of `01`-`10` onto one 30MIN `TIMESTAMP_MID` index with their
+  `99_METEO_MERGED_2004-2026.09.ipynb` is the capstone: it runs last, joins the
+  products onto one 30MIN `TIMESTAMP_MID` index with their
   provenance flags, and draws one overview figure per series. It **computes and
   corrects nothing** — a value in the merged table is exactly what its own
-  notebook exported. Its `PRODUCTS` registry is the one place a series is
+  notebook exported. Its `REGISTRY` is the one place a series is
   declared: the merge, the column check, the coverage table and the captions all
-  read it, so adding a variable there is what makes it arrive everywhere. A
+  read it, so adding a variable there is what makes it arrive everywhere.
+  **It merges only the products already extended to `PERIOD_END`.** `PRODUCTS` is
+  the subset of `REGISTRY` whose file stem ends in `PERIOD_LABEL` (`2026.09`), so at
+  present `01`-`06`; `07`-`13` keep their entries, flag labels and descriptions,
+  still name their `*_2025` files, and are left out. Extending one means changing
+  its stem in `REGISTRY` and adding its figure cell (removed while it is out); a
+  stem ending in neither period raises. Every merged product is asserted to end at
+  `PERIOD_END`, and every code of a drawn flag to have a `FLAG_LABELS` entry. The
+  2025 version of the notes on `07`-`13` is notebook version `5`. A
   multi-column product contributes **one entry per series a reader would
   analyse**, not one per column in its file — `09` five soil-moisture depths plus
   their homogenised twins, `10` the seven reconciled soil-temperature depths and
@@ -195,8 +203,8 @@ principled answer to "what number is the new one?".
   their own notebook. Every entry needs its `MAY_HAVE_GAPS` reason if it can
   contain `NaN` and its `FLAG_LABELS` vocabulary for the flag drawn first.
   - **The record is being extended to 30 September 2026, notebook by notebook.**
-    `01`-`06` and the LAE reference end there and carry the label `2026.09`;
-    `07`-`13`, `99` and the unnumbered investigations still carry `2004-2025`
+    `01`-`06`, `99` and the LAE reference end there and carry the label `2026.09`;
+    `07`-`13` and the unnumbered investigations still carry `2004-2025`
     names and read the **2025** files of their inputs, so they see neither the
     2026 data nor the changes made while extending (the HygroVUE10 era, the new
     `RH_T1_47_1_HOMOGENIZED`). Extending one means renaming it, pointing every

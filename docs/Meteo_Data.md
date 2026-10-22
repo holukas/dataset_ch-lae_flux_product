@@ -139,5 +139,6 @@ Each notebook documents its own decisions and the evidence behind them, and each
 [`11` `G`](notebooks/10_METEO/30_PRODUCTS/11_METEO_G_FF1_2004-2025.html),
 [`12` `SW_OUT`](notebooks/10_METEO/30_PRODUCTS/12_METEO_SW_OUT_2005-2025.html),
 [`13` `LW_OUT`](notebooks/10_METEO/30_PRODUCTS/13_METEO_LW_OUT_2005-2025.html).
+[`99`](notebooks/10_METEO/30_PRODUCTS/99_METEO_MERGED_2004-2026.09.html) joins the products into one half-hourly file. It currently merges `01` to `06`, the products already extended to September 2026; `07` to `13` are added as they are extended.
 A handful of unnumbered notebooks beside them export nothing and settle one question each, such as [`RADIATION_SENSOR_CONTINUITY`](notebooks/10_METEO/30_PRODUCTS/RADIATION_SENSOR_CONTINUITY.html); the variable pages link the ones that bear on them.
 

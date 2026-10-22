@@ -62,7 +62,7 @@ flowchart LR
     F11["11_METEO_G_FF1_2004-2025<br/>G_FF1_0.05_1 to _3, 3 plates<br/>G_FF1_0.05_HOMOGENIZED<br/>FLAG_..._SOURCE, FLAG_..._NPLATES"]
     F12["12_METEO_SW_OUT_2005-2025<br/>SW_OUT_T1_47_1<br/>FLAG_..._SOURCE<br/>FLAG_..._INSTRUMENT"]
     F13["13_METEO_LW_OUT_2005-2025<br/>LW_OUT_T1_47_1<br/>FLAG_..._SOURCE"]
-    F99["99_METEO_MERGED_2004-2025<br/>all value + flag columns"]
+    F99["99_METEO_MERGED_2004-2026.09<br/>value + flag columns of 01-06"]
 
     %% ---------- database reads ----------
     DB --> N01 & N02 & N03 & N04 & N05 & N06 & N08 & N09 & N11 & N12 & N13
@@ -121,7 +121,8 @@ flowchart LR
     F06 -.->|LW_IN, same instrument| N13
 
     %% ---------- the merge ----------
-    F01 & F02 & F03 & F04 & F05 & F06 & F07 & F08 & F09 & F10 & F11 & F12 & F13 --> N99
+    %% 07-13 still end in 2025 and are merged again as each is extended
+    F01 & F02 & F03 & F04 & F05 & F06 --> N99
 
     classDef gf fill:#E3F2FD,stroke:#1976D2,color:#000
     classDef meas fill:#F1F8E9,stroke:#689F38,color:#000
@@ -184,27 +185,27 @@ A few things the edges make explicit:
 ## What `99` merges
 
 Notebook `99` concatenates the value and flag columns of the individual products
-into one half-hourly table and re-checks the joined index. Its `PRODUCTS` list
-covers `01`–`13`: 29 data series and, beside them, 30 flag columns, 59 in all.
-`10` and `11` contribute only their reconciled series — seven soil-temperature
-depths and one soil heat flux — because a merged column is one variable or one
-depth, whereas the 18 soil-temperature channels and the three plates are one
-sensor each. Those stay in their own product files.
+into one half-hourly table and re-checks the joined index. Its `PRODUCTS` registry
+lists all thirteen products, but it merges only those already extended to
+September 2026: at present `01` to `06`, which give 8 data series and 7 flag
+columns, 15 in all. `07` to `13` still end in 2025. They keep their entries in the
+registry and are merged again as each notebook is extended. Of those, `10` and
+`11` will contribute only their reconciled series, seven soil-temperature depths
+and one soil heat flux, because a merged column is one variable or one depth,
+whereas the 18 soil-temperature channels and the three plates are one sensor
+each.
 
-`TA`, `PREC` and four of the five `SWC` depths enter the merge **twice**, because
-each exports two value columns: the measured series and the homogenised one.
-Each is listed as two entries so that both get their own overview figure, and the
-loader skips a column it has already taken, so a shared file cannot be merged in
-twice.
+`TA` and `RH` enter the merge **twice**, because each exports two value columns:
+the measured series and the homogenised one. Each is listed as two entries so
+that both get their own overview figure, and the loader skips a column it has
+already taken, so a shared file cannot be merged in twice. `PREC` and four of
+the five `SWC` depths will enter the same way.
 
-Only six of the 29 series cover the whole period; the rest may legitimately
-contain `NaN`. `05` (`PA`), `06` (`LW_IN`), `12` (`SW_OUT`) and `13` (`LW_OUT`)
-export as measured and their sensors start in September 2005; the soil series of
-`09`, `10` and `11` begin in September 2004, or in April 2020 for the depths the
-2020 profile added, and they lose the forest-floor logger outages; `PREC` keeps
-the 2,224 half-hours before September 2014 that have no
-sub-daily reference to fill them from. The merge check carries a reason for each
-and asserts completeness for everything else.
+Six of the eight merged series cover the whole period. `05` (`PA`) and `06`
+(`LW_IN`) export as measured: their sensors start in September 2005 and their
+outages are not filled. The merge check carries a reason for each series that
+may contain `NaN` and asserts completeness for everything else. It also asserts
+that every product ends at the last half-hour of 30 September 2026.
 
 Precipitation aggregates differently from the other products: **rainfall sums,
 it does not average**. Every entry in `PRODUCTS` therefore names its

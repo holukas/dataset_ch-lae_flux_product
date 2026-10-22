@@ -52,17 +52,17 @@ and are not repeated here.
 ### 3.1 In the dataset
 
 One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
-`99_METEO_MERGED_2004-2025.ipynb` and documented on a page under
+`99_METEO_MERGED_2004-2026.09.ipynb` (at present `01` to `06` only) and documented on a page under
 `docs/Meteo_Data.md`.
 
 | variable | series | period | notebook | page | state |
 |---|---|---|---|---|---|
 | `SW_IN` | incoming shortwave, 47 m | 2004 - Sep 2026 | `01` | yes | done |
-| `TA` | air temperature, 47 m | 2004 - Sep 2026 | `02` | yes | **open**, re-run after the last edits |
+| `TA` | air temperature, 47 m | 2004 - Sep 2026 | `02` | yes | done |
 | `PPFD_IN` | photosynthetic photon flux density, 47 m | 2004 - Sep 2026 | `03` | yes | done |
-| `RH` | relative humidity, 47 m | 2004 - Sep 2026 | `04` | yes | **open**, re-run after the last edits |
+| `RH` | relative humidity, 47 m | 2004 - Sep 2026 | `04` | yes | done |
 | `PA` | air pressure, 47 m | 2005 - Sep 2026 | `05` | yes | done |
-| `LW_IN` | incoming longwave, 47 m | 2005 - Sep 2026 | `06` | yes | **open**, re-run after `02` |
+| `LW_IN` | incoming longwave, 47 m | 2005 - Sep 2026 | `06` | yes | done |
 | `VPD` | vapour pressure deficit, 47 m | 2004-2025 | `07` | yes | done |
 | `PREC` | precipitation | 2004-2025 | `08` | yes | done |
 | `SWC` | soil water content, 5 depths | 2004-2025 | `09` | yes | done |
@@ -75,7 +75,8 @@ Six of these are re-formatted for EddyPro by
 `40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb` (`TA`, `RH`, `PA`, `SW_IN`,
 `LW_IN`, `PPFD_IN`) and are the biomet input to the final flux runs. The export
 reads them from `99_METEO_MERGED_2004-2025.parquet`, not from the six product
-files, and so still ends in 2025.
+files, and so still ends in 2025 until item 2 of section 5 points it at the
+`2026.09` merged file.
 
 **Extension to 30 September 2026.** The Lägern reference
 (`10_REFERENCE/MeteoSwiss_LAE_2004-2026.09`) and products `01` to `06`, the six
@@ -93,13 +94,12 @@ the extension brought:
 - **`04` now exports `RH_T1_47_1_HOMOGENIZED`**, and reads `02`'s measured and
   homogenised `TA` to build it. This is a new value-changing read: `04` must be
   re-run whenever `02` changes.
-- **Re-run pending.** `02` and `04` were edited after their last run, and `06`
-  reads `02`. The result numbers on the `TA`, `RH` and `LW_IN` pages are refreshed
-  after that run.
+- **Re-run done.** `02`, `04` and `06` were re-run on 22 Oct 2026, in that order,
+  and the `TA`, `RH` and `LW_IN` pages carry the numbers of that run.
 
 Not yet extended, still reading or writing the `*_2025` files: `07` (`VPD`, needs
-the re-run `02` and `04` and a decision on which `RH` column it uses), `08` to
-`13`, `99`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
+a decision on which `RH` column it uses), `08` to
+`13`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
 `90_DATASET_OVERVIEW` notebooks, `build_meteo_dashboard.py` (whose paths
 `build_calendar_explorer.py` imports), and the biomet export above.
 
@@ -225,17 +225,15 @@ that will state it.
 In order. Each item is blocked by the one above it, except that the flux items
 5 to 7 depend on the meteo track only through the biomet file of item 2.
 
-1. **Extend `99` to September 2026 with the six extended products only**
-   (decided 22 Oct 2026). Rename it `99_METEO_MERGED_2004-2026.09`, merge `01` to
-   `06` from their `*_2026.09` files, and keep the registry entries of `07` to `13`
-   in the notebook but out of the merge until their notebooks are extended; they
-   are added back one by one. Add `RH_T1_47_1_HOMOGENIZED` as a second `RH` entry,
-   as the `TA` pair, and the new `SOURCE` codes of `02` and `04` (`4` to `7`) to
-   the flag vocabularies. Declare `PERIOD_END`, keep the partial 2026 out of
-   statistics that compare calendar years, and update the `99` node in
-   `docs/Meteo_Product_Chain.qmd`, `docs/Meteo_Data.md` and the `99` bullet of
-   `workflow/10_METEO/CLAUDE.md`. A first attempt was stopped before it changed
-   anything that was kept.
+1. **Run `99_METEO_MERGED_2004-2026.09`.** The notebook is extended (22 Oct 2026):
+   it merges `01` to `06` from their `*_2026.09` files, adds `RH_HOM`, labels the
+   `SOURCE` codes `4` to `7`, asserts `PERIOD_END`, and keeps `07` to `13` in its
+   `REGISTRY` but out of the merge. It has been checked only on synthetic files with
+   the expected columns, because the six `*_2026.09` product files were not in the
+   data folder on the machine that edited it. Its outputs are cleared. Run it once
+   the files are there, and check the coverage table and the `INFO.md` file it
+   writes. Nothing in it compares calendar years, so the partial 2026 needed only a
+   label on the per-year flag bars.
 2. **Extend the biomet export to September 2026**
    (`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb`, to be renamed
    `*_2004-2026.09`). It is the deliverable the six extended products feed and
