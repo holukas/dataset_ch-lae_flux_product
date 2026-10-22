@@ -1,10 +1,10 @@
 # Air pressure at 47 m
 
-Half-hourly atmospheric pressure at 47 m on the CH-LAE tower, 2005-2025, exported
-as measured. The file is `05_METEO_PA_2005-2025` (parquet and CSV): **356,448
-records** on a continuous 30-minute middle-timestamp index (named `TIMESTAMP_MIDDLE`
-in the file) in local time (UTC+1, no daylight saving), from 2005-09-02 00:15 to
-2025-12-31 23:45.
+Half-hourly atmospheric pressure at 47 m on the CH-LAE tower, 2005 to September
+2026, exported as measured. The file is `05_METEO_PA_2005-2026.09` (parquet and
+CSV): **369,552 records** on a continuous 30-minute middle-timestamp index (named
+`TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight saving), from
+2005-09-02 00:15 to 2026-09-30 23:45.
 
 The [**interactive dashboard**](dashboards/METEO_PA_dashboard.html) summarises the
 product on one page: coverage and provenance, seasonality, distributions, extremes
@@ -13,7 +13,7 @@ offline.
 
 Method, evidence and checks:
 
-- [`05_METEO_PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2005-2025.html) — builds
+- [`05_METEO_PA`](notebooks/10_METEO/30_PRODUCTS/05_METEO_PA_2005-2026.09.html) — builds
   the product: the unit harmonisation of the two screenings, the 2012 corrections,
   the identification of the barometer from the logger programs, the check of the
   absolute level against the barometric formula, and the two hardware boundaries.
@@ -35,7 +35,7 @@ January 2016 acquisition change. The step is small and is described under
 
 ## Columns
 
-: Columns of `05_METEO_PA_2005-2025`. {#tbl-pa-cols}
+: Columns of `05_METEO_PA_2005-2026.09`. {#tbl-pa-cols}
 
 | column | unit | description |
 |---|---|---|
@@ -51,7 +51,7 @@ Measured values range from **89.45 to 95.54 kPa**, with a median of 93.31 kPa.
 
 ## Coverage
 
-**352,438 of the 356,448 records carry a value, 98.9 %.** The record begins on
+**365,542 of the 369,552 records carry a value, 98.9 %.** The record begins on
 2005-09-02, when the archive of this logger begins; the barometer itself was already
 in service, but no earlier data are held. There is no `PA` for 2004 and for the
 first eight months of 2005, and none is reconstructed, so the index of this product
@@ -62,12 +62,13 @@ are one hour or shorter; the longest is the 20.6-day outage of January 2016 duri
 which the tower logger was replaced.
 
 : The years in which measured coverage is not near-complete. Every other full year
-of 2006-2025 is at least 99.3 % measured. {#tbl-pa-coverage}
+of 2006-2025 is at least 99.3 % measured, and January to September 2026 is 100 %
+measured. {#tbl-pa-coverage}
 
 | year | measured | why |
 |---|---|---|
 | 2005 | 99.4 % of 2 Sep to 31 Dec | the record begins on 2 September |
-| 2009 | 97.0 % | outages |
+| 2009 | 97.0 % | a 9.8-day outage in August |
 | 2010 | 98.9 % | outages |
 | 2012 | 94.1 % | power-supply failure and storm damage |
 | 2016 | 94.3 % | the January outage during which the logger was replaced |
@@ -101,8 +102,8 @@ temperature and humidity. It places the barometer within 5 m of its nominal
 elevation using MeteoSwiss Lägern (2.5 km away at 845 m, about 110 m above the
 barometer) and within 9 m using the NABEL barometer at the hut, and the two
 references agree with each other to 4 m. It also reproduces the annual wave in the
-difference between two barometers at different heights, 87 Pa measured against
-79 Pa predicted, the two cycles correlating at 0.99. A unit error, a wrong offset or
+difference between two barometers at different heights, 89 Pa measured against
+79 Pa predicted, the two cycles correlating at 0.98. A unit error, a wrong offset or
 a lost factor of ten would fail this by orders of magnitude.
 
 ## What the January 2016 acquisition change did
@@ -119,10 +120,13 @@ does not.
 The change is placed on the tower rather than on a reference by the pattern of three
 barometers. Both differences involving the tower move across 2016, by −0.0884 and
 −0.0888 kPa, while the difference between the two references moves by −0.0001 kPa.
-Which era is correct is settled absolutely rather than by preference: the later era
-sits on the barometric prediction against both references and the earlier era sits
-about 0.1 kPa above it. **The record before 21 January 2016 therefore reads
-approximately 0.09 kPa high.**
+Which era is correct is settled absolutely rather than by preference: averaged over
+2016 to 2025, the later era sits on the barometric prediction against both references
+and the earlier era sits about 0.1 kPa above it. The agreement is an average: year by
+year, the departure of the later era from the prediction against Lägern grows from
+about +0.02 kPa in 2016 to about −0.06 kPa in 2025, the drift described under
+[Known limitations](#known-limitations). **The record before 21 January 2016
+therefore reads approximately 0.09 kPa high.**
 
 The step is bracketed by the 20.6-day outage that ends on 21 January 2016 and cannot
 be dated more finely. The logger program on disk is dated 18 January 2016 and the
@@ -153,7 +157,11 @@ MeteoSwiss changes less across that boundary than it does in an ordinary year.
   after mid-2018, when the second barometer at the site stops, so there is no witness
   that can say which of the two instruments is moving. It develops over years rather
   than stepping at a date, so there is no boundary at which a correction could be
-  applied.
+  applied. The barometric formula cannot settle it either, since it is computed from
+  Lägern's own pressure. January to September 2026 continues the drift: the
+  difference against Lägern sits 0.023 kPa below the same months of 2025, the largest
+  year-on-year change since 2016, though below the 0.04 kPa at which the notebook
+  counts an event.
 
 - **The MeteoSwiss Lägern pressure series changed level in October 2010.** The same
   rebuild of that station's instrumentation that moved its radiation record moved its
