@@ -58,20 +58,19 @@ provenance.
 ### `FLAG_TA_T1_47_1_ISFILLED`
 
 Filter on `== 0` for measured records. The series is complete, so every other code
-marks a modelled value. Code `3` is not used. The number of records per code is
-reported in the export section of notebook `02`.
+marks a modelled value. Code `3` is not used.
 
-: Fill codes. {#tbl-ta-isfilled}
+: Fill codes and their record counts. {#tbl-ta-isfilled}
 
-| code | meaning |
-|---|---|
-| 0 | observed |
-| 1 | gap-filled by XGBoost |
-| 2 | gap-filled from timestamp information only (fallback) |
-| 4 | linear interpolation across a short gap (up to 1 h) |
-| 5 | reconstructed from NABEL at 49 m on the same tower |
+| code | meaning | records | share |
+|---|---|---|---|
+| 0 | observed | 382,167 | 95.82 % |
+| 1 | gap-filled by XGBoost | 14,914 | 3.74 % |
+| 2 | gap-filled from timestamp information only (fallback) | 43 | 0.01 % |
+| 4 | linear interpolation across a short gap (up to 1 h) | 178 | 0.04 % |
+| 5 | reconstructed from NABEL at 49 m on the same tower | 1,530 | 0.38 % |
 
-Gap-filling is split into five periods, at each sensor change and at the end of
+Codes above `0` account for 4.18 % of the product. Gap-filling is split into five periods, at each sensor change and at the end of
 the NABEL record in 2018, so that no model is trained across a change of sensor.
 The 1,530 code-`5` records are almost all January 2004 (1,488 records), plus one
 in February 2004 and 41 in July 2012.
@@ -129,7 +128,7 @@ The homogenised column treats each state as follows.
 |---|---|
 | 1, 2, 3 | the constant of the 2016 change, +1.3197 °C, added to every record |
 | 0, 7 | the shield term of the CS215, subtracted: zero at night, at most 0.59 °C |
-| 6 | a constant night term of a few hundredths of a degree, subtracted at all hours; no shield term |
+| 6 | a constant night term, +0.058 °C, subtracted at all hours; no shield term |
 | 4 | the HygroVUE10 transfer onto the normal CS215, then the shield term of the CS215 |
 | 5 | as the period the half-hour belongs to (the handling record as code `7`, the swap record as code `6`) |
 
@@ -164,10 +163,14 @@ against 2017-2019. {#tbl-ta-steps}
 | all hours | +1.51 °C | +0.03 °C |
 
 The correction raises the earlier era by the constant and lowers the sunlit records
-of the later eras by the shield term, so it reduces both the difference between the
-2005-2015 and 2017-2025 period means and the trend over annual means. Notebook `02`
-reports both figures for both columns, from measured records only and from the
-complete columns.
+of the later eras by the shield term (by 0.15 °C on average over the 2017-2025
+annual means of measured records), so over the whole record it more than halves the
+apparent warming. From the complete columns, the difference between the 2005-2015
+and 2017-2025 period means falls from +2.39 °C to +0.92 °C, and the Theil-Sen trend
+over annual means from +1.76 to +0.77 °C decade^-1^. Computed from measured records
+only, the same figures are +2.47 °C and +1.00 °C, and +1.80 and +0.77 °C decade^-1^:
+the two ways differ by 0.08 °C in the period difference and by at most
+0.04 °C decade^-1^ in the trend. Notebook `02` reports both.
 
 ## The May 2025 change {#the-may-2025-change}
 
@@ -180,20 +183,23 @@ disconnected. The half-hour 09:30 to 10:00 is removed and modelled (source code
 
 The change is attributed to the 47 m probe with two pairs: the 47 m probe against
 the 35 m sensor, and the 35 m sensor against MeteoSwiss Lägern. The second pair
-contains no 47 m measurement and changes at the handling by an ordinary amount; the
-first changes in sun by more than at any other day of the half-year around it.
+contains no 47 m measurement and changes at the handling by an ordinary amount
+(-0.36 °C above 500 W m^-2^, 14 days after against 14 days before); the first changes
+in sun by -1.11 °C, more than at any other day of the half-year around it.
 
 - **Code `7`**, the heated state from 22 October 2024, receives the shield term of
   the normal CS215 and nothing more. In strong sun it remains too warm by up to
-  about 0.9 °C after homogenisation.
+  0.92 °C after homogenisation.
 - **Code `6`**, from 16 May 2025, no longer carries the daytime excess of the normal
   CS215 and receives no shield term. Its night level is compared with the normal
   CS215 of 2022-2024 against Lägern, matched month by month over March to
-  September, and the difference is removed as a constant. That constant is a few
-  hundredths of a degree, smaller than its uncertainty of about 0.2 °C (the
-  year-to-year scatter of the same quantity among the reference years). After the
-  correction, code `6` lies within 0.13 °C of the normal CS215 at night and in every
-  radiation class.
+  September, and the difference is removed as a constant. That constant is
+  +0.058 °C, smaller than its uncertainty of 0.22 °C (the year-to-year scatter of
+  the same quantity among the reference years). After the correction, code `6` lies
+  within 0.13 °C of the normal CS215 at night and in every radiation class. In a
+  month hold-out, each month corrected with the term derived from the others
+  departs from the normal CS215 by at most 0.215 °C, against up to 0.57 °C between
+  one reference year and the others in the same month.
 
 ## The June 2026 probe change {#the-june-2026-probe-change}
 
@@ -211,17 +217,19 @@ the normal CS215 (code `0`) on the same calendar dates of 2022 to 2024. It has t
 terms:
 
 - **A radiation term**, zero in the dark. In sun the HygroVUE10 reads cooler than
-  the normal CS215 by an amount that grows with radiation, to about 1 °C near
+  the normal CS215 by an amount that grows with radiation, to 0.98 °C at
   600 W m^-2^.
-- **A night term**, a constant. At night the HygroVUE10 reads about 0.1 °C cooler
-  than the mean of the CS215 summers, less than the scatter among those summers
-  (about 0.2 °C).
+- **A night term**, a constant. At night the HygroVUE10 reads 0.11 °C cooler than
+  the mean of the CS215 summers, less than the scatter among those summers
+  (0.19 °C).
 
 After both terms the HygroVUE10 lies within 0.05 °C of the CS215 level at night and
 in every radiation class of the fitting sample. A month hold-out, in which each
 month is refitted without itself and predicted, tests the transfer on data it was
-not fitted to. The shield term of the CS215 is then applied, so the HygroVUE10 era
-ends on the same reference level as the other eras.
+not fitted to: the held-out months depart from the CS215 level by at most 0.18 °C,
+against up to 0.58 °C before the correction and up to 0.38 °C between one CS215
+summer and the others in the same month. The shield term of the CS215 is then
+applied, so the HygroVUE10 era ends on the same reference level as the other eras.
 
 ## Known limitations
 
@@ -235,19 +243,20 @@ ends on the same reference level as the other eras.
   **Daily maxima and diurnal ranges are the quantities most exposed to what
   remains.**
 - **The heated CS215 (code `7`) is under-corrected in sun.** Daytime values and daily
-  maxima from 22 October 2024 to 16 May 2025 are biased warm, by up to about 0.9 °C
-  in strong sun. The onset of code `7` is dated by a rule on a statistic over a
+  maxima from 22 October 2024 to 16 May 2025 are biased warm, by up to 0.92 °C in
+  strong sun. The onset of code `7` is dated by a rule on a statistic over a
   month-long window; the excess grows gradually, so records shortly before the
   onset may already carry part of it.
-- **The night term of code `6` is smaller than its uncertainty.** It is applied
+- **The night term of code `6` is smaller than its uncertainty** (+0.058 °C against
+  0.22 °C). It is applied
   because the change is established, not because the night difference is resolved,
   and it rests on one reference 2.5 km away.
 - **The HygroVUE10 transfer rests on one summer and one reference.** It is fitted on
   12 June to 30 September 2026 against Lägern and applied as fitted to every
   HygroVUE10 record, including 5 to 11 June. Its behaviour in winter, under snow or
   rime and at low sun is untested. The CS215 level it is fitted to is a mean of
-  three summers that differ among themselves at night by about as much as the night
-  term.
+  three summers that differ among themselves at night by up to 0.19 °C, more than
+  the night term of 0.11 °C.
 - **The record is made self-consistent, not absolutely accurate.** The later eras
   are standardised onto the earlier one's shield behaviour, so the earlier era's own
   warm bias in sunshine (about +0.4 °C at strong radiation, relative to an aspirated
