@@ -25,7 +25,9 @@ principled answer to "what number is the new one?".
   `10_REFERENCE/` on the data side, named
   `[<VAR>_]<provider>_<station>_<resolution>_<years>` — the leading `<VAR>_` only
   when the product holds a single variable (`PREC_MeteoSwiss_OED_30MIN_2014-2025`
-  vs. the multi-variable `MeteoSwiss_LAE_30MIN_2004-2025`). Reference columns are
+  vs. the multi-variable `MeteoSwiss_LAE_30MIN_2004-2026.09`). `<years>` is
+  `YYYY-YYYY` when the last year is complete and `YYYY-YYYY.MM` when it is not
+  (LAE now ends 30 Sep 2026; OED and REGIONAL are still on 2025). Reference columns are
   suffixed `_<station>_MS` so they cannot be confused with tower columns.
   Because references are addressed by *path* rather than by database name, moving
   one breaks every reader — keep the filenames stable. A reference notebook may
@@ -34,7 +36,8 @@ principled answer to "what number is the new one?".
   sanctioned exception to one-notebook-one-product in this stage.
   - **The stations are not interchangeable.** `LAE` (Lägern, 2.5 km, 845 m) is
     the full weather station and covers `TA`/`RH`/`PA`/`SW_IN` plus dew point,
-    vapour pressure, sunshine and wind over 2004-2025 — but measures **no
+    vapour pressure, sunshine and wind from February 2004 to September 2026 (the
+    10-min record begins 2004-02-01, so January 2004 has no LAE value) — but measures **no
     precipitation and no longwave**. `OED` (Ehrendingen, 3.8 km, 428 m) is
     precipitation-only. So `06` (`LW_IN`) has no MeteoSwiss reference at all.
   - **One reference finds a break; an ensemble says who moved.** A single nearby
@@ -51,10 +54,26 @@ principled answer to "what number is the new one?".
     anything compared against them must be re-aggregated onto the same 06-UTC day
     first (`30_PRODUCTS/08` has a `to_ms_precip_day()` helper). A local-midnight
     daily sum is wrong by six hours and smears every event across two days.
-  - **Year labels come from the last bin's start, not its label.** 10-min values
-    are end-of-interval, so the final bin of 31 Dec is labelled 00:00 on 1 Jan,
-    and the local-time shift pushes it again. Both traps silently misname the
-    export `..._2004-2026`.
+  - **Year labels come from the bins' starts, not their labels.** 10-min values
+    are end-of-interval, so the final bin of a period is labelled 00:00 on the
+    following day (1 Jan for a full year, 1 Oct for the September 2026 end), and
+    the local-time shift pushes it again. Both traps silently misname the export
+    (`..._2004-2026` for a record ending in 2025, `..._2004-2026.10` for one ending
+    in September). The LAE notebook therefore declares `YEARS = '2004-2026.09'` in
+    the settings, derives the label from the start of the first and last bin
+    (`YYYY` if `END` is 1 January, `YYYY.MM` otherwise) and asserts that the two
+    agree; it also asserts that the source data reach `END`, so a download that
+    stops early fails instead of exporting a short file under the full label.
+  - **The current year comes from the `_recent` files.** MeteoSwiss splits each
+    record into `historical_<decade>` files, which end on 31 December of the
+    previous year, and one `recent` file holding the current year up to the
+    previous day (`_now` is not used). `source_files()` returns the historical
+    files oldest first followed by the recent one, and the concatenation keeps the
+    **first** duplicate, so the historical value wins wherever the two overlap.
+    The recent file is updated daily, so the 2026 values are reproducible only as
+    long as MeteoSwiss does not revise them (or republish them as historical);
+    re-running the notebook later can change them, and with them every product that
+    reads LAE.
 - **`20_SCREENING/`** — quality screening of the site's own measurements, one
   subfolder per variable (`SW_IN/`, `TA/`, `RH/`, `PA/`, `PPFD_IN/`, `LW_IN/`,
   `PREC/`, `NETRAD/`, `SWC/`), one notebook per sensor and era. These read the
@@ -133,11 +152,18 @@ principled answer to "what number is the new one?".
   they may depend on each other: `01` `SW_IN`, `02` `TA`, `03` `PPFD_IN`,
   `04` `RH`, `05` `PA`, `06` `LW_IN`, `07` `VPD`, `08` `PREC`, `09` `SWC`. The
   order is real,
-  not decorative — `02` and `03` read `01`, and `07` reads `01`/`02`/`04`. Each
+  not decorative — `02` and `03` read `01`; `04` reads `02`'s product (measured
+  and homogenised `TA` and its source flag, for the vapour pressure of its steps
+  11 and 12); `06` reads `01` and `02` as diagnostics and `02`'s source flag for
+  its night guard; `07` reads `01`/`02`/`04`. For `01`-`06` the run order is
+  therefore: `10_REFERENCE/MeteoSwiss_LAE`, then `01`, then `02`, then `03`/`04`/`05`
+  (independent of each other; `05` needs only the reference), then `06`. A
+  notebook run against a stale upstream file does not fail, it silently uses the
+  old values, so re-run the dependants whenever an upstream product changes. Each
   downloads the screened series from the database, corrects it, and writes a
   single product to the external data folder. The notebook name is a prefix of
-  the file it writes (`02_METEO_TA_2004-2025.ipynb` →
-  `02_METEO_TA_GAPFILLED_2004-2025.parquet`), so code and data line up by eye.
+  the file it writes (`02_METEO_TA_2004-2026.09.ipynb` →
+  `02_METEO_TA_GAPFILLED_2004-2026.09.parquet`), so code and data line up by eye.
   No verb in the notebook name — the folder already says what these do.
   An **unnumbered `<VAR>_<PURPOSE>.ipynb`** beside the numbered ones is an
   investigation that exports nothing and answers one question
@@ -168,6 +194,27 @@ principled answer to "what number is the new one?".
   **not** the eighteen individual channels, which are one sensor each and stay in
   their own notebook. Every entry needs its `MAY_HAVE_GAPS` reason if it can
   contain `NaN` and its `FLAG_LABELS` vocabulary for the flag drawn first.
+  - **The record is being extended to 30 September 2026, notebook by notebook.**
+    `01`-`06` and the LAE reference end there and carry the label `2026.09`;
+    `07`-`13`, `99` and the unnumbered investigations still carry `2004-2025`
+    names and read the **2025** files of their inputs, so they see neither the
+    2026 data nor the changes made while extending (the HygroVUE10 era, the new
+    `RH_T1_47_1_HOMOGENIZED`). Extending one means renaming it, pointing every
+    path at the `2026.09` files and re-checking every statement and guard that
+    assumed the record ends on 31 December.
+  - **Two settings carry the end of the record.** `PERIOD_END = '2026-09-30
+    23:45:00'` (`TIMESTAMP_MID` of the last record) is declared in the settings,
+    used for the index and asserted at export (`export_df.index[-1] ==
+    PERIOD_END`), because the file name claims it. `LAST_FULL_YEAR = 2025`
+    (declared in `02`-`06`, not in `01`) keeps the partial 2026 out of every
+    statistic that **compares calendar years** (annual means, Theil-Sen trends,
+    era means, drift and year-on-year tables), because nine months without
+    October-December are biased by season and read as a change. Counts, coverage
+    and provenance tables keep 2026 and label it partial. A statistic over a fixed
+    season can include the last year when that season is complete: `03`'s
+    April-September ratios take 2026 and assert that `PERIOD_END` lies past
+    30 September of its year, so moving the end earlier fails there rather than
+    entering half a season.
 
 ## The GIN fieldbook
 
@@ -341,13 +388,27 @@ before matching or printing.
   average a 24-day error away. When a fieldbook entry says a constant still has to
   be changed, find the entry that changed it and treat the interval between them
   as suspect until measured.
-- **GIN has no `TA`/`RH` device at `T1_47` for the whole dataset period** — the
-  first is a HygroVUE10 in June 2026, after the record ends. So the MP101A →
-  CS215 identification and its January 2016 date rest on the **logger programs**
-  and on the step in the data, with no fieldbook corroboration at all. A fieldbook
-  silence about a level is not evidence that nothing was mounted there. Where the
-  fieldbook *does* speak it corroborates: the CNR4's first entry is 14 December
-  2021, the date `01` derives independently for the radiometer swap.
+- **GIN registers no `TA`/`RH` device at `T1_47` before June 2026.** Neither the
+  MP101A nor the CS215 was ever registered at that location. The first device
+  entry there is the `ADD` of the HygroVUE10 (SN E6730) on 5 June 2026, followed on
+  11 June by a change of its SDI-12 configuration ID together with the logger
+  program; `04` asserts these are the only entries filed there. No entry removes
+  the CS215 (it was never added), so the swap is dated by the raw 1-min `TA` gap
+  11:10-11:31 that day and by the level change against Lägern, and `02`/`04` carry
+  the HygroVUE10 era as source code `4`. The free text names both earlier probe
+  families, but at other heights on the mast where they were also used, and names
+  the CS215 at this logger only in a wiring repair years after 2016. So the
+  MP101A → CS215 identification and its January 2016 date rest on the **logger
+  programs** and on the step in the data, with no fieldbook corroboration at all.
+  A fieldbook silence about a level is not evidence that nothing was mounted
+  there. Where the fieldbook *does* speak it corroborates: the CNR4's first entry
+  is 14 December 2021, the date `01` derives independently for the radiometer
+  swap, and the two entries that bracket the CS215's excess heating (19 Sep 2024,
+  intake tubing attached at the 47 m sonic; 16 May 2025, the inlet heating found
+  melted and disconnected) are filed under the sonic and under no device at all,
+  and neither names the temperature probe, which is the device-tag rule above once
+  more. `02` asserts both entries and asserts that no CS215 is registered at
+  `T1_47`, so a later export that adds one fails and gets read.
 
 ## The logger programs
 
@@ -440,7 +501,8 @@ The shape below is deliberate — follow it when adding a variable.
   convention → settings (`DIRCONF`, `TIMEZONE_OFFSET_TO_UTC_HOURS`,
   `REQUIRED_TIME_RESOLUTION`, `TARGET`/`REFERENCE`, `OUTNAME`/`OUTPATH`) →
   helpers → download per `data_version` → merge → corrections → export →
-  read the written file back → runtime footer. Sections carry emoji headers.
+  read the written file back → runtime footer. Sections carry emoji headers; the
+  `📊 Plot:` / `📋 Table:` subheading rule is in the root `CLAUDE.md`.
 - **Timestamps:** the database stores UTC `TIMESTAMP_END`. `InfluxIO.download`
   shifts by `TIMEZONE_OFFSET_TO_UTC_HOURS` to local time, then
   `TimestampSanitizer(output_middle_timestamp=True, nominal_freq='30min')`
@@ -467,7 +529,10 @@ The shape below is deliberate — follow it when adding a variable.
   voltage (CR10X program, multiplier 0.1, offset 0 — 10 mV per °C) and a Campbell
   CS215 on SDI-12 (CR1000 program, multiplier 1), sensor and acquisition replaced
   together on 2016-01-21; the analog chain carried a constant ≈ -11 mV zero-point
-  error, so the pre-2016 record reads ≈ 1.3 °C too cold; `PREC_TOT_T1_47_1`
+  error, so the pre-2016 record reads ≈ 1.3 °C too cold. The same name (and
+  `RH_T1_47_1`, from the same probe) then carries two further states of the CS215
+  and, from 5 June 2026, a Campbell HygroVUE10 with unchanged database tags (see
+  the five probe states below); `PREC_TOT_T1_47_1`
   spans two acquisition systems either side of 2018; `SWC_FF1_0.3_1` spans two
   probes with a 327-day dead period between them,
   the second installed 40 cm downslope; and every `SWC_FF1_*` name carries the
@@ -481,7 +546,9 @@ The shape below is deliberate — follow it when adding a variable.
   and the honest product is a **`SOURCE` flag naming the sensor generation** —
   optionally with a `_HOMOGENIZED` second column, which must then say out loud
   what its rescaling rests on: climatology where nothing spans the break (`SWC`),
-  but an independent co-located sensor where one does (`02`, see below). Never let a name imply a continuity the hardware does
+  but an independent co-located sensor where one does (`02` and `04` at 2016, both
+  against NABEL, see below), and a nearby station where only that spans it (`02`
+  and `04` at June 2026, against Lägern). Never let a name imply a continuity the hardware does
   not have: FLUXNET's `SWC_F_MDS_*`
   splices these two eras with a +9 to +12 % VWC step passed straight through,
   which is the outcome to avoid reproducing.
@@ -507,7 +574,115 @@ The shape below is deliberate — follow it when adding a variable.
   the scores a test rather than a restatement of a fit. Where a correction must be
   extrapolated beyond its fitting reference, say so and test it there: `02`'s
   shield term is fitted on three NABEL years and applied over ten, and the
-  extrapolated years land within 0.03 °C of the earlier era's own level.
+  extrapolated years land within 0.03 °C of the earlier era's own level. `04`'s
+  2016 `RH` transfer follows the same arrangement (NABEL fit, Lägern score) and
+  also prints the transfer fitted against Lägern beside it, because the two
+  disagree (about 0.5 %RH on average, more near saturation) and that difference
+  is the uncertainty of the correction. Where **only one reference spans a
+  change** (NABEL ends in 2018, so the 2026 probe change has only Lägern), a
+  **month hold-out** takes the second reference's place: each month is left out,
+  the transfer refitted on the rest, and the month predicted. Say in the
+  limitations that this tests transfer to unseen data, not agreement with an
+  independent instrument.
+- **The 47 m T/RH probe has five states, and `02` and `04` share them** (one probe
+  call delivers `TA_T1_47_1` and `RH_T1_47_1`; `04` declares the same timestamps
+  and asserts its `FLAG_RH_T1_47_1_SOURCE` equals `02`'s `FLAG_TA_T1_47_1_SOURCE`):
+  - code `1` Rotronic MP101A, analog, to 31 Dec 2015, then the changeover outage
+    to 21 Jan 2016 (code `2`, neither era);
+  - code `0` Campbell CS215, SDI-12, the reference level of both homogenisations;
+  - code `7` CS215 with excess daytime heating from 22 Oct 2024 (`EXCESS_START`),
+    which follows the 19 Sep 2024 installation of intake tubing at 47 m. The
+    excess grows over weeks, so its onset is dated by a rule on the daytime
+    excess over the 35 m sensor, not by the fieldbook date. In `02` it gets the
+    normal CS215's shield term, which under-corrects it in sun; it is flagged,
+    not corrected further;
+  - code `6` CS215 after the probe was handled on 16 May 2025 (`RESET_START`):
+    the daytime shield excess is gone, so it gets no shield term, only a constant
+    night term fitted over the months in which every radiation class is populated
+    (March-September);
+  - code `4` Campbell HygroVUE10 from 5 Jun 2026 11:45 `TIMESTAMP_MID`
+    (`HV_START`).
+  Code `5` is the handling half-hour (16 May 2025 09:30-10:00) and the swap
+  half-hour (5 Jun 2026 11:00-11:30): neither is a stable probe state, so both are
+  removed in *Corrections*, modelled or reconstructed with the period **before**
+  them, and homogenised with it. Codes `2`, `3` (before the tower record) and `5`
+  are what no instrument stands behind. Do not confuse source code `5` with `02`'s
+  `ISFILLED` code `5` (reconstructed from NABEL); the two flags have separate
+  vocabularies.
+  - **The evidence pattern that dated and attributed these states is reusable.**
+    A second sensor on the **same tower** (`TA_T1_35_1`, raw 1-min, no screened
+    version) is the witness: the pair 47 m - 35 m dates a change at the 47 m probe,
+    and the pair 35 m - Lägern, which holds no 47 m measurement, cannot step at
+    it, so a step in the first pair and not the second puts the change on the
+    probe and not on the reference. The **raw 1-min record** dates handling to the
+    minute (a jump of about 5 °C between 09:32 and 09:42 that the 35 m sensor does
+    not show; a gap 11:10-11:31 at the swap), which the 30MIN product cannot. The
+    fieldbook then confirms rather than drives, as above.
+  - **Check a reference period for state changes inside it.** The HygroVUE10 was
+    first compared with the CS215 over the summers 2022-2025, which mixed the
+    post-May-2025 state (code `6`) into "the normal CS215". It is now
+    `HV_CS215_YEARS = [2022, 2023, 2024]`, code `0` only, diive screening
+    throughout. Before a period serves as the reference level of a transfer, list
+    every state change known to fall inside it and assert the sample holds one
+    state; `04`'s `CS215_LAST_NORMAL_YEAR` (the year before `EXCESS_START`)
+    applies the same rule to the era-mean transfer and the drift.
+  - **An established instrument change is corrected at night too**, even when its
+    night difference is within the year-to-year scatter of the reference level.
+    The change is established by independent evidence (fieldbook, raw-data gap or
+    jump, a radiation-dependent step), so leaving the night alone asserts that
+    the instrument did not change at night, which nothing supports. The scatter
+    is reported beside the term as its uncertainty, and the limitations say the
+    term is small against it. This applies to `02`'s night terms of code `6` and
+    of the HygroVUE10.
+- **`02` brings the HygroVUE10 onto the normal CS215 level, then treats it as the
+  CS215.** The transfer is fitted against Lägern on two season-matched samples:
+  the HygroVUE10 from `HV_FIT_START` (12 Jun 2026, the day after the SDI-12
+  configuration change; 5-11 June are transitional and enter no fit) to
+  `PERIOD_END`, and code `0` on the same calendar dates of `HV_CS215_YEARS`. It has
+  two terms: a radiation term, the difference of the two samples' residual curves
+  against tower `SW_IN` on the shield term's own `shield_basis`, with its
+  zero-radiation part removed and the driver clipped to the range both samples
+  cover; and a constant night term. It is scored by the month hold-out. The
+  homogenised HygroVUE10 value is then corrected as a CS215 value, i.e. the shield
+  term of step 10 is applied on top, so every era ends on the same reference (the
+  MP101A's shield behaviour at the CS215 night level). The measured column keeps
+  the HygroVUE10 as measured. The fit rests on one summer; its winter behaviour
+  is untested and it is to be refitted once the record holds a winter.
+- **`04` now exports `RH_T1_47_1_HOMOGENIZED`, on the CS215 level.**
+  - **MP101A era (codes `1`, `2`, `3`, by timestamp before `BREAK`):** raised by a
+    humidity-dependent transfer fitted against NABEL **locally at the break**, the
+    MP101A over 2013-2015 against the CS215 from February 2016 to the end of
+    NABEL's independent period (July 2018; from August 2018 the NABEL `RH` column
+    copies the tower), binned on the **reference** humidity (binning on the
+    tower's own reading manufactures a slope by regression to the mean), and
+    scored against Lägern. The transfer fitted on the **era means** was tried
+    first and is unstable: halves of each era disagree by up to the size of the
+    correction, because the MP101A drifts down and the CS215 up against Lägern,
+    each by more over its own era than the step between them. Close to the break
+    the drift has had little time to act, and the local transfer is stable under
+    shorter windows. The drift inside each era is documented and **not corrected**
+    (unattributed after 2018; fitting it away would replace the measurement with
+    the reference), so neither column is fit for multi-decade trends.
+  - **CS215, codes `0`, `6`, `7`, and the probe half-hours (code `5`):** copied
+    unchanged. In `04`'s step 11, vapour pressure shows that the May 2025 change in
+    `RH` is one of the probe's temperature, not of its humidity element, so
+    correcting it would be correcting `TA`, which is `02`'s job.
+  - **HygroVUE10 era (code `4`):** transferred in **vapour pressure**, because a
+    probe-temperature error moves `RH` and leaves `e` in place, and the two probes
+    differ in their radiation behaviour; a transfer in %RH would mix the humidity
+    elements with the temperature sensors. `e` comes from each sensor's own `RH`
+    and `TA` (tower `RH` with `02`'s measured `TA`, Lägern `RH_LAE_MS` with
+    `TA_LAE_MS`), `Delta_e` is fitted linear in `e_LAE` (the code decides linear
+    against constant from the bin spread and found linear) against the same
+    CS215 summers 2022-2024, and the result is converted back with **`02`'s
+    homogenised `TA`**: `RH_HOM = 100 * (e_47 - Delta_e) / es(TA_HOM)`, capped to
+    `[0, 100]`. So from June 2026 the homogenised `RH` refers to a temperature
+    without the shield's radiative excess and lies above what a CS215 would read
+    in sun; at night they agree. This is why `04` reads `02`'s product and `02`
+    must run first.
+  - `04`'s reconstruction offsets (NABEL, then Lägern) are fitted **within each
+    of the five era/state labels**, so a reconstructed record sits on its own
+    probe's level, and each probe half-hour takes the label of the era before it.
 - **A hardware change is a hypothesis about the data, not a finding.** The 2016
   acquisition change moved `TA` by 1.3 °C, so it was assumed to have moved `SW_IN`
   as well. It did not, and `01` now carries the negative result with the
@@ -555,8 +730,8 @@ The shape below is deliberate — follow it when adding a variable.
   driver; `02` and `TA_HOMOGENIZATION_OPTIONS` only as a binning covariate.
 - **Not everything found has to be corrected, and saying so is the deliverable.**
   Two real changes in this record are left in place and documented instead: the
-  tower pyranometer rising ~3 % from 2013, and `PPFD_IN` falling ~7 % since 2021
-  and still falling. Both develop over years rather than stepping at a date, so
+  tower pyranometer rising ~3 % from 2013, and `PPFD_IN` falling from 2022 to 2024 to
+  ~7 % below its 2006-2010 level, flat since (2025 and 2026 within 0.4 % of 2024). Both develop over years rather than stepping at a date, so
   there is no boundary at which a correction could be applied, and neither has a
   fieldbook entry naming a cause. Correcting an unattributed drift towards a
   reference replaces a measurement with a guess.
@@ -594,6 +769,14 @@ The shape below is deliberate — follow it when adding a variable.
 - **Guards:** a helper that can silently do nothing gets a **negative control**
   cell that feeds it bad input and asserts it raises. Sanity checks assert
   rather than assume (continuous index, no duplicates, physical range).
+  **A guard placed before the variable it uses is defined passes only when the
+  cells were run out of order**: in an interactive session the name already
+  exists from a later cell, so the assertion runs and passes, and a fresh
+  top-to-bottom run raises `NameError`. A static check of definition order found
+  `BREAK` (defined in step 4) used by a guard in step 2 of `02`. When adding a
+  guard to an early cell, check where every name it reads is first assigned, and
+  move the guard or the definition; dates a guard needs early belong in the
+  settings, which is why `04` declares the 2024-2026 probe dates there.
 - **Every table carries a caption above it and every figure one below it.**
   `tabcap()` and `figcap()` are the two helpers; they live in `02`, `99` and the
   overview and should be copied as-is. Two things they got wrong once each.
@@ -654,17 +837,25 @@ The shape below is deliberate — follow it when adding a variable.
   their hardware changes and neither steps. That absence is a claim, so it is the
   claim the notebook asserts; `09` makes the same point in the other direction by
   refusing a duplicate column at the one `SWC` depth with a single era.
-  `02` gained a code `5` for records reconstructed from the co-located NABEL
-  sensor at 49 m, because the timestamp-only fallback that had been filling them
-  (code `2`) produces climatology, not weather. `02` is also the one product that
-  is *both* gap-filled and inhomogeneous, so it exports four columns on the
-  `08`/`09` pattern — measured, `ISFILLED`, `_HOMOGENIZED`, and a `SOURCE` flag
-  naming the acquisition era (`0` CS215, `1` MP101A, `2` changeover, era
-  undetermined, `3` before the tower record begins).
-  `04` is reconstructed from a co-located sensor (a transfer between two
-  measurements of the same quantity) and carries a `FLAG_<var>_MISSING`
-  provenance flag: `0` measured, `1` never measured, `2` removed here,
-  `3` reconstructed. `05`/`06` are exported as measured with no flag. `07` is
+  `02` gained an `ISFILLED` code `5` for records reconstructed from the co-located
+  NABEL sensor at 49 m, because the timestamp-only fallback that had been filling
+  them (code `2`) produces climatology, not weather. `02` is also gap-filled *and*
+  inhomogeneous, so it exports four columns on the `08`/`09` pattern — measured,
+  `ISFILLED`, `_HOMOGENIZED`, and a `SOURCE` flag naming the probe and its state
+  (the eight codes of the five probe states above).
+  `04` is complete but not modelled: gaps are reconstructed from another
+  measurement of the same quantity (a per-month offset within the era/state), and
+  it exports four columns too: `RH_T1_47_1` (every era as measured),
+  `FLAG_RH_T1_47_1_MISSING` (`0` measured, `1` never measured, `2` removed here,
+  `3` from NABEL, `4` from Lägern; `1` and `2` stay in the vocabulary but do not
+  occur, because the two references cover every gap), `RH_T1_47_1_HOMOGENIZED`
+  and `FLAG_RH_T1_47_1_SOURCE` with `02`'s codes. Its file keeps the name
+  `04_METEO_RH_CORRECTED_...`. `05` is exported as measured with no flag and no
+  homogenised column, although it steps by about 0.09 kPa at January 2016: one
+  part in a thousand, documented with the correction a user can apply. `06` is
+  exported as measured with no `ISFILLED` column but a `SOURCE` flag naming the
+  radiometer and calibration factor (the 7 June 2016 factor correction, the
+  CNR1 → CNR4 changeover); its step is flagged, not removed. `07` is
   computed by formula from finished products and its flag says what it was
   computed *from*. `08` and `09` likewise export a **second, derived value
   column** alongside the measured one: `08` a `_HOMOGENIZED` rescaling of its
@@ -684,9 +875,18 @@ The shape below is deliberate — follow it when adding a variable.
 - **Never train a gap-filling model across an instrument change.** One model
   spanning the 2016 `TA` sensor change put its filled records on neither era's
   level, which silently invalidated the homogenisation offset for exactly those
-  records. `02` therefore fits three periods, and its two boundaries exist for
-  different reasons — the sensor change, and the loss of a driver where the NABEL
-  reference ends. Say which boundary is which; a reader assumes both are hardware.
+  records. `02` therefore fits five periods, `P1` (MP101A, with NABEL), `P2`
+  (CS215 to the end of NABEL), `P3` (CS215 without NABEL, to the handling record of
+  16 May 2025, codes `0` and `7`), `P3b` (code `6`, to the swap record) and `P4`
+  (HygroVUE10), and its four boundaries exist for different reasons: three are
+  instrument changes (`BREAK`, `RESET_START`, `HV_START`) and one is the loss of a
+  driver where the NABEL reference ends. Say which boundary is which; a reader
+  assumes they are all hardware. A gradual change is **not** a boundary: the onset
+  of code `7` grows over weeks, so there is no record at which to split, and its
+  gaps are filled by `P3`. Each probe half-hour belongs to the period before it.
+  The period cell asserts the periods tile the record exactly once, that none
+  spans any of the three changes, and that the short `P3b`/`P4` still hold enough
+  measured records for a model of their own (fewer must be said, not merged away).
 - **An assertion states what a correction does, so changing the correction
   breaks it — and that is the system working, not an obstacle.** Adding the
   shield term to `02` fired three separate guards that all asserted the later era
@@ -695,7 +895,12 @@ The shape below is deliberate — follow it when adding a variable.
   later era now carries exactly the radiative excess; the correction after the
   break is never positive, is exactly zero in the dark, and takes many distinct
   values rather than behaving like a second constant). None was relaxed. A guard
-  that fires on a deliberate change has just proved it can fire.
+  that fires on a deliberate change has just proved it can fire. The same applies
+  downstream: `06` relies on the two `TA` columns differing at night by one
+  constant per era, and its guard now checks that per source code, read from
+  `02`'s `FLAG_TA_T1_47_1_SOURCE`: exactly zero on codes `0`/`7`, one constant
+  each on `1`, `6` and `4`. A new night term in `02` must arrive with its code in
+  that guard.
 - **An audit that averages over a group can hide two opposite errors that
   cancel.** In `02` a per-year check passed on a year holding 11,150 records
   1.1 °C too cold and 1,495 records 5.5 °C too warm. Assert per year **and per

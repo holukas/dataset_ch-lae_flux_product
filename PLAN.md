@@ -21,12 +21,13 @@ Status vocabulary used throughout:
 
 | release | period | gas analyser | state |
 |---|---|---|---|
-| `FP2026.1` | 2016-2025 | `IRGA72` (LI-7200, enclosed path) | open |
-| `FP2026.2` | 2004-2025 | `IRGA75` (LI-7500, open path) + `IRGA72` | open |
+| `FP2026.1` | 2016 - Sep 2026 | `IRGA72` (LI-7200, enclosed path) | open |
+| `FP2026.2` | 2004 - Sep 2026 | `IRGA75` (LI-7500, open path) + `IRGA72` | open |
 
 `FP2026.2` supersedes `FP2026.1` and re-includes it in full. The two releases
 differ in the flux record only; the meteorological product is built once over
-2004-2025 and serves both.
+2004 - 30 Sep 2026 and serves both. The period was extended from 2025 in October
+2026; section 3.1 lists which products have been carried along.
 
 
 ## 2. Record boundaries
@@ -37,9 +38,9 @@ stops. They bound every table below.
 | record | period | note |
 |---|---|---|
 | `IRGA75` fluxes | 2004 - 12 Dec 2017, plus 17 Jan - 20 Mar 2019 | analyser removed Dec 2017; the 2019 window is the stand-in run `2019_3` |
-| `IRGA72` fluxes | 11 Jan 2016 - 2025 | two physical LI-7200 units, exchanged inside the 2019 gap |
-| tower meteorology, 47 m | 2004 - 2025 | `PA` and `LW_IN` start Sep 2005 with the CNR1 and the pressure sensor |
-| soil profile FF1 | 2004 - 2025 | sensors replaced as a set on 19 Mar 2020, no overlap across the change |
+| `IRGA72` fluxes | 11 Jan 2016 - 30 Sep 2026 | two physical LI-7200 units, exchanged inside the 2019 gap; the Level-0 record ends 2026-10-01 00:45 at the run boundary |
+| tower meteorology, 47 m | 2004 - 30 Sep 2026 | `PA` and `LW_IN` start Sep 2005 with the CNR1 and the pressure sensor; `VPD`, `PREC`, `SW_OUT` and `LW_OUT` products still end 2025 |
+| soil profile FF1 | 2004 - 2025 | sensors replaced as a set on 19 Mar 2020, no overlap across the change; products not yet extended to 2026 |
 | radiometer | CNR1 Sep 2005 - Dec 2021, CNR4 from 14 Dec 2021 | logger constants updated 7 Jan 2022, 24 days later |
 
 Setup periods, their notes and the unusable windows are in `docs/Yearly_Notes.md`
@@ -56,12 +57,12 @@ One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
 
 | variable | series | period | notebook | page | state |
 |---|---|---|---|---|---|
-| `SW_IN` | incoming shortwave, 47 m | 2004-2025 | `01` | yes | done |
-| `TA` | air temperature, 47 m | 2004-2025 | `02` | yes | done |
-| `PPFD_IN` | photosynthetic photon flux density, 47 m | 2004-2025 | `03` | yes | done |
-| `RH` | relative humidity, 47 m | 2004-2025 | `04` | yes | done |
-| `PA` | air pressure, 47 m | 2005-2025 | `05` | yes | done |
-| `LW_IN` | incoming longwave, 47 m | 2005-2025 | `06` | yes | done |
+| `SW_IN` | incoming shortwave, 47 m | 2004 - Sep 2026 | `01` | yes | done |
+| `TA` | air temperature, 47 m | 2004 - Sep 2026 | `02` | yes | **open**, re-run after the last edits |
+| `PPFD_IN` | photosynthetic photon flux density, 47 m | 2004 - Sep 2026 | `03` | yes | done |
+| `RH` | relative humidity, 47 m | 2004 - Sep 2026 | `04` | yes | **open**, re-run after the last edits |
+| `PA` | air pressure, 47 m | 2005 - Sep 2026 | `05` | yes | done |
+| `LW_IN` | incoming longwave, 47 m | 2005 - Sep 2026 | `06` | yes | **open**, re-run after `02` |
 | `VPD` | vapour pressure deficit, 47 m | 2004-2025 | `07` | yes | done |
 | `PREC` | precipitation | 2004-2025 | `08` | yes | done |
 | `SWC` | soil water content, 5 depths | 2004-2025 | `09` | yes | done |
@@ -72,7 +73,48 @@ One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
 
 Six of these are re-formatted for EddyPro by
 `40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb` (`TA`, `RH`, `PA`, `SW_IN`,
-`LW_IN`, `PPFD_IN`) and are the biomet input to the final flux runs.
+`LW_IN`, `PPFD_IN`) and are the biomet input to the final flux runs. The export
+reads them from `99_METEO_MERGED_2004-2025.parquet`, not from the six product
+files, and so still ends in 2025.
+
+**Extension to 30 September 2026.** The Lägern reference
+(`10_REFERENCE/MeteoSwiss_LAE_2004-2026.09`) and products `01` to `06`, the six
+biomet inputs, now end at `2026-09-30 23:45` and are named `*_2004-2026.09`
+(`05`, `06`: `*_2005-2026.09`). Their 2026
+screening notebooks (`20_SCREENING/*/<VAR>_T1_47_1_2026.09`) are committed. What
+the extension brought:
+
+- **`02` and `04` carry a new probe history at 47 m.** A Campbell HygroVUE10
+  replaced the CS215 on 5 June 2026 (source code `4`). The CS215 itself has two
+  states besides normal operation: it read too warm in sun from autumn 2024 until
+  it was handled on 16 May 2025, and it carried no daytime shield excess after
+  that. Both notebooks put the HygroVUE10 era onto the CS215 level in their
+  homogenised columns.
+- **`04` now exports `RH_T1_47_1_HOMOGENIZED`**, and reads `02`'s measured and
+  homogenised `TA` to build it. This is a new value-changing read: `04` must be
+  re-run whenever `02` changes.
+- **Re-run pending.** `02` and `04` were edited after their last run, and `06`
+  reads `02`. The result numbers on the `TA`, `RH` and `LW_IN` pages are refreshed
+  after that run.
+
+Not yet extended, still reading or writing the `*_2025` files: `07` (`VPD`, needs
+the re-run `02` and `04` and a decision on which `RH` column it uses), `08` to
+`13`, `99`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
+`90_DATASET_OVERVIEW` notebooks, `build_meteo_dashboard.py` (whose paths
+`build_calendar_explorer.py` imports), and the biomet export above.
+
+Open method items from the review of the extended notebooks:
+
+- `05`: the seasonal-cycle check of the tower-Lägern difference is not cut at
+  `LAST_FULL_YEAR`, unlike the other yearly statistics of the notebook.
+- `05`: the post-2016 departure from the barometric formula against Lägern keeps
+  growing, -0.061 kPa in 2025 and -0.074 kPa in January to September 2026. Section 6.
+- `03`: the `PPFD_IN` decline has not continued since 2024; 2025 and 2026 stay
+  within the ordinary one-year change of the 2024 level. The `PPFD_IN` page has to
+  say so.
+- `06`: the overcast ceiling of summer 2026 falls to 0.93-0.95, below every
+  earlier year. The notebook attributes it to an exceptionally dry and clear
+  summer, not to the instrument; no action beyond the `LW_IN` page.
 
 ### 3.2 Recently added
 
@@ -153,8 +195,8 @@ the table below summarizes it per level.
 | level | what it does | `IRGA75` | `IRGA72` | site page |
 |---|---|---|---|---|
 | Raw | binary → ASCII (bico) | done | done | stub |
-| L0 | preliminary run, per setup period | done, 2004-2019 | done, **through 2025** | written |
-| L1 | final run, per setup period | done, 2004-2019 | done through 2024, **being re-run 2016-2025** | stub |
+| L0 | preliminary run, per setup period | done, 2004-2019 | done, **through Sep 2026** | written |
+| L1 | final run, per setup period | done, 2004-2019 | done through 2024, **being re-run 2016 - Sep 2026** | stub |
 | L1.1 | self-heating correction (open path only) | notebooks exist | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | stub |
 | L3.1 | storage term added | in `30_` chain | in `30_` chain | stub |
@@ -164,9 +206,10 @@ the table below summarizes it per level.
 | L4.2 | partitioning into `GPP` / `RECO` | open | open | stub |
 | QCF | overall quality flag | — | — | stub |
 
-Every chain stage stops at **2024** for `IRGA72`. Section 5 describes the work
-that carries it to 2025; Level 1 is being re-run over the whole 2016-2025 record
-rather than extended, so every stage below it reads a new input.
+Every chain stage from Level 1 on stops at **2024** for `IRGA72`. Section 5
+describes the work that carries it to September 2026; Level 1 is being re-run over
+the whole 2016 - Sep 2026 record rather than extended, so every stage below it
+reads a new input.
 
 ### 4.3 Auxiliary flux-derived series to decide on
 
@@ -179,40 +222,59 @@ that will state it.
 
 ## 5. Where to continue
 
-In order. Each item is blocked by the one above it.
+In order. Each item is blocked by the one above it, except that the flux items
+5 to 7 depend on the meteo track only through the biomet file of item 2.
 
-1. **Final fluxes for `IRGA72`, 2016-2025.** A complete re-run of Level 1 over
-   the whole `IRGA72` record rather than an extension of the 2016-2024 set, so
-   the released fluxes come from one EddyPro configuration end to end. One run
-   per setup period, using each period's own time-lag window from
-   `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2026.09.ipynb` and the
-   biomet file `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`. Output into
-   `0_data/IRGA72-Level-1_fluxnet_2016-2025/`. The biomet file is ready and has
-   been checked against the 2016-2024 runs: same timestamp convention, no
-   discontinuity. Three points to settle before starting: whether the wrong
-   calibration gas of note 15 is corrected inside the run (factor 0.974 on the
-   CO2 concentration, 14 Dec 2017 - 15 Mar 2019 — it cannot be applied to a
-   finished flux); whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
-   did; and that `2022_2`, `2022_3` and `2022_4` stay separate runs, their lag
-   windows being far apart (notes 7, 12).
-2. **Carry `20_MERGE_DATA/IRGA72` to 2025** — notebooks `22.1` and `22.3`, both
-   currently named `2016-2024`.
-3. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to 2025** — `32_` u* detection,
-   `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage `34_IRGA72_2016-2024`
-   holds notebooks whose filenames say `IRGA75`; check which instrument they
-   actually process before extending them.
-4. ~~**Add `SW_OUT`, `LW_OUT` and `G`.**~~ Done, September 2026: notebooks `11`,
-   `12` and `13`, registered in `99` and documented under `docs/Meteo_Data.md`.
-   Two follow-ups they leave behind. The **24-day CNR4 window** now affects four
-   radiation products rather than two, and a correction there has to be applied to
-   all four at once (section 6). And `docs/Instrumentation.md` needs its heat flux
-   plate row corrected: it describes one plate where the site had three.
-5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
+1. **Re-run `02` and `04`, then `06`**, and refresh the result numbers on the
+   `TA`, `RH` and `LW_IN` pages from that run. `06` reads `02` only as a
+   diagnostic, so its exported values do not change, but its checks do.
+2. **Extend the biomet export to September 2026**
+   (`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb`, to be renamed
+   `*_2004-2026.09`). It is the deliverable the six extended products feed.
+   Decide first how it gets its input: it reads `99`, and `99` requires every
+   product to cover its period, so either `99` is extended first (which needs `07`
+   to `13` at 2026.09, or `99` allowed to carry them ending in 2025), or the
+   export reads the six product files directly. Compare the new file with the
+   2025 one over their common period: same timestamp convention, and any value
+   that differs traced to the product change that moved it.
+3. **Extend `07` and `99` to September 2026.** `07` needs the re-run `02` and `04`
+   and a decision on which `RH` column it computes `VPD` from, now that `04`
+   exports both a measured and a homogenised one. For `99`, decide whether
+   `RH_T1_47_1_HOMOGENIZED` enters the merge as a second `RH` entry, as the `TA`
+   pair does.
+4. **Extend the rest of the meteo stage**: `08` to `13`,
+   `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
+   `90_DATASET_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
+   `docs/Meteo_Data_*.md` pages and dashboards of those variables. The `05`
+   seasonal-cycle cut (section 3.1) goes with this pass.
+5. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
+   re-run of Level 1 over the whole `IRGA72` record rather than an extension of
+   the 2016-2024 set, so the released fluxes come from one EddyPro configuration
+   end to end. One run per setup period, using each period's own time-lag window
+   from `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2026.09.ipynb`.
+   Output into `0_data/IRGA72-Level-1_fluxnet_2016-2026.09/`. The runs through
+   `2025_1` read `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`, which has been checked
+   against the 2016-2024 runs (same timestamp convention, no discontinuity); the
+   `2026_1` run needs the September 2026 file of item 2. Three points to settle:
+   whether the wrong calibration gas of note 15 is corrected inside the run
+   (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019; it cannot
+   be applied to a finished flux); whether `2019_2` gets a sonic-only run for `H`,
+   as `2018_3` did; and that `2022_2`, `2022_3` and `2022_4` stay separate runs,
+   their lag windows being far apart (notes 7, 12). The setup table in
+   `docs/Yearly_Notes.md` has no `2026_1` row yet and still shows `2025_1` as
+   `running`.
+6. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
+   `22.3`, both currently named `2016-2024`.
+7. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
+   detection, `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage
+   `34_IRGA72_2016-2024` holds notebooks whose filenames say `IRGA75`; check which
+   instrument they actually process before extending them.
+8. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
-6. **Close the flux gaps** — `H` through the chain, and Level-4.2 partitioning.
-7. **Fill the stub pages** — `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
-   `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
-   `Management_Data`, `Supplementary`, `Links`.
+9. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
+10. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
+    `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
+    `Management_Data`, `Supplementary`, `Links`.
 
 
 ## 6. Open questions
@@ -276,6 +338,12 @@ Carried here because each blocks a scope decision or a published statement.
   annual means at the CNR1 to CNR4 change and flags it rather than correcting it,
   because nothing measured through the change. Whether it is the instrument or the
   conversion cannot be separated with what is on site.
+- **Does the tower barometer or Lägern drift?** After the January 2016 step, the
+  departure of tower `PA` from the barometric formula against Lägern grows from
+  +0.017 kPa in 2016 to -0.061 kPa in 2025 and -0.074 kPa in January to September
+  2026. The formula is computed from Lägern's own pressure, so `05` cannot say
+  which side moves, and after 2018 there is no NABEL barometer to separate them.
+  The product is exported as measured. Section 3.1.
 - **Which CNR1 was on the tower?** `docs/Instrumentation.md` and `06` give SN 020484,
   which is also what the logger program comments say, but the fieldbook row recording
   the 14 December 2021 exchange names CNR1_020522 at a different location. Probably a

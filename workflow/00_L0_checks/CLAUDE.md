@@ -33,7 +33,11 @@ letters have no published legend on either page.
   data stream until it was taken out of it on **31 January 2018** (notes 10, 11),
   which is why `2017_2` and `2018_1` list it in parentheses with no flux run.
   Each analyser has its own `0_data/` source folder, its own subfolder under
-  every stage, and its own merged L0 file.
+  every stage, and its own merged L0 file. For `IRGA72` the Level-0 source is
+  `0_data/OPENLAG-IRGA72-Level-0_fluxnet_2016-2026.09` and the notebooks are
+  named `*_2016-2026.09`; the merged record ends at 2026-10-01 00:45, the last
+  record of run `2026_1`. The Level-1 re-run writes to
+  `0_data/IRGA72-Level-1_fluxnet_2016-2026.09`.
 - **A gap in one analyser's run sequence is often a run in the other's — but not
   always, and the largest gaps have more than one cause.** The two longest holes
   in the merged IRGA72 record are both fully explained by the notes:
@@ -86,7 +90,8 @@ letters have no published legend on either page.
   on the timestamps inside the files, never on the file names.
 - **The EC output carries no meteo.** The 2025 IRGA72 run exported its biomet
   inputs (`TA_1_1_1`, `RH_1_1_1`, `PA_1_1_1`, `SW_IN_1_1_1`, `LW_IN_1_1_1`,
-  `PPFD_IN_1_1_1`) into the FLUXNET file by mistake; no other run has them. The
+  `PPFD_IN_1_1_1`) into the FLUXNET file by mistake; no other run has them,
+  `2026_1` included. The
   merge notebook drops them so the merged record keeps one column set over its
   whole length; meteo comes from the `10_METEO` products. The drop is guarded by
   reading the source **headers** and asserting that exactly one run carries the
