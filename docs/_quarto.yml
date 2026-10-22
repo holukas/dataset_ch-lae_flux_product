@@ -125,6 +125,9 @@ format:
     # Wide-table handling + minor tweaks (see styles.css).
     css: styles.css
     toc: true
+    # Level 4 so the per-plot and per-table headings of the notebooks
+    # ("📊 Plot:", "📋 Table:") appear in the "On this page" sidebar.
+    toc-depth: 4
     # Click any image to open it enlarged in a lightbox overlay.
     lightbox: auto
     # Relocate the "Modified" date and the light/dark toggle into the right

@@ -107,6 +107,17 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   addressed to the reader (`Filter on the flag before …`) are fine and are not
   what this rules out.
 
+## Notebook headings
+
+- **Every plot and every table gets its own subheading**, so a reader can jump
+  to it from the page's table of contents: `📊 Plot: <what it shows>` for a
+  figure, `📋 Table: <what it shows>` for a table, one level below the section
+  it sits in and never deeper than `####`, which is the depth the site's
+  "On this page" sidebar lists (`toc-depth: 4` in `docs/_quarto.yml`). A code cell that produces two of them is split so each has its
+  heading. A helper that always draws a figure and prints a table together gets
+  one `📊 📋 Plot and table:` heading. This is in addition to the caption that
+  `figcap()`/`tabcap()` writes, not instead of it.
+
 ## Hard rules
 
 - **Never commit or push without being asked.** `git commit` and `git push` run
