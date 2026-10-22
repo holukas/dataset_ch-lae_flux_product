@@ -1,10 +1,10 @@
 # Incoming shortwave radiation at 47 m
 
-Half-hourly incoming shortwave radiation at 47 m on the CH-LAE tower, 2004-2025,
-gap-filled to completeness. The file is `01_METEO_SW_IN_GAPFILLED_2004-2025`
-(parquet and CSV): **385,728 records** on a continuous 30-minute middle-timestamp
+Half-hourly incoming shortwave radiation at 47 m on the CH-LAE tower, 2004 to September 2026,
+gap-filled to completeness. The file is `01_METEO_SW_IN_GAPFILLED_2004-2026.09`
+(parquet and CSV): **398,832 records** on a continuous 30-minute middle-timestamp
 index (named `TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight
-saving), from 2004-01-01 00:15 to 2025-12-31 23:45.
+saving), from 2004-01-01 00:15 to 2026-09-30 23:45.
 
 The [**interactive dashboard**](dashboards/METEO_SW_IN_dashboard.html) summarises
 the product on one page: coverage and provenance, seasonality, distributions,
@@ -13,7 +13,7 @@ works offline.
 
 Method, evidence and checks:
 
-- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2025.html)
+- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2026.09.html)
   — builds the product: the merge of the two screenings, the 2012 corrections, the
   nighttime offset, the gap-filling, and the evidence that the record is
   homogeneous across both hardware changes.
@@ -39,10 +39,10 @@ gaps.
 
 ## Columns
 
-Every one of the 385,728 records carries a value, and the flag is defined
+Every one of the 398,832 records carries a value, and the flag is defined
 everywhere.
 
-: Columns of `01_METEO_SW_IN_GAPFILLED_2004-2025`. {#tbl-swin-cols}
+: Columns of `01_METEO_SW_IN_GAPFILLED_2004-2026.09`. {#tbl-swin-cols}
 
 | column | unit | description |
 |---|---|---|
@@ -58,14 +58,14 @@ marks a modelled value. Code `4` is not used.
 
 | code | meaning | records | share |
 |---|---|---|---|
-| 0 | observed | 351,726 | 91.2 % |
-| 1 | daytime gap, filled by the XGBoost model | 17,411 | 4.5 % |
+| 0 | observed | 364,830 | 91.5 % |
+| 1 | daytime gap, filled by the XGBoost model | 17,411 | 4.4 % |
 | 2 | daytime gap, filled by the timestamp-only fallback model | 697 | 0.2 % |
-| 3 | nighttime gap, set to zero by physics | 15,894 | 4.1 % |
+| 3 | nighttime gap, set to zero by physics | 15,894 | 4.0 % |
 
 Code `3` is not an estimate: the sun is below the horizon and the value is zero by
 physics. Counting codes `0` and `3` together as not modelled raises the
-non-modelled share to 95.3 %.
+non-modelled share to 95.5 %.
 
 **Fill quality is not uniform across the record.** Until 2018 two independent
 radiation measurements drive the model: NABEL at 49 m on the same tower, and
@@ -79,7 +79,7 @@ The tower measurement begins on **2005-09-14 11:15**, the date the radiometer wa
 wired to the tower logger. Everything before that is modelled.
 
 : The years in which measured coverage is not near-complete. Every other year of
-2006-2025 is at least 95 % measured. {#tbl-swin-coverage}
+2006 to September 2026 is at least 95 % measured. {#tbl-swin-coverage}
 
 | year | measured | why |
 |---|---|---|
@@ -98,7 +98,7 @@ day-by-day evidence.
 ## How the gaps were filled
 
 Daytime gaps are filled by an XGBoost model, separately for **2004-2018** and
-**2019-2025**. The split is not at a hardware change: it is where the NABEL sensor
+**2019-2026**. The split is not at a hardware change: it is where the NABEL sensor
 stops, and therefore where the model loses a driver. Training one model across that
 boundary would let records on one side be predicted by a relationship fitted mostly
 on the other.
