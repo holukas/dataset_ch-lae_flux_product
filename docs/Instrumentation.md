@@ -77,8 +77,9 @@ Two things about this table are worth stating plainly.
 
 **The temperature and humidity sensor is identified from the logger programs
 alone.** The fieldbook records **no** temperature or humidity device at the 47 m
-level for the whole period of this dataset; the first such entry is a Campbell
-HygroVUE10 in June 2026, after the record ends. The MP101A and CS215
+level before June 2026; the first such entry is a Campbell HygroVUE10 added on
+5 June 2026, which replaced the CS215 on the same channel (see the June 2026
+sections of [Air temperature](Meteo_Data_TA.md) and [Relative humidity](Meteo_Data_RH.md)). The MP101A and CS215
 identifications, and the January 2016 date at which they changed, rest on the
 CR10X and CR1000 programs and on the step the data themselves show. See
 [Air temperature](Meteo_Data_TA.md), where that step is quantified and corrected.

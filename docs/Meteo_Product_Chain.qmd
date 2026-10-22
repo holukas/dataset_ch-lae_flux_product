@@ -6,8 +6,9 @@ the finished variables, and which of them depend on each other.
 
 The numbering is a run order: a notebook reads only products whose number is
 lower than its own, so running `01` to `13` and then the merge `99` satisfies
-every dependency. Only four of those reads change an exported value: `02` and
-`03` take `01`'s gap-filled `SW_IN` as a gap-fill driver, and `07` computes
+every dependency. Only five of those reads change an exported value: `02` and
+`03` take `01`'s gap-filled `SW_IN` as a gap-fill driver, `04` takes `02`'s
+measured and homogenised `TA` to build its homogenised `RH`, and `07` computes
 `VPD` from `02` and `04`. All the others are diagnostic — `06` reads `01` and
 `02`; `08` reads `02`, `05` and `06`; `09` reads `02` and `08`; `10` reads `02`
 and `09`; `11` reads `09` and `10`; `12` reads `01`; `13` reads `02` and `06`. A
@@ -26,7 +27,7 @@ other channel of the same radiometer and against physics.
 flowchart LR
     %% ---------- inputs ----------
     DB[("InfluxDB<br/>20_SCREENING output<br/>meteoscreening_mst + _diive")]
-    MSLAE["10_REFERENCE<br/>MeteoSwiss_LAE_30MIN_2004-2025<br/>TA / RH / PA / SW_IN as *_LAE_MS"]
+    MSLAE["10_REFERENCE<br/>MeteoSwiss_LAE_30MIN_2004-2026.09<br/>TA / RH / PA / SW_IN as *_LAE_MS"]
     MSOED["10_REFERENCE<br/>PREC_MeteoSwiss_OED_DAILY_2004-2014<br/>PREC_MeteoSwiss_OED_30MIN_2014-2025"]
     MSREG["10_REFERENCE<br/>PREC_MeteoSwiss_REGIONAL_DAILY_2004-2025<br/>13 stations within 21 km"]
     TSSCR["TS_FF1_SCREENED_30MIN_2004-2025<br/>DIIVE + MST download, 34 channels"]
@@ -48,12 +49,12 @@ flowchart LR
     N99["99 MERGED"]
 
     %% ---------- products ----------
-    F01["01_METEO_SW_IN_GAPFILLED_2004-2025<br/>SW_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
-    F02["02_METEO_TA_GAPFILLED_2004-2025<br/>TA_T1_47_1_gfXG<br/>TA_T1_47_1_HOMOGENIZED_gfXG<br/>FLAG_..._ISFILLED<br/>FLAG_..._SOURCE"]
-    F03["03_METEO_PPFD_IN_GAPFILLED_2004-2025<br/>PPFD_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
-    F04["04_METEO_RH_CORRECTED_2004-2025<br/>RH_T1_47_1<br/>FLAG_..._MISSING"]
-    F05["05_METEO_PA_2005-2025<br/>PA_T1_47_1<br/>no flag"]
-    F06["06_METEO_LW_IN_2005-2025<br/>LW_IN_T1_47_1<br/>FLAG_..._SOURCE"]
+    F01["01_METEO_SW_IN_GAPFILLED_2004-2026.09<br/>SW_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F02["02_METEO_TA_GAPFILLED_2004-2026.09<br/>TA_T1_47_1_gfXG<br/>TA_T1_47_1_HOMOGENIZED_gfXG<br/>FLAG_..._ISFILLED<br/>FLAG_..._SOURCE"]
+    F03["03_METEO_PPFD_IN_GAPFILLED_2004-2026.09<br/>PPFD_IN_T1_47_1_gfXG<br/>FLAG_..._ISFILLED"]
+    F04["04_METEO_RH_CORRECTED_2004-2026.09<br/>RH_T1_47_1<br/>RH_T1_47_1_HOMOGENIZED<br/>FLAG_..._MISSING<br/>FLAG_..._SOURCE"]
+    F05["05_METEO_PA_2005-2026.09<br/>PA_T1_47_1<br/>no flag"]
+    F06["06_METEO_LW_IN_2005-2026.09<br/>LW_IN_T1_47_1<br/>FLAG_..._SOURCE"]
     F07["07_METEO_VPD_2004-2025<br/>VPD_T1_47_1<br/>FLAG_..._ISFILLED"]
     F08["08_METEO_PREC_GAPFILLED_2004-2025<br/>PREC_TOT_T1_47_1<br/>PREC_TOT_T1_47_1_HOMOGENIZED<br/>FLAG_..._SOURCE<br/>FLAG_..._ISFILLED"]
     F09["09_METEO_SWC_FF1_2004-2025<br/>SWC_FF1_*_1, 5 depths<br/>..._HOMOGENIZED, 4 of 5<br/>FLAG_..._SOURCE"]
@@ -99,6 +100,7 @@ flowchart LR
     %% ---------- product -> product, changes exported values ----------
     F01 -->|SW_IN_gfXG as gap-fill driver| N02
     F01 -->|SW_IN_gfXG as gap-fill driver| N03
+    F02 -->|TA_gfXG, TA_HOMOGENIZED_gfXG| N04
     F02 -->|TA_gfXG| N07
     F04 -->|RH| N07
 
@@ -151,10 +153,10 @@ A few things the edges make explicit:
   order `01` → `02` / `03` is real and not just a naming convention. It is also
   the diagnostic partner of the two notebooks that describe the other channels of
   the same radiometer, `06` and `12`.
-- **`02` is read by more notebooks than any other product**, by six of them, and
-  in only one does it change a value. Air temperature separates rain from snow in
+- **`02` is read by more notebooks than any other product**, by seven of them,
+  and two of those reads change a value. Air temperature separates rain from snow in
   `08`, excludes snowmelt in `09`, and gives the Stefan-Boltzmann yardstick in
-  `06` and `13`; the arrow into `07` is the one that writes. Every notebook that
+  `06` and `13`; the arrows into `04` and `07` are the ones that write. Every notebook that
   reads it across January 2016 reads the `HOMOGENIZED` column, because the
   measured one carries the acquisition step of that date.
 - **`08` (`PREC`) reads more references than any other notebook** — three files,

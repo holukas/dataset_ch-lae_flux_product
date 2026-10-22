@@ -19,7 +19,7 @@ Method, evidence and checks:
   and the conversion constant behind each part of the record.
 - [`SW_OUT_T1_47_1`](notebooks/10_METEO/20_SCREENING/SW_OUT/SW_OUT_T1_47_1_2020-2025.html) — the
   screening of the current era, which corrects the raw record before this product reads it.
-- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2025.html) — the
+- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2026.09.html) — the
   incoming channel of the same radiometer. It is this product's only diagnostic partner, because
   `SW_OUT / SW_IN` is the surface albedo, and it is also the denominator of every albedo figure
   quoted below.

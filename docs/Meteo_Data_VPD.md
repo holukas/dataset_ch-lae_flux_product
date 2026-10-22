@@ -19,9 +19,9 @@ Method, evidence and checks:
 - [`07_METEO_VPD`](notebooks/10_METEO/30_PRODUCTS/07_METEO_VPD_2004-2025.html) —
   computes the product, and measures what the January 2016 acquisition change leaves
   in it.
-- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2025.html) — the
+- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2026.09.html) — the
   temperature input, and the correction applied to it.
-- [`04_METEO_RH`](notebooks/10_METEO/30_PRODUCTS/04_METEO_RH_2004-2025.html) — the
+- [`04_METEO_RH`](notebooks/10_METEO/30_PRODUCTS/04_METEO_RH_2004-2026.09.html) — the
   humidity input, and why no corrected version of it exists.
 - [`Meteo_Product_Chain`](Meteo_Product_Chain.html) — where this product sits in the
   chain.

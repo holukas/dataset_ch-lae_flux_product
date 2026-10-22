@@ -20,11 +20,11 @@ Method, evidence and checks:
   the calibration factor behind each part of the record.
 - [`LW_OUT_T1_47_1`](notebooks/10_METEO/20_SCREENING/LW_OUT/LW_OUT_T1_47_1_2020-2025.html) — the
   screening of the current era, which dates the radiometer exchange to the minute.
-- [`06_METEO_LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2025.html) — the second
+- [`06_METEO_LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2026.09.html) — the second
   pyrgeometer of the same instrument. Together the two products are the site's net longwave
   exchange, but they are separate detectors with separate calibration factors, so a finding
   about one says nothing definite about the other, and every era question is asked again here.
-- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2025.html) — the
+- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2026.09.html) — the
   air-temperature product, which supplies the Stefan-Boltzmann yardstick that every check on this
   page rests on. Its homogenised column is used, because the checks cross January 2016.
 - [`Meteo_Data_SW_OUT`](Meteo_Data_SW_OUT.html) — the outgoing shortwave channel of the same
