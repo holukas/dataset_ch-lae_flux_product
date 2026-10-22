@@ -135,7 +135,7 @@ assumed the raw converted voltage would misread the file by some 370 W m^-2^.
   difference between them is removed. It is equally consistent with a change in the
   instrument, with the change of screening, and with a gradual change in the lower
   atmosphere, which moved the same statistic in the same direction from 2019 to 2024
-  and reversed in the dry year 2026.
+  and reversed through 2025 and the dry year 2026.
   Nothing is corrected. Analyses crossing that date should allow for a change of this
   order, and the `SOURCE` flag separates the two instruments.
 
@@ -161,8 +161,8 @@ assumed the raw converted voltage would misread the file by some 370 W m^-2^.
   was 95 % or higher in 0.7 to 5.5 % of the half-hours of July to September 2026,
   against 4 to 38 % in the same months of 2019-2025. With so few overcast nights, the
   overcast ceiling of nighttime apparent emissivity (its 95th percentile), one of the
-  two checks in notebook `06`, falls to 0.93 to 0.95 in those months, below every
-  earlier year. It falls the same way when computed with the Lägern air temperature.
+  two checks in notebook `06`, falls to 0.93 to 0.95 in those months, below the same
+  months of every earlier year. It falls the same way when computed with the Lägern air temperature.
   This reflects the weather, not the sensor.
 
 - **Absolute accuracy is limited by the calibration that was applied.** Both eras of
