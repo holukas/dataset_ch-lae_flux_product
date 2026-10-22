@@ -1,11 +1,11 @@
 # Photosynthetic photon flux density at 47 m
 
 Half-hourly incoming photosynthetic photon flux density at 47 m on the CH-LAE
-tower, 2004-2025, gap-filled to completeness. The file is
-`03_METEO_PPFD_IN_GAPFILLED_2004-2025` (parquet and CSV): **385,728 records** on a
+tower, 2004 to September 2026, gap-filled to completeness. The file is
+`03_METEO_PPFD_IN_GAPFILLED_2004-2026.09` (parquet and CSV): **398,832 records** on a
 continuous 30-minute middle-timestamp index (named `TIMESTAMP_MIDDLE` in the file)
 in local time (UTC+1, no daylight saving), from 2004-01-01 00:15 to
-2025-12-31 23:45.
+2026-09-30 23:45.
 
 The [**interactive dashboard**](dashboards/METEO_PPFD_IN_dashboard.html) summarises
 the product on one page: coverage and provenance, seasonality, distributions,
@@ -14,7 +14,7 @@ works offline.
 
 Method, evidence and checks:
 
-- [`03_METEO_PPFD_IN`](notebooks/10_METEO/30_PRODUCTS/03_METEO_PPFD_IN_2004-2025.html)
+- [`03_METEO_PPFD_IN`](notebooks/10_METEO/30_PRODUCTS/03_METEO_PPFD_IN_2004-2026.09.html)
   — builds the product: the merge of the two screenings, the 2012 corrections, the
   nighttime offset, the gap-filling, and the section identifying the sensor and
   testing it at both hardware changes.
@@ -25,12 +25,12 @@ Method, evidence and checks:
 - [`Meteo_Product_Chain`](Meteo_Product_Chain.html) — where this product sits in the
   chain. It depends on `SW_IN`, which has to be built first.
 
-::: {.callout-important title="The sensor has been losing response since 2022"}
+::: {.callout-important title="The sensor lost response between 2022 and 2024"}
 
-The 47 m quantum sensor reads progressively lower against both of its independent
-references from 2022 onwards: about 3 to 4 % lower over 2021-2025, and 6 to 7 %
-below its 2006-2010 level by the end of the record, which arrives before the
-decline has levelled off.
+The 47 m quantum sensor reads lower against both of its independent references
+after 2022: about 3 to 3.5 % lower over 2021-2026, and about 6 to 7 % below its
+2006-2010 level at the end of the record. The fall has not continued since 2024;
+2025 and 2026 lie within 0.4 % of 2024.
 
 It is **not corrected**, for the reasons under
 [Known limitations](#known-limitations). A trend or a period comparison spanning
@@ -51,10 +51,10 @@ something a boundary correction could address.
 
 ## Columns
 
-Every one of the 385,728 records carries a value, and the flag is defined
+Every one of the 398,832 records carries a value, and the flag is defined
 everywhere.
 
-: Columns of `03_METEO_PPFD_IN_GAPFILLED_2004-2025`. {#tbl-ppfd-cols}
+: Columns of `03_METEO_PPFD_IN_GAPFILLED_2004-2026.09`. {#tbl-ppfd-cols}
 
 | column | unit | description |
 |---|---|---|
@@ -70,21 +70,23 @@ marks a modelled value.
 
 | code | meaning | records | share |
 |---|---|---|---|
-| 0 | observed | 369,124 | 95.7 % |
-| 1 | daytime gap, filled by the XGBoost model | 8,374 | 2.2 % |
+| 0 | observed | 382,228 | 95.8 % |
+| 1 | daytime gap, filled by the XGBoost model | 8,374 | 2.1 % |
 | 2 | daytime gap, filled by the timestamp-only fallback model | 600 | 0.2 % |
-| 3 | nighttime gap, set to zero by physics | 7,543 | 2.0 % |
+| 3 | nighttime gap, set to zero by physics | 7,543 | 1.9 % |
 | 4 | short daytime gap, filled by linear interpolation | 87 | 0.02 % |
 
 Code `3` is not an estimate: the sun is below the horizon and the value is zero by
 physics. Counting codes `0` and `3` together as not modelled raises the
 non-modelled share to 97.7 %.
 
-The filled records are not spread thinly through the series. They fall in about 160
-runs, dominated by the period before the measurement begins and by a small number
-of outages, so filtering on the flag removes whole periods rather than a sprinkling
-of half-hours. Sixteen of the twenty-two years carry fewer than a hundred filled
-records each.
+The filled records are not spread thinly through the series. They fall in 159
+runs. Most runs are isolated half-hours (126 of 159), but by record count the
+period before the measurement begins and a small number of outages dominate: eight
+runs of a day or longer hold 16,301 of the 16,604 filled records. Filtering on the
+flag therefore removes mainly whole periods rather than a sprinkling of
+half-hours. Seventeen of the twenty-three years (2026 to September) carry fewer
+than a hundred filled records each, and seven carry none.
 
 ## Coverage
 
@@ -92,7 +94,8 @@ The tower measurement begins on **2004-09-20 10:45**. Everything before that is
 modelled.
 
 : The years in which measured coverage is not near-complete. Every other year of
-2005-2025 is at least 95 % measured. {#tbl-ppfd-coverage}
+2005-2025 is at least 95 % measured, and 2026 (January to September) is 100 %
+measured. {#tbl-ppfd-coverage}
 
 | year | measured | why |
 |---|---|---|
@@ -131,17 +134,19 @@ the tower sensor; a reference is a driver and never overwrites a measured value.
 
 ## Known limitations {#known-limitations}
 
-- **The sensor has been losing response since 2022, and it had not levelled off by
-  the end of the record.** It falls against the co-located tower pyranometer and
-  against MeteoSwiss Lägern together, by 3.3 % and 3.7 % respectively between 2021
-  and 2025, reaching 6.1 and 7.4 % below its 2006-2010 level in the last year of the
-  record. Both references moving together is what places the change on this
-  instrument; `RADIATION_SENSOR_CONTINUITY` reaches the same conclusion from four
-  sensors at once. It is **not corrected**, because it develops over years rather
+- **The sensor lost response between 2022 and 2024, and it has not recovered.** It
+  falls against the co-located tower pyranometer and against MeteoSwiss Lägern
+  together, by 2.86 % and 3.45 % respectively between 2021 and 2026, reaching 5.63
+  and 7.13 % below its 2006-2010 level in 2026. The fall has not continued since 2024,
+  but the change over the last year (+0.4 and +0.3 %) is within the ordinary
+  year-to-year change of these ratios (0.6 and 0.7 %), so one stable season does not
+  yet establish that the response has settled. Both references moving together is
+  what places the change on this instrument; `RADIATION_SENSOR_CONTINUITY` reaches
+  the same conclusion from four sensors at once. It is **not corrected**, because it develops over years rather
   than stepping at a date, so there is no boundary at which a correction could be
   applied, and because no maintenance record identifies a cause, so any correction
   would be a rescaling towards a reference rather than the repair of a known fault.
-  The likeliest explanation for a falling response in a quantum sensor left in the
+  The likeliest explanation for a loss of response in a quantum sensor left in the
   field for twenty years is the sensor itself: soiling, or ageing of its diffuser and
   detector. **Analyses that span the last years of this record should allow for
   several per cent on this account, or use a reference-normalised quantity.**
@@ -166,7 +171,8 @@ the tower sensor; a reference is a driver and never overwrites a measured value.
 
 - **Nighttime values are exactly zero, not measurements.** The sensor reads a small
   positive offset at night: about 4.2 µmol m^-2^ s^-1^ before the 2016 logger
-  replacement and 2.5 µmol m^-2^ s^-1^ after it. It is an instrument offset rather
+  replacement and 2.5 µmol m^-2^ s^-1^ from then to the end of 2021. From 2022 the
+  `diive` screening has already removed it. It is an instrument offset rather
   than light, and it was removed per day before gap-filling, which sets every
   measured nighttime record to exactly zero. Analyses of instrument noise or of the
   offset itself must go back to the screened database series.
@@ -194,7 +200,7 @@ distinction, because it files both instruments under the same operation tag.
 The Delta-T sensor was installed in August 2004 and appears in every surviving
 logger program from then on, at the same multiplier of 1 and offset of 0 in both the
 CR10X and the CR1000 era. The maintenance record shows no replacement and no
-calibration of it in twenty-one years; two cleanings, in December 2016 and April
+calibration of it in twenty-two years; two cleanings, in December 2016 and April
 2021, are the whole of its documented history.
 
 The data agree. Across 2016 the ratio of this sensor to the tower pyranometer
