@@ -225,23 +225,26 @@ that will state it.
 In order. Each item is blocked by the one above it, except that the flux items
 5 to 7 depend on the meteo track only through the biomet file of item 2.
 
-1. **Re-run `02` and `04`, then `06`**, and refresh the result numbers on the
-   `TA`, `RH` and `LW_IN` pages from that run. `06` reads `02` only as a
-   diagnostic, so its exported values do not change, but its checks do.
+1. **Extend `99` to September 2026 with the six extended products only**
+   (decided 22 Oct 2026). Rename it `99_METEO_MERGED_2004-2026.09`, merge `01` to
+   `06` from their `*_2026.09` files, and keep the registry entries of `07` to `13`
+   in the notebook but out of the merge until their notebooks are extended; they
+   are added back one by one. Add `RH_T1_47_1_HOMOGENIZED` as a second `RH` entry,
+   as the `TA` pair, and the new `SOURCE` codes of `02` and `04` (`4` to `7`) to
+   the flag vocabularies. Declare `PERIOD_END`, keep the partial 2026 out of
+   statistics that compare calendar years, and update the `99` node in
+   `docs/Meteo_Product_Chain.qmd`, `docs/Meteo_Data.md` and the `99` bullet of
+   `workflow/10_METEO/CLAUDE.md`. A first attempt was stopped before it changed
+   anything that was kept.
 2. **Extend the biomet export to September 2026**
    (`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb`, to be renamed
-   `*_2004-2026.09`). It is the deliverable the six extended products feed.
-   Decide first how it gets its input: it reads `99`, and `99` requires every
-   product to cover its period, so either `99` is extended first (which needs `07`
-   to `13` at 2026.09, or `99` allowed to carry them ending in 2025), or the
-   export reads the six product files directly. Compare the new file with the
-   2025 one over their common period: same timestamp convention, and any value
-   that differs traced to the product change that moved it.
-3. **Extend `07` and `99` to September 2026.** `07` needs the re-run `02` and `04`
-   and a decision on which `RH` column it computes `VPD` from, now that `04`
-   exports both a measured and a homogenised one. For `99`, decide whether
-   `RH_T1_47_1_HOMOGENIZED` enters the merge as a second `RH` entry, as the `TA`
-   pair does.
+   `*_2004-2026.09`). It is the deliverable the six extended products feed and
+   reads `99`, so it follows item 1. Compare the new file with the 2025 one over
+   their common period: same timestamp convention, and any value that differs
+   traced to the product change that moved it.
+3. **Extend `07` to September 2026 and add it back to `99`.** `07` needs a
+   decision on which `RH` column it computes `VPD` from, now that `04` exports
+   both a measured and a homogenised one.
 4. **Extend the rest of the meteo stage**: `08` to `13`,
    `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
    `90_DATASET_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
