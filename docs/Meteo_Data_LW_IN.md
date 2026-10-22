@@ -1,10 +1,10 @@
 # Incoming longwave radiation at 47 m
 
 Half-hourly incoming (downwelling) longwave radiation at 47 m on the CH-LAE tower,
-2005-2025, exported as measured. The file is `06_METEO_LW_IN_2005-2025` (parquet and
-CSV): **355,872 records** on a continuous 30-minute middle-timestamp index (named
+September 2005 to September 2026, exported as measured. The file is `06_METEO_LW_IN_2005-2026.09` (parquet and
+CSV): **368,976 records** on a continuous 30-minute middle-timestamp index (named
 `TIMESTAMP_MIDDLE` in the file) in local time (UTC+1, no daylight saving), from
-2005-09-14 00:15 to 2025-12-31 23:45.
+2005-09-14 00:15 to 2026-09-30 23:45. 2026 holds January to September only.
 
 The [**interactive dashboard**](dashboards/METEO_LW_IN_dashboard.html) summarises the
 product on one page: coverage and provenance, seasonality, distributions, extremes
@@ -12,15 +12,15 @@ and trends, with a table view behind every chart. It is standalone and works off
 
 Method, evidence and checks:
 
-- [`06_METEO_LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2025.html) —
+- [`06_METEO_LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2026.09.html) —
   builds the product: the merge of the two screenings, the 2012 corrections, the
   identification of the instrument from the logger programs and the maintenance
   record, and the measurement of the calibration change described below.
-- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2025.html) —
+- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2026.09.html) —
   the other channel of the same radiometer. It establishes the instrument's identity
   and dates its replacement, and it is the reference for what the January 2016 and
   December 2021 hardware changes did to the shortwave side.
-- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2025.html) — the
+- [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2026.09.html) — the
   air-temperature product, which notebook `06` uses as its only diagnostic driver.
 - [`Meteo_Product_Chain`](Meteo_Product_Chain.html) — where this product sits in the
   chain.
@@ -34,8 +34,10 @@ corrected, and everything recorded before it **reads too low**.
 
 The size of the error is not a constant. It is proportional to the difference
 between the value and $\sigma T_a^4$, so it is largest under a clear sky and
-approximately zero under low overcast: about **9 W m^-2^ in the middle of the
-distribution and up to some 22 W m^-2^ on a clear, dry night**.
+approximately zero under low overcast: about **8 W m^-2^ in the middle of the
+distribution and up to some 23 W m^-2^ on a clear, dry night**. These are the measured
+17 % of the nighttime difference before the change, at its median and at its 2nd
+percentile.
 
 No correction is applied and no homogenised column is provided; the reasons are
 under [Known limitations](#known-limitations). Filter on
@@ -46,7 +48,7 @@ computed across mid-2016 as containing this change.
 
 ## Columns
 
-: Columns of `06_METEO_LW_IN_2005-2025`. {#tbl-lwin-cols}
+: Columns of `06_METEO_LW_IN_2005-2026.09`. {#tbl-lwin-cols}
 
 | column | unit | description |
 |---|---|---|
@@ -59,13 +61,13 @@ this way.
 
 ### `FLAG_LW_IN_T1_47_1_SOURCE`
 
-: Provenance codes and their record counts over the 350,969 measured records. {#tbl-lwin-source}
+: Provenance codes and their record counts over the 364,073 measured records. {#tbl-lwin-source}
 
 | code | meaning | period | records | share |
 |---|---|---|---|---|
-| 0 | CNR4, its own calibration factor | from 2022-01-07 | 69,724 | 19.9 % |
-| 1 | CNR1 at 12.83 µV/W/m^2^, the pyrgeometer's own factor | 2016-06-07 to 2021-12-14 | 96,037 | 27.4 % |
-| 2 | CNR1 at 10.03 µV/W/m^2^, the pyranometer's factor — **reads low** | before 2016-06-07 | 184,104 | 52.5 % |
+| 0 | CNR4, its own calibration factor | from 2022-01-07 | 82,828 | 22.8 % |
+| 1 | CNR1 at 12.83 µV/W/m^2^, the pyrgeometer's own factor | 2016-06-07 to 2021-12-14 | 96,037 | 26.4 % |
+| 2 | CNR1 at 10.03 µV/W/m^2^, the pyranometer's factor; **reads low** | before 2016-06-07 | 184,104 | 50.6 % |
 | 3 | changeover, era undetermined | 2021-12-15 to 2022-01-06 | 1,104 | 0.3 % |
 
 Code `3` marks the three weeks between the installation of the CNR4 and the arrival
@@ -77,7 +79,7 @@ assign this interval to either side.
 
 The measurement begins on **2005-09-14 13:15**, when the pyrgeometer channel was
 wired to the tower logger; there is no longwave record before that date and none is
-reconstructed. Of the 355,872 records, **350,969 carry a value (98.6 %)**.
+reconstructed. Of the 368,976 records, **364,073 carry a value (98.7 %)**.
 
 The gaps are short. There are 998 of them; 977 are one hour or shorter and only
 eight exceed a day. The longest, 20.6 days, runs from 1 to 21 January 2016, the
@@ -85,7 +87,7 @@ site-wide outage during which the tower logger was replaced, which `PA` shares
 record for record.
 
 : The two years in which measured coverage falls below 95 %. Every other year of
-2006-2025 is at least 95 % measured. {#tbl-lwin-coverage}
+2006-2025 is at least 95 % measured, and January to September 2026 is complete. {#tbl-lwin-coverage}
 
 | year | measured | why |
 |---|---|---|
@@ -103,7 +105,7 @@ periods anyway, as the conservative choice.
 
 ## What the values are
 
-The exported numbers are **downwelling longwave irradiance**, median 315.85 W m^-2^
+The exported numbers are **downwelling longwave irradiance**, median 316.15 W m^-2^
 and range 135.45 to 441.78 W m^-2^. A pyrgeometer's voltage measures the net
 exchange between the sky and the instrument's own body, which at this site is
 roughly -50 W m^-2^; the downwelling flux is that net signal plus the instrument's
@@ -114,7 +116,7 @@ assumed the raw converted voltage would misread the file by some 370 W m^-2^.
 
 - **The record is not homogeneous across 7 June 2016.** The pyrgeometer's calibration
   factor was corrected on that date, and values before it read low by roughly 17 % of
-  the difference between the value and $\sigma T_a^4$. This is more than half the
+  the difference between the value and $\sigma T_a^4$. This is about half the
   record. It is **not corrected**, for a specific reason: undoing it requires
   splitting each stored value back into the instrument's own emission and its net
   signal, which needs the radiometer's body temperature, a channel this product does
@@ -131,8 +133,9 @@ assumed the raw converted voltage would misread the file by some 370 W m^-2^.
   of the signal, roughly half the size of the June 2016 change, which accounts for
   most of the 6.5 W m^-2^ that separates the two periods once the temperature
   difference between them is removed. It is equally consistent with a change in the
-  instrument, with the change of screening, and with the warming and moistening of
-  the lower atmosphere that has been moving the same statistic since about 2017.
+  instrument, with the change of screening, and with a gradual change in the lower
+  atmosphere, which moved the same statistic in the same direction from 2019 to 2024
+  and reversed in the dry year 2026.
   Nothing is corrected. Analyses crossing that date should allow for a change of this
   order, and the `SOURCE` flag separates the two instruments.
 
@@ -153,6 +156,14 @@ assumed the raw converted voltage would misread the file by some 370 W m^-2^.
   temperature, rather than on a second instrument, and the evidence is correspondingly
   weaker than for `SW_IN` or `TA`. Where it does not reach far enough to identify a
   cause, notebook `06` says so.
+
+- **Summer 2026 was unusually dry and clear.** At MeteoSwiss Lägern, relative humidity
+  was 95 % or higher in 0.7 to 5.5 % of the half-hours of July to September 2026,
+  against 4 to 38 % in the same months of 2019-2025. With so few overcast nights, the
+  overcast ceiling of nighttime apparent emissivity (its 95th percentile), one of the
+  two checks in notebook `06`, falls to 0.93 to 0.95 in those months, below every
+  earlier year. It falls the same way when computed with the Lägern air temperature.
+  This reflects the weather, not the sensor.
 
 - **Absolute accuracy is limited by the calibration that was applied.** Both eras of
   the CNR1 convert the pyrgeometer with a single factory constant and no correction
