@@ -66,16 +66,15 @@ Filter on `== 0` for genuine 47 m measurements. The series is complete, so every
 other code marks a value transferred from another instrument. Nothing in this
 product is modelled: a reconstructed value is another measurement of the same
 quantity, corrected by a monthly offset fitted within the probe state it belongs
-to. The number of records per code is reported in the export section of notebook
-`04`.
+to.
 
-: Provenance codes. {#tbl-rh-missing}
+: Provenance codes, their record counts and their share of the 398,832 records. {#tbl-rh-missing}
 
-| code | meaning |
-|---|---|
-| 0 | measured at 47 m |
-| 3 | reconstructed from NABEL at 49 m on the same tower |
-| 4 | reconstructed from MeteoSwiss Lägern, 2.5 km away |
+| code | meaning | records | share |
+|---|---|---|---|
+| 0 | measured at 47 m | 382,181 | 95.83 % |
+| 3 | reconstructed from NABEL at 49 m on the same tower | 15,729 | 3.94 % |
+| 4 | reconstructed from MeteoSwiss Lägern, 2.5 km away | 922 | 0.23 % |
 
 Codes `1` (never measured) and `2` (removed as faulty) are defined in the notebook
 but do not occur in this file: the two references between them cover every gap.
@@ -84,8 +83,10 @@ Code `3` carries approximately **3 % RH** of uncertainty, established by
 leave-one-year-out validation against the years both sensors measured. Code `4` is
 weaker still, since Lägern is 2.5 km away on the ridge at 845 m, about 100 m above
 the tower sensor (the tower stands at about 690 m, the sensor 47 m above the
-ground). It occurs almost only after the NABEL sensor ends in 2018, chiefly in 2019
-and 2024, and includes the two probe half-hours of 2025 and 2026.
+ground). It occurs almost only after the NABEL sensor ends in 2018: 877 of its 922
+records fall in 2019 (759), 2023 (9), 2024 (107), 2025 (1) and 2026 (1), the
+records of 2025 and 2026 being the two probe half-hours. The other 45 are short
+NABEL gaps in 2004 (6), 2005 (24), 2011 (10) and 2016 (5).
 
 ### `FLAG_RH_T1_47_1_SOURCE`
 
@@ -194,15 +195,16 @@ ordinary year. {#tbl-rh-step}
 | NABEL 49 m minus MeteoSwiss Lägern | -0.35 | 0.61 | -0.24 |
 
 **The 100 % ceiling hides part of it.** Relative humidity cannot exceed 100 %, and
-this record lies mostly in humid air, with a large share of half-hours at
-saturation. Where both probes are already against that bound the step has nowhere to
+this record lies mostly in humid air: the measured series has a median of 82.8 % RH,
+and 11.1 % of its half-hours are at or above 99.9 %. Where both probes are already against that bound the step has nowhere to
 go, so the whole-record figure understates it: on the half-hours where nothing is
 near the ceiling the step is 1.2 to 1.8 times as large. Measured against the humidity
 itself, it is 3.2 to 6.3 percentage points below 85 % RH and at most 1.1 above 95 %
 RH.
 
 **The probe that was replaced had drifted.** Independently of any reference, 1,931
-half-hours of the analog era read above 100 % RH, physically impossible and the
+half-hours of the analog era (0.99 % of its 195,606 measured records) read above
+100 % RH, physically impossible and the
 signature of a capacitive humidity element that has aged. Their share grows through
 that era and reaches 3.6 % of 2015, the last full year before the replacement. The
 SDI-12 era has none.
@@ -224,23 +226,29 @@ humidity bin, the difference between the eras is added to the earlier one.
 
 **Fitted on the era means, such a transfer is not stable.** Both eras drift against
 Lägern, in opposite directions and by more over their own length than the step
-between them, so estimates from the first and the second half of each era differ by
-up to the size of the correction, and summer and winter by about as much again.
+between them. In the 60 to 80 % RH band, over January to September of each year,
+the MP101A era drifts by -0.34 percentage points of RH per year (-3.44 over
+2005-2015) and the CS215 era by +0.44 per year (+3.07 over 2017-2024), 6.51 in
+total against a step of 5.46 between the era means. Estimates from the first and
+the second half of each era therefore differ by up to 4.93 % RH, the size of the
+correction, and summer and winter by up to 4.72 % RH.
 
 **Fitted at the break, it is.** The transfer is fitted against NABEL on tower minus
 NABEL, binned on the NABEL humidity: the MP101A over 2013-2015 against the CS215 from
 February 2016 to July 2018, the end of NABEL's independent record. Close to the
 break the drift has had little time to act, and shorter windows change the result by
-less than the year-to-year noise of each bin plus a year of drift. Each bin's
+less than the year-to-year noise of each bin plus a year of drift: from 40 % RH
+upwards by at most 1.27 % RH, never more than 0.95 of that bin's tolerance. Each bin's
 correction is attached to the MP101A's own reading in that bin, interpolated between
 bins, and the result is capped at 100 %, so a saturated MP101A record stays
 saturated.
 
-The transfer raises the MP101A era by 0 to about 5.5 % RH, by about 3 % RH on
-average. It is largest in the middle of the humidity range and close to zero near
-saturation. Scored against Lägern, which entered no fit, the mean step across the
-break over the humidity bins falls from about +4.2 to about +0.8 % RH, within
-Lägern's own year-to-year change plus the drift the fitting windows contain.
+The transfer raises the MP101A era by 0 to 5.51 % RH, by 2.98 % RH on average over
+its measured records. It is largest in the middle of the humidity range and close to
+zero near saturation. Scored against Lägern, which entered no fit, the mean step
+across the break over the humidity bins falls from +4.21 to +0.83 % RH, within a
+tolerance of 1.81 % RH: Lägern's own year-to-year change (0.71) plus the drift the
+fitting windows contain (1.10).
 
 Every record before the changeover (codes `1`, `2` and `3`) receives the transfer,
 reconstructed records included, because their reconstruction offsets are fitted on
@@ -255,22 +263,30 @@ in sun reads a lower `RH` for the same amount of water vapour. Whether the chang
 error moves `RH` and leaves vapour pressure in place.
 
 Over the 30 days either side of the handling, against the same calendar dates of the
-normal CS215 summers 2022-2024, `RH` in sun rises by about 4.4 % RH against Lägern,
-outside the range of the normal years, while the vapour pressure barely changes. The
-change is in the probe's temperature, not in its humidity element.
+normal CS215 summers 2022-2024, `RH` in sun rises by +4.43 % RH against Lägern,
+outside the range of the normal years (-3.07 to +1.13 % RH), while the vapour
+pressure changes by +0.13 hPa, within theirs (+0.13 to +0.45 hPa), and the tower
+temperature in sun falls by 1.57 °C against Lägern. Against the normal years `RH` moves by +5.17 %
+RH, which at 17.9 °C corresponds to 1.06 hPa of vapour pressure; the vapour pressure
+moves by -0.20 hPa, 19 % of that. The change is in the probe's temperature, not in
+its humidity element.
 
 `RH_T1_47_1_HOMOGENIZED` therefore leaves codes `6` and `7` as measured, as it leaves
 code `0`. A correction of these records would be a correction of the probe
 temperature, which belongs to notebook `02`. In sun, code `7` reads low and code `6`
-higher than the normal CS215, in both columns.
+higher than the normal CS215, in both columns: against Lägern, `RH` in sun is +0.18 %
+RH under code `7` and +4.62 % RH under code `6`, where the normal CS215 summers on
+the same dates give +0.18 to +3.37 and -0.20 to +3.12 % RH.
 
 ## The June 2026 probe change {#the-june-2026-probe-change}
 
 On **5 June 2026** a Campbell HygroVUE10 (SDI-12) replaced the CS215. The swap is
 dated to the half-hour by a gap in the raw 1-minute record from 11:10 to 11:31; the
 half-hour 11:00 to 11:30 is removed and reconstructed (source code `5`). In vapour
-pressure against Lägern the HygroVUE10 reads drier than the normal CS215, by more
-than the CS215 summers differ among themselves.
+pressure against Lägern the HygroVUE10 reads drier than the normal CS215, by
+1.27 hPa over 12 June to 30 September, against a year-to-year scatter of 0.19 hPa
+among the CS215 summers. In `RH` as measured it lies 2.3 to 4.6 % RH below the CS215
+summers between 30 and 90 % RH.
 
 The HygroVUE10 also differs from the CS215 in its radiation behaviour (it reads
 cooler in sun, notebook `02`), so a transfer in % RH would mix the humidity elements
@@ -281,9 +297,13 @@ with the temperature sensors. The transfer is therefore made in **vapour pressur
    configuration change of 11 June, and the normal CS215 (code `0`) on the same
    calendar dates of 2022 to 2024.
 2. The HygroVUE10-minus-CS215 difference `Delta_e` is fitted as a line in the Lägern
-   vapour pressure. It runs from about -0.9 hPa at 8 hPa to about -1.7 hPa at
-   20 hPa. After the transfer the residual over all hours of the sample is about
-   -0.08 hPa.
+   vapour pressure (5,328 HygroVUE10 and 15,885 CS215 records). It runs from
+   -0.90 hPa at 8 hPa to -1.66 hPa at 20 hPa. After the transfer the residual over
+   all hours of the sample is -0.08 hPa, against -1.27 hPa before and a tolerance of
+   0.19 hPa, and no vapour pressure bin exceeds 0.09 hPa. In a month hold-out, each
+   month predicted by fits without it, the residuals are -0.17 hPa in June,
+   -0.32 hPa in July, -0.01 hPa in August and +0.19 hPa in September, all within a
+   tolerance of 0.37 hPa pooled over the months.
 3. `RH_HOMOGENIZED = 100 * (e - Delta_e) / e_s(TA_HOMOGENIZED)`, where `e_s` is the
    saturation vapour pressure at the homogenised `TA` of notebook `02` for the same
    record, capped to `[0, 100]`.
@@ -291,28 +311,32 @@ with the temperature sensors. The transfer is therefore made in **vapour pressur
 **What the homogenised `RH` refers to.** From June 2026 it is relative to the
 homogenised temperature of notebook `02`, not to the CS215's own temperature. That
 temperature carries no radiative excess, so in sun the homogenised `RH` lies above
-what a CS215 would read, while at night the two agree. Against the CS215 summers per
-humidity bin it lies 0.4 to 1.35 % RH higher up to 90 % RH and about 2.5 % RH higher
-above that.
+what a CS215 would read, and at night close to it: against the CS215 summers it lies
+0.74 % RH higher in sun, 0.30 % RH higher at night and 0.60 % RH higher over all
+hours. Per
+Lägern humidity bin it lies 0.03 to 1.25 % RH higher between 30 and 90 % RH and
+2.52 % RH higher above 90 %. On its records the homogenised column adds 3.92 % RH on
+average, at most 8.21 % RH.
 
 ## Known limitations {#known-limitations}
 
 - **The homogenised column removes the steps, not the drift.** Against MeteoSwiss
-  Lägern the MP101A era drifts downwards and the CS215 era upwards, each by a few
-  tenths of a percentage point of RH per year, so each era travels further over its
-  own length than the 2016 step. A trend computed from either column, or a
+  Lägern the MP101A era drifts downwards by 0.34 and the CS215 era upwards by 0.44
+  percentage points of RH per year, so each era travels further over its own length
+  than the 2016 step (see [The 2016 transfer](#the-2016-transfer)). A trend computed from either column, or a
   comparison of years far from the break, therefore still contains sensor movement.
   The drift is not corrected: it is not attributed to either station, and after the
   NABEL sensor stops in 2018 there is no third humidity series at this site to
   attribute it with. Correcting it towards MeteoSwiss would replace the measurement
   with the reference.
 - **The 2016 transfer depends on the reference.** Fitted against Lägern over the
-  same windows instead of NABEL, it would raise the MP101A era by several tenths of a
-  percentage point more on average and by up to about two percentage points more
-  just below saturation, where NABEL finds almost no step and Lägern a large one.
-  That difference is the uncertainty of the homogenised column across 2016, and it
-  is largest in humid conditions. Shorter fitting windows give a smaller correction
-  between 40 and 85 % RH, so part of what the fitted windows attribute to the probes
+  same windows instead of NABEL, it would raise the measured MP101A records of
+  2013-2015 by +3.36 instead of +2.82 % RH on average, 0.54 % RH more, and by up to
+  2.44 % RH more just below saturation (at a reading of 95 %), where NABEL finds
+  almost no step and Lägern a large one. That difference is the uncertainty of the
+  homogenised column across 2016, and it is largest in humid conditions. Shorter
+  fitting windows give a smaller correction between 40 and 85 % RH, by 0.61 to
+  0.69 % RH on average, so part of what the fitted windows attribute to the probes
   may be drift.
 - **Codes `6` and `7` carry the probe's heating.** Both are temperature effects that
   remain in both value columns: in sun code `7` reads low and code `6` high against
@@ -320,8 +344,9 @@ above that.
 - **The HygroVUE10 transfer rests on one summer and one reference.** It is fitted on
   June to September 2026 against Lägern and applied as fitted to the whole
   HygroVUE10 era, including the transitional week of 5 to 11 June. Its month
-  hold-out residuals follow the season: within the summer the transfer leaves the
-  early months slightly too dry and the late ones slightly too wet. Its behaviour
+  hold-out residuals follow the season, from -0.32 hPa in July to +0.19 hPa in
+  September: within the summer the transfer leaves the early months slightly too
+  dry and the late ones slightly too wet. Its behaviour
   outside the summer is untested, and it is to be refitted once the HygroVUE10
   record includes a winter.
 - **Which probe is correct is not settled here.** The homogenised column is on the
