@@ -185,7 +185,7 @@ In order. Each item is blocked by the one above it.
    the whole `IRGA72` record rather than an extension of the 2016-2024 set, so
    the released fluxes come from one EddyPro configuration end to end. One run
    per setup period, using each period's own time-lag window from
-   `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2025.ipynb` and the
+   `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2026.09.ipynb` and the
    biomet file `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`. Output into
    `0_data/IRGA72-Level-1_fluxnet_2016-2025/`. The biomet file is ready and has
    been checked against the 2016-2024 runs: same timestamp convention, no

@@ -13,7 +13,7 @@ TODO IN PROGRESS
 
 ::: {.callout-tip title="Notebooks: wind direction checks"}
 [14_IRGA75-L0_check_winddir](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/00_L0_checks/IRGA75/14_IRGA75-L0_check_winddir.html)
-[04_IRGA72-L0_check_winddir_2016-2025](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/00_L0_checks/IRGA72/04_IRGA72-L0_check_winddir_2016-2025.html)
+[04_IRGA72-L0_check_winddir_2016-2026.09](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/00_L0_checks/IRGA72/04_IRGA72-L0_check_winddir_2016-2026.09.html)
 :::
 
 ## General abbreviations
