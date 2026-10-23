@@ -190,7 +190,7 @@ principled answer to "what number is the new one?".
   read it, so adding a variable there is what makes it arrive everywhere.
   **It merges only the products already extended to `PERIOD_END`.** `PRODUCTS` is
   the subset of `REGISTRY` whose file stem ends in `PERIOD_LABEL` (`2026.09`), so at
-  present `01`-`06`; `07`-`13` keep their entries, flag labels and descriptions,
+  present `01`-`07`; `08`-`13` keep their entries, flag labels and descriptions,
   still name their `*_2025` files, and are left out. Extending one means changing
   its stem in `REGISTRY` and adding its figure cell (removed while it is out); a
   stem ending in neither period raises. Every merged product is asserted to end at
@@ -203,8 +203,8 @@ principled answer to "what number is the new one?".
   their own notebook. Every entry needs its `MAY_HAVE_GAPS` reason if it can
   contain `NaN` and its `FLAG_LABELS` vocabulary for the flag drawn first.
   - **The record is being extended to 30 September 2026, notebook by notebook.**
-    `01`-`06`, `99` and the LAE reference end there and carry the label `2026.09`;
-    `07`-`13` and the unnumbered investigations still carry `2004-2025`
+    `01`-`07`, `99` and the LAE reference end there and carry the label `2026.09`;
+    `08`-`13` and the unnumbered investigations still carry `2004-2025`
     names and read the **2025** files of their inputs, so they see neither the
     2026 data nor the changes made while extending (the HygroVUE10 era, the new
     `RH_T1_47_1_HOMOGENIZED`). Extending one means renaming it, pointing every
@@ -865,7 +865,10 @@ The shape below is deliberate — follow it when adding a variable.
   radiometer and calibration factor (the 7 June 2016 factor correction, the
   CNR1 → CNR4 changeover); its step is flagged, not removed. `07` is
   computed by formula from finished products and its flag says what it was
-  computed *from*. `08` and `09` likewise export a **second, derived value
+  computed *from*. It exports `VPD_T1_47_1` from the measured `TA`/`RH` pair and
+  `VPD_T1_47_1_HOMOGENIZED` from the homogenised pair, never a mixed pair: the
+  homogenised `TA` with the measured `RH` (its version `3`) corrects one of two
+  opposing MP101A errors and stepped most at 2016 of the bases `07` scores. `08` and `09` likewise export a **second, derived value
   column** alongside the measured one: `08` a `_HOMOGENIZED` rescaling of its
   pre-2018 era, with its own `SOURCE` flag naming the acquisition era beside its
   `ISFILLED` flag; `09` a `_HOMOGENIZED` column per depth (four of five — 0.5 m

@@ -39,7 +39,7 @@ stops. They bound every table below.
 |---|---|---|
 | `IRGA75` fluxes | 2004 - 12 Dec 2017, plus 17 Jan - 20 Mar 2019 | analyser removed Dec 2017; the 2019 window is the stand-in run `2019_3` |
 | `IRGA72` fluxes | 11 Jan 2016 - 30 Sep 2026 | two physical LI-7200 units, exchanged inside the 2019 gap; the Level-0 record ends 2026-10-01 00:45 at the run boundary |
-| tower meteorology, 47 m | 2004 - 30 Sep 2026 | `PA` and `LW_IN` start Sep 2005 with the CNR1 and the pressure sensor; `VPD`, `PREC`, `SW_OUT` and `LW_OUT` products still end 2025 |
+| tower meteorology, 47 m | 2004 - 30 Sep 2026 | `PA` and `LW_IN` start Sep 2005 with the CNR1 and the pressure sensor; `PREC`, `SW_OUT` and `LW_OUT` products still end 2025 |
 | soil profile FF1 | 2004 - 2025 | sensors replaced as a set on 19 Mar 2020, no overlap across the change; products not yet extended to 2026 |
 | radiometer | CNR1 Sep 2005 - Dec 2021, CNR4 from 14 Dec 2021 | logger constants updated 7 Jan 2022, 24 days later |
 
@@ -63,7 +63,7 @@ One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
 | `RH` | relative humidity, 47 m | 2004 - Sep 2026 | `04` | yes | done |
 | `PA` | air pressure, 47 m | 2005 - Sep 2026 | `05` | yes | done |
 | `LW_IN` | incoming longwave, 47 m | 2005 - Sep 2026 | `06` | yes | done |
-| `VPD` | vapour pressure deficit, 47 m | 2004-2025 | `07` | yes | done |
+| `VPD` | vapour pressure deficit, 47 m | 2004 - Sep 2026 | `07` | yes | done |
 | `PREC` | precipitation | 2004-2025 | `08` | yes | done |
 | `SWC` | soil water content, 5 depths | 2004-2025 | `09` | yes | done |
 | `TS` | soil temperature, 7 depths | 2004-2025 | `10` | yes | done |
@@ -99,8 +99,10 @@ the extension brought:
 - **Re-run done.** `02`, `04` and `06` were re-run on 22 Oct 2026, in that order,
   and the `TA`, `RH` and `LW_IN` pages carry the numbers of that run.
 
-Not yet extended, still reading or writing the `*_2025` files: `07` (`VPD`, needs
-a decision on which `RH` column it uses), `08` to
+`07` is extended: it exports `VPD_T1_47_1` from the measured `TA` and `RH` and
+`VPD_T1_47_1_HOMOGENIZED` from their homogenised columns, and `99` merges both.
+
+Not yet extended, still reading or writing the `*_2025` files: `08` to
 `13`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
 `90_DATASET_OVERVIEW` notebooks, `build_meteo_dashboard.py` (whose paths
 `build_calendar_explorer.py` imports), and the biomet export above.
@@ -225,18 +227,16 @@ that will state it.
 ## 5. Where to continue
 
 In order. Each item is blocked by the one above it, except that the flux items
-3 to 5 do not depend on the meteo items 1 and 2: their biomet input,
+2 to 4 do not depend on the meteo item 1: their biomet input,
 `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, is written.
 
-1. **Extend `07` to September 2026 and add it back to `99`.** `07` needs a
-   decision on which `RH` column it computes `VPD` from, now that `04` exports
-   both a measured and a homogenised one.
-2. **Extend the rest of the meteo stage**: `08` to `13`,
+1. **Extend the rest of the meteo stage**: `08` to `13`,
    `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
    `90_DATASET_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
-   `docs/Meteo_Data_*.md` pages and dashboards of those variables. The `05`
+   `docs/Meteo_Data_*.md` pages and dashboards of those variables, including
+   the `VPD` page for the two columns of `07`. The `05`
    seasonal-cycle cut (section 3.1) goes with this pass.
-3. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
+2. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
    re-run of Level 1 over the whole `IRGA72` record rather than an extension of
    the 2016-2024 set, so the released fluxes come from one EddyPro configuration
    end to end. One run per setup period, using each period's own time-lag window
@@ -254,16 +254,16 @@ In order. Each item is blocked by the one above it, except that the flux items
    their lag windows being far apart (notes 7, 12). The setup table in
    `docs/Yearly_Notes.md` has no `2026_1` row yet and still shows `2025_1` as
    `running`.
-4. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
+3. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
    `22.3`, both currently named `2016-2024`.
-5. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
+4. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
    detection, `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage
    `34_IRGA72_2016-2024` holds notebooks whose filenames say `IRGA75`; check which
    instrument they actually process before extending them.
-6. **Decide the candidate list in 3.3**, then freeze the variable inventory and
+5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
-7. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
-8. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
+6. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
+7. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
    `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
    `Management_Data`, `Supplementary`, `Links`.
 
