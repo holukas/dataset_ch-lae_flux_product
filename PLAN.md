@@ -72,11 +72,13 @@ One product notebook per variable in `workflow/10_METEO/30_PRODUCTS/`, joined by
 | `LW_OUT` | outgoing (emitted) longwave, 47 m | 2005-2025 | `13` | yes | done |
 
 Six of these are re-formatted for EddyPro by
-`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb` (`TA`, `RH`, `PA`, `SW_IN`,
+`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2026.09.ipynb` (`TA`, `RH`, `PA`, `SW_IN`,
 `LW_IN`, `PPFD_IN`) and are the biomet input to the final flux runs. The export
-reads them from `99_METEO_MERGED_2004-2025.parquet`, not from the six product
-files, and so still ends in 2025 until item 2 of section 5 points it at the
-`2026.09` merged file.
+reads them from `99_METEO_MERGED_2004-2026.09.parquet`, not from the six product
+files, and exports the measured `TA` and `RH`, not the homogenised columns. Over
+2004-2025 it differs from the 2025 file only in model fills and reconstructions
+of `TA`, `SW_IN`, `PPFD_IN` and `RH` and in the probe half-hour of 16 May 2025;
+the notebook asserts this and attributes each difference.
 
 **Extension to 30 September 2026.** The Lägern reference
 (`10_REFERENCE/MeteoSwiss_LAE_2004-2026.09`) and products `01` to `06`, the six
@@ -223,32 +225,18 @@ that will state it.
 ## 5. Where to continue
 
 In order. Each item is blocked by the one above it, except that the flux items
-5 to 7 depend on the meteo track only through the biomet file of item 2.
+3 to 5 do not depend on the meteo items 1 and 2: their biomet input,
+`EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, is written.
 
-1. **Run `99_METEO_MERGED_2004-2026.09`.** The notebook is extended (22 Oct 2026):
-   it merges `01` to `06` from their `*_2026.09` files, adds `RH_HOM`, labels the
-   `SOURCE` codes `4` to `7`, asserts `PERIOD_END`, and keeps `07` to `13` in its
-   `REGISTRY` but out of the merge. It has been checked only on synthetic files with
-   the expected columns, because the six `*_2026.09` product files were not in the
-   data folder on the machine that edited it. Its outputs are cleared. Run it once
-   the files are there, and check the coverage table and the `INFO.md` file it
-   writes. Nothing in it compares calendar years, so the partial 2026 needed only a
-   label on the per-year flag bars.
-2. **Extend the biomet export to September 2026**
-   (`40_EXPORTS/EDDYPRO_BIOMET_CH-LAE_2004-2025.ipynb`, to be renamed
-   `*_2004-2026.09`). It is the deliverable the six extended products feed and
-   reads `99`, so it follows item 1. Compare the new file with the 2025 one over
-   their common period: same timestamp convention, and any value that differs
-   traced to the product change that moved it.
-3. **Extend `07` to September 2026 and add it back to `99`.** `07` needs a
+1. **Extend `07` to September 2026 and add it back to `99`.** `07` needs a
    decision on which `RH` column it computes `VPD` from, now that `04` exports
    both a measured and a homogenised one.
-4. **Extend the rest of the meteo stage**: `08` to `13`,
+2. **Extend the rest of the meteo stage**: `08` to `13`,
    `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
    `90_DATASET_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
    `docs/Meteo_Data_*.md` pages and dashboards of those variables. The `05`
    seasonal-cycle cut (section 3.1) goes with this pass.
-5. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
+3. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
    re-run of Level 1 over the whole `IRGA72` record rather than an extension of
    the 2016-2024 set, so the released fluxes come from one EddyPro configuration
    end to end. One run per setup period, using each period's own time-lag window
@@ -256,7 +244,9 @@ In order. Each item is blocked by the one above it, except that the flux items
    Output into `0_data/IRGA72-Level-1_fluxnet_2016-2026.09/`. The runs through
    `2025_1` read `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`, which has been checked
    against the 2016-2024 runs (same timestamp convention, no discontinuity); the
-   `2026_1` run needs the September 2026 file of item 2. Three points to settle:
+   `2026_1` run reads `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, which over
+   2004-2025 differs from the 2025 file only in model fills, reconstructions and
+   the probe half-hour of 16 May 2025 (`40_EXPORTS`, comparison section). Three points to settle:
    whether the wrong calibration gas of note 15 is corrected inside the run
    (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019; it cannot
    be applied to a finished flux); whether `2019_2` gets a sonic-only run for `H`,
@@ -264,18 +254,18 @@ In order. Each item is blocked by the one above it, except that the flux items
    their lag windows being far apart (notes 7, 12). The setup table in
    `docs/Yearly_Notes.md` has no `2026_1` row yet and still shows `2025_1` as
    `running`.
-6. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
+4. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
    `22.3`, both currently named `2016-2024`.
-7. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
+5. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
    detection, `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage
    `34_IRGA72_2016-2024` holds notebooks whose filenames say `IRGA75`; check which
    instrument they actually process before extending them.
-8. **Decide the candidate list in 3.3**, then freeze the variable inventory and
+6. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
-9. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
-10. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
-    `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
-    `Management_Data`, `Supplementary`, `Links`.
+7. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
+8. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
+   `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
+   `Management_Data`, `Supplementary`, `Links`.
 
 
 ## 6. Open questions
