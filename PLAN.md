@@ -200,7 +200,7 @@ the table below summarizes it per level.
 |---|---|---|---|---|
 | Raw | binary → ASCII (bico) | done | done | stub |
 | L0 | preliminary run, per setup period | done, 2004-2019 | done, **through Sep 2026** | written |
-| L1 | final run, per setup period | done, 2004-2019 | done through 2024, **being re-run 2016 - Sep 2026** | stub |
+| L1 | final run, per setup period | done, 2004-2019 | done, **2016 - Sep 2026** (re-run, 18 runs) | stub |
 | L1.1 | self-heating correction (open path only) | notebooks exist | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | stub |
 | L3.1 | storage term added | in `30_` chain | in `30_` chain | stub |
@@ -210,10 +210,10 @@ the table below summarizes it per level.
 | L4.2 | partitioning into `GPP` / `RECO` | open | open | stub |
 | QCF | overall quality flag | — | — | stub |
 
-Every chain stage from Level 1 on stops at **2024** for `IRGA72`. Section 5
-describes the work that carries it to September 2026; Level 1 is being re-run over
-the whole 2016 - Sep 2026 record rather than extended, so every stage below it
-reads a new input.
+Every chain stage after Level 1 stops at **2024** for `IRGA72`. Section 5
+describes the work that carries it to September 2026. Level 1 was re-run over the
+whole 2016 - Sep 2026 record rather than extended, so every stage below it reads a
+new input.
 
 ### 4.3 Auxiliary flux-derived series to decide on
 
@@ -236,28 +236,34 @@ In order. Each item is blocked by the one above it, except that the flux items
    `docs/Meteo_Data_*.md` pages and dashboards of those variables, including
    the `VPD` page for the two columns of `07`. The `05`
    seasonal-cycle cut (section 3.1) goes with this pass.
-2. **Final fluxes for `IRGA72`, 2016 - Sep 2026.** In progress: a complete
-   re-run of Level 1 over the whole `IRGA72` record rather than an extension of
-   the 2016-2024 set, so the released fluxes come from one EddyPro configuration
-   end to end. One run per setup period, using each period's own time-lag window
-   from `00_L0_checks/IRGA72/05_IRGA72-L0_check_timelags_2016-2026.09.ipynb`.
-   Output into `0_data/IRGA72-Level-1_fluxnet_2016-2026.09/`. The runs through
-   `2025_1` read `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`, which has been checked
-   against the 2016-2024 runs (same timestamp convention, no discontinuity); the
-   `2026_1` run reads `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, which over
-   2004-2025 differs from the 2025 file only in model fills, reconstructions and
-   the probe half-hour of 16 May 2025 (`40_EXPORTS`, comparison section). Three points to settle:
-   whether the wrong calibration gas of note 15 is corrected inside the run
-   (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019; it cannot
-   be applied to a finished flux); whether `2019_2` gets a sonic-only run for `H`,
-   as `2018_3` did; and that `2022_2`, `2022_3` and `2022_4` stay separate runs,
-   their lag windows being far apart (notes 7, 12). The setup table in
-   `docs/Yearly_Notes.md` has no `2026_1` row yet and still shows `2025_1` as
-   `running`.
-3. **Carry `20_MERGE_DATA/IRGA72` to September 2026**: notebooks `22.1` and
-   `22.3`, both currently named `2016-2024`.
+2. **Settle the open points of the `IRGA72` Level-1 re-run.** The re-run is
+   complete: 18 runs over 2016 - Sep 2026, one per setup period, in
+   `0_data/IRGA72-Level-1_fluxnet_2016-2026.09/`, with `2022_2`, `2022_3` and
+   `2022_4` as separate runs (notes 7, 12). The runs through `2025_1` read
+   `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv` and the `2026_1` run reads
+   `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, which over 2004-2025 differs from the
+   2025 file only in model fills, reconstructions and the probe half-hour of
+   16 May 2025 (`40_EXPORTS`, comparison section). Still open: whether the wrong
+   calibration gas of note 15 was corrected inside the runs (factor 0.974 on the
+   CO2 concentration, 14 Dec 2017 - 15 Mar 2019; it cannot be applied to a
+   finished flux); whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
+   did (it has no Level-1 file); and the setup table in `docs/Yearly_Notes.md`,
+   which has no `2026_1` row yet and still shows `2025_1` as `running`.
+3. ~~**Carry `20_MERGE_DATA/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
+   `22.1_FLUXES_IRGA72_L1_2016-2026.09` merges the Level-1 runs; where two runs
+   overlap at a year boundary it takes each record whole from one run, split at
+   midnight, because the runs' values differ there.
+   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` joins it with every column of
+   `99` over the flux period and must be re-run whenever `99` changes. The
+   Level-0 merge (`00_L0_checks/IRGA72/01`) still joins its overlapping runs cell
+   by cell with `combine_first`; Level 0 is preliminary, so this matters only
+   where a Level-0 value is quoted.
 4. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
-   detection, `34_` L3.3 and L4.1 for `NEE` and `LE`. Note that stage
+   detection, `34_` L3.3 and L4.1 for `NEE` and `LE`, reading
+   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09`. The L4.1 notebooks list
+   `VPD_T1_47_1_gfXG` among their `FEATURES`; that column no longer exists, and the
+   gap-filled VPD is now `VPD_T1_47_1` (or `VPD_T1_47_1_HOMOGENIZED`). Decide too
+   whether the drivers are the measured or the homogenised `TA` and `VPD`. Note that stage
    `34_IRGA72_2016-2024` holds notebooks whose filenames say `IRGA75`; check which
    instrument they actually process before extending them.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and

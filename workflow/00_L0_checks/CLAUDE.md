@@ -88,6 +88,16 @@ letters have no published legend on either page.
   one EddyPro run covering setup periods 2 and 3 of 2016, so a run boundary is a
   hardware or configuration change and runs do not map onto calendar years. Merge
   on the timestamps inside the files, never on the file names.
+- **Runs that meet at a year boundary overlap, and their values differ there.**
+  Both runs include the six-hour raw file that starts at 19:00 on 31 December, so
+  both write the 12 half-hours from 31 Dec 19:15 to 1 Jan 00:45 (`TIMESTAMP_MIDDLE`).
+  In the Level-1 re-run the two disagree in all seven such overlaps, by up to
+  31.6 W m-2 in `LE` at the 2019/2020 boundary. `MultiDataFileReader` joins files with
+  `combine_first`, cell by cell, so one record can end up with `FC` from one run and
+  `LE` from the other. `20_MERGE_DATA/IRGA72/22.1` therefore reads each run on its
+  own and takes every record whole from one run, cut at midnight. The Level-0 merge
+  `01` still uses `combine_first`. The `2019_2` Level-1 run does not exist, so the
+  Level-1 folder has 18 runs where Level 0 has a `2019_2` file.
 - **The EC output carries no meteo.** The 2025 IRGA72 run exported its biomet
   inputs (`TA_1_1_1`, `RH_1_1_1`, `PA_1_1_1`, `SW_IN_1_1_1`, `LW_IN_1_1_1`,
   `PPFD_IN_1_1_1`) into the FLUXNET file by mistake; no other run has them,
