@@ -254,7 +254,8 @@ In order. Each item is blocked by the one above it, except that the flux items
    overlap at a year boundary it takes each record whole from one run, split at
    midnight, because the runs' values differ there.
    `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` joins it with every column of
-   `99` over the flux period and must be re-run whenever `99` changes. The
+   `99` from 1 January 2016 00:15 (the flux columns are empty until 11 January)
+   and must be re-run whenever `99` changes. The
    Level-0 merge (`00_L0_checks/IRGA72/01`) still joins its overlapping runs cell
    by cell with `combine_first`; Level 0 is preliminary, so this matters only
    where a Level-0 value is quoted.
