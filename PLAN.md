@@ -269,7 +269,9 @@ In order. Each item is blocked by the one above it, except that the flux items
    instrument they actually process before extending them.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
-6. **Close the flux gaps**: `H` through the chain, and Level-4.2 partitioning.
+6. **Close the flux gaps**: `H` through the chain. Level-4.2 partitioning is not
+   part of this version of the dataset (decided 26 Oct 2026); the `IRGA72` notebook
+   keeps `RUN_PARTITIONING = False`.
 7. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
    `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
    `Management_Data`, `Supplementary`, `Links`.
