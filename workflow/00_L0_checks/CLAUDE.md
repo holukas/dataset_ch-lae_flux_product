@@ -114,7 +114,9 @@ letters have no published legend on either page.
     concentrations between 14 December 2017 and 15 March 2019** — not just the
     end of 2017, which is what `Yearly_Notes.md` alone suggests. The correction
     is a factor **0.974 applied to the CO2 concentration before the fluxes are
-    calculated**, so it cannot be applied to a finished flux product. The
+    calculated**, so it cannot be applied to a finished flux product. It was
+    applied during the conversion of the raw binary data to ASCII with bico, so
+    every run reads corrected concentrations. The
     LI-7500 fluxes of `2019_3` are unaffected (note 16), and the correct gas is
     in use from `2019_4` (note 18).
   - **May/June 2018 (note 19):** the LI-7200 flow module failed, which also

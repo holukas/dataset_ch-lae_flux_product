@@ -243,10 +243,10 @@ In order. Each item is blocked by the one above it, except that the flux items
    `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv` and the `2026_1` run reads
    `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, which over 2004-2025 differs from the
    2025 file only in model fills, reconstructions and the probe half-hour of
-   16 May 2025 (`40_EXPORTS`, comparison section). Still open: whether the wrong
-   calibration gas of note 15 was corrected inside the runs (factor 0.974 on the
-   CO2 concentration, 14 Dec 2017 - 15 Mar 2019; it cannot be applied to a
-   finished flux); whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
+   16 May 2025 (`40_EXPORTS`, comparison section). The wrong calibration gas of
+   note 15 (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019) was
+   corrected during the conversion of the raw data to ASCII with bico, so the
+   runs read corrected concentrations. Still open: whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
    did (it has no Level-1 file); and the setup table in `docs/Yearly_Notes.md`,
    which has no `2026_1` row yet and still shows `2025_1` as `running`.
 3. ~~**Carry `20_MERGE_DATA/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
