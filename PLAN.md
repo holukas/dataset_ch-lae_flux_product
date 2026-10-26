@@ -104,7 +104,7 @@ the extension brought:
 
 Not yet extended, still reading or writing the `*_2025` files: `08` to
 `13`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
-`90_DATASET_OVERVIEW` notebooks, and `build_meteo_dashboard.py` (whose paths
+`90_OVERVIEW` notebooks, and `build_meteo_dashboard.py` (whose paths
 `build_calendar_explorer.py` imports).
 
 Open method items from the review of the extended notebooks:
@@ -232,7 +232,7 @@ In order. Each item is blocked by the one above it, except that the flux items
 
 1. **Extend the rest of the meteo stage**: `08` to `13`,
    `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
-   `90_DATASET_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
+   `90_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
    `docs/Meteo_Data_*.md` pages and dashboards of those variables, including
    the `VPD` page for the two columns of `07`. The `05`
    seasonal-cycle cut (section 3.1) goes with this pass.
@@ -254,20 +254,20 @@ In order. Each item is blocked by the one above it, except that the flux items
    period. Decide whether `2019_2` gets a sonic-only run, as `2018_3` did, and
    whether the `H` of the LI-7500 run `2019_3` (17 Jan - 20 Mar 2019, same sonic)
    fills the rest of the gap; `15_FPPC` would then need that run in its input.
-3. ~~**Carry `20_MERGE_DATA/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
-   `22.1_FLUXES_IRGA72_L1_2016-2026.09` merges the Level-1 runs; where two runs
+3. ~~**Carry `20_L1_FLUXES/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
+   `99_IRGA72_L1_MERGED_2016-2026.09` merges the Level-1 runs; where two runs
    overlap at a year boundary it takes each record whole from one run, split at
    midnight, because the runs' values differ there.
-   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` joins it with every column of
+   `00_FPPC_IRGA72_INPUT_2016-2026.09` joins it with every column of
    `99` from 1 January 2016 00:15 (the flux columns are empty until 11 January)
    and must be re-run whenever `99` changes. The
-   Level-0 merge (`00_L0_checks/IRGA72/01`) still joins its overlapping runs cell
+   Level-0 merge (`00_L0_CHECKS/IRGA72/01`) still joins its overlapping runs cell
    by cell with `combine_first`; Level 0 is preliminary, so this matters only
    where a Level-0 value is quoted.
-4. **Review the `34_` flux chain and the fullset.** `01_FPPC` (`NEE`, with the
+4. **Review the `IRGA72` flux chain and the finalize set.** `01_FPPC` (`NEE`, with the
    Pastorello uncertainty), `11_FPPC` (`LE` and `ET`) and `15_FPPC` (`H`) ran on
    2016 - Sep 2026 (26 Oct 2026), all reading
-   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` with the homogenised `TA` and
+   `00_FPPC_IRGA72_INPUT_2016-2026.09` with the homogenised `TA` and
    `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
    although the FLUXNET thresholds for CH-Lae are much higher (decided 26 Oct 2026).
    Each writes only the columns it adds, and `99_FPPC_IRGA72_MERGED_2016-2026.09` in
@@ -368,7 +368,7 @@ Carried here because each blocks a scope decision or a published statement.
   GIN bookkeeping artefact, unreconciled.
 - **Sonic orientation from `2005_2`**: note 5 records a possible change from
   209° to 206° and asks for verification. Unresolved, and it falls in the
-  `IRGA75` era. `workflow/00_L0_checks/CLAUDE.md`.
+  `IRGA75` era. `workflow/00_L0_CHECKS/CLAUDE.md`.
 - **Shifted raw-file timestamps, July 2013.** The raw files still carry wrong
   names; the fix is applied by renaming after the bico conversion, and has to be
   applied again on any re-run. `docs/Yearly_Notes.md`.

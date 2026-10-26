@@ -38,7 +38,7 @@ The bulk of this project's conventions are scoped to one part of the tree and
 live in a `CLAUDE.md` beside the work, so they load when that area is opened
 rather than in every session. Read the relevant one before working there.
 
-- `workflow/00_L0_checks/CLAUDE.md` — Level-0 preliminary flux calculation, the
+- `workflow/00_L0_CHECKS/CLAUDE.md` — Level-0 preliminary flux calculation, the
   EddyPro per-setup-period runs, and the EC setup table in `docs/Yearly_Notes.md`
   (the analysers, the gaps and their causes, time lags, unusable periods).
 - `workflow/10_METEO/CLAUDE.md` — the meteo stage: its three substages, the GIN
@@ -91,8 +91,11 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   Results must never depend on whether the folder happened to be there. The
   pattern, and the one dependency that stays hard, are in
   `workflow/10_METEO/CLAUDE.md`.
-- **Stage 30 (`30_FLUX_PROCESSING_CHAIN/`) is intentionally left on its older
-  internal numbering** on both sides; don't reorganize it without being asked.
+- **Stages are split per instrument where they process fluxes.** `00_L0_CHECKS/`,
+  `20_L1_FLUXES/` and `30_FLUX_PROCESSING_CHAIN/` each have `IRGA72/` and `IRGA75/`.
+  The last notebook of a stage or instrument folder is numbered `99` and writes the
+  file the next stage reads. `IRGA75` fluxes without the self-heating correction carry
+  `noSHC` in their names. `80_FINALIZE/` collects everything into one file.
 
 ## Writing register
 

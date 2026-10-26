@@ -50,11 +50,12 @@ output is checked, corrected, merged and exported.
 
 | Stage | Purpose |
 | --- | --- |
-| `00_L0_checks/` | Level-0 preliminary flux calculation: merge the EddyPro per-setup-period runs, then check fluxes, wind direction and time lags per instrument. |
+| `00_L0_CHECKS/` | Level-0 preliminary flux calculation: merge the EddyPro per-setup-period runs, then check fluxes, wind direction and time lags per instrument. |
 | `10_METEO/` | Meteo, in three substages — `10_REFERENCE/` (MeteoSwiss and NABEL reference series), `20_SCREENING/` (per-variable, per-sensor stepwise screening), `30_PRODUCTS/` (thirteen product notebooks `01`–`13`, one per variable, joined by `99` into the merged file and its information file) — plus `40_EXPORTS/` (the EddyPro biomet file). |
-| `20_MERGE_DATA/` | Merge Level-1 fluxes with the meteo product, per instrument. |
-| `30_FLUX_PROCESSING_CHAIN/` | Self-heating correction, u\* threshold detection, and the Level-3.3/4.1 chain runs. Kept on its own older internal numbering. |
-| `90_DATASET_OVERVIEW/` | Dataset-wide overview notebooks, and the two generators for the standalone HTML products: 23 meteo dashboards, one per variable or soil depth, and the calendar explorer. |
+| `20_L1_FLUXES/` | Merge the Level-1 EddyPro runs, per instrument (`IRGA72/`, `IRGA75/`), each in one `99_` notebook. |
+| `30_FLUX_PROCESSING_CHAIN/` | The flux post-processing per instrument. `IRGA72/`: the chain input (`00`, Level-1 fluxes and meteo), `NEE`, `LE` with `ET`, and `H` (`01`, `11`, `15`), merged by `99`; the 2016-2024 u\* threshold detection in `USTAR_DETECTION_2016-2024/`. `IRGA75/`: the steps `10_SELF_HEATING_CORRECTION/`, `20_USTAR_DETECTION/` and `30_FPPC/`. |
+| `80_FINALIZE/` | Collects the Level-1 fluxes, the meteo of `10_METEO/30_PRODUCTS/99` and the flux post-processing into one file, from which the release datasets are cut. |
+| `90_OVERVIEW/` | Dataset-wide overview notebooks, and the two generators for the standalone HTML products: 23 meteo dashboards, one per variable or soil depth, and the calendar explorer. |
 
 Stages that process both analysers split into `IRGA72/` and `IRGA75/`
 subfolders.
@@ -147,7 +148,7 @@ The bulk of the conventions are scoped to one part of the tree and live in a
 `CLAUDE.md` beside the work rather than in one long document:
 
 - [`CLAUDE.md`](CLAUDE.md) — repository-wide rules, layout and writing register.
-- [`workflow/00_L0_checks/CLAUDE.md`](workflow/00_L0_checks/CLAUDE.md) — the
+- [`workflow/00_L0_CHECKS/CLAUDE.md`](workflow/00_L0_CHECKS/CLAUDE.md) — the
   Level-0 checks, the EddyPro per-setup-period runs, and the EC setup table.
 - [`workflow/10_METEO/CLAUDE.md`](workflow/10_METEO/CLAUDE.md) — the meteo stage,
   the GIN fieldbook and its redaction rules, the logger programs, and the
