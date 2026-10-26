@@ -104,8 +104,8 @@ the extension brought:
 
 Not yet extended, still reading or writing the `*_2025` files: `08` to
 `13`, `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
-`90_DATASET_OVERVIEW` notebooks, `build_meteo_dashboard.py` (whose paths
-`build_calendar_explorer.py` imports), and the biomet export above.
+`90_DATASET_OVERVIEW` notebooks, and `build_meteo_dashboard.py` (whose paths
+`build_calendar_explorer.py` imports).
 
 Open method items from the review of the extended notebooks:
 
