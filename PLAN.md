@@ -270,7 +270,7 @@ In order. Each item is blocked by the one above it, except that the flux items
    `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` with the homogenised `TA` and
    `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
    although the FLUXNET thresholds for CH-Lae are much higher (decided 26 Oct 2026).
-   Each writes only the columns it adds. `21_FULLSET_FP2026.1_2016-2026.09` joins
+   Each writes only the columns it adds. `40_FULLSET/41_FULLSET_FP2026.1_2016-2026.09` joins
    them with the Level-1 and meteo input (506 columns). Still to check: `H` in 2024
    is about a third lower than in the other years.
    Level-4.2 partitioning is not part of this version of the dataset (decided
