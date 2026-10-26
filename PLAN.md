@@ -270,12 +270,13 @@ In order. Each item is blocked by the one above it, except that the flux items
    `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` with the homogenised `TA` and
    `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
    although the FLUXNET thresholds for CH-Lae are much higher (decided 26 Oct 2026).
-   Each writes only the columns it adds. `21_FPPC_IRGA72_MERGED_2016-2026.09` in the
-   same folder merges them with the `IRGA72` Level-1 fluxes (487 columns), and
-   `80_FINALIZE/81_FINALIZE_2004-2026.09` collects that file and every meteo product
-   at its latest period into one file from 2004 (572 columns); release datasets are
-   cut from it by period. Products `08` to `13` still end in 2025, and the `IRGA75`
-   fluxes are not in it yet. Still to check: `H` in 2024
+   Each writes only the columns it adds, and `99_FPPC_IRGA72_MERGED_2016-2026.09` in
+   the same folder merges these (158 columns). `80_FINALIZE/81_FINALIZE_2004-2026.09`
+   collects the meteo of `99`, the `IRGA72` Level-1 fluxes of `22.1` and that file
+   into one file from 2004 (506 columns); release datasets are cut from it by
+   period. The meteo reaches it only through `99`, so products `08` to `13` join once
+   they are extended and merged there; the `IRGA75` fluxes are not in it yet. Still
+   to check: `H` in 2024
    is about a third lower than in the other years.
    Level-4.2 partitioning is not part of this version of the dataset (decided
    26 Oct 2026); `01_FPPC` keeps `RUN_PARTITIONING = False`.
