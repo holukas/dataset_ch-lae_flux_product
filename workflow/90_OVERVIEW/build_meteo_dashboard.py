@@ -26,10 +26,10 @@ assert that it acts where it should. It is not a second product and is not offer
 
 Usage
 -----
-    uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py --list
-    uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py --var TA --open
-    uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py --var SW_IN
-    uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py --all
+    uv run python workflow/90_OVERVIEW/build_meteo_dashboard.py --list
+    uv run python workflow/90_OVERVIEW/build_meteo_dashboard.py --var TA --open
+    uv run python workflow/90_OVERVIEW/build_meteo_dashboard.py --var SW_IN
+    uv run python workflow/90_OVERVIEW/build_meteo_dashboard.py --all
 
 `deploy.ps1` runs the last form with `--outdir docs/_build/html/dashboards`, **after** the Quarto
 render: Quarto rewrites its output tree on every render, so a dashboard placed there beforehand
@@ -62,7 +62,7 @@ from scipy.stats import kendalltau, theilslopes
 DATA_ROOT = Path(r"F:\Sync\luhk_work\dev-data\datasets-data\dataset_ch-lae_flux_product-data")
 PRODUCTS = DATA_ROOT / "workflow" / "10_METEO" / "30_PRODUCTS"
 REFERENCES = DATA_ROOT / "workflow" / "10_METEO" / "10_REFERENCE"
-OUTDIR = DATA_ROOT / "workflow" / "90_DATASET_OVERVIEW"
+OUTDIR = DATA_ROOT / "workflow" / "90_OVERVIEW"
 
 # Assets that make up the page. They sit beside this script and are inlined into the output.
 ASSETS = Path(__file__).parent / "dashboard_assets"

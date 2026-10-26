@@ -17,7 +17,7 @@
 ![Results from the FLUXNET USTAR threshold detection, based on data 2004-2023. Data from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png){#fig-ustar-fluxnet1}
 
 ::: {.callout-tip title="Notebook"}
-[Sonic Anemometer](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_DATASET_OVERVIEW/Sonic Anemometer.html)
+[Sonic Anemometer](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_OVERVIEW/Sonic Anemometer.html)
 :::
 
 ## Timeshift checks

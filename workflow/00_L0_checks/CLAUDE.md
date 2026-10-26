@@ -1,4 +1,4 @@
-# Stage 00 (`00_L0_checks`) and the EC setup
+# Stage 00 (`00_L0_CHECKS`) and the EC setup
 
 > Stage-specific guidance. Repo-wide conventions and the hard rules live in the
 > root `CLAUDE.md`.
@@ -96,7 +96,7 @@ letters have no published legend on either page.
   In the Level-1 re-run the two disagree in all seven such overlaps, by up to
   31.6 W m-2 in `LE` at the 2019/2020 boundary. `MultiDataFileReader` joins files with
   `combine_first`, cell by cell, so one record can end up with `FC` from one run and
-  `LE` from the other. `20_MERGE_DATA/IRGA72/22.1` therefore reads each run on its
+  `LE` from the other. `20_L1_FLUXES/IRGA72/99` therefore reads each run on its
   own and takes every record whole from one run, cut at midnight. The Level-0 merge
   `01` still uses `combine_first`. The `2019_2` Level-1 run does not exist, so the
   Level-1 folder has 18 runs where Level 0 has a `2019_2` file.

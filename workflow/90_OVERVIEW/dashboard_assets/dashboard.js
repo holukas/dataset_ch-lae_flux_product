@@ -889,9 +889,9 @@
 
     document.getElementById('footer-text').innerHTML =
       'Built ' + M.generated + ' from <code>' + M.product + '</code> by '
-      + '<code>90_DATASET_OVERVIEW/build_meteo_dashboard.py</code>. The full method narrative, with '
+      + '<code>90_OVERVIEW/build_meteo_dashboard.py</code>. The full method narrative, with '
       + 'the evidence behind every correction, is in the product notebook and in the overview '
-      + 'notebooks of <code>90_DATASET_OVERVIEW/</code>. ' + M.site + ' flux product · '
+      + 'notebooks of <code>90_OVERVIEW/</code>. ' + M.site + ' flux product · '
       + 'Lukas Hörtnagl, ETH Zurich.';
   }
 

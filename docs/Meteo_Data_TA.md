@@ -19,7 +19,7 @@ Method, evidence and checks:
   treatment of the May 2025 change and the June 2026 probe change.
 - [`TA_HOMOGENIZATION_OPTIONS`](notebooks/10_METEO/30_PRODUCTS/TA_HOMOGENIZATION_OPTIONS.html):
   the candidate corrections for the 2016 break, and why this one was chosen.
-- [`METEO_TA` overview](notebooks/90_DATASET_OVERVIEW/METEO_TA.html): the finished
+- [`METEO_TA` overview](notebooks/90_OVERVIEW/METEO_TA.html): the finished
   product year by year, with the residual steps recomputed on each run.
 
 ::: {.callout-important title="Which column to use"}

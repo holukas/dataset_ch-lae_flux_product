@@ -90,10 +90,10 @@ would have to change are the `CALENDAR` registry here, the step in `deploy.ps1`,
 
 Usage
 -----
-    uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py --list
-    uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py --open
-    uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py --no-hourly
-    uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py --outdir docs/_build/html/dashboards
+    uv run python workflow/90_OVERVIEW/build_calendar_explorer.py --list
+    uv run python workflow/90_OVERVIEW/build_calendar_explorer.py --open
+    uv run python workflow/90_OVERVIEW/build_calendar_explorer.py --no-hourly
+    uv run python workflow/90_OVERVIEW/build_calendar_explorer.py --outdir docs/_build/html/dashboards
 
 The hourly arrays are what make the day panel a chart rather than a table, and they are also most
 of the file. `--no-hourly` drops them; the day panel then shows the day's statistics alone.

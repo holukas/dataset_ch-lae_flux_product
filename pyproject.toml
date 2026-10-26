@@ -14,7 +14,7 @@ dependencies = [
     # is reachable from here.
     "diive[db]",
     # Theil-Sen slopes and Kendall's tau, used by the trend figures in
-    # 10_METEO/30_PRODUCTS/02 and 90_DATASET_OVERVIEW. It arrives transitively
+    # 10_METEO/30_PRODUCTS/02 and 90_OVERVIEW. It arrives transitively
     # through diive, but a notebook here imports it directly, so it is declared.
     "scipy>=1.11",
 ]

@@ -73,11 +73,11 @@ Invoke-Step 'Clearing notebook staging (docs/notebooks/)' { uv run python build_
 #    the link in docs/Meteo_Data.md should move with it.
 if (-not $NoDashboards) {
     Invoke-Step 'Building meteo dashboards (-> docs/_build/html/dashboards/)' {
-        uv run python workflow/90_DATASET_OVERVIEW/build_meteo_dashboard.py `
+        uv run python workflow/90_OVERVIEW/build_meteo_dashboard.py `
             --all --outdir docs/_build/html/dashboards
     }
     Invoke-Step 'Building calendar explorer (-> docs/_build/html/dashboards/)' {
-        uv run python workflow/90_DATASET_OVERVIEW/build_calendar_explorer.py `
+        uv run python workflow/90_OVERVIEW/build_calendar_explorer.py `
             --outdir docs/_build/html/dashboards
     }
 } else {
