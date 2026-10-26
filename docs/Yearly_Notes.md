@@ -9,6 +9,7 @@ TODO IN PROGRESS
 - Info about some time periods is given in the form of the names of the original eddy covariance raw data files, e.g. `2013070615.b02`. The file name gives the start time of the measurement period, the files are typically contain 6 hours of 20Hz eddy covariance data. 
 
 ## Setup info
+- **Sonic anemometer** (from the GIN fieldbook): a Gill HS-100 (serial 000027) until 19 December 2019, then a Gill HS-50 (serial 000063). The fieldbook notes that the electronics unit of the HS-100 stayed in use until 10 January 2020. It has no sonic record before 2016, so the `HS50-B` of the earlier rows of the setup table is not confirmed by it.
 - **Sonic orientation/height** is `209°` / `47.0m` more or less and consistent across all years. In a comparison of histograms of wind directions between 2004 and 2019 showed that a sonic orientation of `209°` offset to north yields very similar results across years all years. Info from one of the oldest setup files (`locations.table`) that were used for documenting setup info in earlier years listed the sonic orientation between `183°` and `209°`. 
 
 ::: {.callout-tip title="Notebooks: wind direction checks"}
@@ -51,30 +52,30 @@ TODO IN PROGRESS
 | 2013_1 | 2012123120.b00 | 2013123120.b00 | A    | HS50-B | IRGA75-A     | \-           | A       | 47m / 209° | \-                        | \-8                       |              |
 | 2014_1 | 2013123120.b00 | 2014123120.b00 | A    | HS50-B | IRGA75-A     | \-           | A       | 47m / 209° | \-                        |                           |              |
 | 2015_1 | 2014123120.b00 | 2015123119.b00 | A    | HS50-B | IRGA75-A     | \-           | A       | 47m / 209° | N+33 E0 V-5               | \-                        |              |
-| 2016_1 | 2015123119.b00 | 2016011113.b00 | A    | HS50-B | IRGA75-A     | \-           | A       | 47m / 209° | N+33 E0 V-5               | \-                        |              |
-| 2016_2 | 2016011115.b05 | 2016052601.b00 | C    | HS50-B | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-20         |
-| 2016_3 | 2016052607.b00 | 2016123119.b00 | C    | HS50-B | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-21         |
-| 2017_1 | 2016123119.b00 | 2017121207.L00 | C    | HS50-B | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-9          |
-| 2017_2 | 2017121417.L22 | 2017123119.L00 | D    | HS50-B | (IRGA75-A)   | IRGA72-B-GN1 | \- / E2 | 47m / 209° | \-                        | N+6 E-1 V-15 TL100 TD0.53 | (10)(15)     |
-| 2018_1 | 2017123119.L00 | 2018013107.L00 | D    | HS50-B | (IRGA75-A)   | IRGA72-B-GN1 | \- / E2 | 47m / 209° | \-                        | N+6 E-1 V-15 TL100 TD0.53 | (10)(15)     |
-| 2018_2 | 2018013111.L28 | 2018051819.L00 | E    | HS50-B | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (11)(15)(19) |
-| 2018_3 | 2018051901.L00 | 2018060707.L00 | E    | HS50-B | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (15)(19)     |
-| 2018_4 | 2018060713.L00 | 2018123119.L00 | E    | HS50-B | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-15         |
-| 2019_1 | 2018123119.L00 | 2019011013.L00 | E    | HS50-B | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-15         |
-| 2019_2 | 2019011015.L54 | 2019011707.L00 | E    | HS50-B | IRGA72-B-GN1 | \-           | F2      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (15)(13)(17) |
-| 2019_3 | 2019011713.L22 | 2019032007.L00 | A    | HS50-B | IRGA75-A     | \-           | A       | 47m / 209° | N+33 E0 V-5               | \-                        | (16)(24)     |
-| 2019_4 | 2019032019.L00 | 2019123119.L00 | B    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (14)(18)     |
-| 2020_1 | 2019123119.L00 | 2020123119.L00 | B    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
-| 2021_1 | 2020123119.L00 | 2021121313.L00 | B    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
-| 2021_2 | 2021121415.L51 | 2021123119.L00 | ?    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-22         |
-| 2022_1 | 2021123119.L00 | 2022020215.L26 | ?    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-22         |
-| 2022_2 | 2022020710.L59 | 2022030910.L26 | B    | HS50-B | IRGA72-A     | \-           | G4      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-12         |
-| 2022_3 | 2022030911.L07 | 2022111719.L00 | B    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-7          |
-| 2022_4 | 2022111801.L00 | 2023123119.L00 | B    | HS50-B | IRGA72-A     | \-           | G3      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-7          |
-| 2023_1 | 2022123113.L00 | 2023031313.L00 | B    | HS50-B | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
-| 2023_2 | 2023031319.L00 | 2023123119.L00 | B    | HS50-B | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        | \-23         |
-| 2024_1 | 2023123119.L00 | 2024123119.L00 | B    | HS50-B | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        |              |
-| 2025_1 | 2024123119.L00 | running        |      | HS50-B | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        |              |
+| 2016_1 | 2015123119.b00 | 2016011113.b00 | A    | HS100  | IRGA75-A     | \-           | A       | 47m / 209° | N+33 E0 V-5               | \-                        |              |
+| 2016_2 | 2016011115.b05 | 2016052601.b00 | C    | HS100  | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-20         |
+| 2016_3 | 2016052607.b00 | 2016123119.b00 | C    | HS100  | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-21         |
+| 2017_1 | 2016123119.b00 | 2017121207.L00 | C    | HS100  | IRGA75-A     | IRGA72-B     | E1 / E2 | 47m / 209° | N+33 E0 V-5               | N+6 E-1 V-15 TL100 TD0.53 | \-9          |
+| 2017_2 | 2017121417.L22 | 2017123119.L00 | D    | HS100  | (IRGA75-A)   | IRGA72-B-GN1 | \- / E2 | 47m / 209° | \-                        | N+6 E-1 V-15 TL100 TD0.53 | (10)(15)     |
+| 2018_1 | 2017123119.L00 | 2018013107.L00 | D    | HS100  | (IRGA75-A)   | IRGA72-B-GN1 | \- / E2 | 47m / 209° | \-                        | N+6 E-1 V-15 TL100 TD0.53 | (10)(15)     |
+| 2018_2 | 2018013111.L28 | 2018051819.L00 | E    | HS100  | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (11)(15)(19) |
+| 2018_3 | 2018051901.L00 | 2018060707.L00 | E    | HS100  | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (15)(19)     |
+| 2018_4 | 2018060713.L00 | 2018123119.L00 | E    | HS100  | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-15         |
+| 2019_1 | 2018123119.L00 | 2019011013.L00 | E    | HS100  | IRGA72-B-GN1 | \-           | F       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-15         |
+| 2019_2 | 2019011015.L54 | 2019011707.L00 | E    | HS100  | IRGA72-B-GN1 | \-           | F2      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (15)(13)(17) |
+| 2019_3 | 2019011713.L22 | 2019032007.L00 | A    | HS100  | IRGA75-A     | \-           | A       | 47m / 209° | N+33 E0 V-5               | \-                        | (16)(24)     |
+| 2019_4 | 2019032019.L00 | 2019123119.L00 | B    | HS100, HS50 | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | (14)(18)     |
+| 2020_1 | 2019123119.L00 | 2020123119.L00 | B    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
+| 2021_1 | 2020123119.L00 | 2021121313.L00 | B    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
+| 2021_2 | 2021121415.L51 | 2021123119.L00 | ?    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-22         |
+| 2022_1 | 2021123119.L00 | 2022020215.L26 | ?    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-22         |
+| 2022_2 | 2022020710.L59 | 2022030910.L26 | B    | HS50   | IRGA72-A     | \-           | G4      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-12         |
+| 2022_3 | 2022030911.L07 | 2022111719.L00 | B    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-7          |
+| 2022_4 | 2022111801.L00 | 2023123119.L00 | B    | HS50   | IRGA72-A     | \-           | G3      | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        | \-7          |
+| 2023_1 | 2022123113.L00 | 2023031313.L00 | B    | HS50   | IRGA72-A     | \-           | G       | 47m / 209° | N+6 E-1 V-15 TL100 TD0.53 | \-                        |              |
+| 2023_2 | 2023031319.L00 | 2023123119.L00 | B    | HS50   | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        | \-23         |
+| 2024_1 | 2023123119.L00 | 2024123119.L00 | B    | HS50   | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        |              |
+| 2025_1 | 2024123119.L00 | running        |      | HS50   | IRGA72-A     | \-           | G2      | 47m / 209° | N+11 E+1 V-1 TL100 TD0.53 | \-                        |              |
 
 ***
 ## 2025

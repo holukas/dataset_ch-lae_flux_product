@@ -30,7 +30,7 @@ analyser rather than per year.
 
 | instrument | role | period |
 |---|---|---|
-| Gill HS-50 sonic anemometer | wind components, sonic temperature | 2004-present, orientation 209° |
+| Gill sonic anemometer | wind components, sonic temperature | 2004-present, orientation 209°; an HS-100 (serial 000027) until 19 December 2019 and an HS-50 (serial 000063) from then on, after the GIN fieldbook, which has no sonic record before 2016 |
 | LI-COR LI-7500 (open path, `IRGA75`) | CO~2~ and H~2~O densities | 2004 until removal on 12 December 2017 |
 | LI-COR LI-7200 (enclosed path, `IRGA72`) | CO~2~ and H~2~O mole fractions | from 11 January 2016 |
 

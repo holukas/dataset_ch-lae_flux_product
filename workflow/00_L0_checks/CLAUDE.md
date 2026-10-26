@@ -74,15 +74,17 @@ letters have no published legend on either page.
   `2022_4` (lower still), and those two periods need to be calculated separately
   (note 7). A lag-detection notebook that pools setup periods is comparing
   different acquisition settings.
-- **The sonic is HS50-B at 47 m, orientation `209°`, unchanged through the
-  record — with one open question.** Note 5 records that the orientation may have
+- **The sonic is at 47 m, orientation `209°`, unchanged through the record — with
+  one open question.** The GIN fieldbook names it a Gill HS-100 (serial 000027) until
+  19 December 2019 and an HS-50 (serial 000063) after; when the fieldbook and the docs
+  disagree, the fieldbook is right. It has no sonic record before 2016. Note 5 records that the orientation may have
   changed to `206°` from `2005_2` onward and says recalculations should verify
   it; it is unresolved, and it is in the LI-7500 era. The `209°` itself was
   confirmed independently from wind-direction histograms across years; an old
   `locations.table` gives `183°` to `209°` and is not trusted.
 - **The per-year sections below that table are partly unedited stubs.** The
   2021-2025 blocks say `Instruments: R350, IRGA75` and link to the **Chamau**
-  setup page, contradicting the table's HS50-B and IRGA72-A. The table wins; do
+  setup page, contradicting the table's sonic and IRGA72-A. The table wins; do
   not take instrument names from those blocks.
 - **The run label is the setup period, not a part of the year.** `2016_2+3` is
   one EddyPro run covering setup periods 2 and 3 of 2016, so a run boundary is a
