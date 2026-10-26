@@ -92,7 +92,7 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   pattern, and the one dependency that stays hard, are in
   `workflow/10_METEO/CLAUDE.md`.
 - **Stages are split per instrument where they process fluxes.** `00_L0_CHECKS/`,
-  `20_L1_FLUXES/` and `30_FLUX_PROCESSING_CHAIN/` each have `IRGA72/` and `IRGA75/`.
+  `20_L1_FLUXES/` and `30_FLUX_POST-PROCESSING_CHAIN/` each have `IRGA72/` and `IRGA75/`.
   The last notebook of a stage or instrument folder is numbered `99` and writes the
   file the next stage reads. `IRGA75` fluxes without the self-heating correction carry
   `noSHC` in their names. `80_FINALIZE/` collects everything into one file.
