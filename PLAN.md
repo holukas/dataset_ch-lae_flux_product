@@ -179,15 +179,15 @@ forest floor. See `docs/Instrumentation.md`.
 
 | flux | from | state |
 |---|---|---|
-| `NEE` | CO~2~ flux plus storage, u*-filtered, gap-filled | open, chain exists |
-| `LE` | latent heat flux plus storage, gap-filled | open, chain exists |
-| `H` | sensible heat flux | **no chain notebook exists** |
-| `GPP`, `RECO` | Level-4.2 partitioning of gap-filled `NEE` | **no notebook exists** |
-| `ET` | derived from `LE` | not started; decide whether to publish |
+| `NEE` | CO~2~ flux plus storage, u*-filtered, gap-filled | `01_FPPC`, run on 2016 - Sep 2026 |
+| `LE` | turbulent latent heat flux, no storage, no u* filter, gap-filled | `11_FPPC`, run on 2016 - Sep 2026 |
+| `H` | turbulent sensible heat flux from the sonic, no storage, no u* filter, gap-filled | `15_FPPC`, run on 2016 - Sep 2026 |
+| `GPP`, `RECO` | Level-4.2 partitioning of gap-filled `NEE` | not part of this version (decided 26 Oct 2026) |
+| `ET` | derived from gap-filled `LE` in `11_FPPC` | run on 2016 - Sep 2026 |
 
-`H` and the partitioned fluxes are the two real gaps in the flux side. `H` is
-described in `docs/index.md` as part of the dataset and Level-4.2 is in the
-processing-chain flowchart, but neither has a notebook.
+`LE` and `H` follow Pastorello et al. (2020): they are turbulent fluxes without a
+storage term and are not u*-filtered (decided 26 Oct 2026). The 2016-2024 chain
+published storage-corrected `LE` and `H`; this version does not.
 
 ### 4.2 Chain status
 
@@ -203,9 +203,9 @@ the table below summarizes it per level.
 | L1 | final run, per setup period | done, 2004-2019 | done, **2016 - Sep 2026** (re-run, 18 runs) | stub |
 | L1.1 | self-heating correction (open path only) | notebooks exist | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | stub |
-| L3.1 | storage term added | in `30_` chain | in `30_` chain | stub |
+| L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | stub |
 | L3.2 | outlier detection, u* threshold detection | done, 2005-2019 | done, 2016-2024 | stub |
-| L3.3 | flags from three constant u* thresholds | `NEE` | `NEE`, `LE` | written |
+| L3.3 | flags from three constant u* thresholds | `NEE` | `NEE` | written |
 | L4.1 | gap-filling (long-term random forest) | open | `NEE`, `LE` | stub |
 | L4.2 | partitioning into `GPP` / `RECO` | open | open | stub |
 | QCF | overall quality flag | — | — | stub |
@@ -246,9 +246,14 @@ In order. Each item is blocked by the one above it, except that the flux items
    16 May 2025 (`40_EXPORTS`, comparison section). The wrong calibration gas of
    note 15 (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019) was
    corrected during the conversion of the raw data to ASCII with bico, so the
-   runs read corrected concentrations. Still open: whether `2019_2` gets a sonic-only run for `H`, as `2018_3`
-   did (it has no Level-1 file); and the setup table in `docs/Yearly_Notes.md`,
-   which has no `2026_1` row yet and still shows `2025_1` as `running`.
+   runs read corrected concentrations. Still open: the setup table in
+   `docs/Yearly_Notes.md`, which has no `2026_1` row yet and still shows `2025_1`
+   as `running`; and **`H` from 10 January to 20 March 2019 (revisit later)**. The
+   Level-0 file of `2019_2` yields about 289 half-hours of `H`, but `2019_2` has no
+   Level-1 run, so the Level-1 input of the flux chain has no `H` at all in this
+   period. Decide whether `2019_2` gets a sonic-only run, as `2018_3` did, and
+   whether the `H` of the LI-7500 run `2019_3` (17 Jan - 20 Mar 2019, same sonic)
+   fills the rest of the gap; `15_FPPC` would then need that run in its input.
 3. ~~**Carry `20_MERGE_DATA/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
    `22.1_FLUXES_IRGA72_L1_2016-2026.09` merges the Level-1 runs; where two runs
    overlap at a year boundary it takes each record whole from one run, split at
@@ -259,19 +264,27 @@ In order. Each item is blocked by the one above it, except that the flux items
    Level-0 merge (`00_L0_checks/IRGA72/01`) still joins its overlapping runs cell
    by cell with `combine_first`; Level 0 is preliminary, so this matters only
    where a Level-0 value is quoted.
-4. **Carry the `30_FLUX_PROCESSING_CHAIN` stages to September 2026**: `32_` u*
-   detection, `34_` L3.3 and L4.1 for `NEE` and `LE`, reading
-   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09`. The L4.1 notebooks list
-   `VPD_T1_47_1_gfXG` among their `FEATURES`; that column no longer exists, and the
-   gap-filled VPD is now `VPD_T1_47_1` (or `VPD_T1_47_1_HOMOGENIZED`). Decide too
-   whether the drivers are the measured or the homogenised `TA` and `VPD`. Note that stage
-   `34_IRGA72_2016-2024` holds notebooks whose filenames say `IRGA75`; check which
-   instrument they actually process before extending them.
+4. **Review the `34_` flux chain and the fullset.** `01_FPPC` (`NEE`, with the
+   Pastorello uncertainty), `11_FPPC` (`LE` and `ET`) and `15_FPPC` (`H`) ran on
+   2016 - Sep 2026 (26 Oct 2026), all reading
+   `22.3_FLUXES_L1_IRGA72_and_METEO_2016-2026.09` with the homogenised `TA` and
+   `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
+   although the FLUXNET thresholds for CH-Lae are much higher (decided 26 Oct 2026).
+   Each writes only the columns it adds. `21_FULLSET_FP2026.1_2016-2026.09` joins
+   them with the Level-1 and meteo input (506 columns). Still to check: `H` in 2024
+   is about a third lower than in the other years.
+   Level-4.2 partitioning is not part of this version of the dataset (decided
+   26 Oct 2026); `01_FPPC` keeps `RUN_PARTITIONING = False`.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
-6. **Close the flux gaps**: `H` through the chain. Level-4.2 partitioning is not
-   part of this version of the dataset (decided 26 Oct 2026); the `IRGA72` notebook
-   keeps `RUN_PARTITIONING = False`.
+6. **Energy-balance-closure correction of `LE` and `H`** (future session, not part
+   of FP2026.1 for now). Pastorello et al. (2020): `EBC_CF = (NETRAD - G)/(H + LE)`
+   from half-hours with measured `NETRAD` and `G`, filtered at 1.5 times its IQR, then
+   three hierarchical methods (±15-day window at 22:00-02:30 and 10:00-14:30; ±5 days
+   and ±1 h; ±5 days in the neighbouring years), giving `LE_CORR`, `H_CORR` and their
+   25th and 75th percentiles. The `LE` and `H` random and joint uncertainty of
+   ONEFlux belong to the same step (the joint one is built from the `_CORR25` and
+   `_CORR75` spread). Needs the `NETRAD` and `G` products at September 2026.
 7. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
    `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
    `Management_Data`, `Supplementary`, `Links`.
