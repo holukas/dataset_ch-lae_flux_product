@@ -35,7 +35,8 @@ What it does
   relative path (under ``workflow/``) has a path component starting with ``_`` is
   excluded (drops ``_archive/``, ``_templates/`` and the in-stage
   ``_TEMPLATE_*``). ``.ipynb_checkpoints`` is skipped too.
-- Copies each into ``docs/notebooks/<same relative path>``.
+- Copies each into ``docs/notebooks/<same relative path>``, with local paths and
+  account names masked (``mask_local_paths``).
 - Writes ``docs/notebooks/_metadata.yml`` (execution disabled for the folder).
 - Writes ``docs/notebooks/index.qmd``: a themed landing page with one table per
   workflow folder, giving each notebook's number, its linked title and its file
@@ -146,6 +147,55 @@ def sanitize_notebook(nb: dict) -> int:
     return changed_cells
 
 
+# Local paths and account names that the notebooks print or set, masked in the
+# staged copies so the website does not show the folder layout of a machine.
+# Ordered from the most specific to the most general. Each pattern allows one or
+# two backslashes, because a path inside a printed repr or traceback is escaped.
+_BS = r"\\{1,2}"
+LOCAL_PATH_MASKS = [
+    (rf"[A-Za-z]:{_BS}Sync{_BS}luhk_work{_BS}dev-data{_BS}datasets-data{_BS}"
+     rf"dataset_ch-lae_flux_product-data", "<DATA_FOLDER>"),
+    (rf"[A-Za-z]:{_BS}dev{_BS}datasets{_BS}dataset_ch-lae_flux_product", "<REPO>"),
+    (rf"[A-Za-z]:{_BS}Sync{_BS}luhk_work", "<LOCAL>"),
+    (rf"[A-Za-z]:{_BS}dev(?={_BS})", "<LOCAL>"),
+    (rf"(Users{_BS})[A-Za-z0-9_.-]+", r"\1<USER>"),
+    (r"(/Users/)[A-Za-z0-9_.-]+", r"\1<USER>"),
+]
+
+
+def mask_local_paths(nb: dict) -> int:
+    """Mask local paths and account names in every cell source and text output.
+
+    Works on the staged copy only. Image outputs are left as they are. Returns
+    the number of replacements made.
+    """
+    import re
+
+    count = 0
+
+    def mask(text: str) -> str:
+        nonlocal count
+        for pattern, repl in LOCAL_PATH_MASKS:
+            text, n = re.subn(pattern, repl, text)
+            count += n
+        return text
+
+    def walk(value):
+        if isinstance(value, str):
+            return mask(value)
+        if isinstance(value, list):
+            return [walk(v) for v in value]
+        if isinstance(value, dict):
+            return {k: (v if k.startswith("image/") else walk(v)) for k, v in value.items()}
+        return value
+
+    for cell in nb.get("cells", []):
+        cell["source"] = walk(cell.get("source", ""))
+        if "outputs" in cell:
+            cell["outputs"] = walk(cell["outputs"])
+    return count
+
+
 def leads_with_h1(nb: dict) -> bool:
     """True if the notebook's first non-empty markdown cell opens with a ``# ``
     heading. When it does, Quarto uses that H1 as the page title (and drops it
@@ -225,30 +275,33 @@ def ensure_title(nb: dict, title: str) -> bool:
     return True
 
 
-def stage_notebooks(included: list[Path], staging_dir: Path) -> tuple[int, int, int]:
+def stage_notebooks(included: list[Path], staging_dir: Path) -> tuple[int, int, int, int]:
     """Stage each included notebook into the staging dir, mirroring the tree.
 
-    Notebooks are read, sanitized (see ``sanitize_notebook``), given a title if
-    they lack one (see ``ensure_title``) and re-written as JSON rather than copied
-    byte-for-byte, so the front-matter traps are fixed in the build inputs. Cell
-    outputs are preserved verbatim. Returns
-    ``(notebooks_staged, cells_sanitized, titles_injected)``.
+    Notebooks are read, sanitized (see ``sanitize_notebook``), stripped of local
+    paths (see ``mask_local_paths``), given a title if they lack one (see
+    ``ensure_title``) and re-written as JSON rather than copied byte-for-byte, so
+    the front-matter traps are fixed in the build inputs. Cell outputs are
+    otherwise preserved verbatim. Returns
+    ``(notebooks_staged, cells_sanitized, titles_injected, paths_masked)``.
     """
     copied = 0
     sanitized = 0
     titled = 0
+    masked = 0
     for rel in included:
         src = WORKFLOW_DIR / rel
         dst = staging_dir / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         nb = json.loads(src.read_text(encoding="utf-8"))
         sanitized += sanitize_notebook(nb)
+        masked += mask_local_paths(nb)
         if ensure_title(nb, rel.stem):
             titled += 1
         dst.write_text(json.dumps(nb, ensure_ascii=False, indent=1), encoding="utf-8")
         copied += 1
         print(f"  staged  {rel.as_posix()}")
-    return copied, sanitized, titled
+    return copied, sanitized, titled, masked
 
 
 def render_index(included: list[Path], staging_dir: Path) -> Path:
@@ -341,7 +394,7 @@ def main(argv: list[str]) -> int:
     print(f"Excluded (_*)    : {len(excluded)} notebooks")
     print("-" * 60)
 
-    copied, sanitized, titled = stage_notebooks(included, staging_dir)
+    copied, sanitized, titled, masked = stage_notebooks(included, staging_dir)
 
     (staging_dir / "_metadata.yml").write_text(METADATA_YML, encoding="utf-8")
     index_path = render_index(included, staging_dir)
@@ -351,6 +404,7 @@ def main(argv: list[str]) -> int:
     print(f"Staged           : {copied}/{len(included)} notebooks")
     print(f"Sanitized        : {sanitized} cells (--- thematic breaks -> ***)")
     print(f"Titled           : {titled} notebooks (filename title injected)")
+    print(f"Paths masked     : {masked} local paths and account names")
     print(f"Metadata         : {staging_dir / '_metadata.yml'}")
     print(f"Index page       : {index_path}")
     print("\nNext: `uv run quarto render docs` renders the site incl. notebooks.")
