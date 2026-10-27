@@ -78,6 +78,7 @@ website:
           - Raw_Data.md
           - L0.md
           - L1.md
+          - L1_EddyPro_Settings.md
           - L1.1.md
       # Same `section:` construction as Meteo_Data.md above: FPC.qmd stays a
       # link and holds the post-processing levels.
