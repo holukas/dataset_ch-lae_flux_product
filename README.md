@@ -10,17 +10,17 @@ by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/).
 
 **Author**: [Lukas Hörtnagl](https://gl.ethz.ch/people/person-detail.lukas.html)
 
-> **The dataset is in preparation.** Both the data and this documentation are
-> work in progress and subject to change. Please contact the author before using
-> the data.
+> **FP2026.1 (2016-2026.09) was released on 27 October 2026** and is available on
+> request. FP2026.2 (2004-2026.09), which adds the fluxes of the open-path
+> LI-7500, is in progress.
 
 ## Scope
 
 The dataset comprises ecosystem fluxes measured by the eddy covariance method
-(CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and management
-information for 2004 to September 2026. Two releases are in preparation: `FP2026.1`
-(2016-2026.09, the enclosed-path LI-7200 era) and `FP2026.2` (2004-2026.09, which
-supersedes and re-includes the first).
+(CO<sub>2</sub>, H<sub>2</sub>O, H) and meteorological data for 2004 to
+September 2026. `FP2026.1` (2016-2026.09, the
+enclosed-path LI-7200 era) is released; `FP2026.2` (2004-2026.09, which supersedes
+and re-includes the first) is in progress.
 
 The meteorological part currently comprises thirteen products: the four radiation
 components (`SW_IN`, `SW_OUT`, `LW_IN`, `LW_OUT`), `PPFD_IN`, `TA`, `RH`, `VPD`,
@@ -54,7 +54,7 @@ output is checked, corrected, merged and exported.
 | `10_METEO/` | Meteo, in three substages — `10_REFERENCE/` (MeteoSwiss and NABEL reference series), `20_SCREENING/` (per-variable, per-sensor stepwise screening), `30_PRODUCTS/` (thirteen product notebooks `01`–`13`, one per variable, joined by `99` into the merged file and its information file) — plus `40_EXPORTS/` (the EddyPro biomet file). |
 | `20_L1_FLUXES/` | Merge the Level-1 EddyPro runs, per instrument (`IRGA72/`, `IRGA75/`), each in one `99_` notebook. |
 | `30_FLUX_POST-PROCESSING_CHAIN/` | The flux post-processing per instrument. `IRGA72/`: the chain input (`00`, Level-1 fluxes and meteo), `NEE`, `LE` with `ET`, and `H` (`01`, `11`, `15`), merged by `99`; the 2016-2024 u\* threshold detection in `USTAR_DETECTION_2016-2024/`. `IRGA75/`: the steps `10_SELF_HEATING_CORRECTION/`, `20_USTAR_DETECTION/` and `30_FPPC/`. |
-| `80_FINALIZE/` | Collects the Level-1 fluxes, the meteo of `10_METEO/30_PRODUCTS/99` and the flux post-processing into one file, from which the release datasets are cut. |
+| `80_FINALIZE/` | Collects the Level-1 fluxes, the meteo of `10_METEO/30_PRODUCTS/99` and the flux post-processing into one file (`10`), from which the release datasets are cut (`20`: FP2026.1). |
 | `90_OVERVIEW/` | Dataset-wide overview notebooks, and the two generators for the standalone HTML products: 23 meteo dashboards, one per variable or soil depth, and the calendar explorer. |
 
 Stages that process both analysers split into `IRGA72/` and `IRGA75/`

@@ -73,7 +73,6 @@ website:
               - Meteo_Data_LW_OUT.md
           # .qmd, not .md: the page carries an executable ```{mermaid} cell.
           - Meteo_Product_Chain.qmd
-      - Management_Data.md
       - section: "Eddy covariance"
         contents:
           - Raw_Data.md
@@ -106,7 +105,7 @@ website:
           - Supplementary.md
           - Links.md
           - References.md
-          - Versions.md
+          - Dataset_Versions.md
       # Links to the notebook index built by build_notebooks.py, which lands at
       # notebooks/index.html when `quarto render docs` renders the staged copies.
       - text: Notebooks

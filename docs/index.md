@@ -1,36 +1,46 @@
 # CH-LAE Flux Product (PI dataset)
 
-::: {.callout-important title="Dataset in preparation"}
-This dataset is currently in preparation. Both the data and this documentation
-are work in progress and are subject to change. Please contact the author before
-using the data.
+::: {.callout-note title="FP2026.1 released on 27 October 2026"}
+The first release, **FP2026.1**, covers January 2016 to September 2026 and is available on
+request. The second release, FP2026.2, adds the fluxes from 2004 and is in progress. See
+[Dataset Versions](Dataset_Versions.md).
 :::
 
 produced by [Lukas Hörtnagl](https://gl.ethz.ch/people/person-detail.lukas.html)
 
-Documentation and notebooks for the creation of the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)** . The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/), operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
+Documentation and notebooks for the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)**. The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/), operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
 
-The dataset comprises ecosystem fluxes measured by the eddy covariance method (CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and detailed management info between 2004 and September 2026. More data will be added to this dataset in the future.
+The dataset holds ecosystem fluxes measured by eddy covariance (CO<sub>2</sub>, H<sub>2</sub>O and sensible heat) and meteorological data. FP2026.1 contains the fluxes of the enclosed-path LI-7200 gas analyser from January 2016 on. The fluxes of the open-path LI-7500, measured from 2004 to 2017, are being processed for FP2026.2.
 
-For an overview of the dataset, see [Overview](Overview.md).
+- [Overview](Overview.md): what the dataset contains and how it was produced.
+- [Variables](Variables.md): the main variables, their units and the column suffixes.
+- [Meteorological data](Meteo_Data.md): one page per variable, with its columns, coverage, flags and known limitations, and an [interactive dashboard](Data_Dashboards.md) for each.
+- [Post-processing chain](FPC.qmd): how the fluxes were quality-controlled, filtered and gap-filled.
 
-Thirteen meteorological variables are documented so far, measured at the 47 m tower level and at the forest floor between 2004 and 2025. Each has its own page under [Meteorological data](Meteo_Data.md) giving its columns, units, coverage, provenance flags and known limitations, and each also has an [interactive dashboard](Data_Dashboards.md) summarising the exported series year by year.
-
-For an overview of recent documentation updates see [here](https://github.com/holukas/dataset_ch-lae_flux_product/commits/main/).
-
-For a list of planned updates and additions, see [Issues on the GitHub repository](https://github.com/holukas/dataset_ch-lae_flux_product/issues).
+Recent changes to the documentation are in the [commit history](https://github.com/holukas/dataset_ch-lae_flux_product/commits/main/), planned updates in the [Issues](https://github.com/holukas/dataset_ch-lae_flux_product/issues) of the repository.
 
 ![The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg){#fig-photo-ec2}
 
 ## Current dataset version
 
-### **CH-LAE FP2026.1 (2016-2026.09) [in progress]**
+### **CH-LAE FP2026.1 (2016-2026.09) [current version]**
 
-First release, covering the enclosed-path LI-7200 era from the January 2016 setup change onwards.
+First release, 1 January 2016 to 30 September 2026. Fluxes of `NEE`, `LE`, `ET` and `H` from the
+enclosed-path LI-7200, gap-filled, with the uncertainty of `NEE`, and all meteorological data of
+the site.
+
+release date: 27 October 2026
+
+available on request from the Grassland Sciences group, ETH Zurich
+
+For details and what is not yet included, see [Dataset Versions](Dataset_Versions.md).
+
+## Next dataset version
 
 ### **CH-LAE FP2026.2 (2004-2026.09) [in progress]**
 
-Second release, extending the record back to 2004. Supersedes FP2026.1, which it re-includes in full.
+Extends the flux record back to 2004 with the fluxes of the open-path LI-7500. It re-includes
+FP2026.1 in full and supersedes it.
 
 ## Acknowledgments
 
