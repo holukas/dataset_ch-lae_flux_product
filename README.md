@@ -18,8 +18,8 @@ by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/).
 
 The dataset comprises ecosystem fluxes measured by the eddy covariance method
 (CO<sub>2</sub>, H<sub>2</sub>O, H), meteorological data and management
-information for 2004–2025. Two releases are in preparation: `FP2026.1`
-(2016–2025, the enclosed-path LI-7200 era) and `FP2026.2` (2004–2025, which
+information for 2004 to September 2026. Two releases are in preparation: `FP2026.1`
+(2016-2026.09, the enclosed-path LI-7200 era) and `FP2026.2` (2004-2026.09, which
 supersedes and re-includes the first).
 
 The meteorological part currently comprises thirteen products: the four radiation
