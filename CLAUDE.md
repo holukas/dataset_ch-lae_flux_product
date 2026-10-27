@@ -76,12 +76,15 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   tree it is in, not by the number. (There is no odd/even offset.)
 - **Instruments:** where a stage processes both sensors, split into `IRGA72/` and
   `IRGA75/` subfolders on both sides.
-- **Filenames:** no spaces, no `+` (use `_and_`).
+- **Filenames:** no spaces. `+` is allowed (e.g. `2017_1+2` for a run over two setup periods);
+  existing `_and_` names stay as they are.
 - **Figures stay in the repo** (`docs/images/` for published figures, a
   `figures/` subfolder under the relevant `workflow/` stage for working plots);
   only heavy data (`*.parquet`/`*.csv`/`*.pkl`) goes to the external data folder.
 - Raw inputs (`0_data/`) and `tests/` outputs live only in the external data
-  folder and are gitignored.
+  folder and are gitignored. `workflow/00_DATA/` in the external folder holds files that no
+  notebook produces but that are shared with the dataset, such as the EddyPro project and metadata
+  files of every Level-1 run (`00_DATA/EDDYPRO_SETTINGS/IRGA72`, `/IRGA75`).
 - **The external data folder cannot be assumed present.** Where a notebook depends
   on a value that lives there — a calibration constant, a date — declare the value
   in the notebook with its source file named, use that declaration everywhere
