@@ -155,7 +155,7 @@ principled answer to "what number is the new one?".
   not decorative — `02` and `03` read `01`; `04` reads `02`'s product (measured
   and homogenised `TA` and its source flag, for the vapour pressure of its steps
   11 and 12); `06` reads `01` and `02` as diagnostics and `02`'s source flag for
-  its night guard; `07` reads `01`/`02`/`04`. For `01`-`06` the run order is
+  its night guard; `07` reads `02` and `04`. For `01`-`06` the run order is
   therefore: `10_REFERENCE/MeteoSwiss_LAE`, then `01`, then `02`, then `03`/`04`/`05`
   (independent of each other; `05` needs only the reference), then `06`. A
   notebook run against a stale upstream file does not fail, it silently uses the
@@ -188,14 +188,13 @@ principled answer to "what number is the new one?".
   notebook exported. Its `REGISTRY` is the one place a series is
   declared: the merge, the column check, the coverage table and the captions all
   read it, so adding a variable there is what makes it arrive everywhere.
-  **It merges only the products already extended to `PERIOD_END`.** `PRODUCTS` is
-  the subset of `REGISTRY` whose file stem ends in `PERIOD_LABEL` (`2026.09`), so at
-  present `01`-`07`; `08`-`13` keep their entries, flag labels and descriptions,
-  still name their `*_2025` files, and are left out. Extending one means changing
-  its stem in `REGISTRY` and adding its figure cell (removed while it is out); a
-  stem ending in neither period raises. Every merged product is asserted to end at
-  `PERIOD_END`, and every code of a drawn flag to have a `FLAG_LABELS` entry. The
-  2025 version of the notes on `07`-`13` is notebook version `5`. A
+  **It merges every product, so it holds all meteo data available so far.**
+  `PRODUCTS` is all of `REGISTRY`. A stem ending in `PERIOD_LABEL` (`2026.09`) must
+  end at `PERIOD_END`; a stem ending in `2025` (at present `08`-`13`) must end at
+  `OLD_END` (2025-12-31 23:45) and is `NaN` after it, with that reason added to its
+  `MAY_HAVE_GAPS` entry. Extending one means changing its stem in `REGISTRY`; a stem
+  ending in neither period raises. Every code of a drawn flag must have a
+  `FLAG_LABELS` entry. A
   multi-column product contributes **one entry per series a reader would
   analyse**, not one per column in its file — `09` five soil-moisture depths plus
   their homogenised twins, `10` the seven reconciled soil-temperature depths and
