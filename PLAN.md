@@ -21,7 +21,7 @@ Status vocabulary used throughout:
 
 | release | period | gas analyser | state |
 |---|---|---|---|
-| `FP2026.1` | 2016 - Sep 2026 | `IRGA72` (LI-7200, enclosed path) | open |
+| `FP2026.1` | 2016 - Sep 2026 | `IRGA72` (LI-7200, enclosed path) | done, released 27 Oct 2026 |
 | `FP2026.2` | 2004 - Sep 2026 | `IRGA75` (LI-7500, open path) + `IRGA72` | open |
 
 `FP2026.2` supersedes `FP2026.1` and re-includes it in full. The two releases
@@ -230,8 +230,9 @@ In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
 `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, is written.
 
-1. **Extend the rest of the meteo stage**: `08` to `13`,
-   `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
+1. **Extend the rest of the meteo stage**: `08` to `13` (`99` already merges
+   them as they are, to December 2025, since 27 Oct 2026; extending one means
+   changing its stem in the `99` registry), `RADIATION_SENSOR_CONTINUITY`, `TA_HOMOGENIZATION_OPTIONS`, the
    `90_OVERVIEW` notebooks and `build_meteo_dashboard.py`; then the
    `docs/Meteo_Data_*.md` pages and dashboards of those variables, including
    the `VPD` page for the two columns of `07`. The `05`
@@ -273,9 +274,15 @@ In order. Each item is blocked by the one above it, except that the flux items
    Each writes only the columns it adds, and `99_FPPC_IRGA72_MERGED_2016-2026.09` in
    the same folder merges these (158 columns). `80_FINALIZE/10_FLUXES_and_METEO_2004-2026.09`
    collects the meteo of `99`, the `IRGA72` Level-1 fluxes of `22.1` and that file
-   into one file from 2004 (506 columns); release datasets are cut from it by
-   period. The meteo reaches it only through `99`, so products `08` to `13` join once
-   they are extended and merged there; the `IRGA75` fluxes are not in it yet. Still
+   into one file from 2004 (548 columns); release datasets are cut from it by
+   period. `80_FINALIZE/20_CH-LAE_FP2026.1_2016-2026.09` cuts the FP2026.1 dataset
+   `CH-LAE_FP2026.1_2016-2026.09` (parquet and CSV, with the `20_` prefix), keeping
+   the variables with a value in 2016 - Sep 2026; its column names are not final yet.
+   The `_INFO.md` files of both give each variable's unit and description, from
+   `80_FINALIZE/variable_info.py`; `*_CORRDIFF` and `FILE_TIME_DURATION` are still
+   to be checked against the EddyPro documentation. The meteo reaches it only
+   through `99`, which merges all thirteen products; `08` to `13` end in December
+   2025 until they are extended. The `IRGA75` fluxes are not in it yet. Still
    to check: `H` in 2024
    is about a third lower than in the other years.
    Level-4.2 partitioning is not part of this version of the dataset (decided
@@ -290,9 +297,10 @@ In order. Each item is blocked by the one above it, except that the flux items
    25th and 75th percentiles. The `LE` and `H` random and joint uncertainty of
    ONEFlux belong to the same step (the joint one is built from the `_CORR25` and
    `_CORR75` spread). Needs the `NETRAD` and `G` products at September 2026.
-7. **Fill the stub pages**: `L1`, `QCF`, `Raw_Data`, and `Overview`, `Versions`,
-   `Software`, `Management_Data`, `Supplementary`, `Links`. `L2`, `L3.1`, `L3.2`,
-   `L4.1`, `L4.2` and a first `Variables` page are written (27 Oct 2026).
+7. **Fill the stub pages**: `Supplementary` is still a stub. The other pages,
+   including `L1`, `QCF`, `Raw_Data`, `Overview`, `Dataset_Versions`, `Software`
+   and `Links`, were written on 27 Oct 2026; `Management_Data` was removed, as
+   there are no management data.
 8. **Sensitivity of the annual `NEE` sums to the number of XGBoost trees** (future
    session). The number of trees is now chosen by blocked cross-validation (the
    minimum of the error on held-out 14-day blocks: 110 trees for `NEE`, 130 for `LE`,
