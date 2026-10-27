@@ -290,9 +290,18 @@ In order. Each item is blocked by the one above it, except that the flux items
    25th and 75th percentiles. The `LE` and `H` random and joint uncertainty of
    ONEFlux belong to the same step (the joint one is built from the `_CORR25` and
    `_CORR75` spread). Needs the `NETRAD` and `G` products at September 2026.
-7. **Fill the stub pages**: `L1`, `L2`, `L3.1`, `L3.2`, `L4.1`, `L4.2`, `QCF`,
-   `Raw_Data`, and `Overview`, `Variables`, `Versions`, `Software`,
-   `Management_Data`, `Supplementary`, `Links`.
+7. **Fill the stub pages**: `L1`, `QCF`, `Raw_Data`, and `Overview`, `Versions`,
+   `Software`, `Management_Data`, `Supplementary`, `Links`. `L2`, `L3.1`, `L3.2`,
+   `L4.1`, `L4.2` and a first `Variables` page are written (27 Oct 2026).
+8. **Sensitivity of the annual `NEE` sums to the number of XGBoost trees** (future
+   session). The number of trees is now chosen by blocked cross-validation (the
+   minimum of the error on held-out 14-day blocks: 110 trees for `NEE`, 130 for `LE`,
+   140 for `H`). Between 60 and 110 trees the blocked error changes by less than 1 %,
+   but the difference XGBoost - MDS over 2016 - Sep 2026 (`CUT_50`) moves from
+   +265 to +685 gC m-2, almost all of it from daytime gaps. Compute the annual sums at
+   several numbers of trees (e.g. 60, 80, 110, 150, 250) to see how firm the 110-tree
+   result is before publishing; if they spread widely, consider averaging models
+   trained with several seeds or tree counts.
 
 
 ## 6. Open questions
