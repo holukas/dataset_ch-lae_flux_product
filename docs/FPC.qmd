@@ -1,4 +1,4 @@
-# Flux Processing Chain
+# Flux Post-processing Chain
 
 The fluxes are processed along the
 [Swiss FluxNet flux processing chain](https://www.swissfluxnet.ethz.ch/index.php/data/ecosystem-fluxes/flux-processing-chain/).
