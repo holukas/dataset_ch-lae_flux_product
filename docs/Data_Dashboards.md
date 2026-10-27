@@ -1,14 +1,22 @@
 # Data dashboards
 
-Interactive summaries of the finished products, one page per series. Each is a
-complete standalone HTML file with its own charts and styling: it opens without a
-server, works offline, and can be sent to somebody who has neither this site nor
-the data.
+Interactive summaries of the meteorological products, one page per series. Each
+dashboard is a standalone HTML file with its own charts and styling. It opens
+without a server, works offline, and can be shared with someone who has neither
+this site nor the data.
 
-They are built from the exported product files rather than from the database, so
-a dashboard shows exactly the record a user of the dataset would receive. They
-are regenerated at every deploy, which means a dashboard cannot describe an older
-version of the product than the one currently published.
+The dashboards are built from the exported product files, not from the database,
+so they show the record as a user of the dataset receives it. They are rebuilt at
+every deploy of this site.
+
+::: {.callout-note title="The dashboards end in December 2025"}
+
+The dashboards are still built from the product versions that end on
+31 December 2025. They do not yet show January to September 2026, although
+`SW_IN`, `TA`, `PPFD_IN`, `RH`, `PA`, `LW_IN` and `VPD` in FP2026.1 run to
+30 September 2026. There are no dashboards for the fluxes yet.
+
+:::
 
 ***
 
@@ -16,30 +24,26 @@ version of the product than the one currently published.
 
 **[Every month of the record on one grid](dashboards/METEO_CALENDAR_explorer.html)**
 
-Twenty-one years by twelve months, one tile per month, coloured by the metric you
-select and badged with what was notable in that month. The same grid is drawn at
-three resolutions: months, meteorological seasons, and a raster of every day of
-the record. The daily raster is the only one of the three that never cuts a spell
-in half at a boundary, so a heatwave or a drought that ran across a month end is
-visible there and split in the other two.
+The years 2005 to 2025 by twelve months, one tile per month, coloured by the
+selected metric and marked with what was notable in that month. The same grid is
+drawn at three resolutions: months, meteorological seasons, and every day of the
+record. The daily raster is the only one of the three that never splits a spell
+at a boundary, so a heatwave or a drought that ran across a month end is visible
+as one event there and split in the other two.
 
-It reads the meteorological products today, which is why it currently sits beside
-the meteo dashboards. It is a calendar over whatever the dataset carries rather
-than a meteorological page, so it will move once the flux products land.
+The explorer currently reads only the meteorological products.
 
 ***
 
 ## Per-variable dashboards
 
-Each one covers a single exported series year by year: coverage and provenance,
-seasonality, distributions, extremes, trends, and the comparison against an
-independent reference station where one exists. Every chart carries a table view
-of the same numbers underneath it, so a figure can be read as values rather than
-only as a picture.
+Each dashboard covers a single exported series year by year: coverage and
+provenance, seasonality, distributions, extremes, trends, and the comparison
+against an independent reference station where one exists. Every chart has a
+table of the same numbers below it.
 
-The soil profiles get one dashboard per depth rather than one for the profile,
-because a depth is the unit that has its own sensor history, its own gaps and its
-own limitations.
+The soil profiles have one dashboard per depth, because each depth has its own
+sensor history, gaps and limitations.
 
 ### Tower, 47 m
 
@@ -70,12 +74,10 @@ own limitations.
 
 ***
 
-## What a dashboard is not
+## Dashboards and variable pages
 
-A dashboard summarises a product; it does not document one. What was corrected,
-what was left alone and what is still open belong to the variable, so they live on
-that variable's page under [Meteorological data](Meteo_Data.md), and the evidence
-behind each decision lives in the notebook that page links to.
-
-So read a dashboard to see what the record looks like, and read the variable page
-before drawing a conclusion from it.
+A dashboard summarises a product; it does not document it. What was corrected,
+what was left unchanged and what is still open are described on the page of each
+variable under [Meteorological data](Meteo_Data.md), and the evidence for each
+decision is in the notebook that page links to. Read the variable page before
+drawing conclusions from a dashboard.

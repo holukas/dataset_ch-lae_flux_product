@@ -1,78 +1,92 @@
 # Flux Processing Chain
 
-::: {.callout-note title="Info"}
-Flux processing follows the [Swiss Fluxnet Flux Processing Chain](https://www.swissfluxnet.ethz.ch/index.php/data/ecosystem-fluxes/flux-processing-chain/)
+The fluxes are processed along the
+[Swiss FluxNet flux processing chain](https://www.swissfluxnet.ethz.ch/index.php/data/ecosystem-fluxes/flux-processing-chain/).
+EddyPro calculates the fluxes (Levels 0 and 1); the Python library
+[diive](https://github.com/holukas/diive) runs the post-processing (Levels 2 to 4).
+
+::: {.callout-note title="FP2026.1 and IRGA75"}
+FP2026.1 contains the fluxes of the enclosed-path LI-7200 (`IRGA72`), 2016 to September 2026, up
+to Level 4.1. The fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 2017 and 2019) pass through
+the additional self-heating correction of Level 1.1. They are in progress for FP2026.2 and are not
+part of FP2026.1.
 :::
 
 ## Flowchart
 
 ```{mermaid}
+flowchart TB
+    ecbin["EC raw data, binary"]
+    bico["bico"]
+    eccsv["EC raw data, ASCII"]
+    met["meteo data"]
+    EP["EddyPro, run with fluxrun"]
+    L0F["L0: preliminary fluxes"]
+    L1F["L1: final fluxes"]
+    L11F["L1.1: self-heating correction (IRGA75 only, FP2026.2)"]
 
-flowchart
-	ecbin[EC binary raw data]
-    eccsv[EC ASCII raw data]
-    met[meteo data]
-    L0F[L0 fluxes]
-    L1F[L1 fluxes]
-	L42F[L4.2 partitioned fluxes]
-    bico[bico]
-    EP[fluxrun/EddyPro]
-
-    %% ---------------- diive
-    subgraph diive_scripts
-    	diive[diive]
-        L2QCF[L2 quality flags]
-        L32QCF[L3.2 quality flags]
-        L33QCF[L3.3 quality flags]
-        QCF[overall quality flag QCF]
-        L31F[L3.1 fluxes]
-        L31QCF[L3.1 fluxes filtered]        
-	    L31Ffiltered[L3.1 fluxes filtered]
-        L41F[L4.1 gap-filled fluxes]
+    subgraph diive_chain["diive post-processing chain"]
+        L2QCF["L2: quality flags"]
+        L31F["L3.1: storage term (NEE only)"]
+        L32QCF["L3.2: outlier flags"]
+        L33QCF["L3.3: USTAR flags (NEE only)"]
+        QCF["overall quality flag QCF"]
+        L41F["L4.1: gap-filling (XGBoost, MDS for comparison)"]
+        L42F["L4.2: partitioning of NEE (not in FP2026.1)"]
     end
-    
 
-	ecbin --> bico --> eccsv --> EP
-    EP --> L0F -- informs --> L1F
-    met -- informs --> L1F
-    
-    L1F --> diive    
-    diive --> L2QCF
-    diive --> L31F
-    diive --> L33QCF
-	L2QCF --> L31Ffiltered
-    L2QCF --> QCF
-    L32QCF --> QCF
-    L33QCF --> QCF
-    QCF --> L31QCF
-    L31F --> L31QCF        
-    L31QCF -- gap-filling --> L41F
-    L31F --> L31Ffiltered
-    L31Ffiltered --> L32QCF
-    L41F -- partitioning (NEE) --> L42F
+    ecbin --> bico --> eccsv --> EP
+    EP --> L0F
+    L0F -- "informs settings" --> L1F
+    met -- "biomet input" --> L1F
+    EP --> L1F
+    L1F --> L11F
+    L1F --> L2QCF
+    L11F --> L2QCF
+    L2QCF --> L31F --> L32QCF --> L33QCF --> QCF --> L41F --> L42F
 
-    classDef orange fill:#FFE0B2,stroke:#E65100,stroke_width:4px,color:#E65100
+    classDef orange fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#E65100
     class L2QCF,L32QCF,L33QCF,QCF orange
 
-    classDef green fill:#DCEDC8,stroke:#33691E,stroke_width:4px,color:#33691E
-    class L0F,L1F,L31F,L31Ffiltered,L31QCF,L41F,L42F green
+    classDef green fill:#DCEDC8,stroke:#33691E,stroke-width:2px,color:#33691E
+    class L0F,L1F,L11F,L31F,L41F,L42F green
 
-    classDef blue fill:#E1F5FE,stroke:#01579B,stroke_width:4px,color:#01579B
-    class bico,EP,diive blue
+    classDef blue fill:#E1F5FE,stroke:#01579B,stroke-width:2px,color:#01579B
+    class bico,EP blue
 
-    classDef white fill:#FFFFFF,stroke:#000000,stroke_width:4px,color:#000000
-    class diive_scripts white
-
+    classDef white fill:#FFFFFF,stroke:#000000,stroke-width:2px,color:#000000
+    class diive_chain white
 ```
 
 ## Processing steps
 
-- **Raw data EC** are the eddy covariance raw data files.
-- **Level-0** are preliminary calculations, used to fine-tune final processing settings.
-- **Level-1** are final flux calculations that are used in all subsequent steps.
-- **Level-2** creates additional quality flags based on Level-1 output
-- **Level-3.1** adds the storage term to the respective flux
-- **Level-3.2** detects outliers and creates additional quality flags
-- **Level-3.3** creates additional quality flags based on three different constant USTAR thresholds, previously detected by FLUXNET (Pastorello et al., 2020)
-- **Level-4.1** performs gap-filling (long-term random forest)
-- **Level-4.2** partitions NEE fluxes (gap-filled with random forest) into GPP and RECO
+| Step | What it does | In FP2026.1 |
+|---|---|---|
+| [Raw data](Raw_Data.md) | 20 Hz raw data, converted from binary to ASCII | not included |
+| [Level 0](L0.md) | Preliminary flux calculation, to check the setup and choose the lag windows | not included |
+| [Level 1](L1.md) | Final flux calculation with EddyPro, one run per setup period | yes |
+| [Level 1.1](L1.1.md) | Self-heating correction of the open-path `IRGA75` | no, FP2026.2 |
+| [Level 2](L2.md) | Quality flags from the EddyPro output | yes |
+| [Level 3.1](L3.1.md) | Storage term added to `FC`, giving `NEE` | yes |
+| [Level 3.2](L3.2.md) | Outlier flags | yes |
+| [Level 3.3](L3.3.md) | USTAR flags at three constant thresholds (`NEE` only) | yes |
+| [QCF](QCF.md) | Overall quality flag, combining the flags of all levels | yes |
+| [Level 4.1](L4.1.md) | Gap-filling with XGBoost; MDS for comparison | yes |
+| [Level 4.2](L4.2.md) | Partitioning of `NEE` into `GPP` and `RECO` | no |
+
+: The processing steps and whether their output is part of FP2026.1. {#tbl-fpc-steps}
+
+`LE` (with `ET`) and `H` pass through the same levels without a storage term and without a USTAR
+filter, as in Pastorello et al. (2020). `H` uses only the quality flags of the sonic anemometer.
+
+## Notebooks of the IRGA72 chain
+
+| Notebook | Content |
+|---|---|
+| [`00_FPPC_IRGA72_INPUT_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/00_FPPC_IRGA72_INPUT_2016-2026.09.html) | Joins the Level-1 fluxes with the meteo data |
+| [`01_FPPC_IRGA72_NEE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/01_FPPC_IRGA72_NEE_2016-2026.09.html) | `NEE`: Levels 2 to 4.1 and the uncertainty |
+| [`11_FPPC_IRGA72_LE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/11_FPPC_IRGA72_LE_2016-2026.09.html) | `LE` and `ET`: Levels 2 to 4.1 |
+| [`15_FPPC_IRGA72_H_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/15_FPPC_IRGA72_H_2016-2026.09.html) | `H`: Levels 2 to 4.1 |
+| [`99_FPPC_IRGA72_MERGED_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/99_FPPC_IRGA72_MERGED_2016-2026.09.html) | Merges the output of the three flux notebooks |
+
+: Notebooks of the post-processing chain for `IRGA72`. {#tbl-fpc-notebooks}

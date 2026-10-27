@@ -1,53 +1,117 @@
 # Known Issues
 
-## USTAR Detection
+Open points that affect users of FP2026.1. Limitations of a single meteorological variable are
+on that variable's page under [Meteorological data](Meteo_Data.md); release details are in
+[Dataset versions](Dataset_Versions.md). Planned work is tracked in the
+[Issues](https://github.com/holukas/dataset_ch-lae_flux_product/issues) of the repository.
 
-### Significantly changed threshold after 2015 in FLUXNET analysis
-- FLUXNET uses a sophisticated approach to detect USTAR thresholds across years
-- The method is described in [Pastorello et al., 2020](https://www.nature.com/articles/s41597-020-0534-3)
-- In case of CH-LAE, the detected thresholds change significantly after 2015 (@fig-ustar-fluxnet1)
-- At the moment, the cause of this change is unknown
-- However, it coincides with a setup change: 
-	- IRGA measurements were done completely with an open-path LI-7500 until 11 Jan 2016 (Phase 1, P1)
-	- After that, an enclosed-path LI-7200 was installed and run in parallel until 12 Dec 2017 (P2)
-	- Starting on 14 Dec 2017, only the LI-7200 was installed (P3)
-- This means the USTAR detection was done using the LI-7500 during P1.
-- NEE that was used during P1 was corrected for self-heating, similar to the approach by Kittler et al., 2017
+## No measured `H` from 10 January to 20 March 2019
 
-![Results from the FLUXNET USTAR threshold detection, based on data 2004-2023. Data from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png){#fig-ustar-fluxnet1}
+There is no measured sensible heat flux between 10 January 2019 15:15 and 20 March 2019 18:45
+(`TIMESTAMP_MIDDLE`), 3320 half-hours. The gap-filled series
+`H_L3.1_L3.3_CUT_NONE_QCF_gfXG` covers the period, so its values there come from the model
+alone; `FLAG_H_L3.1_L3.3_CUT_NONE_QCF_gfXG_ISFILLED` marks them.
+
+The gap has two causes. Setup period `2019_2` (10 to 17 January 2019), in which both LI-7200
+units were defective, has no Level-1 run, so its sonic data were not processed. In `2019_3`
+(17 January to 20 March 2019) the open-path LI-7500 stood in for the LI-7200; its run is processed
+with the other `IRGA75` fluxes and is not part of FP2026.1. The same sonic was in operation
+throughout, so `H` could be computed for this period from these two setup periods. This is under
+review.
+
+The gas fluxes `FC`, `NEE` and `LE` have the same gap, for the reasons above. See
+[Level-4.1](L4.1.md) for the other long gaps.
+
+## `H` in 2024 is lower than in the other years
+
+The annual mean of the measured `H` is 25.8 W m^-2^ in 2024, against 33.9 to 51.8 W m^-2^ in
+the other full years 2016 to 2025, about a third lower. Incoming shortwave radiation was also
+lower in 2024 than in the other years, but the cause has not been checked yet. Treat annual `H`
+in 2024 with caution until it is.
+
+## MDS in spring 2016
+
+In spring 2016 the measurements of the start-up period were removed (1 March to 25 May 2016), and
+the gap includes the leaf-out. MDS fills this gap from records far away in time and gives a much
+larger uptake than XGBoost: the April-May sum of `NEE` (CUT_50) is -235 gC m^-2^ with MDS and
+-113 gC m^-2^ with XGBoost. In the other years the April-May sums of both methods lie between
+-30 and -195 gC m^-2^. XGBoost is the gap-filling method of this dataset, and MDS is included for
+comparison only. Use the XGBoost series (`_gfXG`). See [Level-4.1](L4.1.md).
+
+## Fluxes of the open-path LI-7500 are not yet included
+
+FP2026.1 contains fluxes of the enclosed-path LI-7200 (`IRGA72`) only, from 11 January 2016. The
+fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 12 December 2017 and 17 January to
+20 March 2019), with the self-heating correction of [Level-1.1](L1.1.md), are in progress for
+FP2026.2. FP2026.2 will contain FP2026.1 in full and supersede it.
+
+## USTAR thresholds lower than those of FLUXNET
+
+FLUXNET detects USTAR thresholds per year with the method of @pastorello_fluxnet2015_2020. For
+CH-LAE, the thresholds it detects change markedly after 2015 (@fig-ustar-fluxnet1). The cause is
+not known. The change coincides with a change of gas analyser:
+
+- until 11 January 2016, only the open-path LI-7500 was in operation;
+- from 11 January 2016 to 12 December 2017, the LI-7500 and the enclosed-path LI-7200 ran in
+  parallel;
+- from 14 December 2017, only the LI-7200 was in operation, except from 17 January to
+  20 March 2019, when the LI-7500 stood in for it.
+
+Before 2016, the threshold detection therefore used LI-7500 `NEE`, corrected for self-heating in
+a similar way to @kittler_high-quality_2017.
+
+FP2026.1 does not use the FLUXNET thresholds. It filters `NEE` at three constant thresholds
+detected on the LI-7200 data of 2016 to 2024: 0.272 (`CUT_16`), 0.304 (`CUT_50`) and
+0.340 m s^-1^ (`CUT_84`). These are kept on purpose although FLUXNET uses much higher thresholds
+for CH-LAE. See [Level-3.3](L3.3.md).
+
+![USTAR thresholds detected by FLUXNET, based on data 2004-2023, from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png){#fig-ustar-fluxnet1}
 
 ::: {.callout-tip title="Notebook"}
-[Sonic Anemometer](https://holukas.github.io/dataset_ch-lae_flux_product/notebooks/90_OVERVIEW/Sonic Anemometer.html)
+
+[Sonic anemometer data](notebooks/90_OVERVIEW/Sonic_Anemometer.html)
+
 :::
 
-## Timeshift checks
+## Time shift in incoming shortwave radiation from 2022
 
-Concerns incoming shortwave radiation, `SW_IN_T1_47_1`; see
-[Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html) for the product itself.
+The daily cycle of incoming shortwave radiation at 47 m (`SW_IN_T1_47_1`) lags behind potential
+radiation by a few minutes from 2022 onwards (@fig-phaseshiftfft-16-25). No error was found in
+the processing, and the shift is already present in the raw data. Its cause is not known. The
+product page is [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.md).
 
-### Summary
+### Method
 
-I checked for potential time shifts (wrong timestamps) by comparing the maximum of measured short-wave incoming radiation (SW_IN​) with the maximum potential radiation on clear-sky days (filtered for clear days, 70% of potential, to remove cloudy noise). The results show a small time lag in the `SW_IN_T1_47_1_gfXGB` variable starting in 2022, the same year the `diive` meteoscreening notebooks were deployed. To isolate the source of this offset, I performed numerous diagnostic tests on the processing steps. The extensive testing did not reveal any processing error or bug; all output values were correct.
-### Details
+The shift was detected by comparing the phase of the 24-hour component (FFT) of measured and
+potential radiation on clear days, selected as days on which the measured radiation reached at
+least 70 % of the potential. The 2016-2024 record has a median offset of +1.93 min; from 2022 the
+daily shifts are larger.
 
-**No time shift due to resampling.** I tested the resampling output in the `diive` meteoscreening notebook, which downloads data from the database. I resampled the original 1min data that is stored in the database to 30min for the raw data variable (with name `SW_IN_T1_47_1` in the database). At timestamp `2022-08-01 09:30:00`, the value was `654.801507`. This time range corresponds to the values between `2022-08-01 09:01:00` and `2022-08-01 09:30:00` in the original 1min raw data files. I calculated the average from the original 1min raw data files manually and got `654.8015067`. This means there is no timeshift due to resampling.
+### Checks of the processing
 
-**Reproduce database value at timestamp.** I then ran the meteoscreening notebook again, but this time I also included the nighttime-offset correction (corrects for values below zero, which also changes values during daytime). The value was `665.219439`, corrected for an approx. -10 offset because of sub-zero nighttime values. The same value was also confirmed for quality-screened and nighttime-offset-corrected data downloaded from the database. 
+Each processing step was checked at the half-hour of 1 August 2022, 09:00 to 09:30, and by
+repeating the FFT analysis on data from different stages:
 
-**No error during merging.** After all different data sources for `SW_IN` were merged, the value was still the same (no error due to merging). After the merging of all `SW_IN` variables, the nighttime offset correction is run again, this time on all merged data instead of the individual data sources. After this second offset correction, the value changed to `664.929319`. Since the value became slightly lower, this means that the offset was positive (above zero during nighttime) and the respective positive offset value was subtracted. All data were then stored to a parquet file.
+- **Resampling.** The 1-minute raw values from 09:01 to 09:30, averaged by hand, give
+  654.8015067 W m^-2^. The meteo screening, which reads the database and resamples to 30 minutes,
+  gives 654.801507 W m^-2^. Resampling introduces no shift.
+- **Nighttime offset correction.** With the correction of negative nighttime values (an offset of
+  about -10 W m^-2^), the value is 665.219439 W m^-2^, the same in the screening output and in the
+  screened data downloaded from the database. After all `SW_IN` sources are merged, the offset
+  correction runs again on the merged record and gives 664.929319 W m^-2^.
+- **Middle timestamp.** When the record is loaded for gap-filling, its timestamp is converted to
+  `TIMESTAMP_MIDDLE`. The value at 09:15 is 664.929319 W m^-2^, unchanged.
+- **Gap-filling and merging.** The value is unchanged after gap-filling and after the merge with
+  the flux data. Air temperature at 09:15, averaged by hand from the 1-minute raw files, matches as
+  well.
+- **Database against raw files.** The FFT analysis gives identical results on the 1-minute raw
+  file of August 2022 and on the 1-minute data downloaded from the database, with a median shift of
+  6.39 min at 30-minute resolution and 5.90 min at 1-minute resolution. The same holds for
+  July 2021, at both resolutions.
 
-**No error due to middle timestamp.** During gap-filling of `SW_IN_T1_47_1` data are loaded from the parquet file. During this loading, the timestamp is converted to `TIMESTAMP_MIDDLE`. The value before gap-filling and after loading all data from the file at the corresponding middle timestamp `2022-08-01 09:15:00` (corresponding to the half-hour between 9:00 and 9:30) was `664.929319`, so up to here everything is correct. I originally assumed that an error could occur here because of the 15min shift of the middle timestamp compared to the typical timestamp that shows the end of the averaging period. 
+![Time shift in incoming shortwave radiation, 2016-2024, from the phase of the 24-hour FFT component of measured against potential radiation, 30-minute data. Top: daily shifts with a 15-day rolling median, showing a lag from 2022. Middle: distribution of all shifts, median +1.93 min. Bottom: monthly distributions.](images/CH-LAE_2016-2024_phase_shift_fft_SWINvsSWINPOT.png){#fig-phaseshiftfft-16-25}
 
-**No error due to gap-filling.** After gap-filling `SW_IN`, the value was still the same (there was no gap in this location anyway so the value is not expected to change). After the gap-filling of other meteo variables and subsequent merging with flux data the value also remained the same (notebook 22.3). As an additional check, I manually calculated the **air temperature** value at `9:15` directly from original 1min raw data files between `09:01` and `09:30`, and the check was OK, values were identical.
+## References
 
-**Identical results for FFT analysis.** Next I ran the FFT analysis directly using the original data file for Aug 2022, using the 1min raw data file. Then I downloaded data for Aug 2022 from the database and also ran the analysis. The results from both analyses were identical, meaning that the data in the database and in the original raw data files are the same. 
-
-**Same results for file data and database data.** I then resampled the 1min data downloaded from the database to 30min, using the same functions as are used during the meteoscreening in `diive`, and I also created the middle timestamp for the resampled data. I then checked the value of `SW_IN_T1_47_1` at timestamp `2022-08-01 09:15`, it was `654.801507`, the same value as for the very first test described above (*No time shift due to resampling*). Running the FFT analysis on 1min raw data files or 1min data from the database yielded the same results, with a time shift median of 6.39MIN, similar to what can be seen in the figure below (@fig-phaseshiftfft-16-25) in 2022. All steps so far produced the correct results.
-
-**Shift can be seen in original raw data files.** I checked if this offset in 2022 can also be seen in the 1min data instead of the 30min data when downloaded from the database. Above checks already confirmed that data in the database are the same as in the original raw data files. This test also showed an offset of 5.90MIN, similar to the previous test for 30MIN data. This means this shift can be confirmed for the original raw data. I also tested the FFT analysis for data Jul 2021, 1min raw data files vs 1min data from database. Both runs yielded the same result. Also the same result was achieved for 1min raw data files resampled to 30min vs 1min database data resampled to 30min.
-
-I was not able to find any error in any of the processing steps and scripts.
-
-
-![**Time shift detection in shortwave radiation** (2016–2024) using FFT phase analysis. The time shift was calculated by comparing the phase angle of the fundamental 24-hour frequency component of measured vs potential radiation. Based on 30MIN data. (Top) Daily shifts (teal) with a 15-day rolling median (red) highlight a sensor lag emerging in 2022. (Middle) Global distribution shows a median offset of +1.93 min and strong phase alignment. (Bottom) Monthly boxplots indicate seasonal stability..](images/CH-LAE_2016-2024_phase_shift_fft_SWINvsSWINPOT.png){#fig-phaseshiftfft-16-25}
-
+::: {#refs}
+:::
