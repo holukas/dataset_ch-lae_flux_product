@@ -200,7 +200,7 @@ the table below summarizes it per level.
 |---|---|---|---|---|
 | Raw | binary → ASCII (bico) | done | done | stub |
 | L0 | preliminary run, per setup period | done, 2004-2019 | done, **through Sep 2026** | written |
-| L1 | final run, per setup period | re-run Oct 2026 (`FF-202610`, 19 runs); **`20_L1_FLUXES/IRGA75/99` still merges the 2025 runs** | done, **2016 - Sep 2026** (re-run, 18 runs) | written, with `L1_EddyPro_Settings` |
+| L1 | final run, per setup period | re-run Oct 2026 (`FF-202610`, 19 runs); merged in `20_L1_FLUXES/IRGA75/99` (18 run files) | done, **2016 - Sep 2026** (re-run, 18 runs) | written, with `L1_EddyPro_Settings` |
 | L1.1 | self-heating correction (open path only) | notebooks exist | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | stub |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | stub |
