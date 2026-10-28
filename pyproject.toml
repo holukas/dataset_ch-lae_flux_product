@@ -17,6 +17,9 @@ dependencies = [
     # 10_METEO/30_PRODUCTS/02 and 90_OVERVIEW. It arrives transitively
     # through diive, but a notebook here imports it directly, so it is declared.
     "scipy>=1.11",
+    # LI-7500 (IRGA75) CO2 flux bias correction, trained on the 2016-2017
+    # overlap with the LI-7200; replaces the SCOP self-heating correction.
+    "opco",
 ]
 
 [dependency-groups]
@@ -31,3 +34,4 @@ package = false
 
 [tool.uv.sources]
 diive = { path = "../../diive", editable = true }
+opco = { path = "../../opco", editable = true }
