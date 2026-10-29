@@ -346,6 +346,18 @@ In order. Each item is blocked by the one above it, except that the flux items
    year closed 2017 to -13 and 2016 to -92 gC m-2 (cross-year); the rest of 2016 lies
    in cold days of October to December, where the opco correction falls short
    (freezing fog; no opco variant and no fog screen fixed it).
+10. **H2O fluxes of the two analysers** (future session; for now both are accepted as
+    they are, decided 29 Oct 2026). In 2016-2017, on the half-hours both measured, the
+    open-path `IRGA75` `LE` is 7 % higher than the `IRGA72` `LE`, and the ratio grows with
+    humidity and cold (1.03 below 60 % RH, 1.8 above 95 %; 2.4 below 0 degC). Self-heating
+    would bias the open path low, so the likely cause is the damping of H2O fluctuations
+    in the tube and cell of the LI-7200 at high RH, which the Fratini et al. (2012)
+    correction may not fully remove. If so, the `IRGA72` `LE` of FP2026.1 and later is too
+    low in humid and cold conditions. To do: compare the energy balance closure
+    (`H + LE` against `NETRAD - G`) of both analysers in 2016-2017, by RH class; the one
+    that closes better at high RH has the more realistic `LE`. Also note that the
+    `IRGA75` loses more wet half-hours (63 % of half-hours with a valid `LE`, against
+    70 %), which biases its gap-filled `LE` low.
 
 
 ## 6. Open questions
