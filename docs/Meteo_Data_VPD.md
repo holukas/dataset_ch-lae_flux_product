@@ -34,7 +34,9 @@ change level at these dates, so `VPD` does as well.
   probe state.
 - `VPD_T1_47_1_HOMOGENIZED` is computed from the homogenised `TA` and `RH`, which put every
   probe state on the level of the normal CS215. Use it for anything that crosses
-  January 2016 or June 2026 (period means, trends, year rankings, anomalies).
+  January 2016 or June 2026 (period means, trends, year rankings, anomalies). In saturated
+  air it is zero before and after 2016 alike, because the homogenised `RH` lifts the
+  MP101A's readings in saturated air to 100 % ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
 
 **Changed from the 2004-2025 version of this product.** There, `VPD_T1_47_1` was computed
 from the homogenised `TA` and the measured `RH`, and no homogenised `VPD` existed. That
@@ -58,7 +60,7 @@ both value columns.
 | `FLAG_VPD_T1_47_1_SOURCE` | - | Which probe, and which state of it, stands behind the record. |
 
 `VPD_T1_47_1` ranges from **0 to 4.104 kPa** (median 0.176 kPa), `VPD_T1_47_1_HOMOGENIZED`
-from **0 to 4.183 kPa** (median 0.157 kPa). `VPD` is zero at saturation and cannot be
+from **0 to 4.183 kPa** (median 0.156 kPa). `VPD` is zero at saturation and cannot be
 negative.
 
 : The input pairs. {#tbl-vpd-inputs}
