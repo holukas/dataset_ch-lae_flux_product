@@ -310,6 +310,27 @@ In order. Each item is blocked by the one above it, except that the flux items
    several numbers of trees (e.g. 60, 80, 110, 150, 250) to see how firm the 110-tree
    result is before publishing; if they spread widely, consider averaging models
    trained with several seeds or tree counts.
+9. **Wet-weather gap of the `IRGA75` gap-filling.** The opco-corrected `IRGA75`
+   (`30_.../IRGA75/01`, chain `05`, first run 29 Oct 2026) agrees with the `IRGA72` on
+   the half-hours both measured (-38 gC m-2 over 2016-2017, `CUT_50`), but its
+   gap-filled `NEE` is 179 (2016) and 194 (2017) gC m-2 lower (XGBoost). Almost all
+   of it comes from the gaps: the LI-7500 loses wet half-hours (rain, fog, water on
+   the windows; half of the half-hours only the `IRGA72` measured have no `IRGA75`
+   flux, 30 % an AGC above 90), and its model, which has hardly seen wet
+   conditions, fills them and the gaps of both analysers with too much uptake. This
+   is a general weakness of open-path analysers; wetness drivers alone do not help
+   (opco tests). To do: calibrate an adjustment of the filled `IRGA75` values on the
+   2016-2017 half-hours where only the `IRGA72` measured (drivers: precipitation in
+   the preceding hours, RH, reason for the gap, day or night, `TA`, season), test it
+   across years (fit on 2016, check 2017, and the reverse), with and without the
+   half-hours with rain, since the shared sonic may be wet then and the `IRGA72`
+   fluxes may be affected too. Apply it to 2004-2015 only if it closes most of the
+   gap in both directions; otherwise state the bias as an uncertainty of the
+   `IRGA75` years. The night-time partitioning fits on measured `NEE` only, so the
+   missing wet nights bias `RECO` and `GPP` low regardless; this needs its own
+   adjustment or a stated uncertainty. Related: the test R² of chain `05` (0.59
+   against 0.73 for the `IRGA72`) is lowered by the records with AGC from 50 to 90,
+   whose scatter against the `IRGA72` is four to seven times that at AGC 50.
 
 
 ## 6. Open questions
