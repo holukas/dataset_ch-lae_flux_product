@@ -4,7 +4,7 @@ The overall quality flag `QCF` combines the test flags of the post-processing ch
 per record. It is calculated after each level, and each level includes the tests of the levels
 before it, so the flag after Level 3.3 accounts for all tests.
 
-Notebook: [`01_FPPC_IRGA72_NEE`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/01_FPPC_IRGA72_NEE_2016-2026.09.html),
+Notebook: [`05_FPPC_IRGA72_NEE`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/05_FPPC_IRGA72_NEE_2016-2026.09.html),
 the tables "result of each Level-2 test" and "result of each Level-3.2 test" and Step 5.
 
 ## Flag values

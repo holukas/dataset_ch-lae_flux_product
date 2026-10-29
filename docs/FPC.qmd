@@ -84,9 +84,9 @@ filter, as in Pastorello et al. (2020). `H` uses only the quality flags of the s
 | Notebook | Content |
 |---|---|
 | [`00_FPPC_IRGA72_INPUT_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/00_FPPC_IRGA72_INPUT_2016-2026.09.html) | Joins the Level-1 fluxes with the meteo data |
-| [`01_FPPC_IRGA72_NEE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/01_FPPC_IRGA72_NEE_2016-2026.09.html) | `NEE`: Levels 2 to 4.1 and the uncertainty |
-| [`11_FPPC_IRGA72_LE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/11_FPPC_IRGA72_LE_2016-2026.09.html) | `LE` and `ET`: Levels 2 to 4.1 |
-| [`15_FPPC_IRGA72_H_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/15_FPPC_IRGA72_H_2016-2026.09.html) | `H`: Levels 2 to 4.1 |
+| [`05_FPPC_IRGA72_NEE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/05_FPPC_IRGA72_NEE_2016-2026.09.html) | `NEE`: Levels 2 to 4.1 and the uncertainty |
+| [`25_FPPC_IRGA72_LE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/25_FPPC_IRGA72_LE_2016-2026.09.html) | `LE` and `ET`: Levels 2 to 4.1 |
+| [`35_FPPC_IRGA72_H_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/35_FPPC_IRGA72_H_2016-2026.09.html) | `H`: Levels 2 to 4.1 |
 | [`99_FPPC_IRGA72_MERGED_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/99_FPPC_IRGA72_MERGED_2016-2026.09.html) | Merges the output of the three flux notebooks |
 
 : Notebooks of the post-processing chain for `IRGA72`. {#tbl-fpc-notebooks}

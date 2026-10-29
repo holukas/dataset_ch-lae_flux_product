@@ -179,11 +179,11 @@ forest floor. See `docs/Instrumentation.md`.
 
 | flux | from | state |
 |---|---|---|
-| `NEE` | CO~2~ flux plus storage, u*-filtered, gap-filled | `01_FPPC`, run on 2016 - Sep 2026 |
-| `LE` | turbulent latent heat flux, no storage, no u* filter, gap-filled | `11_FPPC`, run on 2016 - Sep 2026 |
-| `H` | turbulent sensible heat flux from the sonic, no storage, no u* filter, gap-filled | `15_FPPC`, run on 2016 - Sep 2026 |
+| `NEE` | CO~2~ flux plus storage, u*-filtered, gap-filled | `05_FPPC` (was `01_FPPC`), run on 2016 - Sep 2026 |
+| `LE` | turbulent latent heat flux, no storage, no u* filter, gap-filled | `25_FPPC` (was `11_FPPC`), run on 2016 - Sep 2026 |
+| `H` | turbulent sensible heat flux from the sonic, no storage, no u* filter, gap-filled | `35_FPPC` (was `15_FPPC`), run on 2016 - Sep 2026 |
 | `GPP`, `RECO` | Level-4.2 partitioning of gap-filled `NEE` | not part of this version (decided 26 Oct 2026) |
-| `ET` | derived from gap-filled `LE` in `11_FPPC` | run on 2016 - Sep 2026 |
+| `ET` | derived from gap-filled `LE` in `25_FPPC` | run on 2016 - Sep 2026 |
 
 `LE` and `H` follow Pastorello et al. (2020): they are turbulent fluxes without a
 storage term and are not u*-filtered (decided 26 Oct 2026). The 2016-2024 chain
@@ -254,7 +254,7 @@ In order. Each item is blocked by the one above it, except that the flux items
    Level-1 run, so the Level-1 input of the flux chain has no `H` at all in this
    period. Decide whether `2019_2` gets a sonic-only run, as `2018_3` did, and
    whether the `H` of the LI-7500 run `2019_3` (17 Jan - 20 Mar 2019, same sonic)
-   fills the rest of the gap; `15_FPPC` would then need that run in its input.
+   fills the rest of the gap; `35_FPPC` would then need that run in its input.
 3. ~~**Carry `20_L1_FLUXES/IRGA72` to September 2026.**~~ Done 25 Oct 2026.
    `99_IRGA72_L1_MERGED_2016-2026.09` merges the Level-1 runs; where two runs
    overlap at a year boundary it takes each record whole from one run, split at
@@ -265,8 +265,8 @@ In order. Each item is blocked by the one above it, except that the flux items
    Level-0 merge (`00_L0_CHECKS/IRGA72/01`) still joins its overlapping runs cell
    by cell with `combine_first`; Level 0 is preliminary, so this matters only
    where a Level-0 value is quoted.
-4. **Review the `IRGA72` flux chain and the finalize set.** `01_FPPC` (`NEE`, with the
-   Pastorello uncertainty), `11_FPPC` (`LE` and `ET`) and `15_FPPC` (`H`) ran on
+4. **Review the `IRGA72` flux chain and the finalize set.** `05_FPPC` (`NEE`, with the
+   Pastorello uncertainty), `25_FPPC` (`LE` and `ET`) and `35_FPPC` (`H`) ran on
    2016 - Sep 2026 (26 Oct 2026), all reading
    `00_FPPC_IRGA72_INPUT_2016-2026.09` with the homogenised `TA` and
    `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
@@ -286,7 +286,13 @@ In order. Each item is blocked by the one above it, except that the flux items
    to check: `H` in 2024
    is about a third lower than in the other years.
    Level-4.2 partitioning is not part of this version of the dataset (decided
-   26 Oct 2026); `01_FPPC` keeps `RUN_PARTITIONING = False`.
+   26 Oct 2026). On 29 Oct 2026 the `NEE` notebook was renumbered `01_FPPC` -> `05_FPPC`,
+   the number of the `IRGA75` chain (`LE` and `H` became `25_FPPC` and `35_FPPC`), and partitioning was switched on for FP2026.2; it has not
+   run yet. Before `99` and `80_FINALIZE` run on its output, `variable_info.py` needs
+   descriptions of the partitioning columns (`describe_all` stops on undescribed columns), and
+   the FP2026.1 cut (`80_FINALIZE/20`) must not be rerun, or must leave those columns out, so
+   that the released FP2026.1 stays reproducible. The old output `01_FPPC_IRGA72_NEE_2016-2026.09`
+   stays in the data folder until the rerun.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
 6. **Energy-balance-closure correction of `LE` and `H`** (future session, not part
