@@ -325,6 +325,8 @@ CHAIN_FLUXES = {
     'ET': ('mm (30 min)-1', 'Evapotranspiration'),
 }
 CHAIN = {
+    'FLAG_FLUX_SOURCE': (DIMLESS, 'Gas analyser of the fluxes of the half-hour: 75 = open-path LI-7500 '
+                                  '(IRGA75), 72 = enclosed-path LI-7200 (IRGA72)'),
     'SW_IN_POT': ('W m-2', 'Potential incoming shortwave radiation, for the middle of the half-hour'),
     'DAYTIME': (DIMLESS, 'Daytime flag from SW_IN_POT (1 = day)'),
     'NIGHTTIME': (DIMLESS, 'Nighttime flag from SW_IN_POT (1 = night)'),
@@ -367,6 +369,26 @@ UNC = {
 }
 
 
+# Partitioning of NEE into GPP and RECO (ONEFlux methods in diive), one column per USTAR scenario.
+PARTITIONING = {
+    'NEE_NIGHT_OF': ('µmol m-2 s-1', 'Nighttime NEE used by the nighttime partitioning'),
+    'RECO_NT_OF': ('µmol m-2 s-1', 'Ecosystem respiration, nighttime partitioning (Reichstein et al. 2005)'),
+    'RECO_NT_OF_ROB': ('µmol m-2 s-1', 'Ecosystem respiration, nighttime partitioning, outlier-robust fit'),
+    'GPP_NT_OF': ('µmol m-2 s-1', 'Gross primary production, nighttime partitioning (RECO_NT_OF minus NEE)'),
+    'GPP_NT_OF_ROB': ('µmol m-2 s-1', 'Gross primary production, nighttime partitioning, outlier-robust fit'),
+    'RREF_NT_OF': ('µmol m-2 s-1', 'Reference respiration of the Lloyd-Taylor fit, nighttime partitioning'),
+    'E0_NT_OF': ('K', 'Temperature sensitivity of respiration (Lloyd-Taylor E0), nighttime partitioning'),
+    'RECO_DT_OF': ('µmol m-2 s-1', 'Ecosystem respiration, daytime partitioning (Lasslop et al. 2010)'),
+    'GPP_DT_OF': ('µmol m-2 s-1', 'Gross primary production, daytime partitioning (Lasslop et al. 2010)'),
+    'SE_GPP_DT_OF': ('µmol m-2 s-1', 'Standard error of GPP_DT_OF'),
+    'ALPHA_DT_OF': ('µmol J-1', 'Initial slope of the light response (light use efficiency), daytime partitioning'),
+    'BETA_DT_OF': ('µmol m-2 s-1', 'CO2 uptake at light saturation, daytime partitioning'),
+    'K_DT_OF': ('hPa-1', 'VPD sensitivity of the light response, daytime partitioning'),
+    'RREF_DT_OF': ('µmol m-2 s-1', 'Reference respiration, daytime partitioning'),
+    'E0_DT_OF': ('K', 'Temperature sensitivity of respiration (E0), daytime partitioning'),
+}
+
+
 def _scenario(cut):
     if cut is None:
         return ''
@@ -378,6 +400,10 @@ def _scenario(cut):
 def _describe_chain(name):
     if name in CHAIN:
         return CHAIN[name]
+    m = re.fullmatch(r'(?P<var>[A-Z0-9_]+?)_CUT_(?P<cut>\d+)', name)
+    if m and m.group('var') in PARTITIONING:
+        unit, desc = PARTITIONING[m.group('var')]
+        return unit, desc + _scenario(m.group('cut'))
     lvl = r'(?P<lvl>L2|L3\.1|L3\.2|L3\.3)'
     cut = r'(?:_CUT_(?P<cut>\d+|NONE))?'
     flux = r'(?P<flux>NEE|FC|LE|H)'
@@ -431,9 +457,32 @@ def _describe_chain(name):
     return None
 
 
+# --- Open-path correction of the LI-7500 CO2 flux (opco, Level 1.1) ----------------------------
+
+OPCO = {
+    'FC_L1.1_OPCO': ('µmol m-2 s-1', 'CO2 flux of the LI-7500 corrected with opco: FC minus BIAS_OPCO'),
+    'BIAS_OPCO': ('µmol m-2 s-1', 'opco: bias of the LI-7500 CO2 flux (measured minus true flux), '
+                                  'BIAS_HEAT_OPCO plus BIAS_WPL_H_OPCO'),
+    'BIAS_HEAT_OPCO': ('µmol m-2 s-1', 'opco: heating part of the bias, XI_OPCO times HEAT_OPCO'),
+    'BIAS_WPL_H_OPCO': ('µmol m-2 s-1', 'opco: H part of the bias, K_OPCO times WPL_H_OPCO'),
+    'HEAT_OPCO': ('µmol m-2 s-1', 'opco: heating term of the LI-7500 head, unscaled'),
+    'WPL_H_OPCO': ('µmol m-2 s-1', 'opco: WPL thermal term, from H'),
+    'XI_OPCO': (DIMLESS, 'opco: coefficient of the heating term'),
+    'K_OPCO': (DIMLESS, 'opco: coefficient of the WPL thermal term'),
+    'K_OP_OPCO': (DIMLESS, 'opco: weekly detector of the switching error, the slope of the nighttime '
+                           'LI-7500 flux on the WPL thermal term'),
+    'OUT_OF_ENVELOPE_OPCO': (DIMLESS, 'opco: TA, USTAR or the WPL thermal term outside the range of the '
+                                      'training data (True = extrapolated)'),
+}
+
+
+def _describe_opco(name):
+    return OPCO.get(name)
+
+
 def describe(name):
     """Return (unit, description) of a column, or None if it is not known."""
-    for f in (_describe_chain, _describe_meteo, _describe_l1):
+    for f in (_describe_opco, _describe_chain, _describe_meteo, _describe_l1):
         r = f(name)
         if r is not None:
             return r
