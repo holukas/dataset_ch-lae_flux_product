@@ -5,11 +5,13 @@ The fluxes are processed along the
 EddyPro calculates the fluxes (Levels 0 and 1); the Python library
 [diive](https://github.com/holukas/diive) runs the post-processing (Levels 2 to 4).
 
-::: {.callout-note title="FP2026.1 and IRGA75"}
+::: {.callout-note title="FP2026.1 and FP2026.2"}
 FP2026.1 contains the fluxes of the enclosed-path LI-7200 (`IRGA72`), 2016 to September 2026, up
 to Level 4.1. The fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 2017 and 2019) pass through
-the additional correction of Level 1.1 (self-heating and a switching error of the analyser). They are in progress for FP2026.2 and are not
-part of FP2026.1.
+the additional correction of Level 1.1 (self-heating and a switching error of the analyser). They
+are in progress for FP2026.2 and are not part of FP2026.1. FP2026.2 joins the two chains into one
+record: the LI-7500 from 2004 to 2015, the LI-7200 from 2016, with `FLAG_FLUX_SOURCE` (75 or 72)
+naming the analyser of each half-hour.
 :::
 
 ## Flowchart
@@ -72,7 +74,7 @@ flowchart TB
 | [Level 3.3](L3.3.md) | USTAR flags at three constant thresholds (`NEE` only) | yes |
 | [QCF](QCF.md) | Overall quality flag, combining the flags of all levels | yes |
 | [Level 4.1](L4.1.md) | Gap-filling with XGBoost; MDS for comparison | yes |
-| [Level 4.2](L4.2.md) | Partitioning of `NEE` into `GPP` and `RECO` | no |
+| [Level 4.2](L4.2.md) | Partitioning of `NEE` into `GPP` and `RECO` | no, FP2026.2 |
 
 : The processing steps and whether their output is part of FP2026.1. {#tbl-fpc-steps}
 
@@ -84,9 +86,25 @@ filter, as in Pastorello et al. (2020). `H` uses only the quality flags of the s
 | Notebook | Content |
 |---|---|
 | [`00_FPPC_IRGA72_INPUT_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/00_FPPC_IRGA72_INPUT_2016-2026.09.html) | Joins the Level-1 fluxes with the meteo data |
-| [`05_FPPC_IRGA72_NEE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/05_FPPC_IRGA72_NEE_2016-2026.09.html) | `NEE`: Levels 2 to 4.1 and the uncertainty |
+| [`05_FPPC_IRGA72_NEE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/05_FPPC_IRGA72_NEE_2016-2026.09.html) | `NEE`: Levels 2 to 4.2 and the uncertainty |
 | [`25_FPPC_IRGA72_LE_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/25_FPPC_IRGA72_LE_2016-2026.09.html) | `LE` and `ET`: Levels 2 to 4.1 |
 | [`35_FPPC_IRGA72_H_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/35_FPPC_IRGA72_H_2016-2026.09.html) | `H`: Levels 2 to 4.1 |
 | [`99_FPPC_IRGA72_MERGED_2016-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/99_FPPC_IRGA72_MERGED_2016-2026.09.html) | Merges the output of the three flux notebooks |
 
 : Notebooks of the post-processing chain for `IRGA72`. {#tbl-fpc-notebooks}
+
+## Notebooks of the IRGA75 chain and the merged record
+
+These notebooks are in progress for FP2026.2.
+
+| Notebook | Content |
+|---|---|
+| [`00_FPPC_IRGA75_INPUT_noSHC_2004-2017_2019`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/00_FPPC_IRGA75_INPUT_noSHC_2004-2017_2019.html) | Joins the Level-1 fluxes with the meteo data |
+| [`01_FPPC_IRGA75_INPUT_OPCO_2004-2017_2019`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/01_FPPC_IRGA75_INPUT_OPCO_2004-2017_2019.html) | Level 1.1: corrects the CO2 flux with opco |
+| [`05_FPPC_IRGA75_NEE_OPCO_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html) | `NEE` from the corrected CO2 flux: Levels 2 to 4.2 and the uncertainty |
+| [`25_FPPC_IRGA75_LE_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/25_FPPC_IRGA75_LE_2004-2017.html) | `LE` and `ET`: Levels 2 to 4.1 |
+| [`35_FPPC_IRGA75_H_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/35_FPPC_IRGA75_H_2004-2017.html) | `H`: Levels 2 to 4.1 |
+| [`99_FPPC_IRGA75_MERGED_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/99_FPPC_IRGA75_MERGED_2004-2017.html) | Merges the output of the three flux notebooks |
+| [`99_FPPC_MERGED_2004-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED_2004-2026.09.html) | Joins the merged results of both gas analysers into one record, with `FLAG_FLUX_SOURCE` |
+
+: Notebooks of the post-processing chain for `IRGA75` and of the merged record. {#tbl-fpc-notebooks-75}

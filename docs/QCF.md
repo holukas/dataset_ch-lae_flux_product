@@ -22,7 +22,9 @@ tests set only hard flags. Soft flags come from the SSITC test (flag 1 as report
 from the spectral correction factor test (`SCF` from 2 to below 4). A missing flux is rejected by
 the missing-value test, so it always has `QCF` 2.
 
-In FP2026.1 the same rule applies by day and by night: records with `QCF` 0 and 1 are kept.
+The same rule applies by day and by night: records with `QCF` 0 and 1 are kept. FP2026.2 uses this
+rule for both gas analysers. For the open-path LI-7500 (`IRGA75`) the notebook is
+[`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html).
 
 ## Columns
 
