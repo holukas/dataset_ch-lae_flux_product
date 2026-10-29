@@ -60,7 +60,7 @@ published separately:
 ### **CH-LAE FP2026.2 (2004-2026.09) [in progress]**
 
 Extends the flux record back to 2004 with the fluxes of the open-path LI-7500 (`IRGA75`),
-corrected for the self-heating of the analyser ([Level 1.1](L1.1.md)). It re-includes FP2026.1
+with the CO2 flux corrected for the errors of the open-path analyser ([Level 1.1](L1.1.md)). Their annual `NEE` carries an extra uncertainty from the half-hours the analyser did not measure (see [Issues](Issues.md)). It re-includes FP2026.1
 in full and supersedes it.
 
 Also planned: the extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.

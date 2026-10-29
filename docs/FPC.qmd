@@ -8,7 +8,7 @@ EddyPro calculates the fluxes (Levels 0 and 1); the Python library
 ::: {.callout-note title="FP2026.1 and IRGA75"}
 FP2026.1 contains the fluxes of the enclosed-path LI-7200 (`IRGA72`), 2016 to September 2026, up
 to Level 4.1. The fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 2017 and 2019) pass through
-the additional self-heating correction of Level 1.1. They are in progress for FP2026.2 and are not
+the additional correction of Level 1.1 (self-heating and a switching error of the analyser). They are in progress for FP2026.2 and are not
 part of FP2026.1.
 :::
 
@@ -23,7 +23,7 @@ flowchart TB
     EP["EddyPro, run with fluxrun"]
     L0F["L0: preliminary fluxes"]
     L1F["L1: final fluxes"]
-    L11F["L1.1: self-heating correction (IRGA75 only, FP2026.2)"]
+    L11F["L1.1: open-path correction (IRGA75 only, FP2026.2)"]
 
     subgraph diive_chain["diive post-processing chain"]
         L2QCF["L2: quality flags"]
@@ -65,7 +65,7 @@ flowchart TB
 | [Raw data](Raw_Data.md) | 20 Hz raw data, converted from binary to ASCII | not included |
 | [Level 0](L0.md) | Preliminary flux calculation, to check the setup and choose the lag windows | not included |
 | [Level 1](L1.md) | Final flux calculation with EddyPro, one run per setup period | yes |
-| [Level 1.1](L1.1.md) | Self-heating correction of the open-path `IRGA75` | no, FP2026.2 |
+| [Level 1.1](L1.1.md) | Correction of the open-path `IRGA75` CO2 flux (self-heating, switching error) | no, FP2026.2 |
 | [Level 2](L2.md) | Quality flags from the EddyPro output | yes |
 | [Level 3.1](L3.1.md) | Storage term added to `FC`, giving `NEE` | yes |
 | [Level 3.2](L3.2.md) | Outlier flags | yes |

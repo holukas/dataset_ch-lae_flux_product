@@ -42,8 +42,38 @@ comparison only. Use the XGBoost series (`_gfXG`). See [Level-4.1](L4.1.md).
 
 FP2026.1 contains fluxes of the enclosed-path LI-7200 (`IRGA72`) only, from 11 January 2016. The
 fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 12 December 2017 and 17 January to
-20 March 2019), with the self-heating correction of [Level-1.1](L1.1.md), are in progress for
-FP2026.2. FP2026.2 will contain FP2026.1 in full and supersede it.
+20 March 2019), corrected at [Level-1.1](L1.1.md), are in progress for FP2026.2. FP2026.2 will
+contain FP2026.1 in full and supersede it.
+
+## Annual NEE of the LI-7500 years may show too much uptake
+
+This concerns the `IRGA75` years 2004-2015 of FP2026.2. The correction of
+[Level-1.1](L1.1.md) works on the half-hours the LI-7500 measured. The remaining uncertainty lies in
+the half-hours it did not measure.
+
+The LI-7500 loses many half-hours in wet weather (rain, fog, dew, water on the windows), when the
+LI-7200 still measures. Gap-filling learns only from the conditions the LI-7500 measured, so it fills
+these gaps as if they were dry, with too much uptake. This is a known weakness of open-path
+analysers. In 2016-2017, when both analysers ran:
+
+- on the half-hours both measured, the corrected LI-7500 agrees with the LI-7200 to within
+  40 gC m-2 over the two years;
+- the gap-filled annual `NEE` of the LI-7500 is 180 to 190 gC m-2 per year below that of the
+  LI-7200.
+
+For 2004-2015 the size of this effect is unknown. A correction calibrated in 2016-2017 would add
+100 to 200 gC m-2 per year, but the record shows no such step: the LI-7500 years average
+-131 gC m-2 per year, the LI-7200 years 2016-2025 -106 gC m-2 per year (XGBoost, `CUT_50`). FP2026.2
+therefore keeps the gap-filled series without such a correction.
+
+What this means for the data:
+
+- The annual `NEE` of 2004-2015 may show too much uptake, by up to 100 to 200 gC m-2 per year.
+  Differences between years smaller than that are not resolved.
+- The nighttime partitioning fits `RECO` on measured `NEE` only. The missing wet nights therefore
+  bias `RECO` and `GPP` low.
+- In 2004 no shortwave radiation was measured, so the daytime partitioning gives no result for that
+  year. In 2005 most of the meteorological drivers are gap-filled.
 
 ## USTAR thresholds lower than those of FLUXNET
 
