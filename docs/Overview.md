@@ -35,6 +35,8 @@ it gives an `NEE` of -235 gC m^-2^ against -113 gC m^-2^ with XGBoost.
 2. [Level 0](L0.md): preliminary flux runs, used to check the setup and to choose the time-lag
    ranges.
 3. [Level 1](L1.md): final flux calculation with EddyPro, one run per setup period.
+   [Level 1.1](L1.1.md), the correction of the open-path CO~2~ flux, applies only to the LI-7500
+   fluxes of FP2026.2.
 4. The [post-processing chain](FPC.qmd):
    [Level 2](L2.md) quality flags,
    [Level 3.1](L3.1.md) storage term (`NEE` only),
@@ -49,9 +51,10 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 
 ## Not yet included
 
-- The fluxes of the open-path LI-7500 (`IRGA75`), 2004 to 12 December 2017 and 17 January to
-  20 March 2019. They are in progress for FP2026.2, which will extend the flux record back to
-  2004 and supersede FP2026.1.
+- The fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015. They are in progress for
+  FP2026.2, which will extend the flux record back to 2004 and supersede FP2026.1. Its merged record
+  takes the LI-7500 until 2015 and the LI-7200 from 1 January 2016; the LI-7500 fluxes of the
+  parallel period 2016-2017 serve for comparison only.
 - `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` for January to September 2026. These columns
   end on 31 December 2025.
 - The partitioning of `NEE` into `GPP` and `RECO`.
@@ -62,3 +65,6 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 - `H` is missing from 10 January to 20 March 2019, and the gap-filled `H` in that period is
   model output only.
 - `H` in 2024 is about a third lower than in the other years. This has not been checked yet.
+- `LE` and `ET` of the LI-7200 may be too low in humid and cold conditions.
+
+All known issues, including those of the LI-7500 years of FP2026.2, are on [Issues](Issues.md).

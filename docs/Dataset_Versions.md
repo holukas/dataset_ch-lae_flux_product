@@ -37,8 +37,7 @@ See [Variables](Variables.md) for the main variables and the column suffixes, an
 
 **Not yet included:**
 
-- the fluxes of the open-path LI-7500 (`IRGA75`, 2004 to 2017 and 2019), which come with
-  FP2026.2;
+- the fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015, which come with FP2026.2;
 - `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` for January to September 2026;
 - the partitioning of `NEE` into `GPP` and `RECO` ([Level 4.2](L4.2.md));
 - a correction for the energy balance closure.
@@ -59,10 +58,18 @@ published separately:
 
 ### **CH-LAE FP2026.2 (2004-2026.09) [in progress]**
 
-Extends the flux record back to 2004 with the fluxes of the open-path LI-7500 (`IRGA75`),
-with the CO2 flux corrected for the errors of the open-path analyser ([Level 1.1](L1.1.md)). Their annual `NEE` carries an extra uncertainty from the half-hours the analyser did not measure (see [Issues](Issues.md)). It re-includes FP2026.1
-in full and supersedes it.
+Extends the flux record back to 2004 with the fluxes of the open-path LI-7500 (`IRGA75`), with
+the CO~2~ flux corrected for the errors of the open-path analyser ([Level 1.1](L1.1.md)). The
+merged record takes the fluxes from the LI-7500 for 2004-2015 and from the LI-7200 from
+1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of each half-hour (`75` or `72`). The LI-7500
+fluxes of the parallel period 2016-2017 serve for comparison, and its stand-in run of 2019 is not
+used. FP2026.2 re-includes FP2026.1 in full and supersedes it.
 
-Also planned: the extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
+Both flux chains and the merged record have been run; the release is not final. The `NEE` of the
+LI-7500 years carries extra uncertainty from the wet half-hours the analyser did not measure and
+from cold, humid nights, and `LE` differs between the two analysers (see [Issues](Issues.md)).
+
+Also planned: the partitioning of `NEE` into `GPP` and `RECO` ([Level 4.2](L4.2.md)), and the
+extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
 See the [Issues](https://github.com/holukas/dataset_ch-lae_flux_product/issues) of the
 repository for other planned updates.

@@ -29,6 +29,7 @@
   [documentation](https://diive.readthedocs.io/)
 - [bico](https://github.com/holukas/bico): conversion of the raw binary files
 - [fluxrun](https://github.com/holukas/fluxrun): runs EddyPro
+- [opco](https://github.com/holukas/opco): correction of the open-path CO2 flux (FP2026.2)
 - [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro)
 - [REddyProc](https://cran.r-project.org/web/packages/REddyProc/index.html)
 

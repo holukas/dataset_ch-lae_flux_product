@@ -10,7 +10,7 @@ produced by [Lukas Hörtnagl](https://gl.ethz.ch/people/person-detail.lukas.html
 
 Documentation and notebooks for the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)**. The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/), operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
 
-The dataset holds ecosystem fluxes measured by eddy covariance (CO<sub>2</sub>, H<sub>2</sub>O and sensible heat) and meteorological data. FP2026.1 contains the fluxes of the enclosed-path LI-7200 gas analyser from January 2016 on. The fluxes of the open-path LI-7500, measured from 2004 to 2017, are being processed for FP2026.2.
+The dataset holds ecosystem fluxes measured by eddy covariance (CO<sub>2</sub>, H<sub>2</sub>O and sensible heat) and meteorological data. FP2026.1 contains the fluxes of the enclosed-path LI-7200 gas analyser from January 2016 on. FP2026.2, in progress, adds the fluxes of the open-path LI-7500 for 2004-2015.
 
 - [Overview](Overview.md): what the dataset contains and how it was produced.
 - [Variables](Variables.md): the main variables, their units and the column suffixes.
