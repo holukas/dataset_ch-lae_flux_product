@@ -5,7 +5,8 @@ slope of the Lägern, in the Jura mountain range that marks the northern boundar
 of the Swiss Plateau, north-west of Zurich [@etzold_carbon_2011]. The stand is
 diverse in species, diameter class and tree age, and has a complex canopy
 structure [@etzold_carbon_2011; @shekhar_contrasting_2024]. Eddy covariance
-measurements started in **April 2004** and are ongoing.
+measurements started on **30 March 2004**, the date of the first raw file in the
+setup table of the [Yearly Notes](Yearly_Notes.md), and are ongoing.
 
 This page draws on the
 [Swiss FluxNet site page for CH-LAE](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)

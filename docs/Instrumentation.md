@@ -27,23 +27,29 @@ device marked defective) date anything.
 
 Two gas analysers were operated at this level, and the fluxes are processed per
 analyser rather than per year. The fluxes in FP2026.1 come from the LI-7200
-(`IRGA72`) only. The LI-7500 (`IRGA75`) fluxes are in progress for FP2026.2.
+(`IRGA72`) only. The LI-7500 (`IRGA75`) fluxes are in progress for FP2026.2. The
+merged record of FP2026.2 takes the fluxes of 2004 to 2015 from the LI-7500 and
+those from 1 January 2016 from the LI-7200; the column `FLAG_FLUX_SOURCE` gives
+the analyser of each half-hour (`75` or `72`). The LI-7500 fluxes of the parallel
+years and of the 2019 stand-in period are not used in the merged record.
 
 | instrument | role | period |
 |---|---|---|
 | Gill sonic anemometer | wind components, sonic temperature | 2004-present, orientation 209°; an HS-100 (serial 000027) until 19 December 2019 and an HS-50 (serial 000063) from then on, after the GIN fieldbook, which has no sonic record before 2016 |
-| LI-COR LI-7500 (open path, `IRGA75`) | CO~2~ and H~2~O densities | 2004 until removal on 12 December 2017; again from 17 January to 20 March 2019 (setup period `2019_3`), as a stand-in for the defective LI-7200 |
+| LI-COR LI-7500 (open path, `IRGA75`) | CO~2~ and H~2~O densities | 30 March 2004 until removal on 12 December 2017; again from 17 January to 20 March 2019 (setup period `2019_3`), as a stand-in for the defective LI-7200 |
 | LI-COR LI-7200 (enclosed path, `IRGA72`) | CO~2~ and H~2~O mole fractions | from 11 January 2016 |
 
-The two analysers ran in parallel from January 2016. The LI-7500 was removed from
-the site on 12 December 2017 but continued to write empty values into the data
+The two analysers ran in parallel from 11 January 2016 to 12 December 2017. The
+LI-7500 was removed from the site on 12 December 2017 but continued to write empty values into the data
 stream until it was taken out of it on 31 January 2018, which is why the setup
 table lists it for two further periods with no flux run. `IRGA72` spans two
 physical LI-7200 units, exchanged inside the 2019 gap; the second has a different
 column set in the raw stream. The analyser was moved on the boom in March 2023,
 which changed its separation from the sonic. The fieldbook also records a freshly
 calibrated LI-7200 installed on 2 December 2025. The dates per setup period are in
-the setup table of the [Yearly Notes](Yearly_Notes.md).
+the setup table of the [Yearly Notes](Yearly_Notes.md). The overview notebook
+[FLUX_NEE](notebooks/90_OVERVIEW/FLUX_NEE.html) divides the merged `NEE` record into
+seven phases by these changes of analyser, unit and mounting.
 
 The fieldbook records the enclosed-path system at this level as an **LI-7200RS
 head** with an **LI-7550 analyser unit** and an **LI-7200-101 flow module**.

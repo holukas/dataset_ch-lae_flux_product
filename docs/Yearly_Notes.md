@@ -5,8 +5,12 @@ year, including the software versions used and notes on specific periods.
 
 - The fluxes of FP2026.1 (2016 to September 2026) come from a Level-1 re-run of the whole `IRGA72`
   record in September and October 2026, one EddyPro run per setup period. Release details are in
-  [Dataset versions](Dataset_Versions.md). The per-year sections below record the earlier flux
-  versions.
+  [Dataset versions](Dataset_Versions.md).
+- The `IRGA75` fluxes of FP2026.2 (in progress) come from a Level-1 re-run of the whole `IRGA75`
+  record in October 2026, also one EddyPro run per setup period. The merged record of FP2026.2 uses
+  them for 2004 to 2015. The runs are listed on [Level-1: EddyPro settings](L1_EddyPro_Settings.md).
+- The per-year sections below record the earlier flux versions and notes on specific periods,
+  including the periods removed by hand from the `IRGA75` fluxes of FP2026.2.
 - The numbered notes in the setup table, `(1)` to `(24)`, are defined in the
   [setup table on the Swiss FluxNet site page](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/ec-raw-binary-format-ch-lae/).
   They describe corrections, unusable periods and time-lag settings; read a setup period together
@@ -254,6 +258,12 @@ instruments and the setup link are corrected. The fluxes of this year in FP2026.
 
 ![The research site CH-LAE on 17 Apr 2014. Photo: Grassland Sciences Group, ETH Zurich](images/CH-LAE_2014_2014-04-17_panorama_IMAG0013-14.jpg)
 
+### Periods removed by hand
+
+- **9 to 12 November and 24 November to 7 December 2014, `IRGA75` (FP2026.2)**: fog and rime.
+  `NEE`, `LE` and `H` of these days are removed at Level 3.2. The reasons are given on
+  [Level-3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand).
+
 ### Deprecated versions
 - **FF-201606**: Final Flux Version: HS50-IRGA75_FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163622 | Level-1.1 ID: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) | Level-4 ID(s):  [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) (PI dataset) [Level-3-4_FLUXNET-WW2020_RELEASE-2022-1_FN-20220209](https://www.icos-cp.eu/data-products/2G60-ZHAK) | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2014 (complete year) | Instruments: HS50, IRGA75 | Scripts: [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [diive](https://github.com/holukas/diive) v0.19.0-alpha, [SCOP](https://gitlab.ethz.ch/holukas/scop) v0.1 (self-heating correction), [ReddyProc](https://cran.r-project.org/web/packages/REddyProc/index.html) 1.2 (post-processing PI dataset) | FLUXNET upload: 09 Jun 2021 (Level-1.1) | Notes: Fluxes have been updated during the creation of the PI dataset [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/). Fluxes from the open-path LI-7500 (IRGA75) have been corrected for self-heating. Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
 - **FF-201606**: Final Flux Version: FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163622 | Level-1.1 ID: - (no self-heating correction applied) | Level-4 ID(s): Level-3-4_FLUXNET2015-FN-20161021_2004-2014; Level-3-4_FLUXNET2015-FN-20190607-beta-3_2004-2018; Level-3-4_FLUXNET2015-WW2020-FN-20201217_beta-3_2004-2020.06 | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2014 (complete year) | Instruments: HS50, IRGA75 | Scripts: [FCT](https://gitlab.ethz.ch/holukas/fct-flux-calculation-tool) 0.74, [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [FQC](https://gitlab.ethz.ch/holukas/fqc-flux-quality-control) (Level-2) | FLUXNET upload: 30 Jun 2016 (Level-1) | Notes: In this version, no self-heating correction was applied to Level-1 fluxes.
@@ -264,19 +274,33 @@ instruments and the setup link are corrected. The fluxes of this year in FP2026.
 ### Shifted timestamps in July 2013
 
 - **Affected raw files**: from `2013070615.b02` to `2013071214.b00` (inclusive).
-- The start times in the names of these raw files are wrong by about 6 hours. The fieldbook entry
-  of 12 July 2013 records that the clock of the data acquisition (MOXA) was wrong and was changed
-  at 16:44 from 22:43:50 to 15:44.
-- The original raw files still carry the wrong names (checked July 2025). The files are therefore
-  renamed after the conversion to ASCII with bico, by subtracting 6 hours (for example,
-  `2013070802.b00` becomes `2013070720.b00`), and the fluxes are calculated from the renamed files.
-  This has to be repeated for every new flux calculation of this period.
+- The start times in the names of these raw files are 7 hours late. The fieldbook entry of
+  12 July 2013 records that the clock of the data acquisition (MOXA) was wrong and was changed at
+  16:44 from 22:43:50 to 15:44. In the Level-1 fluxes of 7 to 11 July, `H` lags the incoming
+  shortwave radiation by 7 hours.
+- The original raw files still carry the wrong names (checked July 2025). To correct the shift
+  before the flux calculation, rename the files after their conversion to ASCII with bico by
+  subtracting 7 hours (for example, `2013070802.b00` becomes `2013070719.b00`). This has to be
+  repeated for every new flux calculation of this period.
 - In FP2021 the shift was still present in the IRGA75 Level-1 fluxes and was corrected after the
   flux calculation: between 2013-07-06 15:45 and 2013-07-12 23:45 the timestamps were shifted by
   about 14.5 hours (data at 2013-07-06 15:45 belong to 2013-07-06 08:15). The Level-1 data were
   shifted accordingly and the transition day, 12 July 2013, was set to missing.
+- **FP2026.2 (`IRGA75`)**: the Level-1 run of 2013 was calculated from the files with their
+  original names, so its fluxes still carry the 7-hour shift. The input notebook of the flux
+  post-processing chain (`30_FLUX_POST-PROCESSING_CHAIN/IRGA75/00`) moves the flux records labelled
+  2013-07-06 15:15 to 2013-07-12 19:45 (`TIMESTAMP_MIDDLE`) back by 7 hours, into the 7 empty hours
+  the clock jumped over; afterwards `H` follows the incoming shortwave radiation without lag. The
+  half-hours of 12 July 2013 from 13:15 to 19:45 have no flux: their raw data were overwritten when
+  the clock was reset.
 
 ![CH-LAE 2013: Shifted timestamp in July 2013, flux version Level-3-4_FLUXNET2015-FN-20190607-beta-3](images/CH-LAE_2013_shifted_timestamp_Level-3-4_FLUXNET2015-FN-20190607-beta-3-min.jpg)
+
+### Periods removed by hand
+
+- **16 to 23 November 2013, `IRGA75` (FP2026.2)**: fog and rime. `NEE`, `LE` and `H` of these days
+  are removed at Level 3.2. The reasons are given on
+  [Level-3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand).
 
 ### Deprecated versions
 - **FF-201606**: Final Flux Version: HS50-IRGA75_FF-201606 | Level-1 ID: Level-1_ID2016-06-10T163630c (corrected for timestamp shift, see notes) | Level-1.1 ID: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) | Level-4 ID(s): |   - [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) (PI dataset) [Level-3-4_FLUXNET-WW2020_RELEASE-2022-1_FN-20220209](https://www.icos-cp.eu/data-products/2G60-ZHAK) | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2013 (complete year) | Instruments: HS50, IRGA75 | Scripts: [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [diive](https://github.com/holukas/diive) v0.19.0-alpha, [SCOP](https://gitlab.ethz.ch/holukas/scop) v0.1 (self-heating correction), [ReddyProc](https://cran.r-project.org/web/packages/REddyProc/index.html) 1.2 (post-processing PI dataset) | FLUXNET upload: 09 Jun 2021 (Level-1.1) | Notes: Fluxes have been updated during the creation of the PI dataset [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/). Fluxes from the open-path LI-7500 (IRGA75) have been corrected for self-heating. Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
@@ -340,6 +364,12 @@ instruments and the setup link are corrected. The fluxes of this year in FP2026.
 
 ***
 ## 2004
+
+### Periods removed by hand
+
+- **1 to 15 December 2004, `IRGA75` (FP2026.2)**: fog and rime on the open-path analyser and the
+  sonic anemometer. `NEE`, `LE` and `H` of these days are removed at Level 3.2. The reasons are
+  given on [Level-3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand).
 
 ### Deprecated versions
 - **FF-201606**: Final Flux Version: HS50-IRGA75_FF-201606 | Level-1 ID: Level-1_ID2016-06-11T172228 | Level-1.1 ID: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) | Level-4 ID(s): [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/) (PI dataset) [Level-3-4_FLUXNET-WW2020_RELEASE-2022-1_FN-20220209](https://www.icos-cp.eu/data-products/2G60-ZHAK) | Setup: [Setup since 2004](https://www.swissfluxnet.ethz.ch/index.php/sites/ch-lae-laegeren/data-ch-lae/ec-raw-binary-format-ch-lae/) | Time Period(s): 2004_1 (complete year since start of measurements) | Instruments: HS50, IRGA75 | Scripts: [EddyPro](https://www.licor.com/env/products/eddy_covariance/eddypro) 6.1.0 (Level-1), [diive](https://github.com/holukas/diive) v0.19.0-alpha, [SCOP](https://gitlab.ethz.ch/holukas/scop) v0.1 (self-heating correction), [ReddyProc](https://cran.r-project.org/web/packages/REddyProc/index.html) 1.2 (post-processing PI dataset) | FLUXNET upload: 09 Jun 2021 (Level-1.1) | Notes: Fluxes have been updated during the creation of the PI dataset [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/). Fluxes from the open-path LI-7500 (IRGA75) have been corrected for self-heating. Info about the PI dataset: [CH-LAE FP2021 (2004-2020)](https://www.swissfluxnet.ethz.ch/index.php/documentation/ch-lae-fp2021-2004-2020/)
