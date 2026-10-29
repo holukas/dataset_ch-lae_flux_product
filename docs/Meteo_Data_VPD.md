@@ -20,6 +20,8 @@ Method, evidence and checks:
   temperature input and its homogenisation.
 - [`04_METEO_RH`](notebooks/10_METEO/30_PRODUCTS/04_METEO_RH_2004-2026.09.html): the
   humidity input and its homogenisation.
+- [`METEO_VPD` overview](notebooks/90_OVERVIEW/METEO_VPD.html): the product year by year,
+  2004-2025.
 - [Meteo Product Chain](Meteo_Product_Chain.html): where this product sits in the chain.
 
 ::: {.callout-important title="Which column to use"}
@@ -29,14 +31,16 @@ MP101A to Campbell CS215) and on 5 June 2026 (to a Campbell HygroVUE10). Both in
 change level at these dates, so `VPD` does as well.
 
 - `VPD_T1_47_1` is computed from the measured `TA` and `RH`. It is the `VPD` the probe
-  reported and matches the measured `TA` and `RH` used as biomet input to EddyPro and as
-  drivers in the flux processing chain. Use it together with those columns, and inside one
-  probe state.
+  reported and matches the measured `TA` and `RH` passed to EddyPro in the biomet file
+  ([Level 1](L1.md)). Use it together with those columns, and inside one probe state.
 - `VPD_T1_47_1_HOMOGENIZED` is computed from the homogenised `TA` and `RH`, which put every
   probe state on the level of the normal CS215. Use it for anything that crosses
-  January 2016 or June 2026 (period means, trends, year rankings, anomalies). In saturated
-  air it is zero before and after 2016 alike, because the homogenised `RH` lifts the
-  MP101A's readings in saturated air to 100 % ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
+  January 2016 or June 2026 (period means, trends, year rankings, anomalies). It is the
+  `VPD` of the flux post-processing chain, which uses it with the homogenised `TA` for
+  gap-filling and partitioning ([Level 4.1](L4.1.md), [Level 4.2](L4.2.md)). In
+  saturated air it reaches zero before and after 2016, because the homogenised `RH` lifts
+  the MP101A's readings in saturated air to 100 %
+  ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
 
 **Changed from the 2004-2025 version of this product.** There, `VPD_T1_47_1` was computed
 from the homogenised `TA` and the measured `RH`, and no homogenised `VPD` existed. That
@@ -75,7 +79,7 @@ pressure. The Magnus coefficients are those used by ReddyProc. In the CS215 stat
 codes `0`, `5`, `6`, `7`) the homogenised `RH` equals the measured one and the homogenised
 `TA` is not warmer than the measured one, so the homogenised `VPD` is never higher than the
 measured `VPD` there. On average the homogenised column is lower by 0.006 kPa in the normal
-CS215 state, by 0.014 kPa in the MP101A era and by 0.071 kPa in the HygroVUE10 era.
+CS215 state, by 0.015 kPa in the MP101A era and by 0.071 kPa in the HygroVUE10 era.
 
 ### `FLAG_VPD_T1_47_1_ISFILLED`
 
@@ -148,7 +152,7 @@ ordinary consecutive years. {#tbl-vpd-step-2016}
 | column | step, day | ordinary year, day | step, night | ordinary year, night |
 |---|---|---|---|---|
 | `VPD_T1_47_1` | -0.0023 kPa | 0.0101 kPa | -0.0287 kPa | 0.0071 kPa |
-| `VPD_T1_47_1_HOMOGENIZED` | -0.0005 kPa | 0.0129 kPa | -0.0140 kPa | 0.0094 kPa |
+| `VPD_T1_47_1_HOMOGENIZED` | +0.0004 kPa | 0.0131 kPa | -0.0130 kPa | 0.0083 kPa |
 
 **January 2016 is an independent test**, because the 2016 transfers of `02` and `04` were
 fitted against NABEL, not against Lägern. The homogenised column steps less than the
@@ -170,8 +174,14 @@ HygroVUE10 sample of 1.39 kPa by day and 1.11 kPa at night. The homogenised colu
 - **The measured column is not homogeneous across 21 January 2016 or 5 June 2026.** Use
   `VPD_T1_47_1_HOMOGENIZED` for anything that crosses either date, or stay inside one probe
   state with `FLAG_VPD_T1_47_1_SOURCE`.
-- **A small night step remains in the homogenised column at 2016.** It is -0.014 kPa
-  against an ordinary-year change of 0.009 kPa, half the step of the measured column.
+- **A small night step remains in the homogenised column at 2016.** It is -0.013 kPa
+  against an ordinary-year change of 0.008 kPa, less than half the step of the measured
+  column (-0.029 kPa).
+- **Just below saturation the MP101A era remains slightly too dry.** At a Lägern humidity
+  of 90 to 95 % the CS215 reads about 2 % RH wetter than the homogenised MP101A, so the
+  homogenised `VPD` of humid half-hours before 2016 is slightly high. The saturation
+  ceiling of the homogenised `RH` does not remove this difference
+  ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
 - **The June 2026 homogenisation rests on one summer and one reference.** The `TA` and `RH`
   transfers behind it are fitted on June to September 2026 against Lägern, are untested
   outside summer, and are to be refitted once the HygroVUE10 record includes a winter. See

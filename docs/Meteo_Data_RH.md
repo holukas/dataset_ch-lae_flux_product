@@ -213,9 +213,10 @@ of each bin plus a year of drift: from 40 % RH upwards by at most 1.27 % RH, nev
 in that bin, interpolated between bins, and the result is capped at 100 %, so a saturated
 MP101A record stays saturated.
 
-The transfer raises the MP101A era by 0 to 5.51 % RH, by 2.98 % RH on average over its
-measured records, most in the middle of the humidity range and close to zero near
-saturation. Scored against Lägern, which entered no fit, the mean step across the break
+The transfer raises the MP101A era by 0 to 5.51 % RH, most in the middle of the humidity
+range and close to zero near saturation. Together with the
+[saturation ceiling](#the-saturation-ceiling), the homogenised column adds 3.10 % RH on
+average to the measured MP101A records. Scored against Lägern, which entered no fit, the mean step across the break
 falls from +4.21 to +0.83 % RH, within a tolerance of 1.81 % RH (Lägern's own year-to-year
 change, 0.71, plus the drift contained in the fitting windows, 1.10). Every record before
 the changeover (codes `1`, `2` and `3`) receives the transfer, reconstructed records
@@ -332,7 +333,10 @@ homogenised column adds 3.92 % RH on average, at most 8.21 % RH.
   close to saturation. Where the analog era read above 100 %, a daily offset was subtracted
   and the remainder clipped, which removes the impossible values but does not recover the
   information they stood for. Saturation frequency differs between the eras for this
-  reason as well as because of the step.
+  reason as well as because of the step. The saturation ceiling of the homogenised column
+  narrows the difference without removing it: with Lägern at 99 % RH or more, the
+  homogenised MP101A reads 99.5 % or more on 69 % of the half-hours, the CS215 on 81 %
+  (measured records, 2008 to October 2024).
 - **The NABEL reference is not independent after July 2018.** From August 2018 the ingested
   `RH_NABEL_T1_49_1` column reproduces the tower column exactly. Nothing in this file is
   derived from those months, but a comparison of this product with that NABEL column over

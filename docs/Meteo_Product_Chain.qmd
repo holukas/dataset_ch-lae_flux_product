@@ -188,6 +188,12 @@ Eight of the 31 series are complete over the whole period. For every series that
 contain `NaN`, the merge records the reason and checks it; the reasons are listed in the
 information file `99_METEO_MERGED_2004-2026.09_INFO.md` written beside the data.
 
+The merged file is also the meteo input of the flux processing. The EddyPro biomet export
+in `10_METEO/40_EXPORTS` takes six variables from it, `TA` and `RH` as measured
+([Level 1](L1.md)). The flux post-processing chain of both analysers uses
+`TA_T1_47_1_HOMOGENIZED_gfXG`, `VPD_T1_47_1_HOMOGENIZED` and `SW_IN_T1_47_1_gfXG` as the
+drivers of its gap-filling and partitioning ([Level 4.1](L4.1.md)).
+
 Precipitation aggregates differently from the other variables: **rainfall is summed, not
 averaged**. Each entry in the merge registry names its aggregation. A daily mean of
 30-minute rainfall (about 0.05 mm) is not an interpretable quantity; the daily total is.

@@ -56,7 +56,8 @@ column list there; this page does not repeat it.
 
 **FP2026.1 carries all 61 meteo columns** of the merged file, cut to the FP2026.1 period,
 1 January 2016 to 30 September 2026. The six products that end in 2025 are therefore empty
-in FP2026.1 for January to September 2026. See [Dataset versions](Dataset_Versions.html).
+in FP2026.1 for January to September 2026. FP2026.2, in progress, covers 2004 to
+September 2026, the full period of the merged file. See [Dataset versions](Dataset_Versions.html).
 
 ## Calendar explorer
 
@@ -137,7 +138,7 @@ June 2026, and `VPD` because it is computed from them. `PREC` carries one becaus
 acquisition system changed in 2018, and `SWC` one per depth because the soil profile was
 replaced in 2020. Most rescale the earlier era onto the level of the later one. `TA` also
 corrects the difference between the radiation shields of the probes, which acts only in
-daylight.
+daylight, and `RH` lifts the older probe's readings in saturated air to 100 %.
 
 **`_GAPFILLED`** means a model produced some of the values. For `TS` the model is a
 regression on the other depths of the profile, and the `METHOD` flag says which values are

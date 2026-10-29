@@ -17,6 +17,8 @@ Method, evidence and checks:
 - [`RADIATION_SENSOR_CONTINUITY`](notebooks/10_METEO/30_PRODUCTS/RADIATION_SENSOR_CONTINUITY.html):
   compares four radiation sensors and attributes each level change in the record to one
   instrument.
+- [`METEO_SW_IN` overview](notebooks/90_OVERVIEW/METEO_SW_IN.html): the product year by
+  year, 2004-2025.
 - [Meteo Product Chain](Meteo_Product_Chain.html): `TA` and `PPFD_IN` use this product as
   a gap-filling driver.
 
@@ -84,8 +86,9 @@ Daytime gaps are filled by an XGBoost model, trained separately for **2004-2018*
 **2019-2026**. The split is where the NABEL sensor at 49 m on the same tower ends, so that
 no model is trained on one driver set and applied to the other. Until 2018 the drivers are
 NABEL and MeteoSwiss Lägern (2.5 km away); from 2019 only Lägern remains, so the later fills
-rest on the more distant sensor. Code `2` marks the few half-hours where no driver was
-available. Drivers enter as measured, never gap-filled. Nighttime gaps are set to zero. A
+rest on the more distant sensor. Code `2` marks the half-hours where a driver was
+missing; 571 of its 697 records are in January 2004, before the MeteoSwiss record begins.
+Drivers enter as measured, never gap-filled. Nighttime gaps are set to zero. A
 reference is used only as a driver and never replaces a measured value.
 
 ## Known limitations {#known-limitations}
@@ -107,9 +110,17 @@ reference is used only as a driver and never replaces a measured value.
 - **Nighttime values are exactly zero, not measurements.** The small drifting nighttime
   offset of the pyranometer was removed per day before gap-filling. For instrument noise or
   the offset itself, use the screened database series.
-- **2004 and most of 2005 are entirely modelled.** They precede the measurement and rest on
-  MeteoSwiss Lägern alone, which itself begins on 1 February 2004. These are the least
-  constrained parts of the record.
+- **2004 and most of 2005 are entirely modelled.** They precede the measurement and are
+  filled from NABEL and MeteoSwiss Lägern. These are the least constrained parts of the
+  record.
+- **January 2004 is a model artefact and reads far too high.** The MeteoSwiss reference
+  begins on 1 February 2004, so every daytime half-hour of January 2004 is filled by the
+  timestamp-only fallback model (code `2`), which uses the date and time but no measurement
+  of the sky. The month totals 325 MJ m^-2^, about 2.7 times the mean January of
+  2005-2025 (119 MJ m^-2^) and twice the brightest of them (161 MJ m^-2^ in 2022). It is
+  **not corrected**. Exclude January 2004 from radiation totals, anomalies and rankings.
+  `PPFD_IN` of the same month is filled the same way (see
+  [Photosynthetic photon flux density at 47 m](Meteo_Data_PPFD_IN.html)).
 
 ## The hardware changes of 2016 and 2021
 

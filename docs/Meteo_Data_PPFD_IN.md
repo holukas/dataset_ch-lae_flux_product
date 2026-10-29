@@ -98,8 +98,9 @@ are the gap-filled `SW_IN` from notebook `01`, potential radiation computed from
 coordinates, and MeteoSwiss Lägern global radiation. The tower pyranometer is the strongest
 driver (same height, same mast, r^2^ 0.99), but it is itself gap-filled, and `PPFD_IN` gaps
 tend to coincide with `SW_IN` gaps because both sensors are on the same logger. Lägern,
-2.5 km away, covers that case with more scatter. Code `2` marks the few half-hours where
-neither radiation driver was available. Nighttime gaps are set to zero. A reference is used
+2.5 km away, covers that case with more scatter. Code `2` marks the half-hours where a
+driver was missing; 571 of its 600 records are in January 2004, before the MeteoSwiss record
+begins. Nighttime gaps are set to zero. A reference is used
 only as a driver and never replaces a measured value.
 
 ## Known limitations {#known-limitations}
@@ -135,6 +136,12 @@ only as a driver and never replaces a measured value.
 - **2004 is 72 % modelled.** Everything before 2004-09-20 10:45 rests on the `SW_IN`
   product, which is itself reconstructed for that period. These records are a fill built on
   a fill and carry the uncertainty of both.
+- **January 2004 is a model artefact and reads far too high.** The MeteoSwiss reference
+  begins on 1 February 2004, so every daytime half-hour of January 2004 is filled by the
+  timestamp-only fallback model (code `2`), as in `SW_IN`. The monthly mean is about twice
+  the mean January of 2005-2025. It is **not corrected**. Exclude January 2004 from
+  totals, anomalies and rankings (see
+  [Incoming shortwave radiation at 47 m](Meteo_Data_SW_IN.html#known-limitations)).
 
 ## The January 2016 changes
 
