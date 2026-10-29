@@ -151,7 +151,7 @@ HygroVUE10, so the 2016 identification rests on the logger programs and on the d
 
 | source code | correction |
 |---|---|
-| 1, 2, 3 | the 2016 transfer, which depends on the humidity, added to every record |
+| 1, 2, 3 | the 2016 transfer, which depends on the humidity, added to every record; then the saturation ceiling above 90 % RH |
 | 0, 5, 6, 7 | none: the CS215 is the reference level |
 | 4 | the HygroVUE10 transfer, made in vapour pressure and converted back with the homogenised `TA` of notebook `02` |
 
@@ -220,6 +220,19 @@ falls from +4.21 to +0.83 % RH, within a tolerance of 1.81 % RH (Lägern's own y
 change, 0.71, plus the drift contained in the fitting windows, 1.10). Every record before
 the changeover (codes `1`, `2` and `3`) receives the transfer, reconstructed records
 included, because their reconstruction offsets put them on the MP101A level.
+
+### The saturation ceiling {#the-saturation-ceiling}
+
+In saturated air (Lägern at 99 % RH or more) the normal CS215 reads 100 %, the MP101A only
+99.1 to 100 % depending on the year, also after the 2016 transfer, which is close to zero at
+the top of the range. Without a correction, `VPD` from the homogenised column would reach
+zero far less often before 2016 than after. The homogenised column therefore maps each
+MP101A year's median reading in saturated air onto 100 % and scales the readings between
+90 % RH and that ceiling linearly; readings below 90 % RH are unchanged. Lägern only marks
+the saturated half-hours, it does not set the level. The change is at most 0.9 % RH. Just
+below saturation the CS215 still reads wetter than the MP101A, by about 2 % RH at a Lägern
+humidity of 90 to 95 %; that is the reference dependence of the 2016 transfer and is not
+corrected.
 
 ## The May 2025 change {#the-may-2025-change}
 
