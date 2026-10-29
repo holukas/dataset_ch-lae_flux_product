@@ -331,6 +331,15 @@ In order. Each item is blocked by the one above it, except that the flux items
    adjustment or a stated uncertainty. Related: the test R² of chain `05` (0.59
    against 0.73 for the `IRGA72`) is lowered by the records with AGC from 50 to 90,
    whose scatter against the `IRGA72` is four to seven times that at AGC 50.
+   **Decided 29 Oct 2026: gap-filling and partitioning use QCF 0 and 1 for both
+   analysers.** Test `T1` (`IRGA75`, QCF 0 only) agreed better with the `IRGA72`, but
+   only because the `IRGA72` kept QCF 0 and 1: with the same selection for both, the
+   gap remains, and QCF 0 alone raises the sums of both analysers by tens to over
+   100 gC m-2. Scratch prototypes (29 Oct 2026): gap-filling the `IRGA75` with one
+   model over all years plus the `IRGA72` at the `IRGA75` gaps of the other overlap
+   year closed 2017 to -13 and 2016 to -92 gC m-2 (cross-year); the rest of 2016 lies
+   in cold days of October to December, where the opco correction falls short
+   (freezing fog; no opco variant and no fog screen fixed it).
 
 
 ## 6. Open questions
