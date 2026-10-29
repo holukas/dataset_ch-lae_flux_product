@@ -75,6 +75,46 @@ What this means for the data:
 - In 2004 no shortwave radiation was measured, so the daytime partitioning gives no result for that
   year. In 2005 most of the meteorological drivers are gap-filled.
 
+## LE of the two gas analysers differs in humid and cold conditions
+
+This concerns `LE` and `ET` across the change of gas analyser on 1 January 2016. In 2016-2017,
+when both analysers ran, the open-path LI-7500 (`IRGA75`) measured a higher `LE` than the
+enclosed-path LI-7200 (`IRGA72`). On the half-hours both measured, it is about 7 % higher overall,
+and the difference grows with humidity and cold:
+
+| relative humidity | `IRGA75` / `IRGA72` |
+|---|---|
+| below 60 % | 1.03 |
+| 80-90 % | 1.11 |
+| 90-95 % | 1.33 |
+| above 95 % | 1.82 |
+
+: Ratio of the `LE` sums of the two analysers on the half-hours both measured, 2016-2017. {#tbl-le-ratio}
+
+Below 0 °C the ratio is 2.4, above 20 °C 1.02. The gap-filled annual `LE` of 2016 and 2017 is 17
+to 27 % higher with the LI-7500.
+
+The likely cause lies in the LI-7200, not in the open-path analyser. In the tube and cell of an
+enclosed-path analyser, water vapour adsorbs on the walls, which damps the H2O fluctuations more the
+higher the humidity. The `IRGA72` runs correct for this (Fratini et al. 2012), but such corrections
+often fall short above about 90 % relative humidity. Self-heating of the open-path analyser would
+bias its flux the other way. In humid and cold conditions, the LI-7500 `LE` may therefore be closer
+to the true flux than the LI-7200 `LE`.
+
+What this means for the data:
+
+- The `LE` and `ET` of the LI-7200 (FP2026.1, and FP2026.2 from 2016) may be too low in humid and
+  cold conditions.
+- In the merged record of FP2026.2, the step in `LE` and `ET` at 1 January 2016 is partly
+  instrumental. The gap-filled `ET` averages about 750 mm per year in 2004-2015 (LI-7500) and about
+  610 mm in 2016-2025 (LI-7200). Do not read this difference as a change of the ecosystem.
+- `H` comes from the same sonic anemometer for both analysers and is not affected: the two agree
+  to within 1 % in 2016 and 2017.
+
+Not yet resolved. The planned check compares the energy balance closure, `H + LE` against net
+radiation minus the soil heat flux, of both analysers by humidity class: the analyser that closes
+better at high humidity has the more realistic `LE`.
+
 ## USTAR thresholds lower than those of FLUXNET
 
 FLUXNET detects USTAR thresholds per year with the method of @pastorello_fluxnet2015_2020. For
