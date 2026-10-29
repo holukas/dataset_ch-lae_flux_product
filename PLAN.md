@@ -358,6 +358,21 @@ In order. Each item is blocked by the one above it, except that the flux items
     that closes better at high RH has the more realistic `LE`. Also note that the
     `IRGA75` loses more wet half-hours (63 % of half-hours with a valid `LE`, against
     70 %), which biases its gap-filled `LE` low.
+11. **Cold-night `NEE` of the `IRGA75` years** (future session; found 29 Oct 2026 in
+    `90_OVERVIEW/FLUX_NEE`). Median measured nighttime `NEE` below 0 degC is
+    +0.08 umol m-2 s-1 in the `IRGA75` years 2004-2015 and +1.67 in the `IRGA72` years
+    2016-2025, while above about 2 degC the two periods agree. Respiration does not stop
+    in the cold, so the opco-corrected `IRGA75` most likely still misses winter
+    nighttime release. On the 496 cold nighttime half-hours both analysers measured in
+    2016-2017 the gap is smaller (+1.01 against +1.59), so part of the period difference
+    may come from which cold nights the `IRGA75` keeps. Upper bound if all of it is
+    instrumental: about 1400 cold nighttime half-hours per year x 1.6 umol m-2 s-1, about
+    50 gC m-2 per year of extra uptake in the `IRGA75` years, on top of the wet-weather gap
+    (item 9). To do: compare both analysers on cold nights in 2016-2017 by TA, wind and
+    RH class; check whether the opco training rows cover cold nights (see the late-2016
+    freezing-fog shortfall in item 9); if the residual is instrumental, fix it in opco
+    (cold-night term or more cold training rows) rather than in the chain, and add it
+    to the `IRGA75` limitations in `docs/Issues.md`.
 
 
 ## 6. Open questions
