@@ -208,6 +208,21 @@ instruments and the setup link are corrected. The fluxes of this year in FP2026.
 - **Notes**:
 	- calculated without angle-of-attack correction
 
+### Low sample flow of the LI-7200 in May 2021
+
+- From 28 April to 27 May 2021 the sample flow of the LI-7200 (`IRGA72`) fell from its usual 11
+  to 14 to below 1 (logged flow rate). The flow was normal again for one day, from 20 May 11:15 to
+  21 May 21:15.
+- At this flow the measuring cell is no longer flushed with ambient air. Its CO2 mixing ratio rose
+  to over 800 µmol mol-1, and `FC` and `LE` lost their diurnal cycle and stayed near zero. `H`,
+  from the sonic anemometer alone, and the incoming shortwave radiation stayed normal. The values
+  passed the automatic tests, because a flux near zero lies within every limit.
+- `FC` and `LE` of the two low-flow periods are removed by hand at Level 3.2: 2021-04-28 20:15 to
+  2021-05-20 11:15 and 2021-05-21 21:45 to 2021-05-27 11:45 (`TIMESTAMP_MIDDLE`). The day of
+  normal flow between them is kept, and so is `H`.
+
+![CH-LAE 2021: low sample flow of the LI-7200 from 28 April to 27 May 2021. From top: CO2 flux, LE and H, incoming shortwave radiation, flow rate, CO2 mixing ratio in the cell. Shaded: the periods removed by hand](images/CH-LAE_2021_IRGA72_low_flow_May2021.png)
+
 ***
 ## 2020
 
