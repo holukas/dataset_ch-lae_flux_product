@@ -15,6 +15,12 @@ these tests. The page will be updated after the next run.
   comparisons with FLUXNET and @etzold_carbon_2011, and the recomputed correction of that study.
 - [OPCO_TRANSFER_CHECK_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/OPCO_TRANSFER_CHECK_2004-2017.html):
   whether the correction of the LI-7500 flux holds for the early years.
+- [ANALYSER_DAMPING_CHECK_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/ANALYSER_DAMPING_CHECK_2004-2017.html):
+  whether the LI-7500 measured too little of the CO2 and H2O fluxes in 2004-2007.
+- [FLUX_NEE_IRGA75_INDEPENDENT_ESTIMATES](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_INDEPENDENT_ESTIMATES.html):
+  the early years against the biometric and soil-respiration estimates of @etzold_carbon_2011.
+- [FLUX_NEE_IRGA75_PARTITIONING_COMPARISON](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_PARTITIONING_COMPARISON.html):
+  `GPP` and `RECO` of the early years against the LI-7200 years.
 :::
 
 The annual `NEE` of the LI-7500 years in this product is less negative than in two earlier
@@ -37,6 +43,10 @@ In short:
   daytime uptake than the LI-7200 years. The correction may be too large in those three summers;
   the evidence is mixed. If it is, their May-September `NEE` is up to about 200 gC m-2 too
   positive.
+- **Against independent estimates** the early years are too weak a sink: by 250 to 380 gC m-2 per
+  year against the biometric net ecosystem production of 2006-2009. Respiration agrees with the
+  soil respiration measurements; the shortfall is in the daytime uptake (`GPP`). No measurement
+  fault of the analyser was found that explains it.
 
 ## Annual sums
 
@@ -184,6 +194,81 @@ positive (range 0 to 216). If instead the ecosystem took up as much as in the LI
 2005-2009 mean would change by about 158; that is an upper bound, not an estimate. This product
 keeps the correction unchanged; treat the summers of 2005-2007 as uncertain by up to about
 200 gC m-2.
+
+## Why the early years are a weak sink
+
+### Independent estimates
+
+@etzold_carbon_2011 give biometric and chamber estimates for the same forest, independent of
+eddy covariance.
+
+| 2006-2009 | This product | @etzold_carbon_2011 |
+|---|---|---|
+| Net ecosystem production (−`NEE`) | -41 (USTAR scenarios -5 to -74) | +307 to +514 (four biometric methods) |
+| Ecosystem respiration (`RECO`) | 1,487-1,495 | 1,383 ± 338 (their eddy covariance) |
+| Soil respiration | | 890 (chambers) |
+| Soil respiration / `RECO` | 0.60 | 0.64 |
+| `GPP`, 2005-2009 | 1,378-1,395 | 1,830 ± 448 (their eddy covariance) |
+| `RECO` / `GPP` | 1.05-1.09 | 0.76 |
+
+: The LI-7500 years against independent estimates, in gC m-2 per year (`CUT_50`, nighttime and
+daytime partitioning). Values of @etzold_carbon_2011 from their Tables 4 and 5, converted from
+Mg C ha-1. Net ecosystem production is positive for a sink. {#tbl-independent}
+
+- **The sink is too weak.** Even the lowest biometric estimate (+307) lies 250 to 380 gC m-2 above
+  this product. With the current tests of negative nighttime values the gap shrinks by about
+  100.
+- **Respiration is plausible.** `RECO` exceeds the soil respiration, as it must, and the share of
+  soil respiration (0.60) matches theirs.
+- **`GPP` is too low.** About 76-88 % of the difference to their study comes from lower `GPP`.
+  `RECO` above `GPP` would make the forest a source in every year, which the biometric growth
+  rules out.
+
+The biometric values are means between the inventories of 2005 and 2009 on a 1.48 ha plot, smaller
+than the flux footprint, and their stated uncertainties leave out method assumptions. The size of
+the shortfall is still far beyond these.
+
+### Where and when the uptake is missing
+
+Compared with the LI-7200 years 2016-2025, 2005-2009 take up about 170 gC m-2 per year less.
+
+- **The deficit is in the daytime half-hours** (+201 gC m-2 per year by day, -30 at night). This
+  split needs no partitioning model. With nighttime partitioning it is almost entirely `GPP`.
+- **It is a lower capacity, not a shorter season.** Light-saturated `GPP` is 5.1 µmol m-2 s-1
+  lower in 2005-2007 and 2.6 lower in 2008-2009; 2005 and 2006 lie below every LI-7200 year. The
+  seasonal course of `GPP` relative to its peak is unchanged, and leaf-out is not later.
+- **2005-2007 lose it mostly in June and July, 2008-2009 spread over January to July.** The gap
+  is largest at high light and air temperatures below 20 °C.
+- **Weather explains part of it at most.** The early years were cooler and dimmer, and the soils of
+  2004-2006 were dry, in the years after the drought of 2003. But 2010-2015 had similar weather and
+  agree with the LI-7200 years, and in 2004-2006 the summer `GPP` lies below every other year at
+  the same weather, including the dry LI-7200 summers 2018 and 2022.
+
+### No measurement fault found
+
+The analyser could have measured too little of the fluxes. This was checked and not found:
+
+- The EddyPro settings, the time-lag window and the detected time lags are the same in all years;
+  the spectral correction factor is 1.03 in every year.
+- The correlation of the vertical wind with CO2 and H2O is 4-7 % lower in 2004-2006, while that
+  with the sonic temperature is unchanged. The correlation between CO2 and H2O, which a time-lag
+  error cannot change, drops by as much, and the drops do not follow the size of the deficit
+  (2007 shows none). The dry LI-7200 summer of 2022 shows a larger drop.
+- Counting this drop as a loss and the low CO2 reading as a gain error, at most 34-54 % of the
+  summer daytime gap of 2005-2007 would close (up to about 110 gC m-2 in 2006).
+
+A rerun of EddyPro on a few summer months of 2005-2006 against reference years, with a wider
+time-lag window, cospectra and the instrument noise, would settle the remaining question of
+damping.
+
+### What this means
+
+The early LI-7500 years are a weaker sink than the biometric estimates allow, because their daytime
+uptake is low. A real loss of capacity in 2004-2006, after the drought of 2003, is plausible but
+does not cover 2007-2009 or the size of the shortfall. A too-large correction (above) or an
+undetected measurement fault would show the same way. The annual sums of 2004-2009 are therefore
+the least certain of the record. Use them with this uncertainty in mind, and prefer the LI-7200
+years where the result depends on the absolute sink strength.
 
 ## References
 
