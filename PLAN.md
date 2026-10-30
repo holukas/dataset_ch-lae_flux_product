@@ -219,8 +219,8 @@ unchanged, `LE` keeps more half-hours with the wider absolute limits. The `IRGA7
 both re-runs** and have to be re-run in this order: `IRGA75/99`, the stage merge
 `30_.../99_FPPC_MERGED_2004-2026.09`, `80_FINALIZE/10`, then `90_OVERVIEW/FLUX_NEE`. The
 relaxed negative-night tests (item 11) need one more run of both `05` first. The test variants `T2`
-(2004-2006) and `T3` (2012-2014) of `IRGA75/05` have been run; their result is not yet
-recorded.
+(2004-2006) and `T3` (2012-2014) of `IRGA75/05` have been re-run with the relaxed tests (results
+in item 11).
 
 ### 4.3 Auxiliary flux-derived series to decide on
 
@@ -393,7 +393,17 @@ In order. Each item is blocked by the one above it, except that the flux items
     `IRGA72` none; the old one removed 9, 2 of them on nights where the `IRGA72` was negative too,
     and 11 `IRGA72` nights. It lets through 7 nights (four in December 2016, three in October to
     December 2017) with medians of -0.6 to -5 (one at -7.6 with only 5 values, not tested) on
-    which the `IRGA72` read +1 to +4; the uncertainty alone does not single them out. `T2`, `T3` and the training screen in `01` keep the old test 5. Still open:
+    which the `IRGA72` read +1 to +4; the uncertainty alone does not single them out. The training screen in `01` keeps the old
+    test 5. **`T2` (2004-2006) re-run with the relaxed tests (30 Oct 2026):** test 5 removes 22
+    records (was 160), test 6 5 nights, 71 records (15 nights, 221 records); the inputs to
+    Level 3.2 are unchanged. `CUT_50`, XGB, gC m-2: 2004 +36 (was +78), 2005 +69 (+169), 2006
+    +44 (+130); `CUT_16` 2006 is -9. The drop of 42 to 100 per year is five times the direct
+    effect estimated above: most of it comes through the gap-filling model, which now learns
+    from the kept negative night values (62-67 % of the records are filled). 2005 and 2006
+    remain sources. **`T3` (2012-2014) re-run the same way:** test 5 removes 26 records (was
+    125), test 6 no night (12 nights, 185 records); the lag-1 autocorrelation there is 0.10
+    against the 0.2 assumed. `CUT_50`, XGB, gC m-2: 2012 -303 (was -223), 2013 -295 (-155),
+    2014 -304 (-141), so -80 to -163 per year, again mostly through the gap-filling. Still open:
     calm cold nights (wind below 2 m s-1,
     below 0 degC) remain about 1 umol m-2 s-1 below the `IRGA72` after the refit; fix in
     opco (cold-night term or more cold training rows) rather than in the chain. The
