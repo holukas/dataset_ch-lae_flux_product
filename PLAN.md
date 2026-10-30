@@ -537,9 +537,28 @@ In order. Each item is blocked by the one above it, except that the flux items
         are 4-7 % lower in 2004-2006 but the CO2-H2O correlation drops alike, 2007 shows none.
         Upper bound with the CO2 gain: 34-54 % of the summer daytime gap of 2005-2007
         (-67, -108, -42 gC m-2 in May-Sep 2005-2007).
-      - Still open: a targeted EddyPro rerun of a few summer months of 2005-2006 and reference
-        years (wider lag window, cospectra, instrument noise), and the calibration records of
-        2004-2007 (span or zero error). Documented on `docs/IRGA75_Comparisons.md`.
+      - Calibration records (GIN fieldbook, legacy entries): check of 19 Dec 2007 before the
+        recalibration: zero gas -46.6 ppm, 567.5 ppm reference read 526 ppm, so a zero offset of
+        about -45 ppm with the slope within 1 %; the zero was last set on 7 Feb 2006. The check of
+        26 Sep 2007 (+31 ppm at zero, 479 for 449.5) was made right after a chemical change and
+        is less reliable. A zero error: no gain correction of the flux; via WPL about +0.6
+        umol m-2 s-1 by day in 2006-2007, away from more uptake. No record for 2004-2006.
+      - **Raw-data diagnostics** (30 Oct 2026, `30_.../IRGA75/RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS`
+        and `raw_data_diagnostics.py`; 20 Hz files in `F:\CURRENT\LAE_FP2026`, June-July 11-15 h,
+        2005-2007, 2010-2012, 2016; cached table
+        `RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS.parquet`). No covariance lost: at the used lag
+        99.9-100 % of the extremum over -2 to +3 s; cospectral ratios to w-Ts within the
+        reference years; white noise below 1 % of the variance. All measurement effects change
+        the 2005-2006 covariance by -1 to +2 %. r_cq is 8 % (2005) and 13 % (2006) lower, r_wq
+        5-7 %, r_wc 2.5-3 % (within the reference spread); 2007 at the reference level. So the
+        scalar exchange was less coupled, not the analyser at fault. Held values (status code
+        40) about 10 % in 2005-2007, negligible for the covariance.
+      - **Conclusion:** a measurement fault is ruled out. The weak early sink is either a real
+        loss of capacity (plausible for 2004-2006 after 2003) or an opco correction too large
+        for those years; neither covers 2007-2009 or the full shortfall against the biometric
+        NEP. Next decision: how FP2026.2 treats the sums of 2004-2009 (flag or stated low
+        confidence, start in 2010, or no annual sums). Documented on
+        `docs/IRGA75_Comparisons.md`.
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
       reaches the partitioning). A longwave fog ratio as a driver removes most of it
