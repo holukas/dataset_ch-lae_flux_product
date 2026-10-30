@@ -247,9 +247,11 @@ that will state it.
 5. `90_OVERVIEW/FLUX_NEE` and `90_OVERVIEW/METEO_VPD`.
 
 Then, before the release: **find the cause of the positive early `IRGA75` years** (item 12).
-opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. Compare
-the annual sums with FLUXNET (ONEFlux v1.3) by component: u* filtering, gap-filled share and
-gap-filling method.
+opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. The
+difference to FLUXNET is explained (item 12): FLUXNET's winter nights of 2004-2015 are too low,
+so it is no check of the early years. What remains open is our own budget of the early years:
+whether the winter nights (gap-filled 75-80 %, at about +2.7 umol m-2 s-1) and the early-year
+sources are plausible, judged against the `IRGA72` years and any independent respiration data.
 
 In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
@@ -446,12 +448,30 @@ In order. Each item is blocked by the one above it, except that the flux items
       2.5 % without. `VPD` carries no self-heating signal.
     - With `VPD`, 2004-2006 would stay sources (about +95, +66, +44 gC m-2): dropping
       `VPD` is not the main cause of the positive early years.
-    - Against FLUXNET (ONEFlux v1.3, CH-Lae 2004-2024, local copy under
-      `manuscripts-data/ms-forests-vpd-data`): on shared measured half-hours the annual
-      sums agree within -14 to +25 gC m-2, but the full annual sums are about 300 gC m-2
-      more positive in every year, 2011-2015 included. The gap lies in the u* filtering
-      and the gap-filling, not in opco. Next: compare the two by component (u*
-      scenario, gap-filled share, XGBoost against MDS; see item 8).
+    - **Against FLUXNET** (ONEFlux v1.3, CH-Lae 2004-2024, `NEE_VUT_REF`; its input for
+      2004-2015 is the FP2021 `IRGA75` flux with the Kittler et al. (2017) correction, for
+      2016-2017 the `IRGA72`). Split half-hour by half-hour (30 Oct 2026, scratch, against
+      the `05` run of 30 Oct with the strict night tests, `CUT_50`, XGB). Our annual sums are
+      +250 to +460 gC m-2 higher in 2005-2014 (2004 +605, 2015 +168) and lower in 2016-2017
+      (-245, -417). Per year, 2004-2015:
+      - Nights that both fill: +150 to +275. FLUXNET fills them far lower than we do,
+        +1.8 to +2.9 umol m-2 s-1 apart from November to March, +0.3 to +0.8 in June to
+        September. FLUXNET's winter nights are near zero (December: measured +0.06, filled
+        -0.12; our `IRGA72` 2016-2026: +3.2). With 75-80 % of the nights filled, this is
+        most of the difference.
+      - Nights FLUXNET keeps and we remove: +13 to +52. In October to May FLUXNET's values
+        there average -2 to -8 umol m-2 s-1. These are the apparent winter uptake that our
+        Level 3.2 removes. FLUXNET keeps them, and MDS fills the other winter nights from
+        them.
+      - Shared measured nights: +7 to +32. Our nights are 0.5 to 0.9 higher there; opco adds
+        +0.5 to +0.9 at night, the FP2021 correction +0.2 to +0.4. By day both add about +3,
+        and the day differences are small in all classes.
+      - Our filled winter nights (+2.7) agree with our measured ones (+2.9 to +3.2) and with
+        the `IRGA72` of 2016-2026 (+2.5 to +3.2). FLUXNET's 2004-2015 winter nights are the
+        implausible ones, so the difference does not point to an error in this chain.
+      - 2016-2017 (`IRGA72` in FLUXNET): FLUXNET's nights average +4.2 and +5.4, our
+        `IRGA72` +3.7. Not explained yet.
+      Scripts in the session scratchpad `flx/`.
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
       reaches the partitioning). A longwave fog ratio as a driver removes most of it
