@@ -6,7 +6,7 @@ Half-hourly atmospheric pressure at 47 m on the CH-LAE tower, September 2005 to 
 half-hour, UTC+01:00, no daylight saving), from 2005-09-02 00:15 to 2026-09-30 23:45.
 
 The [interactive dashboard](dashboards/METEO_PA_dashboard.html) summarises the product on
-one page.
+one page. It is still built from the 2004-2025 version of the product and ends in December 2025.
 
 Method, evidence and checks:
 
@@ -105,8 +105,9 @@ across 2016, by -0.0884 and -0.0888 kPa, while the difference between the two re
 moves by -0.0001 kPa. The barometric prediction shows which era is correct: averaged over
 2016 to 2025, the later era agrees with the prediction against both references and the
 earlier era lies about 0.1 kPa above it. Year by year, the departure of the later era from
-the prediction against Lägern goes from about +0.02 kPa in 2016 to about -0.06 kPa in
-2025 (the drift under [Known limitations](#known-limitations)). **The record before
+the prediction against Lägern goes from +0.017 kPa in 2016 to -0.061 kPa in 2025 and
+-0.074 kPa in January to September 2026 (the drift under
+[Known limitations](#known-limitations)). **The record before
 21 January 2016 therefore reads approximately 0.09 kPa high.**
 
 The 20.6-day outage that ends on 21 January 2016 brackets the step, so it cannot be dated

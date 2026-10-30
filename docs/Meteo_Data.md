@@ -35,6 +35,11 @@ the reference station, with a table view behind every chart. It works offline. W
 product exports both a measured and a `_HOMOGENIZED` column, the dashboard uses the
 homogenised one and names it at the top.
 
+The dashboards and the calendar explorer are still built from the 2004-2025 product files.
+They end in December 2025, and for `RH` and `VPD` they show the single column of the
+2004-2025 version, because the homogenised `RH` and `VPD` were added with the extension to
+September 2026.
+
 ## The merged file and FP2026.1
 
 Notebook `99` joins all thirteen products onto one half-hourly index. The file is
@@ -119,7 +124,7 @@ carrying a value; flag columns are defined at every record. `<d>` is the depth i
 | `TS_FF1_<d>_HOMOGENIZED_GAPFILLED`, depths 0.05 / 0.1 / 0.15 / 0.2 / 0.3 / 0.5 / 0.6 m | °C | 2004-2025 | 27-94 % | `METHOD` + `SUSPECT` |
 | eighteen individual `TS_FF1_*` / `TS_PRF_FF1_*` channels | °C | 2004-2025 | 21-72 % | none, raw as screened |
 | `G_FF1_0.05_<n>`, three plates | W m^-2^ | 2004-2025 | 73-96 % | `SOURCE` |
-| `G_FF1_0.05_HOMOGENIZED`, the plate mean | W m^-2^ | 2004-2025 | 95.6 % | `NPLATES` |
+| `G_FF1_0.05_HOMOGENIZED`, the plate mean | W m^-2^ | 2004-2025 | 94.5 % | `NPLATES` |
 | `SW_OUT_T1_47_1` | W m^-2^ | 2005-2025 | 98.8 % | `INSTRUMENT` + `SOURCE` |
 | `LW_OUT_T1_47_1` | W m^-2^ | 2005-2025 | 98.1 % | `SOURCE`, gaps left in |
 
@@ -159,9 +164,10 @@ series means.
 
 ### How they are built {#how-they-are-built}
 
-Every product reads the quality-screened half-hourly record from the database, joins the
-older `mst` screening to the newer `diive` one, applies the site's shared 2012 repairs where
-the variable was on the affected logger, and is checked before it is written. Independent
+Each measured product reads the quality-screened half-hourly record from the database, joins
+the older `mst` screening to the newer `diive` one, applies the site's shared 2012 repairs
+where the variable was on the affected logger, and is checked before it is written. `VPD` is
+the exception: `07` computes it from the products of `02` and `04`. Independent
 references do the validation and, where a product is filled, much of the filling:
 MeteoSwiss Lägern 2.5 km away, NABEL at 49 m on the same tower until 2018, the MeteoSwiss
 gauge at Ehrendingen for rain, and for `PREC` every MeteoSwiss station within 21 km. The

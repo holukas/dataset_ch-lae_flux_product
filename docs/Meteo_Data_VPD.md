@@ -10,7 +10,7 @@ daylight saving), from 2004-01-01 00:15 to 2026-09-30 23:45. 2026 is a partial y
 humidity, so it inherits the properties of those two products.
 
 The [interactive dashboard](dashboards/METEO_VPD_dashboard.html) summarises the product on
-one page.
+one page. It is still built from the 2004-2025 version of the product and ends in December 2025. It shows the single `VPD_T1_47_1` of that version, computed from the homogenised `TA` and the measured `RH`.
 
 Method, evidence and checks:
 

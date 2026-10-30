@@ -63,7 +63,7 @@ this file includes it; the converted voltage alone would differ by some 300 to 4
 A wrong calibration factor therefore scales only the **net** signal, not the added emission term.
 For a downward-facing pyrgeometer above a canopy the net signal is small: a few W m^-2^ in the
 median and a few tens at the extremes, against several hundred in the file. The factor error that
-costs `LW_IN` about 9 W m^-2^ in the middle of its distribution is worth much less here, which is
+costs `LW_IN` about 8 W m^-2^ in the middle of its distribution is worth much less here, which is
 why the checks below use percentiles of the net signal rather than the level.
 
 Two physical checks pass. The ratio of the measured value to the Stefan-Boltzmann emission at air
@@ -165,7 +165,7 @@ would not produce this pattern.
 **Effect on the values.** Before 7 June 2016 the net signal is too large in magnitude by roughly a
 quarter. Values therefore read low at night, when the canopy is cooler than the instrument, and
 high during the day. Because the net signal is small, the error is a few W m^-2^ at most, compared
-with 9 W m^-2^ for the incoming channel. It is **not corrected**, because that would need the
+with about 8 W m^-2^ for the incoming channel. It is **not corrected**, because that would need the
 radiometer's body temperature, which this product does not read. Code `2` marks the affected era,
 more than half the record.
 

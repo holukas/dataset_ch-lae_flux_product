@@ -80,8 +80,8 @@ the same way.
 
 | code | meaning | records | measured | share |
 |---|---|---|---|---|
-| 0 | diive screening, from 2020 | 70,048 | 70,048 | 19.9 % |
-| 1 | MeteoScreeningTool, shown to be on the same scale | 282,776 | 281,564 | 80.1 % |
+| 0 | diive screening, from 2022 | 70,048 | 70,048 | 19.9 % |
+| 1 | MeteoScreeningTool, to the end of 2021, shown to be on the same scale | 282,776 | 281,564 | 80.1 % |
 | 2 | neither screening supplied this half-hour | 3,048 | 0 | 0 % |
 
 Code `2` is not the same as a gap. A half-hour that a screening supplied and this product then
@@ -205,7 +205,7 @@ program was a different number. The window keeps its own code either way.
   reflected channel alone, not one that moved both channels of the instrument together, as a
   power-supply problem does.
 - **Coverage counts nighttime zeros as measurements.** In the diive era the screening set every
-  nighttime value to zero, including gaps. This is physically correct, but from 2020 a nighttime
+  nighttime value to zero, including gaps. This is physically correct, but from 2022 a nighttime
   record is a known value rather than a delivered measurement, and the coverage of those years is
   not strictly comparable with that of the earlier era.
 - **A candidate removal window in July 2024 is still in the data.** The screening notebook lists

@@ -7,7 +7,7 @@ continuous 30-minute index `TIMESTAMP_MIDDLE` (middle of the half-hour, UTC+01:0
 daylight saving), from 2004-01-01 00:15 to 2026-09-30 23:45.
 
 The [interactive dashboard](dashboards/METEO_PPFD_IN_dashboard.html) summarises the
-product on one page.
+product on one page. It is still built from the 2004-2025 version of the product and ends in December 2025.
 
 Method, evidence and checks:
 

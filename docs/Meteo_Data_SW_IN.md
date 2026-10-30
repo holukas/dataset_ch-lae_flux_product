@@ -7,7 +7,7 @@ Half-hourly incoming shortwave radiation at 47 m on the CH-LAE tower, 2004 to Se
 2026-09-30 23:45.
 
 The [interactive dashboard](dashboards/METEO_SW_IN_dashboard.html) summarises the product
-on one page.
+on one page. It is still built from the 2004-2025 version of the product and ends in December 2025.
 
 Method, evidence and checks:
 

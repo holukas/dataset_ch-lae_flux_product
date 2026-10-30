@@ -67,7 +67,7 @@ flowchart LR
     MSLAE -->|SW_IN_LAE_MS| N01
     MSLAE -->|TA_LAE_MS| N02
     MSLAE -->|SW_IN_LAE_MS| N03
-    MSLAE -->|RH_LAE_MS, fills gaps| N04
+    MSLAE -->|RH_LAE_MS and TA_LAE_MS, gap fills and 2026 transfer| N04
     MSLAE -.->|PA_LAE_MS, diagnostic| N05
     MSLAE -.->|TA_LAE_MS, RH_LAE_MS, diagnostic| N07
     MSLAE -.->|SW_IN_LAE_MS, diagnostic| N12
@@ -123,16 +123,16 @@ flowchart LR
     classDef meas fill:#F1F8E9,stroke:#689F38,color:#000
     classDef calc fill:#FFF3E0,stroke:#F57C00,color:#000
     classDef src fill:#ECEFF1,stroke:#607D8B,color:#000
-    class F01,F02,F03,F08,F10 gf
-    class F04,F05,F06,F09,F11,F12,F13 meas
+    class F01,F02,F03,F04,F08,F10 gf
+    class F05,F06,F09,F11,F12,F13 meas
     class F07 calc
     class DB,MSLAE,MSOED,MSREG,TSSCR src
 ```
 
 ## Reading the diagram
 
-**Blue products are gap-filled or reference-filled** (`SW_IN`, `TA`, `PPFD_IN`, `PREC`,
-`TS`), **green products ship as measured** (`RH`, `PA`, `LW_IN`, `SWC`, `G`, `SW_OUT`,
+**Blue products are gap-filled or reference-filled** (`SW_IN`, `TA`, `PPFD_IN`, `RH`,
+`PREC`, `TS`), **green products are not gap-filled** (`PA`, `LW_IN`, `SWC`, `G`, `SW_OUT`,
 `LW_OUT`), and the **orange product is computed** from other products (`VPD`).
 
 - **Two notebooks do not read the database.** `07` reads two finished product files and

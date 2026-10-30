@@ -7,7 +7,7 @@ September 2005 to September 2026, exported as measured. The file is
 from 2005-09-14 00:15 to 2026-09-30 23:45. 2026 holds January to September only.
 
 The [interactive dashboard](dashboards/METEO_LW_IN_dashboard.html) summarises the product
-on one page.
+on one page. It is still built from the 2004-2025 version of the product and ends in December 2025.
 
 Method, evidence and checks:
 

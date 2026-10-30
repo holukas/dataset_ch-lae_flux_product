@@ -34,8 +34,8 @@ it.
 - Across mid-2018, use `PREC_TOT_T1_47_1_HOMOGENIZED`. A total across the change taken from the
   measured column is dominated by the acquisition change, not by the weather.
 
-Neither column is complete: 0.58 % of records are `NaN`, all of them before June 2014. A missing
-record is not a dry one.
+Neither column is complete: 0.58 % of records are `NaN`, the last of them on 4 June 2014. A
+missing record is not a dry one.
 
 :::
 
@@ -88,8 +88,8 @@ Filter on `== 0` for measured records.
 | 2 | still missing: no sub-daily reference exists | 2,224 | 0.58 % |
 
 The 932 filled records add 56.4 mm, and only 96 of them are wet; 759 of them fill the 16-day
-outage of November 2019. The 2,224 unfilled records all lie before 2014-06-04 10:15, because
-Ehrendingen has no sub-daily data before September 2014.
+outage of November 2019. The 2,224 unfilled records run from 2004-05-04 13:45 to
+2014-06-04 10:15, because Ehrendingen has no sub-daily data before September 2014.
 
 ***
 

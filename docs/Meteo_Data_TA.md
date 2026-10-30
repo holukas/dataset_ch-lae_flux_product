@@ -7,7 +7,7 @@ half-hour, UTC+01:00, no daylight saving), from 2004-01-01 00:15 to 2026-09-30 2
 is a partial year (January to September).
 
 The [interactive dashboard](dashboards/METEO_TA_dashboard.html) summarises the product on
-one page.
+one page. It is still built from the 2004-2025 version of the product and ends in December 2025.
 
 Method, evidence and checks:
 
