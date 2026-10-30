@@ -247,6 +247,22 @@ whether the winter nights (gap-filled 75-80 %; since the relaxed tests filled at
 umol m-2 s-1 in Nov-Mar, against 2.6 measured and 3.0 for the `IRGA72` years) and the early-year
 sources are plausible, judged against the `IRGA72` years and any independent respiration data.
 
+**To check (from the docs review of 30 Oct 2026):**
+
+- **Winter nights of `IRGA75`**: filled at about 1.9 umol m-2 s-1 since the relaxed tests,
+  below its measured nights (2.6) and the `IRGA72` (3.0). Likely biases the early years towards
+  uptake. Same as the next step above.
+- **opco link**: removed from `docs/Software.md` and `docs/Links.md` because
+  `github.com/holukas/opco` returns 404. Re-add it when the repository is public.
+- **Photographer's name** in the 2019 photo credit (`docs/Yearly_Notes.md` and the title page).
+  `check_no_names.py` does not flag it. Decide whether it stays.
+- **Humidity numbers** on `docs/L1.1.md`, `docs/L3.2.md` and `docs/Issues.md` were recomputed
+  with the definition 2016-2017, below 5 °C, RH at least 99.5 %. Confirm this is the intended
+  comparison.
+- **Unverified statement** in `docs/Issues.md`: a correction calibrated in 2016-2017 "would add
+  100 to 200 gC m-2 per year". No notebook supports it; check or remove.
+- **FP2026.2 notebook** in `80_FINALIZE`: decide its content, then build it.
+
 In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
 `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, is written.
