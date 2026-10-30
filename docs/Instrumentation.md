@@ -31,11 +31,13 @@ analyser rather than per year. The fluxes in FP2026.1 come from the LI-7200
 merged record of FP2026.2 takes the fluxes of 2004 to 2015 from the LI-7500 and
 those from 1 January 2016 from the LI-7200; the column `FLAG_FLUX_SOURCE` gives
 the analyser of each half-hour (`75` or `72`). The LI-7500 fluxes of the parallel
-years and of the 2019 stand-in period are not used in the merged record.
+years and of the 2019 stand-in period are not used in the merged record. Checks of
+the LI-7500 measurement in the early years are summarised on
+[Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
 
 | instrument | role | period |
 |---|---|---|
-| Gill sonic anemometer | wind components, sonic temperature | 2004-present, orientation 209°; an HS-100 (serial 000027) until 19 December 2019 and an HS-50 (serial 000063) from then on, after the GIN fieldbook, which has no sonic record before 2016 |
+| Gill sonic anemometer | wind components, sonic temperature | 2004-present, orientation 209° (a possible change to 206° from `2005_2` is not resolved, see [Yearly Notes](Yearly_Notes.md)); an HS-100 (serial 000027) until 19 December 2019 and an HS-50 (serial 000063) from then on, after the GIN fieldbook, which has no sonic record before 2016 |
 | LI-COR LI-7500 (open path, `IRGA75`) | CO~2~ and H~2~O densities | 30 March 2004 until removal on 12 December 2017; again from 17 January to 20 March 2019 (setup period `2019_3`), as a stand-in for the defective LI-7200 |
 | LI-COR LI-7200 (enclosed path, `IRGA72`) | CO~2~ and H~2~O mole fractions | from 11 January 2016 |
 

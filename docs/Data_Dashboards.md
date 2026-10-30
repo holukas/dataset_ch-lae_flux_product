@@ -5,16 +5,20 @@ dashboard is a standalone HTML file with its own charts and styling. It opens
 without a server, works offline, and can be shared with someone who has neither
 this site nor the data.
 
-The dashboards are built from the exported product files, not from the database,
-so they show the record as a user of the dataset receives it. They are rebuilt at
-every deploy of this site.
+The dashboards are built from the exported product files, not from the database.
+They are rebuilt at every deploy of this site.
 
 ::: {.callout-note title="The dashboards end in December 2025"}
 
 The dashboards are still built from the product versions that end on
 31 December 2025. They do not yet show January to September 2026, although
 `SW_IN`, `TA`, `PPFD_IN`, `RH`, `PA`, `LW_IN` and `VPD` in FP2026.1 run to
-30 September 2026. There are no dashboards for the fluxes yet.
+30 September 2026. The products were re-run when they were extended, so some
+values before 2026 also differ from the dataset: gap-filled values of `SW_IN`, `TA`
+and `PPFD_IN`, the homogenised `TA`, mainly in 2025, and above all `VPD`. The annual means
+of `VPD` in the current product are lower than on its dashboard, by about 0.03 kPa
+in 2004-2015 and by 0.005 to 0.007 kPa from 2016. There are no dashboards for the
+fluxes yet.
 
 :::
 

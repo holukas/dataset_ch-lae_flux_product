@@ -9,7 +9,8 @@ description; this page covers the columns most users need.
 
 The fluxes come from the enclosed-path LI-7200 (`IRGA72`). In FP2026.2, in progress, the same
 columns hold the fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015, and `FLAG_FLUX_SOURCE`
-gives the analyser of each half-hour (`75` or `72`). The column names follow the
+gives the analyser of each half-hour (`75` or `72`). FP2026.2 also adds the `GPP` and `RECO` of the
+partitioning ([Level 4.2](L4.2.md)). The column names follow the
 processing levels of the [post-processing chain](FPC.qmd). For example,
 `NEE_L3.1_L3.3_CUT_50_QCF_gfXG` is `NEE` after [Level 3.1](L3.1.md) (storage term) and
 [Level 3.3](L3.3.md) (USTAR filter, scenario `CUT_50`), from records with quality flag 0 or 1

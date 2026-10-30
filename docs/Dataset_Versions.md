@@ -4,8 +4,8 @@
 
 ### **CH-LAE FP2026.1 (2016-2026.09) [current version]**
 
-First release of this dataset. It holds the ecosystem fluxes measured with the enclosed-path LI-7200 gas
-analyser (`IRGA72`) and the meteorological data of the site, from January 2016 to September 2026.
+First release of this dataset. It holds the ecosystem fluxes measured with the enclosed-path LI-7200
+gas analyser (`IRGA72`) and the meteorological data of the site, from January 2016 to September 2026.
 
 | | |
 |---|---|
@@ -31,6 +31,11 @@ analyser (`IRGA72`) and the meteorological data of the site, from January 2016 t
 - **Meteorological data:** all thirteen meteorological products with their provenance flags.
   `SW_IN`, `TA`, `PPFD_IN`, `RH`, `PA`, `LW_IN` and `VPD` run to September 2026. `PREC`,
   `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` end on 31 December 2025 and are empty in 2026.
+
+FP2026.1 was produced with the earlier, stricter test of negative nighttime `NEE` values, based on
+the spread of all nighttime values within ±15 days. In the released file it flags 180 values. The
+tests used since 30 October 2026 are described under [Level 3.2](L3.2.md) and apply to FP2026.2
+only.
 
 See [Variables](Variables.md) for the main variables and the column suffixes, and the
 [post-processing chain](FPC.qmd) for the levels behind the flux columns.
@@ -58,18 +63,30 @@ published separately:
 
 ### **CH-LAE FP2026.2 (2004-2026.09) [in progress]**
 
-Extends the flux record back to 2004 with the fluxes of the open-path LI-7500 (`IRGA75`), with
-the CO~2~ flux corrected for the errors of the open-path analyser ([Level 1.1](L1.1.md)). The
-merged record takes the fluxes from the LI-7500 for 2004-2015 and from the LI-7200 from
-1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of each half-hour (`75` or `72`). The LI-7500
-fluxes of the parallel period 2016-2017 serve for comparison, and its stand-in run of 2019 is not
-used. FP2026.2 re-includes FP2026.1 in full and supersedes it.
+Extends the flux record back to 2004 with the fluxes of the open-path LI-7500 (`IRGA75`). Its CO~2~
+flux is corrected for the errors of the open-path analyser ([Level 1.1](L1.1.md)). The merged
+record takes the fluxes from the LI-7500 for 2004-2015 and from the LI-7200 from 1 January 2016;
+`FLAG_FLUX_SOURCE` gives the analyser of each half-hour (`75` or `72`). The LI-7500 data of the
+parallel period 2016-2017 train and check the correction and are not in the merged record. The
+LI-7500 stand-in run of 2019 is not used either. FP2026.2 covers the full period of FP2026.1 and
+supersedes it.
 
-Both flux chains and the merged record have been run; the release is not final. The `NEE` of the
-LI-7500 years carries extra uncertainty from the wet half-hours the analyser did not measure and
-from cold, humid nights, and `LE` differs between the two analysers (see [Issues](Issues.md)).
+FP2026.2 also adds the partitioning of `NEE` into `GPP` and `RECO` ([Level 4.2](L4.2.md)).
 
-Also planned: the partitioning of `NEE` into `GPP` and `RECO` ([Level 4.2](L4.2.md)), and the
-extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
+The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1. The chain now uses tests
+of negative nighttime values based on the flux uncertainty ([Level 3.2](L3.2.md)), and the
+gap-filling models are trained anew in every run. In the current processing the annual `NEE` sums
+of 2016-2025 (`CUT_50`, XGBoost) differ from FP2026.1 by -40 to +3 gC m^-2^.
+
+Both flux chains and the merged record have been run; the release is not final. The correction of
+the LI-7500 flux is used as it is for FP2026.2, and improving it for the early years is planned for
+a later version. The annual sums of 2004-2009 are kept as processed, without a flag or an added
+uncertainty. They are the least certain of the record, and
+[Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET and with
+published estimates. The `NEE` of the LI-7500 years is also affected by the wet half-hours the
+analyser did not measure and by cold, humid nights, and `LE` differs between the two analysers
+(see [Issues](Issues.md)).
+
+Also planned: the extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
 See the [Issues](https://github.com/holukas/dataset_ch-lae_flux_product/issues) of the
 repository for other planned updates.

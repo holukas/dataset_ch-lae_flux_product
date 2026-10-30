@@ -45,6 +45,9 @@ it gives an `NEE` of -235 gC m^-2^ against -113 gC m^-2^ with XGBoost.
    [Level 4.1](L4.1.md) gap-filling.
    [Level 4.2](L4.2.md), the partitioning of `NEE`, is not part of FP2026.1.
 
+FP2026.1 was produced with the earlier, stricter test of negative nighttime `NEE` values. The tests
+used since 30 October 2026 ([Level 3.2](L3.2.md)) apply to FP2026.2.
+
 The dataset file is cut from a collection of all fluxes and meteorological data from 2004:
 [`10_FLUXES_and_METEO_2004-2026.09`](notebooks/80_FINALIZE/10_FLUXES_and_METEO_2004-2026.09.html)
 and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1_2016-2026.09.html).
@@ -53,11 +56,13 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 
 - The fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015. They are in progress for
   FP2026.2, which will extend the flux record back to 2004 and supersede FP2026.1. Its merged record
-  takes the LI-7500 until 2015 and the LI-7200 from 1 January 2016; the LI-7500 fluxes of the
-  parallel period 2016-2017 serve for comparison only.
+  takes the LI-7500 until 2015 and the LI-7200 from 1 January 2016. The LI-7500 data of the
+  parallel period 2016-2017 train and check the correction of [Level 1.1](L1.1.md) and are not in
+  the merged record. The LI-7500 years are compared with earlier estimates on
+  [Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
 - `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` for January to September 2026. These columns
   end on 31 December 2025.
-- The partitioning of `NEE` into `GPP` and `RECO`.
+- The partitioning of `NEE` into `GPP` and `RECO`, which is run for FP2026.2.
 - A correction of `LE` and `H` for the energy balance closure.
 
 ## Known limitations
