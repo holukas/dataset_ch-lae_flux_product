@@ -239,6 +239,13 @@ released); `90_OVERVIEW/FLUX_NEE`, `METEO_VPD`; the comparison and investigation
 item 12. Next: check the winter night gap-filling of `IRGA75/05` (item 12), then build the
 FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be decided).
 
+**To re-run: the low sample flow of May 2021** (found 30 Oct 2026 in the new overview
+notebooks `90_OVERVIEW/FLUX_GPP`, `FLUX_RECO`, `FLUX_ET`, `FLUX_H`). `FC` and `LE` of the LI-7200
+were near zero from 28 April to 27 May 2021; the two low-flow periods are now in `REMOVE_DATES` of
+`IRGA72/05` and `25` (`docs/Yearly_Notes.md`, 2021). Re-run `IRGA72/05` and `25`, then
+`IRGA72/99`, `30_.../99_FPPC_MERGED`, `80_FINALIZE/10` and the overview notebooks. FP2026.1 as
+released still contains these values.
+
 Then, before the release: **find the cause of the positive early `IRGA75` years** (item 12).
 opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. The
 difference to FLUXNET is explained (item 12): FLUXNET's winter nights of 2004-2015 are too low,
