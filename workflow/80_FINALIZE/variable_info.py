@@ -88,6 +88,8 @@ RAW_SUFFIXES = {
 CUSTOM = {
     'AGC_IRGA75': ('%', 'LI-7500 automatic gain control'),
     'AIR_P': ('Pa', 'air pressure logged with the raw data'),
+    'CELL_T': ('K', 'LI-7200 cell temperature'),
+    'INT_P': ('Pa', 'LI-7200 cell (internal) pressure'),
     'CO2': ('mmol m-3', 'CO2 molar density logged with the raw data'),
     'H2O': ('mmol m-3', 'H2O molar density logged with the raw data'),
     'COOLER_V_IRGA72': ('V', 'LI-7200 cooler voltage'),
@@ -353,6 +355,7 @@ TESTS = {
     'OUTLIER_HAMPEL': 'Hampel outlier test',
     'OUTLIER_HAMPEL_2': 'second Hampel outlier test',
     'OUTLIER_NEGNIGHT': 'test for negative values at night',
+    'OUTLIER_NEGNIGHTS': 'test for whole nights whose median lies clearly below zero',
     'USTAR': 'USTAR filter',
 }
 LEVELS = {
