@@ -26,18 +26,19 @@ The gas fluxes `FC`, `NEE` and `LE` have the same gap, for the reasons above. Se
 
 ## `H` in 2024 is lower than in the other years
 
-The annual mean of the measured `H` is 25.8 W m^-2^ in 2024, against 33.9 to 51.8 W m^-2^ in
-the other full years 2016 to 2025, about a third lower. Incoming shortwave radiation was also
-lower in 2024 than in the other years, but the cause has not been checked yet. Treat annual `H`
-in 2024 with caution until it is.
+The annual mean of the Level-1 `H`, before quality control, is 25.8 W m^-2^ in 2024, against 33.9
+to 51.8 W m^-2^ in the other full years 2016 to 2025, about a third lower. The gap-filled series
+gives 25.0 W m^-2^ against 32.4 to 45.4 W m^-2^. Incoming shortwave radiation was also lower in
+2024 than in the other years, but the cause has not been checked yet. Treat annual `H` in 2024 with
+caution until it is.
 
 ## MDS in spring 2016
 
 In spring 2016 the measurements of the start-up period were removed (1 March to 25 May 2016), and
 the gap includes the leaf-out. MDS fills this gap from records far away in time and gives a much
-larger uptake than XGBoost: the April-May sum of `NEE` (CUT_50) is -235 gC m^-2^ with MDS and
--113 gC m^-2^ with XGBoost. In the other years the April-May sums of both methods lie between
--30 and -195 gC m^-2^. XGBoost is the gap-filling method of this dataset, and MDS is included for
+larger uptake than XGBoost: the April-May sum of `NEE` (`CUT_50`) is -240 gC m^-2^ with MDS and
+-132 gC m^-2^ with XGBoost (-235 and -113 in FP2026.1). In the other years the April-May sums of
+both methods lie between -31 and -192 gC m^-2^. XGBoost is the gap-filling method of this dataset, and MDS is included for
 comparison only. Use the XGBoost series (`_gfXG`). See [Level-4.1](L4.1.md).
 
 ## The LI-7500 fluxes are not part of FP2026.1
@@ -60,16 +61,17 @@ The LI-7500 loses many half-hours in wet weather (rain, fog, dew, water on the w
 LI-7200 still measures. Gap-filling learns only from the conditions the LI-7500 measured, so it fills
 these gaps as if they were dry, with too much uptake. Open-path analysers are known to lose data in
 wet weather, but no published study was found that quantifies the resulting bias against a
-co-located enclosed-path analyser. In 2016-2017, when both analysers ran:
+co-located enclosed-path analyser. From 11 January 2016 to 12 December 2017, when both analysers
+ran:
 
-- on the half-hours both measured, the corrected LI-7500 agrees with the LI-7200 to within about
-  40 gC m^-2^ over the two years;
-- the gap-filled annual `NEE` of the LI-7500 shows about 180 to 190 gC m^-2^ per year more uptake
-  than that of the LI-7200.
+- on the half-hours both measured, the corrected LI-7500 shows 45 gC m^-2^ more uptake than the
+  LI-7200 over the whole period;
+- the gap-filled `NEE` of the LI-7500 shows 235 gC m^-2^ (2016) and 289 gC m^-2^ (2017) more
+  uptake than that of the LI-7200.
 
 For 2004-2015 the size of this effect is unknown. A correction calibrated in 2016-2017 would add
 100 to 200 gC m^-2^ per year, but the annual sums of the LI-7500 years show no step of that size
-against those of the LI-7200 years
+against those of the LI-7200 years: 2004-2015 average -152 gC m^-2^ per year, 2016-2025 -117
 ([overview of the merged NEE record](notebooks/90_OVERVIEW/FLUX_NEE.html)). FP2026.2 therefore
 keeps the gap-filled series without such a correction.
 
@@ -88,10 +90,11 @@ What this means for the data:
 ## Nighttime NEE of the LI-7500 is too low on cold and humid nights
 
 This concerns nighttime `NEE` of 2004-2015 in FP2026.2. The measured nighttime `NEE` of the
-LI-7500 falls with humidity and cold. Below 5 °C and at a relative humidity of 99.5 % or more, its
-median is about -0.1 µmol m^-2^ s^-1^, and half of the values are negative, which would mean uptake
-in the dark. The LI-7200 stays at about +2 µmol m^-2^ s^-1^ in every humidity class, with about
-10 % negative values. The likely cause is fog and rime on the windows of the open-path analyser.
+LI-7500 falls with humidity and cold. In 2016-2017, below 5 °C and at a relative humidity of 99.5 %
+or more, its median after all quality tests is +0.9 µmol m^-2^ s^-1^, and 39 % of the values are
+negative, which would mean uptake in the dark. The LI-7200 stays near +2 µmol m^-2^ s^-1^ (+1.8 to
++2.4) in every humidity class, with 10 to 13 % negative values. The likely cause is fog and rime on
+the windows of the open-path analyser.
 
 Many of these nights pass the quality tests, and gap-filling learns from them. [Level-3.2](L3.2.md)
 removes the clearest cases: four fog episodes in 2004, 2013 and 2014 are removed by hand, and a test
@@ -110,24 +113,37 @@ What this means for the data:
 
 Not yet resolved.
 
+## The early LI-7500 years are a weak sink
+
+This concerns `NEE` of 2004-2009 in FP2026.2. In 2005-2009 the annual `NEE` averages -38 gC m^-2^
+per year. This is far less uptake than the biometric estimates for 2006-2009 and the earlier flux
+estimates of FLUXNET and @etzold_carbon_2011. The shortfall lies in the daytime uptake. Checks of
+the analyser, the raw data and the calibration found no measurement fault. The cause is either a
+real loss of uptake after the drought of 2003 or a correction at [Level 1.1](L1.1.md) that is too
+large for these years. FP2026.2 keeps these years unchanged. Where a result depends on the
+absolute sink strength, prefer the LI-7200 years. The comparisons and checks are on
+[Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
+
 ## LE of the two gas analysers differs in humid and cold conditions
 
 This concerns `LE` and `ET` across the change of gas analyser on 1 January 2016. In 2016-2017,
 when both analysers ran, the open-path LI-7500 (`IRGA75`) measured a higher `LE` than the
-enclosed-path LI-7200 (`IRGA72`). On the half-hours both measured, it is about 7 % higher overall,
+enclosed-path LI-7200 (`IRGA72`). On the half-hours both measured, it is about 9 % higher overall,
 and the difference grows with humidity and cold:
 
 | relative humidity | `IRGA75` / `IRGA72` |
 |---|---|
 | below 60 % | 1.03 |
-| 80-90 % | 1.11 |
-| 90-95 % | 1.33 |
-| above 95 % | 1.82 |
+| 60-80 % | 1.05 |
+| 80-90 % | 1.15 |
+| 90-95 % | 1.49 |
+| 95 % and above | 2.15 |
 
-: Ratio of the `LE` sums of the two analysers on the half-hours both measured, 2016-2017. {#tbl-le-ratio}
+: Ratio of the `LE` sums of the two analysers on the half-hours both measured after all quality
+tests, 11 January 2016 to 12 December 2017, by relative humidity at 47 m. {#tbl-le-ratio}
 
-Below 0 °C the ratio is 2.4, above 20 °C 1.02. The gap-filled annual `LE` of 2016 and 2017 is 17
-to 27 % higher with the LI-7500.
+Below 0 °C the ratio is 2.8, above 20 °C 1.03. The gap-filled annual `LE` is 27 % (2016) and 18 %
+(2017) higher with the LI-7500.
 
 The likely cause lies in the LI-7200, not in the open-path analyser. In the tube and cell of an
 enclosed-path analyser, water vapour adsorbs on the walls, which damps the H2O fluctuations more the
@@ -144,7 +160,7 @@ What this means for the data:
   instrumental. The gap-filled `ET` averages about 750 mm per year in 2004-2015 (LI-7500) and about
   610 mm in 2016-2025 (LI-7200). Do not read this difference as a change of the ecosystem.
 - `H` comes from the same sonic anemometer for both analysers and is not affected: the two agree
-  to within 1 % in 2016 and 2017.
+  to within 2 % in 2016 and 2017.
 
 Not yet resolved. The planned check compares the energy balance closure, `H + LE` against net
 radiation minus the soil heat flux, of both analysers by humidity class: the analyser that closes
@@ -166,9 +182,10 @@ Before 2016, the threshold detection therefore used LI-7500 `NEE`, corrected for
 a similar way to @kittler_high-quality_2017.
 
 This dataset does not use the FLUXNET thresholds. Both releases filter `NEE`, of both analysers,
-at three constant thresholds detected on the LI-7200 data of 2016 to 2024: 0.272 (`CUT_16`), 0.304 (`CUT_50`) and
-0.340 m s^-1^ (`CUT_84`). These are kept on purpose although FLUXNET uses much higher thresholds
-for CH-LAE. See [Level-3.3](L3.3.md).
+at three constant thresholds: 0.272 (`CUT_16`), 0.304 (`CUT_50`) and 0.340 m s^-1^ (`CUT_84`). For
+each scenario the higher of two detections is used, one on the LI-7200 data of 2016-2024 and one
+on the LI-7500 data of 2005-2017 and 2019. These thresholds are kept on purpose, although the FLUXNET
+thresholds of CH-LAE are much higher from 2016 on. See [Level-3.3](L3.3.md).
 
 ![USTAR thresholds detected by FLUXNET, based on data 2004-2023, from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png){#fig-ustar-fluxnet1}
 

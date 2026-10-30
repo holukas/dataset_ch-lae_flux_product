@@ -95,7 +95,7 @@ filter, as in Pastorello et al. (2020). `H` uses only the quality flags of the s
 
 ## Notebooks of the IRGA75 chain and the merged record
 
-These notebooks are in progress for FP2026.2.
+These notebooks produce the flux record of FP2026.2, which is in progress.
 
 | Notebook | Content |
 |---|---|
@@ -108,3 +108,7 @@ These notebooks are in progress for FP2026.2.
 | [`99_FPPC_MERGED_2004-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED_2004-2026.09.html) | Joins the merged results of both gas analysers into one record, with `FLAG_FLUX_SOURCE` |
 
 : Notebooks of the post-processing chain for `IRGA75` and of the merged record. {#tbl-fpc-notebooks-75}
+
+The checks of the early LI-7500 years, whether the correction of Level 1.1 holds for them and
+whether the analyser measured the full flux, are summarised on
+[Comparisons of the LI-7500 years](IRGA75_Comparisons.md), which links their notebooks.

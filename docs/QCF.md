@@ -59,12 +59,15 @@ The same columns exist after each level: `FLAG_L2_FC_QCF`, `FLAG_L3.1_NEE_QCF`,
 | Flag column | `QCF` 0 | `QCF` 1 | `QCF` 2 |
 |---|---|---|---|
 | `FLAG_L2_FC_QCF` | 59,004 | 75,311 | 54,133 |
-| `FLAG_L3.2_NEE_L3.1_QCF` | 56,966 | 66,893 | 64,589 |
-| `FLAG_L3.3_CUT_16_NEE_L3.1_QCF` | 49,090 | 43,322 | 96,036 |
-| `FLAG_L3.3_CUT_50_NEE_L3.1_QCF` | 46,827 | 39,930 | 101,691 |
-| `FLAG_L3.3_CUT_84_NEE_L3.1_QCF` | 44,048 | 36,201 | 108,199 |
-| `FLAG_L3.3_CUT_NONE_LE_L3.1_QCF` | 49,066 | 70,011 | 69,371 |
+| `FLAG_L3.2_NEE_L3.1_QCF` | 56,975 | 67,024 | 64,449 |
+| `FLAG_L3.3_CUT_16_NEE_L3.1_QCF` | 49,091 | 43,404 | 95,953 |
+| `FLAG_L3.3_CUT_50_NEE_L3.1_QCF` | 46,828 | 39,996 | 101,624 |
+| `FLAG_L3.3_CUT_84_NEE_L3.1_QCF` | 44,050 | 36,259 | 108,139 |
+| `FLAG_L3.3_CUT_NONE_LE_L3.1_QCF` | 49,062 | 70,433 | 68,953 |
 | `FLAG_L3.3_CUT_NONE_H_L3.1_QCF` | 84,975 | 56,071 | 47,402 |
 
-: Records per value of the overall quality flag in FP2026.1, out of 188,448 half-hours. `QCF` 2
-includes the records without a measured flux. {#tbl-qcf-records}
+: Records per value of the overall quality flag of the LI-7200 (`IRGA72`), out of the 188,448
+half-hours of January 2016 to September 2026, in the current chain. `QCF` 2 includes the records
+without a measured flux. In FP2026.1, produced with earlier settings of two Level-3.2 tests (see
+[Level 3.2](L3.2.md)), `QCF` 2 has 140 more records of `NEE` after Level 3.2 and 418 more of
+`LE`. {#tbl-qcf-records}
