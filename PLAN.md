@@ -471,6 +471,38 @@ In order. Each item is blocked by the one above it, except that the flux items
         implausible ones, so the difference does not point to an error in this chain.
       - 2016-2017 (`IRGA72` in FLUXNET): FLUXNET's nights average +4.2 and +5.4, our
         `IRGA72` +3.7. Not explained yet.
+    - **Against Etzold et al. (2011)** (2005-2009, LI-7500, mean NEE -415 gC m-2 per year,
+      range -366 to -662; our `05` run of 30 Oct: +66). Their flux has WPL and the Burba et
+      al. (2008) / Järvi et al. (2009) self-heating correction; winter fluxes of ±15
+      umol m-2 s-1 kept in the data but excluded from the gap-filling fits; negative nights
+      and as many positive ones trimmed; Lloyd-Taylor at night, a running mean below 0 degC;
+      u* 0.3; night coverage 24 %. Mean monthly sums (theirs read from their Fig. 5, about
+      ±10 gC m-2), gC m-2:
+
+      | | Nov-Mar | Apr + Oct | May-Sep | year |
+      |---|---|---|---|---|
+      | Etzold et al. | about +170 | about 0 | about -570 | -415 |
+      | ours, `IRGA75` with opco | +393 | +72 | -399 | +66 |
+      | ours, without opco | +91 | -27 | -635 | -572 |
+      | `IRGA72` 2016-2025 | +374 | +38 | -516 | -105 |
+      | FLUXNET | +184 | +20 | -422 | -221 |
+
+      "Without opco" adds the mean opco correction per month and day/night back to every
+      half-hour (approximate); opco adds about +640 gC m-2 per year, +42 to +67 per month.
+      **Their correction reproduced (30 Oct 2026):** the R script in
+      `opco-data/references/` (Burba 2008 equation, Järvi 2009 fraction 0.085, surface
+      temperature from the sonic temperature) applied to our `01` input adds about +210 gC
+      m-2 per year (0.7-1.2 umol m-2 s-1 by day, 0.4-1.0 at night), against opco +640.
+      Our flux with it in place of opco: -362 per year (theirs -415); Nov-Mar +192 (about
+      +170), Apr + Oct +3 (about 0), May-Sep -558 (about -570). So about 430 of the 480
+      difference is the size of the correction. The `IRGA72` years support opco in winter
+      (+374 against +393 and +192) and lie between the two in summer (-516 against -399 and
+      -558). **Still open:** our
+      early-year summer has about 120 gC m-2 less uptake than the `IRGA72` years. Either opco's
+      daytime correction (about +2.5 umol m-2 s-1 in summer, fitted on 2016-2017) is too large
+      for 2005-2009, or the difference is real (climate, stand). Check whether the correction
+      behaves the same against temperature, radiation and u* in both periods. Documented on
+      `docs/IRGA75_Comparisons.md`.
       Scripts in the session scratchpad `flx/`.
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
