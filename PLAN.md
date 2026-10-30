@@ -246,10 +246,10 @@ that will state it.
 4. `80_FINALIZE/10`.
 5. `90_OVERVIEW/FLUX_NEE` and `90_OVERVIEW/METEO_VPD`.
 
-Then, before the release: **separate the two effects on the early `IRGA75` years** (item 12).
-Run a copy of `IRGA75/01` with `VPD` back in `FEATURES_XI`/`FEATURES_K`, then a copy of `05` on
-it, with test 6 and the manual removals kept. Compare its annual sums with the run without
-`VPD`; the difference is the part that comes from dropping `VPD`.
+Then, before the release: **find the cause of the positive early `IRGA75` years** (item 12).
+opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. Compare
+the annual sums with FLUXNET (ONEFlux v1.3) by component: u* filtering, gap-filled share and
+gap-filling method.
 
 In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
@@ -400,8 +400,7 @@ In order. Each item is blocked by the one above it, except that the flux items
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
     the upper bound of about 50 gC m-2 per year predate the refit; recompute them after
     the merges are re-run (section 4.2).
-12. **opco without `VPD`: possibly change it back** (decided 30 Oct 2026 to keep it for
-    now). Dropping `VPD` from opco (`IRGA75/01`, `FEATURES_XI`/`FEATURES_K`) raises the
+12. **opco without `VPD`** (kept; evaluated 30 Oct 2026, see the end of this item). Dropping `VPD` from opco (`IRGA75/01`, `FEATURES_XI`/`FEATURES_K`) raises the
     annual `NEE` of 2004-2010 by about +30 to +100 gC m-2 and lowers 2011-2017 by up to
     about 75, against the opco with `VPD` (from the mean correction per year). In test `T2`
     2004-2006 become a source (+78, +169, +130 gC m-2; the December 2004 removal and the
@@ -420,10 +419,36 @@ In order. Each item is blocked by the one above it, except that the flux items
     about 300 of the +396 lie in 1 January to 29 March (no measurements, gap-filled
     only) and in December. The `VPD` artefact remains after the RH ceiling fix, smaller: on
     calm nights below 5 degC `VPD` is exactly 0 in 14 % of 2004-2015 and 49 % of
-    2016-2017 (before the fix about 0 against 70 %). Next step: the run with `VPD` in
-    section 5. If the early years are not plausible as a source, return to the opco with
-    `VPD` (or `VPD` floored) and state the spread as an uncertainty of the `IRGA75` years.
-    Also decide whether 2004, which starts on 30 March, gets an annual sum.
+    2016-2017 (before the fix about 0 against 70 %).
+
+    **Evaluated 30 Oct 2026: keep opco without `VPD`.** Scratch analysis (no files
+    changed; scripts in the session scratchpad `agent_opco/`):
+    - Skill: out of fold all variants are equal (RMSE 2.46); cross-year (fit one overlap
+      year, test the other) `VPD` is worse (RMSE 2.94 against 2.73, bootstrap difference
+      +0.21 [+0.03, +0.40]); its in-sample gain is overfitting. Cross-year, corrected
+      minus `IRGA72` per test year is within ±9 gC m-2 for every variant (the "+40" above
+      came from another selection of half-hours).
+    - `VPD` = 0 marks the RH probe at its ceiling, not the weather: the fog share from
+      `LW_IN`/clear-sky `LW_IN` > 1.25 is the same in both periods (42 % and 43 % of
+      nights below 5 degC), but `VPD` = 0 on those fog nights is 7 % in 2004-2015 against
+      47 % in 2016-2017. With `VPD` the correction of foggy cold nights falls short in the
+      early years. 7 % of 2004-2015 records lie outside the training support with `VPD`,
+      2.5 % without. `VPD` carries no self-heating signal.
+    - With `VPD`, 2004-2006 would stay sources (about +95, +66, +44 gC m-2): dropping
+      `VPD` is not the main cause of the positive early years.
+    - Against FLUXNET (ONEFlux v1.3, CH-Lae 2004-2024, local copy under
+      `manuscripts-data/ms-forests-vpd-data`): on shared measured half-hours the annual
+      sums agree within -14 to +25 gC m-2, but the full annual sums are about 300 gC m-2
+      more positive in every year, 2011-2015 included. The gap lies in the u* filtering
+      and the gap-filling, not in opco. Next: compare the two by component (u*
+      scenario, gap-filled share, XGBoost against MDS; see item 8).
+    - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
+      little and clear ones as much too strongly (unbiased in the annual mean, but it
+      reaches the partitioning). A longwave fog ratio as a driver removes most of it
+      (annual change within ±20 gC m-2 in 2006-2015; not usable in 2004-2005 without
+      `LW_IN`).
+    - The opco run with `VPD` of section 5 is no longer needed. Still to decide: whether
+      2004, which starts on 30 March, gets an annual sum.
 
 
 ## 6. Open questions
