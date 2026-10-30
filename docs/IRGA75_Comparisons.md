@@ -6,33 +6,43 @@ numbers on this page come from the run of 30 October 2026 of
 [05_FPPC_IRGA75_NEE_OPCO_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html)
 (`CUT_50`, XGBoost gap-filling), which still used the stricter tests of negative nighttime values.
 With the current tests the annual sums are lower: by 42 to 100 gC m-2 in 2004-2006 and by 80 to
-163 gC m-2 in 2012-2014 (test runs `T2` and `T3`). The page will be updated after the next run.
+163 gC m-2 in 2012-2014 (test runs `T2` and `T3`). The summer daytime results do not depend on
+these tests. The page will be updated after the next run.
+:::
+
+::: {.callout-tip title="Notebooks"}
+- [FLUX_NEE_IRGA75_COMPARISONS](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS.html): the
+  comparisons with FLUXNET and @etzold_carbon_2011, and the recomputed correction of that study.
+- [OPCO_TRANSFER_CHECK_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/OPCO_TRANSFER_CHECK_2004-2017.html):
+  whether the correction of the LI-7500 flux holds for the early years.
 :::
 
 The annual `NEE` of the LI-7500 years in this product is less negative than in two earlier
 estimates for the same years: FLUXNET and @etzold_carbon_2011. This page shows where each
-difference comes from. The reference for plausibility is the LI-7200 (`IRGA72`), measured from
-2016 and not affected by self-heating.
+difference comes from, and whether the correction of the LI-7500 flux ([Level 1.1](L1.1.md))
+holds for the early years. The reference for plausibility is the LI-7200 (`IRGA72`), measured
+from 2016 and not affected by self-heating.
 
 In short:
 
 - **FLUXNET** has far lower winter nights. Its input kept strongly negative winter night values,
   and its gap-filling spread them to the 75-80 % of the nights that are filled.
 - **@etzold_carbon_2011** used a self-heating correction about a third the size of the one in
-  this product (+210 against +640 gC m-2 per year). With their correction in place of ours, the
-  flux of this product gives -362 gC m-2 per year against their -415, with the same seasonal
-  pattern.
-- **Winter:** the LI-7200 years agree with this product. FLUXNET and the smaller correction of
+  this product (about +210 against +640 gC m-2 per year). With their correction in place of ours,
+  the flux of this product gives -270 to -362 gC m-2 per year against their -415, with the same
+  seasonal pattern.
+- **Winter:** this product agrees with the LI-7200 years. FLUXNET and the smaller correction of
   @etzold_carbon_2011 both give less winter respiration.
-- **Open:** in summer the LI-7200 years lie between the two corrections. This product has about
-  120 gC m-2 less summer uptake than the LI-7200 years. It is not yet known whether this is real
-  or whether the correction is too large in summer for the early years.
+- **Summer:** the correction holds from 2008 on. In the summers of 2005-2007 this product has less
+  daytime uptake than the LI-7200 years. The correction may be too large in those three summers;
+  the evidence is mixed. If it is, their May-September `NEE` is up to about 200 gC m-2 too
+  positive.
 
 ## Annual sums
 
 | Year | This product | FLUXNET | @etzold_carbon_2011 |
 |---|---|---|---|
-| 2004 | +161 | -444 | |
+| 2004 (from 14 March) | -79 | -444 | |
 | 2005 | +164 | -158 | |
 | 2006 | +144 | -124 | |
 | 2007 | -101 | -352 | |
@@ -47,8 +57,8 @@ In short:
 | 2015 | -167 | -335 | |
 
 : Annual `NEE` in gC m-2 per year. This product: `IRGA75`, preliminary (see the box above).
-FLUXNET: `NEE_VUT_REF` of the ONEFlux v1.3 release for CH-Lae. 2004 starts on 30 March in this
-product and is not a complete year. {#tbl-annual}
+FLUXNET: `NEE_VUT_REF` of the ONEFlux v1.3 release for CH-Lae. FLUXNET starts on 14 March 2004,
+so 2004 is compared from that date; the LI-7500 measures from 31 March 2004. {#tbl-annual}
 
 The LI-7200 years 2016-2025 average -105 gC m-2 per year in FP2026.1 (range -336 to +76).
 
@@ -56,24 +66,24 @@ The LI-7200 years 2016-2025 average -105 gC m-2 per year in FP2026.1 (range -336
 
 | | Nov-Mar | Apr and Oct | May-Sep | Year |
 |---|---|---|---|---|
-| @etzold_carbon_2011 | about +170 | about 0 | about -570 | -415 |
+| @etzold_carbon_2011 | about +175 | about 0 | about -570 | -415 |
 | This product, `IRGA75` | +393 | +72 | -399 | +66 |
 | This product, `IRGA75` before correction | +91 | -27 | -635 | -572 |
-| This product, with the correction of @etzold_carbon_2011 | +192 | +3 | -558 | -362 |
-| FLUXNET | +184 | +20 | -422 | -221 |
-| LI-7200, 2016-2025 (FP2026.1) | +374 | +38 | -516 | -105 |
+| This product, with the correction of @etzold_carbon_2011 | +192 to +241 | +3 to +18 | -558 to -529 | -362 to -270 |
+| FLUXNET | +183 | +19 | -423 | -221 |
+| LI-7200, 2016-2025 (FP2026.1) | +374 | +38 | -517 | -105 |
 
 : Mean `NEE` per season in gC m-2, sums of the monthly means. The values of
-@etzold_carbon_2011 are read from their Fig. 5 and are accurate to about ±10 gC m-2 per month.
-"Before correction" removes the mean correction of each month, by day and by night, from every
-half-hour; "with the correction of @etzold_carbon_2011" then adds theirs in the same way. Both
-rows are approximations. {#tbl-seasons}
+@etzold_carbon_2011 are read from their Fig. 5 and are accurate to about ±10 gC m-2 per month;
+their published annual mean is -415. "Before correction" removes the mean correction of each
+month, by day and by night, from every half-hour; "with the correction of @etzold_carbon_2011"
+then adds theirs in the same way, using its monthly median (first value) or mean (second value).
+Both rows are approximations. {#tbl-seasons}
 
-The correction of the LI-7500 flux in this product ([Level 1.1](L1.1.md)) adds about
-+640 gC m-2 per year, spread over the year at +42 to +67 gC m-2 per month. It raises the daytime
-flux by 2.0 to 3.9 µmol m-2 s-1 and the nighttime flux by 0.4 to 1.3 µmol m-2 s-1, most in
-winter. The correction of @etzold_carbon_2011 adds about +210 gC m-2 per year: 0.7 to
-1.2 µmol m-2 s-1 by day and 0.4 to 1.0 µmol m-2 s-1 at night.
+The correction in this product adds about +640 gC m-2 per year, at +42 to +67 gC m-2 per month.
+It raises the daytime flux by 2.0 to 3.9 µmol m-2 s-1 and the nighttime flux by 0.4 to
+1.3 µmol m-2 s-1, most in winter. The correction of @etzold_carbon_2011 adds about +210 to
++300 gC m-2 per year: 0.6 to 1.2 µmol m-2 s-1 by day and 0.2 to 1.0 µmol m-2 s-1 at night.
 
 ## Comparison with FLUXNET
 
@@ -118,41 +128,62 @@ differs from this product in four ways that matter for the annual sum:
 : Processing of @etzold_carbon_2011 (p. 1297) compared with this product. Both use a u*
 threshold of about 0.3 m s-1 ([Level 3.3](L3.3.md)). {#tbl-etzold-methods}
 
-The correction of @etzold_carbon_2011 was recomputed for this comparison from an R
-implementation used in the group, which applies the equation of @burba_addressing_2008 with the
-fraction of @jarvi_comparison_2009 to the EddyPro output. It is assumed to be the version that
-was used for CH-LAE; the agreement below supports this.
-
 Their correction adds a fixed fraction (0.085, the default of @jarvi_comparison_2009) of the
 heat-flux term of @burba_addressing_2008, with the instrument surface temperature estimated
 from air temperature. That fraction was derived for a vertically mounted analyser; the LI-7500
-at CH-LAE is inclined. The correction in this product is instead fitted to the LI-7200.
+at CH-LAE is inclined. It was recomputed for this comparison from an R implementation used in
+the group, which is assumed to be the version used for CH-LAE; the agreement below supports this.
 
 Applied to the flux of this product, their correction reproduces their result (@tbl-seasons):
--362 against -415 gC m-2 per year, about -558 against -570 in May-September, +192 against +170
-in November-March, and +3 against about 0 in April and October. Of the difference of about
-480 gC m-2 per year between their study and this product, about 430 come from the size of the
-correction. The rest, about 50, comes from the other processing steps, which is within the
-accuracy of the comparison.
+-270 to -362 against -415 gC m-2 per year, -529 to -558 against about -570 in May-September,
++192 to +241 against about +175 in November-March. Of the difference of about 480 gC m-2 per
+year between their study and this product, about 340 to 430 come from the size of the
+correction. The rest comes from the other processing steps.
 
-The LI-7200 years decide between the two corrections only in part:
+## Does the correction hold for the early years?
 
-- **Winter:** the LI-7200 years (+374) agree with this product (+393), not with the smaller
-  correction (+192).
-- **Summer:** the LI-7200 years (-516) lie between this product (-399) and the smaller correction
-  (-558). In the 2016-2017 overlap the uncorrected LI-7500 overestimated the summer uptake of the
-  LI-7200 by 19 %, so a correction is needed in summer as well.
+The correction is fitted on 2016-2017 and applied unchanged to 2004-2015. Compared with the
+LI-7200 years at the same light and air temperature:
 
-## Open question
+- **The model transfers.** The drivers of the early summers lie within the range of the training
+  years (at most 1.1 % of the records outside). Under the same conditions the correction is the
+  same in both periods (2.23 against 2.16 µmol m-2 s-1). Fitted on 2016 alone or 2017 alone, the
+  model corrects the other year to within 0.05 µmol m-2 s-1 of the LI-7200 and gives the same
+  correction for the early years.
+- **Nights agree.** Summer nighttime `NEE` of 2005-2009 (+4.9 µmol m-2 s-1) equals that of the
+  LI-7200 years (+5.0).
+- **2008 and later agree by day.** At the same light and temperature, the summer daytime flux of
+  2010-2015 is within 0.2 µmol m-2 s-1 of the LI-7200 years. 2007-2009 have 0.9 to 1.2 less
+  uptake, within the year-to-year spread of the LI-7200 years (standard deviation 1.2).
+- **2005 and 2006 have clearly less daytime uptake**, by 2.1 and 2.7 µmol m-2 s-1. The
+  correction is about the same in every year, so the difference is already in the uncorrected
+  flux. In 2006 even the uncorrected flux has less uptake than the LI-7200 years.
 
-In winter this product agrees with the LI-7200 years. In summer it has about 120 gC m-2 less
-uptake than the LI-7200 years (-399 against -516). The correction was fitted on 2016-2017 and is
-applied unchanged to the earlier years, where it raises the summer daytime flux by about
-2.5 µmol m-2 s-1. If the self-heating of the analyser was weaker in the early years, the
-correction is too large there and the early summers are biased towards release. The difference
-may also be real, from weather or from changes in the stand. A check is whether the
-correction behaves the same against air temperature, radiation and u* in both periods. Until
-this is settled, the annual sums of the LI-7500 years carry an uncertainty of this size.
+Whether the correction is too large in 2005-2007 cannot be settled from the LI-7500 data alone:
+
+- **For a too large correction:** in summer the self-heating error grows at low wind speed. In the
+  uncorrected flux of 2005-2007 this wind dependence is much weaker than in 2008-2017; taken at
+  face value it implies a self-heating about 80 % weaker in those summers (scaling factor
+  0.20 ± 0.44, where 1 means as in the training years).
+- **Against:** in the winters of 2004/05 to 2006/07 the contrast between sunny half-hours and
+  nights implies full-size self-heating (1.49 ± 0.58). The 2005-2006 deficit is partly present
+  without any correction. Dry summers alone do not explain it: the dry LI-7200 summers 2018 and
+  2022 show 0.3 and 0.9 µmol m-2 s-1.
+- **The setup did not change.** The same LI-7500 head, separation and EddyPro settings were used
+  throughout, and the energy balance and turbulence statistics show no step.
+- **The low CO2 reading of 2004-2007 does not explain it.** Until a recalibration in December 2007
+  the LI-7500 read CO2 about 2 % low in 2004-2005 and about 6 % low in 2006-2007 (section 5 of the
+  transfer notebook). A gain error of that size would make the true summer daytime flux 0.5 to
+  0.65 µmol m-2 s-1 more negative in 2006-2007; a zero offset would make it about 0.6 more
+  positive. Either way this is a fraction of the 2.1-2.7 µmol m-2 s-1 of 2005-2006, and about
+  ±50 to ±60 gC m-2 per summer in 2006-2007 (±15 in 2004-2005).
+
+If the summer wind dependence is right, the May-September `NEE` of 2005-2007 is 171 to
+195 gC m-2 per summer too positive (95 % range 0 to 244), and the 2005-2009 mean about 109 too
+positive (range 0 to 216). If instead the ecosystem took up as much as in the LI-7200 years, the
+2005-2009 mean would change by about 158; that is an upper bound, not an estimate. This product
+keeps the correction unchanged; treat the summers of 2005-2007 as uncertain by up to about
+200 gC m-2.
 
 ## References
 
