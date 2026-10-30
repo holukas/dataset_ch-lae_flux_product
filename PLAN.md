@@ -518,6 +518,28 @@ In order. Each item is blocked by the one above it, except that the flux items
       as uncertain by up to about 200 gC m-2 (done on `docs/L1.1.md` and
       `docs/IRGA75_Comparisons.md`). Possibly add a flag for May-Sep 2005-2007.
       Notebooks: `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and the transfer check above.
+    - **Why the early years are a weak sink** (30 Oct 2026, notebooks
+      `30_.../IRGA75/ANALYSER_DAMPING_CHECK_2004-2017`,
+      `90_OVERVIEW/FLUX_NEE_IRGA75_INDEPENDENT_ESTIMATES`,
+      `90_OVERVIEW/FLUX_NEE_IRGA75_PARTITIONING_COMPARISON`; strict-test run):
+      - Independent estimates (Etzold et al. 2011, Tables 4-5): biometric NEP 2006-2009
+        +307 to +514 gC m-2 against ours -41 (CUT_16 to CUT_84 -5 to -74; about +59 with the
+        relaxed tests). RECO 1,487-1,495 is plausible (soil respiration 890, share 0.60 against
+        0.64; their TER 1,383 ± 338). GPP 1,378-1,395 against their 1,830; RECO/GPP 1.05-1.09.
+      - Partitioning against the `IRGA72` years: 2005-2009 +170 per year, +201 by day and -30
+        at night; with NT partitioning almost all GPP. Lower capacity (light-saturated GPP -5.1
+        in 2005-2007, -2.6 in 2008-2009 umol m-2 s-1), unchanged seasonal shape, leaf-out not
+        later. 2005-2007 mostly June-July; 2008-2009 January-July, daytime. 2004-2006 below
+        every other year at the same weather; dry soils after 2003 make a real loss plausible
+        for those years only. DT partitioning splits GPP/RECO unreliably across the analyser
+        change.
+      - Analyser damping: not found. Same settings and lags; the w-CO2 and w-H2O correlations
+        are 4-7 % lower in 2004-2006 but the CO2-H2O correlation drops alike, 2007 shows none.
+        Upper bound with the CO2 gain: 34-54 % of the summer daytime gap of 2005-2007
+        (-67, -108, -42 gC m-2 in May-Sep 2005-2007).
+      - Still open: a targeted EddyPro rerun of a few summer months of 2005-2006 and reference
+        years (wider lag window, cospectra, instrument noise), and the calibration records of
+        2004-2007 (span or zero error). Documented on `docs/IRGA75_Comparisons.md`.
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
       reaches the partitioning). A longwave fog ratio as a driver removes most of it
