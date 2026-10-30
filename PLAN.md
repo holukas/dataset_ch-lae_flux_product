@@ -497,13 +497,27 @@ In order. Each item is blocked by the one above it, except that the flux items
       +170), Apr + Oct +3 (about 0), May-Sep -558 (about -570). So about 430 of the 480
       difference is the size of the correction. The `IRGA72` years support opco in winter
       (+374 against +393 and +192) and lie between the two in summer (-516 against -399 and
-      -558). **Still open:** our
-      early-year summer has about 120 gC m-2 less uptake than the `IRGA72` years. Either opco's
-      daytime correction (about +2.5 umol m-2 s-1 in summer, fitted on 2016-2017) is too large
-      for 2005-2009, or the difference is real (climate, stand). Check whether the correction
-      behaves the same against temperature, radiation and u* in both periods. Documented on
-      `docs/IRGA75_Comparisons.md`.
-      Scripts in the session scratchpad `flx/`.
+      -558). With the monthly mean instead of the median of their correction: -270 per year,
+      so 340 to 430 of the 480 come from the correction.
+    - **Transfer of opco to the early summers** (30 Oct 2026,
+      `30_.../IRGA75/OPCO_TRANSFER_CHECK_2004-2017`). opco transfers as a model: drivers in
+      the training range, same correction under matched light and temperature (ratio 1.03),
+      single-year refits agree. Summer nights agree with the `IRGA72` years. Standardised
+      summer daytime NEE against the `IRGA72` years: 2010-2015 +0.17, 2007-2009 +0.9 to +1.2
+      (within the `IRGA72` spread, sd 1.2), 2005 +2.1, 2006 +2.7 umol m-2 s-1; the gap is in
+      the uncorrected flux already. **Open for 2005-2007:** the summer wind test implies a
+      self-heating about 80 % weaker (s = 0.20 ± 0.44), the winter test full-size (1.49 ±
+      0.58). If the wind test is right, May-Sep 2005-2007 is 171-195 gC m-2 too positive
+      (0 to 244). **CO2 reading tested (30 Oct 2026, scratch `flx/co2offset.py`):** summer
+      midday CO2 against the 2008-2017 trend is 1.6-1.9 % low in 2004-2005 and 6.0-6.1 % low in
+      2006-2007. As a gain error it makes the true corrected summer daytime flux 0.5-0.65 umol
+      m-2 s-1 more negative in 2006-2007 (0.12-0.16 in 2004-2005); as a zero offset (WPL terms
+      only) about 0.6 more positive; opco's heating term is too small by the same factor in both
+      cases. About ±50-60 gC m-2 per summer in 2006-2007, ±15 in 2004-2005: not the cause of the
+      2005-2006 gap. Decision for FP2026.2: keep opco unchanged and state the 2005-2007 summers
+      as uncertain by up to about 200 gC m-2 (done on `docs/L1.1.md` and
+      `docs/IRGA75_Comparisons.md`). Possibly add a flag for May-Sep 2005-2007.
+      Notebooks: `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and the transfer check above.
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
       reaches the partitioning). A longwave fog ratio as a driver removes most of it
