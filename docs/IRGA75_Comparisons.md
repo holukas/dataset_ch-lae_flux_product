@@ -21,6 +21,9 @@ these tests. The page will be updated after the next run.
   the early years against the biometric and soil-respiration estimates of @etzold_carbon_2011.
 - [FLUX_NEE_IRGA75_PARTITIONING_COMPARISON](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_PARTITIONING_COMPARISON.html):
   `GPP` and `RECO` of the early years against the LI-7200 years.
+- [RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS.html):
+  time lags, cospectra and instrument noise from the 20 Hz raw data of the summers 2005-2007,
+  2010-2012 and 2016.
 :::
 
 The annual `NEE` of the LI-7500 years in this product is less negative than in two earlier
@@ -45,8 +48,8 @@ In short:
   positive.
 - **Against independent estimates** the early years are too weak a sink: by 250 to 380 gC m-2 per
   year against the biometric net ecosystem production of 2006-2009. Respiration agrees with the
-  soil respiration measurements; the shortfall is in the daytime uptake (`GPP`). No measurement
-  fault of the analyser was found that explains it.
+  soil respiration measurements; the shortfall is in the daytime uptake (`GPP`). The raw data and
+  the calibration records rule out a fault of the analyser.
 
 ## Annual sums
 
@@ -186,7 +189,13 @@ Whether the correction is too large in 2005-2007 cannot be settled from the LI-7
   transfer notebook). A gain error of that size would make the true summer daytime flux 0.5 to
   0.65 µmol m-2 s-1 more negative in 2006-2007; a zero offset would make it about 0.6 more
   positive. Either way this is a fraction of the 2.1-2.7 µmol m-2 s-1 of 2005-2006, and about
-  ±50 to ±60 gC m-2 per summer in 2006-2007 (±15 in 2004-2005).
+  ±50 to ±60 gC m-2 per summer in 2006-2007 (±15 in 2004-2005). The field check before the
+  recalibration of 19 December 2007 points to a zero offset: the zero gas read -46.6 ppm and the
+  567.5 ppm reference gas 526 ppm, so the slope between the two was within 1 % of the true one. A
+  zero offset leaves the measured covariance unchanged, so no gain correction of the flux is
+  needed; its effect through the WPL terms is the +0.6 µmol m-2 s-1 above and points away from
+  more uptake. The only earlier check, in September 2007, was made right after the chemicals
+  were replaced and is less reliable. No record covers 2004-2006.
 
 If the summer wind dependence is right, the May-September `NEE` of 2005-2007 is 171 to
 195 gC m-2 per summer too positive (95 % range 0 to 244), and the 2005-2009 mean about 109 too
@@ -255,18 +264,30 @@ The analyser could have measured too little of the fluxes. This was checked and 
   error cannot change, drops by as much, and the drops do not follow the size of the deficit
   (2007 shows none). The dry LI-7200 summer of 2022 shows a larger drop.
 - Counting this drop as a loss and the low CO2 reading as a gain error, at most 34-54 % of the
-  summer daytime gap of 2005-2007 would close (up to about 110 gC m-2 in 2006).
+  summer daytime gap of 2005-2007 would close (up to about 110 gC m-2 in 2006). The calibration
+  check of December 2007 points to a zero offset rather than a gain error, which lowers this
+  upper bound further.
 
-A rerun of EddyPro on a few summer months of 2005-2006 against reference years, with a wider
-time-lag window, cospectra and the instrument noise, would settle the remaining question of
-damping.
+The 20 Hz raw data of June and July 2005-2007, 2010-2012 and 2016 (midday) settle this:
+
+- **No covariance is lost by the measurement.** At the time lag EddyPro used, the covariance is
+  99.9-100 % of its maximum over -2 to +3 s; the lag functions have the same shape in all years.
+  The cospectra of CO2 and H2O, relative to that of the sonic temperature, are the same as in the
+  reference years. Instrument noise is below 1 % of the variance. Together these change the
+  covariance of 2005-2006 by -1 to +2 % against 2010-2012.
+- **The lower correlations are real.** The correlation between CO2 and H2O is 8-13 % lower in
+  2005-2006, and that of the vertical wind with H2O 5-7 % lower, beyond the range of the reference
+  years. Neither time lag nor noise can cause this. The CO2 and H2O exchange itself was less
+  coupled in those summers. 2007 is at the reference level.
 
 ### What this means
 
 The early LI-7500 years are a weaker sink than the biometric estimates allow, because their daytime
-uptake is low. A real loss of capacity in 2004-2006, after the drought of 2003, is plausible but
-does not cover 2007-2009 or the size of the shortfall. A too-large correction (above) or an
-undetected measurement fault would show the same way. The annual sums of 2004-2009 are therefore
+uptake is low. A fault of the analyser is ruled out: the raw data lose no covariance, and the
+calibration error of 2006-2007 was a zero offset. What remains is a real loss of capacity, which
+is plausible for 2004-2006 after the drought of 2003 and fits the less coupled CO2 and H2O
+exchange of 2005-2006, or a correction that is too large for those years (above). Neither covers
+2007-2009 or the full size of the shortfall. The annual sums of 2004-2009 are therefore
 the least certain of the record. Use them with this uncertainty in mind, and prefer the LI-7200
 years where the result depends on the absolute sink strength.
 
