@@ -233,6 +233,17 @@ that will state it.
 
 ## 5. Where to continue
 
+**Next runs (as of 30 Oct 2026).** Meteo `04`, `07`, `99` and the `IRGA72` chain are re-run;
+`IRGA75/00` (clock shift of July 2013) and `IRGA75/01` (opco without `VPD`) are re-run. Next:
+
+1. `IRGA75/05`, `25` and `35`, in parallel (they read `01`; `05` has test 6 `NEGNIGHTS` and
+   the manual removals; restart the kernel so the editable diive with `NegativeNights` loads).
+   `T3` (2012-2014) is an optional check before the full `05`.
+2. `IRGA75/99`.
+3. `30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED`.
+4. `80_FINALIZE/10`.
+5. `90_OVERVIEW/FLUX_NEE` and `90_OVERVIEW/METEO_VPD`.
+
 In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
 `EDDYPRO_BIOMET_CH-LAE_2004-2026.09.csv`, is written.
@@ -366,6 +377,19 @@ In order. Each item is blocked by the one above it, except that the flux items
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
     the upper bound of about 50 gC m-2 per year predate the refit; recompute them after
     the merges are re-run (section 4.2).
+12. **opco without `VPD`: possibly change it back** (decided 30 Oct 2026 to keep it for
+    now). Dropping `VPD` from opco (`IRGA75/01`, `FEATURES_XI`/`FEATURES_K`) raises the
+    annual `NEE` of 2004-2010 by about +30 to +100 gC m-2 and lowers 2011-2017 by up to
+    about 75, against the opco with `VPD` (from the mean correction per year). In test `T2`
+    2004-2006 become a source (+78, +169, +130 gC m-2; the December 2004 removal and the
+    `NEGNIGHTS` test add +30 to +125 of that). The three variants without the `VPD`
+    artefact (no `VPD`, `VPD` in k only, `VPD` floored at 0.05 kPa) agree within about
+    20 gC m-2, and all fit the overlap equally (-41 against -38 gC m-2 for the opco with
+    `VPD`); trained on one overlap year and tested on the other, every variant leaves about
+    +40 gC m-2 per year. Before the next release: check the new `IRGA75` annual sums
+    against independent estimates (FLUXNET2015 CH-Lae, FP2021, published Laegern values)
+    and, if the early years are not plausible as a source, return to the opco with `VPD`
+    (or `VPD` floored) and state the spread as an uncertainty of the `IRGA75` years.
 
 
 ## 6. Open questions
