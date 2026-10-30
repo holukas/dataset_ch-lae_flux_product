@@ -206,7 +206,7 @@ the table below summarizes it per level.
 | L1.1 | open-path correction (opco) | done: `30_.../IRGA75/00` (with the July 2013 clock shift) and `01` (opco without `VPD`), re-run 29 Oct 2026 | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | written |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | written |
-| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; `NEGNIGHTS` test added to `05`, not run yet; u* detection 2005-2019 | in `30_` chain; u* detection 2016-2024 | written |
+| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05` (30 Oct 2026), not run yet; u* detection 2005-2019 | in `30_` chain; test 5 relaxed in `05`, not run yet; u* detection 2016-2024 | written |
 | L3.3 | flags from three constant u* thresholds | `NEE` | `NEE` | written |
 | L4.1 | gap-filling (XGBoost, MDS for comparison) | `NEE`, `LE`, `H` | `NEE`, `LE`, `H` | written |
 | L4.2 | partitioning into `GPP` / `RECO` | run in `05` (FP2026.2) | run in `05` (FP2026.2 only) | written |
@@ -218,7 +218,7 @@ unchanged, `LE` keeps more half-hours with the wider absolute limits. The `IRGA7
 (`00`, `01`, `05`, `25`, `35`) was re-run the same evening. **The merges downstream predate
 both re-runs** and have to be re-run in this order: `IRGA75/99`, the stage merge
 `30_.../99_FPPC_MERGED_2004-2026.09`, `80_FINALIZE/10`, then `90_OVERVIEW/FLUX_NEE`. The
-`NEGNIGHTS` test needs one more run of `IRGA75/05` first. The test variants `T2`
+relaxed negative-night tests (item 11) need one more run of both `05` first. The test variants `T2`
 (2004-2006) and `T3` (2012-2014) of `IRGA75/05` have been run; their result is not yet
 recorded.
 
@@ -238,7 +238,9 @@ that will state it.
 
 1. `IRGA75/05`, `25` and `35`, in parallel (they read `01`; `05` has test 6 `NEGNIGHTS` and
    the manual removals; restart the kernel so the editable diive with `NegativeNights` loads).
-   `05` is re-run (30 Oct 2026); `25` and `35` are running.
+   `05` is re-run (30 Oct 2026); `25` and `35` are running. **Re-run `IRGA75/05` and
+   `IRGA72/05` once more** for the relaxed tests 5 and 6 (item 11; restart the kernel, diive's
+   `flag_outliers_negative_nights_test` has the new `systematic=` option), then `IRGA72/99`.
 2. `IRGA75/99`.
 3. `30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED`.
 4. `80_FINALIZE/10`.
@@ -377,7 +379,22 @@ In order. Each item is blocked by the one above it, except that the flux items
     of 2004-2015 by only about a third of the 2016-2017 value); four fog episodes removed
     by hand in `05`, `25` and `35` (`docs/L3.2.md`); the `NEGNIGHTS` test of whole nights
     added to `IRGA75/05`; it removed 75 nights in the run of 30 Oct 2026, mostly October
-    to February (`docs/L3.2.md` still says about 45). Still open: calm cold nights (wind below 2 m s-1,
+    to February. **Relaxed on 30 Oct 2026, not run yet** (both `05`): test 5 removes a record
+    below -4 times max(`FC_RANDUNC_HF`, median `PAS20` of the nighttime records of its calendar
+    month), for `IRGA75` combined in quadrature with `OPCO_SIGMA` = 1; test 6 removes a night
+    whose median lies below -3 standard errors, with n reduced for a lag-1 autocorrelation of 0.2
+    and `OPCO_SIGMA` added in quadrature as an error shared by the night (new diive option
+    `systematic=`). Scratch estimate on the current inputs (checked by running both `05` to the
+    end of Level 3.2): `IRGA72` 43 records (was 182); `IRGA75` 159 records (663) and 16 nights,
+    250 records (75 nights, 1,150 records). Direct effect on the sums (removed records kept, at
+    the current gap-filled values), before any change of the gap-filling models: about -3 gC m-2
+    per year for `IRGA72`, -7 to -20 for `IRGA75` (-179 over 2004-2017). In 2016-2017 the new
+    night test removes 2 `IRGA75` nights, both with positive `IRGA72` `NEE`, and applied to the
+    `IRGA72` none; the old one removed 9, 2 of them on nights where the `IRGA72` was negative too,
+    and 11 `IRGA72` nights. It lets through 7 nights (four in December 2016, three in October to
+    December 2017) with medians of -0.6 to -5 (one at -7.6 with only 5 values, not tested) on
+    which the `IRGA72` read +1 to +4; the uncertainty alone does not single them out. `T2`, `T3` and the training screen in `01` keep the old test 5. Still open:
+    calm cold nights (wind below 2 m s-1,
     below 0 degC) remain about 1 umol m-2 s-1 below the `IRGA72` after the refit; fix in
     opco (cold-night term or more cold training rows) rather than in the chain. The
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
