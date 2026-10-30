@@ -556,9 +556,12 @@ In order. Each item is blocked by the one above it, except that the flux items
       - **Conclusion:** a measurement fault is ruled out. The weak early sink is either a real
         loss of capacity (plausible for 2004-2006 after 2003) or an opco correction too large
         for those years; neither covers 2007-2009 or the full shortfall against the biometric
-        NEP. Next decision: how FP2026.2 treats the sums of 2004-2009 (flag or stated low
-        confidence, start in 2010, or no annual sums). Documented on
-        `docs/IRGA75_Comparisons.md`.
+        NEP. **Decided 30 Oct 2026:** FP2026.2 keeps 2004-2009 unchanged, with no confidence flag
+        and no added uncertainty; the comparisons on `docs/IRGA75_Comparisons.md` are the
+        documentation. opco is accepted as it is for FP2026.2; improving the correction of the
+        early years is deferred to a later version (candidates: a climate-expected baseline
+        trained on the `IRGA72` years, satellite greenness since 2000, dendrometer and inventory
+        data if they become available).
     - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
       little and clear ones as much too strongly (unbiased in the annual mean, but it
       reaches the partitioning). A longwave fog ratio as a driver removes most of it
