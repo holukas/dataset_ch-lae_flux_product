@@ -238,11 +238,16 @@ that will state it.
 
 1. `IRGA75/05`, `25` and `35`, in parallel (they read `01`; `05` has test 6 `NEGNIGHTS` and
    the manual removals; restart the kernel so the editable diive with `NegativeNights` loads).
-   `T3` (2012-2014) is an optional check before the full `05`.
+   `05` is re-run (30 Oct 2026); `25` and `35` are running.
 2. `IRGA75/99`.
 3. `30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED`.
 4. `80_FINALIZE/10`.
 5. `90_OVERVIEW/FLUX_NEE` and `90_OVERVIEW/METEO_VPD`.
+
+Then, before the release: **separate the two effects on the early `IRGA75` years** (item 12).
+Run a copy of `IRGA75/01` with `VPD` back in `FEATURES_XI`/`FEATURES_K`, then a copy of `05` on
+it, with test 6 and the manual removals kept. Compare its annual sums with the run without
+`VPD`; the difference is the part that comes from dropping `VPD`.
 
 In order. Each item is blocked by the one above it, except that the flux items
 2 to 4 do not depend on the meteo item 1: their biomet input,
@@ -371,7 +376,8 @@ In order. Each item is blocked by the one above it, except that the flux items
     on 29 Oct 2026: opco refitted without `VPD` (with `VPD` it corrected the cold nights
     of 2004-2015 by only about a third of the 2016-2017 value); four fog episodes removed
     by hand in `05`, `25` and `35` (`docs/L3.2.md`); the `NEGNIGHTS` test of whole nights
-    added to `IRGA75/05`, not run yet. Still open: calm cold nights (wind below 2 m s-1,
+    added to `IRGA75/05`; it removed 75 nights in the run of 30 Oct 2026, mostly October
+    to February (`docs/L3.2.md` still says about 45). Still open: calm cold nights (wind below 2 m s-1,
     below 0 degC) remain about 1 umol m-2 s-1 below the `IRGA72` after the refit; fix in
     opco (cold-night term or more cold training rows) rather than in the chain. The
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
@@ -386,10 +392,21 @@ In order. Each item is blocked by the one above it, except that the flux items
     artefact (no `VPD`, `VPD` in k only, `VPD` floored at 0.05 kPa) agree within about
     20 gC m-2, and all fit the overlap equally (-41 against -38 gC m-2 for the opco with
     `VPD`); trained on one overlap year and tested on the other, every variant leaves about
-    +40 gC m-2 per year. Before the next release: check the new `IRGA75` annual sums
-    against independent estimates (FLUXNET2015 CH-Lae, FP2021, published Laegern values)
-    and, if the early years are not plausible as a source, return to the opco with `VPD`
-    (or `VPD` floored) and state the spread as an uncertainty of the `IRGA75` years.
+    +40 gC m-2 per year. There is no independent estimate of the annual sums to check them
+    against.
+
+    The full `05` run of 30 Oct 2026 (`CUT_50`, XGB, gC m-2): 2004 +161, 2005 +164,
+    2006 +144, 2007 -101, 2008 +64, 2009 +59, 2010 -44; 2011-2017 within about 30 of the
+    run before. Against that run, 2004-2010 rose by +53 to +396. Most of the rise is in the
+    gap-filled records (60-70 % of each year): the model learns from winter values made
+    more positive by the larger correction and by the removed negative nights. In 2004
+    about 300 of the +396 lie in 1 January to 29 March (no measurements, gap-filled
+    only) and in December. The `VPD` artefact remains after the RH ceiling fix, smaller: on
+    calm nights below 5 degC `VPD` is exactly 0 in 14 % of 2004-2015 and 49 % of
+    2016-2017 (before the fix about 0 against 70 %). Next step: the run with `VPD` in
+    section 5. If the early years are not plausible as a source, return to the opco with
+    `VPD` (or `VPD` floored) and state the spread as an uncertainty of the `IRGA75` years.
+    Also decide whether 2004, which starts on 30 March, gets an annual sum.
 
 
 ## 6. Open questions
