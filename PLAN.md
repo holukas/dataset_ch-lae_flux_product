@@ -206,7 +206,7 @@ the table below summarizes it per level.
 | L1.1 | open-path correction (opco) | done: `30_.../IRGA75/00` (with the July 2013 clock shift) and `01` (opco without `VPD`), re-run 29 Oct 2026 | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | written |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | written |
-| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05` (30 Oct 2026), not run yet; u* detection 2005-2019 | in `30_` chain; test 5 relaxed in `05`, not run yet; u* detection 2016-2024 | written |
+| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05`, run 30 Oct 2026; u* detection 2005-2019 | in `30_` chain; test 5 relaxed in `05`, run 30 Oct 2026; u* detection 2016-2024 | written |
 | L3.3 | flags from three constant u* thresholds | `NEE` | `NEE` | written |
 | L4.1 | gap-filling (XGBoost, MDS for comparison) | `NEE`, `LE`, `H` | `NEE`, `LE`, `H` | written |
 | L4.2 | partitioning into `GPP` / `RECO` | run in `05` (FP2026.2) | run in `05` (FP2026.2 only) | written |
@@ -215,10 +215,10 @@ the table below summarizes it per level.
 Both chains run on their full records (`IRGA72` 2016 - Sep 2026, `IRGA75` 2004-2017).
 The `IRGA72` chain was re-run on 29 Oct 2026 on the new meteo merge: `NEE`, `H` and `GPP`
 unchanged, `LE` keeps more half-hours with the wider absolute limits. The `IRGA75` chain
-(`00`, `01`, `05`, `25`, `35`) was re-run the same evening. **The merges downstream predate
-both re-runs** and have to be re-run in this order: `IRGA75/99`, the stage merge
-`30_.../99_FPPC_MERGED_2004-2026.09`, `80_FINALIZE/10`, then `90_OVERVIEW/FLUX_NEE`. The
-relaxed negative-night tests (item 11) need one more run of both `05` first. The test variants `T2`
+(`00`, `01`, `05`, `25`, `35`) was re-run the same evening. On the evening of 30 Oct 2026 both `05`
+were re-run with the relaxed negative-night tests (item 11), together with `IRGA75/25` and `35`,
+and the merges downstream after them (`IRGA72/99`, `IRGA75/99`, the stage merge, `80_FINALIZE/10`,
+`90_OVERVIEW`). The test variants `T2`
 (2004-2006) and `T3` (2012-2014) of `IRGA75/05` have been re-run with the relaxed tests (results
 in item 11).
 
@@ -233,24 +233,18 @@ that will state it.
 
 ## 5. Where to continue
 
-**Next runs (as of 30 Oct 2026).** Meteo `04`, `07`, `99` and the `IRGA72` chain are re-run;
-`IRGA75/00` (clock shift of July 2013) and `IRGA75/01` (opco without `VPD`) are re-run. Next:
-
-1. `IRGA75/05`, `25` and `35`, in parallel (they read `01`; `05` has test 6 `NEGNIGHTS` and
-   the manual removals; restart the kernel so the editable diive with `NegativeNights` loads).
-   `05` is re-run (30 Oct 2026); `25` and `35` are running. **Re-run `IRGA75/05` and
-   `IRGA72/05` once more** for the relaxed tests 5 and 6 (item 11; restart the kernel, diive's
-   `flag_outliers_negative_nights_test` has the new `systematic=` option), then `IRGA72/99`.
-2. `IRGA75/99`.
-3. `30_FLUX_POST-PROCESSING_CHAIN/99_FPPC_MERGED`.
-4. `80_FINALIZE/10`.
-5. `90_OVERVIEW/FLUX_NEE` and `90_OVERVIEW/METEO_VPD`.
+**Runs done (30 Oct 2026).** With the relaxed night tests: `IRGA72/05`, `99`; `IRGA75/05`,
+`25`, `35`, `99`; `30_.../99_FPPC_MERGED`; `80_FINALIZE/10` (not `20`: FP2026.1 stays as
+released); `90_OVERVIEW/FLUX_NEE`, `METEO_VPD`; the comparison and investigation notebooks of
+item 12. Next: check the winter night gap-filling of `IRGA75/05` (item 12), then build the
+FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be decided).
 
 Then, before the release: **find the cause of the positive early `IRGA75` years** (item 12).
 opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. The
 difference to FLUXNET is explained (item 12): FLUXNET's winter nights of 2004-2015 are too low,
 so it is no check of the early years. What remains open is our own budget of the early years:
-whether the winter nights (gap-filled 75-80 %, at about +2.7 umol m-2 s-1) and the early-year
+whether the winter nights (gap-filled 75-80 %; since the relaxed tests filled at about +1.9
+umol m-2 s-1 in Nov-Mar, against 2.6 measured and 3.0 for the `IRGA72` years) and the early-year
 sources are plausible, judged against the `IRGA72` years and any independent respiration data.
 
 In order. Each item is blocked by the one above it, except that the flux items
@@ -274,9 +268,8 @@ In order. Each item is blocked by the one above it, except that the flux items
    16 May 2025 (`40_EXPORTS`, comparison section). The wrong calibration gas of
    note 15 (factor 0.974 on the CO2 concentration, 14 Dec 2017 - 15 Mar 2019) was
    corrected during the conversion of the raw data to ASCII with bico, so the
-   runs read corrected concentrations. Still open: the setup table in
-   `docs/Yearly_Notes.md`, which has no `2026_1` row yet and still shows `2025_1`
-   as `running`; and **`H` from 10 January to 20 March 2019 (revisit later)**. The
+   runs read corrected concentrations. Still open: **`H` from 10 January to 20 March
+   2019 (revisit later)**. The
    Level-0 file of `2019_2` yields about 289 half-hours of `H`, but `2019_2` has no
    Level-1 run, so the Level-1 input of the flux chain has no `H` at all in this
    period. Decide whether `2019_2` gets a sonic-only run, as `2018_3` did, and
@@ -381,14 +374,16 @@ In order. Each item is blocked by the one above it, except that the flux items
     of 2004-2015 by only about a third of the 2016-2017 value); four fog episodes removed
     by hand in `05`, `25` and `35` (`docs/L3.2.md`); the `NEGNIGHTS` test of whole nights
     added to `IRGA75/05`; it removed 75 nights in the run of 30 Oct 2026, mostly October
-    to February. **Relaxed on 30 Oct 2026, not run yet** (both `05`): test 5 removes a record
+    to February. **Relaxed and run on 30 Oct 2026** (both `05`): test 5 removes a record
     below -4 times max(`FC_RANDUNC_HF`, median `PAS20` of the nighttime records of its calendar
     month), for `IRGA75` combined in quadrature with `OPCO_SIGMA` = 1; test 6 removes a night
     whose median lies below -3 standard errors, with n reduced for a lag-1 autocorrelation of 0.2
     and `OPCO_SIGMA` added in quadrature as an error shared by the night (new diive option
-    `systematic=`). Scratch estimate on the current inputs (checked by running both `05` to the
-    end of Level 3.2): `IRGA72` 43 records (was 182); `IRGA75` 159 records (663) and 16 nights,
-    250 records (75 nights, 1,150 records). Direct effect on the sums (removed records kept, at
+    `systematic=`). Removed in the runs: `IRGA72` 43 records (was 182); `IRGA75` 159 records (663)
+    and 16 nights, 250 records (75 nights, 1,150 records), all but one night from October to
+    February. Annual `CUT_50` XGB sums after the run: `IRGA75` 2004 +40, 2005 +62, 2006 +43,
+    2007 -180, 2008 -57, 2009 -57, 2010 -168, 2011-2015 -255 to -338, 2016 -397, 2017 -232;
+    `IRGA72` 2016 -159, 2017 +71, 2025 -343. Direct effect on the sums (removed records kept, at
     the current gap-filled values), before any change of the gap-filling models: about -3 gC m-2
     per year for `IRGA72`, -7 to -20 for `IRGA75` (-179 over 2004-2017). In 2016-2017 the new
     night test removes 2 `IRGA75` nights, both with positive `IRGA72` `NEE`, and applied to the
@@ -470,7 +465,14 @@ In order. Each item is blocked by the one above it, except that the flux items
         the `IRGA72` of 2016-2026 (+2.5 to +3.2). FLUXNET's 2004-2015 winter nights are the
         implausible ones, so the difference does not point to an error in this chain.
       - 2016-2017 (`IRGA72` in FLUXNET): FLUXNET's nights average +4.2 and +5.4, our
-        `IRGA72` +3.7. Not explained yet.
+        `IRGA72` +3.7. Explained later: on shared records they agree; FLUXNET's u* thresholds
+        are 0.46-0.50 m s-1 in these years and it fills the nights higher.
+      - **After the run with the relaxed tests (30 Oct 2026):** ours minus FLUXNET 2005-2015
+        +214 per year (day +23, night +190): night gap-filling +131, negative winter nights
+        removed +39, single-product records +21, corrections +12, day gap-filling +10, u* +1.
+        Our Nov-Mar nights are now 2.6 measured and 1.9 filled (FLUXNET 1.2 / 0.5, `IRGA72`
+        about 3.0): the filled winter nights fall below the measured ones, so the statement
+        above on +2.7 no longer holds. Open: check the winter night gap-filling of `IRGA75/05`.
     - **Against Etzold et al. (2011)** (2005-2009, LI-7500, mean NEE -415 gC m-2 per year,
       range -366 to -662; our `05` run of 30 Oct: +66). Their flux has WPL and the Burba et
       al. (2008) / Järvi et al. (2009) self-heating correction; winter fluxes of ±15
