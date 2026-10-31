@@ -10,6 +10,10 @@ is for FP2026.2; improving it for the early years is planned for a later version
 :::
 
 ::: {.callout-tip title="Notebooks"}
+- [FLUX_NEE_IRGA75_EVALUATION](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION.html): the whole
+  evaluation in one place: the size of the gap, the causes ruled out, the size of the open-path
+  correction (self-heating scale per year, respiration, the correction of @etzold_carbon_2011) and
+  where the remaining difference lies. It links the notebooks below.
 - [FLUX_NEE_IRGA75_COMPARISONS](notebooks/90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS.html): the
   comparisons with FLUXNET and @etzold_carbon_2011, overall, by day and by night, per year, season
   and month, with the reasons for each difference.
