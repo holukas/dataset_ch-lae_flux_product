@@ -100,7 +100,7 @@ These notebooks produce the flux record of FP2026.2, which is in progress.
 | Notebook | Content |
 |---|---|
 | [`00_FPPC_IRGA75_INPUT_noSHC_2004-2017_2019`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/00_FPPC_IRGA75_INPUT_noSHC_2004-2017_2019.html) | Joins the Level-1 fluxes with the meteo data |
-| [`01_FPPC_IRGA75_INPUT_OPCO_2004-2017_2019`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/01_FPPC_IRGA75_INPUT_OPCO_2004-2017_2019.html) | Level 1.1: corrects the CO2 flux with opco |
+| [`01_FPPC_IRGA75_OPEN-PATH_CORRECTION_2004-2017_2019`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/01_FPPC_IRGA75_OPEN-PATH_CORRECTION_2004-2017_2019.html) | Level 1.1: corrects the CO2 flux with opco |
 | [`05_FPPC_IRGA75_NEE_OPCO_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html) | `NEE` from the corrected CO2 flux: Levels 2 to 4.2 and the uncertainty |
 | [`25_FPPC_IRGA75_LE_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/25_FPPC_IRGA75_LE_2004-2017.html) | `LE` and `ET`: Levels 2 to 4.1 |
 | [`35_FPPC_IRGA75_H_2004-2017`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/35_FPPC_IRGA75_H_2004-2017.html) | `H`: Levels 2 to 4.1 |

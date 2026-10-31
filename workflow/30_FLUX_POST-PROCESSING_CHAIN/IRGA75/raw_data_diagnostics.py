@@ -52,7 +52,7 @@ import pyarrow.csv as pacsv
 # --- Sources and output ------------------------------------------------------------------------
 RAWROOT = r"F:\CURRENT\LAE_FP2026"
 DATADIR = r"F:\Sync\luhk_work\dev-data\datasets-data\dataset_ch-lae_flux_product-data\workflow"
-EPFILE = rf"{DATADIR}\30_FLUX_POST-PROCESSING_CHAIN\IRGA75\01_FPPC_IRGA75_INPUT_OPCO_2004-2017_2019.parquet"
+EPFILE = rf"{DATADIR}\30_FLUX_POST-PROCESSING_CHAIN\IRGA75\01_FPPC_IRGA75_OPEN-PATH_CORRECTION_2004-2017_2019.parquet"
 OUTFILE = rf"{DATADIR}\30_FLUX_POST-PROCESSING_CHAIN\IRGA75\RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS.parquet"
 
 # Setup period folder per year. Each holds the raw files of a whole year (2005_1+4 holds 2005).
