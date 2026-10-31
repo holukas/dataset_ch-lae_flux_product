@@ -20,6 +20,8 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
 
 - The chain uses tests of negative nighttime values based on the flux uncertainty
   ([Level 3.2](L3.2.md)).
+- A third Hampel filter, over 31 days, removes extreme values of `NEE`, `LE` and `H` that the
+  13-day filter does not test or does not single out ([Level 3.2](L3.2.md)).
 - Periods of low sample flow of the LI-7200 found after the release of FP2026.1 are removed by
   hand: February 2016, May 2018, May 2021 and August 2023
   ([Level 3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)).

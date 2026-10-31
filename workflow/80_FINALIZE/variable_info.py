@@ -354,6 +354,7 @@ TESTS = {
     'OUTLIER_ABSLIM': 'absolute-limits test',
     'OUTLIER_HAMPEL': 'Hampel outlier test',
     'OUTLIER_HAMPEL_2': 'second Hampel outlier test',
+    'OUTLIER_HAMPEL_3': 'third Hampel outlier test',
     'OUTLIER_NEGNIGHT': 'test for negative values at night',
     'OUTLIER_NEGNIGHTS': 'test for whole nights whose median lies clearly below zero',
     'USTAR': 'USTAR filter',

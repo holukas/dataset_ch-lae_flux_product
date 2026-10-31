@@ -513,6 +513,19 @@ In order. Each item is blocked by the one above it, except that the flux items
       (e.g. 2011-12-16, 2011-08-05); nighttime `H` up to 800 W m-2 (2015-10-14, see above). To do:
       review the top candidates of each flux; if the chain's tests should have caught them, adjust
       or add a test in diive (e.g. a Hampel filter by hour of day) rather than removing them by hand.
+      *Why they pass (31 Oct 2026):* the chain already runs `Hampel(by_time_of_day=True)` (`HAMPEL_2`,
+      13 days, ±1 half-hour, 5.5 sigma). (1) Records whose window holds fewer than `min_records` = 10
+      values are not tested: about 0.5 % of records, but 12 of the 15 most extreme `LE` candidates,
+      the three `H` values of 2015-10-14 and 2 of 15 `NEE`. (2) The others are tested against a window
+      still full of the noisy records that USTAR and later tests remove (2007-12-27 `NEE` +35.7: robust
+      sd 9 at Level 3.2, z 4; 0.8 in the final series, z 46). *Decided:* the absolute limits stay as
+      they are (no nighttime limits). *Added 31 Oct 2026, not run yet:* a third by-time-of-day Hampel
+      (`HAMPEL_3`, 31 days, 7 sigma) after `HAMPEL_2` in `05`, `25` and `35` of both analysers, and
+      in `variable_info.py`, `docs/L3.2.md` and the version pages. A reconstruction at Level 3.2
+      caught 13-15 of the 15 most extreme candidates per flux and flagged about 300 (`NEE`), 430
+      (`LE`) and 290 (`H`) records more than `HAMPEL_2`. **To run:** both chains `05`, `25`, `35`,
+      the `99` merges, `80_FINALIZE/10` and the overviews; then check the new flags in the plots and
+      update the annual-sum differences on the version pages.
 15. **Small fixes**: diive `RidgeLinePlot` places its labels too high. (The analyser line of
     the `FLUX_NEE` heatmaps and the About text of `METEO_TA` were fixed on 31 Oct 2026.)
 16. **Docs structure** (review of 31 Oct 2026; the sidebar order, the version pages and the
