@@ -1,0 +1,110 @@
+# Profile for the PDF of the whole documentation, merged over _quarto.yml:
+#
+#   uv run quarto render docs --profile pdf --to typst
+#
+# Renders the narrative pages as one book into _build/pdf/ with Typst, which
+# ships with Quarto (no LaTeX needed). deploy.ps1 copies the PDF into the site
+# root, where the PDF icon in the sidebar (website.sidebar.tools in _quarto.yml)
+# links to it. The notebooks are not included: they are an appendix of several
+# hundred pages, and their pages stay on the website.
+#
+# The chapters follow website.sidebar.contents in _quarto.yml; a page added to
+# the sidebar must be added here too, or it is missing from the PDF.
+project:
+  type: book
+  output-dir: _build/pdf
+
+book:
+  title: "CH-LAE Flux Product"
+  subtitle: "Methods documentation"
+  # The Typst book template (orange-book) fails without an author. The group
+  # stands in for it, as the footer of the website names it.
+  author: "Grassland Sciences group, ETH Zurich"
+  date: today
+  date-format: "D MMMM YYYY"
+  # Also the name the sidebar link and deploy.ps1 use.
+  output-file: CH-LAE_flux_product_docs
+  chapters:
+    - index.md
+    - part: "Using the data"
+      chapters:
+        - Overview.md
+        - Variables.md
+        - QCF.md
+        - Issues.md
+        - Dataset_Versions.md
+        - Version_Differences.md
+        - Version_FP2026.1.md
+        - Version_FP2026.2.md
+        - IRGA75_Comparisons.md
+        # A part of its own in the sidebar; one chapter does not make a part.
+        - Data_Dashboards.md
+    - part: "Meteo"
+      chapters:
+        - Meteo_Data.md
+        - Meteo_Data_SW_IN.md
+        - Meteo_Data_TA.md
+        - Meteo_Data_PPFD_IN.md
+        - Meteo_Data_RH.md
+        - Meteo_Data_PA.md
+        - Meteo_Data_LW_IN.md
+        - Meteo_Data_VPD.md
+        - Meteo_Data_PREC.md
+        - Meteo_Data_SWC.md
+        - Meteo_Data_TS.md
+        - Meteo_Data_G.md
+        - Meteo_Data_SW_OUT.md
+        - Meteo_Data_LW_OUT.md
+    - part: "Flux processing methods"
+      chapters:
+        - Raw_Data.md
+        - L0.md
+        - L1.md
+        - L1_EddyPro_Settings.md
+        - L1.1.md
+        - FPC.qmd
+        - L2.md
+        - L3.1.md
+        - L3.2.md
+        - L3.3.md
+        - L4.1.md
+        - L4.2.md
+    - part: "Site and instruments"
+      chapters:
+        - Site_Info.md
+        - Instrumentation.md
+        - Yearly_Notes.md
+    - part: "Background"
+      chapters:
+        - Meteo_Product_Chain.qmd
+        - Software.md
+        - Links.md
+        - References.md
+
+# Base URL of the published site. _pdf.lua points every link between
+# pages, and every link to a notebook or dashboard, at the page on the website,
+# so a link clicked in the PDF always opens a page that exists.
+pdf-site-url: "https://holukas.github.io/dataset_ch-lae_flux_product/"
+
+format:
+  typst:
+    papersize: a4
+    margin:
+      x: 2cm
+      y: 2.5cm
+    fontsize: 10pt
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+    include-in-header:
+      - text: |
+          // A table with a caption is a figure, and a Typst figure does not
+          // break across pages: the long EC setup table of the Yearly Notes
+          // would run off the page.
+          #show figure: set block(breakable: true)
+          // Several tables have ten or more columns.
+          #show table: set text(size: 8pt)
+    filters:
+      - _pdf.lua
+      - path: _pdf-figures.lua
+        at: post-quarto

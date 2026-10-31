@@ -13,6 +13,8 @@ workflow/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/30_FPPC/tests
 workflow/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/tests
 docs/_build/
 docs/.quarto/
+# Mermaid images written by the PDF render (deploy.ps1 deletes them).
+docs/*_files/
 *.parquet
 *.csv
 *.pkl

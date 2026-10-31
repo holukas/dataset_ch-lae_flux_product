@@ -40,14 +40,46 @@ website:
     # wordmark) is drawn by _logo-sidebar.html, which replaces the text of the
     # sidebar title link with an inline copy of logo.svg.
     #
-    # Pages are grouped into named sections, in the same arrangement as the
-    # Flux Processing Guide and the sibling flux-product sites. CH-LAE keeps the
-    # extra Level-1.1 self-heating-correction page (open-path LI-7500); most of
-    # the non-flux pages are stubs to be filled in.
+    # The PDF of the whole documentation, an icon beside the sidebar title.
+    # The file is rendered with the pdf profile (_quarto-pdf.yml) and copied
+    # into the site root by deploy.ps1; a plain `quarto render docs` does not
+    # make it, so the link is dead in a local preview without that step.
+    tools:
+      - icon: file-earmark-pdf
+        href: CH-LAE_flux_product_docs.pdf
+        text: "Download the documentation as PDF"
+    #
+    # Pages are grouped by what a reader comes for, not in processing order:
+    # first what a data user needs (columns, flags, known issues, versions),
+    # then the meteo products, the dashboards, the processing methods, the site,
+    # and background material. The methods pages are labelled by what they do,
+    # with the level code second ("Outlier removal (L3.2)"), so a newcomer does
+    # not need the level scheme to find a step. The PDF profile
+    # (_quarto-pdf.yml) repeats this order in book.chapters.
     contents:
-      - index.md
-      - Overview.md
-      - Site_Info.md
+      - text: "Start here"
+        href: index.md
+      - section: "Using the data"
+        contents:
+          - Overview.md
+          - Variables.md
+          - text: "Quality flag (QCF)"
+            href: QCF.md
+          - Issues.md
+          # One page per release under the versions page, plus one table of
+          # their differences. The comparisons of the LI-7500 years evaluate
+          # FP2026.2, so they sit under that release rather than under a
+          # processing level.
+          - section: Dataset_Versions.md
+            contents:
+              - Version_Differences.md
+              - text: "FP2026.1 (current)"
+                href: Version_FP2026.1.md
+              - section: "FP2026.2 (in progress)"
+                href: Version_FP2026.2.md
+                contents:
+                  - text: "Comparisons of the LI-7500 years"
+                    href: IRGA75_Comparisons.md
       - section: "Meteo"
         contents:
           # The per-variable detail pages are nested under Meteo_Data.md rather
@@ -71,43 +103,54 @@ website:
               - Meteo_Data_G.md
               - Meteo_Data_SW_OUT.md
               - Meteo_Data_LW_OUT.md
-          # .qmd, not .md: the page carries an executable ```{mermaid} cell.
-          - Meteo_Product_Chain.qmd
-      - section: "Eddy covariance"
-        contents:
-          - Raw_Data.md
-          - L0.md
-          - L1.md
-          - L1_EddyPro_Settings.md
-          - L1.1.md
-          - IRGA75_Comparisons.md
-      # Same `section:` construction as Meteo_Data.md above: FPC.qmd stays a
-      # link and holds the post-processing levels.
-      - section: FPC.qmd
-        contents:
-          - L2.md
-          - L3.1.md
-          - L3.2.md
-          - L3.3.md
-          - L4.1.md
-          - L4.2.md
-          - QCF.md
       # Not inside "Meteo": a dashboard covers one exported series, and the flux
       # products will add their own. Each dashboard is a standalone HTML file
       # built into the render output by deploy.ps1, not a Quarto page, so the
       # entry points at a page that links them rather than at the files.
       - Data_Dashboards.md
-      - section: "Reference"
+      - section: "Flux processing methods"
         contents:
-          - Variables.md
+          - text: "Raw data"
+            href: Raw_Data.md
+          - text: "Preliminary flux calculation (L0)"
+            href: L0.md
+          - text: "Flux calculation (L1)"
+            href: L1.md
+          - text: "EddyPro settings (L1)"
+            href: L1_EddyPro_Settings.md
+          - text: "Open-path CO2 flux correction (L1.1)"
+            href: L1.1.md
+          # A `section:` with an `href:`: FPC.qmd stays a link, under a label of
+          # its own, and holds the post-processing levels.
+          - section: "Post-processing chain"
+            href: FPC.qmd
+            contents:
+              - text: "Quality flag expansion (L2)"
+                href: L2.md
+              - text: "Storage correction (L3.1)"
+                href: L3.1.md
+              - text: "Outlier removal (L3.2)"
+                href: L3.2.md
+              - text: "USTAR filtering (L3.3)"
+                href: L3.3.md
+              - text: "Gap-filling (L4.1)"
+                href: L4.1.md
+              - text: "NEE partitioning (L4.2)"
+                href: L4.2.md
+      - section: "Site and instruments"
+        contents:
+          - Site_Info.md
           - Instrumentation.md
           - Yearly_Notes.md
-          - Issues.md
+      # Supplementary.md is an empty stub and is left out of the nav until it
+      # has content.
+      - section: "Background"
+        contents:
+          # .qmd, not .md: the page carries an executable ```{mermaid} cell.
+          - Meteo_Product_Chain.qmd
           - Software.md
-          - Supplementary.md
           - Links.md
           - References.md
-          - Dataset_Versions.md
       # Links to the notebook index built by build_notebooks.py, which lands at
       # notebooks/index.html when `quarto render docs` renders the staged copies.
       - text: Notebooks

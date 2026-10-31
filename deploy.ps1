@@ -2,8 +2,8 @@
 #
 # Deploy the CH-LAE flux-product docs site to GitHub Pages.
 #
-# Builds the Quarto website, the notebook HTML, the meteo dashboards and the
-# calendar explorer, then
+# Builds the Quarto website, the notebook HTML, the PDF of the documentation,
+# the meteo dashboards and the calendar explorer, then
 # publishes the output tree (docs/_build/html) to the gh-pages branch with
 # ghp-import. ghp-import commits and (with -p) force-pushes gh-pages — it does
 # NOT touch your source branch or working tree.
@@ -12,7 +12,8 @@
 #   ./deploy.ps1 -Preview        # build the FULL site + serve locally (pre-deploy check)
 #   ./deploy.ps1                 # build + publish to gh-pages
 #   ./deploy.ps1 -NoPublish      # build only, no serve, no push
-#   ./deploy.ps1 -NoDashboards   # skip the dashboards and the explorer (see step 4)
+#   ./deploy.ps1 -NoDashboards   # skip the dashboards and the explorer (see step 5)
+#   ./deploy.ps1 -NoPdf          # skip the PDF of the documentation (see step 4)
 #   ./deploy.ps1 -Remote origin -Branch gh-pages
 #
 # Requires: uv (the env provides quarto-cli and ghp-import) and a configured
@@ -25,6 +26,7 @@ param(
     [switch]$Preview,
     [switch]$NoPublish,
     [switch]$NoDashboards,
+    [switch]$NoPdf,
     [int]$Port = 8000,
     [string]$Remote = 'origin',
     [string]$Branch = 'gh-pages'
@@ -53,7 +55,45 @@ Invoke-Step 'Rendering Quarto website + notebooks (docs/)' { uv run quarto rende
 #    already in docs/_build/html/notebooks/; only the inputs are removed).
 Invoke-Step 'Clearing notebook staging (docs/notebooks/)' { uv run python build_notebooks.py --clean }
 
-# 4. Build the meteo dashboards straight into the rendered output tree.
+# 4. Render the PDF of the whole documentation (the pdf profile, _quarto-pdf.yml)
+#    and copy it into the site root, where the PDF icon in the sidebar links to
+#    it. The profile renders into its own folder, docs/_build/pdf, so it leaves
+#    the website output alone; the copy comes after the website render for the
+#    same reason as the dashboards in step 5. -NoPdf skips it (the icon's link
+#    then 404s).
+#
+#    Quarto 1.9 on Windows cannot render a book from inside .venv: it writes the
+#    path of a template it ships into a Markdown attribute, where the `\.` of
+#    `\.venv` is read as an escaped dot, and the template is then not found.
+#    Quarto is therefore pointed at its share folder through a junction in TEMP,
+#    a path without a dot-folder.
+#
+#    The render leaves the images of the Mermaid diagrams in docs/*_files/
+#    (gitignored); they are deleted afterwards.
+if (-not $NoPdf) {
+    $shareLink = Join-Path $env:TEMP 'quarto-share'
+    $shareTarget = (Resolve-Path '.venv/Lib/site-packages/quarto_cli/share').Path
+    if ((Test-Path $shareLink) -and ((Get-Item $shareLink).Target -ne $shareTarget)) {
+        (Get-Item $shareLink).Delete()  # a stale junction: removes the link only
+    }
+    if (-not (Test-Path $shareLink)) {
+        New-Item -ItemType Junction -Path $shareLink -Target $shareTarget | Out-Null
+    }
+    $env:QUARTO_SHARE_PATH = $shareLink
+    try {
+        Invoke-Step 'Rendering the PDF of the documentation (docs/_build/pdf/)' {
+            uv run quarto render docs --profile pdf --to typst
+        }
+    } finally {
+        Remove-Item Env:QUARTO_SHARE_PATH
+        Get-ChildItem -Path docs -Directory -Filter '*_files' | Remove-Item -Recurse -Force
+    }
+    Copy-Item -Path docs/_build/pdf/CH-LAE_flux_product_docs.pdf -Destination docs/_build/html/ -Force
+} else {
+    Write-Host '==> Skipping the PDF (-NoPdf); the PDF link in the sidebar will 404' -ForegroundColor Yellow
+}
+
+# 5. Build the meteo dashboards straight into the rendered output tree.
 #    AFTER the render, not before: Quarto rewrites docs/_build/html on every
 #    render, so anything placed there first is deleted. Writing into the output
 #    also keeps several megabytes of generated HTML out of the source tree, and
@@ -100,7 +140,7 @@ if ($NoPublish) {
     return
 }
 
-# 5. Publish to GitHub Pages.
+# 6. Publish to GitHub Pages.
 #    -n  write .nojekyll (stop GitHub from running Jekyll over asset dirs)
 #    -o  no history: replace gh-pages with a single fresh commit each deploy, so
 #        the branch doesn't accumulate every past build's heavy notebook assets

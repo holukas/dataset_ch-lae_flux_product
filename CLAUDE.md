@@ -133,6 +133,8 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
   `build_notebooks.py`) unless explicitly asked. A full site build is
   `build_notebooks.py` (stage) **then** `quarto render docs` **then**
   `build_notebooks.py --clean`, in that order (or just run `deploy.ps1`).
+  The PDF of the docs, `quarto render docs --profile pdf --to typst`, is a build
+  too.
 - **Never write a real person's name into this repo.** The GIN fieldbook and the
   logger programs are personnel records and these notebooks render to a public
   website, so every quoted string is redacted through `redact_people()`, and
