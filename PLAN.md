@@ -239,7 +239,11 @@ released); `90_OVERVIEW/FLUX_NEE`, `METEO_VPD`; the comparison and investigation
 item 12. Next: check the winter night gap-filling of `IRGA75/05` (item 12), then build the
 FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be decided).
 
-**To re-run: the low sample flow of the LI-7200** (found 30 Oct 2026 in the new overview
+**Re-run done (31 Oct 2026): the low sample flow of the LI-7200.** `IRGA72/05`, `25`,
+`IRGA72/99`, `30_.../99_FPPC_MERGED`, `80_FINALIZE/10` and the overviews were run; no measured
+`NEE` or `LE` is left in the removed windows. Against FP2026.1, annual `NEE` 2016-2025 differs by
+-25 to +3 gC m-2, 2021 by -111 (`ET` -7 to +9 mm, 2021 +40). The note below is kept for the record.
+Was: **To re-run: the low sample flow of the LI-7200** (found 30 Oct 2026 in the new overview
 notebooks `90_OVERVIEW/FLUX_GPP`, `FLUX_RECO`, `FLUX_ET`, `FLUX_H`, then searched for in the
 logged flow rate). `FC` and `LE` were near zero from 28 April to 27 May 2021, in six periods in
 February 2016, on 26 May 2016 until 07:45, and from 11 to 14 August 2023. All are now in
@@ -249,13 +253,10 @@ notebooks. FP2026.1 as released still contains these values. Still to check: 13 
 before the flow module failed, where `LE` is low from 13 May and `FC` exists with a flow near zero
 from 17 May.
 
-Then, before the release: **find the cause of the positive early `IRGA75` years** (item 12).
-opco without `VPD` is kept (evaluated 30 Oct 2026); the run with `VPD` is not needed. The
-difference to FLUXNET is explained (item 12): FLUXNET's winter nights of 2004-2015 are too low,
-so it is no check of the early years. What remains open is our own budget of the early years:
-whether the winter nights (gap-filled 75-80 %; since the relaxed tests filled at about +1.9
-umol m-2 s-1 in Nov-Mar, against 2.6 measured and 3.0 for the `IRGA72` years) and the early-year
-sources are plausible, judged against the `IRGA72` years and any independent respiration data.
+Then, before the release: **the positive early `IRGA75` years** (item 12). Evaluated 30-31 Oct
+2026 (`90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION`): no fault found, opco kept, the difference to
+FLUXNET explained. Still open from it: the winter night gap-filling of `IRGA75/05` (gap-filled
+winter nights below the measured ones) and the QCL check (item 17).
 
 **To check (from the docs review of 30 Oct 2026):**
 
@@ -440,170 +441,44 @@ In order. Each item is blocked by the one above it, except that the flux items
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
     the upper bound of about 50 gC m-2 per year predate the refit; recompute them after
     the merges are re-run (section 4.2).
-12. **opco without `VPD`** (kept; evaluated 30 Oct 2026, see the end of this item). Dropping `VPD` from opco (`IRGA75/01`, `FEATURES_XI`/`FEATURES_K`) raises the
-    annual `NEE` of 2004-2010 by about +30 to +100 gC m-2 and lowers 2011-2017 by up to
-    about 75, against the opco with `VPD` (from the mean correction per year). In test `T2`
-    2004-2006 become a source (+78, +169, +130 gC m-2; the December 2004 removal and the
-    `NEGNIGHTS` test add +30 to +125 of that). The three variants without the `VPD`
-    artefact (no `VPD`, `VPD` in k only, `VPD` floored at 0.05 kPa) agree within about
-    20 gC m-2, and all fit the overlap equally (-41 against -38 gC m-2 for the opco with
-    `VPD`); trained on one overlap year and tested on the other, every variant leaves about
-    +40 gC m-2 per year. There is no independent estimate of the annual sums to check them
-    against.
-
-    The full `05` run of 30 Oct 2026 (`CUT_50`, XGB, gC m-2): 2004 +161, 2005 +164,
-    2006 +144, 2007 -101, 2008 +64, 2009 +59, 2010 -44; 2011-2017 within about 30 of the
-    run before. Against that run, 2004-2010 rose by +53 to +396. Most of the rise is in the
-    gap-filled records (60-70 % of each year): the model learns from winter values made
-    more positive by the larger correction and by the removed negative nights. In 2004
-    about 300 of the +396 lie in 1 January to 29 March (no measurements, gap-filled
-    only) and in December. The `VPD` artefact remains after the RH ceiling fix, smaller: on
-    calm nights below 5 degC `VPD` is exactly 0 in 14 % of 2004-2015 and 49 % of
-    2016-2017 (before the fix about 0 against 70 %).
-
-    **Evaluated 30 Oct 2026: keep opco without `VPD`.** Scratch analysis (no files
-    changed; scripts in the session scratchpad `agent_opco/`):
-    - Skill: out of fold all variants are equal (RMSE 2.46); cross-year (fit one overlap
-      year, test the other) `VPD` is worse (RMSE 2.94 against 2.73, bootstrap difference
-      +0.21 [+0.03, +0.40]); its in-sample gain is overfitting. Cross-year, corrected
-      minus `IRGA72` per test year is within ±9 gC m-2 for every variant (the "+40" above
-      came from another selection of half-hours).
-    - `VPD` = 0 marks the RH probe at its ceiling, not the weather: the fog share from
-      `LW_IN`/clear-sky `LW_IN` > 1.25 is the same in both periods (42 % and 43 % of
-      nights below 5 degC), but `VPD` = 0 on those fog nights is 7 % in 2004-2015 against
-      47 % in 2016-2017. With `VPD` the correction of foggy cold nights falls short in the
-      early years. 7 % of 2004-2015 records lie outside the training support with `VPD`,
-      2.5 % without. `VPD` carries no self-heating signal.
-    - With `VPD`, 2004-2006 would stay sources (about +95, +66, +44 gC m-2): dropping
-      `VPD` is not the main cause of the positive early years.
-    - **Against FLUXNET** (ONEFlux v1.3, CH-Lae 2004-2024, `NEE_VUT_REF`; its input for
-      2004-2015 is the FP2021 `IRGA75` flux with the Kittler et al. (2017) correction, for
-      2016-2017 the `IRGA72`). Split half-hour by half-hour (30 Oct 2026, scratch, against
-      the `05` run of 30 Oct with the strict night tests, `CUT_50`, XGB). Our annual sums are
-      +250 to +460 gC m-2 higher in 2005-2014 (2004 +605, 2015 +168) and lower in 2016-2017
-      (-245, -417). Per year, 2004-2015:
-      - Nights that both fill: +150 to +275. FLUXNET fills them far lower than we do,
-        +1.8 to +2.9 umol m-2 s-1 apart from November to March, +0.3 to +0.8 in June to
-        September. FLUXNET's winter nights are near zero (December: measured +0.06, filled
-        -0.12; our `IRGA72` 2016-2026: +3.2). With 75-80 % of the nights filled, this is
-        most of the difference.
-      - Nights FLUXNET keeps and we remove: +13 to +52. In October to May FLUXNET's values
-        there average -2 to -8 umol m-2 s-1. These are the apparent winter uptake that our
-        Level 3.2 removes. FLUXNET keeps them, and MDS fills the other winter nights from
-        them.
-      - Shared measured nights: +7 to +32. Our nights are 0.5 to 0.9 higher there; opco adds
-        +0.5 to +0.9 at night, the FP2021 correction +0.2 to +0.4. By day both add about +3,
-        and the day differences are small in all classes.
-      - Our filled winter nights (+2.7) agree with our measured ones (+2.9 to +3.2) and with
-        the `IRGA72` of 2016-2026 (+2.5 to +3.2). FLUXNET's 2004-2015 winter nights are the
-        implausible ones, so the difference does not point to an error in this chain.
-      - 2016-2017 (`IRGA72` in FLUXNET): FLUXNET's nights average +4.2 and +5.4, our
-        `IRGA72` +3.7. Explained later: on shared records they agree; FLUXNET's u* thresholds
-        are 0.46-0.50 m s-1 in these years and it fills the nights higher.
-      - **After the run with the relaxed tests (30 Oct 2026):** ours minus FLUXNET 2005-2015
-        +214 per year (day +23, night +190): night gap-filling +131, negative winter nights
-        removed +39, single-product records +21, corrections +12, day gap-filling +10, u* +1.
-        Our Nov-Mar nights are now 2.6 measured and 1.9 filled (FLUXNET 1.2 / 0.5, `IRGA72`
-        about 3.0): the filled winter nights fall below the measured ones, so the statement
-        above on +2.7 no longer holds. Open: check the winter night gap-filling of `IRGA75/05`.
-    - **Against Etzold et al. (2011)** (2005-2009, LI-7500, mean NEE -415 gC m-2 per year,
-      range -366 to -662; our `05` run of 30 Oct: +66). Their flux has WPL and the Burba et
-      al. (2008) / Järvi et al. (2009) self-heating correction; winter fluxes of ±15
-      umol m-2 s-1 kept in the data but excluded from the gap-filling fits; negative nights
-      and as many positive ones trimmed; Lloyd-Taylor at night, a running mean below 0 degC;
-      u* 0.3; night coverage 24 %. Mean monthly sums (theirs read from their Fig. 5, about
-      ±10 gC m-2), gC m-2:
-
-      | | Nov-Mar | Apr + Oct | May-Sep | year |
-      |---|---|---|---|---|
-      | Etzold et al. | about +170 | about 0 | about -570 | -415 |
-      | ours, `IRGA75` with opco | +393 | +72 | -399 | +66 |
-      | ours, without opco | +91 | -27 | -635 | -572 |
-      | `IRGA72` 2016-2025 | +374 | +38 | -516 | -105 |
-      | FLUXNET | +184 | +20 | -422 | -221 |
-
-      "Without opco" adds the mean opco correction per month and day/night back to every
-      half-hour (approximate); opco adds about +640 gC m-2 per year, +42 to +67 per month.
-      **Their correction reproduced (30 Oct 2026):** the R script in
-      `opco-data/references/` (Burba 2008 equation, Järvi 2009 fraction 0.085, surface
-      temperature from the sonic temperature) applied to our `01` input adds about +210 gC
-      m-2 per year (0.7-1.2 umol m-2 s-1 by day, 0.4-1.0 at night), against opco +640.
-      Our flux with it in place of opco: -362 per year (theirs -415); Nov-Mar +192 (about
-      +170), Apr + Oct +3 (about 0), May-Sep -558 (about -570). So about 430 of the 480
-      difference is the size of the correction. The `IRGA72` years support opco in winter
-      (+374 against +393 and +192) and lie between the two in summer (-516 against -399 and
-      -558). With the monthly mean instead of the median of their correction: -270 per year,
-      so 340 to 430 of the 480 come from the correction.
-    - **Transfer of opco to the early summers** (30 Oct 2026,
-      `30_.../IRGA75/OPCO_TRANSFER_CHECK_2004-2017`). opco transfers as a model: drivers in
-      the training range, same correction under matched light and temperature (ratio 1.03),
-      single-year refits agree. Summer nights agree with the `IRGA72` years. Standardised
-      summer daytime NEE against the `IRGA72` years: 2010-2015 +0.17, 2007-2009 +0.9 to +1.2
-      (within the `IRGA72` spread, sd 1.2), 2005 +2.1, 2006 +2.7 umol m-2 s-1; the gap is in
-      the uncorrected flux already. **Open for 2005-2007:** the summer wind test implies a
-      self-heating about 80 % weaker (s = 0.20 ± 0.44), the winter test full-size (1.49 ±
-      0.58). If the wind test is right, May-Sep 2005-2007 is 171-195 gC m-2 too positive
-      (0 to 244). **CO2 reading tested (30 Oct 2026, scratch `flx/co2offset.py`):** summer
-      midday CO2 against the 2008-2017 trend is 1.6-1.9 % low in 2004-2005 and 6.0-6.1 % low in
-      2006-2007. As a gain error it makes the true corrected summer daytime flux 0.5-0.65 umol
-      m-2 s-1 more negative in 2006-2007 (0.12-0.16 in 2004-2005); as a zero offset (WPL terms
-      only) about 0.6 more positive; opco's heating term is too small by the same factor in both
-      cases. About ±50-60 gC m-2 per summer in 2006-2007, ±15 in 2004-2005: not the cause of the
-      2005-2006 gap. Decision for FP2026.2: keep opco unchanged and state the 2005-2007 summers
-      as uncertain by up to about 200 gC m-2 (done on `docs/L1.1.md` and
-      `docs/IRGA75_Comparisons.md`). Possibly add a flag for May-Sep 2005-2007.
-      Notebooks: `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and the transfer check above.
-    - **Why the early years are a weak sink** (30 Oct 2026, notebooks
-      `30_.../IRGA75/ANALYSER_DAMPING_CHECK_2004-2017`,
-      `90_OVERVIEW/FLUX_NEE_IRGA75_INDEPENDENT_ESTIMATES`,
-      `90_OVERVIEW/FLUX_NEE_IRGA75_PARTITIONING_COMPARISON`; strict-test run):
-      - Independent estimates (Etzold et al. 2011, Tables 4-5): biometric NEP 2006-2009
-        +307 to +514 gC m-2 against ours -41 (CUT_16 to CUT_84 -5 to -74; about +59 with the
-        relaxed tests). RECO 1,487-1,495 is plausible (soil respiration 890, share 0.60 against
-        0.64; their TER 1,383 ± 338). GPP 1,378-1,395 against their 1,830; RECO/GPP 1.05-1.09.
-      - Partitioning against the `IRGA72` years: 2005-2009 +170 per year, +201 by day and -30
-        at night; with NT partitioning almost all GPP. Lower capacity (light-saturated GPP -5.1
-        in 2005-2007, -2.6 in 2008-2009 umol m-2 s-1), unchanged seasonal shape, leaf-out not
-        later. 2005-2007 mostly June-July; 2008-2009 January-July, daytime. 2004-2006 below
-        every other year at the same weather; dry soils after 2003 make a real loss plausible
-        for those years only. DT partitioning splits GPP/RECO unreliably across the analyser
-        change.
-      - Analyser damping: not found. Same settings and lags; the w-CO2 and w-H2O correlations
-        are 4-7 % lower in 2004-2006 but the CO2-H2O correlation drops alike, 2007 shows none.
-        Upper bound with the CO2 gain: 34-54 % of the summer daytime gap of 2005-2007
-        (-67, -108, -42 gC m-2 in May-Sep 2005-2007).
-      - Calibration records (GIN fieldbook, legacy entries): check of 19 Dec 2007 before the
-        recalibration: zero gas -46.6 ppm, 567.5 ppm reference read 526 ppm, so a zero offset of
-        about -45 ppm with the slope within 1 %; the zero was last set on 7 Feb 2006. The check of
-        26 Sep 2007 (+31 ppm at zero, 479 for 449.5) was made right after a chemical change and
-        is less reliable. A zero error: no gain correction of the flux; via WPL about +0.6
-        umol m-2 s-1 by day in 2006-2007, away from more uptake. No record for 2004-2006.
-      - **Raw-data diagnostics** (30 Oct 2026, `30_.../IRGA75/RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS`
-        and `raw_data_diagnostics.py`; 20 Hz files in `F:\CURRENT\LAE_FP2026`, June-July 11-15 h,
-        2005-2007, 2010-2012, 2016; cached table
-        `RAW_DATA_DIAGNOSTICS_IRGA75_SUMMERS.parquet`). No covariance lost: at the used lag
-        99.9-100 % of the extremum over -2 to +3 s; cospectral ratios to w-Ts within the
-        reference years; white noise below 1 % of the variance. All measurement effects change
-        the 2005-2006 covariance by -1 to +2 %. r_cq is 8 % (2005) and 13 % (2006) lower, r_wq
-        5-7 %, r_wc 2.5-3 % (within the reference spread); 2007 at the reference level. So the
-        scalar exchange was less coupled, not the analyser at fault. Held values (status code
-        40) about 10 % in 2005-2007, negligible for the covariance.
-      - **Conclusion:** a measurement fault is ruled out. The weak early sink is either a real
-        loss of capacity (plausible for 2004-2006 after 2003) or an opco correction too large
-        for those years; neither covers 2007-2009 or the full shortfall against the biometric
-        NEP. **Decided 30 Oct 2026:** FP2026.2 keeps 2004-2009 unchanged, with no confidence flag
-        and no added uncertainty; the comparisons on `docs/IRGA75_Comparisons.md` are the
-        documentation. opco is accepted as it is for FP2026.2; improving the correction of the
-        early years is deferred to a later version (candidates: a climate-expected baseline
-        trained on the `IRGA72` years, satellite greenness since 2000, dendrometer and inventory
-        data if they become available).
-    - Open: without `VPD`, foggy cold nights are corrected about 0.5 umol m-2 s-1 too
-      little and clear ones as much too strongly (unbiased in the annual mean, but it
-      reaches the partitioning). A longwave fog ratio as a driver removes most of it
-      (annual change within ±20 gC m-2 in 2006-2015; not usable in 2004-2005 without
-      `LW_IN`).
-    - The opco run with `VPD` of section 5 is no longer needed. Still to decide: whether
-      2004, which starts on 30 March, gets an annual sum.
+12. **The positive early `IRGA75` years and the size of opco** (evaluated 30-31 Oct 2026). The
+    evidence is consolidated in `90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION` (it links the transfer,
+    damping and raw-data notebooks in `30_.../IRGA75/` and the three other
+    `90_OVERVIEW/FLUX_NEE_IRGA75_*` notebooks); the full investigation log is in the git history of
+    this file (before 31 Oct 2026). Summary (`CUT_50`, XGB, gC m-2 per year):
+    - **The gap:** 2004-2006 average +48, 172 above the `IRGA72` years (-124); FLUXNET 175-240
+      more negative, Etzold et al. (2011) about 380 more negative; the biometric NEP of 2006-2009
+      240-450 above the net uptake of this product.
+    - **Ruled out:** analyser damping (at most 34-54 % of the summer daytime gap of 2005-2007), loss
+      of covariance in the raw data, the low CO2 reading of 2004-2007 (11-62 per summer, either
+      direction), clocks (within ±15 min of MeteoSwiss), opco driver shifts across 2016 (-32 to +5).
+      One LI-7500 head (75H-0640) 2004-2017, no exchange or factory recalibration; field
+      calibrations, a refastening in December 2010 and two demountings in 2011 are recorded.
+    - **opco without `VPD`** is kept: `VPD` = 0 marks the RH probe at its ceiling, not the weather,
+      and with `VPD` the cross-year skill is worse. Dropping it is not the main cause of the
+      positive early years (with `VPD`, 2004-2006 stay sources).
+    - **Size of the correction:** the summer wind test gives s = 0.20 ± 0.48 for 2005-2007 and about
+      1 from 2008; the winter test 1.41 ± 0.60 (against the training months) and 1.23 ± 0.30
+      (against the middle winters) for 2004/05-2006/07. The wind test is the weaker one. The
+      corrected nights lie at 0.79-1.08 of the respiration expected from the `IRGA72` years, the
+      uncorrected cold nights at 0.03-0.72; a possible night over-correction (at most 57-118, 2008)
+      does not reach the annual sums. The Etzold et al. correction adds 210-302 against 638 for
+      opco; with it this product gives -466 to -374 against their -418, so most of the difference
+      to them is the size of the correction. The `IRGA72` years support opco in winter.
+    - **Against FLUXNET:** +214 in 2005-2015, of which +131 is night gap-filling and +39 the
+      negative winter nights FLUXNET keeps; FLUXNET's 2004-2015 winter nights are implausibly low.
+    - **Decided for FP2026.2:** opco unchanged; 2004-2009 kept as processed, without flag or added
+      uncertainty; the summers May-Sep 2005-2007 stated as uncertain by 0 to about -200 (done on
+      `docs/L1.1.md` and `docs/IRGA75_Comparisons.md`). A real loss of uptake capacity after 2003
+      is plausible for 2004-2006 only.
+    - **Open:** the QCL periods of 2005 and 2008 as an independent check (item 17); the winter
+      night gap-filling of `IRGA75/05` (gap-filled winter nights 0.67 umol m-2 s-1 below the
+      measured ones); foggy cold nights corrected about 0.5 umol m-2 s-1 too little and clear ones
+      too strongly without `VPD` (a longwave fog ratio as driver removes most of it, not usable in
+      2004-2005); whether 2004, which starts on 30 March, gets an annual sum; possibly a flag for
+      May-Sep 2005-2007; a better correction of the early years in a later version (candidates: a
+      climate-expected baseline trained on the `IRGA72` years, satellite greenness, dendrometer
+      and inventory data).
 13. **Partitioning: minimum records per `Rref` window** (found 30 Oct 2026 in
     `90_OVERVIEW/FLUX_RECO`; a fix in diive). The nighttime method refits `Rref` in
     8-day windows and fits a window from as few as 3 nighttime records
@@ -613,7 +488,8 @@ In order. Each item is blocked by the one above it, except that the flux items
     winter spikes such as 12 January 2006, mostly in the `IRGA75` years. To do: count the
     records per window in the CH-LAE years and choose the count from which `Rref` is stable;
     add an optional minimum to diive (default 3, so ONEFlux is still reproduced); set it in
-    both `05`. Best done before the pending re-run of section 5, so one run covers both.
+    both `05`. **Not for FP2026.2** (decided 31 Oct 2026): this version keeps the ONEFlux
+    default; deferred to a later version.
 14. **Implausible fluxes found in the overview notebooks** (30 Oct 2026):
     - Daytime `GPP` of 2005, 1,786 gC m-2 (`90_OVERVIEW/FLUX_GPP`).
     - Nighttime `H` up to about 800 W m-2, mostly 2013-2016, passes all tests
@@ -640,6 +516,16 @@ In order. Each item is blocked by the one above it, except that the flux items
     - Merge `docs/References.md` into `docs/Links.md`.
     - A summary box at the top of each meteo page: the column to use and the known
       limitations, as `docs/Meteo_Data_TA.md` already has.
+17. **Check opco against the QCL periods of 2005 and 2008** (later session; noted
+    31 Oct 2026). The EC setup table in `docs/Yearly_Notes.md` lists a second gas
+    analyser, a quantum cascade laser, beside the LI-7500: `QCL-L2` and `QCL-L` in
+    `2005_2` and `2005_3` (30 Sep to 12 Nov 2005), `QCL-ISO` in `2008_2` and `2008_3`
+    (16 May to 30 Jun 2008). If it measured CO2, it is a closed-path flux without
+    self-heating in the early years themselves, and a direct test of the size of opco in
+    autumn 2005 and early summer 2008. First: read notes (1) to (6) of the setup table
+    (Swiss FluxNet site page) and the raw files of these periods to see what the QCL
+    measured; then compute its CO2 flux and compare with the LI-7500, corrected and
+    uncorrected.
 
 
 ## 6. Open questions

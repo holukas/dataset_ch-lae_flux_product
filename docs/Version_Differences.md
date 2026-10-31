@@ -23,9 +23,9 @@ in progress, so its column describes the current processing.
 ## Effect on the LI-7200 fluxes
 
 FP2026.2 contains the LI-7200 years of FP2026.1, processed again with the changes above. In the
-current processing, before the removal of the low-flow periods, the annual `NEE` sums of 2016-2025
-(`CUT_50`, XGBoost) differ from FP2026.1 by −40 to +3 gC m^-2^. The periods of low sample flow
-change `NEE`, `LE` and `ET` in the years concerned: in FP2026.1 their near-zero fluxes are kept as
+current processing the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from FP2026.1 by
+−25 to +3 gC m^-2^, except 2021 (−111 gC m^-2^); annual `ET` differs by −7 to +9 mm, and by
++40 mm in 2021. The periods of low sample flow change `NEE`, `LE` and `ET` in the years concerned: in FP2026.1 their near-zero fluxes are kept as
 measured values and enter the training of the gap-filling models; in FP2026.2 they are removed and
 gap-filled.
 

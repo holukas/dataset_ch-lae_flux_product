@@ -25,8 +25,9 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
   ([Level 3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)).
 - The gap-filling models are trained anew in every run.
 
-In the current processing, before the removal of the low-flow periods, the annual `NEE` sums of
-2016-2025 (`CUT_50`, XGBoost) differ from FP2026.1 by −40 to +3 gC m^-2^.
+In the current processing the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from
+FP2026.1 by −25 to +3 gC m^-2^, except 2021: −111 gC m^-2^, from the removal of the low sample flow
+of May 2021. Annual `ET` differs by −7 to +9 mm, and by +40 mm in 2021.
 
 ## State of the release
 
