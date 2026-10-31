@@ -350,7 +350,8 @@ In order. Each item is blocked by the one above it, except that the flux items
    25th and 75th percentiles. The `LE` and `H` random and joint uncertainty of
    ONEFlux belong to the same step (the joint one is built from the `_CORR25` and
    `_CORR75` spread). Needs the `NETRAD` and `G` products at September 2026.
-7. **Fill the stub pages**: `Supplementary` is still a stub. The other pages,
+7. **Fill the stub pages**: `Supplementary` is still a stub (out of the sidebar
+   since 31 Oct 2026). The other pages,
    including `L1`, `QCF`, `Raw_Data`, `Overview`, `Dataset_Versions`, `Software`
    and `Links`, were written on 27 Oct 2026; `Management_Data` was removed, as
    there are no management data.
@@ -394,6 +395,12 @@ In order. Each item is blocked by the one above it, except that the flux items
     that closes better at high RH has the more realistic `LE`. Also note that the
     `IRGA75` loses more wet half-hours (63 % of half-hours with a valid `LE`, against
     70 %), which biases its gap-filled `LE` low.
+    **First result (30 Oct 2026, `90_OVERVIEW/FLUX_ET`):** at RH ≥ 95 % the closure is
+    0.74 for the `IRGA75` and 0.52 for the `IRGA72`, and the ratio of `IRGA75` to `IRGA72`
+    `LE` rises with RH (2.15 at RH ≥ 95 %). The `IRGA75` `LE` is therefore the more
+    complete one at high RH, and its gap-filled `LE` is more likely biased high than low;
+    the sentence above needs checking. Annual `ET` 2016-2017: 748 mm (`IRGA75`) against
+    610 mm (`IRGA72`).
 11. **Cold-night `NEE` of the `IRGA75` years** (found 29 Oct 2026 in
     `90_OVERVIEW/FLUX_NEE`; the limitation is now stated in `docs/Issues.md`). Done
     on 29 Oct 2026: opco refitted without `VPD` (with `VPD` it corrected the cold nights
@@ -597,6 +604,42 @@ In order. Each item is blocked by the one above it, except that the flux items
       `LW_IN`).
     - The opco run with `VPD` of section 5 is no longer needed. Still to decide: whether
       2004, which starts on 30 March, gets an annual sum.
+13. **Partitioning: minimum records per `Rref` window** (found 30 Oct 2026 in
+    `90_OVERVIEW/FLUX_RECO`; a fix in diive). The nighttime method refits `Rref` in
+    8-day windows and fits a window from as few as 3 nighttime records
+    (`diive/flux/partitioning/nighttime_oneflux.py`, `_reanalyse_rref`, as in ONEFlux). In
+    winter such windows give `Rref` near zero (floored at 1e-6) or spikes, and the
+    interpolation carries them into the days around: 25 windows with near-zero `Rref`, and
+    winter spikes such as 12 January 2006, mostly in the `IRGA75` years. To do: count the
+    records per window in the CH-LAE years and choose the count from which `Rref` is stable;
+    add an optional minimum to diive (default 3, so ONEFlux is still reproduced); set it in
+    both `05`. Best done before the pending re-run of section 5, so one run covers both.
+14. **Implausible fluxes found in the overview notebooks** (30 Oct 2026):
+    - Daytime `GPP` of 2005, 1,786 gC m-2 (`90_OVERVIEW/FLUX_GPP`).
+    - Nighttime `H` up to about 800 W m-2, mostly 2013-2016, passes all tests
+      (`90_OVERVIEW/FLUX_H`). Candidate: a test of positive nighttime `H` in diive.
+15. **Small fixes**:
+    - `90_OVERVIEW/FLUX_NEE`: the analyser line in the year-month heatmaps is drawn at
+      2015.5 and belongs at 2016.
+    - diive `RidgeLinePlot` places its labels too high.
+    - The About text of the `METEO_TA` notebook is out of date.
+16. **Docs structure** (review of 31 Oct 2026; the sidebar order, the version pages and the
+    PDF are done):
+    - A "Start here" page in place of `index.md`, with how to obtain the data, a citation
+      and a licence. Neither a citation nor a licence exists on the site yet: needs input.
+    - One page of bad and gap-filled periods, taking the table of `docs/L3.2.md` and the
+      long gaps of `docs/L4.1.md`; the evidence stays in the Yearly Notes.
+    - Split `docs/Yearly_Notes.md`: the EC setup table to a page of its own (update
+      `workflow/00_L0_CHECKS/CLAUDE.md`, which names its location), the deprecated versions
+      into one table under Dataset versions, and delete the unedited FLUXNET template
+      blocks.
+    - Remove the counts of unreleased runs ("in the runs of 30 October 2026") from
+      `docs/L3.2.md`, `docs/L3.3.md` and `docs/QCF.md`.
+    - The 2018 flow-module failure starts on 18 May in `docs/L4.1.md` and on 19 May in
+      `docs/L3.2.md`; settle the date.
+    - Merge `docs/References.md` into `docs/Links.md`.
+    - A summary box at the top of each meteo page: the column to use and the known
+      limitations, as `docs/Meteo_Data_TA.md` already has.
 
 
 ## 6. Open questions
