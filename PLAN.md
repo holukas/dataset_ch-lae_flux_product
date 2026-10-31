@@ -236,8 +236,8 @@ that will state it.
 **Runs done (30 Oct 2026).** With the relaxed night tests: `IRGA72/05`, `99`; `IRGA75/05`,
 `25`, `35`, `99`; `30_.../99_FPPC_MERGED`; `80_FINALIZE/10` (not `20`: FP2026.1 stays as
 released); `90_OVERVIEW/FLUX_NEE`, `METEO_VPD`; the comparison and investigation notebooks of
-item 12. Next: check the winter night gap-filling of `IRGA75/05` (item 12), then build the
-FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be decided).
+item 12. Next: the FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be
+decided).
 
 **Re-run done (31 Oct 2026): the low sample flow of the LI-7200.** `IRGA72/05`, `25`,
 `IRGA72/99`, `30_.../99_FPPC_MERGED`, `80_FINALIZE/10` and the overviews were run; no measured
@@ -257,14 +257,11 @@ the flow fell to zero on 17 May 07:15-16:45 and from 18 May 07:45; `FC` and `LE`
 
 Then, before the release: **the positive early `IRGA75` years** (item 12). Evaluated 30-31 Oct
 2026 (`90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION`): no fault found, opco kept, the difference to
-FLUXNET explained. Still open from it: the winter night gap-filling of `IRGA75/05` (gap-filled
-winter nights below the measured ones) and the QCL check (item 17).
+FLUXNET explained. The low gap-filled winter nights are explained by humidity (item 12). Still
+open from it: the QCL check (item 17).
 
 **To check (from the docs review of 30 Oct 2026):**
 
-- **Winter nights of `IRGA75`**: filled at about 1.9 umol m-2 s-1 since the relaxed tests,
-  below its measured nights (2.6) and the `IRGA72` (3.0). Likely biases the early years towards
-  uptake. Same as the next step above.
 - **opco link**: removed from `docs/Software.md` and `docs/Links.md` because
   `github.com/holukas/opco` returns 404. Re-add it when the repository is public.
 - **Photographer's name** in the 2019 photo credit (`docs/Yearly_Notes.md` and the title page).
@@ -508,11 +505,16 @@ In order. Each item is blocked by the one above it, except that the flux items
       (`DT_VALID_FROM = '2005-09-14 11:15'`, Step 8, right after the partitioning).
     - Nighttime `H` up to about 800 W m-2, mostly 2013-2016, passes all tests
       (`90_OVERVIEW/FLUX_H`). Candidate: a test of positive nighttime `H` in diive.
-15. **Small fixes**:
-    - `90_OVERVIEW/FLUX_NEE`: the analyser line in the year-month heatmaps is drawn at
-      2015.5 and belongs at 2016.
-    - diive `RidgeLinePlot` places its labels too high.
-    - The About text of the `METEO_TA` notebook is out of date.
+    - Extreme candidate outliers in `30_.../99_FPPC_MERGED_2004-2026.09` (found 31 Oct 2026). The
+      notebook circles measured half-hours more than 7 robust standard deviations from the 31-day
+      median of the same hour (`OUTLIER_K`), about 2 to 90 per flux and year, and removes nothing.
+      The most extreme are implausible and still in the record: `NEE` of +35 to +48 and -25 to -41
+      umol m-2 s-1, mostly in winter of the `IRGA75` years; nighttime `LE` up to about 800 W m-2
+      (e.g. 2011-12-16, 2011-08-05); nighttime `H` up to 800 W m-2 (2015-10-14, see above). To do:
+      review the top candidates of each flux; if the chain's tests should have caught them, adjust
+      or add a test in diive (e.g. a Hampel filter by hour of day) rather than removing them by hand.
+15. **Small fixes**: diive `RidgeLinePlot` places its labels too high. (The analyser line of
+    the `FLUX_NEE` heatmaps and the About text of `METEO_TA` were fixed on 31 Oct 2026.)
 16. **Docs structure** (review of 31 Oct 2026; the sidebar order, the version pages and the
     PDF are done):
     - A "Start here" page in place of `index.md`, with how to obtain the data, a citation
@@ -523,8 +525,8 @@ In order. Each item is blocked by the one above it, except that the flux items
       `workflow/00_L0_CHECKS/CLAUDE.md`, which names its location), the deprecated versions
       into one table under Dataset versions, and delete the unedited FLUXNET template
       blocks.
-    - Remove the counts of unreleased runs ("in the runs of 30 October 2026") from
-      `docs/L3.2.md`, `docs/L3.3.md` and `docs/QCF.md`.
+    - The counts of unreleased runs were removed from `docs/L3.2.md`, `docs/L3.3.md` and
+      `docs/QCF.md` (31 Oct 2026); the notebooks report them.
     - The 2018 flow-module failure: settled 31 Oct 2026. `docs/L3.2.md` lists the removal of
       17-19 May and the failure from 19 May; the long gap of `docs/L4.1.md` starts on 18 May,
       with the removal.
