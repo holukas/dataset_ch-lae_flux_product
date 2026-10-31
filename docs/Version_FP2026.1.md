@@ -51,6 +51,8 @@ dataset are those of the processing; a shorter set of names for publication is n
   exclude `NEE`, `LE` and `ET` of these periods, gap-filled values included:
   - six periods from 30 January to 29 February 2016, and the night to 26 May 2016 07:45
     ([Yearly Notes, 2016](Yearly_Notes.md#start-up-of-the-li-7200-in-2016));
+  - 17 May 07:15-16:45 and 18 May 07:45 to 19 May 11:45, 2018
+    ([Yearly Notes, 2018](Yearly_Notes.md#flow-module-failure-in-may-and-june-2018));
   - 28 April to 20 May and 21 to 27 May 2021
     ([Yearly Notes, 2021](Yearly_Notes.md#low-sample-flow-of-the-li-7200-in-may-2021));
   - 11 to 14 August 2023

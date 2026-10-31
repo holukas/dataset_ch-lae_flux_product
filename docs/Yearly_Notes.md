@@ -294,6 +294,12 @@ instruments and the setup link are corrected. The fluxes of this year in FP2026.
 
 - From 19 May to 7 June 2018 the flow module of the LI-7200 (`IRGA72`) had failed. This period was
   processed with the sonic anemometer only, so it has no `FC` and no `LE`. `H` is available.
+- The sample flow had already fallen before. On 17 May it dropped from about 13.6 to zero between
+  07:15 and 16:45 and then recovered for one night; from 18 May 07:45 it stayed at zero. `FC` and
+  `LE` were still recorded in these hours and are erratic. They are removed by hand at Level 3.2:
+  2018-05-17 07:15 to 16:45 and 2018-05-18 07:45 to 2018-05-19 11:45 (`TIMESTAMP_MIDDLE`). The
+  night of 17 to 18 May is kept. The low `LE` of 13 to 16 May is not a fault: the flow was normal,
+  and these were cool, overcast days with little radiation.
 
 ### Failing LI-7200, December 2018 to January 2019 {#failing-li-7200-december-2018-to-january-2019}
 

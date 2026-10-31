@@ -21,13 +21,14 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
 - The chain uses tests of negative nighttime values based on the flux uncertainty
   ([Level 3.2](L3.2.md)).
 - Periods of low sample flow of the LI-7200 found after the release of FP2026.1 are removed by
-  hand: February 2016, May 2021 and August 2023
+  hand: February 2016, May 2018, May 2021 and August 2023
   ([Level 3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)).
 - The gap-filling models are trained anew in every run.
 
 In the current processing the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from
-FP2026.1 by −25 to +3 gC m^-2^, except 2021: −111 gC m^-2^, from the removal of the low sample flow
-of May 2021. Annual `ET` differs by −7 to +9 mm, and by +40 mm in 2021.
+FP2026.1 by −21 to +13 gC m^-2^, except 2021: −101 gC m^-2^, from the removal of the low sample flow
+of May 2021. Annual `ET` differs by −6 to +12 mm, and by +41 mm in 2021. Part of the spread in
+the other years comes from the gap-filling models, which are trained anew in every run.
 
 ## State of the release
 

@@ -242,16 +242,18 @@ FP2026.2 notebook in `80_FINALIZE` (2004-2026.09; content and release to be deci
 **Re-run done (31 Oct 2026): the low sample flow of the LI-7200.** `IRGA72/05`, `25`,
 `IRGA72/99`, `30_.../99_FPPC_MERGED`, `80_FINALIZE/10` and the overviews were run; no measured
 `NEE` or `LE` is left in the removed windows. Against FP2026.1, annual `NEE` 2016-2025 differs by
--25 to +3 gC m-2, 2021 by -111 (`ET` -7 to +9 mm, 2021 +40). The note below is kept for the record.
+-21 to +13 gC m-2, 2021 by -101 (`ET` -6 to +12 mm, 2021 +41; after the May 2018 removal;
+between two runs without a change in 2016 its NEE moved by about 20, from retraining the models). The note below is kept for the record.
 Was: **To re-run: the low sample flow of the LI-7200** (found 30 Oct 2026 in the new overview
 notebooks `90_OVERVIEW/FLUX_GPP`, `FLUX_RECO`, `FLUX_ET`, `FLUX_H`, then searched for in the
 logged flow rate). `FC` and `LE` were near zero from 28 April to 27 May 2021, in six periods in
 February 2016, on 26 May 2016 until 07:45, and from 11 to 14 August 2023. All are now in
 `REMOVE_DATES` of `IRGA72/05` and `25` (`docs/Yearly_Notes.md`, 2016, 2021, 2023). Re-run
 `IRGA72/05` and `25`, then `IRGA72/99`, `30_.../99_FPPC_MERGED`, `80_FINALIZE/10` and the overview
-notebooks. FP2026.1 as released still contains these values. Still to check: 13 to 19 May 2018,
-before the flow module failed, where `LE` is low from 13 May and `FC` exists with a flow near zero
-from 17 May.
+notebooks. FP2026.1 as released still contains these values. **May 2018 checked (31 Oct 2026):**
+the flow fell to zero on 17 May 07:15-16:45 and from 18 May 07:45; `FC` and `LE` of 2018-05-17
+07:15-16:45 and 2018-05-18 07:45 to 2018-05-19 11:45 are now in `REMOVE_DATES` of `IRGA72/05` and
+`25`. The low `LE` of 13-16 May is weather (normal flow, little radiation) and is kept.
 
 Then, before the release: **the positive early `IRGA75` years** (item 12). Evaluated 30-31 Oct
 2026 (`90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION`): no fault found, opco kept, the difference to
@@ -446,7 +448,7 @@ In order. Each item is blocked by the one above it, except that the flux items
     damping and raw-data notebooks in `30_.../IRGA75/` and the three other
     `90_OVERVIEW/FLUX_NEE_IRGA75_*` notebooks); the full investigation log is in the git history of
     this file (before 31 Oct 2026). Summary (`CUT_50`, XGB, gC m-2 per year):
-    - **The gap:** 2004-2006 average +48, 172 above the `IRGA72` years (-124); FLUXNET 175-240
+    - **The gap:** 2004-2006 average +48, 168 above the `IRGA72` years (-120); FLUXNET 175-240
       more negative, Etzold et al. (2011) about 380 more negative; the biometric NEP of 2006-2009
       240-450 above the net uptake of this product.
     - **Ruled out:** analyser damping (at most 34-54 % of the summer daytime gap of 2005-2007), loss
@@ -473,7 +475,14 @@ In order. Each item is blocked by the one above it, except that the flux items
       is plausible for 2004-2006 only.
     - **Open:** the QCL periods of 2005 and 2008 as an independent check (item 17); the winter
       night gap-filling of `IRGA75/05` (gap-filled winter nights 0.67 umol m-2 s-1 below the
-      measured ones); foggy cold nights corrected about 0.5 umol m-2 s-1 too little and clear ones
+      measured ones). *Cause found 31 Oct 2026 (scratch `winter_nights.py`):* humidity. The
+      LI-7500 loses most humid nights (RH >= 99.5 %: 8 % of its measured, 25 % of its filled
+      Nov-Mar nights), and the few it measures read near zero (-0.06 umol m-2 s-1, against 3.28
+      for the LI-7200 at the same RH). XGB learns "humid = near zero" and fills the many humid
+      nights that way; the RH composition explains -0.65 of the -0.68, within RH classes filled
+      and measured agree. In the `IRGA72` years filled and measured nights agree (+0.08). Rough
+      effect: 50-70 gC m-2 per year towards uptake in 2004-2015. The root is the known bias of
+      humid cold LI-7500 nights (`docs/Issues.md`), not the gap-filling; foggy cold nights corrected about 0.5 umol m-2 s-1 too little and clear ones
       too strongly without `VPD` (a longwave fog ratio as driver removes most of it, not usable in
       2004-2005); whether 2004, which starts on 30 March, gets an annual sum; possibly a flag for
       May-Sep 2005-2007; a better correction of the early years in a later version (candidates: a
@@ -516,8 +525,9 @@ In order. Each item is blocked by the one above it, except that the flux items
       blocks.
     - Remove the counts of unreleased runs ("in the runs of 30 October 2026") from
       `docs/L3.2.md`, `docs/L3.3.md` and `docs/QCF.md`.
-    - The 2018 flow-module failure starts on 18 May in `docs/L4.1.md` and on 19 May in
-      `docs/L3.2.md`; settle the date.
+    - The 2018 flow-module failure: settled 31 Oct 2026. `docs/L3.2.md` lists the removal of
+      17-19 May and the failure from 19 May; the long gap of `docs/L4.1.md` starts on 18 May,
+      with the removal.
     - Merge `docs/References.md` into `docs/Links.md`.
     - A summary box at the top of each meteo page: the column to use and the known
       limitations, as `docs/Meteo_Data_TA.md` already has.
