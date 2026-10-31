@@ -491,7 +491,12 @@ In order. Each item is blocked by the one above it, except that the flux items
     both `05`. **Not for FP2026.2** (decided 31 Oct 2026): this version keeps the ONEFlux
     default; deferred to a later version.
 14. **Implausible fluxes found in the overview notebooks** (30 Oct 2026):
-    - Daytime `GPP` of 2005, 1,786 gC m-2 (`90_OVERVIEW/FLUX_GPP`).
+    - Daytime `GPP` of 2005, 1,786 gC m-2 (`90_OVERVIEW/FLUX_GPP`). Cause (31 Oct 2026): the
+      daytime method fits only on measured `SW_IN`, which starts on 14 Sep 2005 (CNR1); January
+      to August 2005 get the parameters of the first windows after that, extrapolated onto
+      modelled light, and 2004 has no fitted window. **Fixed 31 Oct 2026:** `IRGA75/05` sets
+      all daytime partitioning columns to missing before the first measured `SW_IN`
+      (`DT_VALID_FROM = '2005-09-14 11:15'`, Step 8, right after the partitioning).
     - Nighttime `H` up to about 800 W m-2, mostly 2013-2016, passes all tests
       (`90_OVERVIEW/FLUX_H`). Candidate: a test of positive nighttime `H` in diive.
 15. **Small fixes**:

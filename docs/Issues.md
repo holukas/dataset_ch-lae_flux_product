@@ -81,8 +81,9 @@ What this means for the data:
   Differences between years smaller than that are not resolved.
 - The nighttime partitioning fits `RECO` on measured `NEE` only. The missing wet nights therefore
   bias `RECO` and `GPP` low.
-- In 2004 no shortwave radiation was measured, so the daytime partitioning gives no result for that
-  year. In 2005 most of the meteorological drivers are gap-filled.
+- Shortwave radiation was measured from 14 September 2005, so the daytime partitioning gives no
+  result before that date ([Level 4.2](L4.2.md)). In 2005 most of the meteorological drivers are
+  gap-filled.
 - The LI-7500 record starts on 30 March 2004, so `NEE`, `LE` and `H` of January to March 2004 are
   entirely gap-filled. Their `SW_IN` driver is unreliable in January 2004, about 2.7 times the mean
   January total (see [SW_IN](Meteo_Data_SW_IN.md)).

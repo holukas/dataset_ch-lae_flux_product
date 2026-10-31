@@ -182,11 +182,11 @@ the summer test is right, the May-September `NEE` of 2005-2007 is 171 to 195 gC 
 | Net ecosystem production (−`NEE`) | +63 (USTAR scenarios +47 to +96) | +307 to +514 (four biometric methods) |
 | Ecosystem respiration (`RECO`) | 1,406-1,498 | 1,383 ± 338 (their eddy covariance, 2005-2009) |
 | Soil respiration / `RECO` | 0.59-0.63 | 0.64 (soil respiration 890) |
-| `GPP`, 2005-2009 | 1,394-1,401 | 1,830 ± 448 (their eddy covariance) |
-| `RECO` / `GPP` | 0.97-1.09 | 0.76 |
+| `GPP`, 2005-2009 | 1,394 (nighttime method); 1,304 (daytime method, 2006-2009) | 1,830 ± 448 (their eddy covariance) |
+| `RECO` / `GPP` | 0.97 (nighttime); 1.15 (daytime) | 0.76 |
 
 : The LI-7500 years against independent estimates in gC m-2 per year (`CUT_50`, nighttime and
-daytime partitioning). Values of @etzold_carbon_2011 from their Tables 4 and 5, converted from
+daytime partitioning; the daytime method starts on 14 September 2005, so its means use 2006-2009). Values of @etzold_carbon_2011 from their Tables 4 and 5, converted from
 Mg C ha-1. Net ecosystem production is positive for a sink. {#tbl-independent}
 
 - **The sink is too weak.** Even the lowest biometric estimate lies 244 gC m-2 above this product.
