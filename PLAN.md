@@ -601,7 +601,27 @@ In order. Each item is blocked by the one above it, except that the flux items
     and `NEGNIGHTS` would then add almost nothing. Waits for the current run of `IRGA75/05` to
     close. The analysis exists only as scratch scripts and a research report in the external
     data folder: move it into a notebook (the 2016-2017 overlap or `IRGA75/05`) before the docs
-    cite it. Related: items 11 and 12.
+    cite it. Related: items 11 and 12. **Not to adopt as proposed** (analyses of 1 Nov 2026, item 20):
+    removing these nights widens the gap to the LI-7200 by 29 to 127 gC m-2 per year, because the
+    gap-filling then extrapolates even lower.
+20. **Storage term of the `IRGA75`: concentration screen** (set 1 Nov 2026, **not run yet**). The
+    LI-7500 storage term summed to -25 to -196 gC m-2 per year (2004-2017), that of the LI-7200 to
+    about zero. Cause: with a wet or blocked optical path the LI-7500 reads 33 to 106 ppm too high
+    (AGC above 55, rain), and after the gap that ends such an episode the reading returns over a few
+    records; the return entered the storage term as a one-sided flux. New diive options in
+    `run_level31`: `concentration_valid` and `restart_screening={'skip_after_gaps': n}`. Runs of
+    discarded values between two valid readings are replaced by their mean, which keeps their sum.
+    Set in `IRGA75/05` (Settings `STORAGE_*`, Step 3: AGC up to 55, no rain in the previous 3 h, RH
+    below 99.5 %, not the first 3 records after a gap) and mirrored in the USTAR detection notebook
+    (`CHAIN_INPUT['IRGA75']['storage_screen']`, checked against `05`). Test run of the chain (scratch,
+    `CUT_50`): storage sums -5 to +39 per year (mean +13); annual NEE +70 per year in 2004-2015 and
+    +118 in 2016-2017, which closes about 120 of the 408 gC m-2 per year gap to the LI-7200 in the
+    overlap; 2004-2006 become stronger sources (+125 to +226). To do: rerun `IRGA75/05`, `25`, `35`,
+    `99`, the stage merge, `80_FINALIZE/10`, the detection notebook (its Level-3.2 check against the
+    `05` output fails until `05` is rerun) and the overviews; then update `docs/L3.1.md` and the
+    version pages. The test variants `T1`-`T3` do not have the screen. A lower AGC limit for the flux
+    (55 or 60 instead of 90) was tested and not adopted: alone it changes the sums by -88 to +128
+    per year with mixed signs. Analyses: research reports `fppc_insights_2026-11-01` in the data folder.
 
 
 ## 6. Open questions
