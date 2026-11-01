@@ -6,7 +6,7 @@ numbers on this page come from the run of 30 October 2026 of
 [05_FPPC_IRGA75_NEE_OPCO_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html)
 (`CUT_50`, XGBoost gap-filling), with the current tests of negative nighttime values
 ([Level 3.2](L3.2.md)). That run still uses the u* threshold of FP2026.1 (0.304 m s-1, `CUT_50`);
-FP2026.2 will use 0.439 m s-1 for the LI-7500 ([Level 3.3](L3.3.md)). The correction of the
+FP2026.2 will use 0.436 m s-1 for the LI-7500 ([Level 3.3](L3.3.md)). The correction of the
 LI-7500 flux ([Level 1.1](L1.1.md)) is used as it is for FP2026.2; improving it for the early
 years is planned for a later version.
 :::
@@ -101,7 +101,7 @@ comparison in the notebook. The rows add up to the total of +214. {#tbl-fluxnet-
   the correction of this product adds 0.5-0.9 µmol m-2 s-1, the FP2021 correction 0.2-0.4.
 - **u* filtering** contributes almost nothing. The FLUXNET thresholds of 2004-2015 lie mostly below
   the constant 0.304 m s-1 of FP2026.1 that the current processing still uses. FP2026.2 will use
-  0.439 m s-1 (`CUT_50`) for the LI-7500, above all of them, so this contribution may then be larger.
+  0.436 m s-1 (`CUT_50`) for the LI-7500, above all of them, so this contribution may then be larger.
 - **2016-2017.** FLUXNET uses the LI-7200 and is 148 gC m-2 per year less negative than the
   LI-7200 of this product, mostly at night. On half-hours both measured they agree. FLUXNET's u*
   thresholds of these years (0.46-0.50 m s-1) are higher than the 0.304 m s-1 of the current
@@ -125,7 +125,7 @@ in four ways that matter for the annual sum:
 
 : Processing of @etzold_carbon_2011 (p. 1297) compared with this product. Both use a u* threshold
 of about 0.3 m s-1: the current processing of this product still uses the 0.304 m s-1 of FP2026.1.
-FP2026.2 will use 0.439 m s-1 (`CUT_50`) for the LI-7500 ([Level 3.3](L3.3.md)).
+FP2026.2 will use 0.436 m s-1 (`CUT_50`) for the LI-7500 ([Level 3.3](L3.3.md)).
 {#tbl-etzold-methods}
 
 Their correction adds a fixed fraction (0.085) of the heat-flux term of @burba_addressing_2008.

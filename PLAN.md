@@ -566,14 +566,15 @@ In order. Each item is blocked by the one above it, except that the flux items
     same data give 0.3-0.6 m s-1 per year. Decided: thresholds as low as defensible, from the
     ONEFlux moving point method only (diive `mode='oneflux_mp'`), one set per analyser, as fixed
     values; filter by day and by night. Detection and checks in
-    `30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09` (run 1 Nov 2026 on the
-    `05` outputs of 31 Oct, before `HAMPEL_3`): `IRGA72` 0.4155/0.5234/0.6451, `IRGA75`
-    0.3177/0.4389/0.5528. Docs updated (`L3.3`, `Issues`, `Variables`, `Software`, the version
+    `30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09`, which runs Levels 2 to
+    3.2 of both chains itself (with `HAMPEL_3`; a settings check compares them with the `05`
+    notebooks), so it does not need the `05` outputs (run 1 Nov 2026): `IRGA72`
+    0.4155/0.5230/0.6451, `IRGA75` 0.3099/0.4356/0.5506. Docs updated (`L3.3`, `Issues`, `Variables`, `Software`, the version
     pages). diive: `UstarReddyProcDetection(ustar_classes=, plateau_fwd=)` added to repeat the
     FP2026.1 runs. **Checks done (1 Nov 2026, sections 8-10 of the detection notebook):** constant
     thresholds per analyser confirmed (the year-to-year spread lies within the bootstrap noise);
-    pooling years or seasons rejected; the nights kept at `CUT_50` lie about 11 % (`IRGA72`) and
-    16 % (`IRGA75`) above `RECO_DT`, so no higher threshold; part of the high night `NEE` at high
+    pooling years or seasons rejected; the nights kept at `CUT_50` lie about 10 % (`IRGA72`) and
+    14 % (`IRGA75`) above `RECO_DT`, so no higher threshold; part of the high night `NEE` at high
     u* is CO2 flushed out of the canopy that the single-height storage term misses (section 6).
     **To do:** set `USTAR_THRESHOLDS` in `IRGA72/05` and `IRGA75/05` (and the test
     notebooks `T1`-`T3`) once the current Jupyter run of `IRGA75/05` is closed; rerun both
