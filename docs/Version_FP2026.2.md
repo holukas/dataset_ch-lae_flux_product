@@ -26,6 +26,9 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
   hand: February 2016, May 2018, May 2021 and August 2023
   ([Level 3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)).
 - The gap-filling models are trained anew in every run.
+- Higher USTAR thresholds, detected with the ONEFlux moving point method, one set per analyser
+  ([Level 3.3](L3.3.md)). They remove more nights of low turbulence and raise the night-time
+  respiration. They are not yet in the processed data, so the differences below do not include them.
 
 In the current processing the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from
 FP2026.1 by −21 to +13 gC m^-2^, except 2021: −101 gC m^-2^, from the removal of the low sample flow

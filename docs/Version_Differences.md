@@ -14,7 +14,7 @@ in progress, so its column describes the current processing.
 | Hampel filter over 31 days ([L3.2](L3.2.md)) | Not applied | Applied to `NEE`, `LE` and `H` (`HAMPEL_3`) |
 | Absolute limits of `LE` ([L3.2](L3.2.md)) | −50 to 800 W m-2 | −100 to 1000 W m-2 |
 | Periods removed by hand ([L3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)) | LI-7200 faults of 2016, 2018-2019, 2020 and 2026 | Also the low sample flow of February 2016, May 2018, May 2021 and August 2023, and the fog and rime periods of the LI-7500 in 2004, 2013 and 2014 |
-| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`) | The same thresholds, also for the LI-7500 years |
+| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`): 0.272, 0.304 and 0.340 m s-1, from REddyProc with non-default settings | Detected anew with the ONEFlux moving point method, one set per analyser: 0.416, 0.523 and 0.645 m s-1 (LI-7200), 0.318, 0.439 and 0.553 m s-1 (LI-7500); not yet in the processed data |
 | Gap-filling ([L4.1](L4.1.md)) | XGBoost; MDS for comparison | The same; the models are trained anew in every run |
 | Partitioning of `NEE` ([L4.2](L4.2.md)) | Not included | `GPP` and `RECO` from the nighttime and the daytime method; the daytime method from 14 September 2005, the first measured shortwave radiation |
 | Meteorological data | Thirteen products; `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` end on 31 December 2025 | The same; their extension to September 2026 is planned |

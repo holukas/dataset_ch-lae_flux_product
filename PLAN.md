@@ -207,7 +207,7 @@ the table below summarizes it per level.
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | written |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | written |
 | L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05`, run 30 Oct 2026; u* detection 2005-2019 | in `30_` chain; test 5 relaxed in `05`, run 30 Oct 2026; u* detection 2016-2024 | written |
-| L3.3 | flags from three constant u* thresholds | `NEE` | `NEE` | written |
+| L3.3 | flags from three constant u* thresholds | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | written |
 | L4.1 | gap-filling (XGBoost, MDS for comparison) | `NEE`, `LE`, `H` | `NEE`, `LE`, `H` | written |
 | L4.2 | partitioning into `GPP` / `RECO` | run in `05` (FP2026.2) | run in `05` (FP2026.2 only) | written |
 | QCF | overall quality flag | — | — | written |
@@ -315,8 +315,9 @@ In order. Each item is blocked by the one above it, except that the flux items
    Pastorello uncertainty), `25_FPPC` (`LE` and `ET`) and `35_FPPC` (`H`) ran on
    2016 - Sep 2026 (26 Oct 2026), all reading
    `00_FPPC_IRGA72_INPUT_2016-2026.09` with the homogenised `TA` and
-   `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds, kept on purpose
-   although the FLUXNET thresholds for CH-Lae are much higher (decided 26 Oct 2026).
+   `VPD` as drivers; `NEE` uses the fixed 2016-2024 u* thresholds of FP2026.1 until the
+   thresholds of FP2026.2 are in place (item 18; decided 1 Nov 2026, replacing the decision
+   of 26 Oct 2026 to keep them).
    Each writes only the columns it adds, and `99_FPPC_IRGA72_MERGED_2016-2026.09` in
    the same folder merges these (158 columns). `80_FINALIZE/10_FLUXES_and_METEO_2004-2026.09`
    collects the meteo of `99`, the `IRGA72` Level-1 fluxes of `22.1` and that file
@@ -556,6 +557,22 @@ In order. Each item is blocked by the one above it, except that the flux items
     (Swiss FluxNet site page) and the raw files of these periods to see what the QCL
     measured; then compute its CO2 flux and compare with the LI-7500, corrected and
     uncorrected.
+18. **USTAR thresholds of FP2026.2** (decided 1 Nov 2026). The thresholds of FP2026.1 came from
+    REddyProc with `UstarClasses = 30` instead of 20, which lowers them; with the defaults the
+    same data give 0.3-0.6 m s-1 per year. Decided: thresholds as low as defensible, from the
+    ONEFlux moving point method only (diive `mode='oneflux_mp'`), one set per analyser, as fixed
+    values; filter by day and by night. Detection and checks in
+    `30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09` (run 1 Nov 2026 on the
+    `05` outputs of 31 Oct, before `HAMPEL_3`): `IRGA72` 0.4155/0.5234/0.6451, `IRGA75`
+    0.3177/0.4389/0.5528. Docs updated (`L3.3`, `Issues`, `Variables`, `Software`, the version
+    pages). diive: `UstarReddyProcDetection(ustar_classes=, plateau_fwd=)` added to repeat the
+    FP2026.1 runs. **To do:** set `USTAR_THRESHOLDS` in `IRGA72/05` and `IRGA75/05` (and the test
+    notebooks `T1`-`T3`) once the current Jupyter run of `IRGA75/05` is closed; rerun both
+    chains and everything downstream (with item 14); rerun the detection notebook and check
+    that its section 2 still agrees; then update the annual-sum differences on the version
+    pages, `docs/IRGA75_Comparisons.md` (its "constant 0.304 m s-1" and the FLUXNET threshold
+    comparison) and the evaluation notebook findings. Open: night `NEE` keeps rising with u*
+    up to about 0.9-1.0 m s-1, so the thresholds are a lower bound (`docs/Issues.md`).
 
 
 ## 6. Open questions

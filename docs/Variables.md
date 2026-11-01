@@ -30,8 +30,8 @@ processing levels of the [post-processing chain](FPC.qmd). For example,
 | `FLAG_<column>_ISFILLED` | - | 0 where the value was measured, otherwise filled. | [L4.1](L4.1.md) |
 
 Each gap-filled column also exists with `_gfMDS` instead of `_gfXG`, filled with MDS. These are
-for comparison only; use the XGBoost columns. The three USTAR thresholds are 0.272, 0.304 and
-0.340 m s^-1^ ([Level 3.3](L3.3.md)).
+for comparison only; use the XGBoost columns. The three USTAR thresholds of each analyser are
+given in [Level 3.3](L3.3.md).
 
 : Measured fluxes and auxiliary columns. {#tbl-vars-flux-aux}
 

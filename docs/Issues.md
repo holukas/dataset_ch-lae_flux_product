@@ -167,7 +167,31 @@ Not yet resolved. The planned check compares the energy balance closure, `H + LE
 radiation minus the soil heat flux, of both analysers by humidity class: the analyser that closes
 better at high humidity has the more realistic `LE`.
 
-## USTAR thresholds lower than those of FLUXNET
+## Night-time NEE keeps rising above the USTAR thresholds
+
+At the same air temperature, night-time `NEE` keeps rising with `USTAR` up to about 0.9 to
+1.0 m s^-1^, for both analysers, well above the thresholds of either release
+([Level 3.3](L3.3.md)). A plateau above the threshold, which the USTAR filter assumes, is therefore
+not reached. Two explanations are possible, and the tower data cannot separate them: at moderate
+turbulence part of the respired CO2 still leaves the site without passing the sensor, or wind draws
+additional CO2 out of the soil and the litter.
+
+The measured night-time `NEE` and the night-time respiration therefore depend on the threshold. A
+higher threshold keeps only the windier nights, whose `NEE` is higher, and the gap-filled nights and
+the night-time partitioning follow them. For FP2026.2 the lowest defensible thresholds are used
+(the moving point method). Estimated from the measured nights alone, the night-time respiration at
+these thresholds is about a fifth to a quarter higher than at the thresholds of FP2026.1. The
+`USTAR` uncertainty of [Level 4.1](L4.1.md), from the `CUT_16` and `CUT_84` series, covers only part
+of this dependence.
+
+::: {.callout-tip title="Notebook"}
+
+[USTAR threshold detection](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html),
+sections 4 and 6
+
+:::
+
+## USTAR thresholds compared with FLUXNET
 
 FLUXNET detects USTAR thresholds per year with the method of @pastorello_fluxnet2015_2020. For
 CH-LAE, the thresholds it detects change markedly after 2015 (@fig-ustar-fluxnet1). The cause is
@@ -182,17 +206,34 @@ not known. The change coincides with a change of gas analyser:
 Before 2016, the threshold detection therefore used LI-7500 `NEE`, corrected for self-heating in
 a similar way to @kittler_high-quality_2017.
 
-This dataset does not use the FLUXNET thresholds. Both releases filter `NEE`, of both analysers,
-at three constant thresholds: 0.272 (`CUT_16`), 0.304 (`CUT_50`) and 0.340 m s^-1^ (`CUT_84`). For
-each scenario the higher of two detections is used, one on the LI-7200 data of 2016-2024 and one
-on the LI-7500 data of 2005-2017 and 2019. These thresholds are kept on purpose, although the FLUXNET
-thresholds of CH-LAE are much higher from 2016 on. See [Level-3.3](L3.3.md).
+This dataset does not use the FLUXNET thresholds. It filters `NEE` at three constant thresholds
+per analyser ([Level 3.3](L3.3.md)). FP2026.1 used 0.304 m s^-1^ (`CUT_50`) for the LI-7200. In
+FP2026.2 the thresholds come from the moving point method alone: 0.52 m s^-1^ for the LI-7200 and
+0.44 m s^-1^ for the LI-7500. FLUXNET (ONEFlux v1.3) pools the moving point and the change point
+methods. Its reference thresholds for half-hourly `NEE` are 0.43 m s^-1^ as a constant threshold
+(`CUT_REF`) and, per year (`VUT_REF`), 0.23 to 0.35 m s^-1^ until 2015 and 0.46 to 0.60 m s^-1^ from
+2016.
+
+The thresholds explain only part of the differences in the annual sums:
+
+- **2016-2024, LI-7200.** FLUXNET shows less net uptake than this product (FP2026.1 thresholds). On
+  the half-hours both measured, the two agree. FLUXNET's higher thresholds leave fewer measured
+  nights, about 10 to 19 % against 28 to 43 % here. These are the windier nights with higher `NEE`,
+  so the nights of FLUXNET carry more respiration.
+- **2005-2015, LI-7500.** FLUXNET shows more net uptake. Its thresholds of these years lie close to
+  or below those of this product, so the difference does not come from the USTAR filter. It lies at
+  night and comes from the different corrections of the open-path flux (see
+  [Comparisons of the LI-7500 years](IRGA75_Comparisons.md)).
+
+Within FLUXNET the same dependence shows: `VUT_REF` gives more uptake than `CUT_REF` where its yearly
+thresholds lie below the constant one (to 2015), and less uptake where they lie above it (from 2016).
 
 ![USTAR thresholds detected by FLUXNET, based on data 2004-2023, from the file `FLX_CH-Lae_FLUXNET2015_AUXNEE_2004-2023_1-3.csv`.](images/USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png){#fig-ustar-fluxnet1}
 
 ::: {.callout-tip title="Notebook"}
 
-[Sonic anemometer data](notebooks/90_OVERVIEW/Sonic_Anemometer.html)
+[USTAR threshold detection](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html),
+section 7; [Sonic anemometer data](notebooks/90_OVERVIEW/Sonic_Anemometer.html)
 
 :::
 
