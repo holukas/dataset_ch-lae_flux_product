@@ -28,7 +28,7 @@ The gas fluxes `FC`, `NEE` and `LE` have the same gap, for the reasons above. Se
 
 The annual mean of the Level-1 `H`, before quality control, is 25.8 W m^-2^ in 2024, against 33.9
 to 51.8 W m^-2^ in the other full years 2016 to 2025, about a third lower. The gap-filled series
-gives 25.0 W m^-2^ against 32.4 to 45.4 W m^-2^. Incoming shortwave radiation was also lower in
+gives 25.1 W m^-2^ against 32.4 to 45.4 W m^-2^. Incoming shortwave radiation was also lower in
 2024 than in the other years, but the cause has not been checked yet. Treat annual `H` in 2024 with
 caution until it is.
 
@@ -64,14 +64,14 @@ wet weather, but no published study was found that quantifies the resulting bias
 co-located enclosed-path analyser. From 11 January 2016 to 12 December 2017, when both analysers
 ran:
 
-- on the half-hours both measured, the corrected LI-7500 shows 45 gC m^-2^ more uptake than the
+- on the half-hours both measured, the corrected LI-7500 shows 29 gC m^-2^ more uptake than the
   LI-7200 over the whole period;
-- the gap-filled `NEE` of the LI-7500 shows 235 gC m^-2^ (2016) and 289 gC m^-2^ (2017) more
+- the gap-filled `NEE` of the LI-7500 shows 437 gC m^-2^ (2016) and 369 gC m^-2^ (2017) more
   uptake than that of the LI-7200.
 
 For 2004-2015 the size of this effect is unknown. A correction calibrated in 2016-2017 would add
 100 to 200 gC m^-2^ per year, but the annual sums of the LI-7500 years show no step of that size
-against those of the LI-7200 years: 2004-2015 average -152 gC m^-2^ per year, 2016-2025 -117
+against those of the LI-7200 years: 2004-2015 average -82 gC m^-2^ per year, 2016-2025 -18
 ([overview of the merged NEE record](notebooks/90_OVERVIEW/FLUX_NEE.html)). FP2026.2 therefore
 keeps the gap-filled series without such a correction.
 
@@ -128,11 +128,12 @@ What this means for the data:
 
 Not yet resolved.
 
-## The early LI-7500 years are a weak sink
+## The early LI-7500 years show little net uptake
 
-This concerns `NEE` of 2004-2009 in FP2026.2. In 2005-2009 the annual `NEE` averages -38 gC m^-2^
-per year. This is far less uptake than the biometric estimates for 2006-2009 and the earlier flux
-estimates of FLUXNET and @etzold_carbon_2011. The shortfall lies in the daytime uptake. Checks of
+This concerns `NEE` of 2004-2009 in FP2026.2. In 2005-2009 the annual `NEE` averages +27 gC m^-2^
+per year, a small net release. This is far less uptake than the biometric estimates for 2006-2009
+and the earlier flux estimates of FLUXNET and @etzold_carbon_2011. Against the LI-7200 years the
+shortfall lies in the daytime uptake. Checks of
 the analyser, the raw data and the calibration found no measurement fault. The cause is either a
 real loss of uptake after the drought of 2003 or a correction at [Level 1.1](L1.1.md) that is too
 large for these years. FP2026.2 keeps these years unchanged. Where a result depends on the
@@ -150,15 +151,15 @@ and the difference grows with humidity and cold:
 |---|---|
 | below 60 % | 1.03 |
 | 60-80 % | 1.05 |
-| 80-90 % | 1.15 |
-| 90-95 % | 1.49 |
-| 95 % and above | 2.15 |
+| 80-90 % | 1.14 |
+| 90-95 % | 1.47 |
+| 95 % and above | 2.11 |
 
 : Ratio of the `LE` sums of the two analysers on the half-hours both measured after all quality
 tests, 11 January 2016 to 12 December 2017, by relative humidity at 47 m. {#tbl-le-ratio}
 
-Below 0 °C the ratio is 2.8, above 20 °C 1.03. The gap-filled annual `LE` is 27 % (2016) and 18 %
-(2017) higher with the LI-7500.
+Below 0 °C the ratio is 2.7, above 20 °C 1.03. The gap-filled `LE` of the parallel period is 20 %
+higher with the LI-7500.
 
 The likely cause lies in the LI-7200, not in the open-path analyser. In the tube and cell of an
 enclosed-path analyser, water vapour adsorbs on the walls, which damps the H2O fluctuations more the
@@ -172,8 +173,8 @@ What this means for the data:
 - The `LE` and `ET` of the LI-7200 (FP2026.1, and FP2026.2 from 2016) may be too low in humid and
   cold conditions.
 - In the merged record of FP2026.2, the step in `LE` and `ET` at 1 January 2016 is partly
-  instrumental. The gap-filled `ET` averages about 750 mm per year in 2004-2015 (LI-7500) and about
-  610 mm in 2016-2025 (LI-7200). Do not read this difference as a change of the ecosystem.
+  instrumental. The gap-filled `ET` averages about 740 mm per year in 2004-2015 (LI-7500) and about
+  615 mm in 2016-2025 (LI-7200). Do not read this difference as a change of the ecosystem.
 - `H` comes from the same sonic anemometer for both analysers and is not affected: the two agree
   to within 2 % in 2016 and 2017.
 
@@ -190,20 +191,24 @@ not reached. Two explanations are possible, and the tower data cannot separate t
 turbulence part of the respired CO2 still leaves the site without passing the sensor, or wind draws
 additional CO2 out of the soil and the litter.
 
-The respiration of the daytime partitioning (`RECO_DT`, [Level 4.2](L4.2.md)) gives a reference that
-does not depend on the night-time filter. Night `NEE` divided by `RECO_DT` of the same half-hour
-reaches 1 at a `USTAR` of about 0.5 to 0.8 m s^-1^ and keeps rising, from May to October to about
-1.7 (LI-7200) and 1.9 (LI-7500). The nights kept at the FP2026.2 median thresholds already lie about
-10 to 20 % above `RECO_DT`; the two agree at about `CUT_16`. Neither estimate is proven right, but a
-higher threshold would move night `NEE` further above the daytime reference. `RECO_DT` in the current
-outputs was computed with the thresholds of FP2026.1.
+The respiration of the daytime partitioning (`RECO_DT`, [Level 4.2](L4.2.md)) is not independent of
+the threshold: its temperature sensitivity comes from the night records above the threshold applied
+in the chain, so `RECO_DT` moves with that threshold. At the thresholds of FP2026.2, night `NEE`
+divided by `RECO_DT` of the same half-hour reaches 1 at a `USTAR` of about 0.7 to 0.9 m s^-1^ and
+keeps rising, from May to October to about 1.5 for both analysers. The nights kept at the FP2026.2
+median thresholds lie 7 % (LI-7200) and 2 % (LI-7500) below `RECO_DT`; the two agree at 0.64 and
+0.46 m s^-1^, near `CUT_84` for the LI-7200. With the thresholds of FP2026.1 in the chain, the kept
+nights agreed with `RECO_DT` near `CUT_16`. The comparison therefore does not constrain the
+threshold.
 
-Part of the high night `NEE` at high `USTAR` is CO2 flushed out of the canopy air. When the wind
-rises after calm hours, CO2 that collected in the canopy passes the sensor. At a `USTAR` above
-0.9 m s^-1^, night `NEE` exceeds `RECO_DT` more after 3 calm hours (mean `USTAR` below 0.3 m s^-1^)
-than after 3 windy hours (above 0.7 m s^-1^): about 1.9 against 1.3 times `RECO_DT` for the LI-7200,
-and about 3 against 1.5 for the LI-7500. The calm cases are few. After sustained wind an excess over
-`RECO_DT` remains, which flushing does not explain.
+Part of the high night `NEE` at high `USTAR` may be CO2 flushed out of the canopy air: when the wind
+rises after calm hours, CO2 that collected in the canopy passes the sensor. The current data show
+this for the LI-7500 only. Its night `NEE` exceeds `RECO_DT` more after 3 calm hours (mean `USTAR`
+below 0.3 m s^-1^) than after 3 windy hours (above 0.7 m s^-1^): 1.4 against 1.05 times `RECO_DT` at
+a `USTAR` of 0.7 to 0.9 m s^-1^, and 1.5 against 1.4 above 0.9 m s^-1^. For the LI-7200 the calm cases
+show no larger excess (0.8 against 1.0, and 1.0 against 1.1). The calm cases are few (11 to 75
+half-hours per class). After sustained wind an excess over `RECO_DT` remains, which flushing does
+not explain.
 
 **Known limitation: the storage term.** The storage term of [Level 3.1](L3.1.md) comes from the CO2
 concentration at one height, 47 m. In the flush cases it is not clearly negative, although CO2
@@ -214,7 +219,8 @@ The measured night-time `NEE` and the night-time respiration therefore depend on
 higher threshold keeps only the windier nights, whose `NEE` is higher, and the gap-filled nights and
 the night-time partitioning follow them. For FP2026.2 the lowest defensible thresholds are chosen
 (the moving point method). Estimated from the measured nights alone, the night-time respiration at
-these thresholds is about a fifth to a quarter higher than at the thresholds of FP2026.1. The
+the FP2026.2 median thresholds is 26 % (LI-7200) and 20 % (LI-7500) higher than at the threshold of
+FP2026.1. The
 `USTAR` uncertainty of [Level 4.1](L4.1.md), from the `CUT_16` and `CUT_84` series, covers only part
 of this dependence.
 
@@ -242,24 +248,28 @@ a similar way to @kittler_high-quality_2017.
 
 This dataset does not use the FLUXNET thresholds. It filters `NEE` at three constant thresholds
 per analyser ([Level 3.3](L3.3.md)). FP2026.1 used 0.304 m s^-1^ (`CUT_50`) for the LI-7200. In
-FP2026.2 the thresholds come from the moving point method alone: 0.52 m s^-1^ for the LI-7200 and
-0.44 m s^-1^ for the LI-7500. They are decided but not yet in the processed data, which still use
-the thresholds of FP2026.1. FLUXNET (ONEFlux v1.3) pools the moving point and the change point
-methods. Its reference thresholds for half-hourly `NEE` are 0.43 m s^-1^ as a constant threshold
-(`CUT_REF`) and, per year (`VUT_REF`), 0.23 to 0.35 m s^-1^ until 2015 and 0.46 to 0.60 m s^-1^ from
-2016.
+FP2026.2 the thresholds come from the moving point method alone: 0.523 m s^-1^ for the LI-7200 and
+0.436 m s^-1^ for the LI-7500 (`CUT_50`), applied in the processing of 1 November 2026. FLUXNET
+(ONEFlux v1.3) pools the moving point and the change point methods. Its reference thresholds for
+half-hourly `NEE` are 0.43 m s^-1^ as a constant threshold (`CUT_REF`) and, per year (`VUT_REF`),
+0.23 to 0.35 m s^-1^ until 2015 and 0.46 to 0.60 m s^-1^ from 2016.
 
-The thresholds explain only part of the differences in the annual sums:
+The thresholds explain the differences in the annual sums from 2016, but only part of them before:
 
-- **2016-2024, LI-7200.** FLUXNET shows less net uptake than this product (FP2026.1 thresholds). On
-  the half-hours both measured, the two agree. FLUXNET's higher thresholds leave fewer measured
-  nights, about 10 to 19 % against 28 to 43 % here. These are the windier nights with higher `NEE`,
-  so the nights of FLUXNET carry more respiration.
-- **2005-2015, LI-7500.** FLUXNET shows more net uptake. Its thresholds of these years lie close to
-  or below the 0.304 m s^-1^ of FP2026.1 that the current processing uses, so the difference does
-  not come from the USTAR filter. It lies at
-  night and comes from the different corrections of the open-path flux (see
-  [Comparisons of the LI-7500 years](IRGA75_Comparisons.md)).
+- **2016-2024, LI-7200.** At the thresholds of FP2026.2 the two products agree on average. Over
+  2018-2024 this product averages -32 gC m^-2^ per year, FLUXNET +3 (`VUT_REF`) and -48
+  (`CUT_REF`); the night sums are 844 and 830 gC m^-2^. Single years still differ by up to about
+  200 gC m^-2^. On the half-hours both measured, the two agree. FLUXNET keeps 10 to 19 % of the
+  nights as measured, this product 15 to 25 % (28 to 43 % with the thresholds of FP2026.1). With
+  the thresholds of FP2026.1 this product showed more net uptake than FLUXNET; the higher
+  thresholds keep fewer and windier nights, with higher `NEE`, and remove most of this difference.
+- **2005-2015, LI-7500.** FLUXNET shows more net uptake: -437 gC m^-2^ per year in 2007-2015
+  against -138 here, and -141 against +116 in 2005-2006. Its thresholds of these years lie below
+  the 0.436 m s^-1^ of this product, which keeps 17 to 24 % of the nights as measured against 20 to
+  26 % in FLUXNET. The difference lies at night: the night sums are about 680 gC m^-2^ here and 350
+  in FLUXNET, while by day the two agree. It comes from the different corrections of the open-path
+  flux and the low winter nights of FLUXNET, and the higher threshold of this product adds to it
+  (see [Comparisons of the LI-7500 years](IRGA75_Comparisons.md)).
 
 Within FLUXNET the same dependence shows: `VUT_REF` gives more uptake than `CUT_REF` where its yearly
 thresholds lie below the constant one (to 2015), and less uptake where they lie above it (from 2016).

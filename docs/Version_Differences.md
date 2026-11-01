@@ -11,10 +11,10 @@ in progress, so its column describes the current processing.
 | Gas analyser | Enclosed-path LI-7200 (`IRGA72`) | Open-path LI-7500 (`IRGA75`) for 2004-2015, LI-7200 from 1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of each half-hour |
 | Correction of the open-path CO~2~ flux ([L1.1](L1.1.md)) | Not needed | Applied to the LI-7500, fitted without `VPD` |
 | Test of negative nighttime `NEE` ([L3.2](L3.2.md)) | One test, against the spread of all nighttime values within ±15 days; 180 values flagged | Two tests against the flux uncertainty: per record, and for the LI-7500 per night |
-| Hampel filter over 31 days ([L3.2](L3.2.md)) | Not applied | Applied to `NEE`, `LE` and `H` (`HAMPEL_3`); not yet in the processed data |
+| Hampel filter over 31 days ([L3.2](L3.2.md)) | Not applied | Applied to `NEE`, `LE` and `H` (`HAMPEL_3`) |
 | Absolute limits of `LE` ([L3.2](L3.2.md)) | −50 to 800 W m-2 | −100 to 1000 W m-2 |
 | Periods removed by hand ([L3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)) | LI-7200 faults of 2016, 2018-2019, 2020 and 2026 | Also the low sample flow of February 2016, May 2018, May 2021 and August 2023, and the fog and rime periods of the LI-7500 in 2004, 2013 and 2014 |
-| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`): 0.272, 0.304 and 0.340 m s-1, from REddyProc with non-default settings | Detected anew with the ONEFlux moving point method, one set per analyser: 0.416, 0.523 and 0.645 m s-1 (LI-7200), 0.310, 0.436 and 0.551 m s-1 (LI-7500); not yet in the processed data |
+| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`): 0.272, 0.304 and 0.340 m s-1, from REddyProc with non-default settings | Detected anew with the ONEFlux moving point method, one set per analyser: 0.416, 0.523 and 0.645 m s-1 (LI-7200), 0.310, 0.436 and 0.551 m s-1 (LI-7500) |
 | Gap-filling ([L4.1](L4.1.md)) | XGBoost; MDS for comparison | The same; the models are trained anew in every run |
 | Partitioning of `NEE` ([L4.2](L4.2.md)) | Not included | `GPP` and `RECO` from the nighttime and the daytime method; the daytime method from 14 September 2005, the first measured shortwave radiation |
 | Meteorological data | Thirteen products; `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` end on 31 December 2025 | The same; their extension to September 2026 is planned |
@@ -24,10 +24,9 @@ in progress, so its column describes the current processing.
 ## Effect on the LI-7200 fluxes
 
 FP2026.2 contains the LI-7200 years of FP2026.1, processed again with the changes above. The
-current processing does not yet include the new USTAR thresholds or the 31-day Hampel filter. In
-it, the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from FP2026.1 by
-−21 to +13 gC m^-2^, except 2021 (−101 gC m^-2^); annual `ET` differs by −6 to +12 mm, and by
-+41 mm in 2021. The periods of low sample flow change `NEE`, `LE` and `ET` in the years concerned: in FP2026.1 their near-zero fluxes are kept as
+annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) are 3 to 206 gC m^-2^ higher than in FP2026.1,
+except 2021 (−69 gC m^-2^), mainly because of the higher USTAR threshold; annual `ET` differs by
+−10 to +10 mm, and by +38 mm in 2021. The periods of low sample flow change `NEE`, `LE` and `ET` in the years concerned: in FP2026.1 their near-zero fluxes are kept as
 measured values and enter the training of the gap-filling models; in FP2026.2 they are removed and
 gap-filled.
 

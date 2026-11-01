@@ -28,19 +28,20 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
 - The gap-filling models are trained anew in every run.
 - Higher USTAR thresholds, detected with the ONEFlux moving point method, one set per analyser
   ([Level 3.3](L3.3.md)). They remove more nights of low turbulence and raise the night-time
-  respiration. They are not yet in the processed data.
+  respiration.
 
-The current processing does not yet include the new USTAR thresholds or the 31-day Hampel filter.
-In it, the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) differ from
-FP2026.1 by −21 to +13 gC m^-2^, except 2021: −101 gC m^-2^, from the removal of the low sample flow
-of May 2021. Annual `ET` differs by −6 to +12 mm, and by +41 mm in 2021. Part of the spread in
-the other years comes from the gap-filling models, which are trained anew in every run.
+With these changes, the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) are 3 to
+206 gC m^-2^ higher than in FP2026.1, except 2021: −69 gC m^-2^. The main cause is the higher USTAR
+threshold: fewer nights stay measured, and the night-time respiration is higher. In 2021 the removal
+of the low sample flow of May 2021 lowers the sum, and the higher threshold raises it. At `CUT_50`,
+2016, 2017 and 2022 to 2024 are now net sources of CO~2~. Annual `ET` differs by −10 to +10 mm,
+and by +38 mm in 2021. Part of the spread comes from the gap-filling models, which are trained anew
+in every run.
 
 ## State of the release
 
-Both flux chains and the merged record have been run, still with the USTAR thresholds of FP2026.1
-and without the 31-day Hampel filter; the release is not final. Until the chains are run again, the
-annual sums and the partitioning results of FP2026.2 are provisional. The correction of
+Both flux chains and the merged record have been run with the USTAR thresholds of FP2026.2 and the
+31-day Hampel filter. The release is not final. The correction of
 the LI-7500 flux is used as it is for FP2026.2, and improving it for the early years is planned for
 a later version. The annual sums of 2004-2009 are kept as processed, without a flag or an added
 uncertainty. They are the least certain of the record, and

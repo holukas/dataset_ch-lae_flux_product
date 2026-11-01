@@ -22,7 +22,7 @@ Status vocabulary used throughout:
 | release | period | gas analyser | state |
 |---|---|---|---|
 | `FP2026.1` | 2016 - Sep 2026 | `IRGA72` (LI-7200, enclosed path) | done, released 27 Oct 2026 |
-| `FP2026.2` | 2004 - Sep 2026 | `IRGA75` (LI-7500, open path) 2004-2015 + `IRGA72` from 2016 | open: both chains run, merges to re-run (4.2) |
+| `FP2026.2` | 2004 - Sep 2026 | `IRGA75` (LI-7500, open path) 2004-2015 + `IRGA72` from 2016 | open: both chains and the merges run 1 Nov 2026 with the FP2026.2 thresholds and `HAMPEL_3` (4.2) |
 
 `FP2026.2` supersedes `FP2026.1` and re-includes it in full. The two releases
 differ in the flux record only; the meteorological product is built once over
@@ -207,7 +207,7 @@ the table below summarizes it per level.
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | written |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | written |
 | L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05`, run 30 Oct 2026; u* detection in `30_.../USTAR_THRESHOLD_DETECTION_2004-2026.09` (item 18) | in `30_` chain; test 5 relaxed in `05`, run 30 Oct 2026; u* detection as for `IRGA75` | written |
-| L3.3 | flags from three constant u* thresholds | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | written |
+| L3.3 | flags from three constant u* thresholds | `NEE`; FP2026.2 thresholds, run 1 Nov 2026 (item 18) | `NEE`; FP2026.2 thresholds, run 1 Nov 2026 (item 18) | written |
 | L4.1 | gap-filling (XGBoost, MDS for comparison) | `NEE`, `LE`, `H` | `NEE`, `LE`, `H` | written |
 | L4.2 | partitioning into `GPP` / `RECO` | run in `05` (FP2026.2) | run in `05` (FP2026.2 only) | written |
 | QCF | overall quality flag | — | — | written |
@@ -220,7 +220,10 @@ were re-run with the relaxed negative-night tests (item 11), together with `IRGA
 and the merges downstream after them (`IRGA72/99`, `IRGA75/99`, the stage merge, `80_FINALIZE/10`,
 `90_OVERVIEW`). The test variants `T2`
 (2004-2006) and `T3` (2012-2014) of `IRGA75/05` have been re-run with the relaxed tests (results
-in item 11).
+in item 11). On 1 Nov 2026 both chains (`05`, `25`, `35`, `99`) were re-run with the FP2026.2
+USTAR thresholds and `HAMPEL_3`, followed by the stage merge, `80_FINALIZE/10`, the USTAR
+detection notebook and the `90_OVERVIEW` flux notebooks. The test variants `T1`-`T3` carry the
+new thresholds but were not re-run.
 
 ### 4.3 Auxiliary flux-derived series to decide on
 
@@ -524,13 +527,16 @@ In order. Each item is blocked by the one above it, except that the flux items
       the three `H` values of 2015-10-14 and 2 of 15 `NEE`. (2) The others are tested against a window
       still full of the noisy records that USTAR and later tests remove (2007-12-27 `NEE` +35.7: robust
       sd 9 at Level 3.2, z 4; 0.8 in the final series, z 46). *Decided:* the absolute limits stay as
-      they are (no nighttime limits). *Added 31 Oct 2026, not run yet:* a third by-time-of-day Hampel
+      they are (no nighttime limits). *Added 31 Oct 2026, run 1 Nov 2026:* a third by-time-of-day Hampel
       (`HAMPEL_3`, 31 days, 7 sigma) after `HAMPEL_2` in `05`, `25` and `35` of both analysers, and
       in `variable_info.py`, `docs/L3.2.md` and the version pages. A reconstruction at Level 3.2
       caught 13-15 of the 15 most extreme candidates per flux and flagged about 300 (`NEE`), 430
-      (`LE`) and 290 (`H`) records more than `HAMPEL_2`. **To run:** both chains `05`, `25`, `35`,
-      the `99` merges, `80_FINALIZE/10` and the overviews; then check the new flags in the plots and
-      update the annual-sum differences on the version pages.
+      (`LE`) and 290 (`H`) records more than `HAMPEL_2`. **Run 1 Nov 2026:** it removed 187 (`NEE`),
+      251 (`LE`), 211 (`H`) records of the `IRGA72` and 363, 541, 436 of the `IRGA75`. The night `LE`
+      and `H` of up to about 800 W m-2 are gone (largest night `LE` left about 220, night `H` about
+      490 W m-2, `IRGA75` winters 2013-2014). **Still open:** night `NEE` of about ±40 to ±49
+      umol m-2 s-1 remains (e.g. `IRGA72` 2018-06-18 03:45 +40.3, `IRGA75` 2007-11-25 06:45
+      -49.2); review the top candidates in `99_FPPC_MERGED`.
 15. **Small fixes**: diive `RidgeLinePlot` places its labels too high. (The analyser line of
     the `FLUX_NEE` heatmaps and the About text of `METEO_TA` were fixed on 31 Oct 2026.)
 16. **Docs structure** (review of 31 Oct 2026; the sidebar order, the version pages and the
@@ -573,15 +579,18 @@ In order. Each item is blocked by the one above it, except that the flux items
     pages). diive: `UstarReddyProcDetection(ustar_classes=, plateau_fwd=)` added to repeat the
     FP2026.1 runs. **Checks done (1 Nov 2026, sections 8-10 of the detection notebook):** constant
     thresholds per analyser confirmed (the year-to-year spread lies within the bootstrap noise);
-    pooling years or seasons rejected; the nights kept at `CUT_50` lie about 10 % (`IRGA72`) and
-    14 % (`IRGA75`) above `RECO_DT`, so no higher threshold; part of the high night `NEE` at high
-    u* is CO2 flushed out of the canopy that the single-height storage term misses (section 6).
-    **To do:** set `USTAR_THRESHOLDS` in `IRGA72/05` and `IRGA75/05` (and the test
-    notebooks `T1`-`T3`) once the current Jupyter run of `IRGA75/05` is closed; rerun both
-    chains and everything downstream (with item 14); rerun the detection notebook and check
-    that its section 2 still agrees; then update the annual-sum differences on the version
-    pages, the annual sums and the FLUXNET threshold comparison of `docs/IRGA75_Comparisons.md`,
-    and the evaluation notebook findings.
+    pooling years or seasons rejected; the comparison with `RECO_DT` does not constrain the
+    threshold, because `RECO_DT` rises with the threshold of the chain run (kept nights matched it
+    near `CUT_16` with the FP2026.1 thresholds, near `CUT_84` with the FP2026.2 ones for the
+    `IRGA72`); an independent respiration estimate is still needed; a flush of canopy CO2 after calm
+    hours shows for the `IRGA75` only, in few cases (section 6). `USTAR_CUT_50` in `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS`
+    and `_EVALUATION` set from 0.304 to 0.4356 and both re-run (1 Nov 2026).
+    **Done 1 Nov 2026:** thresholds set in `IRGA72/05`, `IRGA75/05` and `T1`-`T3`; both chains and
+    everything downstream re-run (with item 14); the detection notebook confirms the applied
+    thresholds, `HAMPEL_3` and an identical Level 3.2. Result: the `IRGA72` years show much less
+    uptake (annual `NEE`, `CUT_50`, 2016-2025: +3 to +206 gC m-2 against FP2026.1, mean +88;
+    2021 -69), several of them a net source (2016, 2017, 2022-2024); 2018-2024 is now close to
+    FLUXNET `VUT_REF`. Docs and notebook findings updated the same day.
 19. **Humid-night test for the `IRGA75`** (proposed 1 Nov 2026, not decided). In 2016-2017 the
     LI-7500 night `NEE` lies below the LI-7200 in humid cold nights, whatever its sign (median
     difference about -1.1 umol m-2 s-1 below 0 degC and -0.4 at 0-5 degC at RH >= 99.5 %, -0.6
@@ -670,9 +679,9 @@ Carried here because each blocks a scope decision or a published statement.
   209° to 206° and asks for verification. Unresolved, and it falls in the
   `IRGA75` era. `workflow/00_L0_CHECKS/CLAUDE.md`.
 - **Was there ever a CO2 profile at the tower?** The storage term of Level 3.1 comes from the CO2
-  concentration at one height. It misses CO2 that builds up in the canopy in calm hours and is
-  flushed out when turbulence returns, which raises night `NEE` at high u* (item 18, section 10
-  of the detection notebook). A better storage term needs a CO2 profile. Ask whether one ever
+  concentration at one height, so it may miss CO2 that builds up in the canopy in calm hours and is
+  flushed out when turbulence returns (item 18, section 10 of the detection notebook: a sign of it
+  for the `IRGA75`, none for the `IRGA72` after the rerun of 1 Nov 2026; few calm cases). A better storage term needs a CO2 profile. Ask whether one ever
   existed, and for which years.
 - ~~**Shifted raw-file timestamps, July 2013.**~~ Handled for FP2026.2 in
   `30_.../IRGA75/00`, which moves the flux records back by 7 h (`docs/Yearly_Notes.md`).
