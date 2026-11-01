@@ -206,7 +206,7 @@ the table below summarizes it per level.
 | L1.1 | open-path correction (opco) | done: `30_.../IRGA75/00` (with the July 2013 clock shift) and `01` (opco without `VPD`), re-run 29 Oct 2026 | n/a | written |
 | L2 | quality flags from L1 output | in `30_` chain | in `30_` chain | written |
 | L3.1 | storage term added (`NEE` only) | in `30_` chain | in `30_` chain | written |
-| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05`, run 30 Oct 2026; u* detection 2005-2019 | in `30_` chain; test 5 relaxed in `05`, run 30 Oct 2026; u* detection 2016-2024 | written |
+| L3.2 | outlier detection; u* threshold detection | in `30_` chain, with the manual fog removals; tests 5 and 6 (`NEGNIGHT`, `NEGNIGHTS`) relaxed to uncertainty-based limits in `05`, run 30 Oct 2026; u* detection in `30_.../USTAR_THRESHOLD_DETECTION_2004-2026.09` (item 18) | in `30_` chain; test 5 relaxed in `05`, run 30 Oct 2026; u* detection as for `IRGA75` | written |
 | L3.3 | flags from three constant u* thresholds | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | `NEE`; FP2026.2 thresholds decided, not yet in `05` (item 18) | written |
 | L4.1 | gap-filling (XGBoost, MDS for comparison) | `NEE`, `LE`, `H` | `NEE`, `LE`, `H` | written |
 | L4.2 | partitioning into `GPP` / `RECO` | run in `05` (FP2026.2) | run in `05` (FP2026.2 only) | written |
@@ -335,12 +335,11 @@ In order. Each item is blocked by the one above it, except that the flux items
    is about a third lower than in the other years.
    Level-4.2 partitioning is not part of this version of the dataset (decided
    26 Oct 2026). On 29 Oct 2026 the `NEE` notebook was renumbered `01_FPPC` -> `05_FPPC`,
-   the number of the `IRGA75` chain (`LE` and `H` became `25_FPPC` and `35_FPPC`), and partitioning was switched on for FP2026.2; it has not
-   run yet. Before `99` and `80_FINALIZE` run on its output, `variable_info.py` needs
+   the number of the `IRGA75` chain (`LE` and `H` became `25_FPPC` and `35_FPPC`), and partitioning was switched on for FP2026.2; it has
+   run in both `05`, still with the FP2026.1 thresholds. Before `99` and `80_FINALIZE` run on its output, `variable_info.py` needs
    descriptions of the partitioning columns (`describe_all` stops on undescribed columns), and
    the FP2026.1 cut (`80_FINALIZE/20`) must not be rerun, or must leave those columns out, so
-   that the released FP2026.1 stays reproducible. The old output `01_FPPC_IRGA72_NEE_2016-2026.09`
-   stays in the data folder until the rerun.
+   that the released FP2026.1 stays reproducible.
 5. **Decide the candidate list in 3.3**, then freeze the variable inventory and
    write `docs/Variables.md`.
 6. **Energy-balance-closure correction of `LE` and `H`** (future session, not part
@@ -424,8 +423,13 @@ In order. Each item is blocked by the one above it, except that the flux items
     `IRGA72` none; the old one removed 9, 2 of them on nights where the `IRGA72` was negative too,
     and 11 `IRGA72` nights. It lets through 7 nights (four in December 2016, three in October to
     December 2017) with medians of -0.6 to -5 (one at -7.6 with only 5 values, not tested) on
-    which the `IRGA72` read +1 to +4; the uncertainty alone does not single them out. The training screen in `01` keeps the old
-    test 5. **`T2` (2004-2006) re-run with the relaxed tests (30 Oct 2026):** test 5 removes 22
+    which the `IRGA72` read +1 to +4; the uncertainty alone does not single them out (humid-night
+    test proposed, item 19). The training screen in `01` keeps the old
+    test 5. **Bias checked (1 Nov 2026, on the `05` outputs of 31 Oct, scratch):** after the other
+    tests and u* at `CUT_50`, test 5 removes 0.03 % (`IRGA72`) and 0.21 % (`IRGA75`) of the night
+    records, test 6 0.09 %, at means of -21, -25 and -9 umol m-2 s-1, far below the noise tail
+    (-4 to -8); no measurable upward bias of the night sums (now on `docs/L3.2.md`). A symmetric
+    test around `RECO_NT`/`RECO_DT` was rejected (removes 3-4 %, mostly real flushed CO2). **`T2` (2004-2006) re-run with the relaxed tests (30 Oct 2026):** test 5 removes 22
     records (was 160), test 6 5 nights, 71 records (15 nights, 221 records); the inputs to
     Level 3.2 are unchanged. `CUT_50`, XGB, gC m-2: 2004 +36 (was +78), 2005 +69 (+169), 2006
     +44 (+130); `CUT_16` 2006 is -9. The drop of 42 to 100 per year is five times the direct
@@ -566,13 +570,28 @@ In order. Each item is blocked by the one above it, except that the flux items
     `05` outputs of 31 Oct, before `HAMPEL_3`): `IRGA72` 0.4155/0.5234/0.6451, `IRGA75`
     0.3177/0.4389/0.5528. Docs updated (`L3.3`, `Issues`, `Variables`, `Software`, the version
     pages). diive: `UstarReddyProcDetection(ustar_classes=, plateau_fwd=)` added to repeat the
-    FP2026.1 runs. **To do:** set `USTAR_THRESHOLDS` in `IRGA72/05` and `IRGA75/05` (and the test
+    FP2026.1 runs. **Checks done (1 Nov 2026, sections 8-10 of the detection notebook):** constant
+    thresholds per analyser confirmed (the year-to-year spread lies within the bootstrap noise);
+    pooling years or seasons rejected; the nights kept at `CUT_50` lie about 11 % (`IRGA72`) and
+    16 % (`IRGA75`) above `RECO_DT`, so no higher threshold; part of the high night `NEE` at high
+    u* is CO2 flushed out of the canopy that the single-height storage term misses (section 6).
+    **To do:** set `USTAR_THRESHOLDS` in `IRGA72/05` and `IRGA75/05` (and the test
     notebooks `T1`-`T3`) once the current Jupyter run of `IRGA75/05` is closed; rerun both
     chains and everything downstream (with item 14); rerun the detection notebook and check
     that its section 2 still agrees; then update the annual-sum differences on the version
-    pages, `docs/IRGA75_Comparisons.md` (its "constant 0.304 m s-1" and the FLUXNET threshold
-    comparison) and the evaluation notebook findings. Open: night `NEE` keeps rising with u*
-    up to about 0.9-1.0 m s-1, so the thresholds are a lower bound (`docs/Issues.md`).
+    pages, the annual sums and the FLUXNET threshold comparison of `docs/IRGA75_Comparisons.md`,
+    and the evaluation notebook findings.
+19. **Humid-night test for the `IRGA75`** (proposed 1 Nov 2026, not decided). In 2016-2017 the
+    LI-7500 night `NEE` lies below the LI-7200 in humid cold nights, whatever its sign (median
+    difference about -1.1 umol m-2 s-1 below 0 degC and -0.4 at 0-5 degC at RH >= 99.5 %, -0.6
+    to -0.9 at RH 97-99.5 %, +0.2 to +0.9 at RH below 97 % below 10 degC); the AGC does not
+    separate these nights. Proposal: a cause-based test in `IRGA75/05` that removes all night
+    records with `TA` < 5 degC and RH >= 99.5 %, regardless of sign. It would raise the night
+    sum by about 30 gC m-2 per year (0-85 by year) at a cost of about 4 % of the night records,
+    and `NEGNIGHTS` would then add almost nothing. Waits for the current run of `IRGA75/05` to
+    close. The analysis exists only as scratch scripts and a research report in the external
+    data folder: move it into a notebook (the 2016-2017 overlap or `IRGA75/05`) before the docs
+    cite it. Related: items 11 and 12.
 
 
 ## 6. Open questions
@@ -649,6 +668,11 @@ Carried here because each blocks a scope decision or a published statement.
 - **Sonic orientation from `2005_2`**: note 5 records a possible change from
   209° to 206° and asks for verification. Unresolved, and it falls in the
   `IRGA75` era. `workflow/00_L0_CHECKS/CLAUDE.md`.
+- **Was there ever a CO2 profile at the tower?** The storage term of Level 3.1 comes from the CO2
+  concentration at one height. It misses CO2 that builds up in the canopy in calm hours and is
+  flushed out when turbulence returns, which raises night `NEE` at high u* (item 18, section 10
+  of the detection notebook). A better storage term needs a CO2 profile. Ask whether one ever
+  existed, and for which years.
 - ~~**Shifted raw-file timestamps, July 2013.**~~ Handled for FP2026.2 in
   `30_.../IRGA75/00`, which moves the flux records back by 7 h (`docs/Yearly_Notes.md`).
   The raw files still carry the wrong names: a new Level-1 run from renamed files

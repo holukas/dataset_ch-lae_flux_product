@@ -104,10 +104,24 @@ negative median remain. Calm and cold nights also remain too low after the corre
 [Level-1.1](L1.1.md): at wind speeds below 2 m s^-1^ and below 0 °C, the corrected LI-7500 reads
 about 1 µmol m^-2^ s^-1^ below the LI-7200.
 
+In the 2016-2017 overlap, with both analysers on the same sonic anemometer, the median difference
+of nighttime `NEE`, LI-7500 minus LI-7200, is:
+
+- about -1.1 µmol m^-2^ s^-1^ below 0 °C and -0.4 at 0-5 °C, at a relative humidity of 99.5 % or
+  more;
+- -0.6 to -0.9 at 97-99.5 % (below 0 °C and at 5-10 °C);
+- +0.2 to +0.9 below 97 % and below 10 °C.
+
+The automatic gain control (AGC) value of the LI-7500 does not separate these records. One
+proposal, not yet decided, is to remove every LI-7500 nighttime record below 5 °C at 99.5 % relative humidity or more, whatever its
+sign. This would remove about 4 % of the nighttime records and raise the nighttime `NEE` sum by
+about 30 gC m^-2^ per year (0 to 85, depending on the year). This analysis is not yet in a notebook.
+
 What this means for the data:
 
 - Measured and gap-filled nighttime `NEE` of the LI-7500 years is likely biased towards uptake in
-  cold and humid conditions. The effect on the annual sums is not quantified. It adds to the bias
+  cold and humid conditions. The effect on the annual sums is estimated only through the proposal
+  above. It adds to the bias
   from the wet-weather gaps described under *Annual NEE of the LI-7500 years may show too much
   uptake*.
 - `RECO` from the nighttime partitioning is fitted on these nights and is likely too low in winter.
@@ -176,9 +190,29 @@ not reached. Two explanations are possible, and the tower data cannot separate t
 turbulence part of the respired CO2 still leaves the site without passing the sensor, or wind draws
 additional CO2 out of the soil and the litter.
 
+The respiration of the daytime partitioning (`RECO_DT`, [Level 4.2](L4.2.md)) gives a reference that
+does not depend on the night-time filter. Night `NEE` divided by `RECO_DT` of the same half-hour
+reaches 1 at a `USTAR` of about 0.5 to 0.8 m s^-1^ and keeps rising, from May to October to about
+1.7 (LI-7200) and 1.9 (LI-7500). The nights kept at the FP2026.2 median thresholds already lie about
+10 to 20 % above `RECO_DT`; the two agree at about `CUT_16`. Neither estimate is proven right, but a
+higher threshold would move night `NEE` further above the daytime reference. `RECO_DT` in the current
+outputs was computed with the thresholds of FP2026.1.
+
+Part of the high night `NEE` at high `USTAR` is CO2 flushed out of the canopy air. When the wind
+rises after calm hours, CO2 that collected in the canopy passes the sensor. At a `USTAR` above
+0.9 m s^-1^, night `NEE` exceeds `RECO_DT` more after 3 calm hours (mean `USTAR` below 0.3 m s^-1^)
+than after 3 windy hours (above 0.7 m s^-1^): about 1.9 against 1.3 times `RECO_DT` for the LI-7200,
+and about 3 against 1.5 for the LI-7500. The calm cases are few. After sustained wind an excess over
+`RECO_DT` remains, which flushing does not explain.
+
+**Known limitation: the storage term.** The storage term of [Level 3.1](L3.1.md) comes from the CO2
+concentration at one height, 47 m. In the flush cases it is not clearly negative, although CO2
+leaving the canopy air should make it so. It therefore does not capture this release, and the
+flushed CO2 enters `NEE`.
+
 The measured night-time `NEE` and the night-time respiration therefore depend on the threshold. A
 higher threshold keeps only the windier nights, whose `NEE` is higher, and the gap-filled nights and
-the night-time partitioning follow them. For FP2026.2 the lowest defensible thresholds are used
+the night-time partitioning follow them. For FP2026.2 the lowest defensible thresholds are chosen
 (the moving point method). Estimated from the measured nights alone, the night-time respiration at
 these thresholds is about a fifth to a quarter higher than at the thresholds of FP2026.1. The
 `USTAR` uncertainty of [Level 4.1](L4.1.md), from the `CUT_16` and `CUT_84` series, covers only part
@@ -187,7 +221,7 @@ of this dependence.
 ::: {.callout-tip title="Notebook"}
 
 [USTAR threshold detection](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html),
-sections 4 and 6
+sections 4, 6, 9 and 10
 
 :::
 
@@ -209,7 +243,8 @@ a similar way to @kittler_high-quality_2017.
 This dataset does not use the FLUXNET thresholds. It filters `NEE` at three constant thresholds
 per analyser ([Level 3.3](L3.3.md)). FP2026.1 used 0.304 m s^-1^ (`CUT_50`) for the LI-7200. In
 FP2026.2 the thresholds come from the moving point method alone: 0.52 m s^-1^ for the LI-7200 and
-0.44 m s^-1^ for the LI-7500. FLUXNET (ONEFlux v1.3) pools the moving point and the change point
+0.44 m s^-1^ for the LI-7500. They are decided but not yet in the processed data, which still use
+the thresholds of FP2026.1. FLUXNET (ONEFlux v1.3) pools the moving point and the change point
 methods. Its reference thresholds for half-hourly `NEE` are 0.43 m s^-1^ as a constant threshold
 (`CUT_REF`) and, per year (`VUT_REF`), 0.23 to 0.35 m s^-1^ until 2015 and 0.46 to 0.60 m s^-1^ from
 2016.
@@ -221,7 +256,8 @@ The thresholds explain only part of the differences in the annual sums:
   nights, about 10 to 19 % against 28 to 43 % here. These are the windier nights with higher `NEE`,
   so the nights of FLUXNET carry more respiration.
 - **2005-2015, LI-7500.** FLUXNET shows more net uptake. Its thresholds of these years lie close to
-  or below those of this product, so the difference does not come from the USTAR filter. It lies at
+  or below the 0.304 m s^-1^ of FP2026.1 that the current processing uses, so the difference does
+  not come from the USTAR filter. It lies at
   night and comes from the different corrections of the open-path flux (see
   [Comparisons of the LI-7500 years](IRGA75_Comparisons.md)).
 

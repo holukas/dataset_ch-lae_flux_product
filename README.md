@@ -53,7 +53,7 @@ output is checked, corrected, merged and exported.
 | `00_L0_CHECKS/` | Level-0 preliminary flux calculation: merge the EddyPro per-setup-period runs, then check fluxes, wind direction and time lags per instrument. |
 | `10_METEO/` | Meteo, in three substages — `10_REFERENCE/` (MeteoSwiss and NABEL reference series), `20_SCREENING/` (per-variable, per-sensor stepwise screening), `30_PRODUCTS/` (thirteen product notebooks `01`–`13`, one per variable, joined by `99` into the merged file and its information file) — plus `40_EXPORTS/` (the EddyPro biomet file). |
 | `20_L1_FLUXES/` | Merge the Level-1 EddyPro runs, per instrument (`IRGA72/`, `IRGA75/`), each in one `99_` notebook. |
-| `30_FLUX_POST-PROCESSING_CHAIN/` | The flux post-processing per instrument. `IRGA72/`: the chain input (`00`, Level-1 fluxes and meteo), `NEE`, `LE` with `ET`, and `H` (`01`, `11`, `15`), merged by `99`; the 2016-2024 u\* threshold detection in `USTAR_DETECTION_2016-2024/`. `IRGA75/`: the steps `10_SELF_HEATING_CORRECTION/`, `20_USTAR_DETECTION/` and `30_FPPC/`. |
+| `30_FLUX_POST-PROCESSING_CHAIN/` | The flux post-processing per instrument. `IRGA72/`: the chain input (`00`, Level-1 fluxes and meteo), `NEE`, `LE` with `ET`, and `H` (`05`, `25`, `35`), merged by `99`; the input of the FP2026.1 u\* threshold detection in `USTAR_DETECTION_2016-2024/`. `IRGA75/`: the same chain for the open-path LI-7500, with the open-path correction (`01`) after the input (`00`), its checks, and the FP2026.1 detection input in `USTAR_DETECTION_2005-2019/`. At the stage level, `99_FPPC_MERGED` joins both analysers into one record and `USTAR_THRESHOLD_DETECTION` detects the u\* thresholds of FP2026.2. |
 | `80_FINALIZE/` | Collects the Level-1 fluxes, the meteo of `10_METEO/30_PRODUCTS/99` and the flux post-processing into one file (`10`), from which the release datasets are cut (`20`: FP2026.1). |
 | `90_OVERVIEW/` | Dataset-wide overview notebooks, and the two generators for the standalone HTML products: 23 meteo dashboards, one per variable or soil depth, and the calendar explorer. |
 
@@ -115,7 +115,7 @@ and the notebook pages work. The check to run before deploying.
 ```
 
 The single deploy entry point: stages the notebooks, renders the site, clears
-the staging, builds the dashboards, and publishes `docs/_build/html` to the
+the staging, renders the PDF of the documentation, builds the dashboards, and publishes `docs/_build/html` to the
 `gh-pages` branch with `ghp-import`. `-Preview` builds and serves,
 `-NoPublish` builds only, `-NoDashboards` skips the dashboard and calendar
 steps. It touches only `gh-pages`, never the source branch or working tree.
@@ -167,7 +167,8 @@ Two rules are worth stating up front, because both are enforced:
   in prose and code comments count too. `check_no_names.py` scans the repository
   and exits non-zero. Published credit — acknowledgements, citations, photo
   credits, the author byline — is deliberate and exempt.
-- **Filenames** carry no spaces and no `+` (use `_and_`).
+- **Filenames** carry no spaces. `+` is allowed (e.g. `2017_1+2` for a run over
+  two setup periods); existing `_and_` names stay as they are.
 
 ## Licence
 
