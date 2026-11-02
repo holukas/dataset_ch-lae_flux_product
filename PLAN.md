@@ -240,13 +240,18 @@ that will state it.
 
 1. **Decide the scope of FP2026.2.**
    - The storage screen of the `IRGA75` is set but not run (item 20).
-   - For the daytime scaling and the donor fill (item 21), decide whether to adopt them, publish
-     them as a sensitivity column, or only state them as uncertainties. The recommendation is to
-     state them as uncertainties.
-   - One USTAR threshold set for both analysers, from the merged record (0.352 / 0.486 / 0.599
-     m s-1, detection notebook section 11), is still to be decided.
+   - **Open-path corrections (items 21, 22):** decide on the day fix, the wet-night fill and the
+     storage screen. The audit of 2 Nov 2026 and the per-year results of every combination are in
+     `research/reports/open_path_audit_2026-11-02/REPORT.md` (data folder); not yet decided.
+   - ~~USTAR set~~ Decided 2 Nov 2026: one set for both analysers and all years, from the merged
+     record (0.3523 / 0.4860 / 0.5990 m s-1, detection notebook section 11). Set in `IRGA72/05`,
+     `IRGA75/05`, the `T` notebooks and `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION`;
+     the detection notebook declares it and checks it in section 11. Not run yet (item 18).
 2. **Rerun once, with all decided changes.**
-   - `IRGA75/05`, `25`, `35`, and `IRGA72/05` if the USTAR set changes.
+   - `IRGA75/05`, `25`, `35`, and `IRGA72/05` (the USTAR set changes for both).
+   - After the rerun, update the result statements that quote the per-analyser thresholds or their
+     results: the findings and sections 6-10 of the detection notebook, the threshold text of
+     `FLUX_NEE_IRGA75_COMPARISONS` (0.44, 0.52) and `_EVALUATION`.
    - Then both `99`, the stage merge and `80_FINALIZE/10`.
    - Then the USTAR detection notebook, whose Level-3.2 check against `05` fails until `05` is
      rerun.
@@ -633,6 +638,10 @@ In order. Each item is blocked by the one above it, except that the flux items
     uptake (annual `NEE`, `CUT_50`, 2016-2025: +3 to +206 gC m-2 against FP2026.1, mean +88;
     2021 -69), several of them a net source (2016, 2017, 2022-2024); 2018-2024 is now close to
     FLUXNET `VUT_REF`. Docs and notebook findings updated the same day.
+    **Changed 2 Nov 2026:** one set for both analysers and all years, from the merged record
+    (`IRGA75` 2004-2015, `IRGA72` 2016-2025): 0.3523/0.4860/0.5990, replacing the per-analyser
+    sets. Set in the notebooks, not run yet. Docs (`L3.3`, `Version_Differences`,
+    `Version_FP2026.2`) still describe the per-analyser sets until the rerun (section 5, step 3).
 19. **Humid-night test for the `IRGA75`** (proposed 1 Nov 2026, not decided). In 2016-2017 the
     LI-7500 night `NEE` lies below the LI-7200 in humid cold nights, whatever its sign (median
     difference about -1.1 umol m-2 s-1 below 0 degC and -0.4 at 0-5 degC at RH >= 99.5 %, -0.6
@@ -695,6 +704,24 @@ In order. Each item is blocked by the one above it, except that the flux items
       wanted, publish it as a sensitivity column. The QCL data needed to test the early years
       (item 17) are not available.
     - Analyses: `F_concentration/report.md`.
+22. **Audit of the open-path corrections and tests of three fixes** (2 Nov 2026, scratch, **not
+    decided**). Full record: `research/reports/open_path_audit_2026-11-02/REPORT.md` in the data
+    folder, with all scripts and outputs.
+    - Five checks (EddyPro Level 1, opco code and target, the LI-7200 2016-2017 as reference, the
+      chain Levels 2-4.1, literature): all correct or small (below about +-50 gC m-2 per year),
+      except the transfer of the daytime opco correction (about +500 per year, fitted on the
+      2016-2017 head), probably +330 to +440 too large in 2004-2007. A CO2 zero step of the LI-7500
+      on 19 Dec 2007 is the only measured change of the analyser and coincides with the step of the
+      wind test.
+    - The LI-7500 years carry a day bias (too high, 2004-2009) and a night bias (too low in every
+      period: wet gaps filled at 1.5 against 4.8 umol m-2 s-1 measured by the LI-7200, storage term)
+      that cancel.
+    - Tested: day fix (the Etzold et al. 2011 correction instead of opco by day before 2007-12-19), storage screen,
+      wet-night fill (Lloyd-Taylor on own dry nights, or LI-7200 donor). All three together give
+      0 / +24 / -30 gC m-2 per year for 2004-2009 / 2010-2015 / 2016-2017, in line with the
+      LI-7200 (-18); 2008-2009 stay at +110 to +140.
+    - Open: which fixes to adopt, and 2008-2009 (options in section 6 of the report). Supersedes
+      the recommendation of item 21.
 
 
 ## 6. Open questions
