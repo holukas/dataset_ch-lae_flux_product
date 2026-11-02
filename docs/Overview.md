@@ -69,7 +69,13 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 
 - `H` is missing from 10 January to 20 March 2019, and the gap-filled `H` in that period is
   model output only.
-- `H` in 2024 is about a third lower than in the other years. This has not been checked yet.
+- `H` in 2024 is about a third lower than in the other years. The cause is the weather of 2024,
+  with less radiation, more rain and a lower `VPD`; no instrument fault was found.
 - `LE` and `ET` of the LI-7200 may be too low in humid and cold conditions.
 
-All known issues, including those of the LI-7500 years of FP2026.2, are on [Issues](Issues.md).
+All known issues, including those of the LI-7500 years of FP2026.2, are on [Issues](Issues.md). For
+the LI-7500 years, the storage term drifts because wet or blocked windows make the analyser read too
+high a CO~2~ concentration; a screen of these readings is set for the next run and is not yet
+applied. The night-time `NEE` of the LI-7500 years lies about 200 gC m^-2^ per year below the values
+expected from the LI-7200 years, and the daytime `NEE` of 2004-2009 about 230 gC m^-2^ per year
+above them. Both biases are stated as uncertainties and are not corrected.

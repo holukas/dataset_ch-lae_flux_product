@@ -57,6 +57,10 @@ dataset are those of the processing; a shorter set of names for publication is n
     ([Yearly Notes, 2021](Yearly_Notes.md#low-sample-flow-of-the-li-7200-in-may-2021));
   - 11 to 14 August 2023
     ([Yearly Notes, 2023](Yearly_Notes.md#zero-sample-flow-of-the-li-7200-in-august-2023)).
+- **Low sample flow in December 2022.** From 8 to 19 December 2022 the logged sample flow of the
+  LI-7200 was 0 to 3 l min-1, and the night-time `NEE` that passed the tests reads +5 to
+  +16 µmol m-2 s-1 at about −8 °C. These values are also in the current processing of FP2026.2;
+  their removal is planned for its next run.
 - **Settings of two outlier tests.** FP2026.1 was produced with the earlier, stricter test of
   negative nighttime `NEE` values, based on the spread of all nighttime values within ±15 days; in
   the released file it flags 180 values. Its absolute limits for `LE` were −50 to 800 W m-2. The

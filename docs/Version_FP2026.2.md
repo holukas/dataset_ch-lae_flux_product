@@ -46,8 +46,34 @@ the LI-7500 flux is used as it is for FP2026.2, and improving it for the early y
 a later version. The annual sums of 2004-2009 are kept as processed, without a flag or an added
 uncertainty. They are the least certain of the record, and
 [Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET and with
-published estimates. The `NEE` of the LI-7500 years is also affected by the wet half-hours the
-analyser did not measure and by cold, humid nights, and `LE` differs between the two analysers
-(see [Issues](Issues.md)).
+published estimates.
+
+Known limitations of the LI-7500 years, described on [Issues](Issues.md):
+
+- **Storage term.** Wet or blocked windows make the LI-7500 read too high a CO~2~ concentration,
+  and its storage term sums to −25 to −196 gC m^-2^ per year instead of about zero. A screen of the
+  concentration readings is set for the next run and is not yet applied in the data
+  ([Level 3.1](L3.1.md)).
+- **Night-time and daytime `NEE`.** Against the values expected from the LI-7200 years, night-time
+  `NEE` lies about 200 gC m^-2^ per year lower in all LI-7500 years, and daytime `NEE` about
+  230 gC m^-2^ per year higher in 2004-2009. Most of the night-time bias lies in the wet half-hours
+  the analyser did not measure. Both biases are stated as uncertainties and are not corrected.
+- **`LE`** differs between the two analysers.
+
+## Prepared for the next run
+
+Two changes are prepared but not applied in the current data:
+
+- **Screen of the LI-7500 CO~2~ concentration for the storage term.** diive `run_level31` takes the
+  options `concentration_valid` and `restart_screening={'skip_after_gaps': 3}`. A reading enters
+  the storage term only at an AGC of 55 or less, without rain in the previous 3 hours, at a
+  relative humidity below 99.5 %, and not among the first 3 records after a gap. The settings are
+  in [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
+  Step 3; the chain has not been run with them yet ([Level 3.1](L3.1.md)).
+- **One set of USTAR thresholds for both analysers.** The moving point method applied to one
+  record of the site (LI-7500 to 2015, LI-7200 from 2016) gives 0.352, 0.486 and 0.599 m s^-1^
+  ([`USTAR_THRESHOLD_DETECTION_2004-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html#one-threshold-set-for-both-analysers),
+  section 11). The current data use one set per analyser ([Level 3.3](L3.3.md)). Whether the single
+  set is adopted is not decided.
 
 Also planned: the extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
