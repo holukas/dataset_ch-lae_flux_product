@@ -4,13 +4,17 @@
 The LI-7500 fluxes of 2004-2015 are in progress for FP2026.2 and are not part of FP2026.1. The
 numbers on this page come from the run of 1 November 2026 of
 [05_FPPC_IRGA75_NEE_OPCO_2004-2017](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html)
-(`CUT_50`, XGBoost gap-filling), with the u* threshold of FP2026.2 (0.436 m s-1 for the LI-7500,
-[Level 3.3](L3.3.md)), the 31-day Hampel filter `HAMPEL_3` and the current tests of negative
-nighttime values ([Level 3.2](L3.2.md)). FP2026.1 used 0.304 m s-1. The correction of the
-LI-7500 flux ([Level 1.1](L1.1.md)) is used as it is for FP2026.2; improving it for the early
-years is planned for a later version. The storage term of the LI-7500 in this run still contains
-a drift; its correction, set for the next run, raises the annual `NEE` of 2004-2015 by about
-70 gC m-2 per year ([Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term)).
+(`CUT_50`, XGBoost gap-filling), with:
+
+- the u* threshold of FP2026.2, 0.436 m s-1 for the LI-7500 ([Level 3.3](L3.3.md)); FP2026.1 used
+  0.304 m s-1;
+- the 31-day Hampel filter `HAMPEL_3` and the current tests of negative nighttime values
+  ([Level 3.2](L3.2.md));
+- the correction of the LI-7500 flux ([Level 1.1](L1.1.md)) as it is used for FP2026.2; improving
+  it for the early years is planned for a later version;
+- a storage term that still contains a drift. Its correction, set for the next run, raises the
+  annual `NEE` of 2004-2015 by about 70 gC m-2 per year
+  ([Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term)).
 :::
 
 ::: {.callout-tip title="Notebooks"}
@@ -55,6 +59,11 @@ In short:
   baseline. The deficit lies in the humid half-hours that the LI-7500 does not measure and the
   gap-filling fills too low.
 
+FP2026.2 corrects neither bias and states both as uncertainties of the LI-7500 years (see
+[Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)). The annual sums of
+2004-2009 are the least certain of the record. Where a result depends on the absolute sink
+strength, prefer the LI-7200 years, which are themselves close to neutral and close to FLUXNET.
+
 ## Annual sums
 
 | Year | This product | FLUXNET | @etzold_carbon_2011 (Fig. 3) |
@@ -78,15 +87,17 @@ v1.3 release for CH-Lae; it starts on 14 March 2004, so 2004 is compared from th
 of @etzold_carbon_2011 are read from the end points of their Fig. 3 (±10 gC m-2). {#tbl-annual}
 
 The LI-7200 years 2016-2025 average -18 gC m-2 per year in the current processing (-105 in
-FP2026.1); 2018-2024 average -32, against +3 in FLUXNET (`NEE_VUT_REF`). The range given by @etzold_carbon_2011 in the text (-366 to -662) cannot be reconciled
-with their published mean, and their Fig. 3 shows -330 for 2006; the figure is used here.
+FP2026.1); the comparison of these years with FLUXNET is on
+[Issues](Issues.md#ustar-thresholds-compared-with-fluxnet). The range given by @etzold_carbon_2011
+in the text (-366 to -662) cannot be reconciled with their published mean, and their Fig. 3 shows
+-330 for 2006; the figure is used here.
 
 ## The 2016-2017 overlap
 
 From 11 January 2016 to 12 December 2017 both analysers ran on the same sonic anemometer. The
 annual `NEE` of the LI-7500 is -349 gC m-2 in 2016 and -181 in 2017, that of the LI-7200 +88 and
-+188. The LI-7500 shows 436 and 370 gC m-2 more uptake. @tbl-overlap-split splits this gap by
-which analyser measured each half-hour.
++188. The LI-7500 therefore shows 436 and 370 gC m-2 more uptake. @tbl-overlap-split splits this
+gap by which analyser measured each half-hour.
 
 | Half-hours | 2016 | 2017 |
 |---|---|---|
@@ -101,12 +112,10 @@ half-hour (`CUT_50`, XGBoost). The rows add up to the total within rounding. {#t
 
 About 80 % of the gap lies in the half-hours neither analyser measured, and about 96 % in the
 half-hours that at least one of them gap-filled. The measured fluxes agree closely; the gap is a
-property of the gap-filling. At a relative humidity of 99.5 % or more the LI-7500 measures only 8
-to 9 % of the half-hours, and its model fills the others at 0.1 to 0.5 µmol m-2 s-1, while the
-model of the LI-7200 fills them at 3.0 to 3.5. The deficit lies mostly in rain: the LI-7500 never
-measures a flux during rain, while the LI-7200 does. With the storage correction of the next run, the gap shrinks by about
-120 gC m-2 per year, and the filled humid half-hours of the LI-7500 rise to 0.95 against 3.33
-µmol m-2 s-1. See [Issues](Issues.md#the-li-7500-misses-the-wet-half-hours).
+property of the gap-filling. It comes from the humid half-hours, mostly in rain, which the LI-7500
+rarely measures and its model fills near zero
+([Issues](Issues.md#the-li-7500-misses-the-wet-half-hours)). The storage correction of the next
+run closes part of the gap ([Issues](Issues.md#the-storage-term-of-the-li-7500-drifts)).
 
 ## Comparison with FLUXNET
 
@@ -128,21 +137,22 @@ Over 2005-2015 this product is 291 gC m-2 per year less negative: -6 by day and 
 comparison in the notebook. The rows add up to the total of +291. {#tbl-fluxnet-causes}
 
 - **Winter nights.** From November to March the FLUXNET nights average 1.2 µmol m-2 s-1 where
-  measured and 0.5 where filled. A forest at 0-5 °C still respires. This product has 3.1 where
-  measured and 2.5 where filled, and the LI-7200 years 3.4 where measured. The values that FLUXNET
-  keeps and this product removes average -2.5 µmol m-2 s-1, and half of them are below zero.
+  measured and 0.5 where filled, although a forest at 0-5 °C still respires. This product has 3.1
+  where measured and 2.5 where filled, and the LI-7200 years (2016-2024) 3.4 where measured. The
+  values that FLUXNET keeps and this product removes average -2.5 µmol m-2 s-1, and half of them
+  are below zero.
 - **Corrections.** On the half-hours both products measured, their corrections agree by day from
   February to September. From October to January the FP2021 correction adds more by day. At night
   the correction of this product adds 0.5-1.0 µmol m-2 s-1, the FP2021 correction 0.1-0.5.
 - **u* filtering.** The FLUXNET thresholds of 2004-2015 (0.23-0.35 m s-1) lie below the
   0.436 m s-1 of this product. This product therefore keeps fewer nights as measured, 17-24 %
   against 20-26 %, and these are the windier nights with higher `NEE`. On the records between the
-  two thresholds the effect is small, +2 gC m-2 per year (night +22, day -20). The larger effect is
-  indirect: gap-filling learns from the windier nights and fills the nights higher. The rerun with the threshold of FP2026.2 (0.436
-  instead of 0.304 m s-1) and `HAMPEL_3` raised the difference to FLUXNET from +214 to +291 gC m-2
-  per year, mostly in the nights both products gap-fill (+131 to +219). Within FLUXNET, its
-  constant threshold of 0.43 m s-1 (`CUT_REF`) gives on average 72 gC m-2 per year less uptake than
-  its yearly thresholds (`VUT_REF`) over 2005-2015.
+  two thresholds the effect is small (@tbl-fluxnet-causes). The larger effect is indirect:
+  gap-filling learns from the windier nights and fills the nights higher. The rerun with the
+  threshold of FP2026.2 (0.436 instead of 0.304 m s-1) and `HAMPEL_3` raised the difference to
+  FLUXNET from +214 to +291 gC m-2 per year, mostly in the nights both products gap-fill (+131 to
+  +219). Within FLUXNET, its constant threshold of 0.43 m s-1 (`CUT_REF`) gives on average
+  72 gC m-2 per year less uptake than its yearly thresholds (`VUT_REF`) over 2005-2015.
 - **2016-2017.** FLUXNET uses the LI-7200 in these years. The LI-7200 of this product is
   35 gC m-2 per year less negative than FLUXNET: +52 by day and -17 at night. The two years differ
   in opposite directions (2016 +169, 2017 -100). On half-hours both measured they agree, at night
@@ -176,9 +186,9 @@ thresholds, which this product removes and fills; the effect on the annual sum i
 product keeps 21 % of the nights of 2005-2009 as measured, their study 24 %. {#tbl-etzold-methods}
 
 Their correction adds a fixed fraction (0.085) of the heat-flux term of @burba_addressing_2008.
-That fraction was derived for a vertically mounted analyser; the LI-7500 at CH-LAE is inclined. It
-was recomputed here from an R implementation used in the group, which is assumed to be the version
-used for CH-LAE; the agreement below supports this.
+That fraction was derived for a vertically mounted analyser, while the LI-7500 at CH-LAE is
+inclined. It was recomputed here from an R implementation used in the group, which is assumed to be
+the version used for CH-LAE; the agreement below supports this.
 
 | 2005-2009 | Nov-Mar | Apr and Oct | May-Sep | Year |
 |---|---|---|---|---|
@@ -197,16 +207,16 @@ monthly median (first value) or mean (second value). Both rows are approximation
 
 - **The correction explains most of the difference.** opco adds about +640 gC m-2 per year, the
   correction of @etzold_carbon_2011 about +210 to +300. With theirs, this product gives -401 to
-  -309 per year against their -418, and follows their seasonal pattern. With the monthly median of
-  their correction about 20 gC m-2 remain, with the monthly mean about 110. The other processing
+  -309 per year against their -418 and follows their seasonal pattern. About 20 gC m-2 remain with
+  the monthly median of their correction, about 110 with the monthly mean. The other processing
   steps change the sum by a few tens of gC m-2.
-- **Year to year the two agree only loosely.** 2009 has the most uptake in their study, 2007 in this
-  product.
+- **Year to year the two agree only loosely.** 2009 has the most uptake in their study, 2007 in
+  this product.
 - **The LI-7200 years decide only in part.** In winter they (+391) are closer to this product
   (+344) than to the smaller correction (+144 to +192). In summer they (-466) lie between this
-  product (-380) and the smaller correction (-510 to -539). In the 2016-2017 overlap the uncorrected
-  LI-7500 overestimated the summer uptake of the LI-7200 by 19 %, so a correction is needed in
-  summer as well.
+  product (-380) and the smaller correction (-510 to -539). In the 2016-2017 overlap the
+  uncorrected LI-7500 overestimated the summer uptake of the LI-7200 by 19 %, so a correction is
+  needed in summer as well.
 
 ## Does the correction hold for the early years?
 
@@ -221,26 +231,25 @@ LI-7200 years at the same light and air temperature:
 - **2005 and 2006 have clearly less uptake**, by 2.1 and 2.7 µmol m-2 s-1. The difference is
   already in the uncorrected flux.
 
-Whether the correction is too large in 2005-2007 cannot be settled from the LI-7500 data alone. In
-summer the self-heating signal depends on wind speed; in 2005-2007 this dependence is much weaker
-and suggests a self-heating about 80 % weaker (scaling factor 0.20 ± 0.44, where 1 means as in the
+The LI-7500 data alone cannot settle whether the correction is too large in 2005-2007. In summer
+the self-heating signal depends on wind speed. In 2005-2007 this dependence is much weaker and
+suggests a self-heating about 80 % weaker (scaling factor 0.20 ± 0.44, where 1 means as in the
 training years). Single years give 0.05 to 0.40 in 2005-2007 and 1.0 to 1.2 in 2008-2009, with a
 noise of about ±0.6 per year. The winter test of the same years finds full-size self-heating
 (1.49 ± 0.58). If the summer test is right, the May-September `NEE` of 2005-2007 is 171 to
 195 gC m-2 too positive.
 
-A climate baseline gives a second view. It is a model of daytime and nighttime `NEE` trained on the
-LI-7200 years 2016-2025 with meteorological drivers only, applied to the weather of each LI-7500
-year. By day the corrected LI-7500 lies about +230 gC m-2 per year above it in 2004-2009, about 0
-in 2010-2015 and -105 in 2016-2017; the LI-7200 years scatter from -280 to +150. The uncorrected
-flux of 2004-2009 matches the baseline. From 2010 it lies 2 to 3 µmol m-2 s-1 below it, while the
-daytime correction is about the same in every year (about 2.8 µmol m-2 s-1). The correction
+The climate baseline, a model of `NEE` trained on the LI-7200 years 2016-2025 with meteorological
+drivers only, gives a second view (all periods under
+[Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)). By day the corrected
+LI-7500 lies about +230 gC m-2 per year above it in 2004-2009, while the uncorrected flux of these
+years matches it. From 2010 the uncorrected flux lies 2 to 3 µmol m-2 s-1 below the baseline, and
+the daytime correction is about the same in every year (about 2.8 µmol m-2 s-1). The correction
 therefore probably over-corrects the daytime flux of 2004-2009. The baseline and the wind test
 disagree on the date of the step: the baseline places it at 2010, the wind test at 2008. No change
-of the setup is recorded at either date. Scaling the daytime correction of 2004-2007 by 0.2 was
-tested and is not adopted: it brings those days to the baseline but leaves 2008-2009 high, and the
-annual sum jumps from -393 gC m-2 in 2007 to +51 in 2008. The baseline describes the forest of
-2016-2025, so it would also count a real change of the forest as a bias.
+of the setup is recorded at either date. The baseline describes the forest of 2016-2025, so it
+would also count a real change of the forest as a bias. A smaller daytime correction for 2004-2007
+was tested and is not adopted (see the same section of Issues).
 
 ## Why the early years show little net uptake
 
@@ -259,9 +268,8 @@ daytime partitioning; the daytime method starts on 14 September 2005, so its mea
 Mg C ha-1. Net ecosystem production is positive for a sink. {#tbl-independent}
 
 - **The sink is too weak.** Even the lowest biometric estimate lies 318 gC m-2 above this product.
-- **Respiration is high but plausible.** `RECO` exceeds the soil respiration, as it must. The
-  share of soil respiration, 0.50-0.54, is lower than theirs but within its stated range
-  (0.49-0.90).
+- **Respiration is high but plausible.** `RECO` exceeds the soil respiration, as it must. The share
+  of soil respiration, 0.50-0.54, is lower than theirs but within its stated range (0.49-0.90).
 - **`GPP` is too low**, by about 250 (nighttime method) to 360 gC m-2 per year (daytime method). It
   explains about half of the difference to their study; the other half is the higher `RECO` of
   this product.
@@ -300,39 +308,34 @@ year-to-year spread of the LI-7200 years (standard deviation 161).
   one. A zero offset does not change the measured covariance; through the density correction it
   changes the summer daytime flux by about +0.6 µmol m-2 s-1, away from more uptake. No check is
   recorded for 2004-2006.
-- **Concentration in wet conditions.** With wet or blocked windows, at an AGC above 55 or after
-  rain, the LI-7500 reads CO2 33 to 106 ppm too high. This makes its storage term drift by -25 to
-  -196 gC m-2 per year ([Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term)), but changes the
-  flux itself by less than 1 %.
+- **Concentration in wet conditions.** With wet or blocked windows the LI-7500 reads CO2 too high.
+  This makes its storage term drift
+  ([Issues](Issues.md#the-storage-term-of-the-li-7500-drifts),
+  [Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term)) but changes the flux itself by less than
+  1 %.
 
 ### Winter nights since the current tests
 
 With the current tests of negative nighttime values, more low winter values stay in the record,
-and the gap-filling fills the LI-7500 winter nights lower: about 2.5 µmol m-2 s-1 from November to
-March, against 3.1 for its measured nights and 3.4 for the measured nights of the LI-7200 years
-(2016-2024). The cause is humidity: the LI-7500 measures few humid nights, and the model fills the
-many humid gaps from them, near zero. The nights of 2005-2009
-therefore take up more than the LI-7200 nights, which partly offsets the daytime deficit in the
-annual sum. Against the climate baseline, the nights of every LI-7500 period lie about 200 to
-250 gC m-2 per year low, those of the LI-7200 years within -40 to +30.
+and gap-filling fills the LI-7500 winter nights lower than both its measured nights and the
+measured nights of the LI-7200 years (values under [Comparison with FLUXNET](#comparison-with-fluxnet)).
+The cause is humidity: the LI-7500 measures few humid nights, and the model fills the many humid
+gaps from them, near zero. The nights of 2005-2009 therefore take up more than the LI-7200 nights,
+which partly offsets the daytime deficit in the annual sum. Against the climate baseline the nights
+of every LI-7500 period lie about 200 to 250 gC m-2 per year low
+([Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)).
 
 ### What this means
 
-The early LI-7500 years show far less net uptake than the biometric estimates allow. Against the
-LI-7200 years the deficit is in the daytime uptake; against @etzold_carbon_2011 about half of it is
-lower `GPP` and half higher `RECO`. A fault of the analyser is ruled out. The uncorrected daytime
-flux of 2004-2009 matches the climate baseline, which points to a correction that is too large by
-day in those years. A real loss of capacity, plausible for 2004-2006 after the drought of 2003 and
-in line with the less coupled exchange of 2005-2006, cannot be ruled out, because the baseline
-would count it as a bias too. An independent closed-path measurement of these years, which could
-decide it, is not available.
-
-FP2026.2 corrects neither bias and states both as uncertainties of the LI-7500 years: at night
-about -200 gC m-2 per year in all years, by day about +230 in 2004-2009 (see
-[Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)). The annual sums of
-2004-2009 are the least certain of the record; where a result depends on the absolute sink
-strength, prefer the LI-7200 years. These are themselves close to neutral (-18 gC m-2 per year in
-2016-2025) and close to FLUXNET.
+Against the LI-7200 years the deficit of the early years is in the daytime uptake; against
+@etzold_carbon_2011 about half of it is lower `GPP` and half higher `RECO`. A fault of the analyser
+is ruled out. The uncorrected daytime flux of 2004-2009 matches the climate baseline, which points
+to a correction that is too large by day in those years. A real loss of capacity cannot be ruled
+out either, because the baseline would count it as a bias too. Such a loss is plausible for
+2004-2006 after the drought of 2003, in line with the less coupled exchange of 2005-2006, but it
+does not explain 2007-2009 or the whole size of the difference to the biometric estimates, FLUXNET
+and @etzold_carbon_2011. An independent closed-path measurement of these years, which could decide
+it, is not available.
 
 ## References
 

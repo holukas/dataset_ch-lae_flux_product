@@ -7,14 +7,22 @@ description; this page covers the columns most users need.
 
 ## Fluxes
 
-The fluxes come from the enclosed-path LI-7200 (`IRGA72`). In FP2026.2, in progress, the same
-columns hold the fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015, and `FLAG_FLUX_SOURCE`
-gives the analyser of each half-hour (`75` or `72`). FP2026.2 also adds the `GPP` and `RECO` of the
-partitioning ([Level 4.2](L4.2.md)). The column names follow the
-processing levels of the [post-processing chain](FPC.qmd). For example,
-`NEE_L3.1_L3.3_CUT_50_QCF_gfXG` is `NEE` after [Level 3.1](L3.1.md) (storage term) and
-[Level 3.3](L3.3.md) (USTAR filter, scenario `CUT_50`), from records with quality flag 0 or 1
-(`QCF`), gap-filled with XGBoost (`gfXG`).
+The fluxes come from the enclosed-path LI-7200 (`IRGA72`). In FP2026.2, in progress:
+
+- The same columns hold the fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015.
+- `FLAG_FLUX_SOURCE` gives the analyser of each half-hour (`75` or `72`).
+- `GPP` and `RECO` from the partitioning ([Level 4.2](L4.2.md)) are added.
+
+The column names follow the processing levels of the [post-processing chain](FPC.qmd). For
+example, `NEE_L3.1_L3.3_CUT_50_QCF_gfXG` reads as follows:
+
+| part | meaning |
+|---|---|
+| `NEE` | the flux |
+| `L3.1` | after [Level 3.1](L3.1.md) (storage term) |
+| `L3.3_CUT_50` | after [Level 3.3](L3.3.md) (USTAR filter, scenario `CUT_50`) |
+| `QCF` | from records with quality flag 0 or 1 |
+| `gfXG` | gap-filled with XGBoost |
 
 : Gap-filled fluxes, the columns for most analyses. {#tbl-vars-flux}
 
@@ -29,8 +37,8 @@ processing levels of the [post-processing chain](FPC.qmd). For example,
 | `H_L3.1_L3.3_CUT_NONE_QCF_gfXG` | W m^-2^ | Sensible heat flux from the sonic anemometer. No storage term, no USTAR filter. | [L4.1](L4.1.md) |
 | `FLAG_<column>_ISFILLED` | - | 0 where the value was measured, otherwise filled. | [L4.1](L4.1.md) |
 
-Each gap-filled column also exists with `_gfMDS` instead of `_gfXG`, filled with MDS. These are
-for comparison only; use the XGBoost columns. The three USTAR thresholds of each analyser are
+Each gap-filled column also exists with `_gfMDS` instead of `_gfXG`, filled with MDS. The MDS
+columns are for comparison only; use the XGBoost columns. The three USTAR thresholds of each analyser are
 given in [Level 3.3](L3.3.md).
 
 : Measured fluxes and auxiliary columns. {#tbl-vars-flux-aux}
@@ -81,6 +89,9 @@ others) are defined there.
 | Outgoing (reflected) shortwave radiation | `SW_OUT_T1_47_1` | W m^-2^ | [SW_OUT](Meteo_Data_SW_OUT.md) |
 | Outgoing (emitted) longwave radiation | `LW_OUT_T1_47_1` | W m^-2^ | [LW_OUT](Meteo_Data_LW_OUT.md) |
 
-Column suffixes: `_HOMOGENIZED` is corrected for sensor changes, so the record is consistent over
-time; `_gfXG` and `_GAPFILLED` are gap-filled. `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT`
-end on 31 December 2025 and are empty in 2026.
+Column suffixes:
+
+- `_HOMOGENIZED`: corrected for sensor changes, so the record is consistent over time.
+- `_gfXG`, `_GAPFILLED`: gap-filled.
+
+`PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` end on 31 December 2025 and are empty in 2026.

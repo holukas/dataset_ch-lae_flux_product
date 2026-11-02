@@ -24,12 +24,12 @@ in progress, so its column describes the current processing.
 
 ## Effect on the LI-7200 fluxes
 
-FP2026.2 contains the LI-7200 years of FP2026.1, processed again with the changes above. The
-annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) are 3 to 206 gC m^-2^ higher than in FP2026.1,
-except 2021 (−69 gC m^-2^), mainly because of the higher USTAR threshold; annual `ET` differs by
-−10 to +10 mm, and by +38 mm in 2021. The periods of low sample flow change `NEE`, `LE` and `ET` in the years concerned: in FP2026.1 their near-zero fluxes are kept as
-measured values and enter the training of the gap-filling models; in FP2026.2 they are removed and
-gap-filled.
+FP2026.2 contains the LI-7200 years of FP2026.1, processed again with the changes above. Their
+effect on the annual `NEE` and `ET` sums of 2016-2025 is given under
+[FP2026.2](Version_FP2026.2.md#changes-to-the-li-7200-fluxes); the main cause is the higher USTAR
+threshold. The periods of low sample flow change `NEE`, `LE` and `ET` in the years concerned. In
+FP2026.1 their near-zero fluxes are kept as measured values and enter the training of the
+gap-filling models; in FP2026.2 they are removed and gap-filled.
 
 ## Moving from FP2026.1 to FP2026.2
 

@@ -5,20 +5,22 @@ dashboard is a standalone HTML file with its own charts and styling. It opens
 without a server, works offline, and can be shared with someone who has neither
 this site nor the data.
 
-The dashboards are built from the exported product files, not from the database.
-They are rebuilt at every deploy of this site.
+The dashboards are built from the exported product files, not from the database,
+and are rebuilt at every deploy of this site.
 
 ::: {.callout-note title="The dashboards end in December 2025"}
 
 The dashboards are still built from the product versions that end on
-31 December 2025. They do not yet show January to September 2026, although
-`SW_IN`, `TA`, `PPFD_IN`, `RH`, `PA`, `LW_IN` and `VPD` in FP2026.1 run to
-30 September 2026. The products were re-run when they were extended, so some
-values before 2026 also differ from the dataset: gap-filled values of `SW_IN`, `TA`
-and `PPFD_IN`, the homogenised `TA`, mainly in 2025, and above all `VPD`. The annual means
-of `VPD` in the current product are lower than on its dashboard, by about 0.03 kPa
-in 2004-2015 and by 0.005 to 0.007 kPa from 2016. There are no dashboards for the
-fluxes yet.
+31 December 2025.
+
+- They do not yet show January to September 2026, although `SW_IN`, `TA`,
+  `PPFD_IN`, `RH`, `PA`, `LW_IN` and `VPD` in FP2026.1 run to 30 September 2026.
+- The products were re-run when they were extended, so some values before 2026
+  also differ from the dataset: gap-filled values of `SW_IN`, `TA` and `PPFD_IN`,
+  the homogenised `TA`, mainly in 2025, and above all `VPD`. The annual means of
+  `VPD` in the current product are lower than on its dashboard, by about 0.03 kPa
+  in 2004-2015 and by 0.005 to 0.007 kPa from 2016.
+- There are no dashboards for the fluxes yet.
 
 :::
 
@@ -28,12 +30,12 @@ fluxes yet.
 
 **[Every month of the record on one grid](dashboards/METEO_CALENDAR_explorer.html)**
 
-The years 2005 to 2025 by twelve months, one tile per month, coloured by the
-selected metric and marked with what was notable in that month. The same grid is
-drawn at three resolutions: months, meteorological seasons, and every day of the
-record. The daily raster is the only one of the three that never splits a spell
-at a boundary, so a heatwave or a drought that ran across a month end is visible
-as one event there and split in the other two.
+A grid of the years 2005 to 2025 by twelve months, one tile per month. Each tile
+is coloured by the selected metric and marked with what was notable in that
+month. The grid is drawn at three resolutions: months, meteorological seasons,
+and every day of the record. Only the daily raster never splits a spell at a
+boundary. A heatwave or a drought that ran across a month end is one event there,
+and split in the other two.
 
 The explorer currently reads only the meteorological products.
 

@@ -4,15 +4,26 @@ How the thirteen meteo product notebooks
 ([`10_METEO/30_PRODUCTS`](notebooks/index.html)) turn screened measurements into the
 finished variables, and which of them depend on each other.
 
-The numbering is a run order: a notebook reads only products with a lower number, so
-running `01` to `13` and then the merge `99` satisfies every dependency. Five of those reads
-change an exported value. `02` and `03` use `01`'s gap-filled `SW_IN` as a gap-filling
-driver, `04` uses `02`'s measured and homogenised `TA` for its homogenised `RH`, and `07`
-computes `VPD` from the measured and the homogenised columns of `02` and `04`. All other
-reads are diagnostic: `06` reads `01` and `02`; `08` reads `02`, `05` and `06`; `09` reads
-`02` and `08`; `10` reads `02` and `09`; `11` reads `09` and `10`; `12` reads `01`; `13`
-reads `02` and `06`. A diagnostic read changes what a notebook concludes, not what it
-writes.
+The numbering is a run order. A notebook reads only products with a lower number, so
+running `01` to `13` and then the merge `99` satisfies every dependency. Five reads change
+an exported value; all others are diagnostic. A diagnostic read changes what a notebook
+concludes, not what it writes.
+
+: The products each notebook reads. {#tbl-meteo-chain-reads}
+
+| notebook | reads that change the exported values | diagnostic reads |
+|---|---|---|
+| `02` | `01`: gap-filled `SW_IN` as a gap-filling driver | - |
+| `03` | `01`: gap-filled `SW_IN` as a gap-filling driver | - |
+| `04` | `02`: measured and homogenised `TA`, for the homogenised `RH` | - |
+| `06` | - | `01`, `02` |
+| `07` | `02` and `04`: `VPD` from the measured and from the homogenised columns | - |
+| `08` | - | `02`, `05`, `06` |
+| `09` | - | `02`, `08` |
+| `10` | - | `02`, `09` |
+| `11` | - | `09`, `10` |
+| `12` | - | `01` |
+| `13` | - | `02`, `06` |
 
 `01` to `07` and `99` run to 30 September 2026. `08` to `13` still end on 31 December 2025.
 
@@ -138,18 +149,19 @@ flowchart LR
 - **Two notebooks do not read the database.** `07` reads two finished product files and
   applies a formula. `10` reads the screened `TS` channels through
   `TS_FF1_SCREENED_30MIN_2004-2025`, which downloads the 34 channels once. `09` reads the
-  early half of that download as its witness for the June 2015 wiring break.
+  early half of that download as its evidence for the June 2015 wiring break.
 - **`01` feeds the gap-filling of `02` and `03`.** Its gap-filled `SW_IN_T1_47_1_gfXG` is a
   driver in both models, so `01` must run first. It is also the diagnostic partner of `06`
   and `12`, which describe the other channels of the same radiometer.
-- **`02` is read by seven notebooks**, more than any other product, and two of those reads
-  change a value: `04` and `07`. Air temperature separates rain from snow in `08`, excludes
-  snowmelt in `09`, and gives the Stefan-Boltzmann reference emission in `06` and `13`.
-  Diagnostic reads across January 2016 use the `HOMOGENIZED` column, because the measured
-  one carries the step of that date. `07` reads both columns and computes a `VPD` from each.
+- **`02` is read by seven notebooks**, more than any other product. Two of those reads,
+  by `04` and `07`, change a value. Air temperature separates rain from snow in `08`,
+  excludes snowmelt in `09`, and gives the Stefan-Boltzmann reference emission in `06` and
+  `13`. Diagnostic reads across January 2016 use the `HOMOGENIZED` column, because the
+  measured one carries the step of that date. `07` reads both columns and computes a `VPD`
+  from each.
 - **`08` (`PREC`) reads three reference files, for two purposes.** The Ehrendingen (`OED`)
   record is daily to September 2014 and 30MIN after; the 30MIN part fills the gaps. The
-  regional ensemble supplies the homogenisation factors: one nearby gauge can show that the
+  regional ensemble supplies the homogenisation factors. One nearby gauge can show that the
   tower changed in 2018, but only a dozen of them can show which side of that break is
   wrong. `09` reads the same ensemble so that its jump detector does not read a gap in the
   tower gauge as a dry spell.
@@ -158,42 +170,47 @@ flowchart LR
   and is not exported.
 - **Six products have no external reference, and a second channel takes its place.** No
   weather service measures this plot's soil, and no station near the site measures the
-  radiation this canopy emits and reflects. `09` (`SWC`), `10` (`TS`) and `11` (`G`) are
-  checked against the other depths and plates of their own profile. `06` (`LW_IN`) and
-  `13` (`LW_OUT`) are checked against the Stefan-Boltzmann emission at `02`'s air
-  temperature, and `13` also against `06`, the other pyrgeometer of the same instrument.
-  `12` (`SW_OUT`) is checked against `01`: `SW_OUT / SW_IN` is the surface albedo, and
-  anything that scales both channels of one radiometer cancels in that ratio. These checks
-  catch a whole-record error such as a wrong file, unit or year, but cannot validate a
-  single measurement.
+  radiation this canopy emits and reflects.
+
+  | product | checked against |
+  |---|---|
+  | `09` (`SWC`), `10` (`TS`), `11` (`G`) | the other depths and plates of their own profile |
+  | `06` (`LW_IN`) | the Stefan-Boltzmann emission at `02`'s air temperature |
+  | `13` (`LW_OUT`) | the same emission, and `06`, the other pyrgeometer of the same instrument |
+  | `12` (`SW_OUT`) | `01`: `SW_OUT / SW_IN` is the surface albedo, and anything that scales both channels of one radiometer cancels in that ratio |
+
+  These checks catch a whole-record error, such as a wrong file, unit or year, but cannot
+  validate a single measurement.
 
 ## What `99` merges
 
 Notebook `99` joins the value and flag columns of all thirteen products into one
 half-hourly table, `99_METEO_MERGED_2004-2026.09`, and checks the joined index. It holds
-61 columns: 31 data series and 30 flag columns. Products `08` to `13` end on
-31 December 2025, so their columns are `NaN` from January to September 2026 until their
-notebooks are extended.
+61 columns: 31 data series and 30 flag columns. Its period, and the 2026 months that are
+empty for `08` to `13`, are given under
+[The merged file and FP2026.1](Meteo_Data.md#the-merged-file-and-fp2026.1).
 
 - `TA`, `RH`, `VPD` and `PREC` each contribute two value columns, the measured and the
   homogenised series, and two flags.
 - `09` contributes five soil-moisture depths and the homogenised series of four of them.
 - `10` and `11` contribute only their reconciled series: seven soil-temperature depths and
   the soil heat flux plate mean. The 18 soil-temperature channels and the three plates are
-  one sensor each and stay in their product files.
+  one sensor each and remain in their product files.
 - `12` contributes `SW_OUT` with two flags, one naming the instrument and one the
   screening.
 
 Eight of the 31 series are complete over the whole period. For every series that may
-contain `NaN`, the merge records the reason and checks it; the reasons are listed in the
-information file `99_METEO_MERGED_2004-2026.09_INFO.md` written beside the data.
+contain `NaN`, the merge records the reason and checks it. The reasons are listed in the
+information file `99_METEO_MERGED_2004-2026.09_INFO.md`, written beside the data.
 
-The merged file is also the meteo input of the flux processing. The EddyPro biomet export
-in `10_METEO/40_EXPORTS` takes six variables from it, `TA` and `RH` as measured
-([Level 1](L1.md)). The flux post-processing chain of both analysers uses
-`TA_T1_47_1_HOMOGENIZED_gfXG`, `VPD_T1_47_1_HOMOGENIZED` and `SW_IN_T1_47_1_gfXG` as the
-drivers of its gap-filling and partitioning ([Level 4.1](L4.1.md)).
+The merged file is also the meteo input of the flux processing:
 
-Precipitation aggregates differently from the other variables: **rainfall is summed, not
-averaged**. Each entry in the merge registry names its aggregation. A daily mean of
-30-minute rainfall (about 0.05 mm) is not an interpretable quantity; the daily total is.
+- the EddyPro biomet export in `10_METEO/40_EXPORTS` takes six variables from it, with `TA`
+  and `RH` as measured ([Level 1](L1.md));
+- the flux post-processing chain of both analysers uses `TA_T1_47_1_HOMOGENIZED_gfXG`,
+  `VPD_T1_47_1_HOMOGENIZED` and `SW_IN_T1_47_1_gfXG` as the drivers of its gap-filling and
+  partitioning ([Level 4.1](L4.1.md)).
+
+**Rainfall is summed, not averaged**, unlike the other variables. Each entry in the merge
+registry names its aggregation. A daily mean of 30-minute rainfall (about 0.05 mm) is not an
+interpretable quantity; the daily total is.

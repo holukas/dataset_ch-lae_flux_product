@@ -17,14 +17,14 @@ corrected, and a trend over the whole record includes both.
 
 Notebooks:
 
-- [`13_METEO_LW_OUT`](notebooks/10_METEO/30_PRODUCTS/13_METEO_LW_OUT_2005-2025.html): builds the
+- [`13_METEO_LW_OUT`](notebooks/10_METEO/30_PRODUCTS/13_METEO_LW_OUT_2005-2025.html) builds the
   product. It compares the two screenings where they overlap, applies the 2012 corrections, removes
   the excursion during the radiometer exchange, and identifies the instrument and calibration
   factor behind each part of the record.
 - [`LW_OUT_T1_47_1`](notebooks/10_METEO/20_SCREENING/LW_OUT/LW_OUT_T1_47_1_2020-2025.html): the
   screening of the current era, which dates the radiometer exchange to the minute.
 - [`06_METEO_LW_IN`](notebooks/10_METEO/30_PRODUCTS/06_METEO_LW_IN_2005-2026.09.html): the second
-  pyrgeometer of the same instrument. Together the two give the net longwave exchange, but they are
+  pyrgeometer of the same instrument. Together the two give the net longwave exchange. They are
   separate detectors with separate calibration factors, so each era question is tested again here.
 - [`02_METEO_TA`](notebooks/10_METEO/30_PRODUCTS/02_METEO_TA_2004-2026.09.html): air temperature,
   which gives the Stefan-Boltzmann emission used in every check on this page. Its homogenised
@@ -40,8 +40,8 @@ than in any year without a change. The change of screening software falls close 
 but is ruled out, because the two screenings give the same values where they overlap. The cause is
 the instrument.
 
-The step is **not corrected, and there is no homogenised column**: its cause is known, its size is
-not, and a correction would need calibration data the site does not hold. Filter on
+The step is **not corrected, and there is no homogenised column**. Its cause is known but its size
+is not, and a correction would need calibration data the site does not hold. Filter on
 `FLAG_LW_OUT_T1_47_1_SOURCE` before comparing the two eras, and drop code `3`, the 24 days in which
 the new instrument was read with the old instrument's constant.
 
@@ -63,15 +63,18 @@ this file includes it; the converted voltage alone would differ by some 300 to 4
 A wrong calibration factor therefore scales only the **net** signal, not the added emission term.
 For a downward-facing pyrgeometer above a canopy the net signal is small: a few W m^-2^ in the
 median and a few tens at the extremes, against several hundred in the file. The factor error that
-costs `LW_IN` about 8 W m^-2^ in the middle of its distribution is worth much less here, which is
-why the checks below use percentiles of the net signal rather than the level.
+costs `LW_IN` about 8 W m^-2^ in the middle of its distribution is worth much less here. The checks
+below therefore use percentiles of the net signal rather than the level.
 
-Two physical checks pass. The ratio of the measured value to the Stefan-Boltzmann emission at air
-temperature has a nighttime median of **0.979** (5th to 95th percentile 0.963 to 0.996) and a
-daytime median of 0.990, as expected for a canopy radiating near air temperature. And the site
-loses longwave radiation in most half-hours: the median of `LW_IN − LW_OUT` is
-**−46.4 W m^-2^**, and 81 % of nighttime and 85 % of daytime half-hours are net losses. The second
-check would detect the two channels having been swapped anywhere between the logger and this file.
+Two physical checks pass:
+
+- **Emission near air temperature.** The ratio of the measured value to the Stefan-Boltzmann
+  emission at air temperature has a nighttime median of **0.979** (5th to 95th percentile 0.963 to
+  0.996) and a daytime median of 0.990, as expected for a canopy radiating near air temperature.
+- **Net longwave loss.** The site loses longwave radiation in most half-hours. The median of
+  `LW_IN − LW_OUT` is **−46.4 W m^-2^**, and 81 % of nighttime and 85 % of daytime half-hours are
+  net losses. This check would detect the two channels having been swapped anywhere between the
+  logger and this file.
 
 ## Columns
 
@@ -98,9 +101,9 @@ the same way.
 
 ::: {.callout-note title="These codes differ from those of `LW_IN`"}
 
-The two files number their eras differently, and the start of the changeover code differs by one
-day. Here code `1` is the era from the June 2016 logger program, and all of 14 December 2021 carries
-the undetermined code, because the exchange happened during that day.
+The two files number their eras differently, and the changeover code starts one day apart. Here
+code `1` is the era from the June 2016 logger program, and all of 14 December 2021 carries the
+undetermined code, because the exchange happened during that day.
 [`LW_IN`](Meteo_Data_LW_IN.html) assigns that day to the CNR1 and starts its undetermined code on
 the next day. Do not carry a code from one file to the other.
 
@@ -128,13 +131,18 @@ is not known.
 Five years are below 97 % measured: 2015 at 88.1 %, 2012 at 92.3 %, 2016 at 94.3 %, 2019 at 95.7 %
 and 2009 at 96.6 %. 2005 is a partial year, beginning in September.
 
-This product removed three sets of records: **1,202** inside the two 2012 windows of documented
-logger-wide fault, as in notebooks `01` to `03` and `06`; **one** record outside the physical range
-of 150 to 600 W m^-2^; and **ten** half-hours during the radiometer exchange that fell outside the
-range of the same time of day on the seven days either side, when the instrument was unmounted and
-no longer viewing the canopy. The **August 2012 clock error** is corrected by the same +15.5 h shift
-as the other tower variables. Unlike `LW_IN`, this variable can confirm the size of the shift,
-because the canopy heats in the sun and its emission follows.
+This product removed three sets of records:
+
+- **1,202** inside the two 2012 windows of documented logger-wide fault, as in notebooks `01` to
+  `03` and `06`;
+- **one** record outside the physical range of 150 to 600 W m^-2^;
+- **ten** half-hours during the radiometer exchange that fell outside the range of the same time
+  of day on the seven days either side, when the instrument was unmounted and no longer viewing
+  the canopy.
+
+The **August 2012 clock error** is corrected by the same +15.5 h shift as the other tower
+variables. Unlike `LW_IN`, this variable can confirm the size of the shift, because the canopy
+heats in the sun and its emission follows.
 
 ***
 
@@ -143,49 +151,49 @@ because the canopy heats in the sun and its emission follows.
 The MeteoScreeningTool and the diive screening cover **35,032 of the same half-hours**, and on
 those records they give the same series: median difference 0.000 W m^-2^, RMS difference
 0.011 W m^-2^, largest single difference 2.06 W m^-2^, correlation 1.000. The join between them
-changes no value, and the change of screening is ruled out as the cause of the step at the turn of
+changes no value, so the change of screening is ruled out as the cause of the step at the turn of
 2022. `LW_IN` has no such overlap.
 
 ## The June 2016 calibration change reached this channel
 
 On 7 June 2016 a new logger program changed a radiometer calibration factor from 10.03 to
-12.83 µV/W/m^2^, the change that leaves more than half of `LW_IN` reading low. The maintenance
-record names one factor without saying which channels received it, so the question was tested in
-the data.
+12.83 µV/W/m^2^. This is the change that leaves more than half of `LW_IN` reading low. The
+maintenance record names one factor without saying which channels received it, so the question was
+tested in the data.
 
 The statistic is the 2nd percentile of the nighttime net signal (measured value minus the
 Stefan-Boltzmann emission at air temperature), where a conversion error is largest. It moves from
-**−15.9 W m^-2^ in 2006-2015 to −11.3 W m^-2^ in 2017-2021**, a ratio of 0.721 that is the same at
-every percentile of the tail, as expected for a change of conversion. The documented factor change
-predicts 0.782; the two agree well within the year-to-year scatter of the statistic. Where the
-canopy is at air temperature and the net signal is near zero, no conversion factor can act, and the
-corresponding statistic moves by only 0.07 % across the date. A change in the canopy or the weather
-would not produce this pattern.
+**−15.9 W m^-2^ in 2006-2015 to −11.3 W m^-2^ in 2017-2021**, a ratio of 0.721. The ratio is the
+same at every percentile of the tail, as expected for a change of conversion. The documented
+factor change predicts 0.782, and the two agree well within the year-to-year scatter of the
+statistic. Where the canopy is at air temperature and the net signal is near zero, no conversion
+factor can act, and the corresponding statistic moves by only 0.07 % across the date. A change in
+the canopy or the weather would not produce this pattern.
 
-**Effect on the values.** Before 7 June 2016 the net signal is too large in magnitude by roughly a
-quarter. Values therefore read low at night, when the canopy is cooler than the instrument, and
-high during the day. Because the net signal is small, the error is a few W m^-2^ at most, compared
-with about 8 W m^-2^ for the incoming channel. It is **not corrected**, because that would need the
+**Effect on the values.** Before 7 June 2016 the net signal is too large in magnitude by roughly
+25 %. Values therefore read low at night, when the canopy is cooler than the instrument, and high
+during the day. Because the net signal is small, the error is a few W m^-2^ at most, compared with
+about 8 W m^-2^ for the incoming channel. It is **not corrected**, because that would need the
 radiometer's body temperature, which this product does not read. Code `2` marks the affected era,
 more than half the record.
 
 ## The December 2021 exchange and the 24 days after it
 
-Measured the same way, the first half of 2022 gives an envelope ratio of **0.710** against the three
-preceding years, outside the 0.808 to 1.050 that the statistic shows in years without a boundary.
-The record therefore steps at the exchange. The screenings agree, so the cause is the instrument or
-the weather, and the CNR1 was replaced by the CNR4 on that date. Nothing is corrected; the flag
-separates the two instruments.
+Measured the same way, the first half of 2022 gives an envelope ratio of **0.710** against the
+three preceding years. This is outside the range of 0.808 to 1.050 that the statistic shows in
+years without a boundary, so the record steps at the exchange. The screenings agree, so the cause
+is the instrument or the weather, and the CNR1 was replaced by the CNR4 on that date. Nothing is
+corrected; the flag separates the two instruments.
 
-From 14 December 2021 to 7 January 2022 the CNR4 was read by a logger program written for the CNR1,
-so its values were converted with the wrong sensitivity. Which of two candidate sensitivities was
-applied is not known: the program that set it does not survive, and the June 2016 entry does not
-say whether its new factor reached this channel. Both candidates were computed; neither is adopted.
-The error is small, because the constant scales the net signal, not the reported irradiance. Over
-the window the net signal has a median of −0.7 W m^-2^ and a 5th to 95th percentile range of −3.6 to
-+2.7 W m^-2^, so the worst case over both candidates is **1.6 W m^-2^ on a single half-hour, 0.5 %
-of the reported value**. Code `3` marks the interval, so it can be dropped where an unambiguous
-calibration is needed.
+From 14 December 2021 to 7 January 2022 the CNR4 was read by a logger program written for the
+CNR1, so its values were converted with the wrong sensitivity. Which of two candidate
+sensitivities was applied is not known: the program that set it does not survive, and the June 2016
+entry does not say whether its new factor reached this channel. Both candidates were computed, and
+neither is adopted. The error is small, because the constant scales the net signal, not the
+reported irradiance. Over the window the net signal has a median of −0.7 W m^-2^ and a 5th to 95th
+percentile range of −3.6 to +2.7 W m^-2^. The worst case over both candidates is therefore
+**1.6 W m^-2^ on a single half-hour, 0.5 % of the reported value**. Code `3` marks the interval, so
+it can be dropped where an unambiguous calibration is needed.
 
 ## Known limitations
 
@@ -193,7 +201,7 @@ calibration is needed.
   the instrument, but its size in W m^-2^ is not established. Filter on the source flag before
   comparing the two eras, and treat a trend across that date as containing the change.
 - **More than half of the record was converted with the pyranometer's factor.** Everything before
-  7 June 2016 carries code `2` and reads low at night by roughly a quarter of the net signal, a few
+  7 June 2016 carries code `2` and reads low at night by roughly 25 % of the net signal, a few
   W m^-2^. It is not corrected, because that would need the radiometer's body temperature.
 - **The 24 days of the changeover have an unverified conversion**, with an error of at most
   1.6 W m^-2^ and the applied constant not identified. Code `3` marks them.
@@ -201,12 +209,12 @@ calibration is needed.
   has no pyrgeometer, and the below-canopy sensor views a different surface. Every statement above
   rests either on the physics of the measurement, with the Stefan-Boltzmann emission at air
   temperature as the yardstick, or on the overlap between the two screenings. This is weaker
-  evidence than a second instrument; where it does not suffice, the product notebook says so.
+  evidence than a second instrument. Where it does not suffice, the product notebook says so.
 - **The physical checks use air temperature in place of two temperatures that are not measured**:
   the canopy temperature and the radiometer body temperature. This is adequate to estimate the size
   of an effect, not to correct the data.
 - **The January 2016 acquisition change did not move this series.** It is listed because the same
-  change moved `TA_T1_47_1` by 1.3 °C and because it is easily confused with the June date five
+  change moved `TA_T1_47_1` by 1.3 °C, and because it is easily confused with the June date five
   months later. Every surviving logger program applies the same conversion across it, and the data
   show no change.
 - **The series contains gaps and is not gap-filled.** Code that assumes a complete series will fail

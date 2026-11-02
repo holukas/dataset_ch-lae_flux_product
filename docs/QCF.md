@@ -1,8 +1,8 @@
 # QCF: overall quality control flag
 
 The overall quality flag `QCF` combines the test flags of the post-processing chain into one flag
-per record. It is calculated after each level, and each level includes the tests of the levels
-before it, so the flag after Level 3.3 accounts for all tests.
+per record. It is calculated after each level and includes the tests of the levels before it, so
+the flag after Level 3.3 accounts for all tests.
 
 Notebook: [`05_FPPC_IRGA72_NEE`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA72/05_FPPC_IRGA72_NEE_2016-2026.09.html),
 the tables "result of each Level-2 test" and "result of each Level-3.2 test" and Step 5.
@@ -22,8 +22,8 @@ tests set only hard flags. Soft flags come from the SSITC test (flag 1 as report
 from the spectral correction factor test (`SCF` from 2 to below 4). A missing flux is rejected by
 the missing-value test, so it always has `QCF` 2.
 
-The same rule applies by day and by night: records with `QCF` 0 and 1 are kept. FP2026.2 uses this
-rule for both gas analysers. For the open-path LI-7500 (`IRGA75`) the notebook is
+By day and by night, records with `QCF` 0 and 1 are kept. FP2026.2 uses this rule for both gas
+analysers. For the open-path LI-7500 (`IRGA75`) the notebook is
 [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html).
 
 ## Columns

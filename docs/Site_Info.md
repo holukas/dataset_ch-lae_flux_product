@@ -1,20 +1,21 @@
 # Site information
 
 CH-LAE (Lägeren) is a managed mixed deciduous mountain forest on the south-facing
-slope of the Lägern, in the Jura mountain range that marks the northern boundary
-of the Swiss Plateau, north-west of Zurich [@etzold_carbon_2011]. The stand is
-diverse in species, diameter class and tree age, and has a complex canopy
-structure [@etzold_carbon_2011; @shekhar_contrasting_2024]. Eddy covariance
-measurements started on **30 March 2004**, the date of the first raw file in the
-setup table of the [Yearly Notes](Yearly_Notes.md), and are ongoing.
+slope of the Lägern, north-west of Zurich. The Lägern is part of the Jura mountain
+range, which marks the northern boundary of the Swiss Plateau
+[@etzold_carbon_2011]. The stand is diverse in species, diameter class and tree
+age, and has a complex canopy structure
+[@etzold_carbon_2011; @shekhar_contrasting_2024]. Eddy covariance measurements
+started on **30 March 2004**, the date of the first raw file in the setup table of
+the [Yearly Notes](Yearly_Notes.md), and are ongoing.
 
-This page draws on the
+The sources of this page are the
 [Swiss FluxNet site page for CH-LAE](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)
-and on two published site descriptions, @etzold_carbon_2011 and
-@shekhar_contrasting_2024. Every value below names its source; where sources
-disagree, both are given. The eddy covariance setup (sonic anemometer, gas
-analysers, sensor separations and the setup periods of the flux runs) is listed
-per year in [Yearly Notes](Yearly_Notes.md). The dataset itself is described in
+and two published site descriptions, @etzold_carbon_2011 and
+@shekhar_contrasting_2024. Every value names its source. Where sources disagree,
+both values are given. The eddy covariance setup (sonic anemometer, gas analysers,
+sensor separations and the setup periods of the flux runs) is listed per year in
+[Yearly Notes](Yearly_Notes.md). The dataset is described in
 [Overview](Overview.md).
 
 ![The CH-LAE tower in December 2019. The instrument platform carrying the eddy covariance system and the meteorological sensors stands clear of a leafless deciduous canopy with scattered conifers; the Swiss Plateau below is under fog. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg){#fig-site-tower}
@@ -40,20 +41,21 @@ from the Swiss FluxNet site page; slope, region and altitudinal zone are from
 | altitudinal zone | montane |
 | slope | 27°, south-facing |
 
-Reported slopes differ in value and in unit. @etzold_carbon_2011 give **27°** for
-the flux site, while the
-[LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/) gives a mean slope of
-**37 %**, which is about 20°. The two describe different areas, the flux
-footprint and a 1.34 ha inventory plot, so they do not conflict. Do not read
-37 % as 37°.
+Reported slopes differ in value and unit:
 
-The slope is the property of this site that most affects the flux measurement.
-Advection on the slope contributes measurably to the carbon budget, and the site
-has been used as a study case for that term [@etzold_contribution_2010]. That
-work is also the origin of the constant friction-velocity threshold of
-0.3 m s^-1^ that later studies of this site have applied
-[@shekhar_contrasting_2024]. The thresholds used in the present dataset are
-documented under [Level 3.3](L3.3.md).
+- @etzold_carbon_2011: **27°** for the flux site.
+- [LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/): a mean slope of
+  **37 %**, about 20°.
+
+The two values describe different areas, the flux footprint and a 1.34 ha
+inventory plot, so they do not conflict. Do not read 37 % as 37°.
+
+Of all site properties, the slope affects the flux measurement most. Advection on
+the slope contributes measurably to the carbon budget, and the site has been used
+as a study case for that term [@etzold_contribution_2010]. The same study is the
+origin of the constant friction-velocity threshold of 0.3 m s^-1^ that later
+studies of this site have applied [@shekhar_contrasting_2024]. The thresholds of
+the present dataset are documented under [Level 3.3](L3.3.md).
 
 ::: {.callout-note title="Published positions differ from the values above"}
 
@@ -61,8 +63,8 @@ The position in @tbl-site-location is the correct one. Some published
 descriptions of the site give slightly different values: **682 m a.s.l.** instead
 of 689 m [@etzold_carbon_2011; @shekhar_contrasting_2024], and coordinates about
 50 m away, 47°28'40.8" N, 8°21'55.2" E [@etzold_carbon_2011]. The prose of the
-Swiss FluxNet page separately describes the site as being at 800 m a.s.l., which
-describes the mountain rather than the tower. Use the values in the table.
+Swiss FluxNet page gives 800 m a.s.l., which is the elevation of the mountain,
+not of the tower. Use the values in the table.
 
 :::
 
@@ -79,14 +81,13 @@ and the extent of the stand.
 
 The tower is **47 m** tall and belongs to WSL, which describes it on its
 [Zindlen measurement tower page](https://www.wsl.ch/de/ueber-die-wsl/versuchsanlagen-und-labors/flaechen-im-wald/messturm-laegeren-zindlen/).
-It is not the original structure. The first tower was built under the Swiss
-National Research Programme **NFP 14+** and was replaced after being damaged by
-**storm Lothar** in December 1999. The eddy covariance measurements of this
-dataset began in 2004 on the replacement tower, so no part of the record spans
-the rebuild.
+The first tower was built under the Swiss National Research Programme **NFP 14+**.
+It was damaged by **storm Lothar** in December 1999 and replaced. The eddy
+covariance measurements of this dataset began in 2004 on the replacement tower,
+so no part of the record spans the rebuild.
 
-The tower carries instruments of several groups, which is why more than one
-measurement of the same quantity exists at this site (see
+The tower carries instruments of several groups, so more than one measurement of
+the same quantity exists at this site (see
 [Monitoring programmes and networks](#monitoring-programmes-and-networks)).
 Physical access requires authorisation from the WSL safety officer.
 
@@ -107,11 +108,11 @@ of each. {#tbl-site-climate-means}
 | 2004-2020 | 8.67 °C | 801 mm | @shekhar_contrasting_2024 |
 | 2005-2020 | 8.6 °C | not given | Swiss FluxNet site page |
 
-The temperature means are consistent with a warming record: the Swiss FluxNet
-page reports 7.8 °C over 2005-2012 and 9.4 °C over 2013-2020, a difference of
-1.6 °C between the two halves of that period. The two precipitation figures are
-**not** directly comparable, because they cover different years and come from
-different gauges. When quoting either as the site value, state which one it is.
+The temperature means are consistent with warming. The Swiss FluxNet page reports
+7.8 °C over 2005-2012 and 9.4 °C over 2013-2020, a difference of 1.6 °C between
+the two halves of that period. The two precipitation figures are **not** directly
+comparable: they cover different years and come from different gauges. When
+quoting either as the site value, state which one it is.
 
 ::: {.callout-warning title="To do: recompute the climate figures from this dataset"}
 
@@ -139,23 +140,28 @@ from one of them can still be traced to its source.
 | highest recorded temperature | 33.5 °C (25 July 2019) |
 | lowest recorded temperature | -17.2 °C (7 February 2012) |
 
-The site air temperature record is affected by a sensor and acquisition change in
-January 2016; see [Air temperature](Meteo_Data_TA.md) for what this means when
-early and late years are compared. Measured precipitation at the tower is
-documented under [Precipitation](Meteo_Data_PREC.md).
+A sensor and acquisition change in January 2016 affects the site air temperature
+record. [Air temperature](Meteo_Data_TA.md) explains what this means when early
+and late years are compared. Measured precipitation at the tower is documented
+under [Precipitation](Meteo_Data_PREC.md).
 
-Three MeteoSwiss stations lie close enough to serve as references: **Lägern**
-(845 m a.s.l., 2.5 km), **Ehrendingen** (428 m a.s.l., 3.8 km) and
-**Zürich/Kloten** (426 m a.s.l.). They do not all measure the same variables:
-Lägern measures no precipitation and no longwave radiation, and Ehrendingen
-measures precipitation only. The reference used for each product is named on
-that product's page under [Meteorological data](Meteo_Data.md).
+Three MeteoSwiss stations lie close enough to serve as references. They do not
+all measure the same variables.
+
+| station | elevation | distance | variables |
+|---|---|---|---|
+| **Lägern** | 845 m a.s.l. | 2.5 km | no precipitation, no longwave radiation |
+| **Ehrendingen** | 428 m a.s.l. | 3.8 km | precipitation only |
+| **Zürich/Kloten** | 426 m a.s.l. | not given | not given |
+
+The reference used for each product is named on that product's page under
+[Meteorological data](Meteo_Data.md).
 
 ### Growing season and dryness
 
 @shekhar_contrasting_2024 characterise the growing season and the water-related
-conditions of the site over 2005-2022. These values help to identify the years
-in the record that were climatically unusual.
+conditions of the site over 2005-2022. These values help to identify the
+climatically unusual years of the record.
 
 : Growing-season conditions over 2005-2022, after @shekhar_contrasting_2024. The
 growing season is day of year 115-275, approximately 25 April to 2 October.
@@ -169,21 +175,21 @@ growing season is day of year 115-275, approximately 25 April to 2 October.
 | 90th percentile of vapour pressure deficit | 2.1 kPa |
 
 Days below the soil-moisture percentile occurred mainly in **2006, 2009, 2015 and
-2018**, and days that were both soil-dry and air-dry fell largely in **2015, 2018
-and 2022**. 2015 had the most extreme-dryness days of any year in that period
-[@shekhar_contrasting_2024]. Soil moisture and vapour pressure deficit at the
-site are negatively correlated (*r* = -0.36), more strongly than at the
-subalpine site the same study compares against.
+2018**. Days that were both soil-dry and air-dry fell largely in **2015, 2018 and
+2022**. 2015 had the most extreme-dryness days of any year in that period
+[@shekhar_contrasting_2024]. Soil moisture and vapour pressure deficit at the site
+are negatively correlated (*r* = -0.36), more strongly than at the subalpine site
+the same study compares against.
 
 ## Vegetation and stand structure
 
-The stand is dominated by European beech (*Fagus sylvatica* L.), with ash
-(*Fraxinus excelsior* L.) and Norway spruce (*Picea abies* (L.) Karst.) the other
-abundant species [@etzold_carbon_2011]. Canopy composition has been quantified as
-beech 40 %, ash 19 %, sycamore maple (*Acer pseudoplatanus* L.) 13 %, European
-silver fir (*Abies alba* Mill.) 8 % and Norway spruce 4 %
+The stand is dominated by European beech (*Fagus sylvatica* L.). Ash
+(*Fraxinus excelsior* L.) and Norway spruce (*Picea abies* (L.) Karst.) are the
+other abundant species [@etzold_carbon_2011]. The canopy composition is beech
+40 %, ash 19 %, sycamore maple (*Acer pseudoplatanus* L.) 13 %, European silver
+fir (*Abies alba* Mill.) 8 % and Norway spruce 4 %
 [@paul-limoges_below-canopy_2017; @shekhar_contrasting_2024]. The Swiss FluxNet
-site page additionally lists *Tilia cordata* Mill., *Quercus robur* L. and
+site page also lists *Tilia cordata* Mill., *Quercus robur* L. and
 *Ulmus glabra* Huds. as present. In spring, bear's garlic (*Allium ursinum* L.)
 forms a dense understorey, growing from about March to June
 [@etzold_carbon_2011; @shekhar_contrasting_2024].
@@ -204,14 +210,14 @@ forms a dense understorey, growing from about March to June
 
 ::: {.callout-note title="The stand numbers describe a 1.34 ha plot, not the footprint"}
 
-Four of the rows above (top-height diameter, stem density and the two maximum
+Four rows of the table (top-height diameter, stem density and the two maximum
 ages) appear identically on the Swiss FluxNet site page and on the
-[LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/), and the LWF plot is
-where they were measured. That plot is **1.34 ha**, was installed on 1 May 2012
-and spans 643-718 m elevation. The flux footprint is much larger and spans two
-management regimes (see [Management and footprint](#management-and-footprint)).
-The plot statistics describe the forest, but they are not an inventory of the
-area the fluxes come from.
+[LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/). They were measured on
+the LWF plot. The plot is **1.34 ha**, was installed on 1 May 2012 and spans
+643-718 m elevation. The flux footprint is much larger and spans two management
+regimes (see [Management and footprint](#management-and-footprint)). The plot
+statistics describe the forest, but they are not an inventory of the area the
+fluxes come from.
 
 :::
 
@@ -225,7 +231,7 @@ mounted at 47 m, well above the mean canopy height of about 30 m
 ## Soil and geology
 
 The bedrock is limestone, marl and sandstone, with transition zones between them
-(Swiss FluxNet site page). Soils are **rendzic leptosols** (rendzinas) and
+(Swiss FluxNet site page). The soils are **rendzic leptosols** (rendzinas) and
 **haplic cambisols** in the World Reference Base classification
 [@etzold_carbon_2011]. The litter layer is thin: leaf litter decomposes nearly
 completely within one year (Swiss FluxNet site page).
@@ -237,52 +243,53 @@ completely within one year (Swiss FluxNet site page).
 | soil pH | 4.0-7.5 |
 | soil carbon stock, 0-20 cm | 8.4-9.6 kg m^-2^ |
 
+The pH range is wide because the two soil types differ: rendzinas over limestone
+are near-neutral to alkaline, cambisols are acidic.
+
 The [LWF plot page](https://lwf.wsl.ch/en/flaechen/laegeren/) classifies the same
 soils in the WSL scheme as **calcareous brown soil, chromic luvisol and mixed
-rendzina**. The luvisol is not named in the World Reference Base pair above.
+rendzina**. The World Reference Base pair above does not name the luvisol.
 
-The pH range is wide because the two soil types differ: rendzinas over limestone
-are near-neutral to alkaline, the cambisols acidic. Soil moisture and soil
-temperature measured at the forest floor are documented under
-[Soil water content](Meteo_Data_SWC.md) and
-[Soil temperature](Meteo_Data_TS.md).
+Soil moisture and soil temperature at the forest floor are documented under
+[Soil water content](Meteo_Data_SWC.md) and [Soil temperature](Meteo_Data_TS.md).
 
 ## Management and footprint
 
 The forest is a high forest, and the two halves of the flux footprint are managed
-differently. The **southern** part has been managed under Forest Stewardship
-Council certification since 1998. The **northern** part is a nature reserve in
-which tree harvesting stopped around the late 1990s. Footprint modelling
-indicates that the eddy covariance fluxes come from both parts in roughly equal
-proportion [@etzold_carbon_2011].
+differently:
 
-The fluxes therefore describe an approximately even mixture of a managed and an
-unmanaged stand, not a single management regime. The dataset holds no record of
-management events.
+- The **southern** part has been managed under Forest Stewardship Council
+  certification since 1998.
+- The **northern** part is a nature reserve, in which tree harvesting stopped
+  around the late 1990s.
+
+Footprint modelling indicates that the eddy covariance fluxes come from both parts
+in roughly equal proportion [@etzold_carbon_2011]. The fluxes therefore describe
+an approximately even mixture of a managed and an unmanaged stand, not a single
+management regime. The dataset holds no record of management events.
 
 ## Monitoring programmes and networks
 
-The site belongs to several programmes besides Swiss FluxNet, which is why more
-than one measurement record exists at the same location:
+Besides Swiss FluxNet, the site belongs to several programmes, so more than one
+measurement record exists at the same location:
 
-- **Swiss FluxNet**, operated by the Grassland Sciences Group, ETH Zurich, which
-  runs the eddy covariance system this dataset is built from
+- **Swiss FluxNet**, operated by the Grassland Sciences Group, ETH Zurich, runs
+  the eddy covariance system this dataset is built from
   [@shekhar_contrasting_2024].
-- **NABEL**, the Swiss national air pollution monitoring network, operated by
-  EMPA, which runs its own meteorological sensors on the same tower
-  [@etzold_carbon_2011]. The NABEL air temperature and radiation measurements at
-  49 m are used as co-located references in the meteorological products. WSL
-  gives the NABEL presence as running through 2017. In the data used here, the
-  NABEL series ceases to be independent in mid-2018; the meteorological products
-  use this date, because it is taken from the measurements rather than from a
-  report.
-- **LWF**, the long-term forest ecosystem research programme of WSL
-  (Swiss Federal Institute for Forest, Snow and Landscape Research), which runs
-  the 1.34 ha inventory plot described above.
+- **NABEL**, the Swiss national air pollution monitoring network operated by EMPA,
+  runs its own meteorological sensors on the same tower [@etzold_carbon_2011]. The
+  NABEL air temperature and radiation at 49 m are used as co-located references
+  in the meteorological products. WSL gives the NABEL presence as running through
+  2017. In the data used here, the NABEL series ceases to be independent in
+  mid-2018. The meteorological products use this date, because it is taken from
+  the measurements rather than from a report.
+- **LWF**, the long-term forest ecosystem research programme of WSL (Swiss Federal
+  Institute for Forest, Snow and Landscape Research), runs the 1.34 ha inventory
+  plot described above.
 - The **University of Zurich** (Soil Science and Biogeochemistry) and a second
   ETH Zurich group (Land-Climate Dynamics) also measure at the plot
   ([LWF](https://lwf.wsl.ch/en/flaechen/laegeren/)).
-- **CarboEurope IP**, the European carbon flux network the site joined at the
+- **CarboEurope IP** is the European carbon flux network the site joined at the
   start of the measurements (Swiss FluxNet site page).
 
 The site is not an ICOS station. @shekhar_contrasting_2024 name ICOS Class 1
@@ -292,10 +299,10 @@ CH-LAE itself.
 ## Further information
 
 - [Swiss FluxNet site page for CH-LAE](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/):
-  the site description, and the definitions of the numbered notes referenced by
-  the setup table in [Yearly Notes](Yearly_Notes.md).
+  the site description, and the definitions of the numbered notes in the setup
+  table of the [Yearly Notes](Yearly_Notes.md).
 - [EC raw binary format for CH-LAE](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/ec-raw-binary-format-ch-lae/):
-  the setup periods, their raw file ranges and the notes that document
+  the setup periods, their raw file ranges, and the notes that document
   corrections and unusable periods.
 - [CH-LAE FP2022 (2004-2022)](https://doi.org/10.3929/ethz-b-000582198): an
   earlier published dataset of ecosystem fluxes and meteorological data from this
@@ -303,10 +310,10 @@ CH-LAE itself.
 - [WSL: Zindlen measurement tower](https://www.wsl.ch/de/ueber-die-wsl/versuchsanlagen-und-labors/flaechen-im-wald/messturm-laegeren-zindlen/):
   the tower, its history and the conditions of access.
 - [WSL LWF: Lägeren plot](https://lwf.wsl.ch/en/flaechen/laegeren/): the
-  long-term forest ecosystem research plot, its inventory statistics and its
+  long-term forest ecosystem research plot, its inventory statistics, and its
   deposition and foliar data.
-- [Instrumentation](Instrumentation.md): the instruments deployed at the site and
-  their measurement periods.
+- [Instrumentation](Instrumentation.md): the instruments at the site and their
+  measurement periods.
 
 ## References
 

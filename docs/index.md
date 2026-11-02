@@ -8,9 +8,20 @@ request. The second release, FP2026.2, adds the fluxes from 2004 and is in progr
 
 produced by [Lukas Hörtnagl](https://gl.ethz.ch/people/person-detail.lukas.html)
 
-Documentation and notebooks for the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)**. The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/), operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
+Documentation and notebooks for the PI dataset of the **mixed forest station [CH-LAE (Laegeren)](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/)**. The site is part of [Swiss FluxNet](https://www.swissfluxnet.ethz.ch/) and is operated by the [Grassland Sciences Group, ETH Zurich](https://gl.ethz.ch/). Group leader: [Prof. Nina Buchmann](https://gl.ethz.ch/people/person-detail.nina.html).
 
-The dataset holds ecosystem fluxes measured by eddy covariance (CO<sub>2</sub>, H<sub>2</sub>O and sensible heat) and meteorological data. FP2026.1 contains the fluxes of the enclosed-path LI-7200 gas analyser from January 2016 on. FP2026.2, in progress, adds the fluxes of the open-path LI-7500 for 2004-2015.
+The dataset holds the meteorological data of the site and the ecosystem fluxes of CO<sub>2</sub>, H<sub>2</sub>O and sensible heat, measured by eddy covariance.
+
+## Dataset versions
+
+| version | content | status |
+|---|---|---|
+| **CH-LAE FP2026.1 (2016-2026.09)**, current | 1 January 2016 to 30 September 2026. Gap-filled fluxes of `NEE`, `LE`, `ET` and `H` from the enclosed-path LI-7200, the uncertainty of `NEE`, and all meteorological data of the site. | released 27 October 2026; available on request from the Grassland Sciences group, ETH Zurich |
+| **CH-LAE FP2026.2 (2004-2026.09)**, next | Adds the fluxes of the open-path LI-7500 for 2004-2015, which extend the flux record back to 2004. Contains FP2026.1 in full and supersedes it. | in progress |
+
+What each release contains and what is not yet included is on [Dataset Versions](Dataset_Versions.md).
+
+## Where to start
 
 - [Overview](Overview.md): what the dataset contains and how it was produced.
 - [Variables](Variables.md): the main variables, their units and the column suffixes.
@@ -21,34 +32,13 @@ Recent changes to the documentation are in the [commit history](https://github.c
 
 ![The research site CH-LAE in Dec 2019. Photo: Markus Staudinger, Grassland Sciences Group, ETH Zurich](images/CH-LAE_2019_tower_byMarkusStaudinger_1620x1080.jpg){#fig-photo-ec2}
 
-## Current dataset version
-
-### **CH-LAE FP2026.1 (2016-2026.09) [current version]**
-
-First release, 1 January 2016 to 30 September 2026. Fluxes of `NEE`, `LE`, `ET` and `H` from the
-enclosed-path LI-7200, gap-filled, with the uncertainty of `NEE`, and all meteorological data of
-the site.
-
-release date: 27 October 2026
-
-available on request from the Grassland Sciences group, ETH Zurich
-
-For details and what is not yet included, see [Dataset Versions](Dataset_Versions.md).
-
-## Next dataset version
-
-### **CH-LAE FP2026.2 (2004-2026.09) [in progress]**
-
-Extends the flux record back to 2004 with the fluxes of the open-path LI-7500. It re-includes
-FP2026.1 in full and supersedes it.
-
 ## Acknowledgments
 
-We acknowledge the scientific advice by Iris Feigenwinter, Yi Wang, Lukas Hörtnagl, Lutz Merbold, Werner Eugster and Nina Buchmann. 
+We acknowledge the scientific advice by Iris Feigenwinter, Yi Wang, Lukas Hörtnagl, Lutz Merbold, Werner Eugster and Nina Buchmann.
 
-The authors are grateful to Thomas Baur, Meier Philip, and Markus Staudinger for technical assistance and maintenance of instrumentation. 
+The authors are grateful to Thomas Baur, Meier Philip, and Markus Staudinger for technical assistance and maintenance of instrumentation.
 
-Meteorological data were made available through MeteoSwiss, Federal Office of Meteorology and Climatology, Switzerland and the Swiss air quality monitoring network (NABEL). We thank the forester Philip Vock for enabling and supporting the studies at the Lägeren forest, Johannes Böhm, Roger Süess, Arnold Streule and Thomas Baur for maintaining the EC infrastructure, as well as Lydia Gentsch for continuing the soil respiration measurements at the Lägeren in 2008. 
+Meteorological data were made available through MeteoSwiss, Federal Office of Meteorology and Climatology, Switzerland and the Swiss air quality monitoring network (NABEL). We thank the forester Philip Vock for enabling and supporting the studies at the Lägeren forest, Johannes Böhm, Roger Süess, Arnold Streule and Thomas Baur for maintaining the EC infrastructure, as well as Lydia Gentsch for continuing the soil respiration measurements at the Lägeren in 2008.
 
 ### Funding
 

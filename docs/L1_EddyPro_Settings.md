@@ -8,11 +8,10 @@ belong to Level-1 version `FF-202610`:
 - **`IRGA75`**, the open-path LI-7500: 19 runs, 2004 to 2017 and 2019. These fluxes are in progress
   for FP2026.2 and are not part of FP2026.1.
 
-This page lists the settings of these runs. They are taken from the EddyPro project (`.eddypro`)
-and metadata (`.metadata`) file of each run and checked against the EddyPro output. Both files of
-every run are shared with the dataset, in the folder `EDDYPRO_SETTINGS/IRGA72` or
-`EDDYPRO_SETTINGS/IRGA75`. The runs and the merged record are described on [Level-1](L1.md), the
-setup periods on [Yearly Notes](Yearly_Notes.md).
+The settings below are taken from the EddyPro project (`.eddypro`) and metadata (`.metadata`) file
+of each run and checked against the EddyPro output. Both files of every run are shared with the
+dataset, in `EDDYPRO_SETTINGS/IRGA72` or `EDDYPRO_SETTINGS/IRGA75`. The runs and the merged record
+are described on [Level-1](L1.md), the setup periods on [Yearly Notes](Yearly_Notes.md).
 
 ## Settings common to all runs
 
@@ -69,12 +68,12 @@ setup periods on [Yearly Notes](Yearly_Notes.md).
 | `2023_1` to `2026_1` | IRGA72-A | 7.90 to 8.80, 8.45 | 7.75 to 13.05, 8.50 to 8.55 |
 
 - **Time lags.** The lags of about 8.4 s from `2019_4` on are not the travel time through the
-  intake tube. According to the setup notes 12 and 13 (see [Yearly Notes](Yearly_Notes.md)), they
+  intake tube. According to setup notes 12 and 13 (see [Yearly Notes](Yearly_Notes.md)), they
   include an artificial delay added by the data acquisition. `2022_2` has no such delay, and its
   CO~2~ lag of 1.25 s lies in the expected range. The lag shifts again in `2022_3` and `2022_4`,
   which are therefore separate runs (note 7). Lags are not comparable across setup periods.
-- **Analyser position.** The inlet was moved in March 2023 (note 23), which changes the
-  separation from `2023_2` on. Tube length and flow are unchanged.
+- **Analyser position.** The inlet was moved in March 2023 (note 23), so the separation changes
+  from `2023_2` on. Tube length and flow are unchanged.
 - **Spectral assessment.** Four short setup periods use the assessment of a neighbouring run:
   `2016_2` that of `2016_3`, `2018_1` that of `2017_1+2`, `2022_2` and `2022_4` that of `2022_3`.
 - **Biomet file.** The runs up to `2025_1` read `EDDYPRO_BIOMET_CH-LAE_2004-2025.csv`, the `2026_1`
@@ -109,9 +108,9 @@ setup periods on [Yearly Notes](Yearly_Notes.md).
 - **Time lags.** An open-path analyser needs only a short lag window, for the separation from the
   sonic. The lag of about 12 s in `2019_3`, when the LI-7500 stood in for the LI-7200, includes an
   artificial delay from the data acquisition, as in the preceding period `2019_2` (note 13).
-- **Other instruments in the raw files.** In `2005_2`, `2005_3` and `2008_2+3` the raw files also
-  hold a quantum cascade laser (QCL-L2, QCL-L and QCL-ISO), and in `2016_2+3` and `2017_1+2` the
-  LI-7200. These are declared in the metadata but not used: the `IRGA75` fluxes come from the
+- **Other instruments in the raw files.** The raw files also hold a quantum cascade laser in
+  `2005_2`, `2005_3` and `2008_2+3` (QCL-L2, QCL-L and QCL-ISO), and the LI-7200 in `2016_2+3` and
+  `2017_1+2`. These are declared in the metadata but not used: the `IRGA75` fluxes come from the
   LI-7500 only.
 - **Spectral assessment.** `2005_2` and `2005_3` use the assessment of `2005_1+4`, `2016_1` that of
   `2015`. All other runs compute their own.

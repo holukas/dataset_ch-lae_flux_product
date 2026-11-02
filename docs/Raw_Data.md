@@ -22,8 +22,8 @@ were calculated from.
 The raw data are stored as binary files, each typically covering 6 hours. The file name gives the
 start of the file: `2013070615.b02` starts on 6 July 2013 at 15:00.
 
-The setup changes over time. Each change of hardware or configuration starts a new **setup
-period**, labelled by year and number (`2016_2`). The setup table on
+Each change of hardware or configuration starts a new **setup period**, labelled by year and
+number (`2016_2`). The setup table on
 [Yearly Notes](Yearly_Notes.md) lists every setup period with its first and last raw file, its
 instruments and their separations. Its numbered notes are explained on the
 [SwissFluxNet page on the raw binary format](https://www.swissfluxnet.ethz.ch/index.php/sites/site-info-ch-lae/ec-raw-binary-format-ch-lae/).

@@ -10,7 +10,9 @@ daylight saving), from 2004-01-01 00:15 to 2026-09-30 23:45. 2026 is a partial y
 humidity, so it inherits the properties of those two products.
 
 The [interactive dashboard](dashboards/METEO_VPD_dashboard.html) summarises the product on
-one page. It is still built from the 2004-2025 version of the product and ends in December 2025. It shows the single `VPD_T1_47_1` of that version, computed from the homogenised `TA` and the measured `RH`.
+one page. It is still built from the 2004-2025 version of the product and ends in December
+2025. It shows the single `VPD_T1_47_1` of that version, computed from the homogenised `TA`
+and the measured `RH`.
 
 Method, evidence and checks:
 
@@ -31,15 +33,15 @@ MP101A to Campbell CS215) and on 5 June 2026 (to a Campbell HygroVUE10). Both in
 change level at these dates, so `VPD` does as well.
 
 - `VPD_T1_47_1` is computed from the measured `TA` and `RH`. It is the `VPD` the probe
-  reported and matches the measured `TA` and `RH` passed to EddyPro in the biomet file
-  ([Level 1](L1.md)). Use it together with those columns, and inside one probe state.
+  reported, and it matches the measured `TA` and `RH` passed to EddyPro in the biomet file
+  ([Level 1](L1.md)). Use it together with those columns, and within one probe state.
 - `VPD_T1_47_1_HOMOGENIZED` is computed from the homogenised `TA` and `RH`, which put every
   probe state on the level of the normal CS215. Use it for anything that crosses
-  January 2016 or June 2026 (period means, trends, year rankings, anomalies). It is the
+  January 2016 or June 2026: period means, trends, year rankings, anomalies. It is the
   `VPD` of the flux post-processing chain, which uses it with the homogenised `TA` for
-  gap-filling and partitioning ([Level 4.1](L4.1.md), [Level 4.2](L4.2.md)). In
-  saturated air it reaches zero before and after 2016, because the homogenised `RH` lifts
-  the MP101A's readings in saturated air to 100 %
+  gap-filling and partitioning ([Level 4.1](L4.1.md), [Level 4.2](L4.2.md)). In saturated
+  air it reaches zero both before and after 2016, because the homogenised `RH` lifts the
+  MP101A's readings in saturated air to 100 %
   ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
 
 **Changed from the 2004-2025 version of this product.** There, `VPD_T1_47_1` was computed
@@ -51,8 +53,8 @@ pair.
 
 ## Columns
 
-Both value columns are complete, and both flags are defined at every record and describe
-both value columns.
+Both value columns are complete. Both flags are defined at every record and describe both
+value columns.
 
 : Columns of `07_METEO_VPD_2004-2026.09`. {#tbl-vpd-cols}
 
@@ -76,16 +78,19 @@ negative.
 
 `VPD` is the saturation vapour pressure at the air temperature minus the actual vapour
 pressure. The Magnus coefficients are those used by ReddyProc. In the CS215 states (source
-codes `0`, `5`, `6`, `7`) the homogenised `RH` equals the measured one and the homogenised
-`TA` is not warmer than the measured one, so the homogenised `VPD` is never higher than the
-measured `VPD` there. On average the homogenised column is lower by 0.006 kPa in the normal
-CS215 state, by 0.015 kPa in the MP101A era and by 0.071 kPa in the HygroVUE10 era.
+codes `0`, `5`, `6`, `7`) the homogenised `RH` equals the measured one, and the homogenised
+`TA` is not warmer than the measured one. The homogenised `VPD` is therefore never higher
+than the measured `VPD` there. On average the homogenised column is lower by:
+
+- 0.006 kPa in the normal CS215 state;
+- 0.015 kPa in the MP101A era;
+- 0.071 kPa in the HygroVUE10 era.
 
 ### `FLAG_VPD_T1_47_1_ISFILLED`
 
-Filter on `== 0` for records computed from two measurements at 47 m. Every record is
-computed by the formula and none is modelled, but a computed record does not always rest on
-two measurements.
+Filter on `== 0` for records computed from two measurements at 47 m. The formula computes
+every record and none is modelled, but a computed record does not always rest on two
+measurements.
 
 : Provenance codes and their record counts. {#tbl-vpd-isfilled}
 
@@ -96,13 +101,13 @@ two measurements.
 | 6 | `RH` reconstructed from NABEL at 49 m | 15,729 | 3.94 % |
 | 7 | `RH` reconstructed from MeteoSwiss Lägern | 922 | 0.23 % |
 
-Codes `6` and `7` take precedence over `5` because a reconstructed `RH` is the larger
+Codes `6` and `7` take precedence over `5`, because a reconstructed `RH` is the larger
 error: it carries about 3 % RH of uncertainty and enters the formula linearly.
 
 ### `FLAG_VPD_T1_47_1_SOURCE`
 
-Carried over unchanged from notebooks `02` and `04`, whose source flags are identical
-record for record. The codes are described on
+The flag is carried over unchanged from notebooks `02` and `04`, whose source flags are
+identical record for record. The codes are described on
 [Air temperature at 47 m](Meteo_Data_TA.html#sensor-history).
 
 : Probe and probe-state codes, their record counts and the period each covers
@@ -134,16 +139,16 @@ year of 2005-2025 is at least 99 %, and 2026 (January to September) is 99.99 %. 
 | 2016 | 94.3 % | the January outage during which the probe and logger were replaced |
 | 2019 | 95.7 % | the November outage after the NABEL reference ended |
 
-The 2019 gap is the longest after 2018: the 47 m humidity sensor was down from
+The 2019 gap is the longest after 2018. The 47 m humidity sensor was down from
 4 November 2019 04:45 to 19 November 2019 23:45, 759 records. `RH` there is reconstructed
 from MeteoSwiss Lägern, and `VPD` carries code `7`.
 
 ## The probe changes in `VPD`
 
 Notebook `07` compares both columns with a `VPD` computed by the same formula from the
-MeteoSwiss Lägern `TA` and `RH`, using only records computed from two measurements (code
-`0`), split into day and night. Only the change in the tower-minus-Lägern difference
-across a probe change is evidence, not the difference itself.
+MeteoSwiss Lägern `TA` and `RH`. It uses only records computed from two measurements
+(code `0`), split into day and night. The evidence is the change in the tower-minus-Lägern
+difference across a probe change, not the difference itself.
 
 : The step in the tower-minus-Lägern `VPD` difference from the MP101A (2005-2015) to the
 normal CS215 (from 2017), against the median change of the same difference between two
@@ -156,23 +161,27 @@ ordinary consecutive years. {#tbl-vpd-step-2016}
 
 **January 2016 is an independent test**, because the 2016 transfers of `02` and `04` were
 fitted against NABEL, not against Lägern. The homogenised column steps less than the
-measured one by day and by night. The measured column's small daytime step is not evidence
-of homogeneity: the two errors of the MP101A act on `VPD` in opposite directions (its `TA`
-reads about 1.3 °C too cold, which lowers `VPD`, and its `RH` reads too dry, which raises
-it), so they partly cancel. The earlier mixed basis, homogenised `TA` with measured `RH`,
-stepped by about -0.051 kPa by day and by night, the most of the three.
+measured one, by day and by night. The small daytime step of the measured column is not
+evidence of homogeneity. The two errors of the MP101A act on `VPD` in opposite directions
+and partly cancel:
+
+- its `TA` reads about 1.3 °C too cold, which lowers `VPD`;
+- its `RH` reads too dry, which raises it.
+
+The earlier mixed basis, homogenised `TA` with measured `RH`, stepped by about -0.051 kPa by
+day and by night, the most of the three.
 
 **June 2026 is not an independent test.** The HygroVUE10 transfers of `02` and `04` were
-fitted against Lägern on the same samples (the HygroVUE10 from 12 June to 30 September 2026
-against the normal CS215 on the same dates of 2022-2024). Across this change the measured
-column steps by +0.055 kPa by day and +0.117 kPa at night, against a mean `VPD` of the
-HygroVUE10 sample of 1.39 kPa by day and 1.11 kPa at night. The homogenised column steps by
-+0.021 and +0.018 kPa, which is expected by construction.
+fitted against Lägern on the same samples: the HygroVUE10 from 12 June to 30 September 2026
+against the normal CS215 on the same dates of 2022-2024. Across this change the measured
+column steps by +0.055 kPa by day and +0.117 kPa at night. The mean `VPD` of the HygroVUE10
+sample is 1.39 kPa by day and 1.11 kPa at night. The homogenised column steps by +0.021 and
++0.018 kPa, as expected by construction.
 
 ## Known limitations
 
 - **The measured column is not homogeneous across 21 January 2016 or 5 June 2026.** Use
-  `VPD_T1_47_1_HOMOGENIZED` for anything that crosses either date, or stay inside one probe
+  `VPD_T1_47_1_HOMOGENIZED` for anything that crosses either date, or stay within one probe
   state with `FLAG_VPD_T1_47_1_SOURCE`.
 - **A small night step remains in the homogenised column at 2016.** It is -0.013 kPa
   against an ordinary-year change of 0.008 kPa, less than half the step of the measured
@@ -183,14 +192,14 @@ HygroVUE10 sample of 1.39 kPa by day and 1.11 kPa at night. The homogenised colu
   ceiling of the homogenised `RH` does not remove this difference
   ([RH, saturation ceiling](Meteo_Data_RH.md#the-saturation-ceiling)).
 - **The June 2026 homogenisation rests on one summer and one reference.** The `TA` and `RH`
-  transfers behind it are fitted on June to September 2026 against Lägern, are untested
-  outside summer, and are to be refitted once the HygroVUE10 record includes a winter. See
+  transfers behind it are fitted on June to September 2026 against Lägern. They are untested
+  outside summer and are to be refitted once the HygroVUE10 record includes a winter. See
   [Air temperature at 47 m](Meteo_Data_TA.html) and
   [Relative humidity at 47 m](Meteo_Data_RH.html).
 - **Both humidity eras drift.** Against MeteoSwiss Lägern the MP101A era drifts by
-  -0.34 and the CS215 era by +0.44 percentage points of RH per year, more over each era than
-  the 2016 step. The homogenised `RH` removes the steps, not this drift, so a `VPD` trend
-  in either column, even inside one era, contains sensor movement.
+  -0.34 and the CS215 era by +0.44 percentage points of RH per year. Over each era this is
+  more than the 2016 step. The homogenised `RH` removes the steps, not this drift, so a
+  `VPD` trend in either column, even within one era, contains sensor movement.
 - **The homogenised `TA` is self-consistent, not absolutely accurate.** All eras are put on
   the radiation-shield behaviour of the MP101A, whose warm bias in sun (about +0.4 °C at
   strong radiation) remains. A warm bias in `TA` raises `VPD`.

@@ -14,10 +14,12 @@ given where the notebooks or the project's lock file record them.
 
 : Software by processing step {#tbl-software}
 
-Every notebook of the flux chains of both analysers (`20_L1_FLUXES`,
-`30_FLUX_POST-PROCESSING_CHAIN`), of the meteo products `01` to `07` and `99`, and of
-`80_FINALIZE` prints diive v0.93.0. The meteo products `08` to `13` were last run with diive
-v0.91.0 and v0.91.1.
+The diive version printed by each notebook:
+
+| notebooks | diive |
+|---|---|
+| flux chains of both analysers (`20_L1_FLUXES`, `30_FLUX_POST-PROCESSING_CHAIN`), meteo products `01` to `07` and `99`, `80_FINALIZE` | v0.93.0 |
+| meteo products `08` to `13` (last run) | v0.91.0 and v0.91.1 |
 
 diive v0.93.0 and opco v0.1.0 are development versions, installed from local copies of their
 repositories. The latest published release of diive is v0.92.0.

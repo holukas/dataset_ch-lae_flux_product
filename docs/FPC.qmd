@@ -109,6 +109,6 @@ These notebooks produce the flux record of FP2026.2, which is in progress.
 
 : Notebooks of the post-processing chain for `IRGA75` and of the merged record. {#tbl-fpc-notebooks-75}
 
-The checks of the early LI-7500 years, whether the correction of Level 1.1 holds for them and
-whether the analyser measured the full flux, are summarised on
-[Comparisons of the LI-7500 years](IRGA75_Comparisons.md), which links their notebooks.
+[Comparisons of the LI-7500 years](IRGA75_Comparisons.md) summarises the checks of the early
+LI-7500 years, whether the correction of Level 1.1 holds for them and whether the analyser measured
+the full flux, and links their notebooks.

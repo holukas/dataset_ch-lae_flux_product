@@ -30,10 +30,11 @@ with the calibration factor of the *pyranometer* in the same instrument, 10.03 i
 12.83 µV/W/m². On that date the logger program was corrected. Everything recorded before it
 **reads too low**.
 
-The error is proportional to the difference between the value and $\sigma T_a^4$, so it is
-largest under a clear sky and close to zero under low overcast: about **8 W m^-2^ in the
-middle of the distribution and up to about 23 W m^-2^ on a clear, dry night** (17 % of the
-nighttime difference before the change, at its median and at its 2nd percentile).
+The error is proportional to the difference between the value and $\sigma T_a^4$. It is
+therefore largest under a clear sky and close to zero under low overcast: about
+**8 W m^-2^ in the middle of the distribution and up to about 23 W m^-2^ on a clear, dry
+night** (17 % of the nighttime difference before the change, at its median and at its 2nd
+percentile).
 
 No correction and no homogenised column are provided (see
 [Known limitations](#known-limitations)). Filter on `FLAG_LW_IN_T1_47_1_SOURCE` before
@@ -53,11 +54,11 @@ comparing the two eras, and treat any trend across mid-2016 as containing this c
 There is **no `ISFILLED` flag**, because nothing is filled: a non-null value is a
 measurement and a `NaN` is a real gap.
 
-The values are **downwelling longwave irradiance**, median 316.15 W m^-2^, range 135.45 to
+The values are **downwelling longwave irradiance**: median 316.15 W m^-2^, range 135.45 to
 441.78 W m^-2^. A pyrgeometer's voltage measures the net exchange between the sky and the
-instrument body, roughly -50 W m^-2^ at this site; the downwelling flux is that net signal
-plus the instrument's own emission. That term is already included in every value. Reading
-the raw converted voltage as the flux would be wrong by about 370 W m^-2^.
+instrument body, roughly -50 W m^-2^ at this site. The downwelling flux is that net signal
+plus the instrument's own emission, and every value already includes that emission.
+Reading the raw converted voltage as the flux would be wrong by about 370 W m^-2^.
 
 ### `FLAG_LW_IN_T1_47_1_SOURCE`
 
@@ -71,8 +72,8 @@ the raw converted voltage as the flux would be wrong by about 370 W m^-2^.
 | 3 | changeover, era undetermined | 2021-12-15 to 2022-01-06 | 1,104 | 0.3 % |
 
 Code `3` marks the three weeks between the installation of the CNR4 and the arrival of its
-own constants in the logger program, during which the new instrument was read through the
-old instrument's factor. Neither the maintenance record nor the data can assign this
+own constants in the logger program. During that time the new instrument was read through
+the old instrument's factor. Neither the maintenance record nor the data can assign this
 interval to either side.
 
 ## Coverage
@@ -93,34 +94,37 @@ replaced; `PA` has the same gap.
 | 2012 | 92.3 % | logger clock error, power-supply failure and storm damage |
 | 2016 | 94.3 % | the January outage during which the logger was replaced |
 
-In 2012 a logger clock error shifted one block of August by 15.5 hours, and a tower
+In 2012 a logger clock error shifted one block of August by 15.5 hours. A tower
 power-supply failure in late July and August and storm damage in late October and November
-left records that were removed. `LW_IN` shows no sign of either fault in its own values, and
-it has no independent reference that could reveal a level error. The removal therefore rests
-on the documented logger-wide fault and is the conservative choice.
+left records that were removed. `LW_IN` shows no sign of either fault in its own values,
+and it has no independent reference that could reveal a level error. The removal therefore
+rests on the documented logger-wide fault, and is the conservative choice.
 
 ## Known limitations {#known-limitations}
 
-- **The record is not homogeneous across 7 June 2016.** Values before that date read low by
-  about 17 % of the difference between the value and $\sigma T_a^4$, over about half the
-  record. This is **not corrected**. Undoing it requires splitting each stored value into
-  the instrument's own emission and its net signal, which needs the radiometer body
-  temperature. This product does not read that channel, and its treatment in the processing
-  that produced the earlier values cannot be verified from the available files. Rescaling
-  with air temperature as a proxy would put an unverified model into the exported numbers.
-  The `SOURCE` flag marks the affected era instead.
+- **The record is not homogeneous across 7 June 2016.** Values before that date, about half
+  the record, read low by about 17 % of the difference between the value and
+  $\sigma T_a^4$. This is **not corrected**. Undoing it requires splitting each stored value
+  into the instrument's own emission and its net signal, which needs the radiometer body
+  temperature. This product does not read that channel, and the available files cannot
+  verify how the processing that produced the earlier values treated it. Rescaling with air
+  temperature as a proxy would put an unverified model into the exported numbers. The
+  `SOURCE` flag marks the affected era instead.
 - **The record also changes across December 2021, and the cause is not established.** The
   radiometer was replaced (CNR1 to CNR4) on 14 December 2021, and the screening software
   changed from `mst` to `diive` at the turn of the year. The two cannot be separated, and
   there is no reference against which to test either. The clear-sky part of the signal
-  changes by about 11 %, about half the size of the June 2016 change, which accounts for
-  most of the 6.5 W m^-2^ between the two periods once their temperature difference is
-  removed. This is equally consistent with a change of instrument, a change of screening,
-  and a gradual change in the lower atmosphere, which moved the same statistic in the same
-  direction from 2019 to 2024 and reversed through 2025 and the dry year 2026. Nothing is
-  corrected. Allow for a change of this order across that date; the `SOURCE` flag separates
-  the two instruments.
-- **The January 2016 acquisition change did *not* move this series.** It moved
+  changes by about 11 %, about half the size of the June 2016 change. Once the temperature
+  difference between the two periods is removed, this accounts for most of the
+  6.5 W m^-2^ between them. The change is equally consistent with three causes:
+  - a change of instrument;
+  - a change of screening;
+  - a gradual change in the lower atmosphere, which moved the same statistic in the same
+    direction from 2019 to 2024 and reversed through 2025 and the dry year 2026.
+
+  Nothing is corrected. Allow for a change of this order across that date; the `SOURCE`
+  flag separates the two instruments.
+- **The January 2016 acquisition change did *not* move this series.** That change moved
   `TA_T1_47_1` by 1.3 °C and is easily confused with the June date five months later. The
   logger program installed at the changeover applies the same conversion as the programs
   before it, and the four months between the two 2016 dates behave like an ordinary year.
@@ -128,17 +132,17 @@ on the documented logger-wide fault and is the conservative choice.
   will fail or propagate `NaN`.
 - **There is no independent reference for this variable at the site.** MeteoSwiss Lägern
   has no longwave channel, NABEL has no pyrgeometer, and the below-canopy sensor installed
-  in 2024 measures a different quantity. Every statement above rests on the physical
+  in 2024 measures a different quantity. Every statement on this page rests on the physical
   relation between longwave radiation and air temperature rather than on a second
-  instrument, so the evidence is weaker than for `SW_IN` or `TA`. Where it does not identify
-  a cause, notebook `06` says so.
+  instrument, so the evidence is weaker than for `SW_IN` or `TA`. Where the evidence does
+  not identify a cause, notebook `06` says so.
 - **Summer 2026 was unusually dry and clear.** At MeteoSwiss Lägern, relative humidity was
   95 % or higher in 0.7 to 5.5 % of the half-hours of July to September 2026, against 4 to
   38 % in the same months of 2019-2025. With so few overcast nights, the overcast ceiling of
-  nighttime apparent emissivity (its 95th percentile), one of the two checks in notebook
-  `06`, falls to 0.93 to 0.95 in those months, below the same months of every earlier year.
-  It falls in the same way when computed with the Lägern air temperature, so it reflects the
-  weather, not the sensor.
+  nighttime apparent emissivity (its 95th percentile) falls to 0.93 to 0.95 in those months,
+  below the same months of every earlier year. This ceiling is one of the two checks in
+  notebook `06`. It falls in the same way when computed with the Lägern air temperature, so
+  it reflects the weather, not the sensor.
 - **Absolute accuracy is limited by the applied calibration.** Both CNR1 eras convert the
   pyrgeometer with a single factory constant and no correction for the dome. The two
   radiometer channels of the successor instrument differ by 28 % in sensitivity, the scale

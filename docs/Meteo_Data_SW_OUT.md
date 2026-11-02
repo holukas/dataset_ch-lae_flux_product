@@ -16,15 +16,15 @@ each year came from the CNR1, the changeover window and the CNR4.
 
 Notebooks:
 
-- [`12_METEO_SW_OUT`](notebooks/10_METEO/30_PRODUCTS/12_METEO_SW_OUT_2005-2025.html): builds the
+- [`12_METEO_SW_OUT`](notebooks/10_METEO/30_PRODUCTS/12_METEO_SW_OUT_2005-2025.html) builds the
   product. It merges the two screenings and shows that they are on one scale, applies the 2012
   corrections and the nighttime offset, and identifies the instrument and conversion constant
   behind each part of the record.
 - [`SW_OUT_T1_47_1`](notebooks/10_METEO/20_SCREENING/SW_OUT/SW_OUT_T1_47_1_2020-2025.html): the
   screening of the current era.
-- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2026.09.html): the
-  incoming channel of the same radiometer. `SW_OUT / SW_IN` is the surface albedo, which is the
-  only diagnostic available for this product and the basis of every albedo figure below.
+- [`01_METEO_SW_IN`](notebooks/10_METEO/30_PRODUCTS/01_METEO_SW_IN_2004-2026.09.html): the incoming
+  channel of the same radiometer. `SW_OUT / SW_IN` is the surface albedo, the only diagnostic
+  available for this product and the basis of every albedo figure below.
 - [`Meteo_Data_LW_OUT`](Meteo_Data_LW_OUT.html): the outgoing longwave channel of the same
   instrument, with the same December 2021 boundary.
 - [`Meteo_Product_Chain`](Meteo_Product_Chain.html): where this product sits in the chain.
@@ -36,9 +36,9 @@ different dates.
 
 - **`FLAG_SW_OUT_T1_47_1_INSTRUMENT` marks a real break.** The radiometer was replaced on
   14 December 2021, and the two instruments convert this channel differently. Filter on this flag
-  before comparing values across that date. Drop code `2`, the weeks in which the new instrument
-  was still read with the old instrument's constant, before using December 2021 or early January
-  2022.
+  before comparing values across that date. Before using December 2021 or early January 2022, drop
+  code `2`, the weeks in which the new instrument was still read with the old instrument's
+  constant.
 - **`FLAG_SW_OUT_T1_47_1_SOURCE` is provenance only.** It names the screening that produced each
   value. The two screenings agree to 0.03 % on two years of simultaneous records, so trends and
   multi-year means may be taken across the boundary between them. For the same reason there is
@@ -52,7 +52,7 @@ measurement. Nighttime values are exactly `0`, which is a physical value, not a 
 ## What the values are
 
 The values are **upwelling shortwave irradiance** above the canopy. The stand reflects roughly a
-tenth of the incoming shortwave, so the values are an order of magnitude smaller than `SW_IN`: the
+tenth of the incoming shortwave, so the values are an order of magnitude smaller than `SW_IN`. The
 daylight median is **22.0 W m^-2^**, the daylight mean 32.4 W m^-2^, and the largest half-hour
 236.2 W m^-2^. Over the whole record, nights included, the median is 0.2 W m^-2^.
 
@@ -99,8 +99,8 @@ removed (for example a record inside the 2012 fault windows) keeps that screenin
 | 2 | changeover: CNR4 installed, CNR1 constant still in the logger program | 2021-12-14 13:45 to 2022-01-06 23:45 | 1,125 | 1,123 | 0.3 % |
 
 There is **no code for either 2016 date**. The tower logger was replaced in January 2016 and a
-radiometer calibration factor was corrected in June 2016, and neither moved this channel (see *The
-two 2016 dates*).
+radiometer calibration factor was corrected in June 2016, and neither moved this channel (see
+[The two 2016 dates](#the-two-2016-dates)).
 
 ## Coverage
 
@@ -121,18 +121,20 @@ Four years are below 98 % measured: 2012 at 92.7 %, 2016 at 94.3 %, 2019 at 95.7
 96.9 %. The 2012 figure results from this product: 1,212 records were removed inside the two
 windows of documented logger-wide fault, as in notebooks `01` to `03` and `06`.
 
-Two corrections change values. The **August 2012 clock error** is corrected by the same +15.5 h
-shift as the other tower variables. Unlike `LW_IN`, this variable can confirm the shift, because
-reflected shortwave follows the sun and its correlation with potential radiation shows whether the
-block is on the solar clock. The **nighttime zero offset** is removed per day over the whole
-record, because only the newer screening had removed it; without this step the first sixteen years
-would carry an offset that the last four do not.
+Two corrections change values:
+
+- The **August 2012 clock error** is corrected by the same +15.5 h shift as the other tower
+  variables. Unlike `LW_IN`, this variable can confirm the shift: reflected shortwave follows the
+  sun, so its correlation with potential radiation shows whether the block is on the solar clock.
+- The **nighttime zero offset** is removed per day over the whole record, because only the newer
+  screening had removed it. Without this step the first sixteen years would carry an offset that
+  the last four do not.
 
 ***
 
 ## The two screenings
 
-The two screenings read different inputs: the MeteoScreeningTool read delivered CSV files, the
+The two screenings read different inputs: the MeteoScreeningTool read delivered CSV files, and the
 diive screening reads the raw record. They could therefore have converted the same voltages with
 different constants. They overlap for two full years on the same instrument, which allows a direct
 comparison.
@@ -147,12 +149,12 @@ eras are therefore joined without rescaling, and no `_HOMOGENIZED` column is exp
 The tower logger was replaced in January 2016. In June 2016 a new logger program changed a
 radiometer calibration factor from 10.03 to 12.83 µV/W/m^2^; this is the change that notebook `06`
 finds in `LW_IN`. Had that factor reached the outgoing shortwave channel, the albedo would have
-stepped by about a fifth, because only one of the two constants in the ratio would have changed.
+stepped by about 20 %, because only one of the two constants in the ratio would have changed.
 
-It did not. The season-controlled albedo moves by **−1.0 % across both 2016 dates**, compared with
-−5.3 % for a placebo pair of periods within the earlier era and −21.8 % expected from a factor
-change on this channel alone. The record is homogeneous across both dates. The product notebook
-asserts this, so a re-run that finds such a step fails instead of exporting it.
+It did not. The season-controlled albedo moves by **−1.0 % across both 2016 dates**. A placebo
+pair of periods within the earlier era moves by −5.3 %, and a factor change on this channel alone
+would give −21.8 %. The record is homogeneous across both dates. The product notebook asserts
+this, so a re-run that finds such a step fails instead of exporting it.
 
 ## The December 2021 radiometer exchange
 
@@ -164,14 +166,14 @@ have their own constant, and these differ by 3.5 %.
 **The size of the resulting step cannot be determined from this product.** The season-controlled
 albedo differs by 4.2 % between the two instruments, but the same statistic differs by 10.0 %
 between two periods of the CNR4 era in which nothing changed. The growing-season albedo of the
-stand varies from year to year by more than the instrument difference, so the CNR1's channel
-mismatch cannot be separated from it with the years available. Nothing is corrected: that would
+stand varies from year to year by more than the instrument difference, so with the years available
+the CNR1's channel mismatch cannot be separated from it. Nothing is corrected, because that would
 require the CNR1's two detector sensitivities, which were not recorded at this site.
 
 Code `2` isolates the weeks between the installation of the CNR4 and the update of its constants
 in the logger program. Compared with MeteoSwiss Lägern, which measures the incoming channel
 independently, the changeover window is **8.3 % away from an ordinary winter**. If the CNR1
-constant had still been in force, it would be 38.5 % away; these are 2.1 and 7.5 interquartile
+constant had still been in force, it would be 38.5 % away. These are 2.1 and 7.5 interquartile
 widths of the between-winter scatter. This is evidence against the old constant having been in
 force, but not proof that the window is correct. Seven winters can rule out an error of tens of
 per cent, not a small one, and the test applies to the incoming channel, whose constant in the same
@@ -185,9 +187,9 @@ program was a different number. The window keeps its own code either way.
 - **The 24 days of the changeover have an unverified conversion.** Code `2` marks them. The
   MeteoSwiss comparison argues against the old constant, but does not establish which constant was
   applied.
-- **The CNR1 era carries an unquantified channel mismatch.** All four channels were converted with
-  one constant, although each detector has its own factory calibration. Because both shortwave
-  channels were divided by the same number, it cancels in their ratio, so the CNR1-era albedo does
+- **The CNR1 era has an unquantified channel mismatch.** All four channels were converted with one
+  constant, although each detector has its own factory calibration. Both shortwave channels were
+  divided by the same number, so the constant cancels in their ratio, and the CNR1-era albedo does
   not depend on the absolute scale. The real difference between the two detectors does not cancel:
   the reflected flux of that era, and its albedo, include the difference between the two
   sensitivities. It is a fixed scale error within the era, not a break, so comparisons within the

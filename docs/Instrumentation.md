@@ -1,14 +1,14 @@
 # Instrumentation
 
-The instruments that produced the measurements in this dataset, and the periods
-in which each was in place. Sensor identities come from three sources, in order
-of authority:
+This page lists the instruments that produced the measurements in this dataset,
+and the period in which each was in place. Sensor identities come from three
+sources, in order of authority:
 
 - the **datalogger programs**, which name the channel, its sensor and its
-  conversion constants, and are the only source for how a raw signal became a
-  value;
+  conversion constants. They are the only source for how a raw signal became a
+  value.
 - the **GIN fieldbook** device columns (`Device Name`, `Device Model`), which name
-  the physical unit and its serial number at a location;
+  the physical unit and its serial number at a location.
 - [Yearly Notes](Yearly_Notes.md), whose `Setup EC` table is the authority for the
   eddy covariance setup periods, sensor separations and flux-run configuration.
 
@@ -16,7 +16,7 @@ of authority:
 
 The GIN export records when an entry was written, not when a device was
 installed. Entries dated **1 January 2016** (and 2003, 2006) are backdated
-inventory imports made when GIN was introduced: a device whose earliest entry
+inventory imports made when GIN was introduced. A device whose earliest entry
 carries one of these dates was already at the site, and its installation date is
 not in the export. Only entries that describe an event (a replacement, a repair, a
 device marked defective) date anything.
@@ -26,13 +26,17 @@ device marked defective) date anything.
 ## Eddy covariance system, 47 m
 
 Two gas analysers were operated at this level, and the fluxes are processed per
-analyser rather than per year. The fluxes in FP2026.1 come from the LI-7200
-(`IRGA72`) only. The LI-7500 (`IRGA75`) fluxes are in progress for FP2026.2. The
-merged record of FP2026.2 takes the fluxes of 2004 to 2015 from the LI-7500 and
-those from 1 January 2016 from the LI-7200; the column `FLAG_FLUX_SOURCE` gives
-the analyser of each half-hour (`75` or `72`). The LI-7500 fluxes of the parallel
-years and of the 2019 stand-in period are not used in the merged record. Checks of
-the LI-7500 measurement in the early years are summarised on
+analyser rather than per year.
+
+- The fluxes in FP2026.1 come from the LI-7200 (`IRGA72`) only.
+- The LI-7500 (`IRGA75`) fluxes are in progress for FP2026.2. The merged record of
+  FP2026.2 takes the fluxes of 2004 to 2015 from the LI-7500 and those from
+  1 January 2016 from the LI-7200. The column `FLAG_FLUX_SOURCE` gives the
+  analyser of each half-hour (`75` or `72`).
+- The LI-7500 fluxes of the parallel years and of the 2019 stand-in period are not
+  used in the merged record.
+
+Checks of the LI-7500 measurement in the early years are summarised on
 [Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
 
 | instrument | role | period |
@@ -42,14 +46,21 @@ the LI-7500 measurement in the early years are summarised on
 | LI-COR LI-7200 (enclosed path, `IRGA72`) | CO~2~ and H~2~O mole fractions | from 11 January 2016 |
 
 The two analysers ran in parallel from 11 January 2016 to 12 December 2017. The
-LI-7500 was removed from the site on 12 December 2017 but continued to write empty values into the data
-stream until it was taken out of it on 31 January 2018, which is why the setup
-table lists it for two further periods with no flux run. `IRGA72` spans two
-physical LI-7200 units, exchanged inside the 2019 gap; the second has a different
-column set in the raw stream. The analyser was moved on the boom in March 2023,
-which changed its separation from the sonic. The fieldbook also records a freshly
-calibrated LI-7200 installed on 2 December 2025. The dates per setup period are in
-the setup table of the [Yearly Notes](Yearly_Notes.md). The overview notebook
+LI-7500 was removed from the site on 12 December 2017. It continued to write
+empty values into the data stream until it was taken out of the stream on
+31 January 2018, so the setup table lists it for two further periods with no flux
+run.
+
+Changes to the LI-7200 (`IRGA72`):
+
+- `IRGA72` spans two physical LI-7200 units, exchanged inside the 2019 gap. The
+  second unit has a different column set in the raw stream.
+- The analyser was moved on the boom in March 2023, which changed its separation
+  from the sonic.
+- The fieldbook records a freshly calibrated LI-7200 installed on 2 December 2025.
+
+The dates per setup period are in the setup table of the
+[Yearly Notes](Yearly_Notes.md). The overview notebook
 [FLUX_NEE](notebooks/90_OVERVIEW/FLUX_NEE.html) divides the merged `NEE` record into
 seven phases by these changes of analyser, unit and mounting.
 
@@ -58,7 +69,7 @@ head** with an **LI-7550 analyser unit** and an **LI-7200-101 flow module**.
 
 ## Meteorological sensors, 47 m
 
-These produce the tower series documented under
+These sensors produce the tower series documented under
 [Meteorological data](Meteo_Data.md).
 
 | variable | instrument | period | source |
@@ -75,17 +86,18 @@ These produce the tower series documented under
 | wind speed | Vector Instruments A100LK cup anemometer, SN 16697, replacing a broken A100L | installed 8 January 2016 | fieldbook |
 | - | Campbell Scientific CR1000 datalogger | from January 2016 (CR10X before) | fieldbook, logger programs |
 
-The **8 January 2016** date covers several of these rows because they were one
-visit: the boom was retracted that morning and the LI-7200 with its analyser and
-flow-module box, the replacement cup anemometer, both Kipp & Zonen PAR sensors
-and a new tower box were installed together. The LI-7200's first raw binary is
-three days later, on 11 January 2016. A new reflected-PAR sensor had been fitted
-once before, at the end of June or beginning of July 2008; that entry is a remark
-added after the fact and dates the work only to within about a fortnight.
+The date **8 January 2016** appears in several rows because the work was one
+visit. The boom was retracted that morning, and the following were installed
+together: the LI-7200 with its analyser and flow-module box, the replacement cup
+anemometer, both Kipp & Zonen PAR sensors and a new tower box. The first raw
+binary of the LI-7200 is three days later, on 11 January 2016. A new
+reflected-PAR sensor had been fitted once before, at the end of June or beginning
+of July 2008. That entry is a remark added after the fact and dates the work only
+to within about a fortnight.
 
 **The temperature and humidity sensor is identified from the logger programs
 alone.** The fieldbook records **no** temperature or humidity device at the 47 m
-level before June 2026; the first such entry is a Campbell HygroVUE10 added on
+level before June 2026. The first such entry is a Campbell HygroVUE10 added on
 5 June 2026, which replaced the CS215 on the same channel (see
 [Air temperature](Meteo_Data_TA.md) and [Relative humidity](Meteo_Data_RH.md)). The
 MP101A and CS215 identifications, and the January 2016 date of the change, rest on
@@ -93,25 +105,25 @@ the CR10X and CR1000 programs and on the step in the data. The step is quantifie
 and corrected on the [Air temperature](Meteo_Data_TA.md) page.
 
 **The radiometer change is dated by the fieldbook, the calibration by the logger
-programs.** The CNR1 predates GIN and has no device entry of its own, but a 2008
-entry recording a relay replacement for it on the tower's CR10X meteo logger
+programs.** The CNR1 predates GIN and has no device entry of its own. A 2008 entry
+records a relay replacement for it on the CR10X meteo logger of the tower, which
 confirms that it was in service then. The CNR4 was installed on 14 December 2021.
-Neither instrument change moved the shortwave series measurably; the
-product notebook tests this (see [Incoming shortwave radiation](Meteo_Data_SW_IN.md)).
+Neither instrument change moved the shortwave series measurably. The product
+notebook tests this (see [Incoming shortwave radiation](Meteo_Data_SW_IN.md)).
 
 **One constant for four detectors.** A CNR1 head holds four sensors, each
 calibrated separately by the factory. The logger programs convert all four with a
 single factor, that of the pyranometer, so the longwave and outgoing channels were
 converted with a factor that is not their own. The CNR4 is converted with four
-separate sensitivities, so the two instruments cannot be compared channel by
-channel without allowing for that difference. Both outgoing products flag the
+separate sensitivities. The two instruments therefore cannot be compared channel
+by channel without allowing for that difference. Both outgoing products flag the
 instrument era for this reason.
 
 **Two dates are easily confused.** The CNR1 instruction first appears in the
 logger program of **18 August 2005**, which measures all four channels. The
 program of **14 September 2005** changed the relay, moving the outgoing channels
-onto different differential inputs; the archive's record begins on the same day.
-The period column above gives the record, not the program.
+onto different differential inputs. The record of the archive begins on the same
+day. The period column of the table gives the record, not the program.
 
 **The serial is not fully reconciled.** The logger program comments and this table
 give the tower CNR1 as **SN 020484**. The fieldbook row recording the 14 December
@@ -121,29 +133,30 @@ resolved.
 
 ::: {.callout-warning title="Unverified: 14 December 2021 to 7 January 2022"}
 
-The CNR4 was installed on **14 December 2021**, and the installing entry notes
-that the logger script still needed to be adapted to the new calibration
-constants. The logger program was updated on **7 January 2022**, adding the four
-CNR4 sensitivities and new raw-voltage variables.
+The CNR4 was installed on **14 December 2021**. The installing entry notes that
+the logger script still needed to be adapted to the new calibration constants.
+The logger program was updated on **7 January 2022**, adding the four CNR4
+sensitivities and new raw-voltage variables.
 
-The two dates are 24 days apart, and the conversion the logger applied in
-between is not recorded. If the CNR4 was read with the CNR1's multiplier, the
-values of that period are wrong by the ratio of the two sensitivities.
+The conversion the logger applied in the 24 days between the two dates is not
+recorded. If the CNR4 was read with the multiplier of the CNR1, the values of that
+period are wrong by the ratio of the two sensitivities.
 
 Two products have tested the window. Together they bound the error but do not
 identify the constant.
-[Outgoing shortwave radiation](Meteo_Data_SW_OUT.md) compares the window against
-the MeteoSwiss Lägern station and finds the levels **not** consistent with the old
-constant still being in force, which argues against the worst case.
-[Outgoing longwave radiation](Meteo_Data_LW_OUT.md) bounds any error there at
-about 1.6 W m⁻², roughly 0.5 % of the reported value, because a conversion error
-scales only the small net signal a pyrgeometer measures and not the large
-Stefan-Boltzmann term added to it.
+
+- [Outgoing shortwave radiation](Meteo_Data_SW_OUT.md) compares the window against
+  the MeteoSwiss Lägern station. The levels are **not** consistent with the old
+  constant still being in force, which argues against the worst case.
+- [Outgoing longwave radiation](Meteo_Data_LW_OUT.md) bounds any error there at
+  about 1.6 W m⁻², roughly 0.5 % of the reported value. A conversion error scales
+  only the small net signal a pyrgeometer measures, not the large Stefan-Boltzmann
+  term added to it.
 
 The window is flagged, not corrected, in all four radiation products. A
 correction, if one is derived, has to be applied to all four channels together,
-since they share the head and the constant. The bound above limits the error; it
-does not show that there is none.
+since they share the head and the constant. The bound limits the error; it does
+not show that there is none.
 
 :::
 
@@ -163,40 +176,46 @@ step across it cannot be calibrated away.
 | soil temperature | Campbell **109** thermistor | 0.05 m | from 24 March 2021 |
 | soil heat flux | **three** Hukseflux **HFP01** plates | 0.05 m | three until 24 March 2021, two after |
 
-The soil heat flux row describes three sensors rather than one. The GIN device
-records list three HFP01 plates at this location. One of them was discarded at the logger-box rebuild of 24 March
-2021 and the two survivors were kept, which is why the product exports three plate
-columns of which the third ends in 2021. The plates sit metres apart under a
-deciduous canopy, so they are not replicates: under leaf-off sunflecks one plate
+The soil heat flux row describes three sensors. The GIN device records list three
+HFP01 plates at this location. One was discarded at the logger-box rebuild of
+24 March 2021 and the other two were kept. The product therefore exports three
+plate columns, of which the third ends in 2021. The plates sit metres apart under
+a deciduous canopy, so they are not replicates: under leaf-off sunflecks one plate
 can read several times another, because the light reaches them differently.
 
-The depth is the one declared in the archive, not a surveyed figure. The field
-names carry 0.05 m until the end of 2011, 0.025 m from 2012 to March 2021, and
-0.05 m again afterwards. The product notebook tests from the size and timing of
-the daily cycle whether the plates were reburied shallower. The result matches
-neither a move nor an unchanged depth, so the question is open. See [Soil heat flux](Meteo_Data_G.md).
+The plate depth is the one declared in the archive, not a surveyed figure. The
+field names carry 0.05 m until the end of 2011, 0.025 m from 2012 to March 2021,
+and 0.05 m again afterwards. The product notebook tests from the size and timing
+of the daily cycle whether the plates were reburied shallower. The result matches
+neither a move nor an unchanged depth, so the question is open. See
+[Soil heat flux](Meteo_Data_G.md).
 
-The 0.5 m depth exists only in the TEROS 12 generation, which is why the
-soil-water-content product carries a homogenised second column at four depths and
+The 0.5 m depth exists only in the TEROS 12 generation. The soil-water-content
+product therefore carries a homogenised second column at four depths and
 deliberately none at 0.5 m. A second profile, **FF2**, carries MPS-2 water
 potential sensors at 0.05, 0.1, 0.15, 0.2 and 0.3 m. Coverage, flags and the
 sensor-generation step are documented under
 [Soil water content](Meteo_Data_SWC.md) and
 [Soil temperature](Meteo_Data_TS.md).
 
-The subcanopy station (`M1_2`) carries a **CS215** temperature and humidity
-sensor, installed on 26 March 2021 to replace a Rotronic MP100, alongside an
-Apogee SQ-521 and a LI-COR LI-190SA quantum sensor, an Apogee SN-500-SS net
-radiometer and a W200P wind vane. Forest-floor acquisition is a CR1000 with an
-AM16/32B multiplexer until March 2021 and an ARK-1124C from October 2021.
+The subcanopy station (`M1_2`) carries:
+
+- a **CS215** temperature and humidity sensor, installed on 26 March 2021 to
+  replace a Rotronic MP100;
+- an Apogee SQ-521 and a LI-COR LI-190SA quantum sensor;
+- an Apogee SN-500-SS net radiometer;
+- a W200P wind vane.
+
+Forest-floor acquisition is a CR1000 with an AM16/32B multiplexer until March 2021
+and an ARK-1124C from October 2021.
 
 ## Profile masts
 
 A temperature, humidity and wind profile is operated on the tower and on
 satellite masts at the site (`T1_17.5`, `T1_35`, `M2`, `M3`, `M4`). Its
 temperature and humidity sensors are Rotronic units of several generations:
-MP101, MP400H and MP402H transmitters with HygroClip S2, S3 and HC2-S3 probes,
-with individual heads replaced repeatedly between 2015 and 2021. Its wind sensors
+MP101, MP400H and MP402H transmitters with HygroClip S2, S3 and HC2-S3 probes.
+Individual heads were replaced repeatedly between 2015 and 2021. Its wind sensors
 are Gill WindSonics. **None of these profile sensors contributes to this
 dataset**, which takes its meteorology from the 47 m level and the forest floor.
 They are listed here only because published descriptions of the site sometimes
@@ -204,27 +223,18 @@ name them.
 
 ## Published descriptions that disagree
 
-Three sensor identities given in the literature do not match the fieldbook or the
-logger programs. They are listed here for readers who compare this dataset with
-those papers.
+Three sensor identities in @shekhar_contrasting_2024 do not match the fieldbook or
+the logger programs. They are listed for readers who compare this dataset with
+that study.
 
-@shekhar_contrasting_2024 give the site's temperature and humidity sensor as a
-**Rotronic HygroClip HC2-S3**. The fieldbook does hold HygroClip HC2-S3 units at
-CH-LAE, but on the profile masts (`M3`, `M4`, `T1_35`), never at the 47 m level
-that supplies this dataset, and the logger programs give the MP101A and CS215
-above.
+| quantity | @shekhar_contrasting_2024 | fieldbook and logger programs |
+|---|---|---|
+| temperature and humidity | **Rotronic HygroClip HC2-S3** | The fieldbook holds HygroClip HC2-S3 units at CH-LAE, but on the profile masts (`M3`, `M4`, `T1_35`), never at the 47 m level that supplies this dataset. The logger programs give the MP101A and CS215 listed above. |
+| soil moisture | **Decagon ECH2O EC-5** | The string `EC-5` does not occur anywhere in the fieldbook export. The CH-LAE profile is EC-20 and then TEROS 12. The study assigns EC-20 to the subalpine site it compares against, so the sensors of the two sites appear to have been transposed. |
+| radiation | **Delta-T BF2**, serial `BF2116`, assigned to the subalpine site | The serial is registered in the fieldbook at CH-LAE, at the 47 m level. |
 
-The same study gives soil moisture as a **Decagon ECH2O EC-5**. The string `EC-5`
-does not occur anywhere in the fieldbook export; the CH-LAE profile is EC-20 and
-then TEROS 12, as above. The study assigns EC-20 to the subalpine site it
-compares against, so the two sites' sensors appear to have been transposed.
-
-The same study assigns the **Delta-T BF2** radiation sensor, serial `BF2116`, to
-the subalpine site. That serial is registered in the fieldbook at CH-LAE at the
-47 m level.
-
-These differences do not affect the values in either dataset, only the
-attribution of the instruments.
+These differences affect only the attribution of the instruments, not the values
+in either dataset.
 
 ## References
 

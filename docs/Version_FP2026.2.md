@@ -9,9 +9,8 @@ FP2026.1 is listed under [Differences between versions](Version_Differences.md).
 - **Fluxes of 2004-2015 from the LI-7500.** Its CO~2~ flux is corrected for the errors of the
   open-path analyser ([Level 1.1](L1.1.md)). The merged record takes the fluxes from the LI-7500
   for 2004-2015 and from the LI-7200 from 1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of
-  each half-hour (`75` or `72`). The LI-7500 data of the parallel period 2016-2017 train and check
-  the correction and are not in the merged record. The LI-7500 stand-in run of 2019 is not used
-  either.
+  each half-hour (`75` or `72`). It leaves out two sets of LI-7500 data: those of the parallel
+  period 2016-2017, which train and check the correction, and the stand-in run of 2019.
 - **Partitioning of `NEE`** into `GPP` and `RECO` ([Level 4.2](L4.2.md)).
 
 ## Changes to the LI-7200 fluxes
@@ -26,39 +25,39 @@ The LI-7200 fluxes of FP2026.2 are not identical to those of FP2026.1:
   hand: February 2016, May 2018, May 2021 and August 2023
   ([Level 3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)).
 - The gap-filling models are trained anew in every run.
-- Higher USTAR thresholds, detected with the ONEFlux moving point method, one set per analyser
-  ([Level 3.3](L3.3.md)). They remove more nights of low turbulence and raise the night-time
-  respiration.
+- The USTAR thresholds are higher. They are detected with the ONEFlux moving point method, one set
+  per analyser ([Level 3.3](L3.3.md)), remove more nights of low turbulence and raise the
+  night-time respiration.
 
 With these changes, the annual `NEE` sums of 2016-2025 (`CUT_50`, XGBoost) are 3 to
-206 gC m^-2^ higher than in FP2026.1, except 2021: −69 gC m^-2^. The main cause is the higher USTAR
-threshold: fewer nights stay measured, and the night-time respiration is higher. In 2021 the removal
-of the low sample flow of May 2021 lowers the sum, and the higher threshold raises it. At `CUT_50`,
-2016, 2017 and 2022 to 2024 are now net sources of CO~2~. Annual `ET` differs by −10 to +10 mm,
-and by +38 mm in 2021. Part of the spread comes from the gap-filling models, which are trained anew
-in every run.
+206 gC m^-2^ higher than in FP2026.1, except in 2021 (−69 gC m^-2^). The main cause is the higher
+USTAR threshold: fewer nights stay measured, and the night-time respiration is higher. In 2021 the
+removal of the low sample flow of May 2021 lowers the sum, and the higher threshold raises it. At
+`CUT_50`, 2016, 2017 and 2022 to 2024 are now net sources of CO~2~. Annual `ET` differs by −10 to
++10 mm, and by +38 mm in 2021. Part of the spread comes from the gap-filling models, which are
+trained anew in every run.
 
 ## State of the release
 
 Both flux chains and the merged record have been run with the USTAR thresholds of FP2026.2 and the
-31-day Hampel filter. The release is not final. The correction of
-the LI-7500 flux is used as it is for FP2026.2, and improving it for the early years is planned for
-a later version. The annual sums of 2004-2009 are kept as processed, without a flag or an added
-uncertainty. They are the least certain of the record, and
-[Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET and with
-published estimates.
+31-day Hampel filter. The release is not final. The correction of the LI-7500 flux is used as it is
+for FP2026.2; improving it for the early years is planned for a later version. The annual sums of
+2004-2009 are kept as processed, without a flag or an added uncertainty. They are the least certain
+of the record. [Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET
+and with published estimates.
 
 Known limitations of the LI-7500 years, described on [Issues](Issues.md):
 
 - **Storage term.** Wet or blocked windows make the LI-7500 read too high a CO~2~ concentration,
-  and its storage term sums to −25 to −196 gC m^-2^ per year instead of about zero. A screen of the
-  concentration readings is set for the next run and is not yet applied in the data
-  ([Level 3.1](L3.1.md)).
+  and its storage term does not sum to about zero over a year
+  ([Issues](Issues.md#the-storage-term-of-the-li-7500-drifts)). A screen of the concentration
+  readings is set for the next run and is not yet applied in the data ([Level 3.1](L3.1.md)).
 - **Night-time and daytime `NEE`.** Against the values expected from the LI-7200 years, night-time
-  `NEE` lies about 200 gC m^-2^ per year lower in all LI-7500 years, and daytime `NEE` about
-  230 gC m^-2^ per year higher in 2004-2009. Most of the night-time bias lies in the wet half-hours
-  the analyser did not measure. Both biases are stated as uncertainties and are not corrected.
-- **`LE`** differs between the two analysers.
+  `NEE` of all LI-7500 years is too low, and daytime `NEE` of 2004-2009 too high. Both biases are
+  stated as uncertainties and are not corrected
+  ([Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)).
+- **`LE`** differs between the two analysers
+  ([Issues](Issues.md#le-of-the-two-gas-analysers-differs-in-humid-and-cold-conditions)).
 
 ## Prepared for the next run
 
@@ -66,9 +65,14 @@ Two changes are prepared but not applied in the current data:
 
 - **Screen of the LI-7500 CO~2~ concentration for the storage term.** diive `run_level31` takes the
   options `concentration_valid` and `restart_screening={'skip_after_gaps': 3}`. A reading enters
-  the storage term only at an AGC of 55 or less, without rain in the previous 3 hours, at a
-  relative humidity below 99.5 %, and not among the first 3 records after a gap. The settings are
-  in [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
+  the storage term only:
+  - at an AGC of 55 or less;
+  - without rain in the previous 3 hours;
+  - at a relative humidity below 99.5 %;
+  - not among the first 3 records after a gap.
+
+  The settings are in
+  [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
   Step 3; the chain has not been run with them yet ([Level 3.1](L3.1.md)).
 - **One set of USTAR thresholds for both analysers.** The moving point method applied to one
   record of the site (LI-7500 to 2015, LI-7200 from 2016) gives 0.352, 0.486 and 0.599 m s^-1^

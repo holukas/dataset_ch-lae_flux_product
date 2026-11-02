@@ -20,14 +20,14 @@ mixed forest site CH-LAE ([Site information](Site_Info.md)). The current version
 
 - **Fluxes** from the enclosed-path LI-7200 gas analyser (`IRGA72`), measured from 11 January
   2016: `NEE`, `LE`, `ET` and `H`, quality-controlled and gap-filled, with the random, USTAR and
-  joint uncertainty of `NEE`. The full Level-1 output of EddyPro is included as well.
+  joint uncertainty of `NEE`. The full Level-1 output of EddyPro is also included.
 - **Meteorological data**: thirteen products, from radiation and air temperature at 47 m to soil
   water content and soil temperature at the forest floor. See [Meteo Data](Meteo_Data.md).
 
-The column names and units are listed on [Variables](Variables.md). Use the columns gap-filled
-with XGBoost (`_gfXG`); the MDS columns (`_gfMDS`) are included for comparison only. MDS fills
-long gaps poorly: in April and May 2016, after the start-up period of the analyser was removed,
-it gives an `NEE` of -235 gC m^-2^ against -113 gC m^-2^ with XGBoost.
+Column names and units are on [Variables](Variables.md). Use the columns gap-filled with XGBoost
+(`_gfXG`). The MDS columns (`_gfMDS`) are for comparison only, because MDS fills long gaps poorly.
+In April and May 2016, after the start-up period of the analyser was removed, MDS gives an `NEE`
+of -235 gC m^-2^, against -113 gC m^-2^ with XGBoost.
 
 ## How the fluxes were produced
 
@@ -55,11 +55,13 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 ## Not yet included
 
 - The fluxes of the open-path LI-7500 (`IRGA75`) for 2004-2015. They are in progress for
-  FP2026.2, which will extend the flux record back to 2004 and supersede FP2026.1. Its merged record
-  takes the LI-7500 until 2015 and the LI-7200 from 1 January 2016. The LI-7500 data of the
-  parallel period 2016-2017 train and check the correction of [Level 1.1](L1.1.md) and are not in
-  the merged record. The LI-7500 years are compared with earlier estimates on
-  [Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
+  FP2026.2, which will extend the flux record back to 2004 and supersede FP2026.1.
+  - The merged record of FP2026.2 takes the LI-7500 until 2015 and the LI-7200 from 1 January
+    2016.
+  - The LI-7500 data of the parallel period 2016-2017 are used to train and check the correction
+    of [Level 1.1](L1.1.md). They are not in the merged record.
+  - [Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares the LI-7500 years with
+    earlier estimates.
 - `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` for January to September 2026. These columns
   end on 31 December 2025.
 - The partitioning of `NEE` into `GPP` and `RECO`, which is run for FP2026.2.
@@ -67,15 +69,17 @@ and [`20_CH-LAE_FP2026.1_2016-2026.09`](notebooks/80_FINALIZE/20_CH-LAE_FP2026.1
 
 ## Known limitations
 
-- `H` is missing from 10 January to 20 March 2019, and the gap-filled `H` in that period is
-  model output only.
+- `H` is missing from 10 January to 20 March 2019. The gap-filled `H` in that period is model
+  output only.
 - `H` in 2024 is about a third lower than in the other years. The cause is the weather of 2024,
-  with less radiation, more rain and a lower `VPD`; no instrument fault was found.
+  with less radiation, more rain and a lower `VPD`. No instrument fault was found.
 - `LE` and `ET` of the LI-7200 may be too low in humid and cold conditions.
 
-All known issues, including those of the LI-7500 years of FP2026.2, are on [Issues](Issues.md). For
-the LI-7500 years, the storage term drifts because wet or blocked windows make the analyser read too
-high a CO~2~ concentration; a screen of these readings is set for the next run and is not yet
-applied. The night-time `NEE` of the LI-7500 years lies about 200 gC m^-2^ per year below the values
-expected from the LI-7200 years, and the daytime `NEE` of 2004-2009 about 230 gC m^-2^ per year
-above them. Both biases are stated as uncertainties and are not corrected.
+All known issues, including those of the LI-7500 years of FP2026.2, are on [Issues](Issues.md).
+For the LI-7500 years:
+
+- The storage term drifts, because wet or blocked windows make the analyser read too high a CO~2~
+  concentration. A screen of these readings is set for the next run and is not yet applied.
+- The nighttime `NEE` of the LI-7500 years lies about 200 gC m^-2^ per year below the values
+  expected from the LI-7200 years. The daytime `NEE` of 2004-2009 lies about 230 gC m^-2^ per year
+  above them. Both biases are stated as uncertainties and are not corrected.

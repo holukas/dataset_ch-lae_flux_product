@@ -1,7 +1,7 @@
 # FP2026.1 (2016-2026.09)
 
-**Current version.** First release of this dataset. It holds the ecosystem fluxes measured with the
-enclosed-path LI-7200 gas analyser (`IRGA72`) and the meteorological data of the site, from
+**Current version.** The first release of this dataset holds the ecosystem fluxes measured with
+the enclosed-path LI-7200 gas analyser (`IRGA72`) and the meteorological data of the site, from
 January 2016 to September 2026. What changes with the next release is listed under
 [Differences between versions](Version_Differences.md).
 
@@ -48,22 +48,22 @@ dataset are those of the processing; a shorter set of names for publication is n
 - **Periods of low sample flow are still in the data.** In these periods the measuring cell of the
   LI-7200 was not flushed, and `FC` and `LE` stayed near zero; the values passed the automatic
   tests. They were found after the release and are removed by hand from FP2026.2. In FP2026.1,
-  exclude `NEE`, `LE` and `ET` of these periods, gap-filled values included:
-  - six periods from 30 January to 29 February 2016, and the night to 26 May 2016 07:45
-    ([Yearly Notes, 2016](Yearly_Notes.md#start-up-of-the-li-7200-in-2016));
-  - 17 May 07:15-16:45 and 18 May 07:45 to 19 May 11:45, 2018
-    ([Yearly Notes, 2018](Yearly_Notes.md#flow-module-failure-in-may-and-june-2018));
-  - 28 April to 20 May and 21 to 27 May 2021
-    ([Yearly Notes, 2021](Yearly_Notes.md#low-sample-flow-of-the-li-7200-in-may-2021));
-  - 11 to 14 August 2023
-    ([Yearly Notes, 2023](Yearly_Notes.md#zero-sample-flow-of-the-li-7200-in-august-2023)).
-- **Low sample flow in December 2022.** From 8 to 19 December 2022 the logged sample flow of the
-  LI-7200 was 0 to 3 l min-1, and the night-time `NEE` that passed the tests reads +5 to
-  +16 µmol m-2 s-1 at about −8 °C. These values are also in the current processing of FP2026.2;
-  their removal is planned for its next run.
+  exclude `NEE`, `LE` and `ET` of the periods in @tbl-fp2026-1-lowflow, gap-filled values included.
+- **Low sample flow in December 2022.** The night-time `NEE` of 8 to 19 December 2022 is far too
+  high. These values are also in the current processing of FP2026.2, and their removal is planned
+  for its next run ([Issues](Issues.md#faulty-sample-flow-of-the-li-7200-in-december-2022)).
 - **Settings of two outlier tests.** FP2026.1 was produced with the earlier, stricter test of
   negative nighttime `NEE` values, based on the spread of all nighttime values within ±15 days; in
   the released file it flags 180 values. Its absolute limits for `LE` were −50 to 800 W m-2. The
   tests used since 30 October 2026 are described under [Level 3.2](L3.2.md) and apply to FP2026.2.
+
+| Year | Periods of low sample flow | Details |
+|---|---|---|
+| 2016 | six periods from 30 January to 29 February, and the night to 26 May 07:45 | [Yearly Notes, 2016](Yearly_Notes.md#start-up-of-the-li-7200-in-2016) |
+| 2018 | 17 May 07:15-16:45, and 18 May 07:45 to 19 May 11:45 | [Yearly Notes, 2018](Yearly_Notes.md#flow-module-failure-in-may-and-june-2018) |
+| 2021 | 28 April to 20 May, and 21 to 27 May | [Yearly Notes, 2021](Yearly_Notes.md#low-sample-flow-of-the-li-7200-in-may-2021) |
+| 2023 | 11 to 14 August | [Yearly Notes, 2023](Yearly_Notes.md#zero-sample-flow-of-the-li-7200-in-august-2023) |
+
+: Periods of low sample flow of the LI-7200 that are still in FP2026.1. {#tbl-fp2026-1-lowflow}
 
 The other known issues, which apply to both versions, are listed on [Issues](Issues.md).
