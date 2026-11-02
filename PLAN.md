@@ -236,6 +236,39 @@ that will state it.
 
 ## 5. Where to continue
 
+**Next steps (2 Nov 2026), in order:**
+
+1. **Decide the scope of FP2026.2.**
+   - The storage screen of the `IRGA75` is set but not run (item 20).
+   - For the daytime scaling and the donor fill (item 21), decide whether to adopt them, publish
+     them as a sensitivity column, or only state them as uncertainties. The recommendation is to
+     state them as uncertainties.
+   - One USTAR threshold set for both analysers, from the merged record (0.352 / 0.486 / 0.599
+     m s-1, detection notebook section 11), is still to be decided.
+2. **Rerun once, with all decided changes.**
+   - `IRGA75/05`, `25`, `35`, and `IRGA72/05` if the USTAR set changes.
+   - Then both `99`, the stage merge and `80_FINALIZE/10`.
+   - Then the USTAR detection notebook, whose Level-3.2 check against `05` fails until `05` is
+     rerun.
+   - Then the `90_OVERVIEW` notebooks.
+3. **Bring the docs in line with that run.**
+   - `docs/L3.1.md`: the storage screen.
+   - `docs/Issues.md`: the humid bias of about -210 gC m-2 per year in all `IRGA75` years, and the
+     daytime excess of about +290 in 2004-2009 (item 21). Replace the unverified "100 to 200".
+   - The version pages and the annual sums.
+   - Close items 9, 12, 19 and 20.
+   - The docs were brought up to date with the findings of 1-2 Nov 2026 before the rerun (state
+     as of the run of 1 Nov 2026). Several of these findings come only from scratch analyses (the
+     overlap split, the climate baseline, the concentration check, the screen tests; research
+     reports `fppc_insights_2026-11-01` in the data folder). Move them into a notebook, for example
+     an overlap notebook in `90_OVERVIEW`, so that the docs can link to the evidence.
+4. **Smaller fixes for the same rerun.**
+   - `IRGA72` flow fault of 8-19 Dec 2022 into `REMOVE_DATES` of `IRGA72/05` and `25`.
+   - The boom removal of 20-26 Dec 2018, now only in `IRGA72/35`, also in `IRGA72/05` and `25`.
+   - The same gap-filling settings in both chains: tree count, learning rate and features.
+5. **Later, separately:** the sensitivity of the gap-filled sums to the number of trees (item 8).
+   The `IRGA72` sum of 2016 moves from +58 to +188 gC m-2 between 90 and 1000 trees.
+
 **Runs done (30 Oct 2026).** With the relaxed night tests: `IRGA72/05`, `99`; `IRGA75/05`,
 `25`, `35`, `99`; `30_.../99_FPPC_MERGED`; `80_FINALIZE/10` (not `20`: FP2026.1 stays as
 released); `90_OVERVIEW/FLUX_NEE`, `METEO_VPD`; the comparison and investigation notebooks of
@@ -372,7 +405,9 @@ In order. Each item is blocked by the one above it, except that the flux items
    (2016-2017: about 40 gC m-2 apart on shared half-hours, 180-190 gC m-2 per year
    apart gap-filled). Numbers of the first run of chain `05` (29 Oct 2026, before the
    opco fit without `VPD`): -38 gC m-2 shared, 179 (2016) and 194 (2017) gC m-2
-   gap-filled; check them after the merges are re-run (section 4.2). Of the half-hours
+   gap-filled. **Superseded (run of 1 Nov 2026, FP2026.2 thresholds):** -16 and -13 on shared
+   records, -436 and -370 gap-filled. Of the gap, -347 and -293 lie in records that neither
+   analyser measured, and -66 and -75 in records only the LI-7200 measured (item 21). Of the half-hours
    only the `IRGA72` measured, half have no `IRGA75` flux and 30 % an AGC above 90.
    Wetness drivers alone do not help (opco tests). To do: calibrate an adjustment of the filled `IRGA75` values on the
    2016-2017 half-hours where only the `IRGA72` measured (drivers: precipitation in
@@ -402,7 +437,11 @@ In order. Each item is blocked by the one above it, except that the flux items
     0.74 for the `IRGA75` and 0.52 for the `IRGA72`, and the ratio of `IRGA75` to `IRGA72`
     `LE` rises with RH (2.15 at RH ≥ 95 %). The `IRGA75` `LE` is therefore the more
     complete one at high RH, and its gap-filled `LE` is more likely biased high than low;
-    the sentence above needs checking. Annual `ET` 2016-2017: 748 mm (`IRGA75`) against
+    the sentence above needs checking. **Checked (1 Nov 2026):** not supported. Against a climate
+    baseline from the LI-7200 years, LI-7500 `ET` lies 131-161 mm per year above, and on shared
+    daytime records at RH >= 99.5 % the energy balance closure is 0.69 (LI-7500) against 0.45
+    (LI-7200). The `ET` step at the change of analyser (-126 mm) is instrumental. The `ET` anomaly
+    of 2008-2010 (+246 to +366 mm) is unexplained. Annual `ET` 2016-2017: 748 mm (`IRGA75`) against
     610 mm (`IRGA72`).
 11. **Cold-night `NEE` of the `IRGA75` years** (found 29 Oct 2026 in
     `90_OVERVIEW/FLUX_NEE`; the limitation is now stated in `docs/Issues.md`). Done
@@ -486,7 +525,10 @@ In order. Each item is blocked by the one above it, except that the flux items
       for the LI-7200 at the same RH). XGB learns "humid = near zero" and fills the many humid
       nights that way; the RH composition explains -0.65 of the -0.68, within RH classes filled
       and measured agree. In the `IRGA72` years filled and measured nights agree (+0.08). Rough
-      effect: 50-70 gC m-2 per year towards uptake in 2004-2015. The root is the known bias of
+      effect: 50-70 gC m-2 per year towards uptake in 2004-2015. **Superseded (1-2 Nov 2026,
+      item 21):** that estimate covered November to March nights only. Against the climate baseline,
+      the night deficit is about -200 gC m-2 per year in all `IRGA75` periods, and it lies mostly in
+      gaps without any LI-7500 data (rain). The root is the known bias of
       humid cold LI-7500 nights (`docs/Issues.md`), not the gap-filling; foggy cold nights corrected about 0.5 umol m-2 s-1 too little and clear ones
       too strongly without `VPD` (a longwave fog ratio as driver removes most of it, not usable in
       2004-2005); whether 2004, which starts on 30 March, gets an annual sum; possibly a flag for
@@ -622,6 +664,37 @@ In order. Each item is blocked by the one above it, except that the flux items
     version pages. The test variants `T1`-`T3` do not have the screen. A lower AGC limit for the flux
     (55 or 60 instead of 90) was tested and not adopted: alone it changes the sums by -88 to +128
     per year with mixed signs. Analyses: research reports `fppc_insights_2026-11-01` in the data folder.
+    **Robustness (1-2 Nov 2026):**
+    - Over 54 settings (AGC 50-60, rain 1-6 h, with or without RH, skip 2-4), the mean storage sum
+      2004-2015 stays within -10 to +9 gC m-2 per year.
+    - Settings derived from 2016 alone or from 2017 alone leave both years within -44 to +12 of the
+      LI-7200 storage. Without the screen the difference is about -500.
+21. **Remaining biases of the `IRGA75` after the storage screen** (tested 1-2 Nov 2026 in scratch,
+    not adopted). Reference: a climate baseline of day and night `NEE` trained on the LI-7200 years
+    (report E); anomalies in gC m-2 per year.
+    - **Night: about -210 in every `IRGA75` period** (LI-7200: -39 to +32). The deficit lies in the
+      gaps where the LI-7500 measured nothing, mostly in rain. Its model never sees fluxes in rain,
+      while the LI-7200 measures them.
+      - The opco variant V25 (night heat term from `LW_IN`) changes little.
+      - Filling the humid gaps (RH >= 99.5 %) from a LI-7200 model (donor fill) halves the deficit
+        and closes the overlap gap to about -100. It also adds +85 to +120 by day, and its effect
+        in 2004-2015 cannot be checked.
+    - **Day: +208 to +365 in each year 2004-2009, -109 to +120 from 2010** (LI-7200: -278 to +147).
+      - The uncorrected flux of 2004-2009 matches the baseline, so opco probably over-corrects these
+        days.
+      - The summer wind test of `OPCO_TRANSFER_CHECK` gives s = 0.05-0.40 in 2005-2007 and 1.0-1.2
+        in 2008-2009 (noise about ±0.6 per year), so it places the step two years earlier than the
+        baseline does. No setup change is recorded at either date.
+      - Scaling the daytime opco term of 2004-2007 by 0.2 brings those days to -112 to -8. 2008 and
+        2009 stay at +219 and +297, and the annual sum jumps from -393 (2007) to +51 (2008).
+    - **All three together** (storage screen, daytime scaling, donor fill): +34, +48 and -39 in
+      2004-2009, 2010-2015 and 2016-2017, a homogeneous record; `NEE` 2004-2015 averages +62
+      against -18 for the LI-7200 years. The homogeneity is largely by construction, since the
+      baseline comes from the LI-7200 years and a real change of the forest would be removed too.
+    - Recommended for FP2026.2: state both biases as uncertainties. If the corrected series is
+      wanted, publish it as a sensitivity column. The QCL data needed to test the early years
+      (item 17) are not available.
+    - Analyses: `F_concentration/report.md`.
 
 
 ## 6. Open questions
