@@ -240,6 +240,13 @@ that will state it.
 the `IRGA75` (item 20) and one USTAR set for both analysers (item 18); opco unchanged; the
 remaining `IRGA75` biases stated as uncertainties, not corrected (item 21).
 
+**To reconcile first:** the audit of item 22 (2 Nov 2026, `research/reports/open_path_audit_2026-11-02/REPORT.md`
+in the data folder) tests a day fix (the correction of Etzold et al. 2011 instead of opco by day
+before 19 Dec 2007) and a wet-night fill, and states that it supersedes the recommendation of
+item 21. Both results put the only dated change at December 2007. Decide between the two before
+step 3; the rerun of step 2 does not depend on it, unless a fix is adopted that changes `01` or
+`05`.
+
 1. **Smaller fixes, before the rerun,** so that one rerun covers everything.
    - `IRGA72` flow fault of 8-19 Dec 2022 into `REMOVE_DATES` of `IRGA72/05` and `25`.
    - The boom removal of 20-26 Dec 2018, now only in `IRGA72/35`, also in `IRGA72/05` and `25`.
@@ -255,7 +262,8 @@ remaining `IRGA75` biases stated as uncertainties, not corrected (item 21).
      new run and its check of Level 3.2 against `05` passes. Update the text of its sections 6, 7,
      9, 10 and the calm-hours table of section 11, and Main findings.
    - Then the `90_OVERVIEW` notebooks. `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION` and the
-     test notebooks `T1`-`T3` still declare the per-analyser thresholds; set the merged set.
+     test notebooks `T1`-`T3` declare the merged set; after the run, update the threshold text of
+     the two overview notebooks (0.44, 0.52).
    - Expected, from existing outputs (scratch estimate, not a chain run): `IRGA75` 2004-2015 mean
      about +7 gC m-2 per year (now -82), `IRGA72` 2016-2025 about -38 (now -18); overlap gap
      about -250 instead of -437 / -369.
@@ -268,7 +276,8 @@ remaining `IRGA75` biases stated as uncertainties, not corrected (item 21).
    - The two act in opposite directions and partly cancel in 2004-2009.
 4. **Bring the docs in line with the run.**
    - `docs/L3.1.md` (storage screen), `docs/L3.3.md` (one set, merged record, section 12), the
-     version pages, `docs/IRGA75_Comparisons.md` and the annual sums.
+     version pages (`Version_Differences`, `Version_FP2026.2`, which still describe the
+     per-analyser sets), `docs/IRGA75_Comparisons.md` and the annual sums.
    - Replace the unverified "100 to 200" in `docs/Issues.md`.
    - Fix the inconsistencies found by the docs agents on 2 Nov 2026, first the real names in the
      acknowledgments of `docs/index.md` (against the no-names rule); then the end of the 2016
@@ -652,11 +661,15 @@ In order. Each item is blocked by the one above it, except that the flux items
     2021 -69), several of them a net source (2016, 2017, 2022-2024); 2018-2024 is now close to
     FLUXNET `VUT_REF`. Docs and notebook findings updated the same day.
     **Changed 2 Nov 2026: one set for both analysers,** detected on the merged record (LI-7500
-    2004-2015, LI-7200 2016-2025) with the storage screen: 0.3476 / 0.4811 / 0.6011 m s-1, set in
-    both `05` notebooks, not run yet. On the records both analysers measured they give the same
-    threshold within 0.01 m s-1; the per-analyser sets differ only by the years they cover. The
-    clean LI-7500 records (+0.019) and opco V25 (-0.002) move `CUT_50` by less than the bootstrap
-    spread (detection notebook section 12).
+    2004-2015, LI-7200 2016-2025) with the storage screen: 0.3476 / 0.4811 / 0.6011 m s-1. It
+    replaces the per-analyser sets and the set 0.3523 / 0.4860 / 0.5990 detected the same day
+    without the screen. Set in both `05` notebooks, the `T` notebooks and
+    `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION`; not run yet. On the records both
+    analysers measured they give the same threshold within 0.01 m s-1; the per-analyser sets
+    differ only by the years they cover. The clean LI-7500 records (+0.019) and opco V25 (-0.002)
+    move `CUT_50` by less than the bootstrap spread (detection notebook section 12). Docs (`L3.3`,
+    `Version_Differences`, `Version_FP2026.2`) still describe the per-analyser sets until the
+    rerun (section 5, step 4).
 19. **Humid-night test for the `IRGA75`** (proposed 1 Nov 2026, not decided). In 2016-2017 the
     LI-7500 night `NEE` lies below the LI-7200 in humid cold nights, whatever its sign (median
     difference about -1.1 umol m-2 s-1 below 0 degC and -0.4 at 0-5 degC at RH >= 99.5 %, -0.6
@@ -726,6 +739,24 @@ In order. Each item is blocked by the one above it, except that the flux items
       wanted, publish it as a sensitivity column. The QCL data needed to test the early years
       (item 17) are not available.
     - Analyses: `F_concentration/report.md`.
+22. **Audit of the open-path corrections and tests of three fixes** (2 Nov 2026, scratch, **not
+    decided**). Full record: `research/reports/open_path_audit_2026-11-02/REPORT.md` in the data
+    folder, with all scripts and outputs.
+    - Five checks (EddyPro Level 1, opco code and target, the LI-7200 2016-2017 as reference, the
+      chain Levels 2-4.1, literature): all correct or small (below about +-50 gC m-2 per year),
+      except the transfer of the daytime opco correction (about +500 per year, fitted on the
+      2016-2017 head), probably +330 to +440 too large in 2004-2007. A CO2 zero step of the LI-7500
+      on 19 Dec 2007 is the only measured change of the analyser and coincides with the step of the
+      wind test.
+    - The LI-7500 years carry a day bias (too high, 2004-2009) and a night bias (too low in every
+      period: wet gaps filled at 1.5 against 4.8 umol m-2 s-1 measured by the LI-7200, storage term)
+      that cancel.
+    - Tested: day fix (the Etzold et al. 2011 correction instead of opco by day before 2007-12-19), storage screen,
+      wet-night fill (Lloyd-Taylor on own dry nights, or LI-7200 donor). All three together give
+      0 / +24 / -30 gC m-2 per year for 2004-2009 / 2010-2015 / 2016-2017, in line with the
+      LI-7200 (-18); 2008-2009 stay at +110 to +140.
+    - Open: which fixes to adopt, and 2008-2009 (options in section 6 of the report). Supersedes
+      the recommendation of item 21.
 
 
 ## 6. Open questions
