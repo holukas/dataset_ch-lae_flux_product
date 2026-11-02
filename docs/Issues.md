@@ -28,17 +28,19 @@ The gas fluxes `FC`, `NEE` and `LE` have the same gap, for the reasons above. Se
 
 The annual mean of the Level-1 `H`, before quality control, is 25.8 W m^-2^ in 2024, against 33.9
 to 51.8 W m^-2^ in the other full years 2016 to 2025, about a third lower. The gap-filled series
-gives 25.1 W m^-2^ against 32.4 to 45.4 W m^-2^. Incoming shortwave radiation was also lower in
-2024 than in the other years, but the cause has not been checked yet. Treat annual `H` in 2024 with
-caution until it is.
+gives 25.1 W m^-2^ against 32.4 to 45.4 W m^-2^.
+
+The cause is the weather. In 2024 incoming shortwave radiation was 12 % below the other years, the
+rain sum was the highest of the period (1151 mm), and `VPD` was the lowest. No instrument fault was
+found. The low `H` of 2024 is therefore not an artefact.
 
 ## MDS in spring 2016
 
 In spring 2016 the measurements of the start-up period were removed (1 March to 25 May 2016), and
 the gap includes the leaf-out. MDS fills this gap from records far away in time and gives a much
-larger uptake than XGBoost: the April-May sum of `NEE` (`CUT_50`) is -240 gC m^-2^ with MDS and
--132 gC m^-2^ with XGBoost (-235 and -113 in FP2026.1). In the other years the April-May sums of
-both methods lie between -31 and -192 gC m^-2^. XGBoost is the gap-filling method of this dataset, and MDS is included for
+larger uptake than XGBoost: the April-May sum of `NEE` (`CUT_50`) is -274 gC m^-2^ with MDS and
+-82 gC m^-2^ with XGBoost (-235 and -113 in FP2026.1). In the other years the April-May sums of
+both methods lie between -16 and -188 gC m^-2^. XGBoost is the gap-filling method of this dataset, and MDS is included for
 comparison only. Use the XGBoost series (`_gfXG`). See [Level-4.1](L4.1.md).
 
 ## The LI-7500 fluxes are not part of FP2026.1
@@ -51,42 +53,69 @@ analyser of each half-hour (`75` or `72`). The LI-7500 data of the parallel peri
 and check the correction. They are not in the merged record, and neither is the stand-in run of 2019.
 FP2026.2 will contain FP2026.1 in full and supersede it.
 
-## Annual NEE of the LI-7500 years may show too much uptake
+## The storage term of the LI-7500 drifts
 
-This concerns `NEE` of 2004-2015 in FP2026.2. The correction of [Level-1.1](L1.1.md) works on the
-half-hours the LI-7500 measured. The remaining uncertainty lies in the half-hours it did not
-measure.
+This concerns `NEE` and the storage term of 2004-2017 in the LI-7500 processing of FP2026.2. Over a
+year, a storage term should sum to about zero. The single-point storage term of the LI-7500
+(`SC_SINGLE_gfRMED_L3.1`) sums to -25 to -196 gC m^-2^ per year in 2004-2017, and to
+-159 gC m^-2^ per year in the 2016-2017 overlap. That of the LI-7200 sums to -23 to +15 gC m^-2^
+per year, and to +0.7 in the overlap.
 
-The LI-7500 loses many half-hours in wet weather (rain, fog, dew, water on the windows), when the
-LI-7200 still measures. Gap-filling learns only from the conditions the LI-7500 measured, so it fills
-these gaps as if they were dry, with too much uptake. Open-path analysers are known to lose data in
-wet weather, but no published study was found that quantifies the resulting bias against a
-co-located enclosed-path analyser. From 11 January 2016 to 12 December 2017, when both analysers
-ran:
+The cause lies in the CO~2~ concentration of the LI-7500. With wet or blocked windows, at an AGC
+above 55 or after rain, it reads 33 to 106 ppm too high. Across its gaps the concentration rises by
+12.4 ppm (median). The rise falls into the gap and is not counted, while the return after the gap
+enters the storage term as a negative flux. This accounts for about 130 of the 160 gC m^-2^ per year
+of the drift. The error of the concentration changes the flux itself by less than 1 %, so it does
+not explain the low humid fluxes described below.
 
-- on the half-hours both measured, the corrected LI-7500 shows 29 gC m^-2^ more uptake than the
-  LI-7200 over the whole period;
-- the gap-filled `NEE` of the LI-7500 shows 437 gC m^-2^ (2016) and 369 gC m^-2^ (2017) more
-  uptake than that of the LI-7200.
-
-For 2004-2015 the size of this effect is unknown. A correction calibrated in 2016-2017 would add
-100 to 200 gC m^-2^ per year, but the annual sums of the LI-7500 years show no step of that size
-against those of the LI-7200 years: 2004-2015 average -82 gC m^-2^ per year, 2016-2025 -18
-([overview of the merged NEE record](notebooks/90_OVERVIEW/FLUX_NEE.html)). FP2026.2 therefore
-keeps the gap-filled series without such a correction.
+A screen of the concentration is set for the next processing run and is not yet in the data: a
+reading enters the storage term only at an AGC of 55 or less, without rain in the previous 3 hours,
+at a relative humidity below 99.5 %, and not among the first 3 records after a gap. In a test with
+the chain (`CUT_50`), the storage term then sums to -5 to +39 gC m^-2^ per year in 2004-2015, and
+the result is robust to the settings. The method, the evidence and the tests are on
+[Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term).
 
 What this means for the data:
 
-- The annual `NEE` of 2004-2015 may show too much uptake, by up to 100 to 200 gC m^-2^ per year.
-  Differences between years smaller than that are not resolved.
-- The nighttime partitioning fits `RECO` on measured `NEE` only. The missing wet nights therefore
-  bias `RECO` and `GPP` low.
-- Shortwave radiation was measured from 14 September 2005, so the daytime partitioning gives no
-  result before that date ([Level 4.2](L4.2.md)). In 2005 most of the meteorological drivers are
-  gap-filled.
-- The LI-7500 record starts on 30 March 2004, so `NEE`, `LE` and `H` of January to March 2004 are
-  entirely gap-filled. Their `SW_IN` driver is unreliable in January 2004, about 2.7 times the mean
-  January total (see [SW_IN](Meteo_Data_SW_IN.md)).
+- In the current processing, the storage term of the LI-7500 and its `NEE` still contain the drift.
+  In the test, the screen raises annual `NEE` by about 70 gC m^-2^ per year in 2004-2015 and by 118
+  in 2016-2017, and reduces the overlap gap to the LI-7200 by about 120 of about 400 gC m^-2^ per
+  year.
+- The LI-7200 storage term is not affected.
+
+## The LI-7500 misses the wet half-hours
+
+This concerns `NEE` of 2004-2015 in FP2026.2. The correction of [Level-1.1](L1.1.md) works on the
+half-hours the LI-7500 measured. Most of the remaining difference to the LI-7200 lies in the
+half-hours it did not measure.
+
+The LI-7500 loses many half-hours in wet weather (rain, fog, dew, water on the windows), when the
+LI-7200 still measures. Gap-filling learns only from the conditions the LI-7500 measured, so it fills
+these gaps with too much uptake. Open-path analysers are known to lose data in wet weather, but no
+published study was found that quantifies the resulting bias against a co-located enclosed-path
+analyser.
+
+From 11 January 2016 to 12 December 2017, when both analysers ran, the annual `NEE` (`CUT_50`,
+XGBoost) of the LI-7500 is -349 gC m^-2^ in 2016 and -181 in 2017, that of the LI-7200 +88 and
++188. The LI-7500 therefore shows 436 gC m^-2^ (2016) and 370 gC m^-2^ (2017) more uptake. Of this
+gap:
+
+- 16 and 13 gC m^-2^ lie in the half-hours both analysers measured;
+- about 80 % lies in the half-hours neither analyser measured, and about 96 % in the half-hours
+  that at least one of them gap-filled.
+
+The full split is on [Comparisons of the LI-7500 years](IRGA75_Comparisons.md#the-2016-2017-overlap).
+The gap is therefore mostly a property of the gap-filling, not of the measured flux.
+
+The humid half-hours show where it comes from. At a relative humidity of 99.5 % or more, the
+LI-7500 measures only 8 to 9 % of the half-hours. Its gap-filling model fills the others at 0.1 to
+0.5 µmol m^-2^ s^-1^, that of the LI-7200 at 3.0 to 3.5 µmol m^-2^ s^-1^. With the storage
+correction of the next run the filled values of the LI-7500 rise only to 0.95, against 3.33, while
+the humid half-hours the LI-7500 does measure read only 0.3 to 1.1 µmol m^-2^ s^-1^ low (medians,
+not stable between the two years). The deficit therefore lies mostly in the gaps where the LI-7500
+measured nothing, mostly in rain: its model never sees a flux during rain, while the LI-7200
+measures it. The effect on the LI-7500 years 2004-2015 is described under
+[Biases of the LI-7500 NEE against a climate baseline](#biases-of-the-li-7500-nee-against-a-climate-baseline).
 
 ## Nighttime NEE of the LI-7500 is too low on cold and humid nights
 
@@ -112,32 +141,85 @@ of nighttime `NEE`, LI-7500 minus LI-7200, is:
 - -0.6 to -0.9 at 97-99.5 % (below 0 °C and at 5-10 °C);
 - +0.2 to +0.9 below 97 % and below 10 °C.
 
-The automatic gain control (AGC) value of the LI-7500 does not separate these records. One
-proposal, not yet decided, is to remove every LI-7500 nighttime record below 5 °C at 99.5 % relative humidity or more, whatever its
-sign. This would remove about 4 % of the nighttime records and raise the nighttime `NEE` sum by
-about 30 gC m^-2^ per year (0 to 85, depending on the year). This analysis is not yet in a notebook.
+The automatic gain control (AGC) value of the LI-7500 does not separate these records. Removing
+every LI-7500 nighttime record below 5 °C at 99.5 % relative humidity or more, whatever its sign,
+was tested and is not adopted. It removes about 4 % of the nighttime records but widens the gap to
+the LI-7200 in the overlap by 29 to 127 gC m^-2^ per year, because the gap-filling then
+extrapolates the humid nights even lower.
 
 What this means for the data:
 
 - Measured and gap-filled nighttime `NEE` of the LI-7500 years is likely biased towards uptake in
-  cold and humid conditions. The effect on the annual sums is estimated only through the proposal
-  above. It adds to the bias
-  from the wet-weather gaps described under *Annual NEE of the LI-7500 years may show too much
-  uptake*.
+  cold and humid conditions. Most of the bias of the annual sums lies in the humid gaps rather than
+  in the measured nights (see [The LI-7500 misses the wet half-hours](#the-li-7500-misses-the-wet-half-hours)).
 - `RECO` from the nighttime partitioning is fitted on these nights and is likely too low in winter.
 
 Not yet resolved.
 
-## The early LI-7500 years show little net uptake
+## Biases of the LI-7500 NEE against a climate baseline
 
-This concerns `NEE` of 2004-2009 in FP2026.2. In 2005-2009 the annual `NEE` averages +27 gC m^-2^
-per year, a small net release. This is far less uptake than the biometric estimates for 2006-2009
-and the earlier flux estimates of FLUXNET and @etzold_carbon_2011. Against the LI-7200 years the
-shortfall lies in the daytime uptake. Checks of
-the analyser, the raw data and the calibration found no measurement fault. The cause is either a
-real loss of uptake after the drought of 2003 or a correction at [Level 1.1](L1.1.md) that is too
-large for these years. FP2026.2 keeps these years unchanged. Where a result depends on the
-absolute sink strength, prefer the LI-7200 years. The comparisons and checks are on
+This concerns `NEE` of 2004-2015 in FP2026.2. The LI-7500 years cannot be checked against a
+second analyser. They are compared instead with a climate baseline: a model of daytime and
+nighttime `NEE` trained on the LI-7200 years 2016-2025, with meteorological drivers only. Applied to
+the weather of another year, it gives the `NEE` that the forest of 2016-2025 would have exchanged
+under that weather. The numbers below are the differences of the gap-filled `NEE` (`CUT_50`) to
+this baseline, in gC m^-2^ per year.
+
+- **Night: about -200 in every LI-7500 year.** The LI-7500 lies about 200 to 250 below the baseline
+  in 2004-2009, in 2010-2015 and in the overlap 2016-2017. The LI-7200 years lie within -40 to +30.
+  This is the deficit of the humid gaps described above.
+- **Day: about +230 in 2004-2009.** By day the LI-7500 lies about 230 above the baseline in
+  2004-2009 (single years +200 to +370 with the storage correction), about 0 in 2010-2015, and -105
+  in 2016-2017 (-34 with the storage correction). The LI-7200 years scatter from -280 to +150. The
+  uncorrected LI-7500 flux of 2004-2009 matches the baseline, so the correction of
+  [Level 1.1](L1.1.md) probably over-corrects the daytime flux of these years (see the
+  limitations on that page).
+
+In 2004-2009 the two biases largely offset each other in the annual sum; in 2010-2015 the night
+deficit remains. This is why the annual sums show no clear step at the change of analyser:
+2004-2015 average -82 gC m^-2^ per year, 2016-2025 -18
+([overview of the merged NEE record](notebooks/90_OVERVIEW/FLUX_NEE.html)).
+
+The baseline cannot settle whether the forest itself changed. It describes the forest of the
+LI-7200 years. A real difference of the forest in 2004-2009, for example a lower uptake capacity
+after the drought of 2003, would appear against it as a bias of the same kind. In 2005-2009 the
+annual `NEE` averages +27 gC m^-2^ per year, a small net release, far less uptake than the
+biometric estimates for 2006-2009 and the earlier flux estimates of FLUXNET and
+@etzold_carbon_2011. A loss of capacity after 2003 is plausible for 2004-2006 at most; it does not
+explain 2007-2009 or the whole size of the difference. Checks of the analyser, the raw data and the
+calibration found no fault of the measured flux. An independent closed-path measurement of these
+years, which could decide it, is not available.
+
+Tested and not adopted:
+
+- **Scaling the daytime correction of 2004-2007 by 0.2.** It brings those days to the baseline but
+  leaves 2008-2009 high, and the annual sum then jumps from -393 gC m^-2^ in 2007 to +51 in 2008.
+- **Filling the humid gaps from a LI-7200 model.** It halves the night deficit and closes the
+  overlap gap to about -100 gC m^-2^ per year, but adds +85 to +120 by day, and its effect in
+  2004-2015 cannot be checked.
+- **All corrections together**, with the storage correction, give a record that is homogeneous
+  against the baseline. This is largely by construction: the baseline comes from the LI-7200 years,
+  and the corrections would also remove a real change of the forest.
+- **A variant of the Level-1.1 correction with a nighttime heat term from incoming longwave
+  radiation** changes little.
+
+What this means for the data:
+
+- The annual `NEE` of all LI-7500 years carries a nighttime bias towards uptake of about
+  200 gC m^-2^ per year, and that of 2004-2009 a daytime bias towards release of about 230 gC m^-2^
+  per year. FP2026.2 states both as uncertainties and does not correct them. Differences between
+  years smaller than these are not resolved, and where a result depends on the absolute sink
+  strength, prefer the LI-7200 years.
+- The nighttime partitioning fits `RECO` on measured `NEE` only. The missing wet nights therefore
+  bias `RECO` and `GPP` low.
+- Shortwave radiation was measured from 14 September 2005, so the daytime partitioning gives no
+  result before that date ([Level 4.2](L4.2.md)). In 2005 most of the meteorological drivers are
+  gap-filled.
+- The LI-7500 record starts on 30 March 2004, so `NEE`, `LE` and `H` of January to March 2004 are
+  entirely gap-filled. Their `SW_IN` driver is unreliable in January 2004, about 2.7 times the mean
+  January total (see [SW_IN](Meteo_Data_SW_IN.md)).
+
+The comparisons with FLUXNET, @etzold_carbon_2011 and the biometric estimates are on
 [Comparisons of the LI-7500 years](IRGA75_Comparisons.md).
 
 ## LE of the two gas analysers differs in humid and cold conditions
@@ -147,16 +229,18 @@ when both analysers ran, the open-path LI-7500 (`IRGA75`) measured a higher `LE`
 enclosed-path LI-7200 (`IRGA72`). On the half-hours both measured, it is about 9 % higher overall,
 and the difference grows with humidity and cold:
 
-| relative humidity | `IRGA75` / `IRGA72` |
-|---|---|
-| below 60 % | 1.03 |
-| 60-80 % | 1.05 |
-| 80-90 % | 1.14 |
-| 90-95 % | 1.47 |
-| 95 % and above | 2.11 |
+| relative humidity | `LE` `IRGA75` / `IRGA72` | closure `IRGA75` | closure `IRGA72` |
+|---|---|---|---|
+| below 60 % | 1.03 | 0.93 | 0.91 |
+| 60-80 % | 1.05 | 0.90 | 0.88 |
+| 80-90 % | 1.14 | 0.85 | 0.81 |
+| 90-95 % | 1.47 | 0.80 | 0.69 |
+| 95 % and above | 2.11 | 0.72 | 0.51 |
 
 : Ratio of the `LE` sums of the two analysers on the half-hours both measured after all quality
-tests, 11 January 2016 to 12 December 2017, by relative humidity at 47 m. {#tbl-le-ratio}
+tests, and the daytime energy balance closure of each, (`H + LE`) / (`NETRAD - G`) as a ratio of
+sums, 11 January 2016 to 12 December 2017, by relative humidity at 47 m
+([overview of `ET`](notebooks/90_OVERVIEW/FLUX_ET.html)). {#tbl-le-ratio}
 
 Below 0 °C the ratio is 2.7, above 20 °C 1.03. The gap-filled `LE` of the parallel period is 20 %
 higher with the LI-7500.
@@ -165,22 +249,38 @@ The likely cause lies in the LI-7200, not in the open-path analyser. In the tube
 enclosed-path analyser, water vapour adsorbs on the walls, which damps the H2O fluctuations more the
 higher the humidity. The `IRGA72` runs correct for this (Fratini et al. 2012), but such corrections
 often fall short above about 90 % relative humidity. Self-heating of the open-path analyser would
-bias its flux the other way. In humid and cold conditions, the LI-7500 `LE` may therefore be closer
-to the true flux than the LI-7200 `LE`.
+bias its flux the other way.
+
+The energy balance supports this (@tbl-le-ratio). In dry air both analysers close it to about the
+same degree. With rising humidity the closure of the LI-7200 falls faster: at 99.5 % relative
+humidity or more it is 0.45, that of the LI-7500 0.69. The LI-7500 `LE` is therefore the more
+complete one at high humidity.
 
 What this means for the data:
 
-- The `LE` and `ET` of the LI-7200 (FP2026.1, and FP2026.2 from 2016) may be too low in humid and
+- The `LE` and `ET` of the LI-7200 (FP2026.1, and FP2026.2 from 2016) are likely too low in humid and
   cold conditions.
-- In the merged record of FP2026.2, the step in `LE` and `ET` at 1 January 2016 is partly
-  instrumental. The gap-filled `ET` averages about 740 mm per year in 2004-2015 (LI-7500) and about
-  615 mm in 2016-2025 (LI-7200). Do not read this difference as a change of the ecosystem.
-- `H` comes from the same sonic anemometer for both analysers and is not affected: the two agree
-  to within 2 % in 2016 and 2017.
+- In the merged record of FP2026.2, the step in `LE` and `ET` at 1 January 2016 is instrumental.
+  The gap-filled `ET` averages about 740 mm per year in 2004-2015 (LI-7500) and about 615 mm in
+  2016-2025 (LI-7200), a step of about -126 mm per year. Do not read this difference as a change of
+  the ecosystem.
+- `H` comes from the same sonic anemometer for both analysers and is homogeneous across 2016: the
+  ratio of the two is 0.99 in the overlap, and they agree to within 2 % in 2016 and 2017.
 
-Not yet resolved. The planned check compares the energy balance closure, `H + LE` against net
-radiation minus the soil heat flux, of both analysers by humidity class: the analyser that closes
-better at high humidity has the more realistic `LE`.
+The `LE` of the two analysers is not homogenized in FP2026.2.
+
+## Faulty sample flow of the LI-7200 in December 2022
+
+From 8 to 19 December 2022 the logged sample flow of the LI-7200 was 0 to 3 l min^-1^. At this
+flow the measuring cell is not flushed with ambient air, as in the other flow faults of
+[Level 3.2](L3.2.md). The nighttime `NEE` kept after all quality tests in this period is +5 to
++16 µmol m^-2^ s^-1^ at about -8 °C, far above a plausible winter respiration. These values are
+still in FP2026.1 and in the current processing of FP2026.2. Their removal, of `NEE` and `LE`, is
+planned for the next run. Until then, do not use the measured fluxes of the LI-7200 from 8 to
+19 December 2022.
+
+The logged flow cannot be used to search for further faults in 2022: from March to November 2022 the
+flow channel reads 0.0 while the fluxes are normal, a logging fault of the channel.
 
 ## Night-time NEE keeps rising above the USTAR thresholds
 
@@ -202,13 +302,17 @@ nights agreed with `RECO_DT` near `CUT_16`. The comparison therefore does not co
 threshold.
 
 Part of the high night `NEE` at high `USTAR` may be CO2 flushed out of the canopy air: when the wind
-rises after calm hours, CO2 that collected in the canopy passes the sensor. The current data show
-this for the LI-7500 only. Its night `NEE` exceeds `RECO_DT` more after 3 calm hours (mean `USTAR`
-below 0.3 m s^-1^) than after 3 windy hours (above 0.7 m s^-1^): 1.4 against 1.05 times `RECO_DT` at
-a `USTAR` of 0.7 to 0.9 m s^-1^, and 1.5 against 1.4 above 0.9 m s^-1^. For the LI-7200 the calm cases
-show no larger excess (0.8 against 1.0, and 1.0 against 1.1). The calm cases are few (11 to 75
-half-hours per class). After sustained wind an excess over `RECO_DT` remains, which flushing does
-not explain.
+rises after calm hours, CO2 that collected in the canopy passes the sensor. For the LI-7500, from a
+`USTAR` of 0.7 m s^-1^, night `NEE` exceeds `RECO_DT` more after 3 calm hours (mean `USTAR` below
+0.3 m s^-1^) than after 3 windy hours (above 0.7 m s^-1^): 1.4 against 1.05 times `RECO_DT` at a
+`USTAR` of 0.7 to 0.9 m s^-1^, and 1.5 against 1.4 above 0.9 m s^-1^. For the LI-7200 this holds
+only above 0.9 m s^-1^ (1.15 to 1.2 after moderately calm hours against 1.1 after windy ones), and
+not for the few records after the calmest hours; from 0.5 to 0.9 m s^-1^ its night `NEE` lies
+further below `RECO_DT` after calm hours. The calm cases are few (11 to 75 half-hours in the calmest
+class). After sustained wind an excess over `RECO_DT` remains, which flushing does not explain.
+Right above the threshold, the kept night records after calm hours read low rather than high: 0.92
+to 0.96 of `RECO_NT`, the respiration of the nighttime partitioning, at the `CUT_50` of the record
+of the site, against 1.02 to 1.10 after mixed hours. No release of stored CO2 shows there.
 
 **Known limitation: the storage term.** The storage term of [Level 3.1](L3.1.md) comes from the CO2
 concentration at one height, 47 m. In the flush cases it is not clearly negative, although CO2
@@ -227,7 +331,7 @@ of this dependence.
 ::: {.callout-tip title="Notebook"}
 
 [USTAR threshold detection](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html),
-sections 4, 6, 9 and 10
+sections 4, 6, 9, 10 and 11
 
 :::
 
@@ -249,7 +353,11 @@ a similar way to @kittler_high-quality_2017.
 This dataset does not use the FLUXNET thresholds. It filters `NEE` at three constant thresholds
 per analyser ([Level 3.3](L3.3.md)). FP2026.1 used 0.304 m s^-1^ (`CUT_50`) for the LI-7200. In
 FP2026.2 the thresholds come from the moving point method alone: 0.523 m s^-1^ for the LI-7200 and
-0.436 m s^-1^ for the LI-7500 (`CUT_50`), applied in the processing of 1 November 2026. FLUXNET
+0.436 m s^-1^ for the LI-7500 (`CUT_50`), applied in the processing of 1 November 2026. The two
+sets differ because of the years each record covers, not because of the instruments: on the
+records both analysers measured in 2016-2017, the method gives the same `CUT_50` (0.311 and
+0.301 m s^-1^). One set from the merged record of the site, 0.352, 0.486 and 0.599 m s^-1^, is
+computed but not adopted ([Level 3.3](L3.3.md)). FLUXNET
 (ONEFlux v1.3) pools the moving point and the change point methods. Its reference thresholds for
 half-hourly `NEE` are 0.43 m s^-1^ as a constant threshold (`CUT_REF`) and, per year (`VUT_REF`),
 0.23 to 0.35 m s^-1^ until 2015 and 0.46 to 0.60 m s^-1^ from 2016.
