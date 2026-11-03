@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[2]
 NB = ROOT / 'workflow' / '30_FLUX_POST-PROCESSING_CHAIN' / 'USTAR_THRESHOLD_DETECTION_2004-2026.09.ipynb'
 OUT = ROOT / 'docs' / 'images'
 
-# Thresholds (m s-1), as declared in the detection notebook (USTAR_SET, USTAR_THRESHOLDS_FP1)
-FP2 = [0.3476, 0.4811, 0.6011]
+# Thresholds (m s-1), as declared in the detection notebook (USTAR_THRESHOLDS, USTAR_THRESHOLDS_FP1)
+FP2 = {'LI-7200': [0.4155, 0.5264, 0.6472], 'LI-7500': [0.3166, 0.4294, 0.5487]}
 FP1 = [0.2716, 0.3036, 0.3397]
 
 INK, MUTED, GRID = '#1F2623', '#5A6460', '#E4E7E4'
@@ -49,13 +49,13 @@ def mid(label):
     return (lo + hi) / 2
 
 
-def thresholds(ax, ymax_label=True):
-    ax.axvspan(FP2[0], FP2[2], color=BAND, alpha=0.12, lw=0)
-    ax.axvline(FP2[1], color=BAND, lw=1.5)
+def thresholds(ax, fp2, ymax_label=True):
+    ax.axvspan(fp2[0], fp2[2], color=BAND, alpha=0.12, lw=0)
+    ax.axvline(fp2[1], color=BAND, lw=1.5)
     ax.axvline(FP1[1], color=MUTED, lw=1.2, ls='--')
     if ymax_label:
         y = ax.get_ylim()[1]
-        ax.text(FP2[1] + 0.01, y, 'FP2026.2\nCUT_50', va='top', ha='left', fontsize=8.5, color=BAND)
+        ax.text(fp2[1] + 0.01, y, 'FP2026.2\nCUT_50', va='top', ha='left', fontsize=8.5, color=BAND)
         ax.text(FP1[1] - 0.01, y, 'FP2026.1\nCUT_50', va='top', ha='right', fontsize=8.5, color=MUTED)
 
 
@@ -74,7 +74,7 @@ def fig_nee_by_ta(nb):
         ax.grid(axis='y', color=GRID, lw=0.8)
         ax.set_xlim(0, 1.2)
         ax.set_ylim(-0.5, 11)
-        thresholds(ax)
+        thresholds(ax, FP2[name.split(' ')[0]])
     axes[0].set_ylabel('mean night-time NEE (µmol m$^{-2}$ s$^{-1}$)')
     axes[1].legend(title='air temperature', frameon=False, loc='lower right', fontsize=8.5, title_fontsize=8.5)
     fig.tight_layout()
@@ -105,7 +105,7 @@ def fig_ratio_reco_dt(nb):
         ax.grid(axis='y', color=GRID, lw=0.8)
         ax.set_xlim(0, 1.2)
         ax.set_ylim(-0.1, 1.7)
-        thresholds(ax)
+        thresholds(ax, FP2[name])
     axes[0].set_ylabel('night-time NEE / RECO_DT')
     axes[1].legend(frameon=False, loc='lower right', fontsize=8.5)
     fig.tight_layout()
@@ -125,9 +125,11 @@ def fig_thresholds(nb):
     names = {'oneflux_mp': 'moving point', 'oneflux_cp': 'change point', 'oneflux': 'ONEFlux (both)',
              'reddyproc': 'REddyProc'}
     items = [('FP2026.1 (REddyProc, 30 classes)', FP1, MUTED),
-             ('FP2026.2: merged record, moving point', FP2, BAND)]
+             ('FP2026.2 LI-7500: own record, moving point', FP2['LI-7500'], BAND),
+             ('FP2026.2 LI-7200: own record, moving point', FP2['LI-7200'], BAND),
+             ('merged record, moving point (not used)', det[('merged record', 'oneflux_mp')], MUTED)]
     for rec in ['LI-7200', 'LI-7500']:
-        for m in ['oneflux_mp', 'oneflux_cp', 'oneflux', 'reddyproc']:
+        for m in ['oneflux_cp', 'oneflux', 'reddyproc']:
             items.append((f'{rec} record, {names[m]}', det[(rec, m)], INK))
     lo7500 = [v for y, v in vut.items() if y <= 2015]
     lo7200 = [v for y, v in vut.items() if y >= 2016]
