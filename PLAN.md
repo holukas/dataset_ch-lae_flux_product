@@ -261,6 +261,12 @@ measured). The wet-night fill is gap-filling only: no measured value changes. Te
   own dry nights (3.62 in the overlap), as a special case with its own gap-filling flag value.
 - Either way, report the XGBoost, Lloyd-Taylor and donor fills side by side as a sensitivity, and
   state that the fill is still about 1.2 umol m-2 s-1 low in the overlap.
+- **Include the cold-night findings of item 11 (3 Nov 2026)** in the same test: 89 % of the
+  cold-night deficit (about -53 gC m-2 per year in 2004-2015) is in gap-filled overcast nights.
+  Test a cloud feature for XGBoost (cloudiness from LW_IN and TA; LW_IN is missing in 2004 and
+  changed sensor in 2016), the wet-window screen (AGC >= 56.25), and a night term in opco on
+  cloudiness. Use no RH thresholds across 2016 (the RH sensor change makes them select different
+  nights); define "humid" or "wet" by rain, cloudiness or AGC instead, also in the steps above.
 - **Once decided: a docs page of its own on this gap-filling** (requested 3 Nov 2026), nested under
   `L4.1.md` in the sidebar and the PDF chapters, like `L3.3_Constraints.md` under `L3.3.md`: why the
   LI-7500 wet nights need it, the method chosen, the validation against the LI-7200, the flag value
@@ -269,12 +275,81 @@ Recommended, not decided: the day fix of item 22 stays a sensitivity test, not a
 daytime bias of 2004-2007 (possibly to 2009) as an uncertainty, until an internal, year-by-year
 heating estimate (report option 5) or the QCL periods (item 17) can test it.
 
+**Next: estimate the self-heating of the LI-7500 from its own data** (3 Nov 2026; to be investigated
+in detail over several sessions; report option 5). Aim: a year-by-year heating factor for the
+daytime opco correction, from the open-path data and standard meteorology alone, without a
+literature factor or a hand-set break, and usable for any long open-path record. Level-1 output is
+enough to start; the raw data are needed only for a spectral approach later. Three independent
+estimates:
+- **A. Frozen winter days.** On frozen days (TA below about -2 degC) the true daytime flux is close
+  to respiration, so apparent uptake beyond the respiration of the LI-7500's own nights at the same
+  temperature is heating; fit a factor per winter. Signal already seen: opco leaves 2.6-5.5
+  umol m-2 s-1 on such days in 2005-2013, the LI-7200 0.6-1.5. Risk: winter photosynthesis of the
+  conifers on sunny days; strict selection needed.
+- **B. Wind contrast in the growing season.** Fit a light-response model per period and regress
+  the remaining daytime flux on the shape of the expected heating term (radiation, temperature,
+  wind); the existing wind test of `OPCO_TRANSFER_CHECK` made into an estimator. Pool years, or
+  winter and summer, against the noise (about +-0.6 per year). Risk: wind also changes the true
+  flux (canopy coupling, advection).
+- **C. Mean CO2 density against the profile system.** Warmer air in the path lowers the density the
+  LI-7500 reads by about 0.3 % per K; a residual against the LI-7000 profile at the top of the tower
+  that follows sun and wind, after removing the slow calibration offset, measures the path warming
+  in kelvin. Risk: the analyser's temperature dependence and zero drift.
+- **Check:** fit on the LI-7500 alone, including 2016-2017; in the overlap the corrected LI-7500
+  must match the LI-7200 on the same half-hours. A and B should give consistent factors per year,
+  and C the size of the warming.
+- **First:** handle the calibration offsets of 2004-2007, which scale every density-dependent term;
+  the fieldbook gives dated checks on 26 Sep 2007 (zero +31 ppm, previous zero 7 Feb 2006, H2O span
+  coefficient 0.9364 to 1.2032) and 19 Dec 2007 (zero -46.6 ppm). In GIN these sit in the bulk
+  entry dated 3 Jun 2011, which holds all entries of 2006 to mid-2011.
+- **Start:** A and B as scratch work with a short report, then C if the profile data hold up.
+- **First run, 3 Nov 2026** (`research/reports/selfheating_2026-11-03/`, phases 1-3 and an independent
+  review; no LI-7000 profile data exist, so C used other references). CO2 scale: -6 ppm 2004-2005,
+  -21 ppm Feb 2006 - Sep 2007, -44 ppm 26 Sep - 19 Dec 2007 (+11 to +55 gC m-2 per year). H2O span
+  gain stepped at the calibrations, +30 % in May 2008 - Dec 2010 (FC -0.5 umol m-2 s-1 at summer
+  midday, -27 to -38 gC m-2 per year; supported by the energy balance). A (frozen days) about 0.53,
+  B (wind contrast) 0.48 after subtracting a failed placebo of 0.42, C no independent estimate.
+  Review verdict: opco's heat part over-corrects before 2016 (robust; no step at 2007/2008), but
+  the level is about 0.6 +- 0.15, not 0.51 +- 0.12; one factor day and night is not supported
+  (overlap nights need about 0.08); the change in annual NEE 2004-2015 is about -200 to -330 gC m-2
+  per year (1 sd 120 or more), not -333 +- 80; a non-heating analyser difference of 160-440 gC m-2
+  per year in the overlap is as large as the step between the eras. The same head (75H-0640) is
+  recorded in Dec 2010 and 2016-2017. Next, ranked: (1) the LI-7200 data of Dec 2010 - May 2011
+  (fieldbook: calibrated 16 Dec 2010, serviced 3 May 2011; not in the data folder), the only
+  out-of-sample test before 2016; (2) retrain opco with part of 2016-2017 held out and run A and B
+  there; (3) separate day and night factors; (4) B with the anchored difference instead of the
+  placebo subtraction; (5) split the overlap difference into wet records, selection, USTAR and
+  gap-filling; (6) s by hour or season; (7) raw-data reprocessing.
+- **Second run, 3 Nov 2026 (phase 4, LI-7500 data only).**
+  - Refined A (`phase4_A_refined/`): day and night separated, no night heat term, frozen-night
+    respiration from u* >= 0.6 and modelled on TA without the cold-night decline. **s_day = 0.84
+    for 2004-2015** (systematic 0.79-0.88, 16-84 % 0.69-0.99), 2004-2007 0.76, 2008-2015 0.89, no
+    early-late contrast. The 0.53 of phase 3 came from the respiration reference: frozen LI-7500
+    nights before 2016 are biased low (negative below u* 0.6; slope 0.63 per K against 0.06 for
+    the LI-7200, see item 11). opco therefore over-corrects frozen days by about 15 %, not by half;
+    a TA-binned reference (0.63) is the lower bound if the cold-night decline were real. The
+    overlap recovers the LI-7200 value within 0.1 on relaxed winter selections. No two-term shape
+    fits better.
+  - Thermal signals (`phase4_thermal/`): negative. `TA_EP` is the LI-7500 thermistor (EddyPro
+    `col_air_t=13` in every run, also used for the LI-7200 runs), 1.9-2.1 K above air at night; the
+    cooler voltage follows it. Neither explains the LI-7500 minus LI-7200 difference beyond the
+    meteorology in season-held-out tests. The bias grows with cold while the head excess shrinks
+    (per K of excess about 10 times larger below 0 degC than above 20 degC), which argues for a
+    calibration temperature sensitivity (Deventer et al. 2021) or unseen surfaces rather than
+    classic self-heating. The signals show no lower heating before 2016.
+  - Consequence: the daytime over-correction before 2016 is about 15 % of opco's heat part, about
+    -80 to -150 gC m-2 per year in annual NEE (scaling of the phase 3 sensitivity; not rerun), far
+    less than the first run suggested. The larger open problems are the LI-7500 night biases (cold
+    nights, wet records), not the daytime heating.
+
 1. **Smaller fixes, before the rerun,** so that one rerun covers everything.
    - `IRGA72` flow fault of 8-19 Dec 2022 into `REMOVE_DATES` of `IRGA72/05` and `25`.
    - The boom removal of 20-26 Dec 2018, now only in `IRGA72/35`, also in `IRGA72/05` and `25`.
    - The same gap-filling settings in both chains: tree count, learning rate and features.
    - The detection notebook copies `REMOVE_DATES` of the `05` notebooks; update it with them, or
      its settings check stops.
+   - Check the FP2026.1 `LE` of 22-29 January 2016 (item 24): the rest of the near-zero `IRGA72`
+     H2O flux of the 2016 start-up is already removed or flagged.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
      (item 18) and not run since; its check in section 2 and the new table in section 11 must
@@ -295,7 +370,9 @@ heating estimate (report option 5) or the QCL periods (item 17) can test it.
    - Day, 2004-2009: possibly too little uptake, 0 to -230 gC m-2 per year; the wind test points
      most clearly to 2005-2007.
    - Night, 2004-2017: possibly too little respiration, 0 to +200 gC m-2 per year, from the rain
-     gaps the LI-7500 does not measure.
+     gaps the LI-7500 does not measure. Of this, the cold (below 2 degC) overcast and wet-window
+     nights account for about +53 gC m-2 per year in 2004-2015 (item 11), unless the wet-night step
+     above corrects them.
    - The two act in opposite directions and partly cancel in 2004-2009.
 4. **Bring the docs in line with the run.**
    - `docs/L3.1.md` (storage screen), `docs/L3.3.md` (one set, merged record, section 12), the
@@ -318,6 +395,14 @@ heating estimate (report option 5) or the QCL periods (item 17) can test it.
      2016 moves from +58 to +188 gC m-2 between 90 and 1000 trees.
    - An independent constraint of the early `IRGA75` years, if QCL or chamber data turn up
      (item 17).
+   - **Possible future session: recompute the `IRGA75` fluxes from the 20 Hz raw data** (noted
+     3 Nov 2026; the raw data are not on this machine). With the correct zero and span
+     coefficients of each calibration period for CO2 and H2O (fieldbook checks of 7 Feb 2006,
+     26 Sep 2007, 19 Dec 2007, 16 May 2008 and later; H2O gain +30 % in May 2008 - Dec 2010), so
+     that the covariance effect of the CO2 offset (Fratini et al. 2014) is included, which Level-1
+     data cannot give. Then look for the heating signature in the cospectra: a part common to the
+     CO2 and H2O signals in proportion to their densities, which would estimate the self-heating
+     from the open-path data alone (see the self-heating step in this section).
 
 **Runs done (30 Oct 2026).** With the relaxed night tests: `IRGA72/05`, `99`; `IRGA75/05`,
 `25`, `35`, `99`; `30_.../99_FPPC_MERGED`; `80_FINALIZE/10` (not `20`: FP2026.1 stays as
@@ -537,6 +622,35 @@ In order. Each item is blocked by the one above it, except that the flux items
     period medians in `FLUX_NEE` (+0.08 against +1.67 umol m-2 s-1 below 0 degC) and
     the upper bound of about 50 gC m-2 per year predate the refit; recompute them after
     the merges are re-run (section 4.2).
+    **Investigated 3 Nov 2026** (`research/reports/coldnight_2026-11-03/`, parts A-C and a review D;
+    cold nights = Nov-Mar, TA < 2 degC; reference an LI-7200 night model trained on 2018-2026
+    without RH):
+    - **Term:** the spectrally corrected raw covariance w'rho_c' carries the whole bias. The WPL
+      terms, storage, CO2 and H2O scale, calibration curvature, mean density, spectral factor,
+      time lag and the thermistor air temperature together give at most about 0.1. The WPL thermal
+      term has the opposite sign. Not ruled out: heat entering the path that the sonic does not
+      see, or a non-thermal signal in the CO2 channel (no raw data to test).
+    - **Drivers, in the covariance, nearly independent (r = -0.10):** cloud cover (-2.9 to -3.6 per
+      unit of cloudiness from LW_IN and TA), calm air (-2.1 to -2.7 at WS < 1 against 4-6 m s-1)
+      and a wet window (AGC >= 56.25, -2.5 to -3.7, 8 % of kept cold records). Frost adds nothing
+      robust once cloud is in. opco's heat part depends on wind and removes most of the calm part;
+      the cloud and wet-window parts remain in the product. Clear cold nights are about unbiased
+      from 2008. The same per-condition bias is present in the overlap.
+    - **Time:** with conditions held fixed, no trend or break from 2005/06 to 2016/17 (-0.02 +-
+      0.05 per winter). The apparent shrinking to the overlap came from RH-based selections: the RH
+      sensor change of January 2016 (Rotronic to CS215) makes RH >= 99.5 % on cold nights 46-78 %
+      after and 3-29 % before, also in the homogenised RH. 60-80 % of the low mean of kept
+      pre-2016 cold nights is composition (colder winters, which the LI-7200 model also predicts).
+    - **Effect in the product:** published cold-night `NEE` 2004-2015 about 1.2 umol m-2 s-1 too
+      low, **about -53 gC m-2 per year** (LI-7200 placebo 0 +- 13; an emulator-free cell match
+      gives -54); 89 % of it is in gap-filled overcast nights. Nights above 2 degC are not covered
+      (the all-night deficit is about -147).
+    - **Proposed, not decided:** a night term in opco on cloudiness, zero under a clear sky (about
+      +2.2 to +2.5 per unit), fitted on the overlap; a cloud feature for the gap-filler; screen
+      wet-window night records (AGC >= 56.25); no RH thresholds across 2016. Without these, state
+      about +53 gC m-2 per year as a one-sided uncertainty towards less uptake. To test first: the
+      gap-filling rerun with the cloud feature, nights above 2 degC, and why V25 of fppc report B
+      (a Burba-type LW night term) nets about 0 on cold nights.
 12. **The positive early `IRGA75` years and the size of opco** (evaluated 30-31 Oct 2026). The
     evidence is consolidated in `90_OVERVIEW/FLUX_NEE_IRGA75_EVALUATION` (it links the transfer,
     damping and raw-data notebooks in `30_.../IRGA75/` and the three other
@@ -738,7 +852,10 @@ In order. Each item is blocked by the one above it, except that the flux items
     data folder: move it into a notebook (the 2016-2017 overlap or `IRGA75/05`) before the docs
     cite it. Related: items 11 and 12. **Not to adopt as proposed** (analyses of 1 Nov 2026, item 20):
     removing these nights widens the gap to the LI-7200 by 29 to 127 gC m-2 per year, because the
-    gap-filling then extrapolates even lower.
+    gap-filling then extrapolates even lower. **RH is not homogeneous across 2016 near
+    saturation** (item 11, 3 Nov 2026): an RH >= 99.5 % test selects different nights before and
+    after the sensor change. With cloudiness from LW_IN instead of RH, the humid-night medians of
+    fppc report D are about the same in both eras (-1.06, -1.29, -0.99 instead of -2.0, -2.0, -0.8).
 20. **Storage term of the `IRGA75`: concentration screen** (set 1 Nov 2026, **not run yet**). The
     LI-7500 storage term summed to -25 to -196 gC m-2 per year (2004-2017), that of the LI-7200 to
     about zero. Cause: with a wet or blocked optical path the LI-7500 reads 33 to 106 ppm too high
@@ -829,6 +946,29 @@ In order. Each item is blocked by the one above it, except that the flux items
       the part of it from flushing after calm hours (section 10).
     - If confirmed, state it in the docs (L4.2 and Known limitations) as a cause of the
       divergence, and as one more reason why `RECO_DT` cannot decide the threshold.
+24. **Ambient variables and H2O flux of the `IRGA72` runs 2016-2018** (found 3 Nov 2026,
+    `research/reports/coldnight_2026-11-03/D_review/`, scripts `d06*`; affects FP2026.1).
+    - The runs `2016_2`, `2016_3`, `2017_1+2` and `2018_1` declare `col_air_t=13`, the LI-7500
+      thermistor in the shared raw files, so `TA_EP`, `PA_EP`, `RH_EP`, `AIR_DENSITY`,
+      `SPECIFIC_HUMIDITY` and `H2O_MIXING_RATIO` equal those of the `IRGA75` runs. From `2018_2`
+      the biomet TA is used. `H2O_MIXING_RATIO` is in every run the biomet RH converted at `TA_EP`,
+      not an analyser reading; the LI-7200's own mean is `H2O_MEAS_MEDIAN`. The thermistor reads
+      2-3 K warm, so the dry-air density of those runs is about 1 % low, and FC, H and LE about
+      1 % low in magnitude. This is small, but it is an inhomogeneity of the reference.
+    - **The `IRGA72` H2O flux of `2016_2` (11 Jan - 26 May 2016) is about zero.** Monthly medians:
+      `FH2O` 0.002 to 0.024 mmol m-2 s-1, `LE` -0.2 to 1.0 W m-2, against 0.17 to 0.73 and 8 to 32
+      for the `IRGA75` (checked 3 Nov 2026 on `IRGA72/00`); from June 2016 both are of the same
+      order. **Largely known (checked 3 Nov 2026):** `docs/L3.2.md` lists 11 Jan - 26 May 2016 as
+      the LI-7200 start-up (installation, low sample flow, blocked inlet filter), removed from
+      `NEE` and `LE` of FP2026.2; FP2026.1 flags the low-flow periods (`Version_FP2026.1.md`), and
+      its Level-3 `LE` of March and April 2016 is empty. Left to check: the FP2026.1 `LE` of 22 to
+      29 January 2016 (Level-3 median 5.3 W m-2 in January), which neither list covers.
+    - Conclusions that used `H2O_MIXING_RATIO` as an LI-7200 reading are void: the phase-1 check
+      of the self-heating investigation ("LI-7500 within 1 % of the LI-7200"), part B's "LI-7500
+      H2O 15-20 % high", and the H2O anomaly of fppc report F. The phase-3 H2O gain uses
+      `H2O_MEAS_MEDIAN` and stands, but its anchor cannot be checked against the LI-7200.
+    - To do: decide whether the next Level-1 rerun of these setup periods sets `col_air_t` to the
+      biomet TA.
 
 
 ## 6. Open questions
