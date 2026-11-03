@@ -52,6 +52,13 @@ are described on [Level-1](L1.md), the setup periods on [Yearly Notes](Yearly_No
 | Separation from the sonic | N +6, E -1, V -15 cm; N +11, E +1, V -1 cm from `2023_2` | N +33, E 0, V -5 cm |
 | Air temperature | from the LI-7500 in the same raw files up to `2018_1`, then from the biomet file | from the LI-7500 |
 
+The air temperature "from the LI-7500" is the analyser's own thermistor, which reads about 2 K above
+the tower air temperature at night (+1.9 to +2.1 K from 2006, 2.6 K below -5 °C). In the runs that
+use it, the dry-air density is therefore about 1 % low, and `FC`, `H` and `LE` about 1 % low in
+magnitude. The `TA_EP`, `RH_EP` and `H2O_MIXING_RATIO` of the `IRGA72` runs up to `2018_1` are
+those of the LI-7500 runs, and `H2O_MIXING_RATIO` is in every run the biomet humidity converted at
+`TA_EP`, not a reading of the analyser.
+
 ## LI-7200 runs (`IRGA72`, FP2026.1)
 
 : Settings that change between the `IRGA72` runs. Time-lag windows and nominal lags in seconds. {#tbl-ep-runs}

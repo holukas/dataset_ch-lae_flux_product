@@ -334,7 +334,12 @@ On the HygroVUE10 records the homogenised column adds 3.92 % RH on average, at m
   stood for. Saturation frequency therefore differs between the eras for this reason as well as
   because of the step. The saturation ceiling of the homogenised column narrows the difference
   without removing it: with Lägern at 99 % RH or more, the homogenised MP101A reads 99.5 % or more
-  on 69 % of the half-hours, the CS215 on 81 % (measured records, 2008 to October 2024).
+  on 69 % of the half-hours, the CS215 on 81 % (measured records, 2008 to October 2024). A
+  selection of records by a humidity near saturation (for example 99.5 % or more) therefore picks
+  different conditions before and after 2016. Of the cold nights (November to March, below 2 °C),
+  the homogenised column reaches 99.5 % or more on 3 to 29 % per winter before 2016 and on 46 to
+  78 % after. Compare such selections across 2016 by another
+  measure, such as rain or cloud cover from `LW_IN`.
 - **The NABEL reference is not independent after July 2018.** From August 2018 the ingested
   `RH_NABEL_T1_49_1` column reproduces the tower column exactly. Nothing in this file is derived
   from those months, but a comparison of this product with that NABEL column over them compares

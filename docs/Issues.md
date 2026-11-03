@@ -135,8 +135,30 @@ This concerns nighttime `NEE` of 2004-2015 in FP2026.2. The measured nighttime `
 LI-7500 falls with humidity and cold. In 2016-2017, below 5 °C and at a relative humidity of 99.5 %
 or more, its median after all quality tests is +0.9 µmol m^-2^ s^-1^, and 39 % of the values are
 negative, which would mean uptake in the dark. The LI-7200 stays near +2 µmol m^-2^ s^-1^ (+1.8 to
-+2.4) in every humidity class, with 10 to 13 % negative values. The likely cause is fog and rime on
-the windows of the open-path analyser.
++2.4) in every humidity class, with 10 to 13 % negative values.
+
+An analysis of November 2026 (scratch analysis; a notebook is to follow) compared the cold nights
+(November to March, below 2 °C) of the LI-7500 with a model of the LI-7200 nights of 2016-2025 under
+the same conditions:
+
+- **The bias is in the measured covariance** of vertical wind and CO~2~ density. The density (WPL)
+  terms, the storage term, the calibration of the CO~2~ and H~2~O readings, the spectral correction
+  and the time lag together account for at most about 0.1 µmol m^-2^ s^-1^.
+- **It has three nearly independent parts:** overcast or foggy nights (cloud cover estimated from
+  incoming longwave radiation and air temperature), calm air, and a wet window (AGC above 50). Clear
+  cold nights are about unbiased from 2008. The correction of [Level-1.1](L1.1.md) removes most of
+  the calm-air part, because it depends on wind; the overcast and wet-window parts remain.
+- **It does not change over time.** Under the same conditions the bias is the same from 2005/06 to
+  2016/17. It appears larger before 2016 because the winters were colder and because a selection by
+  relative humidity picks different nights before and after the humidity probe was changed in
+  January 2016 ([RH](Meteo_Data_RH.md#known-limitations)).
+- **Its size in the product:** cold-night `NEE` of 2004-2015 is about 1.2 µmol m^-2^ s^-1^ too low,
+  about 53 gC m^-2^ per year towards uptake. About 90 % of it lies in gap-filled overcast nights.
+  Nights above 2 °C were not analysed.
+
+Fog or rime on the windows explains the wet-window part only. The cause of the overcast and calm-air
+parts is not known: heat entering the optical path that the sonic anemometer does not register is
+possible, but cannot be tested without the raw data.
 
 Many of these nights pass the quality tests, and gap-filling learns from them.
 [Level-3.2](L3.2.md) removes the clearest cases: four fog episodes in 2004, 2013 and 2014 by hand,
@@ -159,12 +181,18 @@ extrapolates the humid nights even lower.
 
 What this means for the data:
 
-- Measured and gap-filled nighttime `NEE` of the LI-7500 years is likely biased towards uptake in
-  cold and humid conditions. Most of the bias of the annual sums lies in the humid gaps rather than
-  in the measured nights (see [The LI-7500 misses the wet half-hours](#the-li-7500-misses-the-wet-half-hours)).
+- Measured and gap-filled nighttime `NEE` of the LI-7500 years is likely biased towards uptake on
+  cold overcast, foggy and calm nights, by about 53 gC m^-2^ per year in 2004-2015. This is part of
+  the night deficit under
+  [Biases of the LI-7500 NEE against a climate baseline](#biases-of-the-li-7500-nee-against-a-climate-baseline),
+  not an addition to it. Most of the bias of the annual sums lies in the humid gaps rather than in
+  the measured nights (see [The LI-7500 misses the wet half-hours](#the-li-7500-misses-the-wet-half-hours)).
 - `RECO` from the nighttime partitioning is fitted on these nights and is likely too low in winter.
+- Do not compare LI-7500 and LI-7200 nights selected by a relative humidity near saturation: the
+  selection differs between the two humidity probes.
 
-Not yet resolved.
+Not yet resolved. A nighttime term of the Level-1.1 correction driven by cloud cover, a cloud-cover
+driver for the gap-filling and a screen of wet-window records are under test.
 
 ## Biases of the LI-7500 NEE against a climate baseline
 
@@ -188,7 +216,12 @@ weather.
   under [The LI-7500 misses the wet half-hours](#the-li-7500-misses-the-wet-half-hours).
 - **Day: about +230 in 2004-2009.** The uncorrected LI-7500 flux of these years matches the
   baseline, so the correction of [Level 1.1](L1.1.md) probably over-corrects their daytime flux
-  ([evidence](IRGA75_Comparisons.md#does-the-correction-hold-for-the-early-years)).
+  ([evidence](IRGA75_Comparisons.md#does-the-correction-hold-for-the-early-years)). An estimate
+  from the LI-7500 data alone, on frozen winter days, puts the over-correction at about 15 % of the
+  heating part of the correction in 2004-2015 (factor 0.84, 16-84 % range 0.69-0.99), without a
+  step between 2007 and 2008, or about 80 to 150 gC m^-2^ per year
+  ([Approaches to the correction](L1.1_Approaches.md#investigations-at-ch-lae)). It covers frozen
+  days only, so it does not settle the summers.
 
 In 2004-2009 the two biases largely offset each other in the annual sum; in 2010-2015 the night
 deficit remains. This is why the annual sums show no clear step at the change of analyser:
@@ -230,6 +263,26 @@ What this means for the data:
 - The LI-7500 record starts on 30 March 2004, so `NEE`, `LE` and `H` of January to March 2004 are
   entirely gap-filled. Their `SW_IN` driver is unreliable in January 2004, about 2.7 times the mean
   January total (see [SW_IN](Meteo_Data_SW_IN.md)).
+
+## Calibration of the LI-7500 in 2004-2010
+
+This concerns `NEE` and `LE` of 2004-2010 in FP2026.2. The field checks in the fieldbook and a
+comparison of the mean concentrations with reference records (scratch analysis of November 2026; a
+notebook is to follow) show two calibration errors of the LI-7500 that FP2026.2 does not correct:
+
+- **CO~2~ read too low** by about 6 ppm in 2004-2005, 21 ppm from 7 February 2006 to 25 September
+  2007, and 44 ppm from 26 September to 19 December 2007, the dates of the field calibrations. The
+  covariance is hardly affected, but the density (WPL) terms are too small, and on balance the
+  CO~2~ flux shows too much uptake. Correcting it would raise annual `NEE` by about 11 to 55 gC m^-2^ per year in
+  2004-2007.
+- **H~2~O read about 30 % high** from May 2008 to December 2010. `LE` of this period is likely too
+  high by a similar fraction: with the reading corrected, the summer midday energy balance closure
+  of 2008-2010 falls from 1.10 to 0.93, the level of the other years. Through the density
+  correction, the CO~2~ flux of this period shows too little uptake, by about
+  0.5 µmol m^-2^ s^-1^ at summer midday. Correcting it would lower annual `NEE` by about 27 to
+  38 gC m^-2^ per year in 2008-2010.
+
+Neither error explains the cold-night or the daytime biases described above.
 
 ## LE of the two gas analysers differs in humid and cold conditions
 

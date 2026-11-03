@@ -56,6 +56,12 @@ Known limitations of the LI-7500 years, described on [Issues](Issues.md):
   `NEE` of all LI-7500 years is too low, and daytime `NEE` of 2004-2009 too high. Both biases are
   stated as uncertainties and are not corrected
   ([Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)).
+- **Cold nights.** On overcast, foggy and calm cold nights the LI-7500 reads too little
+  respiration, about 53 gC m^-2^ per year in 2004-2015, part of the night bias above
+  ([Issues](Issues.md#nighttime-nee-of-the-li-7500-is-too-low-on-cold-and-humid-nights)).
+- **Calibration of 2004-2010.** CO~2~ read too low in 2004-2007 and H~2~O too high from May 2008
+  to December 2010; not corrected
+  ([Issues](Issues.md#calibration-of-the-li-7500-in-2004-2010)).
 - **`LE`** differs between the two analysers
   ([Issues](Issues.md#le-of-the-two-gas-analysers-differs-in-humid-and-cold-conditions)).
 
@@ -74,10 +80,11 @@ Two changes are prepared but not applied in the current data:
   The settings are in
   [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
   Step 3; the chain has not been run with them yet ([Level 3.1](L3.1.md)).
-- **One set of USTAR thresholds for both analysers.** The moving point method applied to one
-  record of the site (LI-7500 to 2015, LI-7200 from 2016) gives 0.352, 0.486 and 0.599 m s^-1^
-  ([`USTAR_THRESHOLD_DETECTION_2004-2026.09`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/USTAR_THRESHOLD_DETECTION_2004-2026.09.html#one-threshold-set-for-both-analysers),
-  section 11). The current data use one set per analyser ([Level 3.3](L3.3.md)). Whether the single
-  set is adopted is not decided.
+- **USTAR thresholds detected on the complete years of each analyser.** `CUT_16`, `CUT_50` and
+  `CUT_84` are 0.317, 0.429 and 0.549 m s^-1^ for the LI-7500 (2004-2017) and 0.416, 0.526 and
+  0.647 m s^-1^ for the LI-7200 (2016-2025), one set per analyser as in the current data. One set
+  for both analysers, from one record of the site, is not adopted: the two records differ in which
+  nights they keep, not in the turbulence they measure
+  ([Threshold constraints](L3.3_Constraints.md)).
 
 Also planned: the extension of `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` to September 2026.
