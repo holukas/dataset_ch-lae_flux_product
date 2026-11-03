@@ -118,8 +118,11 @@ website:
             href: L1.md
           - text: "EddyPro settings (L1)"
             href: L1_EddyPro_Settings.md
-          - text: "Open-path CO2 flux correction (L1.1)"
+          - section: "Open-path CO2 flux correction (L1.1)"
             href: L1.1.md
+            contents:
+              - text: "Approaches to the correction"
+                href: L1.1_Approaches.md
           # A `section:` with an `href:`: FPC.qmd stays a link, under a label of
           # its own, and holds the post-processing levels.
           - section: "Post-processing chain"
