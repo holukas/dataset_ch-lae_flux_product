@@ -757,6 +757,22 @@ In order. Each item is blocked by the one above it, except that the flux items
       LI-7200 (-18); 2008-2009 stay at +110 to +140.
     - Open: which fixes to adopt, and 2008-2009 (options in section 6 of the report). Supersedes
       the recommendation of item 21.
+23. **Divergence of night-time and daytime partitioning: a link to the USTAR filter** (noted 3 Nov
+    2026, hypothesis, not tested). Section 9 of the detection notebook: night `NEE` reaches
+    `RECO_DT` at a `USTAR` of 0.6-0.9 m s-1 and exceeds it by up to about 60 % above; at the
+    FP2026.2 median threshold the kept nights lie 11 % below `RECO_DT` (LI-7200) and 4 % above
+    (LI-7500). Both methods depend on the filtered nights, but differently: `RECO_NT` is fitted
+    to them directly, so it takes over their level, which keeps rising with `USTAR`; `RECO_DT`
+    takes only its temperature sensitivity from them and its reference respiration from the
+    daytime light response. A difference between `RECO_NT` and `RECO_DT` (and between `GPP_NT`
+    and `GPP_DT`) may therefore follow from the threshold and from the `USTAR` distribution of
+    the kept nights, rather than from the partitioning models.
+    - To check after the rerun: `RECO_NT` - `RECO_DT` per year and per `CUT_16`/`_50`/`_84`
+      scenario (does the difference change with the threshold?); the same difference per `USTAR`
+      class of the kept nights; whether years with more kept nights at high `USTAR` diverge more;
+      the part of it from flushing after calm hours (section 10).
+    - If confirmed, state it in the docs (L4.2 and Known limitations) as a cause of the
+      divergence, and as one more reason why `RECO_DT` cannot decide the threshold.
 
 
 ## 6. Open questions
