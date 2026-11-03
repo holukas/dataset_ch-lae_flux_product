@@ -237,7 +237,7 @@ that will state it.
 ## 5. Where to continue
 
 **Next steps (2 Nov 2026, evening), in order.** Scope of FP2026.2 decided: the storage screen of
-the `IRGA75` (item 20) and one USTAR set for both analysers (item 18); opco unchanged; the
+the `IRGA75` (item 20) and one USTAR set per analyser (item 18, changed 3 Nov 2026); opco unchanged; the
 remaining `IRGA75` biases stated as uncertainties, not corrected (item 21).
 
 **To reconcile first:** the audit of item 22 (2 Nov 2026, `research/reports/open_path_audit_2026-11-02/REPORT.md`
@@ -247,6 +247,28 @@ item 21. Both results put the only dated change at December 2007. Decide between
 step 3; the rerun of step 2 does not depend on it, unless a fix is adopted that changes `01` or
 `05`.
 
+**Next: gap-filling of the `IRGA75` wet nights** (3 Nov 2026; decides `IRGA75/05` before the rerun).
+In 2016-2017 the XGBoost fill of the LI-7500's humid night gaps is 1.48 umol m-2 s-1 where the
+LI-7200 measured 4.83 in the same half-hours (item 22). XGBoost learns from the few humid nights the
+LI-7500 measured, which read low (item 19) and are not representative (rain nights cannot be
+measured). The wet-night fill is gap-filling only: no measured value changes. Test in this order:
+- Remove the biased humid LI-7500 nights from the data and from the XGBoost training (the
+  quality-control step of item 19), fill with XGBoost as before, and compare its fill of the wet
+  night gaps with the LI-7200 on the same half-hours in 2016-2017.
+- If it comes close to the LI-7200 (4.8 umol m-2 s-1), keep XGBoost as the only gap-filling method.
+- If it stays low, which is expected in part because few wet-condition examples remain, fill the
+  LI-7500's wet night gaps (rain in the previous 3 h or RH >= 99.5 %) with Lloyd-Taylor fitted on its
+  own dry nights (3.62 in the overlap), as a special case with its own gap-filling flag value.
+- Either way, report the XGBoost, Lloyd-Taylor and donor fills side by side as a sensitivity, and
+  state that the fill is still about 1.2 umol m-2 s-1 low in the overlap.
+- **Once decided: a docs page of its own on this gap-filling** (requested 3 Nov 2026), nested under
+  `L4.1.md` in the sidebar and the PDF chapters, like `L3.3_Constraints.md` under `L3.3.md`: why the
+  LI-7500 wet nights need it, the method chosen, the validation against the LI-7200, the flag value
+  and the sensitivity.
+Recommended, not decided: the day fix of item 22 stays a sensitivity test, not a correction; keep opco by day and state the
+daytime bias of 2004-2007 (possibly to 2009) as an uncertainty, until an internal, year-by-year
+heating estimate (report option 5) or the QCL periods (item 17) can test it.
+
 1. **Smaller fixes, before the rerun,** so that one rerun covers everything.
    - `IRGA72` flow fault of 8-19 Dec 2022 into `REMOVE_DATES` of `IRGA72/05` and `25`.
    - The boom removal of 20-26 Dec 2018, now only in `IRGA72/35`, also in `IRGA72/05` and `25`.
@@ -254,15 +276,16 @@ step 3; the rerun of step 2 does not depend on it, unless a fix is adopted that 
    - The detection notebook copies `REMOVE_DATES` of the `05` notebooks; update it with them, or
      its settings check stops.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
-   - The USTAR detection notebook first if Levels 2 to 3.2 changed in step 1 (it was run on 2 Nov
-     2026 with the storage screen; its set is 0.3476 / 0.4811 / 0.6011 m s-1).
+   - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
+     (item 18) and not run since; its check in section 2 and the new table in section 11 must
+     confirm the declared sets.
    - `05` and `25` of both analysers, `IRGA75/35`.
    - Then both `99`, the stage merge and `80_FINALIZE/10`.
    - Then the detection notebook a second time, so that its comparisons with the chain show the
      new run and its check of Level 3.2 against `05` passes. Update the text of its sections 6, 7,
      9, 10 and the calm-hours table of section 11, and Main findings.
    - Then the `90_OVERVIEW` notebooks. `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION` and the
-     test notebooks `T1`-`T3` declare the merged set; after the run, update the threshold text of
+     test notebooks `T1`-`T3` declare the per-analyser sets; after the run, update the threshold text of
      the two overview notebooks (0.44, 0.52).
    - Expected, from existing outputs (scratch estimate, not a chain run): `IRGA75` 2004-2015 mean
      about +7 gC m-2 per year (now -82), `IRGA72` 2016-2025 about -38 (now -18); overlap gap
@@ -667,9 +690,42 @@ In order. Each item is blocked by the one above it, except that the flux items
     `90_OVERVIEW/FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION`; not run yet. On the records both
     analysers measured they give the same threshold within 0.01 m s-1; the per-analyser sets
     differ only by the years they cover. The clean LI-7500 records (+0.019) and opco V25 (-0.002)
-    move `CUT_50` by less than the bootstrap spread (detection notebook section 12). Docs (`L3.3`,
-    `Version_Differences`, `Version_FP2026.2`) still describe the per-analyser sets until the
-    rerun (section 5, step 4).
+    move `CUT_50` by less than the bootstrap spread (detection notebook section 12).
+    **Changed 3 Nov 2026: one set per analyser again,** each from its own complete years: LI-7500
+    2004-2017 0.3166 / 0.4294 / 0.5487, LI-7200 2016-2025 0.4155 / 0.5264 / 0.6472 m s-1 (scratch
+    run with the notebook's code; the 1 Nov LI-7200 set included 2026). Reason: the annual
+    thresholds of the merged record step up after 2017 (mean 0.43 in 2004-2017, 0.55 in 2018-2025,
+    Welch p < 0.001); the old criterion (scatter between years below the bootstrap spread) cannot
+    see a step. Within the LI-7200 alone, 2016-2017 (0.41) against 2018-2025 (0.55) is not
+    significant (two years). Not the analyser, not the sonic change of Dec 2019 (USTAR/WS 6 % lower
+    after it), sample size about 0.02 of the 0.11; no fieldbook event. Night `NEE` against `USTAR`
+    flattens from about 0.6 m s-1 after 2018 and keeps rising before. Tested settings: the plateau
+    criterion 0.99 (Papale et al. 2006) and 0.95 (REddyProc) lower `CUT_50` by 0.002 and 0.011; 9
+    TA classes (-0.05) and forward mode 1 (0.22) lower it only by letting noise pass the plateau
+    test; not adopted. Scripts and outputs in `research/reports/ustar_step_2026-11-03/` (data folder). Set in both `05`, the
+    `T` notebooks, the two overview notebooks (LI-7500 `CUT_50`) and the detection notebook
+    (settings, section 2 check, new period table in section 11, text); not run yet.
+    **Cause of the step (3 Nov 2026, three scratch investigations, `ustar_jump_*` in the same
+    report folder): data composition, not the site.** Not supported: climate (thresholds and night TA
+    correlate only through time; no relation within either period or within TA classes; matching
+    the TA distribution leaves the step), EddyPro settings (identical in all 37 setup periods),
+    measured USTAR (USTAR/sigma_w 0.745-0.757 every year), mounting, night definition, storage,
+    slope flows, canopy (no 2018 break). Supported: which nights keep a valid `NEE`. From 2018,
+    and most from 2022, the LI-7200 keeps windy nights more often (fewer MISSING and signal-strength
+    losses; retention at USTAR >= 0.6 from 0.62-0.66 to 0.74-0.80), while the LI-7500 loses windy
+    nights to MISSING, signal strength, SPIKE and ABSLIM. More kept records at high USTAR let the
+    plateau test pass later: the season thresholds track the share of kept nights with USTAR >= 0.6
+    (Jan-Mar r = 0.89), and thinning 2018-2025 to the 2004-2015 retention per season and USTAR
+    class brings the step from about 0.16 to about 0 (main run; random thinning of the same count:
+    halfway). On identical records the two analysers agree (2016 0.29 / 0.22, 2017 0.39 / 0.37).
+    The LI-7200 2016 value is low because spring 2016 is missing. There is no jump from 2017 to 2018 within the LI-7200
+    (0.474 and 0.508, bootstrap spread about 0.09); the split at 2018 was a choice. 2018 is high
+    for a windy Jan-Mar (40 % of nights at USTAR >= 0.6, against 30 % in 2017); windy winters give high
+    annual thresholds (2007, 2018, 2020, 2022; r = 0.40 over all years). Side finding: SSITC removes the
+    low-`NEE` calm nights of the LI-7200 (kept 0.74-0.90 against rejected 0.04-0.37 umol m-2 s-1),
+    from 2016 on. Decided 3 Nov 2026: keep the per-analyser sets, although they carry this selection
+    (a detection on records harmonised in their USTAR retention would give one set for both). Docs (`L3.3`, `L3.3_Constraints`, `Version_Differences`,
+    `Version_FP2026.2`) to be updated after the rerun (section 5, step 4).
 19. **Humid-night test for the `IRGA75`** (proposed 1 Nov 2026, not decided). In 2016-2017 the
     LI-7500 night `NEE` lies below the LI-7200 in humid cold nights, whatever its sign (median
     difference about -1.1 umol m-2 s-1 below 0 degC and -0.4 at 0-5 degC at RH >= 99.5 %, -0.6
