@@ -131,8 +131,11 @@ website:
                 href: L3.1.md
               - text: "Outlier removal (L3.2)"
                 href: L3.2.md
-              - text: "USTAR filtering (L3.3)"
+              - section: "USTAR filtering (L3.3)"
                 href: L3.3.md
+                contents:
+                  - text: "Threshold constraints"
+                    href: L3.3_Constraints.md
               - text: "Gap-filling (L4.1)"
                 href: L4.1.md
               - text: "NEE partitioning (L4.2)"
