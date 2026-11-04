@@ -18,7 +18,7 @@ NB = ROOT / 'workflow' / '30_FLUX_POST-PROCESSING_CHAIN' / 'USTAR_THRESHOLD_DETE
 OUT = ROOT / 'docs' / 'images'
 
 # Thresholds (m s-1), as declared in the detection notebook (USTAR_THRESHOLDS, USTAR_THRESHOLDS_FP1)
-FP2 = {'LI-7200': [0.4155, 0.5264, 0.6472], 'LI-7500': [0.3166, 0.4294, 0.5487]}
+FP2 = {'LI-7200': [0.4155, 0.5264, 0.6472], 'LI-7500': [0.3182, 0.4350, 0.5459]}
 FP1 = [0.2716, 0.3036, 0.3397]
 
 INK, MUTED, GRID = '#1F2623', '#5A6460', '#E4E7E4'

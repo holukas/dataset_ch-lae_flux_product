@@ -81,7 +81,7 @@ Two changes are prepared but not applied in the current data:
   [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
   Step 3; the chain has not been run with them yet ([Level 3.1](L3.1.md)).
 - **USTAR thresholds detected on the complete years of each analyser.** `CUT_16`, `CUT_50` and
-  `CUT_84` are 0.317, 0.429 and 0.549 m s^-1^ for the LI-7500 (2004-2017) and 0.416, 0.526 and
+  `CUT_84` are 0.318, 0.435 and 0.546 m s^-1^ for the LI-7500 (2004-2017) and 0.416, 0.526 and
   0.647 m s^-1^ for the LI-7200 (2016-2025), one set per analyser as in the current data. One set
   for both analysers, from one record of the site, is not adopted: the two records differ in which
   nights they keep, not in the turbulence they measure
