@@ -438,6 +438,35 @@ estimates:
      pass, and it already contains the random noise of both analysers, which `FS`/`PAS20` count again.
      `BIAS_UNC_OPCO` goes into the uncertainty of the product and of the annual sums instead.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
+   - **Done 4 Nov 2026, not committed:** detection notebook (declared sets confirmed within
+     0.005 m s-1), `05`/`25` of both analysers, `IRGA75/35`, both `99`, `99_FPPC_MERGED`,
+     `80_FINALIZE/10`, the detection notebook again and all ten `90_OVERVIEW/FLUX_*`, without errors.
+     Fixes made on the way: the value check of `99_FPPC_MERGED` no longer compares dtypes; the
+     overviews accept fill flag 3; `FLUX_NEE_IRGA75_INDEPENDENT_ESTIMATES` and `_PARTITIONING_COMPARISON`
+     read the LI-7500 `_gfXGWN` under the `_gfXG` names (the fill that `IRGA75/05` partitions);
+     `FLUX_GPP` allows the 7 night half-hours without `GPP_DT_OF_CUT_84` in May 2007 (0/0 in float32
+     in diive's port of ONEFlux `gpp_vpd`, as in ONEFlux; diive issue holukas/diive#446, v0.93.0).
+     The prose of the detection notebook and the overviews was checked against the outputs and
+     updated; captions written by code cells show the new text only after the next run.
+   - **Open points from the run (next session):**
+     - Several notebooks still compare the plain XGBoost `_gfXG` of `IRGA75/05` for the LI-7500,
+       not the product fill `_gfXGWN`: the detection notebook section 7 (FLUXNET), the parallel
+       section of `FLUX_NEE` (cells 83-87), `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION`. Their
+       text now says so. Switch them to `_gfXGWN` (as in the two notebooks above) and rerun.
+     - `FLUX_GPP` and `FLUX_NEE` count the partial year 2005 (daytime method from 14 Sep) as a
+       full daytime-method year in the era means, the trend and its plot; mask the years before
+       `DT_FIRST_YEAR`, as `FLUX_RECO` does with `DT_YEARS`, and rerun.
+     - Test run `T2` has no wet-night fill, so its comparison in `_INDEPENDENT_ESTIMATES` overstates
+       the effect of the relaxed tests. Compare it with the plain `_gfXG` of `IRGA75/05`, or rerun `T2`.
+     - In `_EVALUATION`, `CUT_50` of 2004-2006 (+245 gC m-2) lies outside the `CUT_16`-`CUT_84`
+       range (+162 to +226). Check in the chain.
+     - Wording not yet decided: the `FLUX_RECO` callout ("most of all in winter", "fewer and
+       lower nights"; the outputs show neither, proposed: "at a given temperature the gap is
+       largest below 0 degC", "drier and lower nights"); the unsourced "140 to 360 gC m-2" in
+       `FLUX_NEE_IRGA72_WET_NIGHTS` cell 1 (the current files give about 200 to 440 with the
+       nighttime partitioning); whether the Burba-corrected flux in `_COMPARISONS` and `_EVALUATION`
+       is still "close" to Etzold (about 100 gC m-2 per year apart); the windy-winter years in
+       detection notebook cell 116 (2018 not supported).
    - `IRGA75/01` is already run (4 Nov 2026); start with the USTAR detection notebook.
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
      (item 18) and not run since; its check in section 2 and the new table in section 11 must
@@ -457,7 +486,10 @@ estimates:
    `docs/Issues.md` and on the version page, as a table; no sensitivity column.
    - Day, 2004-2015: possibly too little uptake, about -80 to -150 gC m-2 per year, from an
      over-correction of opco's heat part by about 15 % (s_day 0.84, phase 4 of the self-heating
-     estimate); no step at 2007/2008. The earlier 0 to -230 for 2004-2009 (climate baseline and
+     estimate); no step at 2007/2008. **Revisit once the run has new outputs** (agreed 4 Nov 2026):
+     compute the daytime bias with the chain instead of the scaling (heat_scale 0.84 as a
+     sensitivity run of `IRGA75/01` and `05`), and set it against the climate baseline, which
+     showed about +230 for 2004-2009 before the calibration pre-correction. The earlier 0 to -230 for 2004-2009 (climate baseline and
      wind test) is superseded.
    - Night, 2004-2017: possibly too little respiration, 0 to +200 gC m-2 per year, from the rain
      gaps the LI-7500 does not measure. Of this, the cold (below 2 degC) overcast and wet-window
@@ -465,11 +497,26 @@ estimates:
      above corrects them.
    - The two act in opposite directions and partly cancel.
 4. **Bring the docs in line with the run.**
+   - Passages of 3 Nov 2026 overtaken by the decisions of 4 Nov (checked 4 Nov 2026):
+     - `docs/Issues.md` "Calibration of the LI-7500 in 2004-2010" and its bullet in `L1.1.md` and
+       `Version_FP2026.2.md`: they say FP2026.2 does not correct the errors and quote the phase-1
+       numbers. Replace with the documented segments now corrected in `IRGA75/01`, the numbers of
+       `calibration_2026-11-04/REPORT.md` (closure 1.095 to 0.952), and the uncorrected 2004-2005.
+     - `docs/Issues.md` cold-night section: its closing "under test" sentence names a cloud term,
+       a cloud driver and a wet-window screen. Replace with what the run applies: xi for day and
+       night, the AGC window 40-65, and the Lloyd-Taylor wet-night fill (flag 3).
+     - `docs/Version_FP2026.2.md` "Prepared for the next run" lists two changes. Fold in the rest
+       set on 4 Nov (calibration pre-correction, xi for day and night, `BIAS_UNC_OPCO`, wet-night
+       fill, AGC window, the new LI-7200 removals), or move them to "What changed" once run.
+     - `docs/L1.1.md` describes the opco run before the new options; `IRGA75/01` was rerun on
+       4 Nov 2026, so check its result table and text against the notebook.
    - `docs/L3.1.md` (storage screen), `docs/L3.3.md` and `L3.3_Constraints.md` (one set per
      analyser, the step after 2017, detection notebook section 12), the version pages
      (`Version_Differences`, `Version_FP2026.2`: the sets and results of the run),
      `docs/IRGA75_Comparisons.md` and the annual sums.
-   - Replace the unverified "100 to 200" in `docs/Issues.md`.
+   - Replace the unverified "100 to 200" in `docs/Issues.md`, and its 436 / 370 gC m-2 for
+     2016 / 2017 and "fills these gaps with too much uptake", which predate the wet-night fill.
+   - `docs/L2.md`: the AGC window of the LI-7500 is 40-65, not 40-90.
    - Fix the inconsistencies found by the docs agents on 2 Nov 2026 (the names in the
      acknowledgments of `docs/index.md` are fine and stay, decided 4 Nov 2026): the end of the 2016
      removal (25 or 26 May), the uncertainty wording of `Version_FP2026.2`, the end date of the
@@ -898,7 +945,11 @@ In order. Each item is blocked by the one above it, except that the flux items
     move `CUT_50` by less than the bootstrap spread (detection notebook section 12).
     **Changed 3 Nov 2026: one set per analyser again,** each from its own complete years: LI-7500
     2004-2017 0.3166 / 0.4294 / 0.5487, LI-7200 2016-2025 0.4155 / 0.5264 / 0.6472 m s-1 (scratch
-    run with the notebook's code; the 1 Nov LI-7200 set included 2026). Reason: the annual
+    run with the notebook's code; the 1 Nov LI-7200 set included 2026). **Updated 4 Nov 2026:** the
+    run of the detection notebook with the AGC window 40-65 gives the LI-7500 0.3182 / 0.4350 /
+    0.5459 (`CUT_50` +0.0056, above the tolerance of 0.005); declared in the detection notebook, both
+    `05`, `T1`-`T3`, the two overview notebooks, the figure script and the docs. The LI-7200 set is
+    confirmed exactly. Reason: the annual
     thresholds of the merged record step up after 2017 (mean 0.43 in 2004-2017, 0.55 in 2018-2025,
     Welch p < 0.001); the old criterion (scatter between years below the bootstrap spread) cannot
     see a step. Within the LI-7200 alone, 2016-2017 (0.41) against 2018-2025 (0.55) is not
