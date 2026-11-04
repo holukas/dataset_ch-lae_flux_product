@@ -380,6 +380,19 @@ estimates:
   with H, and an extra H slope remains even in sample. In May-Sep 2004-2015 the LI-7500 shows no H
   slope beyond that of the overlap. The higher `k_op` share of 2013-2015 (36-49 % of daytime
   half-hours, against 4-23 % before) does not show in the H slope.
+- **Calibration errors, 4 Nov 2026** (`research/reports/calibration_2026-11-04/REPORT.md`): ready to
+  adopt for the documented segments (fieldbook dates and check readings): CO2 read 20.9 ppm low with
+  span slope 0.9966 (7 Feb 2006 - 26 Sep 2007), 44.2 ppm and 1.0090 (to 19 Dec 2007), -1.8 ppm and
+  1.0037 (to 16 May 2008); H2O span gain 1.115, 1.023 and 1.302 (26 Sep 2007 - 16 Dec 2010). Annual
+  NEE +38 (2006), +48 (2007), -27, -36, -38 (2008-2010), with opco re-applied +67, +83, -29 to -40;
+  mainly by day. The energy balance of May 2008 - Dec 2010 goes from 1.095 to 0.952; zero in the
+  overlap. Undocumented segments left uncorrected (about +-12 gC m-2 per year). To do: a pre-step in
+  `IRGA75/01` before opco (FC, FH2O, LE, H, CO2 density), using the calibration function being added
+  to opco; opco re-evaluated, not refitted.
+- **Calibration temperature sensitivity, 4 Nov 2026** (`research/reports/caltemp_2026-11-04/REPORT.md`):
+  no basis for a correction. The literature term (S w'T', Deventer et al. 2021) fits at the expected
+  size but explains nothing held out; the cold bias sits where w'T' is about 0 (overcast, calm), and
+  opco's k term already covers the effect.
 
 1. **Smaller fixes, before the rerun,** so that one rerun covers everything.
    - **Done 4 Nov 2026 (set, not run):**
@@ -406,8 +419,13 @@ estimates:
      it. The stage merge `99_FPPC_MERGED` copies the LI-7500 `_gfXGWN` NEE values and flags (CUT_16,
      CUT_50, CUT_84) into the product columns `_gfXG` for 2004-2015 (`LI7500_FILL`, `REPLACED`); flag
      3 marks the Lloyd-Taylor values; its value check compares those columns with their source. The
-     LI-7200 years keep plain XGBoost. Docs after the run: `Variables.md` (the meaning of `_gfXG` for
-     the LI-7500 years and flag 3), `L4.1.md` and the new gap-filling page.
+     LI-7200 years keep plain XGBoost. **It must be stated clearly wherever `_gfXG` is described**
+     that the product's NEE `_gfXG` holds the wet-night fill for 2004-2015 (flag 3). Done: the About
+     of `99_FPPC_MERGED`, and `80_FINALIZE/variable_info.py`, whose descriptions of the NEE `_gfXG`
+     columns and their flags in the merged product (any file with `FLAG_FLUX_SOURCE`) now say so, also
+     in the generated `_INFO.md`. After the run: `docs/Variables.md` (the `_gfXG` row, the flag row,
+     and the `gfXG` entry of the naming table), `L4.1.md`, `Version_FP2026.2.md`, `Version_Differences.md`
+     and the new gap-filling page.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
      (item 18) and not run since; its check in section 2 and the new table in section 11 must
