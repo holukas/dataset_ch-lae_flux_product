@@ -202,6 +202,19 @@ re-run.
 ***
 ## 2022
 
+### Low sample flow of the LI-7200 in December 2022 {#low-sample-flow-of-the-li-7200-in-december-2022}
+
+- From 5 to 20 December 2022 the logged sample flow of the LI-7200 (`IRGA72`) was low and
+  intermittent, mostly 0 to 3 from 8 to 19 December. At this flow, ambient air no longer flushes
+  the measuring cell.
+- The nighttime `NEE` kept after all quality tests is +5 to +16 µmol m-2 s-1 at about -8 °C, far
+  above a plausible winter respiration.
+- `FC` and `LE` are removed by hand at Level 3.2 from 2022-12-05 17:15 to 2022-12-20 11:15
+  (`TIMESTAMP_MIDDLE`, both ends included). `H` is kept. FP2026.1 still contains these values
+  ([Issues](Issues.md#faulty-sample-flow-of-the-li-7200-in-december-2022)).
+- From March to November 2022 the flow channel reads 0.0 while the fluxes are normal, a logging
+  fault of the channel. The logged flow of this period cannot be used to find flow faults.
+
 ### Level-1 fluxes for FLUXNET
 
 These fields come partly from an unedited template and are still to be checked; the instruments
@@ -389,6 +402,9 @@ re-run.
   - 2016-02-20 16:45 to 2016-02-22 14:15
   - 2016-02-29 07:45 to 21:15
   - 1 March to 2016-05-26 07:45
+- `LE` is also removed from 23 January to 29 February 2016, between the low-flow periods. In this
+  period the H2O flux of the LI-7200 does not follow that of the LI-7500, which measured in parallel
+  (slope 0.04, r 0.17), and `LE` is far too low. FP2026.1 still contains these values.
 
 ![CH-LAE 2016: low sample flow of the LI-7200 from 30 January to 8 March 2016. From top: CO2 flux, LE and H, incoming shortwave radiation, flow rate, CO2 mixing ratio in the cell. Shaded: the periods removed by hand](images/CH-LAE_2016_IRGA72_low_flow_Feb2016.png)
 

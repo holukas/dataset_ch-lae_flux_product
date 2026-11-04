@@ -331,13 +331,13 @@ The `LE` of the two analysers is not homogenized in FP2026.2.
 
 ## Faulty sample flow of the LI-7200 in December 2022
 
-From 8 to 19 December 2022 the logged sample flow of the LI-7200 was 0 to 3 l min^-1^. At this flow
-the measuring cell is not flushed with ambient air, as in the other flow faults of
-[Level 3.2](L3.2.md). The nighttime `NEE` kept after all quality tests in this period is +5 to
-+16 µmol m^-2^ s^-1^ at about -8 °C, far above a plausible winter respiration. These values are
-still in FP2026.1 and in the current processing of FP2026.2. Their removal, of `NEE` and `LE`, is
-planned for the next run. Until then, do not use the measured fluxes of the LI-7200 from 8 to
-19 December 2022.
+From 5 to 20 December 2022 the logged sample flow of the LI-7200 was low and intermittent, mostly
+0 to 3 l min^-1^ from 8 to 19 December. At this flow the measuring cell is not flushed with ambient
+air, as in the other flow faults of [Level 3.2](L3.2.md). The nighttime `NEE` kept after all quality
+tests in this period is +5 to +16 µmol m^-2^ s^-1^ at about -8 °C, far above a plausible winter
+respiration. These values are still in FP2026.1 and in the current processing of FP2026.2. Their
+removal, of `NEE` and `LE` from 5 December 17:15 to 20 December 11:15 (`TIMESTAMP_MIDDLE`), is set
+for the next run. Until then, do not use the measured fluxes of the LI-7200 of this period.
 
 The logged flow cannot be used to search for further faults in 2022: from March to November 2022
 the flow channel reads 0.0 while the fluxes are normal, a logging fault of the channel.

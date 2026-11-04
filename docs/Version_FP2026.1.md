@@ -49,9 +49,15 @@ dataset are those of the processing; a shorter set of names for publication is n
   LI-7200 was not flushed, and `FC` and `LE` stayed near zero; the values passed the automatic
   tests. They were found after the release and are removed by hand from FP2026.2. In FP2026.1,
   exclude `NEE`, `LE` and `ET` of the periods in @tbl-fp2026-1-lowflow, gap-filled values included.
-- **Low sample flow in December 2022.** The night-time `NEE` of 8 to 19 December 2022 is far too
-  high. These values are also in the current processing of FP2026.2, and their removal is planned
-  for its next run ([Issues](Issues.md#faulty-sample-flow-of-the-li-7200-in-december-2022)).
+- **Low sample flow in December 2022.** The night-time `NEE` of 5 to 20 December 2022 is far too
+  high. These values are also in the current processing of FP2026.2, and their removal, of `NEE`
+  and `LE`, is set for its next run
+  ([Issues](Issues.md#faulty-sample-flow-of-the-li-7200-in-december-2022)).
+- **`LE` of 23 January to 29 February 2016.** Between the low-flow periods of February 2016, the
+  H~2~O flux of the LI-7200 does not follow that of the LI-7500, which measured in parallel (slope
+  0.04, r 0.17), and `LE` is far too low. In FP2026.1, exclude `LE` and `ET` of this period,
+  gap-filled values included. FP2026.2 removes them
+  ([Yearly Notes, 2016](Yearly_Notes.md#start-up-of-the-li-7200-in-2016)).
 - **Settings of two outlier tests.** FP2026.1 was produced with the earlier, stricter test of
   negative nighttime `NEE` values, based on the spread of all nighttime values within ±15 days; in
   the released file it flags 180 values. Its absolute limits for `LE` were −50 to 800 W m-2. The
