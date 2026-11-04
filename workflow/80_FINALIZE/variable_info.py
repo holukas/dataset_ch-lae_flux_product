@@ -365,7 +365,14 @@ LEVELS = {
     'L3.2': 'Level 3.2 (outlier removal)',
     'L3.3': 'Level 3.3 (USTAR filter)',
 }
-GAPFILL = {'gfXG': 'gap-filled with XGBoost', 'gfMDS': 'gap-filled with MDS'}
+GAPFILL = {'gfXG': 'gap-filled with XGBoost', 'gfMDS': 'gap-filled with MDS',
+           'gfXGWN': 'gap-filled with XGBoost, the wet and overcast night gaps of the LI-7500 from a Lloyd-Taylor model '
+                     '(flag 3)'}
+# The wet-night fill of the LI-7500 is copied into the NEE _gfXG columns of the merged product for its years
+# (stage merge 99_FPPC_MERGED). describe_all() switches this note on for a file that holds FLAG_FLUX_SOURCE.
+_LI7500_WETNIGHT_NOTE = ('but in the LI-7500 years (FLAG_FLUX_SOURCE 75, 2004-2015) its wet and overcast night gaps '
+                         'come from a Lloyd-Taylor model (flag 3), as in the _gfXGWN columns')
+_PRODUCT = {'merged': False}
 UNC = {
     'RANDUNC': 'random uncertainty, 1 sigma (Pastorello et al. 2020)',
     'USTARUNC': 'USTAR uncertainty: half the difference between the CUT_84 and CUT_16 series',
@@ -430,7 +437,7 @@ def _describe_chain(name):
                          f"{LEVELS[m.group('lvl')]}{_scenario(m.group('cut'))} (0 best, 1 good, 2 rejected)")
     # Flux series of a level, quality-controlled, gap-filled, or its uncertainty.
     m = re.fullmatch(rf'(?P<flag>FLAG_)?(?P<flux>NEE|FC|LE|H|ET)_(?P<lvls>L[\d.]+(?:_L[\d.]+)?)'
-                     rf'{cut}(?:_(?P<qcf>QCF0?))?(?:_(?P<gf>gfXG|gfMDS))?(?:_(?P<unc>RANDUNC|USTARUNC|JOINTUNC))?'
+                     rf'{cut}(?:_(?P<qcf>QCF0?))?(?:_(?P<gf>gfXGWN|gfXG|gfMDS))?(?:_(?P<unc>RANDUNC|USTARUNC|JOINTUNC))?'
                      rf'(?P<filled>_ISFILLED)?', name)
     if m:
         unit, desc = CHAIN_FLUXES[m.group('flux')]
@@ -444,6 +451,8 @@ def _describe_chain(name):
             parts.append(f"computed from LE {GAPFILL[m.group('gf')]}")
         elif m.group('gf'):
             parts.append(GAPFILL[m.group('gf')])
+            if m.group('gf') == 'gfXG' and m.group('flux') == 'NEE' and _PRODUCT['merged']:
+                parts.append(_LI7500_WETNIGHT_NOTE)
         if m.group('flux') == 'NEE' and m.group('lvls') == 'L3.1' and not m.group('qcf'):
             parts = ['Net ecosystem exchange of CO2: FC plus the gap-filled storage term, Level 3.1']
         if m.group('flux') in ('LE', 'H') and m.group('lvls') == 'L3.1' and not m.group('qcf'):
@@ -451,6 +460,9 @@ def _describe_chain(name):
         if m.group('filled'):
             if not (m.group('flag') and m.group('gf')):
                 return None
+            if m.group('flux') == 'NEE' and (m.group('gf') == 'gfXGWN' or (m.group('gf') == 'gfXG' and _PRODUCT['merged'])):
+                return DIMLESS, (f"Gap-filling flag of {name[5:-9]} (0 = measured, 1 = XGBoost, 2 = XGBoost fallback, "
+                                 f"3 = Lloyd-Taylor model for a wet or overcast night gap of the LI-7500)")
             return DIMLESS, f"Gap-filling flag of {name[5:-9]} (0 = measured, otherwise filled)"
         if m.group('flag'):
             return None
@@ -495,6 +507,7 @@ def describe(name):
 
 def describe_all(columns):
     """Return {column: (unit, description)} for all columns; fail on any that is not described."""
+    _PRODUCT['merged'] = 'FLAG_FLUX_SOURCE' in columns
     out = {c: describe(c) for c in columns}
     missing = [c for c, r in out.items() if r is None]
     assert not missing, f"no description for {len(missing)} columns: {missing}"
