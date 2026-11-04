@@ -240,12 +240,12 @@ that will state it.
 the `IRGA75` (item 20) and one USTAR set per analyser (item 18, changed 3 Nov 2026); opco unchanged; the
 remaining `IRGA75` biases stated as uncertainties, not corrected (item 21).
 
-**To reconcile first:** the audit of item 22 (2 Nov 2026, `research/reports/open_path_audit_2026-11-02/REPORT.md`
-in the data folder) tests a day fix (the correction of Etzold et al. 2011 instead of opco by day
-before 19 Dec 2007) and a wet-night fill, and states that it supersedes the recommendation of
-item 21. Both results put the only dated change at December 2007. Decide between the two before
-step 3; the rerun of step 2 does not depend on it, unless a fix is adopted that changes `01` or
-`05`.
+**Item 21 against item 22, by day:** the self-heating estimate from the LI-7500 data alone (3 Nov
+2026, phase 4, below) finds no step at 2007/2008 and an over-correction of opco's heat part of about
+15 % before 2016 (s_day 0.84), about -80 to -150 gC m-2 per year. This argues against the day fix of
+item 22 (the correction of Etzold et al. 2011 instead of opco by day before 19 Dec 2007), which
+rests on a step at that date; recommended not to adopt it and to state the daytime bias as an
+uncertainty (step 3). The wet-night fill of item 22 is tested in the next block.
 
 **Next: gap-filling of the `IRGA75` wet nights** (3 Nov 2026; decides `IRGA75/05` before the rerun).
 In 2016-2017 the XGBoost fill of the LI-7500's humid night gaps is 1.48 umol m-2 s-1 where the
@@ -267,6 +267,28 @@ measured). The wet-night fill is gap-filling only: no measured value changes. Te
   changed sensor in 2016), the wet-window screen (AGC >= 56.25), and a night term in opco on
   cloudiness. Use no RH thresholds across 2016 (the RH sensor change makes them select different
   nights); define "humid" or "wet" by rain, cloudiness or AGC instead, also in the steps above.
+- **Tested 3-4 Nov 2026** (`research/reports/wetnight_2026-11-03/`, scratch replica of `IRGA75/05`,
+  `CUT_50` 0.4294, storage screen on; overlap night gaps where the LI-7200 measured, n 1246, LI-7200
+  4.95 umol m-2 s-1; on the nights both measured the two agree, 4.60 against 4.62):
+  - XGBoost as in `05` 2.58; with the wet night records (rain 3 h, AGC >= 56.25) removed from data
+    and training 2.41; with a cloudiness feature 2.35; both 2.14. Neither helps: the low fill is not
+    learnt from biased wet records.
+  - Without VPD 3.24: VPD near 0 in rain and fog gaps maps them to the LI-7500's low calm foggy
+    nights. Dropping VPD also changes the days (about +40 gC m-2 per year), so not for the whole model.
+  - Lloyd-Taylor on the LI-7500's own dry nights (no rain 3 h, no wet window), for the night gaps
+    with rain, a wet window or an overcast sky (CI >= 0.8): 3.37, the best LI-7500-only fill; for
+    all night gaps it makes the dry clear gaps worse. Effect: night 2004-2015 about +95 gC m-2 per
+    year, annual NEE +82 (2004-2009) and +108 (2010-2015).
+  - About 1.6 umol m-2 s-1 remains in every LI-7500-only fill: the nights it misses respire more than
+    its temperature response predicts. Only the LI-7200 donor model gets closer (4.33, report C).
+  - Recommended, not decided: the Lloyd-Taylor fill for the wet or overcast night gaps, with its own
+    flag value, XGBoost with VPD for the rest; XGBoost, Lloyd-Taylor and donor side by side as a
+    sensitivity; the remaining 1.6 stated as an uncertainty towards less uptake.
+  - **Built 4 Nov 2026:** diive `run_level41_xgb_wetnight` / `LongTermGapFillingXGBoostWetNightTS`
+    (issue #445, v0.93.0; branch `wetnight-gapfill`, not yet merged into `indev`), columns `_gfXGWN`,
+    flag 3. Set in `IRGA75/05` next to the plain XGBoost fill (Settings `RUN_WETNIGHT`, `WETNIGHT_*`;
+    Step 7), not run; `05` needs the branch merged first. Partitioning, the annual sums of the merge
+    and `99` still use `_gfXG`: decide which fill the product uses.
 - **Once decided: a docs page of its own on this gap-filling** (requested 3 Nov 2026), nested under
   `L4.1.md` in the sidebar and the PDF chapters, like `L3.3_Constraints.md` under `L3.3.md`: why the
   LI-7500 wet nights need it, the method chosen, the validation against the LI-7200, the flag value
@@ -362,22 +384,25 @@ estimates:
    - Then the `90_OVERVIEW` notebooks. `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION` and the
      test notebooks `T1`-`T3` declare the per-analyser sets; after the run, update the threshold text of
      the two overview notebooks (0.44, 0.52).
-   - Expected, from existing outputs (scratch estimate, not a chain run): `IRGA75` 2004-2015 mean
-     about +7 gC m-2 per year (now -82), `IRGA72` 2016-2025 about -38 (now -18); overlap gap
-     about -250 instead of -437 / -369.
+   - The scratch estimate of 2 Nov 2026 (`IRGA75` 2004-2015 about +7 gC m-2 per year, `IRGA72`
+     2016-2025 about -38, overlap gap about -250) used the merged USTAR set and no longer applies;
+     the run gives the numbers.
 3. **State the remaining `IRGA75` biases as uncertainties, per year** (item 21), in
    `docs/Issues.md` and on the version page, as a table; no sensitivity column.
-   - Day, 2004-2009: possibly too little uptake, 0 to -230 gC m-2 per year; the wind test points
-     most clearly to 2005-2007.
+   - Day, 2004-2015: possibly too little uptake, about -80 to -150 gC m-2 per year, from an
+     over-correction of opco's heat part by about 15 % (s_day 0.84, phase 4 of the self-heating
+     estimate); no step at 2007/2008. The earlier 0 to -230 for 2004-2009 (climate baseline and
+     wind test) is superseded.
    - Night, 2004-2017: possibly too little respiration, 0 to +200 gC m-2 per year, from the rain
      gaps the LI-7500 does not measure. Of this, the cold (below 2 degC) overcast and wet-window
      nights account for about +53 gC m-2 per year in 2004-2015 (item 11), unless the wet-night step
      above corrects them.
-   - The two act in opposite directions and partly cancel in 2004-2009.
+   - The two act in opposite directions and partly cancel.
 4. **Bring the docs in line with the run.**
-   - `docs/L3.1.md` (storage screen), `docs/L3.3.md` (one set, merged record, section 12), the
-     version pages (`Version_Differences`, `Version_FP2026.2`, which still describe the
-     per-analyser sets), `docs/IRGA75_Comparisons.md` and the annual sums.
+   - `docs/L3.1.md` (storage screen), `docs/L3.3.md` and `L3.3_Constraints.md` (one set per
+     analyser, the step after 2017, detection notebook section 12), the version pages
+     (`Version_Differences`, `Version_FP2026.2`: the sets and results of the run),
+     `docs/IRGA75_Comparisons.md` and the annual sums.
    - Replace the unverified "100 to 200" in `docs/Issues.md`.
    - Fix the inconsistencies found by the docs agents on 2 Nov 2026, first the real names in the
      acknowledgments of `docs/index.md` (against the no-names rule); then the end of the 2016
