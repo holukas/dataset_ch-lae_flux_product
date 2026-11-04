@@ -285,9 +285,9 @@ measured). The wet-night fill is gap-filling only: no measured value changes. Te
     flag value, XGBoost with VPD for the rest; XGBoost, Lloyd-Taylor and donor side by side as a
     sensitivity; the remaining 1.6 stated as an uncertainty towards less uptake.
   - **Built 4 Nov 2026:** diive `run_level41_xgb_wetnight` / `LongTermGapFillingXGBoostWetNightTS`
-    (issue #445, v0.93.0; branch `wetnight-gapfill`, not yet merged into `indev`), columns `_gfXGWN`,
-    flag 3. Set in `IRGA75/05` next to the plain XGBoost fill (Settings `RUN_WETNIGHT`, `WETNIGHT_*`;
-    Step 7), not run; `05` needs the branch merged first. Partitioning, the annual sums of the merge
+    (issue #445, v0.93.0; merged into `indev` 4 Nov 2026, not pushed), columns `_gfXGWN`, flag 3.
+    Set in `IRGA75/05` next to the plain XGBoost fill (Settings `RUN_WETNIGHT`, `WETNIGHT_*`;
+    Step 7), not run. Partitioning, the annual sums of the merge
     and `99` still use `_gfXG`: decide which fill the product uses.
 - **Once decided: a docs page of its own on this gap-filling** (requested 3 Nov 2026), nested under
   `L4.1.md` in the sidebar and the PDF chapters, like `L3.3_Constraints.md` under `L3.3.md`: why the
@@ -337,8 +337,9 @@ estimates:
   per year (1 sd 120 or more), not -333 +- 80; a non-heating analyser difference of 160-440 gC m-2
   per year in the overlap is as large as the step between the eras. The same head (75H-0640) is
   recorded in Dec 2010 and 2016-2017. Next, ranked: (1) the LI-7200 data of Dec 2010 - May 2011
-  (fieldbook: calibrated 16 Dec 2010, serviced 3 May 2011; not in the data folder), the only
-  out-of-sample test before 2016; (2) retrain opco with part of 2016-2017 held out and run A and B
+  (fieldbook: calibrated 16 Dec 2010, serviced 3 May 2011, data downloaded from its memory stick on
+  3 May and 30 Jun 2011), the only out-of-sample test before 2016; **not available** (searched 4 Nov
+  2026: not in the data folder, not in the 2011 raw files of the site); (2) retrain opco with part of 2016-2017 held out and run A and B
   there; (3) separate day and night factors; (4) B with the anchored difference instead of the
   placebo subtraction; (5) split the overlap difference into wet records, selection, USTAR and
   gap-filling; (6) s by hour or season; (7) raw-data reprocessing.
@@ -363,15 +364,50 @@ estimates:
     -80 to -150 gC m-2 per year in annual NEE (scaling of the phase 3 sensitivity; not rerun), far
     less than the first run suggested. The larger open problems are the LI-7500 night biases (cold
     nights, wet records), not the daytime heating.
+- **Third run, 4 Nov 2026 (phase 5, `phase5_holdout/`; ranked item 2, A only).** opco refitted with
+  whole blocks of 2016-2017 held out (a year, a winter, alternating months). Out of sample its own heat
+  part no longer matches the LI-7200 on cold days: the matching factor is 0.31-1.08 on the 6 frozen
+  days and 0.62-1.12 on the 29 days of Nov-Mar below 0 degC. The refined estimator follows it: within
+  about 0.1 on 29-64 days, and 0.2-0.5 high on the 6 frozen days (inside the bootstrap range). The
+  method is not biased low, so the 0.84 is not a method artefact. Any bias would put the true factor
+  lower, not higher. The cold-night reference choice (0.84 against 0.63) cannot be tested in the
+  overlap. One winter alone gives errors up to +-0.9, so per-year values from A are not usable.
+  Season: out of sample, opco's factor differs by season by up to 0.15-0.25 (DJF 0.84-0.93, JJA
+  0.98-1.00); in 2004-2015 the adjusted factor stays at 0.68-0.87 from November to April. A cannot
+  measure summer. Frozen days carry 6 % of the daytime heat part, so the annual -80 to -150 gC m-2
+  rests on a transfer that is uncertain by about as much again. H as regressor (sonic H, within
+  light x temperature cells): no usable factor. At fixed light opco's heat shape barely varies
+  with H, and an extra H slope remains even in sample. In May-Sep 2004-2015 the LI-7500 shows no H
+  slope beyond that of the overlap. The higher `k_op` share of 2013-2015 (36-49 % of daytime
+  half-hours, against 4-23 % before) does not show in the H slope.
 
 1. **Smaller fixes, before the rerun,** so that one rerun covers everything.
-   - `IRGA72` flow fault of 8-19 Dec 2022 into `REMOVE_DATES` of `IRGA72/05` and `25`.
-   - The boom removal of 20-26 Dec 2018, now only in `IRGA72/35`, also in `IRGA72/05` and `25`.
-   - The same gap-filling settings in both chains: tree count, learning rate and features.
-   - The detection notebook copies `REMOVE_DATES` of the `05` notebooks; update it with them, or
-     its settings check stops.
-   - Check the FP2026.1 `LE` of 22-29 January 2016 (item 24): the rest of the near-zero `IRGA72`
-     H2O flux of the 2016 start-up is already removed or flagged.
+   - **Done 4 Nov 2026 (set, not run):**
+     - `IRGA72` low sample flow of December 2022 in `REMOVE_DATES` of `IRGA72/05` and `25`, from the
+       logged flow: intermittent from 2022-12-05 17:15, mostly 0 to 3 l min-1 from 8 to 19 December,
+       normal again from 2022-12-20 12:00 (the range is wider than the 8-19 Dec in `docs/Issues.md`).
+     - The boom removal of 20-26 Dec 2018 (so far only `H` in `IRGA72/35`) also in `IRGA72/05` and `25`.
+     - Both mirrored in the detection notebook; its settings match `05` (checked).
+     - The gap-filling settings were already identical in all six chain notebooks (XGBoost, features,
+       feature engineering, MDS, L4.1 call); nothing to change.
+     - Docs after the run: `L3.2.md` table (two new rows), `Issues.md` (December 2022 section),
+       `Yearly_Notes.md` (2022).
+   - **Set 4 Nov 2026:** the AGC window of the LI-7500 at Level 2 is 40-65 instead of 40-90 (`IRGA75/05`,
+     `25` and the detection notebook): from an AGC of 68.75 the flux is biased against the LI-7200 in
+     2016-2017 (by day median -3 to -5 umol m-2 s-1 from 62.5); it removes 0.2-2.3 % of the kept records
+     per year. `docs/L2.md` still says 40-90; update it after the run. Not run yet.
+   - **Checked 4 Nov 2026 (item 24):** the `IRGA72` `LE` between the removed start-up periods,
+     23 Jan - 29 Feb 2016, does not follow the LI-7500 (slope 0.04, r 0.17, means 12 against 29 W m-2
+     on 947 paired records; from late May the two agree, r 0.55-0.70). Removed from `LE` in
+     `IRGA72/25` (`['2016-01-23', '2016-02-29']`, not run). FP2026.1 as released contains these
+     values: note it on `docs/Version_FP2026.1.md` and `docs/Issues.md`.
+   - **Product fill of the LI-7500 years: `_gfXGWN` (decided 4 Nov 2026; set, not run).** `IRGA75/05`
+     has `PRODUCT_FILL = 'xgbwn'` (if `RUN_WETNIGHT`), and its nighttime and daytime partitioning use
+     it. The stage merge `99_FPPC_MERGED` copies the LI-7500 `_gfXGWN` NEE values and flags (CUT_16,
+     CUT_50, CUT_84) into the product columns `_gfXG` for 2004-2015 (`LI7500_FILL`, `REPLACED`); flag
+     3 marks the Lloyd-Taylor values; its value check compares those columns with their source. The
+     LI-7200 years keep plain XGBoost. Docs after the run: `Variables.md` (the meaning of `_gfXG` for
+     the LI-7500 years and flag 3), `L4.1.md` and the new gap-filling page.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
      (item 18) and not run since; its check in section 2 and the new table in section 11 must
@@ -404,8 +440,8 @@ estimates:
      (`Version_Differences`, `Version_FP2026.2`: the sets and results of the run),
      `docs/IRGA75_Comparisons.md` and the annual sums.
    - Replace the unverified "100 to 200" in `docs/Issues.md`.
-   - Fix the inconsistencies found by the docs agents on 2 Nov 2026, first the real names in the
-     acknowledgments of `docs/index.md` (against the no-names rule); then the end of the 2016
+   - Fix the inconsistencies found by the docs agents on 2 Nov 2026 (the names in the
+     acknowledgments of `docs/index.md` are fine and stay, decided 4 Nov 2026): the end of the 2016
      removal (25 or 26 May), the uncertainty wording of `Version_FP2026.2`, the end date of the
      LI-7500, and the conflicting values in `Yearly_Notes` (2013 clock shift, 2013/2014 fog,
      2018 obstruction dates).
