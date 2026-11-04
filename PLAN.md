@@ -398,13 +398,14 @@ estimates:
    - **Done 4 Nov 2026 (set, not run):**
      - `IRGA72` low sample flow of December 2022 in `REMOVE_DATES` of `IRGA72/05` and `25`, from the
        logged flow: intermittent from 2022-12-05 17:15, mostly 0 to 3 l min-1 from 8 to 19 December,
-       normal again from 2022-12-20 12:00 (the range is wider than the 8-19 Dec in `docs/Issues.md`).
+       normal again from 2022-12-20 12:00.
      - The boom removal of 20-26 Dec 2018 (so far only `H` in `IRGA72/35`) also in `IRGA72/05` and `25`.
      - Both mirrored in the detection notebook; its settings match `05` (checked).
      - The gap-filling settings were already identical in all six chain notebooks (XGBoost, features,
        feature engineering, MDS, L4.1 call); nothing to change.
-     - Docs after the run: `L3.2.md` table (two new rows), `Issues.md` (December 2022 section),
-       `Yearly_Notes.md` (2022).
+     - Docs updated 4 Nov 2026: `Issues.md` (December 2022 section, now 5-20 Dec), `Version_FP2026.1.md`
+       (December 2022, and its `LE` of 23 Jan - 29 Feb 2016 is unreliable), `Yearly_Notes.md` (2022 section;
+       2016 `LE` removal). Docs after the run: `L3.2.md` table (new rows).
    - **Set 4 Nov 2026:** the AGC window of the LI-7500 at Level 2 is 40-65 instead of 40-90 (`IRGA75/05`,
      `25` and the detection notebook): from an AGC of 68.75 the flux is biased against the LI-7200 in
      2016-2017 (by day median -3 to -5 umol m-2 s-1 from 62.5); it removes 0.2-2.3 % of the kept records
@@ -426,7 +427,18 @@ estimates:
      in the generated `_INFO.md`. After the run: `docs/Variables.md` (the `_gfXG` row, the flag row,
      and the `gfXG` entry of the naming table), `L4.1.md`, `Version_FP2026.2.md`, `Version_Differences.md`
      and the new gap-filling page.
+   - **opco options in `IRGA75/01` (set and run 4 Nov 2026, `64f94b5`):** calibration pre-correction of the
+     documented segments 2006-2010 (opco `correct_calibration`, no value lost), xi for day and night, and the
+     per-half-hour uncertainty `BIAS_UNC_OPCO` (coverage 0.68). A/B test of day/night xi in a replica of the
+     chain with partitioning (`research/reports/xidn_2026-11-04/REPORT.md`): NEE changes by no more than the
+     gap-filling noise (+-20 gC m-2 per year); in 2017 RECO and GPP are closer to the LI-7200 (RECO_NT -405
+     against -499 gC m-2); kept. Decided 4 Nov 2026: the night tests of `IRGA75/05` and the detection notebook
+     keep the constant `OPCO_SIGMA` = 1. `BIAS_UNC_OPCO` at night is 0.35-0.5 umol m-2 s-1 in April-October
+     and 1.4-1.8 in November-February (median 0.65); in winter it would let more nights of apparent uptake
+     pass, and it already contains the random noise of both analysers, which `FS`/`PAS20` count again.
+     `BIAS_UNC_OPCO` goes into the uncertainty of the product and of the annual sums instead.
 2. **Rerun once, with the decided settings** (both are set, nothing else is to change).
+   - `IRGA75/01` is already run (4 Nov 2026); start with the USTAR detection notebook.
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
      (item 18) and not run since; its check in section 2 and the new table in section 11 must
      confirm the declared sets.
