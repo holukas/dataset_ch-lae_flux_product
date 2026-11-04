@@ -489,6 +489,16 @@ OPCO = {
                            'LI-7500 flux on the WPL thermal term'),
     'OUT_OF_ENVELOPE_OPCO': (DIMLESS, 'opco: TA, USTAR or the WPL thermal term outside the range of the '
                                       'training data (True = extrapolated)'),
+    'XI_DAY_OPCO': (DIMLESS, 'opco: coefficient of the heating term of the daytime model'),
+    'XI_NIGHT_OPCO': (DIMLESS, 'opco: coefficient of the heating term of the nighttime model'),
+    'BIAS_HEAT_DAY_OPCO': ('µmol m-2 s-1', 'opco: heating part of the bias by day (zero at night)'),
+    'BIAS_HEAT_NIGHT_OPCO': ('µmol m-2 s-1', 'opco: heating part of the bias at night (zero by day)'),
+    'BIAS_LO_OPCO': ('µmol m-2 s-1', 'opco: lower bound of the true bias, interval covering 68 % of out-of-fold '
+                                     'residuals in 2016-2017'),
+    'BIAS_HI_OPCO': ('µmol m-2 s-1', 'opco: upper bound of the true bias, interval covering 68 % of out-of-fold '
+                                     'residuals in 2016-2017'),
+    'BIAS_UNC_OPCO': ('µmol m-2 s-1', 'opco: uncertainty of the bias, half the width of BIAS_LO_OPCO to '
+                                      'BIAS_HI_OPCO (about 1 sigma)'),
 }
 
 
