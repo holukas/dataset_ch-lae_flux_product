@@ -449,23 +449,38 @@ estimates:
      The prose of the detection notebook and the overviews was checked against the outputs and
      updated; captions written by code cells show the new text only after the next run.
    - **Open points from the run (next session):**
-     - Several notebooks still compare the plain XGBoost `_gfXG` of `IRGA75/05` for the LI-7500,
-       not the product fill `_gfXGWN`: the detection notebook section 7 (FLUXNET), the parallel
-       section of `FLUX_NEE` (cells 83-87), `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION`. Their
-       text now says so. Switch them to `_gfXGWN` (as in the two notebooks above) and rerun.
-     - `FLUX_GPP` and `FLUX_NEE` count the partial year 2005 (daytime method from 14 Sep) as a
-       full daytime-method year in the era means, the trend and its plot; mask the years before
-       `DT_FIRST_YEAR`, as `FLUX_RECO` does with `DT_YEARS`, and rerun.
+     - **Done 6 Nov 2026 (not committed):** the parallel section of `FLUX_NEE`,
+       `FLUX_NEE_IRGA75_COMPARISONS` and `_EVALUATION` read the product fill `_gfXGWN` for the
+       LI-7500 (`FLUX_NEE` keeps plain XGBoost beside it); `FLUX_GPP`, `FLUX_NEE` and `_COMPARISONS`
+       leave the partial daytime year 2005 out of all statistics. All rerun, text updated. Results:
+       the early LI-7500 years lie further from the LI-7200 years (2004-2006 +349 instead of +268
+       gC m-2 per year, 2004-2011 all net sources, 2010-2015 at the LI-7200 level); the gap is now
+       almost entirely by day, since the filled winter nights no longer sit below the measured ones.
+       Against Etzold et al. (2011), 2005-2009: opco about 640 apart, the Burba-type correction about
+       190, no self-heating correction about 25; the biometric sink of 2006-2009 is reached only
+       without a correction. This bears on the daytime revisit of step 3. In the parallel period the
+       LI-7500 shows 407 gC m-2 more uptake than the LI-7200 with the product fill (528 with XGBoost
+       alone). The detection notebook section 7 (FLUXNET) still reads plain `_gfXG`; left as it is.
      - Test run `T2` has no wet-night fill, so its comparison in `_INDEPENDENT_ESTIMATES` overstates
        the effect of the relaxed tests. Compare it with the plain `_gfXG` of `IRGA75/05`, or rerun `T2`.
-     - In `_EVALUATION`, `CUT_50` of 2004-2006 (+245 gC m-2) lies outside the `CUT_16`-`CUT_84`
-       range (+162 to +226). Check in the chain.
+     - **`CUT_50` outside `CUT_16`-`CUT_84` (investigated 6 Nov 2026, scratch):** not a defect. Each
+       scenario is gap-filled by its own models, and the threshold also removes daytime records
+       (`run_level33_constant_ustar` with its default `nighttime_only=False`), which moves the sum the
+       other way than the night records. The annual sum therefore need not rise with the threshold:
+       with `_gfXGWN` only 2006 lies outside (457 against 313 to 438), with plain `_gfXG` 2005 and 2006,
+       LI-7200 2017; MDS shows the same pattern (r 0.86), so it lies in the data more than in the
+       models. To decide: (1) a note on L3.3 or the uncertainty page that the scenario sums are not
+       ordered; (2) decided 6 Nov 2026: the USTAR filter keeps applying by day and by night
+       (`nighttime_only=False`), as in ONEFlux; `docs/L3.3.md` ("By day as well") already says so; (3) whether the USTAR uncertainty should use the largest
+       distance from `CUT_50` instead of half the `CUT_16`-`CUT_84` spread (Pastorello et al. 2020 use
+       the latter). Not recommended: one `CUT_50` model for all scenarios.
+     - `FLUX_NEE` gives the mean annual `NEE` as +107 (2004-2015) and -23 (2016-2025) gC m-2 per year;
+       `docs/Issues.md` (about line 228) still quotes -82 and -18. Update in step 4.
      - Wording not yet decided: the `FLUX_RECO` callout ("most of all in winter", "fewer and
        lower nights"; the outputs show neither, proposed: "at a given temperature the gap is
        largest below 0 degC", "drier and lower nights"); the unsourced "140 to 360 gC m-2" in
        `FLUX_NEE_IRGA72_WET_NIGHTS` cell 1 (the current files give about 200 to 440 with the
-       nighttime partitioning); whether the Burba-corrected flux in `_COMPARISONS` and `_EVALUATION`
-       is still "close" to Etzold (about 100 gC m-2 per year apart); the windy-winter years in
+       nighttime partitioning); the windy-winter years in
        detection notebook cell 116 (2018 not supported).
    - `IRGA75/01` is already run (4 Nov 2026); start with the USTAR detection notebook.
    - The USTAR detection notebook first. It was switched on 3 Nov 2026 to one set per analyser
@@ -517,6 +532,23 @@ estimates:
    - Replace the unverified "100 to 200" in `docs/Issues.md`, and its 436 / 370 gC m-2 for
      2016 / 2017 and "fills these gaps with too much uptake", which predate the wet-night fill.
    - `docs/L2.md`: the AGC window of the LI-7500 is 40-65, not 40-90.
+   - Docs plots without a notebook (rule of 6 Nov 2026: every plot in the docs is drawn by a
+     notebook in `workflow/95_DOCS_FIGURES/`). No code for these exists in the repo or the data
+     folder; rebuild each in a notebook and link it from its caption:
+     - `CH-LAE_2016_IRGA72_low_flow_Feb2016.png`, `CH-LAE_2021_IRGA72_low_flow_May2021.png`,
+       `CH-LAE_2023_IRGA72_low_flow_Aug2023.png` (`Yearly_Notes.md`): FC, LE and H,
+       SW_IN, the LI-7200 sample flow and the cell CO2 around each removal.
+     - `USTAR_thresholds_from_FLUXNET_NEE_VUT_2004-2023.png` (`Issues.md`): `NEE_VUT_USTAR50` and
+       `NEE_VUT_REF` per year from the FLUXNET release (made in a spreadsheet).
+     - `CH-LAE_2016-2024_phase_shift_fft_SWINvsSWINPOT.png` (`Issues.md`): daily phase shift of
+       `SW_IN` against `SW_IN_POT` (FFT), 2016-2024.
+   - Storage drift of the LI-7500 (`docs/L3.1.md` "Drift of the LI-7500 storage term" and its Known
+     limitations, `docs/Issues.md` "The storage term of the LI-7500 drifts", `Overview.md`,
+     `Version_FP2026.2.md`, `IRGA75_Comparisons.md`): the concentration screen was applied in the
+     run of 4 Nov 2026. Replace "set for the next run" and the test-run numbers with the storage
+     sums and the `NEE` change of the run. Keep the mechanism (the concentration rises in the gaps
+     of the wet periods, the rise is never counted, the decline after the gap enters as a negative
+     storage flux), and add a figure of it.
    - Fix the inconsistencies found by the docs agents on 2 Nov 2026 (the names in the
      acknowledgments of `docs/index.md` are fine and stay, decided 4 Nov 2026): the end of the 2016
      removal (25 or 26 May), the uncertainty wording of `Version_FP2026.2`, the end date of the
