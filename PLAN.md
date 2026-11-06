@@ -462,7 +462,17 @@ estimates:
        LI-7500 shows 407 gC m-2 more uptake than the LI-7200 with the product fill (528 with XGBoost
        alone). The detection notebook section 7 (FLUXNET) still reads plain `_gfXG`; left as it is.
      - Test run `T2` has no wet-night fill, so its comparison in `_INDEPENDENT_ESTIMATES` overstates
-       the effect of the relaxed tests. Compare it with the plain `_gfXG` of `IRGA75/05`, or rerun `T2`.
+       the effect of the relaxed tests. Rerunning it does not help: the relaxed negative-night tests it
+       was made for are part of `05` since 30 Oct 2026, so `T2` is an outdated copy of `05` for
+       2004-2006, not a test of anything still open. Drop its comparison from `_INDEPENDENT_ESTIMATES`.
+     - **Overnight tests T4-T12 (set up 6 Nov 2026):** `run_tests_T4-T12.sh` in
+       `30_FLUX_POST-PROCESSING_CHAIN` runs them in order (logs in the data folder,
+       `_logs_T4-T12/`), and `TESTS_T4-T12_COMPARISON_2026-11-06.ipynb` compares them with the product
+       run. T4-T6: `IRGA75/01` and `05` with the daytime heating part of opco scaled by 0.84, 0.5 and 0
+       (opco `predict(heat_scale=...)`; the daytime revisit of step 3). T7-T8 and T9-T10: `IRGA75/05` and
+       `IRGA72/05` with random seeds 1 and 2; T11-T12: `IRGA75/05` with 50 and 200 trees (item 8). Each
+       writes its own output file. `T4_01` was checked: daytime heating part 0.84 of the product's,
+       night and H part unchanged.
      - **`CUT_50` outside `CUT_16`-`CUT_84` (investigated 6 Nov 2026, scratch):** not a defect. Each
        scenario is gap-filled by its own models, and the threshold also removes daytime records
        (`run_level33_constant_ustar` with its default `nighttime_only=False`), which moves the sum the
