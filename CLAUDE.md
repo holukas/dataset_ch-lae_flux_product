@@ -81,6 +81,16 @@ The two `workflow/` trees are **kept mirrored 1:1** — same stage folders, same
 - **Figures stay in the repo** (`docs/images/` for published figures, a
   `figures/` subfolder under the relevant `workflow/` stage for working plots);
   only heavy data (`*.parquet`/`*.csv`/`*.pkl`) goes to the external data folder.
+- **Every plot shown in the docs is drawn by a notebook** (rule since 6 Nov 2026),
+  never by a script or by hand. The notebooks live in `workflow/95_DOCS_FIGURES/`,
+  one per docs page, named after the page (`L3.1_STORAGE_DRIFT.ipynb` serves
+  `docs/L3.1.md`). Each shows the figure inline under its `📊 Plot:` heading and
+  saves the same figure to `docs/images/` before adding its notebook caption, and
+  the figure caption on the page links the notebook
+  (`notebooks/95_DOCS_FIGURES/<name>.html`). A notebook elsewhere in `workflow/`
+  that already draws the figure may save it instead; the caption then links that
+  notebook. Photos and screenshots are exempt. The folder has no mirror in the
+  data tree, because it writes no data.
 - Raw inputs (`0_data/`) and `tests/` outputs live only in the external data
   folder and are gitignored. `workflow/00_DATA/` in the external folder holds files that no
   notebook produces but that are shared with the dataset, such as the EddyPro project and metadata
