@@ -473,6 +473,22 @@ estimates:
        `IRGA72/05` with random seeds 1 and 2; T11-T12: `IRGA75/05` with 50 and 200 trees (item 8). Each
        writes its own output file. `T4_01` was checked: daytime heating part 0.84 of the product's,
        night and H part unchanged.
+       **Run 6 Nov 2026, all twelve without error; results** (gC m-2 per year, `CUT_50`, product fill):
+       - Heat sweep (scale 1 / 0.84 / 0.5 / 0): 2004-2006 minus LI-7200 +349 / +251 / +61 / -231;
+         2010-2015 minus LI-7200 +15 / -72 / -258 / -556; 2005-2009 minus Etzold et al. (2011)
+         +633 / +548 / +373 / +97; parallel period, half-hours measured by both, LI-7500 minus
+         LI-7200 -5 / -48 / -133 / -263 gC m-2. No single scale fits all periods: scale 1 already
+         agrees with the LI-7200 in 2016-2017, so the excess of 2004-2006 is not explained by the
+         daytime heating part alone but by something that changes over time. The night stays 70 to
+         115 below the LI-7200 at every scale. Input to step 3.
+       - Seeds: `IRGA75` annual SD 1 to 6, period means within 3; `IRGA72` annual SD 3 to 12, except
+         2016 (SD 26, 48 to 98) and 2021 (10); 2016-2025 mean within 5. The model noise is small.
+       - Trees (item 8): 50 trees give 20 to 80 less than the 80 chosen by cross-validation, 200 trees
+         up to about 40 more (2017: -97 / -15 / +23). About ten times the seed noise, the same order
+         as XGBoost minus MDS.
+       - CUT order: 2006 (`IRGA75`) and 2017 (`IRGA72`) lie outside `CUT_16`-`CUT_84` in every seed and
+         tree run; scale 0 adds 2004, scale 0.5 has none. The unordered scenarios are structural, not
+         model noise.
      - **`CUT_50` outside `CUT_16`-`CUT_84` (investigated 6 Nov 2026, scratch):** not a defect. Each
        scenario is gap-filled by its own models, and the threshold also removes daytime records
        (`run_level33_constant_ustar` with its default `nighttime_only=False`), which moves the sum the
@@ -515,7 +531,11 @@ estimates:
      compute the daytime bias with the chain instead of the scaling (heat_scale 0.84 as a
      sensitivity run of `IRGA75/01` and `05`), and set it against the climate baseline, which
      showed about +230 for 2004-2009 before the calibration pre-correction. The earlier 0 to -230 for 2004-2009 (climate baseline and
-     wind test) is superseded.
+     wind test) is superseded. **Sensitivity run done 6 Nov 2026 (T4-T6, results under step 2):**
+     scale 0.84 lowers the annual sums by about 80 to 110 in every year; it closes the 2010-2015 gap
+     to the LI-7200 by day but widens the parallel-period gap, so a single scale is not supported.
+     To decide: whether the daytime uncertainty is stated as the 0.84 shift (about -80 to -110) or
+     as the span to scale 0.5.
    - Night, 2004-2017: possibly too little respiration, 0 to +200 gC m-2 per year, from the rain
      gaps the LI-7500 does not measure. Of this, the cold (below 2 degC) overcast and wet-window
      nights account for about +53 gC m-2 per year in 2004-2015 (item 11), unless the wet-night step
@@ -715,7 +735,10 @@ In order. Each item is blocked by the one above it, except that the flux items
    +265 to +685 gC m-2, almost all of it from daytime gaps. Compute the annual sums at
    several numbers of trees (e.g. 60, 80, 110, 150, 250) to see how firm the 110-tree
    result is before publishing; if they spread widely, consider averaging models
-   trained with several seeds or tree counts.
+   trained with several seeds or tree counts. **First result (T11, T12, 6 Nov 2026, `IRGA75`):**
+   50 and 200 trees span about 60 to 120 per year around the 80-tree result, far more than the
+   seed spread (results under step 2). No further tree-count runs (decided 7 Nov 2026). Still open:
+   whether to state the span as an uncertainty.
 9. **Wet-weather gap of the `IRGA75` gap-filling.** Stated in `docs/Issues.md`
    (2016-2017: about 40 gC m-2 apart on shared half-hours, 180-190 gC m-2 per year
    apart gap-filled). Numbers of the first run of chain `05` (29 Oct 2026, before the
