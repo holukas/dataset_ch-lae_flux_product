@@ -535,7 +535,8 @@ estimates:
      scale 0.84 lowers the annual sums by about 80 to 110 in every year; it closes the 2010-2015 gap
      to the LI-7200 by day but widens the parallel-period gap, so a single scale is not supported.
      To decide: whether the daytime uncertainty is stated as the 0.84 shift (about -80 to -110) or
-     as the span to scale 0.5.
+     as the span to scale 0.5. The investigation of 7 Nov 2026 (item 25) places most of the
+     remaining gap in the raw CO2 covariance before 2008, not in opco.
    - Night, 2004-2017: possibly too little respiration, 0 to +200 gC m-2 per year, from the rain
      gaps the LI-7500 does not measure. Of this, the cold (below 2 degC) overcast and wet-window
      nights account for about +53 gC m-2 per year in 2004-2015 (item 11), unless the wet-night step
@@ -1151,6 +1152,16 @@ In order. Each item is blocked by the one above it, except that the flux items
       scenario (does the difference change with the threshold?); the same difference per `USTAR`
       class of the kept nights; whether years with more kept nights at high `USTAR` diverge more;
       the part of it from flushing after calm hours (section 10).
+    - **Checked 8 Nov 2026** (`research/reports/uptake_2026-11-08/R_reco_ntdt/`, scripts and tables):
+      partly confirmed. Kept-night NEE rises with `USTAR` without levelling off (NEE/`RECO_NT` 0.70 to
+      1.45 for the LI-7500, 0.85 to 1.21 for the LI-7200, also in summer and under sustained
+      turbulence). But `RECO_DT` rises with the threshold by about as much as `RECO_NT` (through
+      `RREF_DT`), so `RECO_NT - RECO_DT` stays at about -170 (LI-7500) and -300 to -380 (LI-7200)
+      gC m-2 per year for `CUT_16`/`_50`/`_84`. No link across years to the `USTAR` of the kept nights
+      (|r| <= 0.31); flushing after calm hours touches 5-8 % of the kept nights and does not explain
+      it. About half of the difference sits on daytime records and `E0_DT` is 20-60 % above `E0_NT`,
+      so the divergence points to the models. Each threshold step raises both RECO estimates by
+      about 15 %.
     - If confirmed, state it in the docs (L4.2 and Known limitations) as a cause of the
       divergence, and as one more reason why `RECO_DT` cannot decide the threshold.
 24. **Ambient variables and H2O flux of the `IRGA72` runs 2016-2018** (found 3 Nov 2026,
@@ -1176,6 +1187,67 @@ In order. Each item is blocked by the one above it, except that the flux items
       `H2O_MEAS_MEDIAN` and stands, but its anchor cannot be checked against the LI-7200.
     - To do: decide whether the next Level-1 rerun of these setup periods sets `col_air_t` to the
       biomet TA.
+25. **Too little daytime uptake of the `IRGA75` years** (7 Nov 2026, scratch, on the product run of
+    4 Nov and T4; **not decided**). Full record: `research/reports/uptake_2026-11-07/REPORT.md` in
+    the data folder, scripts `inv1`-`inv5`.
+    - Where: `IRGA75` period mean minus the `IRGA72` mean of 2016-2025 (gC m-2 per year, `CUT_50`,
+      product fill), May-Oct day / May-Oct night / Nov-Apr day / Nov-Apr night: 2004-2006 +303 /
+      -50 / +136 / -40; 2007-2009 +136 / -64 / +87 / -17; 2010-2015 +68 / -69 / +18 / -3; 2016-2017
+      +66 / -77 / -2 / -47. A daytime gap, mostly in the growing season; the nights are too low in
+      every period and hide part of it. At heat scale 0.84 the Nov-Apr days fall to +73 / +48 / -30 /
+      -49; the May-Oct days change by 30-45 only.
+    - Cause: at matched summer middays (Jun-Aug, SW_IN 500-800, TA 15-25, VPD 0.5-1.5, u* >= 0.55)
+      the raw `W_CO2_MEAS_COV` is about 25 % smaller in 2004-2007 than in 2016-2017, rising
+      gradually with a step of about -3 umol m-2 s-1 between 2007 and 2008. The opco bias (-2.6 to
+      -3.4) and the WPL terms (about +10) are constant. Present in every wind sector. Whether it is
+      real (lower light slope, `ALPHA_DT` 0.05-0.07 against 0.08-0.12, FC/LE 10-15 % lower) or
+      instrumental (CO2-channel sensitivity before the 19 Dec 2007 calibration) is not decided;
+      Etzold et al. (2011), the biometric NEP and a GPP rise of about 35 % within a decade argue
+      against a real change.
+    - Ruled out: gap-filling (the fill matches the measured records per light class; seeds and tree
+      counts, T7-T12), wind sector, spectral correction, time lag, geometry, WPL. USTAR by day
+      leaves 50-65 % of the summer daytime modelled, but the fill is unbiased.
+    - Side findings: the head excess `TA_EP - TA`, day minus night, is 1.07-1.13 K in 2004-2007
+      against 1.3-1.7 K from 2008, which fits s_day 0.76 for 2004-2007. The `SW_IN` clear-sky ratio
+      is about 5 % lower before 2014 with the same CNR1; not explained.
+    - **Overnight tests of 8 Nov 2026** (`run_tests_T13-T14.sh`, all without error; comparison in
+      `TESTS_T13-T14_COMPARISON_2026-11-08`; analyses in `research/reports/uptake_2026-11-08/`, scripts
+      and tables only, no report file). Period mean minus the `IRGA72` mean of 2016-2025 (-23),
+      2004-2006 / 2007-2009 / 2010-2015 / 2016-2017:
+      - Product: +349 / +142 / +15 / -60. T4 (heat scale 0.84): +251 / +61 / -72 / -152.
+      - T13 (heat scale 0.76 before 2008, 0.84 from 2008): +206 / +48 / -72 / -157. The lower early
+        scale adds about -45 per year in 2004-2007; the May-Oct days of 2004-2006 stay at +262.
+      - T14 (daytime covariance of 2004-2007 divided by the matched-midday gain, 0.74 / 0.80 / 0.83 /
+        0.77): -165 / -44 / +18 / -48. Annual NEE 2004 -474 and 2007 -443, against +248 and +123 in
+        the product. The gain removes the gap and overshoots by about 160 in 2004-2006, since it is
+        applied to all daytime records of the year; an upper bound, as intended. 2005-2009 minus
+        Etzold et al. (2011): product +633, T4 +548, T13 +522, T14 +357.
+      - (a) Step at 19 Dec 2007 (`A_step2007/`): none that the data resolve, in CO2 or H2O. The
+        recovery from 2004-2007 to 2008-2009 fits a single break in May-Jul 2008 (at or after the
+        16 May 2008 calibration) or a ramp of about +4 % per year equally well. The deficit is in the
+        CO2 fluctuation amplitude (`CO2_MEAS_SIGMA` 12-17 % low), not in the w-c correlation (2-7 %),
+        and in CO2 more than H2O (-15 % against -4 %, relative to 2011-2015). The three readings of
+        the 19 Dec 2007 check lie on a line, so calibration nonlinearity explains at most 1-3 %.
+        Against a gain error: summer nights of 2004-2007 equal 2008-2015 (ratio 1.01 +- 0.11), and
+        the winter density slope is not lower before 2008. **New:** from winter 2011/12 the raw
+        winter CO2 covariance no longer scales with w'T' (density slope 1.2-1.4 before, 0.0-0.9
+        after); this bears on opco's heat term, which uses constant parameters. Cause not identified.
+      - (d) `SW_IN` homogeneity (`D_swin/`): the CNR1 steps up by about +4 % (3-5 %) between late
+        Oct 2012 and mid-Apr 2013, best estimate late Mar to mid-Apr 2013. The co-located PPFD, the
+        MeteoSwiss Laegern station and NABEL do not move, so it is the sensor; the later level
+        continues into the CNR4 (Dec 2021). Suggested factor 1.04 on measured `SW_IN` from 14 Sep 2005
+        to 1 Apr 2013, none on the 2004-2005 fills. The "5 % lower before 2014" of the clear-sky p95
+        is this step plus weather. Not the cause of the uptake gap: it falls inside the `IRGA75`
+        years and would act the other way. Side findings: a meteo logger clock drift of up to -14 to
+        -17 min in 2011 to Jul 2012, reset on 17 Aug 2012 and apparently uncorrected (check against
+        the EC clock); a low-sun excess of 8-17 % in winter 2013/14, gone by May 2014.
+    - Still open: the `SW_IN` factor and the clock drift in the meteo stage; the winter density slope
+      after 2011. Independent constraints (biometric data of Etzold et al. 2011, TreeNet,
+      MODIS/Landsat greenness, FLUXNET2015 CH-Lae) are not available at present (8 Nov 2026), so the
+      question real or instrumental cannot be decided from outside data.
+    - Options if no mechanism is found: fix the nights together with the days (wet-night fill in
+      place, a cloud term proposed), and state the per-year daytime uncertainty in step 3; T14 as the
+      bound of a matched-condition scaling of 2004-2007, only as a sensitivity column.
 
 
 ## 6. Open questions
