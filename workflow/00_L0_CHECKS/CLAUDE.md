@@ -26,8 +26,11 @@ letters have no published legend on either page.
 
 - **`IRGA72` and `IRGA75` name the analyser, not a period.** `IRGA75` is the
   open-path LI-7500, `IRGA72` the closed-path LI-7200. The LI-7500 runs from
-  2004; the LI-7200 was added on **11 January 2016** (`2016_2`, first binary
-  `2016011115.b05`, and the merged L0 record does start 2016-01-11 15:15). Both
+  2004; the `IRGA72` record starts on **11 January 2016** (`2016_2`, first binary
+  `2016011115.b05`, and the merged L0 record does start 2016-01-11 15:15). An
+  LI-7200 probably also ran at the tower from about December 2010 to June 2011;
+  it is not in the setup table, has no flux run, and its data have not been found
+  so far (`Yearly_Notes.md`, section 2011). Both
   were calculated in parallel through `2017_1`. The LI-7500 was **removed from
   the site on 12 December 2017** (note 9) but kept logging empty values in the
   data stream until it was taken out of it on **31 January 2018** (notes 10, 11),
