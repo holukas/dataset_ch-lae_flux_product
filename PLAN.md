@@ -336,10 +336,11 @@ estimates:
   (overlap nights need about 0.08); the change in annual NEE 2004-2015 is about -200 to -330 gC m-2
   per year (1 sd 120 or more), not -333 +- 80; a non-heating analyser difference of 160-440 gC m-2
   per year in the overlap is as large as the step between the eras. The same head (75H-0640) is
-  recorded in Dec 2010 and 2016-2017. Next, ranked: (1) the LI-7200 data of Dec 2010 - May 2011
+  recorded in Dec 2010 and 2016-2017. Next, ranked: (1) the LI-7200 data of Dec 2010 - Jun 2011
   (fieldbook: calibrated 16 Dec 2010, serviced 3 May 2011, data downloaded from its memory stick on
-  3 May and 30 Jun 2011), the only out-of-sample test before 2016; **not available** (searched 4 Nov
-  2026: not in the data folder, not in the 2011 raw files of the site); (2) retrain opco with part of 2016-2017 held out and run A and B
+  3 May and 30 Jun 2011), the only out-of-sample test before 2016; **not found so far** (searched
+  4 Nov 2026: not in the data folder, not in the 2011 raw files of the site; search continuing, see
+  item 26); (2) retrain opco with part of 2016-2017 held out and run A and B
   there; (3) separate day and night factors; (4) B with the anchored difference instead of the
   placebo subtraction; (5) split the overlap difference into wet records, selection, USTAR and
   gap-filling; (6) s by hour or season; (7) raw-data reprocessing.
@@ -1248,6 +1249,28 @@ In order. Each item is blocked by the one above it, except that the flux items
     - Options if no mechanism is found: fix the nights together with the days (wet-night fill in
       place, a cloud term proposed), and state the per-year daytime uncertainty in step 3; T14 as the
       bound of a matched-condition scaling of 2004-2007, only as a sensitivity column.
+26. **A possible closed-path reference in the `IRGA75` years: LI-7200, Dec 2010 to Jun 2011**
+    (recorded 9 Nov 2026 from the fieldbook and e-mails; **data not found yet**). Evidence, with the
+    documented and the inferred parts separated: `docs/Yearly_Notes.md`, section 2011. The analyser
+    was already running at the 16 Dec 2010 calibration; it was serviced and its data downloaded on
+    3 May 2011, and its data were downloaded again on 30 Jun 2011. No removal is recorded; e-mails of
+    23 Jun and 18 Jul 2011 suggest that it, or a further unit, went to Davos. The EC setup table
+    does not list it.
+    - State of the search: **in progress** (9 Nov 2026). The check of 4 Nov 2026 (first run of the
+      self-heating investigation above) found nothing in the data folder or in the 2011 raw files
+      of the site. The fieldbook records these downloads apart from the eddy data. The search now
+      continues on another hard disk and in other places. The data may still exist or may be lost,
+      and it is open whether they will be found.
+    - To do: look for raw or converted LI-7200 data of Dec 2010 to Jun 2011 in the files downloaded
+      from the tower, the memory stick backups and the institute archive, and for the calibration
+      documents the entry of 16 Dec 2010 refers to.
+    - If they exist: use them as a reference for the LI-7500 gain and self-heating in 2010-2011, as
+      with the QCL periods of 2005 and 2008 (item 17) and the LI-7200 of 2016-2017. This needs the
+      setup of the period (position, tube, flow), which is not documented so far, and attention to
+      the sonic problems noted on 15 Mar 2011.
+    - Limits: the period covers winter to early summer only. It starts at the end of the +30 % H2O
+      gain of May 2008 - Dec 2010 and lies after the low covariance of 2004-2007 (item 25), so it
+      tests neither directly.
 
 
 ## 6. Open questions
