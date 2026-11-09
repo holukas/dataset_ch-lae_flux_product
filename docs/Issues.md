@@ -409,9 +409,12 @@ sections 4, 6, 9, 10 and 11
 
 FLUXNET detects USTAR thresholds per year with the method of @pastorello_fluxnet2015_2020. For
 CH-LAE, the thresholds it detects change markedly after 2015 (@fig-ustar-fluxnet1). The cause is
-not known. The change coincides with a change of gas analyser. Until 11 January 2016 only the
-open-path LI-7500 was in operation, and from 14 December 2017 only the enclosed-path LI-7200,
-except from 17 January to 20 March 2019, when the LI-7500 stood in for it. From 11 January 2016 to
+not known. The change coincides with a change of gas analyser. Until 11 January 2016 the fluxes
+come only from the open-path LI-7500. A quantum cascade laser in 2005 and 2008 and, probably, an
+LI-7200 from about December 2010 to June 2011 measured beside it for limited periods
+([Yearly Notes](Yearly_Notes.md#probable-li-7200-measurements-december-2010-to-june-2011)), but
+they are not part of the flux record. From 14 December 2017 the fluxes come only from the
+enclosed-path LI-7200, except from 17 January to 20 March 2019, when the LI-7500 stood in for it. From 11 January 2016 to
 12 December 2017 the two ran in parallel. Before 2016 the threshold detection therefore used LI-7500 `NEE`, corrected for
 self-heating in a similar way to @kittler_high-quality_2017.
 

@@ -534,6 +534,47 @@ re-run.
 ***
 ## 2011
 
+### Probable LI-7200 measurements, December 2010 to June 2011 {#probable-li-7200-measurements-december-2010-to-june-2011}
+
+- An enclosed-path LI-7200 probably measured at the tower beside the LI-7500 from about December
+  2010 to June 2011. The start and end of this period are inferred. The
+  [setup table](#setup-ec) does not list this analyser: `2010_1` and `2011_1` have no second gas
+  analyser. This instrument is separate from the `IRGA72` record, which starts with the
+  installation of January 2016. The flux versions of 2010 and 2011 use the LI-7500 alone.
+- **Documented in the fieldbook**:
+  - 16 December 2010: reference measurement and calibration of the LI-7500 and the LI-7200. The
+    LI-7200 was already installed and running. The entry refers to calibration documents.
+  - 3 January and 1 March 2011: eddy data downloaded.
+  - 15 March 2011: new MOXA installed; eddy data and phenocam images downloaded. The sonic
+    anemometer still had problems, the logger was not yet fully integrated and the CR1000 was
+    still to be adapted.
+  - 29 March 2011: part of the eddy data downloaded; a watchdog installed for the MOXA system; data
+    transfer corrected.
+  - 3 May 2011: LI-7200 serviced (measurement path cleaned, pre-filter replaced). Its data were
+    downloaded, and the data on the memory stick were deleted after a backup.
+  - 30 June 2011: the data of the LI-7200 system at the tower were downloaded and then deleted from
+    the storage medium.
+  - The fieldbook has no later entry on the instrument and records no removal. A colleague does
+    not recall removing it, which does not exclude a removal.
+- **Documented in e-mails**:
+  - 23 June 2011: an LI-7000 and an LI-7200 were delivered. A mounting support for a tower boom at
+    Davos was to be made. It was not yet decided whether the LI-7500 and the LI-7200 would run
+    together at the Davos tower or only the LI-7200 from then on.
+  - 18 July 2011: a relocation list includes the LI-7200, apparently ready in a room (C38).
+- **Inferred**:
+  - The start is inferred from the entry of 16 December 2010. The installation took place on or
+    before that day; its date is not documented.
+  - The end is inferred from the last download, on 30 June 2011, the absence of later entries and
+    the two e-mails. The e-mails suggest that this instrument, or a further unit, was destined for
+    Davos. They do not establish which unit they refer to.
+  - The entries of 3 January to 29 March 2011 concern the eddy data in general and do not name the
+    LI-7200. Continuous operation between 16 December 2010 and 3 May 2011 is therefore not
+    documented.
+- **Data**: the LI-7200 data were downloaded separately from the eddy data. A search on
+  4 November 2026 found none of them in the working data of this flux product or in the 2011 raw
+  files of the site. A search of other storage media is in progress (November 2026). Whether the
+  downloaded files still exist, and whether they will be found, is not known.
+
 ### Deprecated versions
 
 | Version | `HS50-IRGA75_FF-201606` | `FF-201606` |
@@ -550,6 +591,14 @@ re-run.
 
 ***
 ## 2010
+
+### LI-7200 at the tower in December 2010 {#li-7200-at-the-tower-in-december-2010}
+
+- The fieldbook entry of 16 December 2010 records a reference measurement and calibration of the
+  LI-7500 and an LI-7200, which was already installed and running. The date of its installation is
+  not documented. The [setup table](#setup-ec) does not list this analyser. The probable
+  measurement period, about December 2010 to June 2011, and its evidence are given under
+  [2011](#probable-li-7200-measurements-december-2010-to-june-2011).
 
 ### Deprecated versions
 
