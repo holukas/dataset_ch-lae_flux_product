@@ -31,6 +31,11 @@ publish them as a website.
   the root rather than in `docs/` because Quarto would publish it; settled
   sections move to `docs/Overview.md` and `docs/Variables.md` and are deleted
   from `PLAN.md`, so the two never state the same thing twice.
+- `ROADMAP.md` — features and corrections planned for flux product releases
+  after the current one, and what waits for outside data. Each entry points to the
+  `PLAN.md` item that holds the background; the work for the current release stays
+  in `PLAN.md`. An entry leaves the file once it is scheduled. Also at the root,
+  for the same reason.
 
 ## Where the detailed guidance lives
 

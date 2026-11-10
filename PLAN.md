@@ -29,6 +29,9 @@ differ in the flux record only; the meteorological product is built once over
 2004 - 30 Sep 2026 and serves both. The period was extended from 2025 in October
 2026; section 3.1 lists which products have been carried along.
 
+Features and corrections planned for later releases are in `ROADMAP.md` at the repository
+root; the next steps for `FP2026.2` are in section 5.
+
 
 ## 2. Record boundaries
 
@@ -235,6 +238,35 @@ that will state it.
 
 
 ## 5. Where to continue
+
+**Next steps (10 Nov 2026), in order, for `FP2026.2`.** Background in item 25. Items for later
+releases are in `ROADMAP.md`.
+
+1. **Raw-data test file.** Copy one 6-h binary of 15 Feb 2011 (`2011021511.b00` and any `.b05` of
+   that day), convert with bico, and check whether it holds the LI-7200 of Dec 2010 to Jun 2011
+   (item 26). Decides whether period A below is copied.
+2. **Further raw-data periods** (binaries, about 1.3 GB per month; convert with bico, then add to
+   `research/reports/raw_hf_2026-11-09/hf_core.py` and run `hf_run.py` and `hf_analyse.py`):
+   - A. 1 Dec 2010 - 30 Jun 2011 (folders 2010, 2011), only if item 1 finds the LI-7200: gain and
+     heat scale against a closed-path analyser, a direct test of the scale 1.0 from 2008.
+   - B. 1 Jul - 31 Aug 2008 (2008_1+4): matched summer middays after the switch.
+   - C. 1 Jun - 31 Aug 2009 and 2010 (2009, 2010): step or ramp of the covariance deficit, hence
+     the end date of the heat scale 0.6.
+   - D. 1 Nov 2008 - 28 Feb 2009 (2008_1+4, 2009): winter density slope after the switch.
+   - E. 1 Nov 2011 - 29 Feb 2012 (2011, 2012): the winter in which the density slope collapses.
+3. **Rerun of the `IRGA75` chain with the heat scale 0.6 before 2008** (`IRGA75/01` version 3,
+   item 25): `01` → `05` → `99` → overview notebooks. Overnight.
+4. **Uncertainty bound T16:** `IRGA75/01` and `05` with the scale 0.4 before 2008, after item 3.
+   Scale 1.0 is the product of 4 Nov.
+5. **Too-low nights** (about -50 to -70 gC m-2 per year in every period, item 25): set up two or
+   three test variants and run them on the new product.
+6. **End date of the heat scale:** decide from items 2 B-D whether the switch stays at 1 Jan 2008.
+7. **Uncertainties:** per-year daytime range from the scales 0.4 and 1.0; the May-Oct daytime gap
+   of 2004-2006 (about +220 after T15) stated as undetermined.
+8. **Docs:** `docs/Issues.md`, `docs/L1.1.md` and `docs/L1.1_Approaches.md` still describe the
+   heating factor 0.84 for 2004-2015 as uncorrected; replace with the scale 0.6 before 2008 and its
+   evidence. Figures through `workflow/95_DOCS_FIGURES/`. Run `check_no_names.py`. No build unless
+   asked.
 
 **Next steps (2 Nov 2026, evening), in order.** Scope of FP2026.2 decided: the storage screen of
 the `IRGA75` (item 20) and one USTAR set per analyser (item 18, changed 3 Nov 2026); opco unchanged; the
@@ -592,19 +624,7 @@ estimates:
    - Add the search for a dated cause of the daytime excess (report H) to section 5 of
      `IRGA75/OPCO_TRANSFER_CHECK` at its next run.
    - Close items 9, 12, 19 and 20.
-5. **Later, outside FP2026.2.**
-   - The sensitivity of the gap-filled sums to the number of trees (item 8). The `IRGA72` sum of
-     2016 moves from +58 to +188 gC m-2 between 90 and 1000 trees.
-   - An independent constraint of the early `IRGA75` years, if QCL or chamber data turn up
-     (item 17).
-   - **Possible future session: recompute the `IRGA75` fluxes from the 20 Hz raw data** (noted
-     3 Nov 2026; the raw data are not on this machine). With the correct zero and span
-     coefficients of each calibration period for CO2 and H2O (fieldbook checks of 7 Feb 2006,
-     26 Sep 2007, 19 Dec 2007, 16 May 2008 and later; H2O gain +30 % in May 2008 - Dec 2010), so
-     that the covariance effect of the CO2 offset (Fratini et al. 2014) is included, which Level-1
-     data cannot give. Then look for the heating signature in the cospectra: a part common to the
-     CO2 and H2O signals in proportion to their densities, which would estimate the self-heating
-     from the open-path data alone (see the self-heating step in this section).
+5. **Later, outside FP2026.2:** moved to `ROADMAP.md` (10 Nov 2026).
 
 **Runs done (30 Oct 2026).** With the relaxed night tests: `IRGA72/05`, `99`; `IRGA75/05`,
 `25`, `35`, `99`; `30_.../99_FPPC_MERGED`; `80_FINALIZE/10` (not `20`: FP2026.1 stays as
@@ -1234,16 +1254,44 @@ In order. Each item is blocked by the one above it, except that the flux items
         winter CO2 covariance no longer scales with w'T' (density slope 1.2-1.4 before, 0.0-0.9
         after); this bears on opco's heat term, which uses constant parameters. Cause not identified.
       - (d) `SW_IN` homogeneity (`D_swin/`): the CNR1 steps up by about +4 % (3-5 %) between late
-        Oct 2012 and mid-Apr 2013, best estimate late Mar to mid-Apr 2013. The co-located PPFD, the
-        MeteoSwiss Laegern station and NABEL do not move, so it is the sensor; the later level
+        Oct 2012 and mid-Apr 2013, best estimate late Mar to mid-Apr 2013. The co-located PPFD and the
+        potential radiation do not move, so it is the sensor (MeteoSwiss Laegern has its own step of
+        about +4 % in 2011; NABEL was not compared, checked 10 Nov 2026); the later level
         continues into the CNR4 (Dec 2021). Suggested factor 1.04 on measured `SW_IN` from 14 Sep 2005
         to 1 Apr 2013, none on the 2004-2005 fills. The "5 % lower before 2014" of the clear-sky p95
         is this step plus weather. Not the cause of the uptake gap: it falls inside the `IRGA75`
-        years and would act the other way. Side findings: a meteo logger clock drift of up to -14 to
-        -17 min in 2011 to Jul 2012, reset on 17 Aug 2012 and apparently uncorrected (check against
-        the EC clock); a low-sun excess of 8-17 % in winter 2013/14, gone by May 2014.
-    - Still open: the `SW_IN` factor and the clock drift in the meteo stage; the winter density slope
-      after 2011. Independent constraints (biometric data of Etzold et al. 2011, TreeNet,
+        years and would act the other way. Side findings: a meteo logger clock offset of about -10 to
+        -15 min from about Jan 2009 to Aug 2012, apparently uncorrected (dating and the EC check in
+        `ROADMAP.md`, deferred); a low-sun excess of 8-17 % in winter 2013/14, gone by May 2014.
+    - **Raw-data investigation of 9 Nov 2026** (`research/reports/raw_hf_2026-11-09/REPORT.md` in the
+      data folder; 8,710 raw files of 2004-2008 and 2016-2017, against the QCL of Oct 2005 and May-Jun
+      2008 and the LI-7200 of 2016-2017; covariances reproduce EddyPro with a median ratio of 1.000):
+      - Gain of the LI-7500 against the reference: Oct 2005 0.90-1.08, 2008 1.01-1.07, 2016-2017
+        0.97-1.04. No low gain in 2005, so T14 (0.74-0.83) is not supported as a correction.
+      - Heat scale, with the loss of reference covariance separated: 2016-2017 0.9-1.0, which confirms
+        opco and explains why 0.84 widens the parallel-period difference of half-hours measured by both
+        (-5 to -48); 2008 about 0.8 (0.45-1.2), compatible with 1; Oct 2005 0.4-0.7 in the least affected
+        subset (interval 0.13-1.10) and about 0 at high radiation.
+      - LI-7500 alone, matched summer middays: CO2 and H2O covariances of 2004-2007 about 21 % lower
+        than in 2008 and 2016-2017, `w'T'` unchanged; lag, cospectra and signal strength show no fault.
+      - No reference exists for 2004, 2006 and 2007. The May-Oct daytime gap of 2004-2006 has no
+        instrumental cause in the raw data.
+      - **Test T15, 10 Nov 2026** (`run_tests_T15.sh`, comparison in `TESTS_T15_COMPARISON_2026-11-10`;
+        daytime heating part 0.6 before 2008, unchanged from 2008, no gain correction). Period mean
+        minus the `IRGA72` mean of 2016-2025, 2004-2006 / 2007-2009 / 2010-2015 / 2016-2017: product
+        +349 / +142 / +15 / -60, T15 +125 / +84 / +17 / -50. For 2004-2006 the Nov-Apr days go from
+        +136 to -4 and the May-Oct days from +303 to +222; the nights stay at about -50. The years from
+        2010 and the parallel period (-394 against -407) are unchanged within the refit of the fill.
+        2005-2009 minus Etzold et al. (2011): +517, product +633. Annual NEE 2007 -41 and 2008 +126
+        (product +123 and +143), so the switch adds a difference at the turn of 2008.
+      - **Decided 10 Nov 2026:** the best-supported scale is applied. `IRGA75/01` (version 3) multiplies
+        the daytime heating part by 0.6 before 2008 (`HEAT_SCALE_EARLY`, `HEAT_SPLIT`), with checks
+        that only the day part changes. No gain correction. It takes effect with the full rerun (`01`,
+        `05`, `99`, overview notebooks); the product files are still those of 4 Nov. The range 0.4 to
+        1.0 goes into the stated uncertainty. Still to update: `docs/Issues.md`, `docs/L1.1.md` and
+        `docs/L1.1_Approaches.md`, which describe the factor 0.84 for 2004-2015 as uncorrected.
+    - Still open: the winter density slope after 2011. The `SW_IN` factor and the clock offset are
+      deferred to a later release (`ROADMAP.md`, with corrected dating). Independent constraints (biometric data of Etzold et al. 2011, TreeNet,
       MODIS/Landsat greenness, FLUXNET2015 CH-Lae) are not available at present (8 Nov 2026), so the
       question real or instrumental cannot be decided from outside data.
     - Options if no mechanism is found: fix the nights together with the days (wet-night fill in
