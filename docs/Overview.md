@@ -79,7 +79,9 @@ All known issues, including those of the LI-7500 years of FP2026.2, are on [Issu
 For the LI-7500 years:
 
 - The storage term drifts, because wet or blocked windows make the analyser read too high a CO~2~
-  concentration. A screen of these readings is set for the next run and is not yet applied.
+  concentration. FP2026.2 screens these readings before the storage term is computed.
 - The nighttime `NEE` of the LI-7500 years lies about 200 gC m^-2^ per year below the values
-  expected from the LI-7200 years. The daytime `NEE` of 2004-2009 lies about 230 gC m^-2^ per year
-  above them. Both biases are stated as uncertainties and are not corrected.
+  expected from the LI-7200 years; this is stated as an uncertainty and not corrected. By day, the
+  correction of the LI-7500 flux is scaled by 0.6 before 2008, with 0.4 to 1.0 as the stated
+  uncertainty; the daytime `NEE` of the growing seasons of 2004-2006 and 2008-2009 still lies about
+  180 to 220 gC m^-2^ per year above the LI-7200 years.

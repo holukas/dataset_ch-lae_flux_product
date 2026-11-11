@@ -9,13 +9,13 @@ in progress, so its column describes the current processing.
 | Status | Current version, released 27 October 2026 | In progress; supersedes FP2026.1 |
 | Period of the fluxes | 11 January 2016 to 30 September 2026 | 30 March 2004 to 30 September 2026 |
 | Gas analyser | Enclosed-path LI-7200 (`IRGA72`) | Open-path LI-7500 (`IRGA75`) for 2004-2015, LI-7200 from 1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of each half-hour |
-| Correction of the open-path CO~2~ flux ([L1.1](L1.1.md)) | Not needed | Applied to the LI-7500, fitted without `VPD` |
-| Screen of the LI-7500 CO~2~ concentration for the storage term ([L3.1](L3.1.md)) | Not needed | Prepared for the next run (diive `run_level31`, options `concentration_valid` and `restart_screening`); not yet applied |
+| Correction of the open-path CO~2~ flux ([L1.1](L1.1.md)) | Not needed | Applied to the LI-7500, fitted without `VPD`; daytime heating part scaled by 0.6 before 2008 |
+| Screen of the LI-7500 CO~2~ concentration for the storage term ([L3.1](L3.1.md)) | Not needed | Applied (diive `run_level31`, options `concentration_valid` and `restart_screening`) |
 | Test of negative nighttime `NEE` ([L3.2](L3.2.md)) | One test, against the spread of all nighttime values within ±15 days; 180 values flagged | Two tests against the flux uncertainty: per record, and for the LI-7500 per night |
 | Hampel filter over 31 days ([L3.2](L3.2.md)) | Not applied | Applied to `NEE`, `LE` and `H` (`HAMPEL_3`) |
 | Absolute limits of `LE` ([L3.2](L3.2.md)) | −50 to 800 W m-2 | −100 to 1000 W m-2 |
 | Periods removed by hand ([L3.2](L3.2.md#instrument-problems-and-periods-removed-by-hand)) | LI-7200 faults of 2016, 2018-2019, 2020 and 2026 | Also the low sample flow of February 2016, May 2018, May 2021 and August 2023, and the fog and rime periods of the LI-7500 in 2004, 2013 and 2014 |
-| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`): 0.272, 0.304 and 0.340 m s-1, from REddyProc with non-default settings | Detected anew with the ONEFlux moving point method, one set per analyser: 0.416, 0.523 and 0.645 m s-1 (LI-7200), 0.310, 0.436 and 0.551 m s-1 (LI-7500). The next run uses the sets of each analyser's complete years, 0.416, 0.526 and 0.647 m s-1 (LI-7200, 2016-2025) and 0.318, 0.435 and 0.546 m s-1 (LI-7500, 2004-2017); one set for both analysers is not adopted |
+| USTAR thresholds ([L3.3](L3.3.md)) | Three fixed thresholds (`CUT_16`, `CUT_50`, `CUT_84`): 0.272, 0.304 and 0.340 m s-1, from REddyProc with non-default settings | Detected anew with the ONEFlux moving point method on each analyser's complete years, one set per analyser: 0.416, 0.526 and 0.647 m s-1 (LI-7200, 2016-2025), 0.318, 0.435 and 0.546 m s-1 (LI-7500, 2004-2017); one set for both analysers is not adopted |
 | Gap-filling ([L4.1](L4.1.md)) | XGBoost; MDS for comparison | The same; the models are trained anew in every run |
 | Partitioning of `NEE` ([L4.2](L4.2.md)) | Not included | `GPP` and `RECO` from the nighttime and the daytime method; the daytime method from 14 September 2005, the first measured shortwave radiation |
 | Meteorological data | Thirteen products; `PREC`, `SWC`, `TS`, `G`, `SW_OUT` and `LW_OUT` end on 31 December 2025 | The same; their extension to September 2026 is planned |

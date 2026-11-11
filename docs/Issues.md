@@ -65,12 +65,14 @@ record leaves out is listed under [FP2026.2](Version_FP2026.2.md#what-it-adds).
 
 ## The storage term of the LI-7500 drifts
 
-This concerns `NEE` and the storage term of 2004-2017 in the LI-7500 processing of FP2026.2. The
-LI-7200 storage term is not affected. Over a year, a storage term should sum to about zero:
+This concerned `NEE` and the storage term of 2004-2017 in the first LI-7500 runs of FP2026.2; it
+is corrected since the run of 4 November 2026. The LI-7200 storage term is not affected. Over a
+year, a storage term should sum to about zero:
 
 | Storage term (gC m^-2^ per year) | Annual sums | 2016-2017 overlap |
 |---|---|---|
-| LI-7500, single-point (`SC_SINGLE_gfRMED_L3.1`), 2004-2017 | -25 to -196 | -159 |
+| LI-7500, single-point (`SC_SINGLE_gfRMED_L3.1`), 2004-2017, before the screen | -25 to -196 | -159 |
+| LI-7500, with the screen (FP2026.2) | -5 to +39 | +32 (2016), +6 (2017) |
 | LI-7200 | -23 to +15 | +0.7 |
 
 : Annual sums of the storage term of the two analysers. {#tbl-storage-drift}
@@ -82,17 +84,17 @@ enters the storage term as a negative flux. This accounts for about 130 of the 1
 year of the drift. The concentration error changes the flux itself by less than 1 %, so it does
 not explain the low fluxes of the LI-7500 in humid conditions described in the next sections.
 
-A screen of the concentration readings is set for the next processing run and is not yet in the
-data. Its conditions are listed under [FP2026.2](Version_FP2026.2.md#prepared-for-the-next-run);
-the method, the evidence and the tests are on
-[Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term). In a test with the chain (`CUT_50`), the
-screen gives:
+A screen of the concentration readings is applied in FP2026.2. Its conditions are listed under
+[FP2026.2](Version_FP2026.2.md#applied-since-the-run-of-4-november-2026); the method, the evidence
+and the tests are on [Level 3.1](L3.1.md#drift-of-the-li-7500-storage-term). Against the processing
+without it (`CUT_50`), the screen gives:
 
 - a storage term of -5 to +39 gC m^-2^ per year in 2004-2015, robust to the settings;
 - an annual `NEE` higher by about 70 gC m^-2^ per year in 2004-2015 and by 118 in 2016-2017;
 - an overlap gap to the LI-7200 smaller by about 120 of about 400 gC m^-2^ per year.
 
-In the current processing, the storage term of the LI-7500 and its `NEE` still contain the drift.
+The remaining storage sums of the LI-7500 are small, with a mean of +13 gC m^-2^ per year in
+2004-2015, against -23 to +15 for the LI-7200.
 
 ## The LI-7500 misses the wet half-hours
 
@@ -117,8 +119,8 @@ very differently:
 
 | Filled `NEE` at 99.5 % RH or more (µmol m^-2^ s^-1^) | LI-7500 | LI-7200 |
 |---|---|---|
-| Current processing | 0.1 to 0.5 | 3.0 to 3.5 |
-| With the storage correction of the next run | 0.95 | 3.33 |
+| Before the storage correction | 0.1 to 0.5 | 3.0 to 3.5 |
+| With the storage correction (FP2026.2) | 0.95 | 3.33 |
 
 : `NEE` that the gap-filling model of each analyser gives for the humid half-hours the LI-7500 did
 not measure, 2016-2017. {#tbl-humid-filled}
@@ -209,23 +211,24 @@ weather.
 | LI-7500, 2016-2017 overlap | about -200 to -250 | -105 (-34 with the storage correction) |
 | LI-7200 years | -40 to +30 | -280 to +150 |
 
-: Difference of the gap-filled `NEE` (`CUT_50`) to the climate baseline, in gC m^-2^ per year.
-{#tbl-baseline-bias}
+: Difference of the gap-filled `NEE` (`CUT_50`) to the climate baseline, in gC m^-2^ per year,
+computed with the correction of [Level 1.1](L1.1.md) at full size in every year, before the daytime
+scale of FP2026.2. {#tbl-baseline-bias}
 
 - **Night: about -200 in every LI-7500 period.** This is the deficit of the humid gaps described
   under [The LI-7500 misses the wet half-hours](#the-li-7500-misses-the-wet-half-hours).
 - **Day: about +230 in 2004-2009.** The uncorrected LI-7500 flux of these years matches the
-  baseline, so the correction of [Level 1.1](L1.1.md) probably over-corrects their daytime flux
-  ([evidence](IRGA75_Comparisons.md#does-the-correction-hold-for-the-early-years)). An estimate
-  from the LI-7500 data alone, on frozen winter days, puts the over-correction at about 15 % of the
-  heating part of the correction in 2004-2015 (factor 0.84, 16-84 % range 0.69-0.99), without a
-  step between 2007 and 2008, or about 80 to 150 gC m^-2^ per year
-  ([Approaches to the correction](L1.1_Approaches.md#investigations-at-ch-lae)). It covers frozen
-  days only, so it does not settle the summers.
+  baseline, so the correction of [Level 1.1](L1.1.md) at full size over-corrects their daytime
+  flux. A comparison of the raw data with a reference analyser in October 2005 confirms a smaller
+  heating effect, 0.4 to 0.7 of full size
+  ([Approaches to the correction](L1.1_Approaches.md#investigations-at-ch-lae)). FP2026.2 therefore
+  scales the daytime heating part by 0.6 before 2008, which lowers the annual `NEE` of 2004-2007
+  by 164 to 266 gC m^-2^ per year ([Level 1.1](L1.1.md#known-limitations)). In 2008-2009 the
+  daytime part is not scaled, since the raw data and the wind test give about full size there.
 
-In 2004-2009 the two biases largely offset each other in the annual sum; in 2010-2015 the night
-deficit remains. This is why the annual sums show no clear step at the change of analyser:
-2004-2015 average -82 gC m^-2^ per year, 2016-2025 -18
+In the annual sum the night deficit and the remaining daytime excess partly offset each other. The
+annual sums therefore show no clear step at the change of analyser: 2004-2015 average
++38 gC m^-2^ per year, 2016-2025 -23
 ([overview of the merged NEE record](notebooks/90_OVERVIEW/FLUX_NEE.html)).
 
 The baseline describes the forest of the LI-7200 years, so it cannot settle whether the forest
@@ -251,8 +254,12 @@ Tested and not adopted:
 What this means for the data:
 
 - The annual `NEE` of all LI-7500 years carries a nighttime bias towards uptake of about
-  200 gC m^-2^ per year, and that of 2004-2009 a daytime bias towards release of about
-  230 gC m^-2^ per year. FP2026.2 states both as uncertainties and does not correct them.
+  200 gC m^-2^ per year, which FP2026.2 states as an uncertainty and does not correct.
+- The daytime heating part of the correction is scaled by 0.6 before 2008. The range of that
+  scale, 0.4 to 1.0, is the stated uncertainty of the annual `NEE` of 2004-2007, per year in the
+  table of [Level 1.1](L1.1.md#known-limitations). With the scale, the daytime flux of the growing
+  seasons of 2004-2006 and of 2008-2009 still lies about 180 to 220 gC m^-2^ per year above the
+  LI-7200 years. No instrumental cause was found, and it is not corrected.
   Differences between years smaller than these are not resolved. Where a result depends on the
   absolute sink strength, prefer the LI-7200 years.
 - The nighttime partitioning fits `RECO` on measured `NEE` only, so the missing wet nights bias
@@ -335,9 +342,9 @@ From 5 to 20 December 2022 the logged sample flow of the LI-7200 was low and int
 0 to 3 l min^-1^ from 8 to 19 December. At this flow the measuring cell is not flushed with ambient
 air, as in the other flow faults of [Level 3.2](L3.2.md). The nighttime `NEE` kept after all quality
 tests in this period is +5 to +16 µmol m^-2^ s^-1^ at about -8 °C, far above a plausible winter
-respiration. These values are still in FP2026.1 and in the current processing of FP2026.2. Their
-removal, of `NEE` and `LE` from 5 December 17:15 to 20 December 11:15 (`TIMESTAMP_MIDDLE`), is set
-for the next run. Until then, do not use the measured fluxes of the LI-7200 of this period.
+respiration. These values are still in FP2026.1; in FP2026.1 do not use the measured fluxes of the
+LI-7200 of this period. FP2026.2 removes `NEE` and `LE` from 5 December 17:15 to 20 December 11:15
+(`TIMESTAMP_MIDDLE`).
 
 The logged flow cannot be used to search for further faults in 2022: from March to November 2022
 the flow channel reads 0.0 while the fluxes are normal, a logging fault of the channel.
@@ -426,18 +433,18 @@ methods, while the thresholds of FP2026.2 come from the moving point method alon
 | Thresholds for half-hourly `NEE` | m s^-1^ |
 |---|---|
 | FP2026.1, LI-7200 (`CUT_50`) | 0.304 |
-| FP2026.2, LI-7200 (`CUT_50`) | 0.523 |
-| FP2026.2, LI-7500 (`CUT_50`) | 0.436 |
+| FP2026.2, LI-7200 (`CUT_50`) | 0.526 |
+| FP2026.2, LI-7500 (`CUT_50`) | 0.435 |
 | FLUXNET, constant threshold (`CUT_REF`) | 0.43 |
 | FLUXNET, per year (`VUT_REF`) | 0.23 to 0.35 until 2015, 0.46 to 0.60 from 2016 |
 
 : USTAR thresholds of this dataset and of FLUXNET. The FP2026.2 thresholds are those applied in the
-processing of 1 November 2026. {#tbl-ustar-fluxnet}
+processing of 10 November 2026. {#tbl-ustar-fluxnet}
 
 The two FP2026.2 sets differ because of the years each record covers, not because of the
 instruments: on the records both analysers measured in 2016-2017, the method gives the same
 `CUT_50` (0.311 and 0.301 m s^-1^). One set from the merged record of the site is computed but not
-adopted ([FP2026.2](Version_FP2026.2.md#prepared-for-the-next-run)).
+adopted ([FP2026.2](Version_FP2026.2.md#applied-since-the-run-of-4-november-2026)).
 
 The thresholds explain the differences in the annual sums from 2016, but only part of them before:
 

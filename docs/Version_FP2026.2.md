@@ -7,7 +7,8 @@ FP2026.1 is listed under [Differences between versions](Version_Differences.md).
 ## What it adds
 
 - **Fluxes of 2004-2015 from the LI-7500.** Its CO~2~ flux is corrected for the errors of the
-  open-path analyser ([Level 1.1](L1.1.md)). The merged record takes the fluxes from the LI-7500
+  open-path analyser ([Level 1.1](L1.1.md)), with the daytime heating part of the correction
+  scaled by 0.6 before 2008. The merged record takes the fluxes from the LI-7500
   for 2004-2015 and from the LI-7200 from 1 January 2016; `FLAG_FLUX_SOURCE` gives the analyser of
   each half-hour (`75` or `72`). It leaves out two sets of LI-7500 data: those of the parallel
   period 2016-2017, which train and check the correction, and the stand-in run of 2019.
@@ -39,22 +40,25 @@ trained anew in every run.
 
 ## State of the release
 
-Both flux chains and the merged record have been run with the USTAR thresholds of FP2026.2 and the
-31-day Hampel filter. The release is not final. The correction of the LI-7500 flux is used as it is
-for FP2026.2; improving it for the early years is planned for a later version. The annual sums of
-2004-2009 are kept as processed, without a flag or an added uncertainty. They are the least certain
-of the record. [Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET
+Both flux chains and the merged record have been run with the USTAR thresholds of FP2026.2, the
+31-day Hampel filter and the screen of the LI-7500 storage term (since 4 November 2026), and with
+the daytime heating part of the LI-7500 correction scaled by 0.6 before 2008 (since 10 November
+2026). The release is not final. The annual sums of 2004-2007 carry a stated uncertainty from the
+range of that scale, 0.4 to 1.0 ([Level 1.1](L1.1.md#known-limitations)). The early years are the
+least certain of the record; they carry no flag. [Comparisons of the LI-7500 years](IRGA75_Comparisons.md) compares them with FLUXNET
 and with published estimates.
 
 Known limitations of the LI-7500 years, described on [Issues](Issues.md):
 
 - **Storage term.** Wet or blocked windows make the LI-7500 read too high a CO~2~ concentration,
   and its storage term does not sum to about zero over a year
-  ([Issues](Issues.md#the-storage-term-of-the-li-7500-drifts)). A screen of the concentration
-  readings is set for the next run and is not yet applied in the data ([Level 3.1](L3.1.md)).
+  ([Issues](Issues.md#the-storage-term-of-the-li-7500-drifts)). FP2026.2 screens the concentration
+  readings before the storage term is computed ([Level 3.1](L3.1.md)).
 - **Night-time and daytime `NEE`.** Against the values expected from the LI-7200 years, night-time
-  `NEE` of all LI-7500 years is too low, and daytime `NEE` of 2004-2009 too high. Both biases are
-  stated as uncertainties and are not corrected
+  `NEE` of all LI-7500 years is too low; this is stated as an uncertainty and not corrected. By day,
+  the correction is scaled by 0.6 before 2008, and the daytime flux of the growing seasons of
+  2004-2006 and 2008-2009 still lies about 180 to 220 gC m^-2^ per year above the LI-7200 years,
+  without a known instrumental cause
   ([Issues](Issues.md#biases-of-the-li-7500-nee-against-a-climate-baseline)).
 - **Cold nights.** On overcast, foggy and calm cold nights the LI-7500 reads too little
   respiration, about 53 gC m^-2^ per year in 2004-2015, part of the night bias above
@@ -65,9 +69,9 @@ Known limitations of the LI-7500 years, described on [Issues](Issues.md):
 - **`LE`** differs between the two analysers
   ([Issues](Issues.md#le-of-the-two-gas-analysers-differs-in-humid-and-cold-conditions)).
 
-## Prepared for the next run
+## Applied since the run of 4 November 2026
 
-Two changes are prepared but not applied in the current data:
+Two changes were prepared after the first runs of FP2026.2 and are applied since 4 November 2026:
 
 - **Screen of the LI-7500 CO~2~ concentration for the storage term.** diive `run_level31` takes the
   options `concentration_valid` and `restart_screening={'skip_after_gaps': 3}`. A reading enters
@@ -79,10 +83,10 @@ Two changes are prepared but not applied in the current data:
 
   The settings are in
   [`05_FPPC_IRGA75_NEE_OPCO`](notebooks/30_FLUX_POST-PROCESSING_CHAIN/IRGA75/05_FPPC_IRGA75_NEE_OPCO_2004-2017.html),
-  Step 3; the chain has not been run with them yet ([Level 3.1](L3.1.md)).
+  Step 3 ([Level 3.1](L3.1.md)).
 - **USTAR thresholds detected on the complete years of each analyser.** `CUT_16`, `CUT_50` and
   `CUT_84` are 0.318, 0.435 and 0.546 m s^-1^ for the LI-7500 (2004-2017) and 0.416, 0.526 and
-  0.647 m s^-1^ for the LI-7200 (2016-2025), one set per analyser as in the current data. One set
+  0.647 m s^-1^ for the LI-7200 (2016-2025), one set per analyser. One set
   for both analysers, from one record of the site, is not adopted: the two records differ in which
   nights they keep, not in the turbulence they measure
   ([Threshold constraints](L3.3_Constraints.md)).

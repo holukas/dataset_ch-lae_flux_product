@@ -50,8 +50,7 @@ dataset are those of the processing; a shorter set of names for publication is n
   tests. They were found after the release and are removed by hand from FP2026.2. In FP2026.1,
   exclude `NEE`, `LE` and `ET` of the periods in @tbl-fp2026-1-lowflow, gap-filled values included.
 - **Low sample flow in December 2022.** The night-time `NEE` of 5 to 20 December 2022 is far too
-  high. These values are also in the current processing of FP2026.2, and their removal, of `NEE`
-  and `LE`, is set for its next run
+  high. FP2026.2 removes them, in `NEE` and `LE`
   ([Issues](Issues.md#faulty-sample-flow-of-the-li-7200-in-december-2022)).
 - **`LE` of 23 January to 29 February 2016.** Between the low-flow periods of February 2016, the
   H~2~O flux of the LI-7200 does not follow that of the LI-7500, which measured in parallel (slope
