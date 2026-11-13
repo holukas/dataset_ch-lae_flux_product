@@ -276,6 +276,24 @@ releases are in `ROADMAP.md`.
    The offsets of T17 and T18 are fitted in sample, so the parallel period closes by construction;
    the tests size the effect on 2004-2015. On the nights both measured the two analysers agree
    (-0.05).
+   **Run 11 Nov 2026.** Offsets at CUT_50: Lloyd-Taylor +1.48, XGBoost +1.11. 2004-2006 minus LI-7200:
+   product +125, T17 +225, T18 +324, T19 +132; the early gap lies in the May-Oct days. T19 removes
+   8 % of the measured nights and leaves the Lloyd-Taylor fill at -0.80. RECO_NT is unchanged by T17
+   and T18, so their offset goes into GPP. Not adopted.
+   **Diagnosis 12 Nov 2026** (parallel period, CUT_50, scratch scripts): of the -1.46, about 1.1 is
+   the model: the dry-night TA model also underestimates the LI-7200 on its wet-window nights (+1.3
+   to +2.4 on nights with AGC >= 56.25; rain or overcast alone within ±0.4; TS 0.05 m instead of TA
+   removes a quarter). About 0.3 is the fit set: the LI-7500 threshold admits 780 dry nights between
+   u* 0.435 and 0.526 that lie 1.18 below the model. Night NEE rises with u* up to the highest bin in
+   every period and for both analysers; the LI-7500 nights at 0.435-0.526 lie about 2 below the
+   relation at u* >= 0.65 in every period. Both files carry the same u*.
+   **Set up 12 Nov 2026**, to run overnight with `run_tests_T20-T23.sh` (about 4.5 h), comparison in
+   `TESTS_T20-T23_COMPARISON_2026-11-12`:
+   - T20: wet-night model fitted only on dry nights with u* >= 0.5264.
+   - T21: T20 and a seasonal wet-window factor on the Lloyd-Taylor fill (LI-7200 measured over its
+     own dry-night model on wet-window nights of the parallel period).
+   - T22: the LI-7200 USTAR thresholds [0.4155, 0.5264, 0.6472].
+   - T23: T22 and the wet-window factor.
 5. **End date of the heat scale:** decide from items 1 A-C whether the switch stays at 1 Jan 2008.
    **Decided 10 Nov 2026: the switch stays at 1 Jan 2008.** The summer covariances step once between
    2007 and 2008 and the summer wind test gives about 1 from 2008; the gradual winter change of
