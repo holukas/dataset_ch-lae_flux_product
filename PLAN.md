@@ -294,6 +294,12 @@ releases are in `ROADMAP.md`.
      own dry-night model on wet-window nights of the parallel period).
    - T22: the LI-7200 USTAR thresholds [0.4155, 0.5264, 0.6472].
    - T23: T22 and the wet-window factor.
+   **Run 13-14 Nov 2026.** Wet-window factor at CUT_50: 1.40 May-Oct, 1.29 Nov-Apr (in sample).
+   Parallel period, LI-7500 minus LI-7200 night sum (gC m-2): product -290, T20 -244, T21 -141, T22
+   -158, T23 -54; Lloyd-Taylor fill on LI-7200-measured nights -1.46 → -1.09 (T20, T22) and 0.01
+   (T21, T23). Annual NEE 2004-2015 rises by about 30 (T20), 100 (T21), 55 (T22) and 125 (T23) per
+   year; with T23 every year 2004-2015 is a source (+58 to +342). T22 raises RECO_NT by 140-230 and
+   GPP_NT by 115-175, close to the LI-7200 in 2016-2017. Decision pending.
 5. **End date of the heat scale:** decide from items 1 A-C whether the switch stays at 1 Jan 2008.
    **Decided 10 Nov 2026: the switch stays at 1 Jan 2008.** The summer covariances step once between
    2007 and 2008 and the summer wind test gives about 1 from 2008; the gradual winter change of
