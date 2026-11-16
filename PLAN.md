@@ -300,6 +300,35 @@ releases are in `ROADMAP.md`.
    (T21, T23). Annual NEE 2004-2015 rises by about 30 (T20), 100 (T21), 55 (T22) and 125 (T23) per
    year; with T23 every year 2004-2015 is a source (+58 to +342). T22 raises RECO_NT by 140-230 and
    GPP_NT by 115-175, close to the LI-7200 in 2016-2017. Decision pending.
+4a. **Why the record is near neutral or a source** (15 Nov 2026, scratch `source_diag.py`, against
+   FLUXNET CH-Lae v1.3 `NEE_VUT_REF`, `CUT_50`, gC m-2 per year, split by our `DAYTIME`):
+   - Day uptake 600-1050 and night release 700-900 nearly cancel in every year.
+   - The LI-7200 nights are 797-904 in every year 2016-2025 (mean NEE -23); the LI-7500 nights of this
+     product 698-892 in 2004-2015, and 120-180 below the LI-7200 in 2016-2017.
+   - FLUXNET nights are 233-467 in 2004-2015 and 661-1020 from 2016, a step of about 2.5 at the change
+     of analyser. Against FLUXNET this product is +212 to +647 per year in 2004-2015, almost all at
+     night; days within about ±100. In 2016-2024 the two differ by ±50-210 with both signs.
+   - The early sources (2005, 2006, 2008, 2009) are weak days (-592 to -664 against about -800),
+     also in FLUXNET (-491 to -661) and in the raw covariances; not the nights.
+   - USTAR scenario means: LI-7500 CUT_16 / 50 / 84 -66 / +24 / +97, LI-7200 -76 / -23 / +2. Night NEE
+     has no u* plateau, so the threshold sets the night total.
+   - Storage `SC_SINGLE` sums to about +15 per year for the LI-7500 (2004 +39), -2 for the LI-7200.
+   **Radiation-dependent heat scale, 15 Nov 2026:** the QCL comparison of October 2005 does not
+   identify one: with all daytime half-hours s = 0.90 - 0.86 SW_IN/500, with |M| < 8 the slope is
+   +1.00 ± 0.68; radiation and flux size are confounded (2008 the same). Tests T24 (this s before
+   2008) and T25 (before 2016) as sensitivity bounds, `run_tests_T24-T25.sh`, comparison in
+   `TESTS_T24-T25_COMPARISON_2026-11-15`. Effective day scale per year 0.31-0.38. Shift of
+   FC_L1.1 on corrected half-hours: about -120 per year in 2004-2007 (from 0.6), about -330 in
+   2008-2015 (T25, from 1.0). Both T24/T25 05 runs failed twice with a MemoryError in the
+   partitioning cell; their notebooks are committed unexecuted, and the comparison ran without them.
+   **The radiation scale fails the daytime checks against the closed-path references** (scratch
+   `ref_day.py`, `par_day.py`). Per reference, the day scale that removes the mean daytime bias
+   is: 2005 QCL-L -0.2 (85 half-hours, se of the bias 0.43 µmol m-2 s-1), 2008 QCL-ISO 1.3 (176,
+   se 0.45), LI-7200 2016 and 2017 0.95 each (in-sample). Per SW_IN class, it does not fall to 0 at
+   high radiation in any period: it is 0.6 above 500 W m-2 in 2008 and 1.0 in 2016-2017. The radiation
+   scale biases the LI-7500 by -2 to -3.5 µmol in 2008 and in 2016-2017 at SW_IN > 300. Only 2005
+   supports a low scale, and it does so at every radiation level. T24 and T25 are therefore bounds,
+   not candidates.
 5. **End date of the heat scale:** decide from items 1 A-C whether the switch stays at 1 Jan 2008.
    **Decided 10 Nov 2026: the switch stays at 1 Jan 2008.** The summer covariances step once between
    2007 and 2008 and the summer wind test gives about 1 from 2008; the gradual winter change of
