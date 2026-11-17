@@ -512,6 +512,92 @@ holds for July 2021, at both resolutions.
 
 ![Time shift in incoming shortwave radiation, 2016-2024, from the phase of the 24-hour FFT component of measured against potential radiation, 30-minute data. Top: daily shifts with a 15-day rolling median, showing a lag from 2022. Middle: distribution of all shifts, median +1.93 min. Bottom: monthly distributions.](images/CH-LAE_2016-2024_phase_shift_fft_SWINvsSWINPOT.png){#fig-phaseshiftfft-16-25}
 
+## Uncertainty of the annual NEE sums
+
+This concerns the annual and multi-year `NEE` sums of FP2026.2. In the current processing the
+gap-filled `NEE` (`CUT_50`) averages +38 gC m^-2^ per year in 2004-2015 (LI-7500) and
+-23 gC m^-2^ per year in 2016-2025 (LI-7200), and sums to about +230 gC m^-2^ over 2004-2025. The
+record is close to neutral. The sign of the budget is not resolved: the open points below are each
+of the same size as the annual sums or larger.
+
+### Effect of the processing steps on the LI-7500 years
+
+| Step | Mean, 2004-2015 | Range of the years |
+|---|---|---|
+| Density (WPL) correction, [Level 1](L1_EddyPro_Settings.md) | +1315 | +1030 to +1742 |
+| Heating term of [Level 1.1](L1.1.md), day | +575 | +307 to +762 |
+| Quality flags of [Level 2](L2.md), including the AGC test | +188 | +34 to +409 |
+| `USTAR` filter at `CUT_50`, [Level 3.3](L3.3.md) | +143 | +69 to +235 |
+| Wet-night fill instead of XGBoost alone, [Level 4.1](L4.1.md) | +92 | +35 to +160 |
+| Heating term of Level 1.1, night | +65 | +23 to +126 |
+| Storage term, [Level 3.1](L3.1.md) | +13 | -5 to +39 |
+| `NEGNIGHT` and `NEGNIGHTS`, [Level 3.2](L3.2.md) | +10 | +1 to +35 |
+| Periods removed by hand (2004, 2013, 2014) | +9 | -12 to +87 |
+| `HAMPEL_2` | -23 | -48 to +1 |
+| WPL thermal term of Level 1.1 | -43 | -228 to +71 |
+| High-frequency spectral correction | -68 | -79 to -53 |
+| Absolute limits (`ABSLIM`) | -141 | -445 to +38 |
+| **Annual `NEE`** | **+38** | **-41 to +271** |
+
+: Effect of each step on the annual `NEE` of the LI-7500, gC m^-2^ per year, `CUT_50`; positive
+values move `NEE` towards a source. Additive corrections: the mean change per half-hour on the
+measured records, day and night separately, times the number of day and night half-hours of the
+year; storage: the annual sum. Filters: the gap-filled value minus the removed value, summed over
+the removed records. The steps overlap and do not add up to `NEE`. Scratch analysis of November
+2026; a notebook is to follow. {#tbl-nee-steps}
+
+The density correction is required for an open-path analyser and its size is usual. The daytime
+heating term is the largest correction whose size is uncertain.
+
+### Open points, by size
+
+- **The `USTAR` threshold.** Night `NEE` keeps rising above the thresholds
+  ([see above](#night-time-nee-keeps-rising-above-the-ustar-thresholds)), so the threshold sets the
+  night total. `CUT_16` to `CUT_84` span about 160 gC m^-2^ per year for the LI-7500 and about 80
+  for the LI-7200; summed over 2004-2025, -1370 to +1330 gC m^-2^ against +230 at `CUT_50`. The
+  tower data cannot resolve it: the storage term comes from one height, and advection is not
+  measured.
+- **The daytime flux of 2004-2009.** The daytime heating part is scaled by 0.6 before 2008, with
+  0.4 to 1.0 as the stated range ([Level 1.1](L1.1.md#known-limitations)). The mean daytime bias of
+  the half-hourly flux against the reference analysers points to different scales in the two
+  campaigns: about 0 in October 2005 (85 half-hours) and about 1.3 in 2008 (176 half-hours), each
+  with a standard error of about 0.15; 0.95 against the LI-7200 in 2016-2017, where it is in sample.
+  The October 2005 value lies below the stated range. `NEE` changes about linearly with the scale,
+  so a scale of 0 would lower the annual `NEE` of 2004-2007 by about 320 to 410 gC m^-2^ per year. A scale
+  that decreases with incoming shortwave radiation was tested and is not supported: it biases the
+  LI-7500 by -2 to -3.5 µmol m^-2^ s^-1^ above 300 W m^-2^ in 2008 and in 2016-2017. Whether the
+  forest took up less CO2 in these years needs outside data
+  ([Comparisons of the LI-7500 years](IRGA75_Comparisons.md#what-this-means)).
+- **The nights of the LI-7500.** From 11 January 2016 to 12 December 2017 the nighttime `NEE` of the
+  LI-7500 sums to 290 gC m^-2^ below that of the LI-7200 over the whole period. Two causes are
+  identified. The temperature model of the wet-night fill, fitted on dry nights, also falls 1.3 to
+  2.4 µmol m^-2^ s^-1^ below the measured LI-7200 nights with a wet LI-7500 window (AGC of 56.25 or
+  more). The LI-7500 threshold admits nights at a `USTAR` of 0.435 to 0.526 m s^-1^ that lie about
+  1.2 µmol m^-2^ s^-1^ below that model. Applying the LI-7200 thresholds to the LI-7500 raises the
+  annual `NEE` of 2004-2015 by about 55 gC m^-2^ per year. Adding a seasonal factor for wet-window
+  nights, fitted on the overlap, raises it by about 125. Neither is adopted yet. See also
+  [Nighttime NEE of the LI-7500 is too low on cold and humid nights](#nighttime-nee-of-the-li-7500-is-too-low-on-cold-and-humid-nights).
+- **Calibration of 2004-2010.** Not corrected; +11 to +55 gC m^-2^ per year in 2004-2007 and -27 to
+  -38 in 2008-2010 ([see above](#calibration-of-the-li-7500-in-2004-2010)). The density correction
+  uses the air temperature of the LI-7500 thermistor, which reads about 2 K high at night, so `FC`
+  is about 1 % low in magnitude, also in the LI-7200 runs up to `2018_1`
+  ([EddyPro settings](L1_EddyPro_Settings.md#settings-that-differ-between-the-gas-analysers)).
+- **The LI-7200 years.** 10 January to 20 March 2019 is gap-filled
+  ([see above](#no-measured-h-from-10-january-to-20-march-2019)). 2017 is the largest annual source
+  of the LI-7200 years (+211 gC m^-2^); it has not been examined further.
+- **A combined uncertainty per year is not yet given.** [Level 4.1](L4.1.md) gives the random and
+  the `USTAR` uncertainty; the uncertainties of the Level-1.1 correction, of the daytime scale and
+  of the night treatment are not yet combined with them.
+
+What this means for the data:
+
+- Whether the forest was a net sink or a net source over 2004-2025 cannot be decided from the
+  current processing. Interannual differences within the record of one analyser are better
+  constrained than the absolute sums.
+- Independent data would narrow the two largest points: biometric and inventory data
+  (@etzold_carbon_2011), a CO2 profile at the tower, and the LI-7200 data of December 2010 to
+  June 2011, which have not been found (see [Yearly Notes](Yearly_Notes.md)).
+
 ## Corrected for FP2026.2
 
 Two problems of earlier processing versions of the LI-7500 record are corrected in FP2026.2:
