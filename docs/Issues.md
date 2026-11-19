@@ -512,6 +512,54 @@ holds for July 2021, at both resolutions.
 
 ![Time shift in incoming shortwave radiation, 2016-2024, from the phase of the 24-hour FFT component of measured against potential radiation, 30-minute data. Top: daily shifts with a 15-day rolling median, showing a lag from 2022. Middle: distribution of all shifts, median +1.93 min. Bottom: monthly distributions.](images/CH-LAE_2016-2024_phase_shift_fft_SWINvsSWINPOT.png){#fig-phaseshiftfft-16-25}
 
+## GPP and RECO at high daytime temperatures
+
+This concerns `GPP` and `RECO` of [Level 4.2](L4.2.md) in FP2026.2, from both partitioning methods
+and both analysers. The numbers below are from the LI-7200, June to September 2016-2026.
+
+`RECO` is not measured. Both methods model it from air temperature at 47 m with a Lloyd-Taylor
+curve, whose temperature response is taken from the nights. The night-time method fits the whole
+curve on night-time `NEE` and applies it to the daytime temperatures; `GPP` is then `RECO` minus
+`NEE`. The daytime method fits the level of respiration on daytime data, but keeps the temperature
+response from the nights.
+
+Days are warmer than nights, so in warm hours the model is applied beyond the temperatures it was
+fitted on:
+
+| Air temperature | Daytime half-hours warmer than every fitted night within ±7 days | Measured night-time `NEE` (µmol m^-2^ s^-1^) |
+|---|---|---|
+| 12-16 °C | 1 % | 6.65 |
+| 16-20 °C | 6 % | 6.90 |
+| 20-24 °C | 25 % | 5.99 |
+| 24-28 °C | 52 % | 5.24 |
+| 28 °C and above | 92 % | 4.27 (20 half-hours) |
+
+: Share of the daytime half-hours warmer than the nights the respiration model is fitted on, and the
+mean measured night-time `NEE`, per class of air temperature. {#tbl-reco-extrapolation}
+
+- **The modelled response to temperature is weak.** The fitted temperature sensitivity corresponds
+  to a Q10 of 1.2 to 1.6 (night-time method) and 1.3 to 1.8 (daytime method) between 10 and 20 °C.
+- **The measured nights do not rise with temperature above 20 °C.** Measured night-time `NEE` is
+  highest at 16-20 °C and lower in warmer nights, most of which fall in July and August, when the
+  night-time method also fits a lower base level of respiration.
+- **The model has no other driver.** At a fixed air temperature, modelled `RECO` is nearly constant
+  through the day. Soil temperature, which lags behind air temperature, light, which lowers leaf
+  respiration, and soil water enter only through the slowly changing base level. These limits
+  suggest that modelled daytime `RECO`, and with it `GPP`, is too high rather than too low in the
+  warmest hours; their size is not known.
+
+![Mean NEP and its partitioning into GPP and RECO per hour of the day, June to September
+2016-2026, by air temperature. In the warmest hours net uptake falls; both methods assign the drop
+to `GPP`, while modelled `RECO` stays nearly flat. Drawn by the notebook
+[`NEP_DIURNAL_BY_TA_IRGA72`](notebooks/95_DOCS_FIGURES/NEP_DIURNAL_BY_TA_IRGA72.html).](images/NEP_IRGA72_diurnal_by_TA.png){#fig-reco-by-ta}
+
+What this means for the data:
+
+- For responses to heat, use `NEE` (or `NEP`). It is measured, or gap-filled from measured
+  half-hours.
+- `GPP` and `RECO` above about 24 °C are model results outside the fitted range. A difference of
+  `RECO` between temperature classes is a property of the model, not a measured response.
+
 ## Uncertainty of the annual NEE sums
 
 This concerns the annual and multi-year `NEE` sums of FP2026.2. In the current processing the
